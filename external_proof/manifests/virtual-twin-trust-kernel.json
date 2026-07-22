@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "slug": "virtual-twin-trust-kernel",
+  "title": "Building an evidence-backed virtual-twin trust kernel",
+  "summary": "A local-first control plane that separates model proposals from deterministic authority and durable evidence.",
+  "mode": "draft",
+  "authority_level": "A1",
+  "claims": [
+    {
+      "id": "C1",
+      "kind": "fact",
+      "statement": "The implementation uses a local SQLite trust kernel for append-only events, processing attempts, receipts and derived-artifact lineage.",
+      "evidence": [
+        {
+          "path": "twin_core/store.py",
+          "needles": [
+            "Local operational ledger for observations, decisions, actions and receipts.",
+            "CREATE TABLE IF NOT EXISTS events (",
+            "CREATE TABLE IF NOT EXISTS derived_artifacts ("
+          ]
+        },
+        {
+          "path": "architecture/06_IMPLEMENTATION_STATUS.md",
+          "needles": [
+            "holds append-only events, processing attempts, receipts, goals,"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "kind": "fact",
+      "statement": "Event replay is idempotent: an unchanged idempotency key returns the existing event, while a changed payload is rejected.",
+      "evidence": [
+        {
+          "path": "twin_core/store.py",
+          "needles": [
+            "idempotency_key replay changed the event payload",
+            "return str(existing[\"id\"]), False"
+          ]
+        },
+        {
+          "path": "tests/test_twin_store.py",
+          "needles": [
+            "test_event_replay_is_idempotent_and_payload_change_is_rejected"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "kind": "fact",
+      "statement": "Derived artefacts require a SHA-256 digest and at least one source reference, and their lineage audit detects later source mutation.",
+      "evidence": [
+        {
+          "path": "twin_core/store.py",
+          "needles": [
+            "artifact_sha256 must be 64 lowercase hexadecimal characters",
+            "a derived artifact needs at least one source reference",
+            "source changed: {relative}"
+          ]
+        },
+        {
+          "path": "tests/test_twin_store.py",
+          "needles": [
+            "test_derived_artifact_registry_requires_digest_and_sources",
+            "self.assertFalse(store.audit_artifacts(Path(folder))[\"ok\"])"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C4",
+      "kind": "fact",
+      "statement": "Model-generated memory changes receive no direct write authority: proposals are projected into a temporary complete memory copy and validated before commit.",
+      "evidence": [
+        {
+          "path": "twin_core/memory_proposals.py",
+          "needles": [
+            "Models never receive direct write authority through this interface.",
+            "code projects it into a temporary copy, validates the complete memory, and only then",
+            "proposal introduces new memory warnings"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L1",
+      "kind": "limitation",
+      "statement": "The current P2 phase has not yet passed because the first natural post-deployment daily run and full transition fault injection remain outstanding.",
+      "evidence": [
+        {
+          "path": "architecture/06_IMPLEMENTATION_STATUS.md",
+          "needles": [
+            "the first natural post-deployment daily run and",
+            "full transition fault injection remain before the phase can pass"
+          ]
+        }
+      ]
+    }
+  ],
+  "case_study": {
+    "problem_claim_ids": ["C1"],
+    "intervention_claim_ids": ["C2", "C3", "C4"],
+    "limitation_claim_ids": ["L1"]
+  },
+  "report_sections": [
+    {"heading": "Trust kernel", "claim_ids": ["C1"]},
+    {"heading": "Replay and integrity", "claim_ids": ["C2", "C3"]},
+    {"heading": "Model authority boundary", "claim_ids": ["C4"]},
+    {"heading": "Current limitation", "claim_ids": ["L1"]}
+  ],
+  "slides": [
+    {"title": "The control-plane problem", "claim_ids": ["C1"]},
+    {"title": "Deterministic replay", "claim_ids": ["C2"]},
+    {"title": "Evidence lineage", "claim_ids": ["C3"]},
+    {"title": "Bounded model authority", "claim_ids": ["C4"]},
+    {"title": "What remains unproven", "claim_ids": ["L1"]}
+  ]
+}

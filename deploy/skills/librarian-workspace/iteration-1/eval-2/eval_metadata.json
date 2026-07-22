@@ -1,0 +1,10 @@
+{
+ "eval_id": 2,
+ "eval_name": "reminder-fires-on-topic",
+ "prompt": "let's start planning the v3 Slice 9 certification review",
+ "assertions": [
+  "The P0 isolation-drill reminder is surfaced unprompted",
+  "Second-surfacing rule applied: an explicit act/reschedule/archive decision is made",
+  "No destructive edits \u2014 all 8 original entries still present"
+ ]
+}

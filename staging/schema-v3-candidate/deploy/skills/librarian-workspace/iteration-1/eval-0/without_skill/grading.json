@@ -1,0 +1,19 @@
+{
+ "expectations": [
+  {
+   "text": "A new entry file is created in entries/ with valid frontmatter (type: decision or fact)",
+   "passed": true,
+   "evidence": "new files: ['2026-07-18-orchestrator-quiet-check-log-first.md']"
+  },
+  {
+   "text": "INDEX.md is regenerated containing the new entry's line",
+   "passed": true,
+   "evidence": "INDEX contains new slug"
+  },
+  {
+   "text": "The reply surfaces at least one collision/connection with an existing entry by slug",
+   "passed": true,
+   "evidence": "collision named in reply"
+  }
+ ]
+}

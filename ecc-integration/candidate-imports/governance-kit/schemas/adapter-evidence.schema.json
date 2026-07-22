@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga.local/schemas/adapter-evidence.v1.json",
+  "title": "Harness adapter evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "state", "supported_assets", "unsupported_surfaces", "onramp", "verification_commands", "risk_notes", "owner", "source_docs", "verified_at"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "state": {"enum": ["native", "adapter-backed", "instruction-backed", "reference-only"]},
+    "supported_assets": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "unsupported_surfaces": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "onramp": {"type": "string", "minLength": 1},
+    "verification_commands": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "risk_notes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "owner": {"type": "string", "minLength": 1},
+    "source_docs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "verified_at": {"type": "string", "format": "date-time"}
+  }
+}

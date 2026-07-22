@@ -1,0 +1,5 @@
+{
+  "autonomous": "AI owns the work. A human audits outputs on a cadence and owns the strategy it executes · directing, not doing.",
+  "assisted": "AI does the heavy lifting; a named human approves before anything ships. The review is the job now.",
+  "manual": "A human owns this today; AI assists on demand. Mapped so you can see it coming · automate when the tooling matures."
+}

@@ -1,0 +1,19 @@
+{
+ "expectations": [
+  {
+   "text": "The P0 isolation-drill reminder is surfaced unprompted",
+   "passed": true,
+   "evidence": "reminder named in reply"
+  },
+  {
+   "text": "Second-surfacing rule applied: an explicit act/reschedule/archive decision is made",
+   "passed": false,
+   "evidence": "second-surfacing decision language"
+  },
+  {
+   "text": "No destructive edits \u2014 all 8 original entries still present",
+   "passed": true,
+   "evidence": "8 entries, originals retained"
+  }
+ ]
+}

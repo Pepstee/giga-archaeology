@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "status": "rendered-draft",
+  "authority_level": "A1",
+  "manifest": "external_proof/manifests/virtual-twin-trust-kernel.json",
+  "output": "outputs/external-proof/virtual-twin-trust-kernel/virtual-twin-trust-kernel.pptx",
+  "slides": 6,
+  "claims": 5
+}

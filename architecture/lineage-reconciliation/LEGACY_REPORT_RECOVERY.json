@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "recovered",
+  "authority_event_id": "fe6d21c7-7cc9-4356-ab01-c136a90eeabc",
+  "reason": "The first two reconciliation receipts referenced mutable latest-report aliases before state-addressed report storage was introduced.",
+  "mappings": [
+    {
+      "receipt_id": "82d1a306-3be6-4ed3-9099-43ba4d15ad33",
+      "state_fingerprint": "d319627b9ffed43718cb3fbaf117159c66ce97938d8720cfdaff90fffe309bbf",
+      "immutable_json": {
+        "path": "architecture/lineage-reconciliation/d319627b9ffed43718cb3fbaf117159c66ce97938d8720cfdaff90fffe309bbf.json",
+        "sha256": "eb2e8afd15d66b7479be2c270e0a4ed6982977575e5a700fc33e41919fc41f4e"
+      },
+      "immutable_markdown": {
+        "path": "architecture/lineage-reconciliation/d319627b9ffed43718cb3fbaf117159c66ce97938d8720cfdaff90fffe309bbf.md",
+        "sha256": "7377028e2fafaba22299337a595e41fc162b61ad1c7d77086b1dc1a2963a2d07"
+      },
+      "exact_original_hashes_recovered": true
+    },
+    {
+      "receipt_id": "a1ecce6d-7afa-4b54-9122-374404be04b8",
+      "state_fingerprint": "e9108bfec70f53710f15f790a36effa82823be1777ce452dd95d94f696478801",
+      "immutable_json": {
+        "path": "architecture/lineage-reconciliation/e9108bfec70f53710f15f790a36effa82823be1777ce452dd95d94f696478801.json",
+        "sha256": "edc4d102c808c8346d8c7e569eea16a36bc166700067b3cb28d7599fab76c9a2"
+      },
+      "immutable_markdown": {
+        "path": "architecture/lineage-reconciliation/e9108bfec70f53710f15f790a36effa82823be1777ce452dd95d94f696478801.md",
+        "sha256": "63e229275d03fd0f0d13e9cbf527911c0d52165970baaea540f59fbd7237ee58"
+      },
+      "exact_original_hashes_recovered": true
+    }
+  ],
+  "future_policy": "Receipts reference immutable state-addressed reports. architecture/08_LINEAGE_RECONCILIATION.* is only an unreceipted latest-state convenience copy."
+}

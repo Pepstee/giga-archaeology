@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga-user.local/contracts/adapter-registry.v1.schema.json",
+  "title": "GIGA compiled adapter evidence registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "authority", "authority_granted", "observed_at",
+    "command_execution", "adapters", "summary"
+  ],
+  "properties": {
+    "schema_version": {"const": "giga.adapter-registry.v1"},
+    "authority": {"const": "read-only-evidence"},
+    "authority_granted": {"const": false},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "command_execution": {"const": false},
+    "adapters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/adapter"}
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "declared_states", "effective_states", "verification_states", "authorities"],
+      "properties": {
+        "total": {"type": "integer", "minimum": 1},
+        "declared_states": {"$ref": "#/$defs/stateCounts"},
+        "effective_states": {"$ref": "#/$defs/stateCounts"},
+        "verification_states": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verified", "stale"],
+          "properties": {
+            "verified": {"type": "integer", "minimum": 0},
+            "stale": {"type": "integer", "minimum": 0}
+          }
+        },
+        "authorities": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["read-only", "proposal-only", "bounded-write"],
+          "properties": {
+            "read-only": {"type": "integer", "minimum": 0},
+            "proposal-only": {"type": "integer", "minimum": 0},
+            "bounded-write": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "state": {"enum": ["native", "adapter-backed", "instruction-backed", "reference-only"]},
+    "verificationState": {"enum": ["verified", "stale"]},
+    "authority": {"enum": ["read-only", "proposal-only", "bounded-write"]},
+    "fileRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "bytes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "fileRecords": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/fileRecord"}
+    },
+    "strings": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "declared_state", "effective_state", "verification_state", "authority",
+        "supported_assets", "unsupported_surfaces", "onramp", "verification_commands",
+        "risk_notes", "owner", "source_docs", "evidence", "verified_at"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "declared_state": {"$ref": "#/$defs/state"},
+        "effective_state": {"$ref": "#/$defs/state"},
+        "verification_state": {"$ref": "#/$defs/verificationState"},
+        "authority": {"$ref": "#/$defs/authority"},
+        "supported_assets": {"$ref": "#/$defs/fileRecords"},
+        "unsupported_surfaces": {"$ref": "#/$defs/strings"},
+        "onramp": {"type": "string", "minLength": 1},
+        "verification_commands": {"$ref": "#/$defs/nonEmptyStrings"},
+        "risk_notes": {"$ref": "#/$defs/nonEmptyStrings"},
+        "owner": {"type": "string", "minLength": 1},
+        "source_docs": {"$ref": "#/$defs/fileRecords"},
+        "evidence": {"$ref": "#/$defs/fileRecords"},
+        "verified_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "stateCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["native", "adapter-backed", "instruction-backed", "reference-only"],
+      "properties": {
+        "native": {"type": "integer", "minimum": 0},
+        "adapter-backed": {"type": "integer", "minimum": 0},
+        "instruction-backed": {"type": "integer", "minimum": 0},
+        "reference-only": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

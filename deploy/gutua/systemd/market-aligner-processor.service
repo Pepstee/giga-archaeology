@@ -1,0 +1,20 @@
+[Unit]
+Description=Market Aligner normalize, score, and policy-admit new vacancies
+After=network-online.target market-aligner-collector.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=gutua
+Group=gutua
+WorkingDirectory=/home/gutua/giga/market-aligner
+Environment=HOME=/home/gutua
+Environment=PATH=/home/gutua/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONUNBUFFERED=1
+Environment=CODEX_HOME=/home/gutua/.codex
+ExecStart=/home/gutua/giga/market-aligner/.venv/bin/python /home/gutua/giga/bin/market_aligner_cycle.py --market-root /home/gutua/giga/market-aligner --jaa-root /home/gutua/giga/orchestrator-v3/projects/job-application-automation --career-database /home/gutua/giga/shared/market-aligner/career_pipeline.sqlite3
+TimeoutStartSec=45min
+NoNewPrivileges=true
+UMask=0077
+StandardOutput=journal
+StandardError=journal

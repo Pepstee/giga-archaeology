@@ -1,0 +1,192 @@
+{
+  "schema": "giga.ecc-portable-findings.v1",
+  "upstream_commit": "96789caaf90501ff9b55bf1b00f1c28cf3fccbeb",
+  "extraction_status": "complete-for-pinned-commit",
+  "scope": {
+    "source_files_in_inventory": 3330,
+    "canonical_skills": 278,
+    "canonical_skills_with_disposition": 278,
+    "adaptation_candidates": 11,
+    "policy": "Complete means every pinned file is inventoried, every canonical skill has a disposition, every adaptation candidate is mapped below, and every imported portable finding has a staged artifact. It does not mean every ECC component was copied."
+  },
+  "candidate_skill_coverage": {
+    "agent-eval": {
+      "source_path": "skills/agent-eval/SKILL.md",
+      "source_sha256": "e04c9816430de271ab573887b09a2b07a97cf6663d45c32e707c32a1f7a62d10",
+      "decision": "staged-specification",
+      "finding_id": "evaluation-compliance"
+    },
+    "eval-harness": {
+      "source_path": "skills/eval-harness/SKILL.md",
+      "source_sha256": "2b0b5256a043ea57f9463cc29a572d9612312e0827ef75724e39283c8d23edb1",
+      "decision": "staged-specification",
+      "finding_id": "evaluation-compliance"
+    },
+    "production-audit": {
+      "source_path": "skills/production-audit/SKILL.md",
+      "source_sha256": "4b5d2bf0530ca5ba7dad0dece7a4c14e028334e9d54066025171ac2ff28f3375",
+      "decision": "staged-specification",
+      "finding_id": "operational-assurance"
+    },
+    "recursive-decision-ledger": {
+      "source_path": "skills/recursive-decision-ledger/SKILL.md",
+      "source_sha256": "2a7af89f104edb01f33406ba7e7f2d7eb9cd9efb0bd0c8404be0c91947f9325e",
+      "decision": "staged-specification",
+      "finding_id": "recursive-decision-ledger"
+    },
+    "repo-scan": {
+      "source_path": "skills/repo-scan/SKILL.md",
+      "source_sha256": "691cb6f303166544694ab0029673cd366aa27734a6eb7bc849d2eaf33c1dcfed",
+      "decision": "already-covered",
+      "finding_id": "deterministic-inventory"
+    },
+    "safety-guard": {
+      "source_path": "skills/safety-guard/SKILL.md",
+      "source_sha256": "9247b4a05dde847b93d28997477fd3be53dfed967a6279f5d0fc9fab104528ee",
+      "decision": "deferred-until-enforcement",
+      "finding_id": "deterministic-execution-gate"
+    },
+    "security-scan": {
+      "source_path": "skills/security-scan/SKILL.md",
+      "source_sha256": "36c34d020eef3c386a82a409f8e3e47edbed441eaf83ae6055d6a029828511e8",
+      "decision": "already-covered",
+      "finding_id": "security-negative-tests"
+    },
+    "skill-comply": {
+      "source_path": "skills/skill-comply/SKILL.md",
+      "source_sha256": "a9861c0d5cdba7543ffdd3ed73d3a999c0997c1ed41a562d163a4b4ff4d5de6e",
+      "decision": "staged-specification",
+      "finding_id": "evaluation-compliance"
+    },
+    "token-budget-advisor": {
+      "source_path": "skills/token-budget-advisor/SKILL.md",
+      "source_sha256": "d092defef257ce470bf364c55a2f2a51cdb37655779a66f1993cbd4295317d03",
+      "decision": "deferred-on-demand",
+      "finding_id": "token-budget-heuristic"
+    },
+    "verification-loop": {
+      "source_path": "skills/verification-loop/SKILL.md",
+      "source_sha256": "9b533937cfe9be2621cdf90a010e82024482b0481aee9b74de7ca6cb8517e690",
+      "decision": "staged-specification",
+      "finding_id": "operational-assurance"
+    },
+    "workspace-surface-audit": {
+      "source_path": "skills/workspace-surface-audit/SKILL.md",
+      "source_sha256": "ca6eadae6bd303713da56344bedbd8b246fe07bde1d20a26c9f21844d919cd6f",
+      "decision": "staged-specification",
+      "finding_id": "capability-surface-policy"
+    }
+  },
+  "portable_findings": [
+    {
+      "id": "adapter-evidence",
+      "decision": "implemented-read-only",
+      "destination": "contracts/adapter-evidence.v1.schema.json",
+      "sources": [{"path": "docs/architecture/harness-adapter-compliance.md", "sha256": "ea3dea5e1e2915b0f06efdfd6fc566e1fee898fbb03622feb6232eab55a63b7c"}]
+    },
+    {
+      "id": "operator-status",
+      "decision": "implemented-read-only",
+      "destination": "contracts/operator-status.v1.schema.json",
+      "sources": [{"path": "docs/architecture/hud-status-session-control.md", "sha256": "8f1dac68ebd1b38a65447363da5bba6150c127edcac6b07110adc42d0ca8eea4"}]
+    },
+    {
+      "id": "evaluation-negative-controls",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/governance-kit/schemas/evaluator-run.schema.json",
+      "sources": [{"path": "docs/architecture/evaluator-rag-prototype.md", "sha256": "071909ed730f179fd296d3de1546a2b725f26072bb616402a36b58b688d85066"}]
+    },
+    {
+      "id": "selective-deployment",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/DEPLOYMENT_CONTRACT.md",
+      "sources": [
+        {"path": "scripts/install-plan.js", "sha256": "a13c37fceab028bb679df2ecf4058c5944a2fe13dcf3c2e51fac4242013f8e34"},
+        {"path": "docs/SELECTIVE-INSTALL-DESIGN.md", "sha256": "0538770a4d9e0f146f4bf2d8e86b792f961044f941a9a9c7f2c8798ba16c2a64"}
+      ]
+    },
+    {
+      "id": "security-negative-tests",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/SECURITY_NEGATIVE_TESTS.md",
+      "sources": [{"path": "scripts/ci/validate-workflow-security.js", "sha256": "6b4103303cd8b5ef1ee27fbf3884442bac266fcfa42045b768565af68f29d8d1"}]
+    },
+    {
+      "id": "evaluation-compliance",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/EVALUATION_COMPLIANCE_CONTRACT.md",
+      "sources": [
+        {"path": "skills/agent-eval/SKILL.md", "sha256": "e04c9816430de271ab573887b09a2b07a97cf6663d45c32e707c32a1f7a62d10"},
+        {"path": "skills/eval-harness/SKILL.md", "sha256": "2b0b5256a043ea57f9463cc29a572d9612312e0827ef75724e39283c8d23edb1"},
+        {"path": "skills/skill-comply/SKILL.md", "sha256": "a9861c0d5cdba7543ffdd3ed73d3a999c0997c1ed41a562d163a4b4ff4d5de6e"}
+      ]
+    },
+    {
+      "id": "operational-assurance",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/OPERATIONAL_ASSURANCE_CONTRACT.md",
+      "sources": [
+        {"path": "skills/production-audit/SKILL.md", "sha256": "4b5d2bf0530ca5ba7dad0dece7a4c14e028334e9d54066025171ac2ff28f3375"},
+        {"path": "skills/verification-loop/SKILL.md", "sha256": "9b533937cfe9be2621cdf90a010e82024482b0481aee9b74de7ca6cb8517e690"},
+        {"path": "docs/architecture/progress-sync-contract.md", "sha256": "404089350e76704fcaa753a81245f1d0ffb8b8ac32439d2903043ec1dca96d90"},
+        {"path": "docs/architecture/observability-readiness.md", "sha256": "1b8bd6dc795328ebef0f78edebc52a474e00ebac8d34b5067df93e2a6f7879d4"}
+      ]
+    },
+    {
+      "id": "capability-surface-policy",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/CAPABILITY_SURFACE_POLICY.md",
+      "sources": [
+        {"path": "docs/capability-surface-selection.md", "sha256": "1eedb96a9b406cf08397b113f5a77cf5c7fd0d64acabaaf29b3fdd3b334c2db8"},
+        {"path": "docs/MCP-CONNECTOR-POLICY.md", "sha256": "0ccbc14ace31b07b4e5fdb115b33b97047ad21f9cfb72037dabd6cedf4525cc5"},
+        {"path": "skills/workspace-surface-audit/SKILL.md", "sha256": "ca6eadae6bd303713da56344bedbd8b246fe07bde1d20a26c9f21844d919cd6f"}
+      ]
+    },
+    {
+      "id": "session-collision",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/SESSION_AND_COLLISION_CONTRACT.md",
+      "sources": [
+        {"path": "docs/SESSION-ADAPTER-CONTRACT.md", "sha256": "e3f257744fa16a501f1f6b0348f5b85dbd5b1b00ed1ecb58e14b2116d433ce0e"},
+        {"path": "docs/design/agent-proximity.md", "sha256": "d397724f6b29e70d044e2ad6a626d9e5ea6d4ab93728fe4c56b2a77a510a6108"}
+      ]
+    },
+    {
+      "id": "human-approval",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/HUMAN_APPROVAL_PROTOCOL.md",
+      "sources": [{"path": "docs/design/plan-canvas.md", "sha256": "286405dbe0dc77315fc45605df467d5bbdd2c193708897f41ac15d03ff5e01ad"}]
+    },
+    {
+      "id": "product-integration-boundary",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/PRODUCT_INTEGRATION_BOUNDARY.md",
+      "sources": [{"path": "docs/architecture/platform-value-loop.md", "sha256": "40cc00fae69f6d2e9d98e52cb506bd7d65a0f2ff9acc9d9ee3738f76c999ac11"}]
+    },
+    {
+      "id": "recursive-decision-ledger",
+      "decision": "staged-specification",
+      "destination": "ecc-integration/candidate-imports/RECURSIVE_DECISION_LEDGER.md",
+      "sources": [{"path": "skills/recursive-decision-ledger/SKILL.md", "sha256": "2a7af89f104edb01f33406ba7e7f2d7eb9cd9efb0bd0c8404be0c91947f9325e"}]
+    },
+    {
+      "id": "deterministic-inventory",
+      "decision": "already-covered",
+      "destination": "ecc-integration/COMPONENT_INVENTORY.json",
+      "sources": [{"path": "skills/repo-scan/SKILL.md", "sha256": "691cb6f303166544694ab0029673cd366aa27734a6eb7bc849d2eaf33c1dcfed"}]
+    },
+    {
+      "id": "deterministic-execution-gate",
+      "decision": "deferred-until-enforcement",
+      "destination": "ecc-integration/FUTURE_WORK.md",
+      "sources": [{"path": "skills/safety-guard/SKILL.md", "sha256": "9247b4a05dde847b93d28997477fd3be53dfed967a6279f5d0fc9fab104528ee"}]
+    },
+    {
+      "id": "token-budget-heuristic",
+      "decision": "deferred-on-demand",
+      "destination": null,
+      "sources": [{"path": "skills/token-budget-advisor/SKILL.md", "sha256": "d092defef257ce470bf364c55a2f2a51cdb37655779a66f1993cbd4295317d03"}],
+      "reason": "Heuristic estimates and an extra interaction are weaker than measuring real provider usage; retain only as reference until trustworthy telemetry exists."
+    }
+  ]
+}

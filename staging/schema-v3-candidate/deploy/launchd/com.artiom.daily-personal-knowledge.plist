@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.artiom.daily-personal-knowledge</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/admin/Documents/giga-user/scripts/daily_personal_knowledge.py</string>
+  </array>
+  <!-- launchd checks hourly; the script runs once/day after 06:00 Asia/Ho_Chi_Minh.
+       This remains correct whether the Mac itself is set to UK or Vietnam time. -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Minute</key>
+    <integer>6</integer>
+  </dict>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>StandardOutPath</key>
+  <string>/Users/admin/.jarvis/daily_personal_knowledge.launchd.out</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/admin/.jarvis/daily_personal_knowledge.launchd.err</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+</dict>
+</plist>

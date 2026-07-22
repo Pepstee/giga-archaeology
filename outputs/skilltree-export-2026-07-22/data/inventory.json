@@ -1,0 +1,31 @@
+{
+  "captured_at": "2026-07-22T07:51:43.190379+00:00",
+  "source": "https://skilltree.altari.ai/preview?mcp_token=[REDACTED]",
+  "robots": "User-agent: * / Allow: /",
+  "dynamic_capture": "captured",
+  "counts": {
+    "departments": 7,
+    "functions": 34,
+    "jobs": 137,
+    "playbook_entries": 137,
+    "skill_metadata_records": 78,
+    "skill_previews": 78,
+    "graph_nodes": 570,
+    "graph_edges": 832,
+    "links": 116,
+    "node_types": {
+      "capability": 291,
+      "department": 7,
+      "function": 34,
+      "hub": 1,
+      "job": 137,
+      "skill_file": 79,
+      "tool": 21
+    }
+  },
+  "limitations": [
+    "Full runnable skill markdown is paywalled and is not delivered by the public preview.",
+    "The export includes every marketing-safe skill preview delivered to the page.",
+    "The supplied email is not stored in this export."
+  ]
+}

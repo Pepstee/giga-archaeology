@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga-user.local/contracts/adapter-evidence.v1.schema.json",
+  "title": "GIGA adapter evidence manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "id", "state", "authority", "supported_assets",
+    "unsupported_surfaces", "onramp", "verification_commands", "risk_notes",
+    "owner", "source_docs", "evidence_paths", "verified_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "giga.adapter-evidence.v1"},
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "state": {"enum": ["native", "adapter-backed", "instruction-backed", "reference-only"]},
+    "authority": {"enum": ["read-only", "proposal-only", "bounded-write"]},
+    "supported_assets": {"$ref": "#/$defs/nonEmptyStrings"},
+    "unsupported_surfaces": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "onramp": {"type": "string", "minLength": 1},
+    "verification_commands": {"$ref": "#/$defs/nonEmptyStrings"},
+    "risk_notes": {"$ref": "#/$defs/nonEmptyStrings"},
+    "owner": {"type": "string", "minLength": 1},
+    "source_docs": {"$ref": "#/$defs/nonEmptyStrings"},
+    "evidence_paths": {"$ref": "#/$defs/nonEmptyStrings"},
+    "verified_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

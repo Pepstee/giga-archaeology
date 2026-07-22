@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkillTree · Explore the map</title>
+<meta name="description" content="137 AI agents across the 7 departments of a business. Drop your email and explore the whole map free.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="SkillTree · The interactive map of AI jobs">
+<meta property="og:description" content="137 AI agents across the 7 departments of a business. Free to explore.">
+<meta property="og:image" content="https://skilltree.altari.ai/og.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SkillTree · The interactive map of AI jobs">
+<meta name="twitter:description" content="137 AI agents across the 7 departments of a business. Free to explore.">
+<meta name="twitter:image" content="https://skilltree.altari.ai/og.png">
+<meta name="robots" content="index,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Marcellus&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#E8EBF2; --ivory-2:#AEB4C2; --ink-3:#5B6273;
+    --copper:#9396EC; --line-2:rgba(226,232,240,.17); --card-2:rgba(226,232,240,.05); --copper-line:rgba(147,150,236,.5);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{background:#0B0B12;color:var(--ivory);font-family:"Plus Jakarta Sans",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  /* the live map, loaded in a frame · its own MAP/DASHBOARDS/CHART tabs navigate the
+     frame, so the browser URL never leaves /preview */
+  #pvframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#0B0C10}
+  /* email gate · the same waitlist card, over a blurred view of the map behind it */
+  #pvgate{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:24px;background:rgba(10,10,16,.35);-webkit-backdrop-filter:blur(4px) saturate(1.3);backdrop-filter:blur(4px) saturate(1.3)}
+  #pvgate[hidden]{display:none}
+  .mg-scrim{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 42%, rgba(10,10,16,.88), rgba(10,10,16,.6) 55%, rgba(10,10,16,.3) 100%)}
+  .mg-card{position:relative;width:100%;max-width:460px;text-align:center;animation:mgIn .4s cubic-bezier(.2,.7,.2,1)}
+  @keyframes mgIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .mg-brand{margin-bottom:26px}
+  .mg-brand b{font-family:"Marcellus",Georgia,serif;font-weight:400;font-size:26px;letter-spacing:.18em;text-transform:uppercase;color:var(--ivory)}
+  .mg-h{font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.02em;line-height:1.12;margin:0 0 14px}
+  .mg-sub{color:var(--ivory-2);font-size:15.5px;line-height:1.55;max-width:400px;margin:0 auto 28px}
+  .mg-form{display:flex;gap:10px;max-width:420px;margin:0 auto;flex-wrap:wrap}
+  .mg-form input{flex:1;min-width:200px;background:var(--card-2);border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;color:var(--ivory);font-size:16px;font-family:inherit;outline:none;transition:border-color .18s}
+  .mg-form input:focus{border-color:var(--copper-line)}
+  .mg-form input::placeholder{color:var(--ink-3)}
+  .mg-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:600;border-radius:12px;cursor:pointer;border:1px solid transparent;font-family:inherit;padding:14px 22px;white-space:nowrap;transition:box-shadow .25s, filter .2s;background:linear-gradient(180deg,#6D70D8,#5B5EC2);color:#fff;box-shadow:0 10px 26px -12px rgba(147,150,236,.7),inset 0 1px 0 rgba(255,255,255,.3)}
+  .mg-btn:hover{filter:brightness(1.09)}
+  .mg-desk{margin:18px auto 0;max-width:400px;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 14px;border:1px solid var(--copper-line);border-radius:11px;background:rgba(147,150,236,.09);color:var(--ivory-2);font-size:13px;line-height:1.4}
+  .mg-desk svg{width:15px;height:15px;flex:0 0 auto;color:var(--copper)}
+  .mg-foot{margin-top:18px;font-size:12.5px;color:#8A91A3}
+</style>
+</head>
+<body>
+  <iframe id="pvframe" title="SkillTree · the live map" allow="fullscreen; clipboard-write" allowfullscreen></iframe>
+  <div id="pvgate">
+    <div class="mg-scrim" aria-hidden="true"></div>
+    <div class="mg-card">
+      <div class="mg-brand"><b>SkillTree</b></div>
+      <h1 class="mg-h">You found the map.</h1>
+      <p class="mg-sub">137 AI agents across the 7 departments of a business, every one a real job AI can run for you. Drop your email and you're in.</p>
+      <form id="pvform" class="mg-form">
+        <input id="pvemail" type="email" inputmode="email" autocomplete="email" required placeholder="you@company.com" autofocus>
+        <button class="mg-btn" type="submit">Open the map →</button>
+      </form>
+      <div class="mg-desk" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg><span>Best explored on desktop · it's a big map, and a wider screen does it justice.</span></div>
+      <div class="mg-foot">Free to explore. No spam, ever.</div>
+    </div>
+  </div>
+<script>
+(function(){
+  var EMAIL_KEY = 'st-email';
+  var frame = document.getElementById('pvframe'), gate = document.getElementById('pvgate');
+  // preserve a skill deep-link (?skill=) and the campaign source (?src=) through to the frame / lead
+  var skill = '', src = '';
+  try { var sp = new URLSearchParams(location.search); skill = (sp.get('skill') || '').replace(/[^a-z0-9-]/gi, ''); src = sp.get('src') || ''; } catch (e) {}
+  frame.src = '/map.html' + (skill ? ('?skill=' + skill) : '');
+
+  function hasEmail(){ try { return !!localStorage.getItem(EMAIL_KEY); } catch (e) { return false; } }
+  if (hasEmail()) { gate.hidden = true; }
+  else { try { document.getElementById('pvemail').focus(); } catch (e) {} }
+
+  // nudge phone/tablet visitors toward desktop · the map is dense and does better on a wide screen
+  try {
+    var isSmall = (window.matchMedia && window.matchMedia('(max-width: 820px)').matches)
+      || ('ontouchstart' in window && Math.min(window.innerWidth, window.innerHeight) < 820);
+    if (isSmall) { var dn = document.querySelector('.mg-desk'); if (dn) dn.hidden = false; }
+  } catch (e) {}
+
+  document.getElementById('pvform').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = (document.getElementById('pvemail').value || '').trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { document.getElementById('pvemail').focus(); return; }
+    try { localStorage.setItem(EMAIL_KEY, v); } catch (err) {}
+    try { fetch('/api/lead', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: v, source: src ? ('preview:' + src) : 'preview' }) }).catch(function(){}); } catch (e) {}
+    gate.hidden = true;
+  });
+
+  // A "Get access" click inside the framed map/dash asks the parent to sell. The public
+  // funnel sells on the landing, so send the WHOLE page there (never load it in the frame).
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (d && (d.type === 'skilltree:unlock' || d.type === 'st-buy')) { window.location.href = '/'; }
+  });
+})();
+</script>
+</body>
+</html>

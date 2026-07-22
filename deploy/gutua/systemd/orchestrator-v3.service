@@ -1,0 +1,27 @@
+[Unit]
+Description=Orchestrator v3 autonomous factory
+After=network-online.target ollama.service
+Wants=network-online.target
+ConditionPathExists=!/home/gutua/giga/orchestrator-v3/STOP
+
+[Service]
+Type=simple
+User=gutua
+Group=gutua
+WorkingDirectory=/home/gutua/giga/orchestrator-v3
+Environment=HOME=/home/gutua
+Environment=PATH=/home/gutua/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONUNBUFFERED=1
+Environment=CODEX_HOME=/home/gutua/.codex
+ExecStart=/home/gutua/giga/orchestrator-v3/.venv/bin/python -m control.factory_launch --root /home/gutua/giga/orchestrator-v3 --continuous
+Restart=always
+RestartSec=20
+TimeoutStopSec=45
+KillSignal=SIGTERM
+NoNewPrivileges=true
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

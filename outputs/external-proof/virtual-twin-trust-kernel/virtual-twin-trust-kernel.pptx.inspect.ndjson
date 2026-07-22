@@ -1,0 +1,64 @@
+{"kind":"deck","id":"pr/1ydwyf","name":"Deck"}
+{"kind":"layout","layoutId":"551e85c9-f854-4fc2-b29b-37c0243c79e4","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"4ca2335b-b3c9-4357-8493-761728718b27","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/v6hung","slide":1,"title":"DRAFT · A1","textShapes":4}
+{"kind":"textbox","id":"sh/ipsfuh8v","slide":1,"text":"DRAFT · A1","textPreview":"DRAFT · A1","textChars":10,"textLines":1,"bbox":[42,40,300,32]}
+{"kind":"textbox","id":"sh/5s3y5w76","slide":1,"text":"Building an evidence-backed virtual-twin trust kernel","textPreview":"Building an evidence-backed virtual-twin trust kernel","textChars":53,"textLines":1,"bbox":[42,176,1000,240]}
+{"kind":"textbox","id":"sh/kraxwrql","slide":1,"text":"A local-first control plane that separates model proposals from deterministic authority and durable evidence.","textPreview":"A local-first control plane that separates model proposals from deterministic authority and durable evidence.","textChars":109,"textLines":1,"bbox":[42,474,840,100]}
+{"kind":"textbox","id":"sh/7ulg7mpc","slide":1,"text":"Evidence-linked technical case study · not approved for publication","textPreview":"Evidence-linked technical case study · not approved for publication","textChars":67,"textLines":1,"bbox":[42,642,850,28]}
+{"kind":"notes","id":"nt/v6hung","slide":1,"text":"Open with the trust problem: model output is not authority. This deck contains only manifest-bound claims."}
+{"kind":"slide","id":"sl/u55lgu","slide":2,"title":"EVIDENCE-BACKED VIRTUAL TWIN","textShapes":9}
+{"kind":"textbox","id":"sh/je1cfexs","slide":2,"text":"EVIDENCE-BACKED VIRTUAL TWIN","textPreview":"EVIDENCE-BACKED VIRTUAL TWIN","textChars":28,"textLines":1,"bbox":[42,34,420,28]}
+{"kind":"textbox","id":"sh/kfudojyd","slide":2,"text":"C1","textPreview":"C1","textChars":2,"textLines":1,"bbox":[42,662,500,22]}
+{"kind":"textbox","id":"sh/l03uhofy","slide":2,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[1184,660,54,22]}
+{"kind":"textbox","id":"sh/61cvqtgj","slide":2,"text":"The control-plane problem","textPreview":"The control-plane problem","textChars":25,"textLines":1,"bbox":[42,88,1120,88]}
+{"kind":"textbox","id":"sh/72lcjyx4","slide":2,"text":"C1","textPreview":"C1","textChars":2,"textLines":1,"bbox":[42,235,190,150]}
+{"kind":"textbox","id":"sh/83uds3yp","slide":2,"text":"The implementation uses a local SQLite trust kernel for append-only events, processing attempts, receipts and derived-artifact lineage.","textPreview":"The implementation uses a local SQLite trust kernel for append-only events, processing attempts, receipts and derived-artifact lineage.","textChars":135,"textLines":1,"bbox":[290,226,875,210]}
+{"kind":"textbox","id":"sh/t43el8fa","slide":2,"text":"2 sources","textPreview":"2 sources","textChars":9,"textLines":1,"bbox":[290,486,260,55]}
+{"kind":"textbox","id":"sh/u5cvutwf","slide":2,"text":"4 exact evidence matches","textPreview":"4 exact evidence matches","textChars":24,"textLines":1,"bbox":[650,486,420,55]}
+{"kind":"textbox","id":"sh/v6lwnyx0","slide":2,"text":"Deterministically traced","textPreview":"Deterministically traced","textChars":24,"textLines":1,"bbox":[290,561,620,46]}
+{"kind":"notes","id":"nt/u55lgu","slide":2,"text":"C1 · FACT\nThe implementation uses a local SQLite trust kernel for append-only events, processing attempts, receipts and derived-artifact lineage.\n\nEvidence:\n- twin_core/store.py: Local operational ledger for observations, decisions, actions and receipts. | CREATE TABLE IF NOT EXISTS events ( | CREATE TABLE IF NOT EXISTS derived_artifacts (\n- architecture/06_IMPLEMENTATION_STATUS.md: holds append-only events, processing attempts, receipts, goals,\n\nDraft A1 evidence pack. Human review is required before external use."}
+{"kind":"slide","id":"sl/ok26qa","slide":3,"title":"EVIDENCE-BACKED VIRTUAL TWIN","textShapes":9}
+{"kind":"textbox","id":"sh/2tgr6tw3","slide":3,"text":"EVIDENCE-BACKED VIRTUAL TWIN","textPreview":"EVIDENCE-BACKED VIRTUAL TWIN","textChars":28,"textLines":1,"bbox":[42,34,420,28]}
+{"kind":"textbox","id":"sh/pwrqh8vu","slide":3,"text":"C2","textPreview":"C2","textChars":2,"textLines":1,"bbox":[42,662,500,22]}
+{"kind":"textbox","id":"sh/ovi983e9","slide":3,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[1184,660,54,22]}
+{"kind":"textbox","id":"sh/by98jyd0","slide":3,"text":"Deterministic replay","textPreview":"Deterministic replay","textChars":20,"textLines":1,"bbox":[42,88,1120,88]}
+{"kind":"textbox","id":"sh/ax0ratwf","slide":3,"text":"C2","textPreview":"C2","textChars":2,"textLines":1,"bbox":[42,235,190,150]}
+{"kind":"textbox","id":"sh/x0ral8vq","slide":3,"text":"Event replay is idempotent: an unchanged idempotency key returns the existing event, while a changed payload is rejected.","textPreview":"Event replay is idempotent: an unchanged idempotency key returns the existing event, while a changed payload is rejected.","textChars":121,"textLines":1,"bbox":[290,226,875,210]}
+{"kind":"textbox","id":"sh/czi9c3el","slide":3,"text":"2 sources","textPreview":"2 sources","textChars":9,"textLines":1,"bbox":[290,486,260,55]}
+{"kind":"textbox","id":"sh/zmtsnidw","slide":3,"text":"3 exact evidence matches","textPreview":"3 exact evidence matches","textChars":24,"textLines":1,"bbox":[650,486,420,55]}
+{"kind":"textbox","id":"sh/yl0redwb","slide":3,"text":"Deterministically traced","textPreview":"Deterministically traced","textChars":24,"textLines":1,"bbox":[290,561,620,46]}
+{"kind":"notes","id":"nt/ok26qa","slide":3,"text":"C2 · FACT\nEvent replay is idempotent: an unchanged idempotency key returns the existing event, while a changed payload is rejected.\n\nEvidence:\n- twin_core/store.py: idempotency_key replay changed the event payload | return str(existing[\"id\"]), False\n- tests/test_twin_store.py: test_event_replay_is_idempotent_and_payload_change_is_rejected\n\nDraft A1 evidence pack. Human review is required before external use."}
+{"kind":"slide","id":"sl/i86b00","slide":4,"title":"EVIDENCE-BACKED VIRTUAL TWIN","textShapes":9}
+{"kind":"textbox","id":"sh/lonal4ju","slide":4,"text":"EVIDENCE-BACKED VIRTUAL TWIN","textPreview":"EVIDENCE-BACKED VIRTUAL TWIN","textChars":28,"textLines":1,"bbox":[42,34,420,28]}
+{"kind":"textbox","id":"sh/ylcra9k3","slide":4,"text":"C3","textPreview":"C3","textChars":2,"textLines":1,"bbox":[42,662,500,22]}
+{"kind":"textbox","id":"sh/jm5sje1o","slide":4,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[1184,660,54,22]}
+{"kind":"textbox","id":"sh/8re9gj25","slide":4,"text":"Evidence lineage","textPreview":"Evidence lineage","textChars":16,"textLines":1,"bbox":[42,88,1120,88]}
+{"kind":"textbox","id":"sh/tsnapojq","slide":4,"text":"C3","textPreview":"C3","textChars":2,"textLines":1,"bbox":[42,235,190,150]}
+{"kind":"textbox","id":"sh/6pwre9kf","slide":4,"text":"Derived artefacts require a SHA-256 digest and at least one source reference, and their lineage audit detects later source mutation.","textPreview":"Derived artefacts require a SHA-256 digest and at least one source reference, and their lineage audit detects later source mutation.","textChars":132,"textLines":1,"bbox":[290,226,875,210]}
+{"kind":"textbox","id":"sh/7q5sne10","slide":4,"text":"2 sources","textPreview":"2 sources","textChars":9,"textLines":1,"bbox":[290,486,260,55]}
+{"kind":"textbox","id":"sh/ovu9kf21","slide":4,"text":"5 exact evidence matches","textPreview":"5 exact evidence matches","textChars":24,"textLines":1,"bbox":[650,486,420,55]}
+{"kind":"textbox","id":"sh/9w3adkjm","slide":4,"text":"Deterministically traced","textPreview":"Deterministically traced","textChars":24,"textLines":1,"bbox":[290,561,620,46]}
+{"kind":"notes","id":"nt/i86b00","slide":4,"text":"C3 · FACT\nDerived artefacts require a SHA-256 digest and at least one source reference, and their lineage audit detects later source mutation.\n\nEvidence:\n- twin_core/store.py: artifact_sha256 must be 64 lowercase hexadecimal characters | a derived artifact needs at least one source reference | source changed: {relative}\n- tests/test_twin_store.py: test_derived_artifact_registry_requires_digest_and_sources | self.assertFalse(store.audit_artifacts(Path(folder))[\"ok\"])\n\nDraft A1 evidence pack. Human review is required before external use."}
+{"kind":"slide","id":"sl/vahxvt","slide":5,"title":"EVIDENCE-BACKED VIRTUAL TWIN","textShapes":9}
+{"kind":"textbox","id":"sh/vqdkfa98","slide":5,"text":"EVIDENCE-BACKED VIRTUAL TWIN","textPreview":"EVIDENCE-BACKED VIRTUAL TWIN","textChars":28,"textLines":1,"bbox":[42,34,420,28]}
+{"kind":"textbox","id":"sh/wrm18fqt","slide":5,"text":"C4","textPreview":"C4","textChars":2,"textLines":1,"bbox":[42,662,500,22]}
+{"kind":"textbox","id":"sh/xsv2hkre","slide":5,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[1184,660,54,22]}
+{"kind":"textbox","id":"sh/m1kj258r","slide":5,"text":"Bounded model authority","textPreview":"Bounded model authority","textChars":23,"textLines":1,"bbox":[42,88,1120,88]}
+{"kind":"textbox","id":"sh/n2t0bq9c","slide":5,"text":"C4","textPreview":"C4","textChars":2,"textLines":1,"bbox":[42,235,190,150]}
+{"kind":"textbox","id":"sh/83214vqx","slide":5,"text":"Model-generated memory changes receive no direct write authority: proposals are projected into a temporary complete memory copy and validated before commit.","textPreview":"Model-generated memory changes receive no direct write authority: proposals are projected into a temporary complete memory copy and valid...","textChars":156,"textLines":1,"bbox":[290,226,875,210]}
+{"kind":"textbox","id":"sh/94bid0ri","slide":5,"text":"1 source","textPreview":"1 source","textChars":8,"textLines":1,"bbox":[290,486,260,55]}
+{"kind":"textbox","id":"sh/6xojep8v","slide":5,"text":"3 exact evidence matches","textPreview":"3 exact evidence matches","textChars":24,"textLines":1,"bbox":[650,486,420,55]}
+{"kind":"textbox","id":"sh/7yxknu9g","slide":5,"text":"Deterministically traced","textPreview":"Deterministically traced","textChars":24,"textLines":1,"bbox":[290,561,620,46]}
+{"kind":"notes","id":"nt/vahxvt","slide":5,"text":"C4 · FACT\nModel-generated memory changes receive no direct write authority: proposals are projected into a temporary complete memory copy and validated before commit.\n\nEvidence:\n- twin_core/memory_proposals.py: Models never receive direct write authority through this interface. | code projects it into a temporary copy, validates the complete memory, and only then | proposal introduces new memory warnings\n\nDraft A1 evidence pack. Human review is required before external use."}
+{"kind":"slide","id":"sl/jmpk86","slide":6,"title":"EVIDENCE-BACKED VIRTUAL TWIN","textShapes":9}
+{"kind":"textbox","id":"sh/ozip83al","slide":6,"text":"EVIDENCE-BACKED VIRTUAL TWIN","textPreview":"EVIDENCE-BACKED VIRTUAL TWIN","textChars":28,"textLines":1,"bbox":[42,34,420,28]}
+{"kind":"textbox","id":"sh/ny9ozi90","slide":6,"text":"L1","textPreview":"L1","textChars":2,"textLines":1,"bbox":[42,662,500,22]}
+{"kind":"textbox","id":"sh/2x076dsf","slide":6,"text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[1184,660,54,22]}
+{"kind":"textbox","id":"sh/1wr6x8ru","slide":6,"text":"What remains unproven","textPreview":"What remains unproven","textChars":21,"textLines":1,"bbox":[42,88,1120,88]}
+{"kind":"textbox","id":"sh/0vip43ap","slide":6,"text":"L1","textPreview":"L1","textChars":2,"textLines":1,"bbox":[42,235,190,150]}
+{"kind":"textbox","id":"sh/fu9ovy94","slide":6,"text":"The current P2 phase has not yet passed because the first natural post-deployment daily run and full transition fault injection remain outstanding.","textPreview":"The current P2 phase has not yet passed because the first natural post-deployment daily run and full transition fault injection remain ou...","textChars":147,"textLines":1,"bbox":[290,226,875,210]}
+{"kind":"textbox","id":"sh/et072tsj","slide":6,"text":"1 source","textPreview":"1 source","textChars":8,"textLines":1,"bbox":[290,486,260,55]}
+{"kind":"textbox","id":"sh/lsvq9sre","slide":6,"text":"2 exact evidence matches","textPreview":"2 exact evidence matches","textChars":24,"textLines":1,"bbox":[650,486,420,55]}
+{"kind":"textbox","id":"sh/kr2pgnqt","slide":6,"text":"Explicitly unproven","textPreview":"Explicitly unproven","textChars":19,"textLines":1,"bbox":[290,561,620,46]}
+{"kind":"notes","id":"nt/jmpk86","slide":6,"text":"L1 · LIMITATION\nThe current P2 phase has not yet passed because the first natural post-deployment daily run and full transition fault injection remain outstanding.\n\nEvidence:\n- architecture/06_IMPLEMENTATION_STATUS.md: the first natural post-deployment daily run and | full transition fault injection remain before the phase can pass\n\nDraft A1 evidence pack. Human review is required before external use."}

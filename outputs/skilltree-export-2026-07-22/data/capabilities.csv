@@ -1,0 +1,292 @@
+capability,departments,functions,mapped_jobs
+access-checklister,Operations,Onboarding,Kickoff Pack
+access-verifier,Operations,Onboarding,Access Collection
+account-watcher,Intelligence,Monitoring,Account Monitoring
+accuracy-benchmarker,Operations,Build Ops,Document Extraction
+action-assigner,Operations,Client Comms,Meeting Follow-Ups
+action-extractor,Deals,Call Cycle,Post-Call Debrief
+activation-tracker,Customer,Success,Onboarding Journeys
+ad-variation-builder,Marketing,Creation,Ad Creative
+advocate-finder,Customer,Success,Advocacy & Referrals
+alert-router,Intelligence,Monitoring,Alert Routing
+anchor-calculator,Deals,Deal Artifacts,Pricing Support
+angle-tester,Marketing,Creation,Ad Creative
+api-integrator,Operations,Build Ops,Integration Builds
+api-publisher,Marketing,Distribution,Publishing
+apollo-query-builder,Sales,Lead Sourcing,Database Mining
+approval-doc-generator,Marketing,Brand Deals,Approval Docs
+attendee-researcher,Deals,Call Cycle,Pre-Call Briefing
+auto-labeler,Deals,Reply Handling,Reply Classification
+brand-image-generator,Marketing,Creation,Image Generation
+brand-script-writer,Marketing,Brand Deals,Deal Scripting
+broadcast-sender,Marketing,Distribution,Newsletter & Broadcast
+budget-detector,Deals,Inbound,Lead Qualification
+budget-guard,Operations,Reliability,Cost & Usage Tracking
+budget-tracker,Back Office,Finance Ops,Budget Tracking
+cadence-builder,Sales,Sequencing & Send,Campaign Orchestration
+cal-booker,Deals,Reply Handling,Meeting Booking
+calendar-manager,Back Office,Office,Calendar Management
+call-scripter,Sales,Outreach Writing,Cold-Call Scripting
+candidate-finder,Back Office,Talent,Candidate Sourcing
+caption-syncer,Marketing,Creation,Video Production
+caption-writer,Marketing,Creation,Caption Writing
+carousel-builder,Marketing,Creation,Carousel Production
+case-study-matcher,Sales,Outreach Writing,Proof Matching
+cashflow-projector,Back Office,Finance Ops,Cash-Flow Forecasting
+catch-all-detector,Sales,Enrichment,Email Verification
+change-detector,Intelligence,Monitoring,Account Monitoring
+channel-router,Sales,Sequencing & Send,Campaign Orchestration
+character-consistency,Marketing,Creation,Image Generation
+chart-builder,Intelligence,Synthesis,Data Visualization
+churn-modeler,Customer,Success,Churn Prediction
+churn-predictor,Customer,Success,Health Scoring
+claim-fact-checker,Marketing,Brand Deals,Deal Scripting
+claim-verifier,Intelligence,Synthesis,Adversarial Verification
+clip-finder,Marketing,Repurposing,Clip Extraction
+close-probability-scorer,Deals,Pipeline Ops,Forecasting
+comment-harvester,Sales,Lead Sourcing,Social Mining
+comment-miner,Marketing,Insights,Audience Analysis
+commitment-tracker,Deals,Call Cycle,Post-Call Debrief
+committee-mapper,Intelligence,Companies,Buying-Committee Mapping
+common-ground-scanner,Sales,Outreach Writing,Personalization Research
+community-responder,Customer,Community,Engagement & Replies
+company-profiler,Intelligence,Companies,Company Deep-Dive
+competitor-teardown,Intelligence,Markets,Competitor Teardown
+compliance-calendar,Back Office,Records,Entity Compliance
+conduct-monitor,Customer,Community,Moderation
+conflict-resolver,Back Office,Office,Calendar Management
+connection-mapper,Intelligence,People,Network Mapping
+connection-note-writer,Sales,Outreach Writing,LinkedIn Messaging
+content-trail-scanner,Intelligence,People,Person Research
+context-updater,Operations,Knowledge,Context Maintenance
+context-writer,Operations,Onboarding,Project Scaffolding
+contract-generator,Deals,Deal Artifacts,Agreement Drafting
+contract-tracker,Back Office,Records,Contract Lifecycle
+corpus-ranker,Marketing,Insights,Performance Mining
+cover-tester,Marketing,Creation,Thumbnail & Cover Design
+credential-chaser,Operations,Onboarding,Access Collection
+crm-promoter,Deals,Reply Handling,Hot-Lead Routing
+crm-syncer,Back Office,Records,CRM Sync
+csv-normalizer,Sales,Lead Sourcing,List Building
+cta-placer,Marketing,Creation,Caption Writing
+currency-normalizer,Back Office,Reporting,Revenue Reporting
+deal-updater,Deals,Call Cycle,Post-Call Debrief
+deck-builder,Marketing,Creation,Deck Production
+dedupe-validator,Operations,Build Ops,Data Migration
+deliverable-publisher,Operations,Client Comms,Portal Sync
+diagram-generator,Intelligence,Synthesis,Data Visualization; Research Reports
+directory-harvester,Sales,Lead Sourcing,Web & Maps Scraping
+disqualifier,Sales,Enrichment,Fit Scoring
+dm-fulfiller,Deals,Inbound,Comment-CTA Fulfillment
+dm-sequencer,Sales,Outreach Writing,LinkedIn Messaging
+document-filer,Back Office,Records,Document Filing & Retrieval
+domain-health-auditor,Sales,Sequencing & Send,Deliverability
+dormant-deal-reviver,Deals,Pipeline Ops,Reactivation
+draft-responder,Back Office,Office,Email Triage
+dream-prototyper,Deals,Deal Artifacts,Demo Prototyping
+email-finder,Sales,Enrichment,Contact Enrichment
+email-triager,Back Office,Office,Email Triage
+engagement-miner,Sales,Lead Sourcing,Social Mining
+engagement-tracker,Deals,Deal Artifacts,Deal Room Assembly
+entity-extractor,Operations,Knowledge,Transcript Processing
+entity-router,Back Office,Money In,Invoice Generation
+era-analyzer,Marketing,Insights,Performance Mining
+escalation-router,Customer,Support,Escalations
+escalation-sequencer,Back Office,Money In,Collections
+esign-preparer,Deals,Deal Artifacts,Agreement Drafting
+eval-harness,Operations,Build Ops,Agent Evaluation
+event-scheduler,Customer,Community,Event Coordination
+expansion-spotter,Customer,Success,Renewals & Expansion
+expense-categorizer,Back Office,Records,Expense Categorization
+extraction-pipeline,Operations,Build Ops,Document Extraction
+failure-alerter,Operations,Reliability,Monitoring & Alerting
+faq-responder,Customer,Support,FAQ & Self-Serve
+field-mapper,Operations,Build Ops,Data Migration
+field-normalizer,Deals,Pipeline Ops,CRM Hygiene
+filing-tracker,Back Office,Records,Entity Compliance
+financials-reader,Intelligence,Companies,Funding & Financials Lookup
+firmographic-appender,Sales,Enrichment,Account Enrichment
+fit-scorer,Sales,Enrichment,Fit Scoring
+followup-processor,Operations,Client Comms,Meeting Follow-Ups
+format-adapter,Marketing,Repurposing,Cross-Platform Adaptation
+format-spotter,Marketing,Insights,Trend Monitoring
+funding-tracker,Intelligence; Sales,Companies; Targeting,Funding & Financials Lookup; Trigger Detection
+funnel-analyzer,Deals,Pipeline Ops,Pipeline Reporting
+gap-analyzer,Intelligence,Companies,Tech-Stack Detection
+gated-page-generator,Marketing,Repurposing,Lead-Magnet Builds
+goal-pacer,Back Office,Reporting,Goal Pacing
+growth-signal-scorer,Sales,Enrichment,Account Enrichment
+guide-builder,Marketing,Repurposing,Lead-Magnet Builds
+handbook-keeper,Back Office,Talent,HR & Policy Assistant
+handoff-writer,Operations,Knowledge,Handoff Docs
+health-scorer,Customer,Success,Health Scoring
+help-article-writer,Customer,Support,FAQ & Self-Serve
+heyreach-syncer,Sales,Sequencing & Send,Campaign Launch
+highlight-extractor,Marketing,Repurposing,Clip Extraction
+hire-onboarder,Back Office,Talent,Onboarding & Training
+hiring-signal-watcher,Sales,Targeting,Trigger Detection
+hook-finder,Sales,Outreach Writing,Personalization Research
+hook-generator,Marketing,Creation,Hook Writing
+hook-pattern-miner,Marketing,Insights,Competitor Analysis
+hook-ranker,Marketing,Creation,Hook Writing
+hot-lead-alerter,Deals,Reply Handling,Hot-Lead Routing
+icp-profiler,Sales,Targeting,ICP Definition
+inbox-triager,Deals,Inbound,Inbox Triage
+incident-triager,Operations,Reliability,Incident Response
+instant-responder,Deals,Inbound,Speed-to-Lead
+instantly-syncer,Sales,Sequencing & Send,Campaign Launch
+intake-acknowledger,Deals,Inbound,Speed-to-Lead
+intake-parser,Deals,Inbound,Lead Qualification
+intent-classifier,Deals,Reply Handling,Reply Classification
+interview-scheduler,Back Office,Talent,Screening & Scheduling
+intro-drafter,Intelligence,People,Warm-Path Finding
+intro-router,Deals,Reply Handling,Referral Capture
+invoice-generator,Back Office,Money In,Invoice Generation
+journey-sequencer,Customer,Success,Onboarding Journeys
+keyword-listener,Deals,Inbound,Comment-CTA Fulfillment
+kickoff-generator,Operations,Onboarding,Kickoff Pack
+linkedin-matcher,Sales,Enrichment,Contact Enrichment
+list-deduper,Sales,Lead Sourcing,List Building
+llms-txt-maintainer,Marketing,Distribution,SEO & GEO
+lookalike-builder,Sales,Targeting,Lookalike Modeling
+loss-tagger,Deals,Pipeline Ops,Win/Loss Analysis
+macro-writer,Customer,Support,Macro Authoring
+magic-link-issuer,Deals,Deal Artifacts,Deal Room Assembly
+maps-scraper,Sales,Lead Sourcing,Web & Maps Scraping
+meeting-filer,Deals,Call Cycle,Call Capture
+memory-writer,Operations,Knowledge,Context Maintenance
+mention-tracker,Intelligence,Monitoring,News & Mention Tracking
+mention-watcher,Customer,Community,Engagement & Replies
+migration-runner,Operations,Build Ops,Data Migration
+milestone-notifier,Operations,Client Comms,Status Updates
+news-watcher,Intelligence; Marketing,Insights; Monitoring,News & Mention Tracking; Trend Monitoring
+newsletter-builder,Marketing,Distribution,Newsletter & Broadcast
+next-step-drafter,Deals,Call Cycle,Follow-Up Drafting
+no-show-recoverer,Deals,Reply Handling,Meeting Booking
+objection-brancher,Sales,Outreach Writing,Cold-Call Scripting
+objection-library,Deals,Reply Handling,Objection Response
+objection-miner,Deals,Call Cycle,Objection Library
+offer-framer,Marketing,Creation,Landing Page Copy
+og-image-generator,Marketing,Distribution,OG & Share Surface
+opportunity-scorer,Intelligence,Markets,Vertical Analysis
+output-verifier,Operations,Build Ops,QA & Verification
+overdue-nudger,Back Office,Money In,Collections
+overlay-animator,Marketing,Creation,Video Production
+packaging-analyzer,Intelligence,Markets,Pricing Research
+page-copywriter,Marketing,Creation,Landing Page Copy
+pain-pattern-library,Sales,Targeting,ICP Definition
+path-finder,Intelligence,People,Warm-Path Finding
+pattern-extractor,Sales,Targeting,Lookalike Modeling
+pattern-miner,Deals,Pipeline Ops,Win/Loss Analysis
+payment-watcher,Back Office,Money In,Payment Tracking
+pdf-renderer,Deals,Deal Artifacts,Proposal Generation
+person-profiler,Intelligence,People,Person Research
+personalization-writer,Sales,Outreach Writing,Video Prospecting
+phase-structurer,Deals,Deal Artifacts,Pricing Support
+phone-appender,Sales,Enrichment,Contact Enrichment
+pipeline-reporter,Deals,Pipeline Ops,Pipeline Reporting
+platform-translator,Marketing,Repurposing,Cross-Platform Adaptation
+playbook-extractor,Operations,Knowledge,SOP Generation
+policy-answerer,Back Office,Talent,HR & Policy Assistant
+portal-provisioner,Operations,Build Ops,Portal Provisioning
+portal-syncer,Operations,Client Comms,Portal Sync
+portal-theming,Operations,Build Ops,Portal Provisioning
+positioning-mapper,Intelligence,Markets,Competitor Teardown
+post-scheduler,Marketing,Distribution,Publishing
+postmortem-writer,Operations,Reliability,Incident Response
+prep-brief-builder,Deals,Call Cycle,Pre-Call Briefing
+pricing-scanner,Intelligence,Markets,Pricing Research
+priority-router,Customer; Deals,Inbound; Support,Inbox Triage; Ticket Triage
+profile-collector,Sales,Lead Sourcing,Social Mining
+profile-ranker,Back Office,Talent,Candidate Sourcing
+proof-point-selector,Sales,Outreach Writing,Proof Matching
+proposal-writer,Deals,Deal Artifacts,Proposal Generation
+prospect-dossier,Sales,Outreach Writing,Personalization Research
+qbr-builder,Customer,Success,QBR Prep
+qual-scorer,Deals,Inbound,Lead Qualification
+question-clusterer,Marketing,Insights,Audience Analysis
+rebuttal-builder,Deals,Call Cycle,Objection Library
+recap-writer,Deals,Call Cycle,Follow-Up Drafting
+reconciler,Back Office,Money In,Payment Tracking
+record-deduper,Deals,Pipeline Ops,CRM Hygiene
+reel-compositor,Marketing,Creation,Video Production
+reel-transcriber,Marketing,Insights,Competitor Analysis
+referral-asker,Customer,Success,Advocacy & Referrals
+referral-spotter,Deals,Reply Handling,Referral Capture
+regression-checker,Operations,Build Ops,Agent Evaluation; QA & Verification
+rehash-finder,Marketing,Insights,Performance Mining
+renewal-notifier,Back Office,Records,Contract Lifecycle
+renewal-scheduler,Customer,Success,Renewals & Expansion
+repo-scaffolder,Operations,Onboarding,Project Scaffolding
+report-builder,Intelligence,Synthesis,Research Reports
+response-drafter,Deals,Reply Handling,Objection Response
+response-templater,Customer,Support,Macro Authoring
+retrieval-indexer,Back Office,Records,Document Filing & Retrieval
+revenue-forecaster,Deals,Pipeline Ops,Forecasting
+revenue-reporter,Back Office,Reporting,Revenue Reporting
+risk-forecaster,Customer,Success,Churn Prediction
+roi-modeler,Deals,Deal Artifacts,Pricing Support
+role-classifier,Intelligence,Companies,Buying-Committee Mapping
+room-builder,Deals,Deal Artifacts,Deal Room Assembly
+rootcause-finder,Operations,Reliability,Incident Response
+runbook-generator,Operations,Knowledge,Handoff Docs
+runway-calculator,Back Office,Finance Ops,Cash-Flow Forecasting
+runway-projector,Back Office,Reporting,Goal Pacing
+sandbox-builder,Deals,Deal Artifacts,Demo Prototyping
+saved-search-runner,Sales,Lead Sourcing,Database Mining
+scenario-modeler,Back Office,Finance Ops,Cash-Flow Forecasting
+schema-mapper,Operations,Build Ops,Document Extraction
+schema-marker,Marketing,Distribution,SEO & GEO
+screen-summarizer,Back Office,Talent,Screening & Scheduling
+script-writer,Marketing,Creation,Script Writing
+segment-counter,Intelligence,Markets,TAM / Market Sizing
+segmenter,Sales,Lead Sourcing,List Building
+sentiment-flagger,Customer,Support,Escalations
+sentiment-tagger,Deals,Reply Handling,Reply Classification
+sequence-writer,Sales,Outreach Writing,Cold Email Drafting
+session-runner,Customer,Community,Event Coordination
+signal-collector,Intelligence,Companies,Company Deep-Dive
+signal-scorer,Intelligence,Monitoring,Alert Routing
+sitemap-builder,Marketing,Distribution,SEO & GEO
+sla-watcher,Customer,Support,Ticket Triage
+slide-exporter,Marketing,Creation,Carousel Production
+slide-templater,Marketing,Creation,Deck Production
+slot-proposer,Deals,Reply Handling,Meeting Booking
+smtp-verifier,Sales,Enrichment,Email Verification
+sop-writer,Operations,Knowledge,SOP Generation
+source-citer,Intelligence,Synthesis,Research Reports
+source-cross-checker,Intelligence,Synthesis,Adversarial Verification
+spam-filter,Customer,Community,Moderation
+spam-score-tester,Sales,Sequencing & Send,Deliverability
+spend-tracker,Operations,Reliability,Cost & Usage Tracking
+spintax-builder,Sales,Outreach Writing,Cold Email Drafting
+spotlight-writer,Customer,Community,Member Spotlights
+stack-detector,Intelligence,Companies,Tech-Stack Detection
+stage-auditor,Deals,Pipeline Ops,CRM Hygiene
+status-poster,Operations,Client Comms,Status Updates
+subject-line-generator,Sales,Outreach Writing,Cold Email Drafting
+tam-mapper,Sales,Targeting,Market Mapping
+tam-sizer,Intelligence,Markets,TAM / Market Sizing
+tech-change-detector,Sales,Targeting,Trigger Detection
+tech-stack-detector,Sales,Enrichment,Account Enrichment
+thumbnail-designer,Marketing,Creation,Thumbnail & Cover Design
+ticket-classifier,Customer,Support,Ticket Triage
+tier-assigner,Sales,Enrichment,Fit Scoring
+timezone-scheduler,Sales,Sequencing & Send,Send Optimization
+training-sequencer,Back Office,Talent,Onboarding & Training
+transcript-ingester,Deals,Call Cycle,Call Capture
+transcript-structurer,Operations,Knowledge,Transcript Processing
+two-way-updater,Back Office,Records,CRM Sync
+uptime-watcher,Operations,Reliability,Monitoring & Alerting
+value-recap-writer,Customer,Success,QBR Prep
+variance-flagger,Back Office,Finance Ops,Budget Tracking
+vertical-analyzer,Intelligence,Markets,Vertical Analysis
+vertical-census,Sales,Targeting,Market Mapping
+vertical-scorer,Sales,Targeting,ICP Definition
+video-scripter,Sales,Outreach Writing,Video Prospecting
+voice-matcher,Marketing,Creation,Script Writing
+volume-pacer,Sales,Sequencing & Send,Send Optimization
+warmup-monitor,Sales,Sequencing & Send,Deliverability
+webhook-wirer,Operations,Build Ops,Integration Builds
+win-detector,Customer,Community,Member Spotlights
+winback-sequencer,Deals,Pipeline Ops,Reactivation

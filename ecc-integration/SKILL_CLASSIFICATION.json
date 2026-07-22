@@ -1,0 +1,3631 @@
+{
+  "commit": "96789caaf90501ff9b55bf1b00f1c28cf3fccbeb",
+  "counts": {
+    "adapt_candidate": 11,
+    "defer_on_demand": 156,
+    "reference_only": 111
+  },
+  "policy": "No item is deployed by this classification; adapt_candidate requires isolated tests and explicit promotion.",
+  "schema": "giga.ecc-classification.v1",
+  "skills": [
+    {
+      "bytes": 6418,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Design, implement, and audit inclusive digital products using WCAG 2.2 Level AA",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "accessibility",
+      "path": "skills/accessibility/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 10165,
+      "closest_installed": "screenshot",
+      "description": "Full-stack diagnostic for agent and LLM applications. Audits the 12-layer agent stack for wrapper regression, memory pollution, tool discipline failures, hidden repair loops, and rendering corruption. Produces severity-ranked findings with code-first fixes. Essential for developers building agent applications, autonomous loops, or any LLM-powered feature.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "agent-architecture-audit",
+      "path": "skills/agent-architecture-audit/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.086
+    },
+    {
+      "bytes": 4551,
+      "closest_installed": "security-best-practices",
+      "description": "Head-to-head comparison of coding agents (Claude Code, Aider, Codex, etc.) on custom tasks with pass rate, cost, time, and consistency metrics",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "agent-eval",
+      "path": "skills/agent-eval/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [],
+      "similarity": 0.075
+    },
+    {
+      "bytes": 2012,
+      "closest_installed": "playwright-interactive",
+      "description": "Design and optimize AI agent action spaces, tool definitions, and observation formatting for higher completion rates.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "agent-harness-construction",
+      "path": "skills/agent-harness-construction/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.087
+    },
+    {
+      "bytes": 5541,
+      "closest_installed": "playwright-interactive",
+      "description": "Structured self-debugging workflow for AI agent failures using capture, diagnosis, contained recovery, and introspection reports.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "agent-introspection-debugging",
+      "path": "skills/agent-introspection-debugging/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.13
+    },
+    {
+      "bytes": 10592,
+      "closest_installed": "yeet",
+      "description": "Add x402 payment execution to AI agents with per-task budgets, spending controls, and non-custodial wallets. Supports Base through agentwallet-sdk and X Layer through OKX Payments / OKX Agent Payments Protocol.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "agent-payment-x402",
+      "path": "skills/agent-payment-x402/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.061
+    },
+    {
+      "bytes": 41652,
+      "closest_installed": "artifact-template-market-trends-report",
+      "description": "Use after completing any non-trivial task. The agent self-rates its output on 5 axes \u2014 accuracy, completeness, clarity, actionability, conciseness \u2014 with concrete evidence per criterion. Produces a structured 1-5 scorecard with specific improvement suggestions.",
+      "disposition": "defer_on_demand",
+      "files": 7,
+      "name": "agent-self-evaluation",
+      "path": "skills/agent-self-evaluation/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.078
+    },
+    {
+      "bytes": 5922,
+      "closest_installed": "skilltree-operator",
+      "description": "Build an evidence-backed ECC install plan for a specific repo by sorting skills, commands, rules, hooks, and extras into DAILY vs LIBRARY buckets using parallel repo-aware review passes. Use when ECC should be trimmed to what a project actually needs instead of loading the full bundle.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "agent-sort",
+      "path": "skills/agent-sort/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.13
+    },
+    {
+      "bytes": 1743,
+      "closest_installed": "artifact-template-financial-budget",
+      "description": "Operate as an agentic engineer using eval-first execution, decomposition, and cost-aware model routing.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "agentic-engineering",
+      "path": "skills/agentic-engineering/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.083
+    },
+    {
+      "bytes": 12237,
+      "closest_installed": "artifact-template-operating-calendar",
+      "description": "Build persistent multi-agent operating systems on Claude Code. Covers kernel architecture, specialist agents, slash commands, file-based memory, scheduled automation, and state management without external databases.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "agentic-os",
+      "path": "skills/agentic-os/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.061
+    },
+    {
+      "bytes": 1348,
+      "closest_installed": "pdf",
+      "description": "Engineering operating model for teams where AI agents generate a large share of implementation output.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ai-first-engineering",
+      "path": "skills/ai-first-engineering/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.057
+    },
+    {
+      "bytes": 11545,
+      "closest_installed": "security-threat-model",
+      "description": "Regression testing strategies for AI-assisted development. Sandbox-mode API testing without database dependencies, automated bug-check workflows, and patterns to catch AI blind spots where the same model writes and reviews code.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "ai-regression-testing",
+      "path": "skills/ai-regression-testing/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.092
+    },
+    {
+      "bytes": 8806,
+      "closest_installed": "sites-hosting",
+      "description": "Clean Architecture patterns for Android and Kotlin Multiplatform projects \u2014 module structure, dependency rules, UseCases, Repositories, and data layer patterns.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "android-clean-architecture",
+      "path": "skills/android-clean-architecture/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 131192,
+      "closest_installed": "security-best-practices",
+      "description": "Generates Angular code and provides architectural guidance. Trigger when creating projects, components, or services, or for best practices on reactivity (signals, linkedSignal, resource), forms, dependency injection, routing, SSR, accessibility (ARIA), animations, styling (component styles, Tailwind CSS), testing, or CLI tooling.",
+      "disposition": "reference_only",
+      "files": 36,
+      "name": "angular-developer",
+      "path": "skills/angular-developer/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.121
+    },
+    {
+      "bytes": 2662,
+      "closest_installed": "sites-building",
+      "description": "Build a new API connector or provider by matching the target repo's existing integration pattern exactly. Use when adding one more integration without inventing a second architecture.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "api-connector-builder",
+      "path": "skills/api-connector-builder/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.098
+    },
+    {
+      "bytes": 13122,
+      "closest_installed": "artifact-template-system-design",
+      "description": "REST API design patterns including resource naming, status codes, pagination, filtering, error responses, versioning, and rate limiting for production APIs.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "api-design",
+      "path": "skills/api-design/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.07
+    },
+    {
+      "bytes": 7131,
+      "closest_installed": "artifact-template-strategy-memorandum",
+      "description": "Capture architectural decisions made during Claude Code sessions as structured ADRs. Auto-detects decision moments, records context, alternatives considered, and rationale. Maintains an ADR log so future developers understand why the codebase is shaped the way it is.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "architecture-decision-records",
+      "path": "skills/architecture-decision-records/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.075
+    },
+    {
+      "bytes": 2926,
+      "closest_installed": "graphify",
+      "description": "Write articles, guides, blog posts, tutorials, newsletter issues, and other long-form content in a distinctive voice derived from supplied examples or brand guidance. Use when the user wants polished written content longer than a paragraph, especially when voice consistency, structure, and credibility matter.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "article-writing",
+      "path": "skills/article-writing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.107
+    },
+    {
+      "bytes": 4167,
+      "closest_installed": "github",
+      "description": "Evidence-first automation inventory and overlap audit workflow for ECC. Use when the user wants to know which jobs, hooks, connectors, MCP servers, or wrappers are live, broken, redundant, or missing before fixing anything.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "automation-audit-ops",
+      "path": "skills/automation-audit-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.176
+    },
+    {
+      "bytes": 10860,
+      "closest_installed": "schedule",
+      "description": "Transform Claude Code into a fully autonomous agent system with persistent memory, scheduled operations, computer use, and task queuing. Replaces standalone agent frameworks (Hermes, AutoGPT) by leveraging Claude Code's native crons, dispatch, MCP tools, and memory. Use when the user wants continuous autonomous operation, scheduled tasks, or a self-directing agent loop.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "autonomous-agent-harness",
+      "path": "skills/autonomous-agent-harness/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "autonomous_mutation",
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.121
+    },
+    {
+      "bytes": 24738,
+      "closest_installed": "playwright-interactive",
+      "description": "Patterns and architectures for autonomous Claude Code loops \u2014 from simple sequential pipelines to RFC-driven multi-agent DAG systems.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "autonomous-loops",
+      "path": "skills/autonomous-loops/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.074
+    },
+    {
+      "bytes": 13255,
+      "closest_installed": "security-best-practices",
+      "description": "Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "backend-patterns",
+      "path": "skills/backend-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.078
+    },
+    {
+      "bytes": 2356,
+      "closest_installed": "skill-creator",
+      "description": "Use this skill to measure performance baselines, detect regressions before/after PRs, and compare stack alternatives.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "benchmark",
+      "path": "skills/benchmark/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.125
+    },
+    {
+      "bytes": 9811,
+      "closest_installed": "find-skills",
+      "description": ">-",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "benchmark-methodology",
+      "path": "skills/benchmark-methodology/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 2433,
+      "closest_installed": "jupyter-notebook",
+      "description": "Use when the user asks to make something faster, try many variants, run recursive optimization, benchmark latency/throughput/cost, or choose the best implementation by repeated measured tests.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "benchmark-optimization-loop",
+      "path": "skills/benchmark-optimization-loop/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.133
+    },
+    {
+      "bytes": 8146,
+      "closest_installed": "template-creator",
+      "description": "Use this skill when inspecting Blender characters, rigs, poses, animation retargeting, ground contact, facing direction, or model-vs-motion alignment where screenshots alone are not enough.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "blender-motion-state-inspection",
+      "path": "skills/blender-motion-state-inspection/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.071
+    },
+    {
+      "bytes": 5356,
+      "closest_installed": "find-skills",
+      "description": ">-",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "blueprint",
+      "path": "skills/blueprint/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 21502,
+      "closest_installed": "find-skills",
+      "description": ">-",
+      "disposition": "defer_on_demand",
+      "files": 9,
+      "name": "brand-discovery",
+      "path": "skills/brand-discovery/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 4711,
+      "closest_installed": "gh-fix-ci",
+      "description": "Build a source-derived writing style profile from real posts, essays, launch notes, docs, or site copy, then reuse that profile across content, outreach, and social workflows. Use when the user wants voice consistency without generic AI writing tropes.",
+      "disposition": "defer_on_demand",
+      "files": 2,
+      "name": "brand-voice",
+      "path": "skills/brand-voice/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.125
+    },
+    {
+      "bytes": 3727,
+      "closest_installed": "browser-use",
+      "description": "Use this skill to automate visual testing and UI interaction verification using browser automation after deploying features.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "browser-qa",
+      "path": "skills/browser-qa/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.192
+    },
+    {
+      "bytes": 2608,
+      "closest_installed": "skill-creator",
+      "description": "Bun as runtime, package manager, bundler, and test runner. When to choose Bun vs Node, migration notes, and Vercel support.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "bun-runtime",
+      "path": "skills/bun-runtime/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.071
+    },
+    {
+      "bytes": 3128,
+      "closest_installed": "skill-router",
+      "description": "Use this skill to monitor and verify a deployed URL after releases \u2014 checks HTTP endpoints, SSE streams, static assets, console errors, and performance regressions after deploys, merges, or dependency upgrades. Smoke / canary / post-deploy verification.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "canary-watch",
+      "path": "skills/canary-watch/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.074
+    },
+    {
+      "bytes": 23763,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "carrier-relationship-management",
+      "path": "skills/carrier-relationship-management/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 5203,
+      "closest_installed": "screenshot",
+      "description": "Cisco IOS and IOS-XE review patterns for show commands, config hierarchy, wildcard masks, ACL placement, interface hygiene, and safe change-window verification.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "cisco-ios-patterns",
+      "path": "skills/cisco-ios-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.071
+    },
+    {
+      "bytes": 54062,
+      "closest_installed": "playwright-interactive",
+      "description": "Persistent per-project memory for Claude Code. Auto-loads project context on session start, tracks sessions with git activity, and writes to native memory. Commands run deterministic Node.js scripts \u2014 behavior is consistent across model versions.",
+      "disposition": "reference_only",
+      "files": 10,
+      "name": "ck",
+      "path": "skills/ck/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.079
+    },
+    {
+      "bytes": 6118,
+      "closest_installed": "browser-use",
+      "description": "Orchestrate multi-agent coding tasks via Claude DevFleet \u2014 plan projects, dispatch parallel agents in isolated worktrees, monitor progress, and read structured reports.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "claude-devfleet",
+      "path": "skills/claude-devfleet/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.057
+    },
+    {
+      "bytes": 7975,
+      "closest_installed": "artifact-template-design-report",
+      "description": "Trace every user-facing button/touchpoint through its full state change sequence to find bugs where functions individually work but cancel each other out, produce wrong final state, or leave the UI in an inconsistent state. Use when: systematic debugging found no bugs but users report broken buttons, or after any major refactor touching shared state stores.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "click-path-audit",
+      "path": "skills/click-path-audit/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.108
+    },
+    {
+      "bytes": 10642,
+      "closest_installed": "playwright-interactive",
+      "description": "ClickHouse database patterns, query optimization, analytics, and data engineering best practices for high-performance analytical workloads.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "clickhouse-io",
+      "path": "skills/clickhouse-io/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.08
+    },
+    {
+      "bytes": 7913,
+      "closest_installed": "visualize",
+      "description": "Create CodeTour `.tour` files \u2014 persona-targeted, step-by-step walkthroughs with real file and line anchors. Use for onboarding tours, architecture walkthroughs, PR tours, RCA tours, and structured \"explain how this works\" requests.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "code-tour",
+      "path": "skills/code-tour/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.109
+    },
+    {
+      "bytes": 8235,
+      "closest_installed": "jupyter-notebook",
+      "description": "Analyze an unfamiliar codebase and generate a structured onboarding guide with architecture map, key entry points, conventions, and a starter CLAUDE.md. Use when joining a new project or setting up Claude Code for the first time in a repo.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "codebase-onboarding",
+      "path": "skills/codebase-onboarding/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.143
+    },
+    {
+      "bytes": 7463,
+      "closest_installed": "artifact-template-business-review",
+      "description": "Real-time structural Code Health via CodeScene MCP \u2014 review before edits, verify score deltas after changes, gate commits and PRs. Use when reviewing code quality, refactoring, checking if AI changes degraded a file, or before commit/PR.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "codehealth-mcp",
+      "path": "skills/codehealth-mcp/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.102
+    },
+    {
+      "bytes": 12777,
+      "closest_installed": "security-best-practices",
+      "description": "Baseline cross-project coding conventions for naming, readability, immutability, and code-quality review. Use detailed frontend or backend skills for framework-specific patterns.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "coding-standards",
+      "path": "skills/coding-standards/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.135
+    },
+    {
+      "bytes": 11991,
+      "closest_installed": "find-skills",
+      "description": ">-",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "competitive-platform-analysis",
+      "path": "skills/competitive-platform-analysis/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 8464,
+      "closest_installed": "find-skills",
+      "description": ">-",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "competitive-report-structure",
+      "path": "skills/competitive-report-structure/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 8132,
+      "closest_installed": "sites-hosting",
+      "description": "Compose Multiplatform and Jetpack Compose patterns for KMP projects \u2014 state management, navigation, theming, performance, and platform-specific UI.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "compose-multiplatform-patterns",
+      "path": "skills/compose-multiplatform-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.133
+    },
+    {
+      "bytes": 7942,
+      "closest_installed": "jupyter-notebook",
+      "description": "Garbage collection for your Claude Code configuration. Periodically scans ~/.claude (skills, memory, hooks, permissions, MCP servers, caches) for redundant, stale, orphaned, or low-value items, then walks the user through a confirm-each-deletion cleanup. Use when the user says \"clean up my config\", \"config GC\", \"too many skills\", \"audit my setup\", \"my .claude is bloated\", or asks for a periodic config review.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "config-gc",
+      "path": "skills/config-gc/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.109
+    },
+    {
+      "bytes": 16812,
+      "closest_installed": "find-skills",
+      "description": "Interactive installer for Everything Claude Code \u2014 guides users through selecting and installing skills and rules to user-level or project-level directories, verifies paths, and optionally optimizes installed files.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "configure-ecc",
+      "path": "skills/configure-ecc/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "destructive_shell",
+        "home_mutation"
+      ],
+      "similarity": 0.096
+    },
+    {
+      "bytes": 5477,
+      "closest_installed": "artifact-template-business-review",
+      "description": "Reorganize the user's X and LinkedIn network with review-first pruning, add/follow recommendations, and channel-specific warm outreach drafted in the user's real voice. Use when the user wants to clean up following lists, grow toward current priorities, or rebalance a social graph around higher-signal relationships.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "connections-optimizer",
+      "path": "skills/connections-optimizer/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.127
+    },
+    {
+      "bytes": 4370,
+      "closest_installed": "artifact-template-operating-calendar",
+      "description": "Create platform-native content systems for X, LinkedIn, TikTok, YouTube, newsletters, and repurposed multi-platform campaigns. Use when the user wants social posts, threads, scripts, content calendars, or one source asset adapted cleanly across platforms.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "content-engine",
+      "path": "skills/content-engine/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.14
+    },
+    {
+      "bytes": 5616,
+      "closest_installed": "artifact-template-experiment-analysis",
+      "description": "Cache expensive file processing results using SHA-256 content hashes \u2014 path-independent, auto-invalidating, with service layer separation.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "content-hash-cache-pattern",
+      "path": "skills/content-hash-cache-pattern/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.098
+    },
+    {
+      "bytes": 5707,
+      "closest_installed": "screenshot",
+      "description": "Audits Claude Code context window consumption across agents, skills, MCP servers, and rules. Identifies bloat, redundant components, and produces prioritized token-savings recommendations.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "context-budget",
+      "path": "skills/context-budget/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.044
+    },
+    {
+      "bytes": 1095,
+      "closest_installed": "sites-hosting",
+      "description": "Patterns for continuous autonomous agent loops with quality gates, evals, and recovery controls.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "continuous-agent-loop",
+      "path": "skills/continuous-agent-loop/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.103
+    },
+    {
+      "bytes": 7301,
+      "closest_installed": "Spreadsheets",
+      "description": "[DEPRECATED - use continuous-learning-v2] Legacy v1 stop-hook skill extractor. v2 is a strict superset with instinct-based, project-scoped, hook-reliable learning. Do not invoke v1; route continuous learning, session learning, and pattern extraction requests to continuous-learning-v2.",
+      "disposition": "reference_only",
+      "files": 3,
+      "name": "continuous-learning",
+      "path": "skills/continuous-learning/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "autonomous_mutation",
+        "home_mutation"
+      ],
+      "similarity": 0.085
+    },
+    {
+      "bytes": 214515,
+      "closest_installed": "skill-creator",
+      "description": "Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/commands/agents. v2.1 adds project-scoped instincts to prevent cross-project contamination.",
+      "disposition": "reference_only",
+      "files": 12,
+      "name": "continuous-learning-v2",
+      "path": "skills/continuous-learning-v2/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "autonomous_mutation",
+        "credential_or_secret",
+        "destructive_shell",
+        "home_mutation"
+      ],
+      "similarity": 0.059
+    },
+    {
+      "bytes": 5730,
+      "closest_installed": "playwright-interactive",
+      "description": "Cost optimization patterns for LLM API usage \u2014 model routing by task complexity, budget tracking, retry logic, and prompt caching.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "cost-aware-llm-pipeline",
+      "path": "skills/cost-aware-llm-pipeline/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.074
+    },
+    {
+      "bytes": 4465,
+      "closest_installed": "gh-fix-ci",
+      "description": "Track and report Claude Code token usage, spending, and budgets from the local ECC cost-tracker metrics log. Use when the user asks about costs, spending, usage, tokens, budgets, or cost breakdowns by model, session, or date.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "cost-tracking",
+      "path": "skills/cost-tracking/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.163
+    },
+    {
+      "bytes": 6358,
+      "closest_installed": "github",
+      "description": "Convene a four-voice council for ambiguous decisions, tradeoffs, and go/no-go calls. Use when multiple valid paths exist and you need structured disagreement before choosing.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "council",
+      "path": "skills/council/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.133
+    },
+    {
+      "bytes": 22291,
+      "closest_installed": "security-best-practices",
+      "description": "C++ coding standards based on the C++ Core Guidelines (isocpp.github.io). Use when writing, reviewing, or refactoring C++ code to enforce modern, safe, and idiomatic practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "cpp-coding-standards",
+      "path": "skills/cpp-coding-standards/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.115
+    },
+    {
+      "bytes": 9175,
+      "closest_installed": "gh-fix-ci",
+      "description": "Use only when writing/updating/fixing C++ tests, configuring GoogleTest/CTest, diagnosing failing or flaky tests, or adding coverage/sanitizers.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "cpp-testing",
+      "path": "skills/cpp-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.071
+    },
+    {
+      "bytes": 3447,
+      "closest_installed": "artifact-template-business-review",
+      "description": "Multi-platform content distribution across X, LinkedIn, Threads, and Bluesky. Adapts content per platform using content-engine patterns. Never posts identical content cross-platform. Use when the user wants to distribute content across social platforms.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "crosspost",
+      "path": "skills/crosspost/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.133
+    },
+    {
+      "bytes": 8631,
+      "closest_installed": "skill-creator",
+      "description": "C# and .NET testing patterns with xUnit, FluentAssertions, mocking, integration tests, and test organization best practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "csharp-testing",
+      "path": "skills/csharp-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.073
+    },
+    {
+      "bytes": 4289,
+      "closest_installed": "github",
+      "description": "Operate customer billing workflows such as subscriptions, refunds, churn triage, billing-portal recovery, and plan analysis using connected billing tools like Stripe. Use when the user needs to help a customer, inspect subscription state, or manage revenue-impacting billing operations.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "customer-billing-ops",
+      "path": "skills/customer-billing-ops/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.173
+    },
+    {
+      "bytes": 29047,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "customs-trade-compliance",
+      "path": "skills/customs-trade-compliance/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 15920,
+      "closest_installed": "sites-hosting",
+      "description": "Production-ready Dart and Flutter patterns covering null safety, immutable state, async composition, widget architecture, popular state management frameworks (BLoC, Riverpod, Provider), GoRouter navigation, Dio networking, Freezed code generation, and clean architecture.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "dart-flutter-patterns",
+      "path": "skills/dart-flutter-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.043
+    },
+    {
+      "bytes": 2356,
+      "closest_installed": "skilltree-operator",
+      "description": "Build monitoring dashboards that answer real operator questions for Grafana, SigNoz, and similar platforms. Use when turning metrics into a working dashboard instead of a vanity board.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "dashboard-builder",
+      "path": "skills/dashboard-builder/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.123
+    },
+    {
+      "bytes": 24094,
+      "closest_installed": "gh-fix-ci",
+      "description": "Build a fully automated AI-powered data collection agent for any public source \u2014 job boards, prices, news, GitHub, sports, anything. Runs on a schedule, enriches data with a free LLM (Gemini Flash), stores results in Notion/Sheets/Supabase, and learns from user feedback. Runs 100% free on GitHub Actions. Use when the user wants to monitor, collect, or track any public data automatically.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "data-scraper-agent",
+      "path": "skills/data-scraper-agent/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.154
+    },
+    {
+      "bytes": 2612,
+      "closest_installed": "playwright",
+      "description": "Use when large data ingestion, backfill, export, ETL, warehouse loading, manifest catch-up, or table synchronization needs to become much faster while preserving data correctness.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "data-throughput-accelerator",
+      "path": "skills/data-throughput-accelerator/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.07
+    },
+    {
+      "bytes": 11851,
+      "closest_installed": "security-best-practices",
+      "description": "Database migration best practices for schema changes, data migrations, rollbacks, and zero-downtime deployments across PostgreSQL, MySQL, and common ORMs (Prisma, Drizzle, Kysely, Django, TypeORM, golang-migrate).",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "database-migrations",
+      "path": "skills/database-migrations/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.067
+    },
+    {
+      "bytes": 4798,
+      "closest_installed": "artifact-template-design-report",
+      "description": "Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. Use when the user wants thorough research on any topic with evidence and citations.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "deep-research",
+      "path": "skills/deep-research/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.196
+    },
+    {
+      "bytes": 5315,
+      "closest_installed": "playwright-interactive",
+      "description": "Security checklist for Solidity AMM contracts, liquidity pools, and swap flows. Covers reentrancy, CEI ordering, donation or inflation attacks, oracle manipulation, slippage, admin controls, and integer math.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "defi-amm-security",
+      "path": "skills/defi-amm-security/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.059
+    },
+    {
+      "bytes": 12830,
+      "closest_installed": "gh-fix-ci",
+      "description": "Stop hook that blocks Claude from finishing until quality checks pass. Detects rationalization patterns (surface text heuristics), stale learning logs (filesystem mtime), and low disk space. Complements self-audit by mechanically enforcing learning capture habits.",
+      "disposition": "reference_only",
+      "files": 2,
+      "name": "delivery-gate",
+      "path": "skills/delivery-gate/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.069
+    },
+    {
+      "bytes": 11012,
+      "closest_installed": "browser-use",
+      "description": "Deployment workflows, CI/CD pipeline patterns, Docker containerization, health checks, rollback strategies, and production readiness checklists for web applications.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "deployment-patterns",
+      "path": "skills/deployment-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "network_execution"
+      ],
+      "similarity": 0.1
+    },
+    {
+      "bytes": 2492,
+      "closest_installed": "gh-fix-ci",
+      "description": "Use this skill to generate or audit design systems, check visual consistency, and review PRs that touch styling.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "design-system",
+      "path": "skills/design-system/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.125
+    },
+    {
+      "bytes": 13134,
+      "closest_installed": "screenshot",
+      "description": "Django + Celery async task patterns \u2014 configuration, task design, beat scheduling, retries, canvas workflows, monitoring, and testing. Use when adding background jobs, scheduled tasks, or async processing to a Django app.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "django-celery",
+      "path": "skills/django-celery/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.089
+    },
+    {
+      "bytes": 21037,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Django architecture patterns, REST API design with DRF, ORM best practices, caching, signals, middleware, and production-grade Django apps.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "django-patterns",
+      "path": "skills/django-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.073
+    },
+    {
+      "bytes": 17172,
+      "closest_installed": "security-best-practices",
+      "description": "Django security best practices, authentication, authorization, CSRF protection, SQL injection prevention, XSS prevention, and secure deployment configurations.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "django-security",
+      "path": "skills/django-security/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.102
+    },
+    {
+      "bytes": 20934,
+      "closest_installed": "yeet",
+      "description": "Django testing strategies with pytest-django, TDD methodology, factory_boy, mocking, coverage, and testing Django REST Framework APIs.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "django-tdd",
+      "path": "skills/django-tdd/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 11491,
+      "closest_installed": "sites-hosting",
+      "description": "Verification loop for Django projects: migrations, linting, tests with coverage, security scans, and deployment readiness checks before release or PR.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "django-verification",
+      "path": "skills/django-verification/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.156
+    },
+    {
+      "bytes": 6336,
+      "closest_installed": "plugin-creator",
+      "description": "Multi-agent orchestration using dmux (tmux pane manager for AI agents). Patterns for parallel agent workflows across Claude Code, Codex, OpenCode, and other harnesses. Use when running multiple agent sessions in parallel or coordinating multi-agent development workflows.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "dmux-workflows",
+      "path": "skills/dmux-workflows/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.095
+    },
+    {
+      "bytes": 8263,
+      "closest_installed": "playwright-interactive",
+      "description": "Docker and Docker Compose patterns for local development, container security, networking, volume strategies, and multi-service orchestration.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "docker-patterns",
+      "path": "skills/docker-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "network_execution"
+      ],
+      "similarity": 0.083
+    },
+    {
+      "bytes": 4912,
+      "closest_installed": "openai-docs",
+      "description": "Use up-to-date library and framework docs via Context7 MCP instead of training data. Activates for setup questions, API references, code examples, or when the user names a framework (e.g. React, Next.js, Prisma).",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "documentation-lookup",
+      "path": "skills/documentation-lookup/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.161
+    },
+    {
+      "bytes": 9232,
+      "closest_installed": "sites-hosting",
+      "description": "Idiomatic C# and .NET patterns, conventions, dependency injection, async/await, and best practices for building robust, maintainable .NET applications.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "dotnet-patterns",
+      "path": "skills/dotnet-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.094
+    },
+    {
+      "bytes": 5281,
+      "closest_installed": "find-skills",
+      "description": "Design task-local harnesses, eval gates, and reusable skill extraction for Claude dynamic workflow mode and other adaptive agent harnesses.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "dynamic-workflow-mode",
+      "path": "skills/dynamic-workflow-mode/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.085
+    },
+    {
+      "bytes": 8077,
+      "closest_installed": "browser-use",
+      "description": "Playwright E2E testing patterns, Page Object Model, configuration, CI/CD integration, artifact management, and flaky test strategies.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "e2e-testing",
+      "path": "skills/e2e-testing/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.069
+    },
+    {
+      "bytes": 5611,
+      "closest_installed": "github",
+      "description": "Guide users through ECC's current agents, skills, commands, hooks, rules, install profiles, and project onboarding by reading the live repository surface before answering.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "ecc-guide",
+      "path": "skills/ecc-guide/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.109
+    },
+    {
+      "bytes": 6555,
+      "closest_installed": "morning",
+      "description": "Map a described workflow to the right ECC command-GROUP with run-order and stop condition, and browse all command-group recipe families. Adds a family-grouping + run-order + when-to-stop layer on top of the flat command catalog. Advisory only. TRIGGER when the user says which commands for X, what command group runs X, show ECC recipes, list ECC pipelines, or how do I run a workflow with ECC. DO NOT TRIGGER when the user wants the task executed directly, wants a single-command deep doc (use ecc-guide), or wants a draft prompt rewritten (use prompt-optimizer).",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "ecc-recipes",
+      "path": "skills/ecc-recipes/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.125
+    },
+    {
+      "bytes": 6496,
+      "closest_installed": "github",
+      "description": "Evidence-first ECC Tools burn and billing audit workflow. Use when investigating runaway PR creation, quota bypass, premium-model leakage, duplicate jobs, or GitHub App cost spikes in the ECC Tools repo.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ecc-tools-cost-audit",
+      "path": "skills/ecc-tools-cost-audit/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.143
+    },
+    {
+      "bytes": 3445,
+      "closest_installed": "github",
+      "description": "Evidence-first mailbox triage, drafting, send verification, and sent-mail-safe follow-up workflow for ECC. Use when the user wants to organize email, draft or send through the real mail surface, or prove what landed in Sent.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "email-ops",
+      "path": "skills/email-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.208
+    },
+    {
+      "bytes": 30079,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "energy-procurement",
+      "path": "skills/energy-procurement/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 1216,
+      "closest_installed": "sites-hosting",
+      "description": "Operate long-lived agent workloads with observability, security boundaries, and lifecycle management.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "enterprise-agent-ops",
+      "path": "skills/enterprise-agent-ops/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.107
+    },
+    {
+      "bytes": 10863,
+      "closest_installed": "security-best-practices",
+      "description": "Patterns for robust error handling across TypeScript, Python, and Go. Covers typed errors, error boundaries, retries, circuit breakers, and user-facing error messages.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "error-handling",
+      "path": "skills/error-handling/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.096
+    },
+    {
+      "bytes": 6506,
+      "closest_installed": "security-best-practices",
+      "description": "Formal evaluation framework for Claude Code sessions implementing eval-driven development (EDD) principles",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "eval-harness",
+      "path": "skills/eval-harness/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.062
+    },
+    {
+      "bytes": 3859,
+      "closest_installed": "sites-building",
+      "description": "Prevent silent decimal mismatch bugs across EVM chains. Covers runtime decimal lookup, chain-aware caching, bridged-token precision drift, and safe normalization for bots, dashboards, and DeFi tools.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "evm-token-decimals",
+      "path": "skills/evm-token-decimals/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.065
+    },
+    {
+      "bytes": 3620,
+      "closest_installed": "account-research",
+      "description": "Neural search via Exa MCP for web, code, and company research. Use when the user needs web search, code examples, company intel, people lookup, or AI-powered deep research with Exa's neural search engine.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "exa-search",
+      "path": "skills/exa-search/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.182
+    },
+    {
+      "bytes": 7158,
+      "closest_installed": "transcribe",
+      "description": "Unified media generation via fal.ai MCP \u2014 image, video, and audio. Covers text-to-image (Nano Banana), text/image-to-video (Seedance, Kling, Veo 3), text-to-speech (CSM-1B), and video-to-audio (ThinkSound). Use when the user wants to generate images, videos, or audio with AI.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "fal-ai-media",
+      "path": "skills/fal-ai-media/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.205
+    },
+    {
+      "bytes": 15525,
+      "closest_installed": "browser-use",
+      "description": "FastAPI best practices covering project structure, Pydantic v2 schemas, dependency injection, async handlers, authentication, authorization, transactional service layers, and testing with httpx and pytest.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "fastapi-patterns",
+      "path": "skills/fastapi-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.056
+    },
+    {
+      "bytes": 3831,
+      "closest_installed": "github",
+      "description": "Evidence-first revenue, pricing, refunds, team-billing, and billing-model truth workflow for ECC. Use when the user wants a sales snapshot, pricing comparison, duplicate-charge diagnosis, or code-backed billing reality instead of generic payments advice.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "finance-billing-ops",
+      "path": "skills/finance-billing-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.154
+    },
+    {
+      "bytes": 14220,
+      "closest_installed": "template-creator",
+      "description": "Create reproducible, cross-platform (macOS/Linux) development environments with Flox, a declarative Nix-based environment manager. Use when setting up project toolchains for any language, installing system-level dependencies (compilers, databases, native libs like openssl/BLAS), pinning exact package versions for a team, running local services (PostgreSQL, Redis, Kafka), onboarding developers with one command, or solving 'works on my machine' problems \u2014 including agent/vibe-coding setups that need project-scoped tools without sudo. Also use when the user mentions .flox/, manifest.toml, flox activate, or FloxHub.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "flox-environments",
+      "path": "skills/flox-environments/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "destructive_shell"
+      ],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 23101,
+      "closest_installed": "security-best-practices",
+      "description": "Library-agnostic Flutter/Dart code review checklist covering widget best practices, state management patterns (BLoC, Riverpod, Provider, GetX, MobX, Signals), Dart idioms, performance, accessibility, security, and clean architecture.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "flutter-dart-code-review",
+      "path": "skills/flutter-dart-code-review/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.102
+    },
+    {
+      "bytes": 8176,
+      "closest_installed": "sites-hosting",
+      "description": "Apple FoundationModels framework for on-device LLM \u2014 text generation, guided generation with @Generable, tool calling, and snapshot streaming in iOS 26+.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "foundation-models-on-device",
+      "path": "skills/foundation-models-on-device/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 12724,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "frontend-a11y",
+      "path": "skills/frontend-a11y/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 4360,
+      "closest_installed": "sites-building",
+      "description": "Set an ECC-specific frontend design direction for production UI work. Use when building or improving websites, dashboards, applications, components, landing pages, visual tools, or any web UI that needs stronger product-specific design judgment.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "frontend-design-direction",
+      "path": "skills/frontend-design-direction/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.159
+    },
+    {
+      "bytes": 15342,
+      "closest_installed": "sites-hosting",
+      "description": "Frontend development patterns for React, Next.js, state management, performance optimization, and UI best practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "frontend-patterns",
+      "path": "skills/frontend-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.103
+    },
+    {
+      "bytes": 51704,
+      "closest_installed": "template-creator",
+      "description": "Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. Use when the user wants to build a presentation, convert a PPT/PPTX to web, or create slides for a talk/pitch. Helps non-designers discover their aesthetic through visual exploration rather than abstract choices.",
+      "disposition": "reference_only",
+      "files": 7,
+      "name": "frontend-slides",
+      "path": "skills/frontend-slides/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "destructive_shell",
+        "network_execution"
+      ],
+      "similarity": 0.136
+    },
+    {
+      "bytes": 7874,
+      "closest_installed": "skill-creator",
+      "description": "F# testing patterns with xUnit, FsUnit, Unquote, FsCheck property-based testing, integration tests, and test organization best practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "fsharp-testing",
+      "path": "skills/fsharp-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.07
+    },
+    {
+      "bytes": 12178,
+      "closest_installed": "sites-hosting",
+      "description": "GAN-inspired Generator-Evaluator agent harness for building high-quality applications autonomously. Based on Anthropic's March 2026 harness design paper.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "gan-style-harness",
+      "path": "skills/gan-style-harness/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.057
+    },
+    {
+      "bytes": 5214,
+      "closest_installed": "gh-fix-ci",
+      "description": "Fact-forcing gate that blocks Edit/Write/Bash (including MultiEdit) and demands concrete investigation (importers, data schemas, user instruction) before allowing the action. Measurably improves output quality by +2.25 points vs ungated agents.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "gateguard",
+      "path": "skills/gateguard/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "destructive_shell"
+      ],
+      "similarity": 0.093
+    },
+    {
+      "bytes": 30319,
+      "closest_installed": "security-best-practices",
+      "description": "Commercial-grade Python installer expert for Windows: Nuitka extreme compilation, dist slimming, DLL footprint analysis, and Inno Setup packaging to ship the smallest, fastest installers. Use only for advanced packaging/optimization (minimal size, fast startup), not basic script-to-exe conversion. \u4e2d\u6587\u89e6\u53d1\uff1aNuitka \u6781\u9650\u4f18\u5316\u3001Python \u5546\u4e1a\u6253\u5305\u3001\u6781\u9650\u7f16\u8bd1 Python\u3001dist \u7626\u8eab\u3001DLL \u5206\u6790\u3001\u6700\u5c0f\u5b89\u88c5\u5305\u3001\u6700\u5feb\u542f\u52a8\u3001\u5546\u4e1a\u7ea7\u6253\u5305\u98ce\u683c",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "generating-python-installer",
+      "path": "skills/generating-python-installer/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.087
+    },
+    {
+      "bytes": 15069,
+      "closest_installed": "security-best-practices",
+      "description": "Git workflow patterns including branching strategies, commit conventions, merge vs rebase, conflict resolution, and collaborative development best practices for teams of all sizes.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "git-workflow",
+      "path": "skills/git-workflow/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "destructive_shell",
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.073
+    },
+    {
+      "bytes": 4639,
+      "closest_installed": "github",
+      "description": "GitHub repository operations, automation, and management. Issue triage, PR management, CI/CD operations, release management, and security monitoring using the gh CLI. Use when the user wants to manage GitHub issues, PRs, CI status, releases, contributors, stale items, or any GitHub operational task beyond simple git commands.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "github-ops",
+      "path": "skills/github-ops/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.192
+    },
+    {
+      "bytes": 14042,
+      "closest_installed": "sites-hosting",
+      "description": "Idiomatic Go patterns, best practices, and conventions for building robust, efficient, and maintainable Go applications.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "golang-patterns",
+      "path": "skills/golang-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.107
+    },
+    {
+      "bytes": 16650,
+      "closest_installed": "yeet",
+      "description": "Go testing patterns including table-driven tests, subtests, benchmarks, fuzzing, and test coverage. Follows TDD methodology with idiomatic Go practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "golang-testing",
+      "path": "skills/golang-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.071
+    },
+    {
+      "bytes": 2736,
+      "closest_installed": "jupyter-notebook",
+      "description": "Operate across Google Drive, Docs, Sheets, and Slides as one workflow surface for plans, trackers, decks, and shared documents. Use when the user needs to find, summarize, edit, migrate, or clean up Google Workspace assets without dropping to raw tool calls.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "google-workspace-ops",
+      "path": "skills/google-workspace-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.151
+    },
+    {
+      "bytes": 6764,
+      "closest_installed": "schedule",
+      "description": "Use after a complex task, failure, or when reviewing what was learned. Teaches how to write growth logs that extract reusable patterns \u2014 not diary entries.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "growth-log",
+      "path": "skills/growth-log/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 9332,
+      "closest_installed": "playwright-interactive",
+      "description": "Clinical Decision Support System (CDSS) development patterns. Drug interaction checking, dose validation, clinical scoring (NEWS2, qSOFA), alert severity classification, and integration into EMR workflows.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "healthcare-cdss-patterns",
+      "path": "skills/healthcare-cdss-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.062
+    },
+    {
+      "bytes": 6625,
+      "closest_installed": "pdf",
+      "description": "EMR/EHR development patterns for healthcare applications. Clinical safety, encounter workflows, prescription generation, clinical decision support integration, and accessibility-first UI for medical data entry.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "healthcare-emr-patterns",
+      "path": "skills/healthcare-emr-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.068
+    },
+    {
+      "bytes": 7719,
+      "closest_installed": "skill-creator",
+      "description": "Patient safety evaluation harness for healthcare application deployments. Automated test suites for CDSS accuracy, PHI exposure, clinical workflow integrity, and integration compliance. Blocks deployments on safety failures.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "healthcare-eval-harness",
+      "path": "skills/healthcare-eval-harness/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.082
+    },
+    {
+      "bytes": 5573,
+      "closest_installed": "browser-use",
+      "description": "Protected Health Information (PHI) and Personally Identifiable Information (PII) compliance patterns for healthcare applications. Covers data classification, access control, audit trails, encryption, and common leak vectors.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "healthcare-phi-compliance",
+      "path": "skills/healthcare-phi-compliance/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.081
+    },
+    {
+      "bytes": 3006,
+      "closest_installed": "skill-installer",
+      "description": "Convert local Hermes operator workflows into sanitized ECC skills and release-pack artifacts. Use when preparing a Hermes workflow for public ECC reuse without leaking private workspace state, credentials, or local-only paths.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "hermes-imports",
+      "path": "skills/hermes-imports/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.114
+    },
+    {
+      "bytes": 11405,
+      "closest_installed": "artifact-template-design-report",
+      "description": "Design, implement, and refactor Ports & Adapters systems with clear domain boundaries, dependency inversion, and testable use-case orchestration across TypeScript, Java, Kotlin, and Go services.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "hexagonal-architecture",
+      "path": "skills/hexagonal-architecture/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.089
+    },
+    {
+      "bytes": 3629,
+      "closest_installed": "screenshot",
+      "description": "HIPAA-specific entrypoint for healthcare privacy and security work. Use when a task is explicitly framed around HIPAA, PHI handling, covered entities, BAAs, breach posture, or US healthcare compliance requirements.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "hipaa-compliance",
+      "path": "skills/hipaa-compliance/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.14
+    },
+    {
+      "bytes": 7571,
+      "closest_installed": "playwright-interactive",
+      "description": "Readiness checklist for homelab VLAN segmentation, local DNS filtering, and WireGuard-style remote access before changing router, firewall, DHCP, or VPN configuration.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "homelab-network-readiness",
+      "path": "skills/homelab-network-readiness/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.067
+    },
+    {
+      "bytes": 4319,
+      "closest_installed": "playwright-interactive",
+      "description": "Practical home and homelab network planning for gateways, switches, access points, IP ranges, DHCP reservations, DNS, cabling, and common beginner mistakes.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "homelab-network-setup",
+      "path": "skills/homelab-network-setup/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.071
+    },
+    {
+      "bytes": 9400,
+      "closest_installed": "sites-hosting",
+      "description": "Pi-hole installation, blocklist management, DNS-over-HTTPS setup, DHCP integration, local DNS records, and troubleshooting broken DNS resolution on a home network.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "homelab-pihole-dns",
+      "path": "skills/homelab-pihole-dns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "destructive_shell",
+        "network_execution"
+      ],
+      "similarity": 0.057
+    },
+    {
+      "bytes": 10172,
+      "closest_installed": "skill-installer",
+      "description": "Segmenting home networks into VLANs for IoT, guest, trusted, and server traffic using UniFi, pfSense/OPNsense, and MikroTik \u2014 including switch trunk config, firewall rules, and wireless SSID mapping.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "homelab-vlan-segmentation",
+      "path": "skills/homelab-vlan-segmentation/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.068
+    },
+    {
+      "bytes": 10510,
+      "closest_installed": "skill-installer",
+      "description": "WireGuard VPN server setup, peer configuration, key generation, split tunneling vs full tunnel routing, and remote access to a home network from mobile and laptop clients.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "homelab-wireguard-vpn",
+      "path": "skills/homelab-wireguard-vpn/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "destructive_shell"
+      ],
+      "similarity": 0.049
+    },
+    {
+      "bytes": 3534,
+      "closest_installed": "find-skills",
+      "description": "This skill should be used when the user asks to create a hookify rule, write a hook rule, configure hookify, add a hookify rule, or needs guidance on hookify rule syntax and patterns.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "hookify-rules",
+      "path": "skills/hookify-rules/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "destructive_shell",
+        "home_mutation"
+      ],
+      "similarity": 0.178
+    },
+    {
+      "bytes": 8552,
+      "closest_installed": "security-best-practices",
+      "description": "Legacy-project style inheritance skill. Use when the user types /inherit-legacy-style, or when onboarding an AI coding agent onto a hand-written legacy project and you need to prevent \"style drift\" (the model imposing its pretrained mainstream idioms onto the project). Language- and framework-agnostic \u2014 it aligns meta-architecture only, not syntax. Once run, it becomes a behavioral constraint on all subsequent coding tasks. Do NOT use for pure research or one-off questions unrelated to code-style alignment.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "inherit-legacy-style",
+      "path": "skills/inherit-legacy-style/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.15
+    },
+    {
+      "bytes": 17199,
+      "closest_installed": "security-best-practices",
+      "description": "Turn ambiguous or high-impact product and engineering changes into scoped, verifiable acceptance criteria before or alongside implementation. Use when a user asks to clarify a feature, define acceptance criteria, de-risk a security/data/migration/integration change, prepare implementation requirements for another agent, or make a complex request testable. Do not trigger for trivial edits, straightforward fixes, active debugging, code review, or implementation requests whose acceptance conditions are already clear unless the user explicitly invokes this skill.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "intent-driven-development",
+      "path": "skills/intent-driven-development/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.153
+    },
+    {
+      "bytes": 24510,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "inventory-demand-planning",
+      "path": "skills/inventory-demand-planning/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 2735,
+      "closest_installed": "artifact-template-financial-budget",
+      "description": "Create and update pitch decks, one-pagers, investor memos, accelerator applications, financial models, and fundraising materials. Use when the user needs investor-facing documents, projections, use-of-funds tables, milestone plans, or materials that must stay internally consistent across multiple fundraising assets.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "investor-materials",
+      "path": "skills/investor-materials/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.151
+    },
+    {
+      "bytes": 2655,
+      "closest_installed": "github",
+      "description": "Draft cold emails, warm intro blurbs, follow-ups, update emails, and investor communications for fundraising. Use when the user wants outreach to angels, VCs, strategic investors, or accelerators and needs concise, personalized, investor-facing messaging.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "investor-outreach",
+      "path": "skills/investor-outreach/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.157
+    },
+    {
+      "bytes": 21122,
+      "closest_installed": "imagegen",
+      "description": "Generate iOS app icons as PNG imagesets for Xcode asset catalogs from SF Symbols (5000+ Apple-native) or Iconify API (275k+ open source icons from 200+ collections). Use when generating icons, creating icon assets, adding icons to asset catalog, or searching for icons for iOS projects.",
+      "disposition": "reference_only",
+      "files": 3,
+      "name": "ios-icon-gen",
+      "path": "skills/ios-icon-gen/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.096
+    },
+    {
+      "bytes": 6693,
+      "closest_installed": "gh-fix-ci",
+      "description": "Pattern for progressively refining context retrieval to solve the subagent context problem",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "iterative-retrieval",
+      "path": "skills/iterative-retrieval/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.083
+    },
+    {
+      "bytes": 2201,
+      "closest_installed": "artifact-template-investment-committee-memo",
+      "description": "Compare It\u00f4 prediction-market baskets against a user's knowledge base, portfolio notes, financial context, watchlist, or research thesis. Use for read-only basket comparison and gap analysis without investment advice or live trading.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ito-basket-compare",
+      "path": "skills/ito-basket-compare/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.14
+    },
+    {
+      "bytes": 2272,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Design background Data Atlas style agents for It\u00f4 basket research, market discovery, parameter drafting, and human-in-the-loop editing. Use for architecture and workflow planning, not live order execution.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ito-data-atlas-agent",
+      "path": "skills/ito-data-atlas-agent/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.13
+    },
+    {
+      "bytes": 2352,
+      "closest_installed": "pdf",
+      "description": "Research prediction-market events, venues, underliers, liquidity, and news context for It\u00f4 basket workflows. Use for read-only market intelligence, API-gated It\u00f4 exploration, and source-grounded prediction-market briefings without investment advice or live trading.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ito-market-intelligence",
+      "path": "skills/ito-market-intelligence/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.082
+    },
+    {
+      "bytes": 1994,
+      "closest_installed": "openai-docs",
+      "description": "Build a non-advisory prediction-market trade planning worksheet for It\u00f4 or venue workflows. Use to inspect venues, underliers, constraints, order prerequisites, and manual execution steps without placing trades or recommending positions.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ito-trade-planner",
+      "path": "skills/ito-trade-planner/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 11478,
+      "closest_installed": "security-best-practices",
+      "description": "Java coding standards for Spring Boot and Quarkus services: naming, immutability, Optional usage, streams, exceptions, generics, CDI, reactive patterns, and project layout. Automatically applies framework-specific conventions.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "java-coding-standards",
+      "path": "skills/java-coding-standards/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.085
+    },
+    {
+      "bytes": 9025,
+      "closest_installed": "gh-address-comments",
+      "description": "Use this skill when retrieving Jira tickets, analyzing requirements, updating ticket status, adding comments, or transitioning issues. Provides Jira API patterns via MCP or direct REST calls.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "jira-integration",
+      "path": "skills/jira-integration/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.082
+    },
+    {
+      "bytes": 4560,
+      "closest_installed": "playwright-interactive",
+      "description": "JPA/Hibernate patterns for entity design, relationships, query optimization, transactions, auditing, indexing, pagination, and pooling in Spring Boot.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "jpa-patterns",
+      "path": "skills/jpa-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 6752,
+      "closest_installed": "github",
+      "description": "Knowledge base management, ingestion, sync, and retrieval across multiple storage layers (local files, MCP memory, vector stores, Git repos). Use when the user wants to save, organize, sync, deduplicate, or search across their knowledge systems.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "knowledge-ops",
+      "path": "skills/knowledge-ops/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.113
+    },
+    {
+      "bytes": 7766,
+      "closest_installed": "browser-use",
+      "description": "Kotlin Coroutines and Flow patterns for Android and KMP \u2014 structured concurrency, Flow operators, StateFlow, error handling, and testing.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "kotlin-coroutines-flows",
+      "path": "skills/kotlin-coroutines-flows/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.107
+    },
+    {
+      "bytes": 22019,
+      "closest_installed": "sites-building",
+      "description": "JetBrains Exposed ORM patterns including DSL queries, DAO pattern, transactions, HikariCP connection pooling, Flyway migrations, and repository pattern.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "kotlin-exposed-patterns",
+      "path": "skills/kotlin-exposed-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.053
+    },
+    {
+      "bytes": 19447,
+      "closest_installed": "browser-use",
+      "description": "Ktor server patterns including routing DSL, plugins, authentication, Koin DI, kotlinx.serialization, WebSockets, and testApplication testing.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "kotlin-ktor-patterns",
+      "path": "skills/kotlin-ktor-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.069
+    },
+    {
+      "bytes": 18854,
+      "closest_installed": "sites-hosting",
+      "description": "Idiomatic Kotlin patterns, best practices, and conventions for building robust, efficient, and maintainable Kotlin applications with coroutines, null safety, and DSL builders.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "kotlin-patterns",
+      "path": "skills/kotlin-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.118
+    },
+    {
+      "bytes": 20703,
+      "closest_installed": "yeet",
+      "description": "Kotlin testing patterns with Kotest, MockK, coroutine testing, property-based testing, and Kover coverage. Follows TDD methodology with idiomatic Kotlin practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "kotlin-testing",
+      "path": "skills/kotlin-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.073
+    },
+    {
+      "bytes": 19987,
+      "closest_installed": "playwright-interactive",
+      "description": "Kubernetes workload patterns, resource management, RBAC, probes, autoscaling, ConfigMap/Secret handling, and kubectl debugging for production-grade deployments.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "kubernetes-patterns",
+      "path": "skills/kubernetes-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.115
+    },
+    {
+      "bytes": 10551,
+      "closest_installed": "control-in-app-browser",
+      "description": "Laravel architecture patterns, routing/controllers, Eloquent ORM, service layers, queues, events, caching, and API resources for production apps.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "laravel-patterns",
+      "path": "skills/laravel-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.08
+    },
+    {
+      "bytes": 6393,
+      "closest_installed": "gh-fix-ci",
+      "description": "Discover and evaluate Laravel packages via LaraPlugins.io MCP. Use when the user wants to find plugins, check package health, or assess Laravel/PHP compatibility.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "laravel-plugin-discovery",
+      "path": "skills/laravel-plugin-discovery/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.136
+    },
+    {
+      "bytes": 26452,
+      "closest_installed": "security-best-practices",
+      "description": "Laravel security best practices \u2014 authentication, authorization, Eloquent safety, CSRF, XSS prevention, API security, and secure deployment configurations.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "laravel-security",
+      "path": "skills/laravel-security/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.102
+    },
+    {
+      "bytes": 17769,
+      "closest_installed": "yeet",
+      "description": "Laravel testing strategies with PHPUnit, Pest, model factories, HTTP tests, Sanctum authentication testing, mocking, and coverage.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "laravel-tdd",
+      "path": "skills/laravel-tdd/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 4262,
+      "closest_installed": "sites-hosting",
+      "description": "Verification loop for Laravel projects: env checks, linting, static analysis, tests with coverage, security scans, and deployment readiness.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "laravel-verification",
+      "path": "skills/laravel-verification/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.156
+    },
+    {
+      "bytes": 2373,
+      "closest_installed": "pdf",
+      "description": "Use for latency-sensitive systems such as realtime dashboards, market data, streaming agents, execution gateways, queues, caches, or HFT-like infrastructure where freshness and p95 latency matter.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "latency-critical-systems",
+      "path": "skills/latency-critical-systems/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.114
+    },
+    {
+      "bytes": 21738,
+      "closest_installed": "github",
+      "description": "AI-native lead intelligence and outreach pipeline. Replaces Apollo, Clay, and ZoomInfo with agent-powered signal scoring, mutual ranking, warm path discovery, source-derived voice modeling, and channel-specific outreach across email, LinkedIn, and X. Use when the user wants to find, qualify, and reach high-value contacts.",
+      "disposition": "defer_on_demand",
+      "files": 5,
+      "name": "lead-intelligence",
+      "path": "skills/lead-intelligence/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.113
+    },
+    {
+      "bytes": 9045,
+      "closest_installed": "sites-hosting",
+      "description": "iOS 26 Liquid Glass design system \u2014 dynamic glass material with blur, reflection, and interactive morphing for SwiftUI, UIKit, and WidgetKit.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "liquid-glass-design",
+      "path": "skills/liquid-glass-design/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 4506,
+      "closest_installed": "sites-hosting",
+      "description": "Security patterns for autonomous trading agents with wallet or transaction authority. Covers prompt injection, spend limits, pre-send simulation, circuit breakers, MEV protection, and key handling.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "llm-trading-agent-security",
+      "path": "skills/llm-trading-agent-security/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.073
+    },
+    {
+      "bytes": 16879,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "logistics-exception-management",
+      "path": "skills/logistics-exception-management/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 12492,
+      "closest_installed": "gh-fix-ci",
+      "description": "Design a goal-oriented agent loop, and review it for the ways loops go wrong \u2014 spinning and burning tokens, Goodhart-gaming the verifier, or running a wrong answer to completion. Two actions: (1) WRITE a loop \u2014 gate whether to build it, define a machine-decidable goal, pick the loop type, pick a skeleton; (2) REVIEW a loop \u2014 run it past five failure modes plus decidability, boundaries, fallback, judge independence, and keep-judgment-with-the-human red lines. Use when designing an autonomous agent loop, or when you already have one and worry it will spin, cheat, or run a wrong answer to the end. Complements the mechanism-layer loop skills (autonomous-loops, continuous-agent-loop) by covering the judgment layer they don't. \u4e2d\u6587\u89e6\u53d1\uff1a\u5199 loop\u3001\u8bbe\u8ba1 loop\u3001\u505a\u4e00\u4e2a loop\u3001\u68c0\u67e5 loop \u5bf9\u4e0d\u5bf9\u3001loop \u4f53\u68c0\u3001loop \u4f1a\u4e0d\u4f1a\u8dd1\u98de\u3001\u53ef\u5224\u5b9a\u76ee\u6807\u3001\u4e94\u4e2a\u5d29\u6cd5\u3001plan build judge\u3002English triggers: design an agent loop, write a loop, check a loop, loop review, prevent a runaway loop, goal-oriented loop, decidable goal, plan/build/judge.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "loop-design-check",
+      "path": "skills/loop-design-check/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.082
+    },
+    {
+      "bytes": 3820,
+      "closest_installed": "sites-building",
+      "description": "Guides agents through integrating transactional email sending via Mailtrap's Email API, including sandbox testing, domain verification, and API authentication. Use when implementing email-sending features, debugging delivery issues, or setting up safe dev/staging email testing.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "mailtrap-email-integration",
+      "path": "skills/mailtrap-email-integration/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.085
+    },
+    {
+      "bytes": 4795,
+      "closest_installed": "humanizer",
+      "description": "Apply concrete design-engineering details that make interfaces feel polished. Use when reviewing or improving UI spacing, typography, borders, shadows, motion, hit areas, icons, text wrapping, and interaction states.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "make-interfaces-feel-better",
+      "path": "skills/make-interfaces-feel-better/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.09
+    },
+    {
+      "bytes": 5803,
+      "closest_installed": "screenshot",
+      "description": "Build reusable Manim explainers for technical concepts, graphs, system diagrams, and product walkthroughs, then hand off to the wider ECC video stack if needed. Use when the user wants a clean animated explainer rather than a generic talking-head script.",
+      "disposition": "defer_on_demand",
+      "files": 2,
+      "name": "manim-video",
+      "path": "skills/manim-video/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.154
+    },
+    {
+      "bytes": 2238,
+      "closest_installed": "artifact-template-business-review",
+      "description": "Conduct market research, competitive analysis, investor due diligence, and industry intelligence with source attribution and decision-oriented summaries. Use when the user wants market sizing, competitor comparisons, fund research, technology scans, or research that informs business decisions.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "market-research",
+      "path": "skills/market-research/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.14
+    },
+    {
+      "bytes": 5176,
+      "closest_installed": "documents",
+      "description": "End-to-end marketing campaign planning and execution. Covers audience research, positioning, campaign angle definition, landing page copy, email sequences, social posts, ad copy, short-form video scripts, and content calendars. Use as the orchestration layer for multi-channel product launches.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "marketing-campaign",
+      "path": "skills/marketing-campaign/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 4083,
+      "closest_installed": "openai-docs",
+      "description": "Build MCP servers with Node/TypeScript SDK \u2014 tools, resources, prompts, Zod validation, stdio vs Streamable HTTP. Use Context7 or official MCP docs for latest API.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "mcp-server-patterns",
+      "path": "skills/mcp-server-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.155
+    },
+    {
+      "bytes": 2896,
+      "closest_installed": "github",
+      "description": "Evidence-first live messaging workflow for ECC. Use when the user wants to read texts or DMs, recover a recent one-time code, inspect a thread before replying, or prove which message source was actually checked.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "messages-ops",
+      "path": "skills/messages-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.154
+    },
+    {
+      "bytes": 3777,
+      "closest_installed": "plugin-creator",
+      "description": "End-to-end methodology for AI agents and software engineers to add machine learning algorithms to existing non-ML codebases. Covers problem framing, data readiness, architectural decoupling, and baseline model integration.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ml-adoption-playbook",
+      "path": "skills/ml-adoption-playbook/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.066
+    },
+    {
+      "bytes": 22450,
+      "closest_installed": "sites-hosting",
+      "description": "Production machine-learning engineering workflow for data contracts, reproducible training, model evaluation, deployment, monitoring, and rollback. Use when building, reviewing, or hardening ML systems beyond one-off notebooks.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "mle-workflow",
+      "path": "skills/mle-workflow/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.125
+    },
+    {
+      "bytes": 18665,
+      "closest_installed": "screenshot",
+      "description": "Advanced motion patterns for React / Next.js \u2014 drag & drop, gestures, text animations, SVG path drawing, custom hooks, imperative sequences (useAnimate), loaders, and the full API decision tree. Requires motion-foundations.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "motion-advanced",
+      "path": "skills/motion-advanced/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.082
+    },
+    {
+      "bytes": 9664,
+      "closest_installed": "skill-router",
+      "description": "Motion tokens, spring presets, performance rules, device adaptation, accessibility enforcement, and SSR safety for React / Next.js using motion/react. Foundation layer \u2014 all other motion skills depend on this.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "motion-foundations",
+      "path": "skills/motion-foundations/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.081
+    },
+    {
+      "bytes": 13280,
+      "closest_installed": "control-in-app-browser",
+      "description": "Production-ready animation patterns for React / Next.js \u2014 button, modal, toast, stagger, page transitions, exit animations, scroll, and layout \u2014 built on motion-foundations tokens and springs.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "motion-patterns",
+      "path": "skills/motion-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.073
+    },
+    {
+      "bytes": 13867,
+      "closest_installed": "screenshot",
+      "description": "Production-ready UI motion system for React/Next.js. Use when implementing animations, transitions, or motion patterns.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "motion-ui",
+      "path": "skills/motion-ui/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.118
+    },
+    {
+      "bytes": 12065,
+      "closest_installed": "playwright-interactive",
+      "description": "MySQL and MariaDB schema, query, indexing, transaction, replication, and connection-pool patterns for production backends.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "mysql-patterns",
+      "path": "skills/mysql-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.087
+    },
+    {
+      "bytes": 865,
+      "closest_installed": "playwright-interactive",
+      "description": "Operate and extend NanoClaw v2, ECC's zero-dependency session-aware REPL built on claude -p.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "nanoclaw-repl",
+      "path": "skills/nanoclaw-repl/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.095
+    },
+    {
+      "bytes": 6420,
+      "closest_installed": "playwright-interactive",
+      "description": "NestJS architecture patterns for modules, controllers, providers, DTO validation, guards, interceptors, config, and production-grade TypeScript backends.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "nestjs-patterns",
+      "path": "skills/nestjs-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 5923,
+      "closest_installed": "pdf",
+      "description": "Safe Python Netmiko patterns for read-only collection, bounded batch SSH, TextFSM parsing, guarded config changes, timeouts, and network automation error handling.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "netmiko-ssh-automation",
+      "path": "skills/netmiko-ssh-automation/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.093
+    },
+    {
+      "bytes": 5542,
+      "closest_installed": "playwright-interactive",
+      "description": "Diagnostics-only BGP troubleshooting patterns for neighbor state, route exchange, prefix policy, AS path inspection, and safe evidence collection.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "network-bgp-diagnostics",
+      "path": "skills/network-bgp-diagnostics/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.074
+    },
+    {
+      "bytes": 7656,
+      "closest_installed": "sites-hosting",
+      "description": "Pre-deployment checks for router and switch configuration, including dangerous commands, duplicate addresses, subnet overlaps, stale references, management-plane risk, and IOS-style security hygiene.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "network-config-validation",
+      "path": "skills/network-config-validation/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.103
+    },
+    {
+      "bytes": 5664,
+      "closest_installed": "artifact-template-market-trends-report",
+      "description": "Diagnose interface errors, drops, CRCs, duplex mismatches, flapping, speed negotiation issues, and counter trends on routers, switches, and Linux hosts.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "network-interface-health",
+      "path": "skills/network-interface-health/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.049
+    },
+    {
+      "bytes": 2892,
+      "closest_installed": "artifact-template-experiment-analysis",
+      "description": "Next.js 16+ and Turbopack \u2014 incremental bundling, FS caching, dev speed, and when to use Turbopack vs webpack.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "nextjs-turbopack",
+      "path": "skills/nextjs-turbopack/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.118
+    },
+    {
+      "bytes": 2857,
+      "closest_installed": "security-best-practices",
+      "description": "Prevent Ethereum hashing bugs in JavaScript and TypeScript. Node's sha3-256 is NIST SHA3, not Ethereum Keccak-256, and silently breaks selectors, signatures, storage slots, and address derivation.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "nodejs-keccak256",
+      "path": "skills/nodejs-keccak256/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.073
+    },
+    {
+      "bytes": 5902,
+      "closest_installed": "pdf",
+      "description": "Process, convert, OCR, extract, redact, sign, and fill documents using the Nutrient DWS API. Works with PDFs, DOCX, XLSX, PPTX, HTML, and images.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "nutrient-document-processing",
+      "path": "skills/nutrient-document-processing/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.097
+    },
+    {
+      "bytes": 4654,
+      "closest_installed": "browser-use",
+      "description": "Nuxt 4 app patterns for hydration safety, performance, route rules, lazy loading, and SSR-safe data fetching with useFetch and useAsyncData.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "nuxt4-patterns",
+      "path": "skills/nuxt4-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.094
+    },
+    {
+      "bytes": 36231,
+      "closest_installed": "setup-cowork",
+      "description": "\u4e3a OpenClaw AI Agent \u953b\u9020\u5b8c\u6574\u7684\u9f99\u867e\u7075\u9b42\u65b9\u6848\u3002\u6839\u636e\u7528\u6237\u504f\u597d\u6216\u968f\u673a\u62bd\u5361\uff0c \u8f93\u51fa\u8eab\u4efd\u5b9a\u4f4d\u3001\u7075\u9b42\u63cf\u8ff0(SOUL.md)\u3001\u89d2\u8272\u5316\u5e95\u7ebf\u89c4\u5219\u3001\u540d\u5b57\u548c\u5934\u50cf\u751f\u56fe\u63d0\u793a\u8bcd\u3002 \u5982\u5f53\u524d\u73af\u5883\u63d0\u4f9b\u5df2\u5ba1\u6838\u7684\u751f\u56fe skill\uff0c\u53ef\u81ea\u52a8\u751f\u6210\u7edf\u4e00\u98ce\u683c\u5934\u50cf\u56fe\u7247\u3002 \u5f53\u7528\u6237\u9700\u8981\u521b\u5efa\u3001\u8bbe\u8ba1\u6216\u5b9a\u5236 OpenClaw \u9f99\u867e\u7075\u9b42\u65f6\u4f7f\u7528\u3002 \u4e0d\u9002\u7528\u4e8e\uff1a\u5fae\u8c03\u5df2\u6709 SOUL.md\u3001\u975e OpenClaw \u5e73\u53f0\u7684\u89d2\u8272\u8bbe\u8ba1\u3001\u7eaf\u5de5\u5177\u578b\u65e0\u6027\u683c Agent\u3002 \u89e6\u53d1\u8bcd\uff1a\u9f99\u867e\u7075\u9b42\u3001\u867e\u9b42\u3001OpenClaw \u7075\u9b42\u3001\u517b\u867e\u7075\u9b42\u3001\u9f99\u867e\u89d2\u8272\u3001\u9f99\u867e\u5b9a\u4f4d\u3001 \u9f99\u867e\u5267\u672c\u6740\u89d2\u8272\u3001\u9f99\u867e\u6e38\u620f\u89d2\u8272\u3001\u9f99\u867e NPC\u3001\u9f99\u867e\u6027\u683c\u3001\u9f99\u867e\u80cc\u666f\u6545\u4e8b\u3001 lobster soul\u3001lobster character\u3001\u62bd\u5361\u3001\u968f\u673a\u9f99\u867e\u3001\u9f99\u867e SOUL\u3001gacha\u3002",
+      "disposition": "defer_on_demand",
+      "files": 9,
+      "name": "openclaw-persona-forge",
+      "path": "skills/openclaw-persona-forge/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.053
+    },
+    {
+      "bytes": 6986,
+      "closest_installed": "sites-hosting",
+      "description": "Open-source pipeline: fork, sanitize, and package private projects for safe public release. Chains 3 agents (forker, sanitizer, packager). Triggers: '/opensource', 'open source this', 'make this public', 'prepare for open source'.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "opensource-pipeline",
+      "path": "skills/opensource-pipeline/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 1803,
+      "closest_installed": "skilltree-operator",
+      "description": "Orchestrate building a brand-new feature end to end \u2014 research, plan, TDD implementation, review, and gated commit \u2014 by delegating each phase to the matching ECC agent. Use when adding a capability that does not exist yet.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "orch-add-feature",
+      "path": "skills/orch-add-feature/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.111
+    },
+    {
+      "bytes": 2321,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Orchestrate bootstrapping a working MVP from a design or spec document \u2014 ingest the doc, plan thin vertical slices, scaffold the first end-to-end slice, then TDD-implement, review, and gated commit. Use to turn an SDD/PRD into a running starting point.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "orch-build-mvp",
+      "path": "skills/orch-build-mvp/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.091
+    },
+    {
+      "bytes": 1711,
+      "closest_installed": "artifact-template-business-review",
+      "description": "Orchestrate altering an existing, working feature to new desired behavior \u2014 update its tests to the new spec, change the implementation to match, review, and gated commit. Use when behavior is not broken but should be different.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "orch-change-feature",
+      "path": "skills/orch-change-feature/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.13
+    },
+    {
+      "bytes": 1684,
+      "closest_installed": "gh-fix-ci",
+      "description": "Orchestrate fixing a bug \u2014 reproduce it as a failing regression test, fix to green, review, and gated commit \u2014 by delegating each phase to the matching ECC agent. Use when existing behavior is broken or wrong.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "orch-fix-defect",
+      "path": "skills/orch-fix-defect/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.122
+    },
+    {
+      "bytes": 6215,
+      "closest_installed": "find-skills",
+      "description": "Shared orchestration engine for the orch-* skill family. Defines the gated Research-Plan-TDD-Review-Commit pipeline, the size classifier, the agent map, and the two human gates that the orch-* operation skills delegate to. Not usually invoked directly.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "orch-pipeline",
+      "path": "skills/orch-pipeline/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.121
+    },
+    {
+      "bytes": 1819,
+      "closest_installed": "artifact-template-business-review",
+      "description": "Orchestrate a behavior-preserving refactor \u2014 confirm tests are green, restructure without changing behavior, keep tests green, review, and gated commit. Use when the structure should improve but behavior must not change.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "orch-refine-code",
+      "path": "skills/orch-refine-code/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.109
+    },
+    {
+      "bytes": 2633,
+      "closest_installed": "github",
+      "description": "Use when the user wants a task done much faster through parallel work, concurrent agents, batched tool calls, isolated worktrees, or many independent verification lanes without losing correctness.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "parallel-execution-optimizer",
+      "path": "skills/parallel-execution-optimizer/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.146
+    },
+    {
+      "bytes": 11537,
+      "closest_installed": "sites-hosting",
+      "description": "Modern Perl 5.36+ idioms, best practices, and conventions for building robust, maintainable Perl applications.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "perl-patterns",
+      "path": "skills/perl-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.107
+    },
+    {
+      "bytes": 13764,
+      "closest_installed": "browser-use",
+      "description": "Comprehensive Perl security covering taint mode, input validation, safe process execution, DBI parameterized queries, web security (XSS/SQLi/CSRF), and perlcritic security policies.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "perl-security",
+      "path": "skills/perl-security/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "destructive_shell"
+      ],
+      "similarity": 0.057
+    },
+    {
+      "bytes": 11201,
+      "closest_installed": "artifact-template-experiment-analysis",
+      "description": "Perl testing patterns using Test2::V0, Test::More, prove runner, mocking, coverage with Devel::Cover, and TDD methodology.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "perl-testing",
+      "path": "skills/perl-testing/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.1
+    },
+    {
+      "bytes": 6477,
+      "closest_installed": "gh-fix-ci",
+      "description": "Open plans and HTML artifacts in a local browser canvas where the human annotates elements, chats, and approves or requests changes without leaving the page. Use when presenting a plan for review, or when feedback like \"move this, change that\" is easier pointed at than typed.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "plan-canvas",
+      "path": "skills/plan-canvas/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.121
+    },
+    {
+      "bytes": 17965,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Read a plan document, decompose it into steps, design a per-step agent chain from the ECC catalogue, and emit ready-to-paste /orchestrate custom prompts. Generative only \u2014 never invokes /orchestrate itself. Use when the user has a multi-step plan and wants to drive it through orchestrate without composing chains by hand.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "plan-orchestrate",
+      "path": "skills/plan-orchestrate/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.121
+    },
+    {
+      "bytes": 7962,
+      "closest_installed": "artifact-template-minimal-letterhead",
+      "description": "Write-time code quality enforcement using Plankton \u2014 auto-formatting, linting, and Claude-powered fixes on every file edit via hooks.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "plankton-code-quality",
+      "path": "skills/plankton-code-quality/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.093
+    },
+    {
+      "bytes": 3820,
+      "closest_installed": "security-best-practices",
+      "description": "PostgreSQL database patterns for query optimization, schema design, indexing, and security. Based on Supabase best practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "postgres-patterns",
+      "path": "skills/postgres-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.104
+    },
+    {
+      "bytes": 2197,
+      "closest_installed": "artifact-template-investment-committee-memo",
+      "description": "Research prediction markets as data sources or oracle signals for products, agents, dashboards, and corporate decision intelligence. Use for source-grounded analysis of market-implied probabilities, caveats, and integration patterns without investment advice.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "prediction-market-oracle-research",
+      "path": "skills/prediction-market-oracle-research/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 1882,
+      "closest_installed": "gh-fix-ci",
+      "description": "Review prediction-market, basket, oracle, and trading-agent workflows for compliance, safety, data-quality, privacy, and execution risk. Use before any workflow handles venue auth, user portfolio data, API keys, or trade planning.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "prediction-market-risk-review",
+      "path": "skills/prediction-market-risk-review/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.113
+    },
+    {
+      "bytes": 15166,
+      "closest_installed": "security-threat-model",
+      "description": "Prisma ORM patterns for TypeScript backends \u2014 schema design, query optimization, transactions, pagination, and critical traps like updateMany returning count not records, $transaction timeouts, migrate dev resetting the DB, @updatedAt skipped on bulk writes, and serverless connection exhaustion.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "prisma-patterns",
+      "path": "skills/prisma-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.085
+    },
+    {
+      "bytes": 4436,
+      "closest_installed": "github",
+      "description": "Translate PRD intent, roadmap asks, or product discussions into an implementation-ready capability plan that exposes constraints, invariants, interfaces, and unresolved decisions before multi-service work starts. Use when the user needs an ECC-native PRD-to-SRS lane instead of vague planning prose.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "product-capability",
+      "path": "skills/product-capability/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.155
+    },
+    {
+      "bytes": 3102,
+      "closest_installed": "gh-fix-ci",
+      "description": "Use this skill to validate the \"why\" before building, run product diagnostics, and pressure-test product direction before the request becomes an implementation contract.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "product-lens",
+      "path": "skills/product-lens/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.143
+    },
+    {
+      "bytes": 7623,
+      "closest_installed": "skilltree-operator",
+      "description": "Local-evidence production readiness audit for shipped apps, pre-launch reviews, post-merge checks, and \"what breaks in prod?\" questions without sending repo data to an external audit service.",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "production-audit",
+      "path": "skills/production-audit/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.066
+    },
+    {
+      "bytes": 28575,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "production-scheduling",
+      "path": "skills/production-scheduling/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 3145,
+      "closest_installed": "github",
+      "description": "Operate execution flow across GitHub and Linear by triaging issues and pull requests, linking active work, and keeping GitHub public-facing while Linear remains the internal execution layer. Use when the user wants backlog control, PR triage, or GitHub-to-Linear coordination.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "project-flow-ops",
+      "path": "skills/project-flow-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.204
+    },
+    {
+      "bytes": 16447,
+      "closest_installed": "find-skills",
+      "description": ">-",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "prompt-optimizer",
+      "path": "skills/prompt-optimizer/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 16814,
+      "closest_installed": "security-best-practices",
+      "description": "Pythonic idioms, PEP 8 standards, type hints, and best practices for building robust, efficient, and maintainable Python applications.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "python-patterns",
+      "path": "skills/python-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.102
+    },
+    {
+      "bytes": 18874,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Python testing strategies using pytest, TDD methodology, fixtures, mocking, parametrization, and coverage requirements.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "python-testing",
+      "path": "skills/python-testing/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.083
+    },
+    {
+      "bytes": 11671,
+      "closest_installed": "sites-hosting",
+      "description": "PyTorch deep learning patterns and best practices for building robust, efficient, and reproducible training pipelines, model architectures, and data loading.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "pytorch-patterns",
+      "path": "skills/pytorch-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.088
+    },
+    {
+      "bytes": 30389,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "quality-nonconformance",
+      "path": "skills/quality-nonconformance/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 21414,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Quarkus 3.x LTS architecture patterns with Camel for messaging, RESTful API design, CDI services, data access with Panache, and async processing. Use for Java Quarkus backend work with event-driven architectures.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "quarkus-patterns",
+      "path": "skills/quarkus-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.106
+    },
+    {
+      "bytes": 12091,
+      "closest_installed": "security-best-practices",
+      "description": "Quarkus Security best practices for authentication, authorization, JWT/OIDC, RBAC, input validation, CSRF, secrets management, and dependency security.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "quarkus-security",
+      "path": "skills/quarkus-security/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.1
+    },
+    {
+      "bytes": 25526,
+      "closest_installed": "skill-creator",
+      "description": "Test-driven development for Quarkus 3.x LTS using JUnit 5, Mockito, REST Assured, Camel testing, and JaCoCo. Use when adding features, fixing bugs, or refactoring event-driven services.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "quarkus-tdd",
+      "path": "skills/quarkus-tdd/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.102
+    },
+    {
+      "bytes": 10499,
+      "closest_installed": "sites-hosting",
+      "description": "Verification loop for Quarkus projects: build, static analysis, tests with coverage, security scans, native compilation, and diff review before release or PR.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "quarkus-verification",
+      "path": "skills/quarkus-verification/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.114
+    },
+    {
+      "bytes": 1534,
+      "closest_installed": "browser-use",
+      "description": "RFC-driven multi-agent DAG execution pattern with quality gates, merge queues, and work unit orchestration.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ralphinho-rfc-pipeline",
+      "path": "skills/ralphinho-rfc-pipeline/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.067
+    },
+    {
+      "bytes": 11752,
+      "closest_installed": "artifact-template-system-design",
+      "description": "React Native and Expo app patterns \u2014 Expo Router navigation, state separation (server/client/route/form), TanStack Query data fetching with Zod, performant lists, NativeWind/StyleSheet styling, native APIs, and secure storage. Use when building or editing React Native / Expo screens, components, navigation, or data layers.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "react-native-patterns",
+      "path": "skills/react-native-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.109
+    },
+    {
+      "bytes": 11466,
+      "closest_installed": "humanizer",
+      "description": "React 18/19 patterns including hooks discipline, server/client component boundaries, Suspense + error boundaries, form actions, data fetching, state management decision trees, and accessibility-first composition. Use when writing or reviewing React components.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "react-patterns",
+      "path": "skills/react-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.104
+    },
+    {
+      "bytes": 18184,
+      "closest_installed": "skill-creator",
+      "description": "React and Next.js performance optimization patterns adapted from Vercel Engineering's React Best Practices (https://github.com/vercel-labs/agent-skills). Organizes 70+ rules across 8 priority categories \u2014 waterfalls, bundle size, server-side, client fetching, re-render, rendering, JS micro-perf, advanced. Use when writing, reviewing, or refactoring React/Next.js code for performance.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "react-performance",
+      "path": "skills/react-performance/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.108
+    },
+    {
+      "bytes": 13168,
+      "closest_installed": "sites-building",
+      "description": "React component testing with React Testing Library, Vitest/Jest, MSW for network mocking, accessibility assertions with axe, and the decision boundary between component tests and Playwright/Cypress end-to-end runs. Use when writing or fixing tests for React components, hooks, or pages.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "react-testing",
+      "path": "skills/react-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.102
+    },
+    {
+      "bytes": 7788,
+      "closest_installed": "gh-fix-ci",
+      "description": "Design composable recommendation, ranking, and feed pipelines using the six-stage Source\u2192Hydrator\u2192Filter\u2192Scorer\u2192Selector\u2192SideEffect framework popularized by xAI's open-sourced For You algorithm. Use this skill whenever the user is building any system that picks \"the top K items for a (user, context)\" \u2014 social feeds, content CMSs, RAG rerankers, task prioritizers, notification triage, search reranking, ad ranking.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "recsys-pipeline-architect",
+      "path": "skills/recsys-pipeline-architect/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.129
+    },
+    {
+      "bytes": 2547,
+      "closest_installed": "screenshot",
+      "description": "Use when the user asks for repeated rollouts, marked decision processes, high-dimensional search, stochastic optimization, local-optima exploration, ensemble comparison, or recursive reasoning with a visible evidence trail.",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "recursive-decision-ledger",
+      "path": "skills/recursive-decision-ledger/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [],
+      "similarity": 0.13
+    },
+    {
+      "bytes": 11861,
+      "closest_installed": "sites-hosting",
+      "description": "Redis data structure patterns, caching strategies, distributed locks, rate limiting, pub/sub, and connection management for production applications.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "redis-patterns",
+      "path": "skills/redis-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.088
+    },
+    {
+      "bytes": 6493,
+      "closest_installed": "transcribe",
+      "description": "Decision framework for choosing between regex and LLM when parsing structured text \u2014 start with regex, add LLM only for low-confidence edge cases.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "regex-vs-llm-structured-text",
+      "path": "skills/regex-vs-llm-structured-text/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.1
+    },
+    {
+      "bytes": 77955,
+      "closest_installed": "security-best-practices",
+      "description": "Best practices for Remotion - Video creation in React. 29 domain-specific rules covering 3D, animations, audio, captions, charts, transitions, and more.",
+      "disposition": "reference_only",
+      "files": 32,
+      "name": "remotion-video-creation",
+      "path": "skills/remotion-video-creation/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.098
+    },
+    {
+      "bytes": 3559,
+      "closest_installed": "artifact-template-design-report",
+      "description": "Cross-stack source code asset audit \u2014 classifies every file, detects embedded third-party libraries, and delivers actionable four-level verdicts per module with interactive HTML reports.",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "repo-scan",
+      "path": "skills/repo-scan/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.082
+    },
+    {
+      "bytes": 3605,
+      "closest_installed": "gh-fix-ci",
+      "description": "Evidence-first current-state research workflow for ECC. Use when the user wants fresh facts, comparisons, enrichment, or a recommendation built from current public evidence and any supplied local context.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "research-ops",
+      "path": "skills/research-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.196
+    },
+    {
+      "bytes": 24701,
+      "closest_installed": "find-skills",
+      "description": ">",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "returns-reverse-logistics",
+      "path": "skills/returns-reverse-logistics/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 14988,
+      "closest_installed": "skill-creator",
+      "description": "Scan skills to extract cross-cutting principles and distill them into rules \u2014 append, revise, or create new rule files",
+      "disposition": "reference_only",
+      "files": 3,
+      "name": "rules-distill",
+      "path": "skills/rules-distill/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "destructive_shell",
+        "home_mutation"
+      ],
+      "similarity": 0.093
+    },
+    {
+      "bytes": 13390,
+      "closest_installed": "sites-hosting",
+      "description": "Idiomatic Rust patterns, ownership, error handling, traits, concurrency, and best practices for building safe, performant applications.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "rust-patterns",
+      "path": "skills/rust-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.094
+    },
+    {
+      "bytes": 11711,
+      "closest_installed": "humanizer",
+      "description": "Rust testing patterns including unit tests, integration tests, async testing, property-based testing, mocking, and coverage. Follows TDD methodology.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "rust-testing",
+      "path": "skills/rust-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.069
+    },
+    {
+      "bytes": 1945,
+      "closest_installed": "skill-installer",
+      "description": "Use this skill to prevent destructive operations when working on production systems or running agents autonomously.",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "safety-guard",
+      "path": "skills/safety-guard/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "destructive_shell",
+        "home_mutation"
+      ],
+      "similarity": 0.097
+    },
+    {
+      "bytes": 12793,
+      "closest_installed": "artifact-template-operating-review",
+      "description": "Multi-agent adversarial verification with convergence loop. Two independent review agents must both pass before output ships.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "santa-method",
+      "path": "skills/santa-method/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "autonomous_mutation"
+      ],
+      "similarity": 0.047
+    },
+    {
+      "bytes": 4725,
+      "closest_installed": "browser-use",
+      "description": "Direct PubMed and NCBI E-utilities search workflows for biomedical literature, MeSH queries, PMID lookup, citation retrieval, and API-backed literature monitoring.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "pubmed-database",
+      "path": "skills/scientific-db-pubmed-database/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.094
+    },
+    {
+      "bytes": 6224,
+      "closest_installed": "playwright-interactive",
+      "description": "USPTO patent and trademark data workflow for official record lookup, PatentSearch queries, TSDR checks, assignment data, and reproducible IP research logs.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "uspto-database",
+      "path": "skills/scientific-db-uspto-database/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.074
+    },
+    {
+      "bytes": 4952,
+      "closest_installed": "pdf",
+      "description": "gget CLI and Python workflow for quick genomic database queries, sequence lookup, BLAST-style searches, enrichment checks, and reproducible bioinformatics evidence logs.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "gget",
+      "path": "skills/scientific-pkg-gget/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.07
+    },
+    {
+      "bytes": 5078,
+      "closest_installed": "Spreadsheets",
+      "description": "Systematic literature-review workflow for academic, biomedical, technical, and scientific topics, including search planning, source screening, synthesis, citation checks, and evidence logging.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "literature-review",
+      "path": "skills/scientific-thinking-literature-review/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.068
+    },
+    {
+      "bytes": 4744,
+      "closest_installed": "browser-use",
+      "description": "Structured scholarly-work evaluation for papers, proposals, literature reviews, methods sections, evidence quality, citation support, and research-writing feedback.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "scholar-evaluation",
+      "path": "skills/scientific-thinking-scholar-evaluation/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.094
+    },
+    {
+      "bytes": 8021,
+      "closest_installed": "github",
+      "description": "Research-before-coding workflow. Search for existing tools, libraries, and patterns before writing custom code. Invokes the researcher agent.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "search-first",
+      "path": "skills/search-first/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.119
+    },
+    {
+      "bytes": 3545,
+      "closest_installed": "security-threat-model",
+      "description": "Hunt for exploitable, bounty-worthy security issues in repositories. Focuses on remotely reachable vulnerabilities that qualify for real reports instead of noisy local-only findings.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "security-bounty-hunter",
+      "path": "skills/security-bounty-hunter/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.067
+    },
+    {
+      "bytes": 22664,
+      "closest_installed": "pdf",
+      "description": "Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive features. Provides comprehensive security checklist and patterns.",
+      "disposition": "reference_only",
+      "files": 2,
+      "name": "security-review",
+      "path": "skills/security-review/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.127
+    },
+    {
+      "bytes": 4481,
+      "closest_installed": "sites-hosting",
+      "description": "Scan your Claude Code configuration (.claude/ directory) for security vulnerabilities, misconfigurations, and injection risks using AgentShield. Checks CLAUDE.md, settings.json, MCP servers, hooks, and agent definitions.",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "security-scan",
+      "path": "skills/security-scan/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.077
+    },
+    {
+      "bytes": 4320,
+      "closest_installed": "github",
+      "description": "Audit, plan, and implement SEO improvements across technical SEO, on-page optimization, structured data, Core Web Vitals, and content strategy. Use when the user wants better search visibility, SEO remediation, schema markup, sitemap/robots work, or keyword mapping.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "seo",
+      "path": "skills/seo/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.127
+    },
+    {
+      "bytes": 60320,
+      "closest_installed": "screenshot",
+      "description": "Visualize whether skills, rules, and agent definitions are actually followed \u2014 auto-generates scenarios at 3 prompt strictness levels, runs agents, classifies behavioral sequences, and reports compliance rates with full tool call timelines",
+      "disposition": "adapt_candidate",
+      "files": 22,
+      "name": "skill-comply",
+      "path": "skills/skill-comply/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.08
+    },
+    {
+      "bytes": 4496,
+      "closest_installed": "github",
+      "description": "Search existing local, marketplace, GitHub, and web skill sources before creating a new skill. Use when the user wants to create, build, fork, or find a skill for a workflow.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "skill-scout",
+      "path": "skills/skill-scout/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.238
+    },
+    {
+      "bytes": 18719,
+      "closest_installed": "skill-creator",
+      "description": "Use when auditing Claude skills and commands for quality. Supports Quick Scan (changed skills only) and Full Stocktake modes with sequential subagent batch evaluation.",
+      "disposition": "reference_only",
+      "files": 4,
+      "name": "skill-stocktake",
+      "path": "skills/skill-stocktake/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "destructive_shell",
+        "home_mutation"
+      ],
+      "similarity": 0.13
+    },
+    {
+      "bytes": 4156,
+      "closest_installed": "github",
+      "description": "Weighted social-graph ranking for warm intro discovery, bridge scoring, and network gap analysis across X and LinkedIn. Use when the user wants the reusable graph-ranking engine itself, not the broader outreach or network-maintenance workflow layered on top of it.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "social-graph-ranker",
+      "path": "skills/social-graph-ranker/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.154
+    },
+    {
+      "bytes": 3949,
+      "closest_installed": "gh-address-comments",
+      "description": "Agent-driven scheduling and publishing of social media posts across 13 platforms via SocialClaw. Use when the user wants to publish to X, LinkedIn, Instagram, Facebook Pages, TikTok, Discord, Telegram, YouTube, Reddit, WordPress, or Pinterest \u2014 or when managing campaigns, uploading media, or monitoring post delivery status.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "social-publisher",
+      "path": "skills/social-publisher/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.114
+    },
+    {
+      "bytes": 9931,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Spring Boot architecture patterns, REST API design, layered services, data access, caching, async processing, and logging. Use for Java Spring Boot backend work.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "springboot-patterns",
+      "path": "skills/springboot-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.119
+    },
+    {
+      "bytes": 8031,
+      "closest_installed": "security-best-practices",
+      "description": "Spring Security best practices for authn/authz, validation, CSRF, secrets, headers, rate limiting, and dependency security in Java Spring Boot services.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "springboot-security",
+      "path": "skills/springboot-security/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.098
+    },
+    {
+      "bytes": 3786,
+      "closest_installed": "skill-creator",
+      "description": "Test-driven development for Spring Boot using JUnit 5, Mockito, MockMvc, Testcontainers, and JaCoCo. Use when adding features, fixing bugs, or refactoring.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "springboot-tdd",
+      "path": "skills/springboot-tdd/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.111
+    },
+    {
+      "bytes": 5833,
+      "closest_installed": "sites-hosting",
+      "description": "Verification loop for Spring Boot projects: build, static analysis, tests with coverage, security scans, and diff review before release or PR.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "springboot-verification",
+      "path": "skills/springboot-verification/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.118
+    },
+    {
+      "bytes": 7589,
+      "closest_installed": "github",
+      "description": "Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "strategic-compact",
+      "path": "skills/strategic-compact/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.049
+    },
+    {
+      "bytes": 4810,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Thread-safe data persistence in Swift using actors \u2014 in-memory cache with file-backed storage, eliminating data races by design.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "swift-actor-persistence",
+      "path": "skills/swift-actor-persistence/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.105
+    },
+    {
+      "bytes": 8010,
+      "closest_installed": "playwright-interactive",
+      "description": "Swift 6.2 Approachable Concurrency \u2014 single-threaded by default, @concurrent for explicit background offloading, isolated conformances for main actor types.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "swift-concurrency-6-2",
+      "path": "skills/swift-concurrency-6-2/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.038
+    },
+    {
+      "bytes": 6019,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Protocol-based dependency injection for testable Swift code \u2014 mock file system, network, and external APIs using focused protocols and Swift Testing.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "swift-protocol-di-testing",
+      "path": "skills/swift-protocol-di-testing/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.125
+    },
+    {
+      "bytes": 6939,
+      "closest_installed": "sites-hosting",
+      "description": "SwiftUI architecture patterns, state management with @Observable, view composition, navigation, performance optimization, and modern iOS/macOS UI best practices.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "swiftui-patterns",
+      "path": "skills/swiftui-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.088
+    },
+    {
+      "bytes": 20437,
+      "closest_installed": "imagegen",
+      "description": "A creative-direction (taste) layer for music videos and short-form edits in the angelcore / cloud-trance / hyperpop visual family. Distills a named-genre aesthetic vocabulary, a mood + color + light system, and a beat-synced editing grammar, then chains ECC's video skills (video-editing, fal-ai-media, remotion-video-creation, motion-*, content-engine) into one production pipeline. Use when the work is not just making a video function but making it feel intentional, when building a music video, a fancam/edit, a moodboard-driven reel, or when choosing a coherent visual direction for AI-generated b-roll.",
+      "disposition": "reference_only",
+      "files": 2,
+      "name": "taste",
+      "path": "skills/taste/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "network_execution"
+      ],
+      "similarity": 0.086
+    },
+    {
+      "bytes": 21462,
+      "closest_installed": "skill-creator",
+      "description": "Use this skill when writing new features, fixing bugs, or refactoring code. Enforces test-driven development with 80%+ coverage including unit, integration, and E2E tests.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "tdd-workflow",
+      "path": "skills/tdd-workflow/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation",
+        "network_execution"
+      ],
+      "similarity": 0.152
+    },
+    {
+      "bytes": 4685,
+      "closest_installed": "browser-use",
+      "description": "Run team-based orchestration for agent squads using work items, ownership, agent Kanban, merge gates, and control pane handoffs.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "team-agent-orchestration",
+      "path": "skills/team-agent-orchestration/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.133
+    },
+    {
+      "bytes": 7146,
+      "closest_installed": "playwright-interactive",
+      "description": "Interactive agent picker for composing and dispatching parallel teams",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "team-builder",
+      "path": "skills/team-builder/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.111
+    },
+    {
+      "bytes": 2997,
+      "closest_installed": "gh-fix-ci",
+      "description": "Evidence-first repo execution workflow for ECC. Use when the user wants a command run, a repo checked, a CI failure debugged, or a narrow fix pushed with exact proof of what was executed and verified.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "terminal-ops",
+      "path": "skills/terminal-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.163
+    },
+    {
+      "bytes": 27823,
+      "closest_installed": "sites-building",
+      "description": "Expert guidance for developing with the tinystruct Java framework. Use when working on the tinystruct codebase or any project built on tinystruct \u2014 including creating Application classes, @Action-mapped routes, unit tests, ActionRegistry, HTTP/CLI dual-mode handling, the built-in HTTP server, the event system, JSON with Builder/Builders, database persistence with AbstractData, POJO generation, Server-Sent Events (SSE), file uploads, and outbound HTTP networking.",
+      "disposition": "reference_only",
+      "files": 7,
+      "name": "tinystruct-patterns",
+      "path": "skills/tinystruct-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.106
+    },
+    {
+      "bytes": 6117,
+      "closest_installed": "find-skills",
+      "description": ">-",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "token-budget-advisor",
+      "path": "skills/token-budget-advisor/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [],
+      "similarity": 0.0
+    },
+    {
+      "bytes": 15256,
+      "closest_installed": "artifact-template-minimal-letterhead",
+      "description": "Record polished UI demo videos using Playwright. Use when the user asks to create a demo, walkthrough, screen recording, or tutorial video of a web application. Produces WebM videos with visible cursor, natural pacing, and professional feel.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "ui-demo",
+      "path": "skills/ui-demo/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.188
+    },
+    {
+      "bytes": 4809,
+      "closest_installed": "artifact-template-system-design",
+      "description": "Use when the user has UI screenshots or design exports that need batch conversion into Vue 3 components, especially with Vant, Element Plus, or Ant Design Vue.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "ui-to-vue",
+      "path": "skills/ui-to-vue/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "network_execution"
+      ],
+      "similarity": 0.146
+    },
+    {
+      "bytes": 9282,
+      "closest_installed": "sites-hosting",
+      "description": "Use when managing an Uncloud cluster \u2014 deploying services, configuring Caddy ingress, adding static proxy routes for non-cluster devices, publishing ports, scaling, inspecting logs, or managing machines and volumes with the `uc` CLI.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "uncloud",
+      "path": "skills/uncloud/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "home_mutation"
+      ],
+      "similarity": 0.119
+    },
+    {
+      "bytes": 5630,
+      "closest_installed": "github",
+      "description": "Operate notifications as one ECC-native workflow across GitHub, Linear, desktop alerts, hooks, and connected communication surfaces. Use when the real problem is alert routing, deduplication, escalation, or inbox collapse.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "unified-notifications-ops",
+      "path": "skills/unified-notifications-ops/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.143
+    },
+    {
+      "bytes": 2545,
+      "closest_installed": "screenshot",
+      "description": "A comprehensive verification system for Claude Code sessions.",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "verification-loop",
+      "path": "skills/verification-loop/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "credential_or_secret",
+        "network_execution"
+      ],
+      "similarity": 0.067
+    },
+    {
+      "bytes": 9737,
+      "closest_installed": "screenshot",
+      "description": "AI-assisted video editing workflows for cutting, structuring, and augmenting real footage. Covers the full pipeline from raw capture through FFmpeg, Remotion, ElevenLabs, fal.ai, and final polish in Descript or CapCut. Use when the user wants to edit video, cut footage, create vlogs, or build video content.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "video-editing",
+      "path": "skills/video-editing/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "network_execution"
+      ],
+      "similarity": 0.148
+    },
+    {
+      "bytes": 128291,
+      "closest_installed": "transcribe",
+      "description": "See, Understand, Act on video and audio. See- ingest from local files, URLs, RTSP/live feeds, or live record desktop; return realtime context and playable stream links. Understand- extract frames, build visual/semantic/temporal indexes, and search moments with timestamps and auto-clips. Act- transcode and normalize (codec, fps, resolution, aspect ratio), perform timeline edits (subtitles, text/image overlays, branding, audio overlays, dubbing, translation), generate media assets (image, audio, video), and create real time alerts for events from live streams or desktop capture.",
+      "disposition": "reference_only",
+      "files": 12,
+      "name": "videodb",
+      "path": "skills/videodb/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.101
+    },
+    {
+      "bytes": 5695,
+      "closest_installed": "documents",
+      "description": "Translate visa application documents (images) to English and create a bilingual PDF with original and translation",
+      "disposition": "defer_on_demand",
+      "files": 2,
+      "name": "visa-doc-translate",
+      "path": "skills/visa-doc-translate/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.089
+    },
+    {
+      "bytes": 17115,
+      "closest_installed": "sites-building",
+      "description": "Vite build tool patterns including config, plugins, HMR, env variables, proxy setup, SSR, library mode, dependency pre-bundling, and build optimization. Activate when working with vite.config.ts, Vite plugins, or Vite-based projects.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "vite-patterns",
+      "path": "skills/vite-patterns/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.089
+    },
+    {
+      "bytes": 13069,
+      "closest_installed": "sites-hosting",
+      "description": "Vue.js 3 Composition API patterns, component architecture, reactivity best practices, Pinia state management, Vue Router navigation, and Nuxt SSR patterns. Activates for Vue, Nuxt, Vite, or Pinia projects.",
+      "disposition": "defer_on_demand",
+      "files": 1,
+      "name": "vue-patterns",
+      "path": "skills/vue-patterns/SKILL.md",
+      "reason": "No current giga-user requirement justifies increasing the active trigger surface.",
+      "risks": [],
+      "similarity": 0.111
+    },
+    {
+      "bytes": 30484,
+      "closest_installed": "browser-use",
+      "description": "E2E testing for Windows native desktop apps (WPF, WinForms, Win32/MFC, Qt) using pywinauto and Windows UI Automation.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "windows-desktop-e2e",
+      "path": "skills/windows-desktop-e2e/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.148
+    },
+    {
+      "bytes": 5163,
+      "closest_installed": "skilltree-operator",
+      "description": "Audit the active repo, MCP servers, plugins, connectors, env surfaces, and harness setup, then recommend the highest-value ECC-native skills, hooks, agents, and operator workflows. Use when the user wants help setting up Claude Code or understanding what capabilities are actually available in their environment.",
+      "disposition": "adapt_candidate",
+      "files": 1,
+      "name": "workspace-surface-audit",
+      "path": "skills/workspace-surface-audit/SKILL.md",
+      "reason": "Potentially strengthens giga-user governance, verification, or evidence handling.",
+      "risks": [
+        "credential_or_secret",
+        "home_mutation"
+      ],
+      "similarity": 0.176
+    },
+    {
+      "bytes": 6695,
+      "closest_installed": "artifact-template-analytics-dashboard",
+      "description": "X/Twitter API integration for posting tweets, threads, reading timelines, search, and analytics. Covers OAuth auth patterns, rate limits, and platform-native content posting. Use when the user wants to interact with X programmatically.",
+      "disposition": "reference_only",
+      "files": 1,
+      "name": "x-api",
+      "path": "skills/x-api/SKILL.md",
+      "reason": "Contains mutation, credential, network, or autonomous-operation indicators requiring manual isolation.",
+      "risks": [
+        "credential_or_secret"
+      ],
+      "similarity": 0.143
+    }
+  ]
+}

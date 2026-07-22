@@ -1,0 +1,9 @@
+{
+  "authority_level": "A1",
+  "build_manifest_sha256": "e86e81f2ac43c4ff96ae9a975ed8b25c4cda37d288d29a9fde456785e019f7ed",
+  "event_id": "a032abdb-131c-4319-9eaa-4275b4316fab",
+  "external_action_authorised": false,
+  "run_key": "216761368d729d3652fbc56db1b35de63ce6441809a80aa22043d76159128f92",
+  "schema_version": "1.0",
+  "status": "verified_local_draft"
+}

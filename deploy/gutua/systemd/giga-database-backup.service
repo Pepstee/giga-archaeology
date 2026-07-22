@@ -1,0 +1,13 @@
+[Unit]
+Description=Consistent backup of authoritative Market Aligner databases
+
+[Service]
+Type=oneshot
+User=gutua
+Group=gutua
+Environment=HOME=/home/gutua
+ExecStart=/usr/bin/python3 /home/gutua/giga/bin/backup_databases.py --source /home/gutua/giga/shared/market-aligner --destination /home/gutua/giga/backups/daily --keep 30
+NoNewPrivileges=true
+UMask=0077
+StandardOutput=journal
+StandardError=journal

@@ -1,0 +1,16 @@
+{
+  "authority_level": "A1",
+  "claims": 5,
+  "gates": {
+    "claim_references": "passed",
+    "draft_authority": "passed",
+    "exact_evidence_matches": "passed",
+    "manifest_schema": "passed",
+    "public_text_scan": "passed",
+    "source_boundaries": "passed"
+  },
+  "mode": "draft",
+  "schema_version": "1.0",
+  "sources": 4,
+  "status": "passed"
+}

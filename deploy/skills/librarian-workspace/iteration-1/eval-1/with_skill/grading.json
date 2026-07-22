@@ -1,0 +1,19 @@
+{
+ "expectations": [
+  {
+   "text": "The answer cites the wow-elvui entry by slug",
+   "passed": true,
+   "evidence": "slug cited"
+  },
+  {
+   "text": "Content is faithful to the entry (ElvUI commoditisation + logs/discipline edge)",
+   "passed": true,
+   "evidence": "key content present"
+  },
+  {
+   "text": "No new entry is filed \u2014 pure retrieval leaves the store unchanged",
+   "passed": true,
+   "evidence": "8 entries (expected 8)"
+  }
+ ]
+}

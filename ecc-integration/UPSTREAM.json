@@ -1,0 +1,10 @@
+{
+  "commit": "96789caaf90501ff9b55bf1b00f1c28cf3fccbeb",
+  "commit_date": "2026-07-22T03:07:45-04:00",
+  "fork": "https://github.com/Pepstee/ECC.git",
+  "generated_at": "2026-07-22T14:52:04.528218+00:00",
+  "license_sha256": "326146379f01bb137c0a5d3c54770c1aa31076705c8b88a7f6b26a460f6221b2",
+  "schema": "giga.ecc-upstream.v1",
+  "tree": "cf976f78c1abc540e45d32f65bd7db7f5fae3a6e",
+  "upstream": "https://github.com/affaan-m/ECC.git"
+}

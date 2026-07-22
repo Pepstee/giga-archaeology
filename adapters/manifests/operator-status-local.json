@@ -1,0 +1,37 @@
+{
+  "schema_version": "giga.adapter-evidence.v1",
+  "id": "operator-status-local",
+  "state": "native",
+  "authority": "read-only",
+  "supported_assets": [
+    "twin_core/operator_status.py",
+    "scripts/operator_status.py",
+    "contracts/operator-status.v1.schema.json"
+  ],
+  "unsupported_surfaces": [
+    "live tool-call telemetry",
+    "live active-agent telemetry",
+    "provider cost telemetry",
+    "pull-request and conflict queues",
+    "session creation, resumption, stopping, or mutation"
+  ],
+  "onramp": "python3 scripts/operator_status.py --no-write",
+  "verification_commands": [
+    "python3 -m pytest -q tests/test_operator_status.py",
+    "python3 scripts/operator_status.py --no-write"
+  ],
+  "risk_notes": [
+    "Missing runtime signals remain unknown and make overall status degraded.",
+    "The adapter describes session controls but has no authority to execute them.",
+    "Verification commands are declarative evidence and are never executed from this manifest."
+  ],
+  "owner": "giga-user",
+  "source_docs": [
+    "ecc-integration/candidate-imports/STATUS_FIELD_MAP.md",
+    "ecc-integration/FIRST_IMPLEMENTATION_DECISION.md"
+  ],
+  "evidence_paths": [
+    "tests/test_operator_status.py"
+  ],
+  "verified_at": "2026-07-22T15:30:22.556520+00:00"
+}

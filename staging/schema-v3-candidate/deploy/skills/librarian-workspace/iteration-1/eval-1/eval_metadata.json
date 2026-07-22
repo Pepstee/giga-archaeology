@@ -1,0 +1,10 @@
+{
+ "eval_id": 1,
+ "eval_name": "retrieval-cited-by-slug",
+ "prompt": "what did I say about the WoW analogy?",
+ "assertions": [
+  "The answer cites the wow-elvui entry by slug",
+  "Content is faithful to the entry (ElvUI commoditisation + logs/discipline edge)",
+  "No new entry is filed \u2014 pure retrieval leaves the store unchanged"
+ ]
+}

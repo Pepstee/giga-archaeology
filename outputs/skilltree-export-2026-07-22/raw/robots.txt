@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://skilltree-map.vercel.app/sitemap.xml

@@ -1,0 +1,95 @@
+{
+  "adapters": [
+    {
+      "authority": "read-only",
+      "declared_state": "native",
+      "effective_state": "native",
+      "evidence": [
+        {
+          "bytes": 9023,
+          "path": "tests/test_operator_status.py",
+          "sha256": "2aa763eedf9577ff06cf8fc9f677ae53612e2f35bcbc23718694b4c0cbd68b15"
+        }
+      ],
+      "id": "operator-status-local",
+      "onramp": "python3 scripts/operator_status.py --no-write",
+      "owner": "giga-user",
+      "risk_notes": [
+        "Missing runtime signals remain unknown and make overall status degraded.",
+        "The adapter describes session controls but has no authority to execute them.",
+        "Verification commands are declarative evidence and are never executed from this manifest."
+      ],
+      "source_docs": [
+        {
+          "bytes": 1425,
+          "path": "ecc-integration/candidate-imports/STATUS_FIELD_MAP.md",
+          "sha256": "97d52c19fbdb00d1893009fad2582614abe6d3633b3a76e1908c64b261a5fb14"
+        },
+        {
+          "bytes": 4234,
+          "path": "ecc-integration/FIRST_IMPLEMENTATION_DECISION.md",
+          "sha256": "2f9a86268ee10d6656013bdeed833f59e4c53a0cd1a2300ad6df8f700b6db2ac"
+        }
+      ],
+      "supported_assets": [
+        {
+          "bytes": 15274,
+          "path": "twin_core/operator_status.py",
+          "sha256": "66adde6b2deb9865025f7af50fd986b863f2f9d5e89b63d0b4968528bdddd7f4"
+        },
+        {
+          "bytes": 2759,
+          "path": "scripts/operator_status.py",
+          "sha256": "d06c937634ee916a8fd95067c7d42d30823e5b6c328596461e2289bff3ce5b60"
+        },
+        {
+          "bytes": 2628,
+          "path": "contracts/operator-status.v1.schema.json",
+          "sha256": "29eb7f720bed7366815dadc47cab843a18409d73a3597a5c8f14f4d1c3bbf844"
+        }
+      ],
+      "unsupported_surfaces": [
+        "live tool-call telemetry",
+        "live active-agent telemetry",
+        "provider cost telemetry",
+        "pull-request and conflict queues",
+        "session creation, resumption, stopping, or mutation"
+      ],
+      "verification_commands": [
+        "python3 -m pytest -q tests/test_operator_status.py",
+        "python3 scripts/operator_status.py --no-write"
+      ],
+      "verification_state": "verified",
+      "verified_at": "2026-07-22T15:30:22.556520+00:00"
+    }
+  ],
+  "authority": "read-only-evidence",
+  "authority_granted": false,
+  "command_execution": false,
+  "observed_at": "2026-07-22T16:25:19.739781+00:00",
+  "schema_version": "giga.adapter-registry.v1",
+  "summary": {
+    "authorities": {
+      "bounded-write": 0,
+      "proposal-only": 0,
+      "read-only": 1
+    },
+    "declared_states": {
+      "adapter-backed": 0,
+      "instruction-backed": 0,
+      "native": 1,
+      "reference-only": 0
+    },
+    "effective_states": {
+      "adapter-backed": 0,
+      "instruction-backed": 0,
+      "native": 1,
+      "reference-only": 0
+    },
+    "total": 1,
+    "verification_states": {
+      "stale": 0,
+      "verified": 1
+    }
+  }
+}

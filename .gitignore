@@ -1,0 +1,63 @@
+# Local GIGA source checkpoint policy.
+#
+# This repository records programme source, governance, tests and compact evidence. Large private
+# corpora, independent repositories, generated dependencies and machine-local runtime state are
+# migrated separately and verified through their own manifests/hashes.
+
+# macOS / editors / test caches
+.DS_Store
+**/.DS_Store
+.pytest_cache/
+**/.pytest_cache/
+**/__pycache__/
+**/*.py[cod]
+**/.mypy_cache/
+**/.ruff_cache/
+
+# Generated dependency/build trees
+**/.venv/
+**/node_modules/
+**/node_modules
+**/target/
+**/build/
+**/dist/
+**/*.egg-info/
+
+# Generated Graphify views and caches
+graphify-out/
+**/graphify-out/
+
+# Independent/read-only repositories and audit work
+upstreams/
+audit-work/
+market-aligner/
+market-aligner-artiom/
+
+# Private bulk corpus. Canonical archive hashes and programme descriptions remain in tracked
+# architecture/ and programme documents; corpus bytes are copied and verified separately.
+corpus/
+
+# Machine-transfer and cutover payloads are not source.
+staging/gutua-cutover-*/
+
+# Large source/export archives and generated delivery archives
+/*.zip
+/*.png-*.zip
+outputs/*.zip
+outputs/*.zip.sha256
+
+# Local databases, journals and transient logs must never enter source history.
+**/*.sqlite
+**/*.sqlite3
+**/*.sqlite3-wal
+**/*.sqlite3-shm
+**/*.db
+**/*.log
+
+# Secrets and credentials are configured per host outside this folder.
+**/.env
+**/.env.*
+!**/.env.example
+**/*.pem
+**/*.key
+**/*.p12

@@ -1,0 +1,51 @@
+{
+  "artifacts": [
+    {
+      "path": "outputs/external-proof/virtual-twin-trust-kernel/case-study.md",
+      "sha256": "cb237c16e082c9401164c842e6e3d0170aa2bf56b98bf848b4ad692a8f28dfb8"
+    },
+    {
+      "path": "outputs/external-proof/virtual-twin-trust-kernel/presentation-outline.md",
+      "sha256": "e78a7e68c07b83917b8bd6be7563568e599bb5f87a899c62e48dee12ede93232"
+    },
+    {
+      "path": "outputs/external-proof/virtual-twin-trust-kernel/qa.json",
+      "sha256": "633ef8f870f04fd03db1e582901c1ea41ab781714ff4bc8c2b48fee0e3523686"
+    },
+    {
+      "path": "outputs/external-proof/virtual-twin-trust-kernel/technical-report.md",
+      "sha256": "f2f6fa70068a9db8ded02be2bd3fa8e3483e919c7df50bee2aeb5b2ea80dfbc6"
+    }
+  ],
+  "authority_level": "A1",
+  "compiler": {
+    "path": "twin_core/external_proof.py",
+    "sha256": "073ff37bcb263a573833e1526aa1f7b34e21ffcf46040d3029e419715b7ab3c7",
+    "version": "1.0.0"
+  },
+  "manifest": {
+    "path": "external_proof/manifests/virtual-twin-trust-kernel.json",
+    "sha256": "f7d00e8ca49fd9ce149e4525bb0257406cf5ed50d0c47741942443777963a459"
+  },
+  "mode": "draft",
+  "run_key": "216761368d729d3652fbc56db1b35de63ce6441809a80aa22043d76159128f92",
+  "schema_version": "1.0",
+  "sources": [
+    {
+      "path": "architecture/06_IMPLEMENTATION_STATUS.md",
+      "sha256": "96f022de705d7d05e308e5a68beb829ccb890592a9d692ec53480a6a29683281"
+    },
+    {
+      "path": "tests/test_twin_store.py",
+      "sha256": "140b3b044548b59527375d1b2563f93387452200523f338fb6c21a35884251f6"
+    },
+    {
+      "path": "twin_core/memory_proposals.py",
+      "sha256": "853369d89c6ee7d845ff6032997d5ca202733d3ec24c296dbdede3afb4535d62"
+    },
+    {
+      "path": "twin_core/store.py",
+      "sha256": "0a0502ab06282689556489e77a47b457bbdaf11d27eb38630d1ce447e4924cae"
+    }
+  ]
+}

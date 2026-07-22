@@ -1,0 +1,30 @@
+{
+  "desc": "The single place every agent reads from and writes to. Not software you buy · plain files with a strict convention: who the company is, what it sells, how it speaks, what is true right now. An agent with this context writes like a colleague. An agent without it writes like a stranger.",
+  "components": [
+    "company.md",
+    "offer.md",
+    "voice.md",
+    "clients/*",
+    "meetings/*",
+    "playbooks/*",
+    "STATE.md"
+  ],
+  "replaces": "Re-briefing every tool, agency, hire, and AI session from scratch, forever. The context tax is invisible because everyone pays it · until one company stops paying it and starts compounding instead.",
+  "ladder": {
+    "manual": "Context lives in the founder’s head and a thousand chat threads. Every new session starts at zero.",
+    "assisted": "Core files exist · company, offer, voice, per-client state · and humans update them after meaningful work.",
+    "autonomous": "Every transcript, email, and deliverable writes itself back. Any agent or human reads one page and is current. The brain maintains the brain."
+  },
+  "notes": "Build this before anything else on the map · every department’s first node assumes it exists. It is one session of work: scaffold the files, get interviewed, install the read-before-write rules. The test that it works: a smart stranger could read the folder and act for you tomorrow. The skill below does the entire setup.",
+  "human": "Everyone writes to it, one human owns it · usually the founder, eventually an ops lead. Ownership of the brain is the last job that never automates.",
+  "files": [
+    {
+      "label": "Node Zero · knowledge base builder",
+      "path": "skills/knowledge-base.md"
+    },
+    {
+      "label": "SkillTree Audit · your tree, computed",
+      "path": "skills/skilltree-audit.md"
+    }
+  ]
+}

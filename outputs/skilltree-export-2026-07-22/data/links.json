@@ -1,0 +1,946 @@
+[
+  {
+    "url": "http://www.w3.org/2000/svg",
+    "host": "www.w3.org",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://altari.ai",
+    "host": "altari.ai",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://app.heyreach.io/settings",
+    "host": "app.heyreach.io",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://app.instantly.ai/settings/integrations",
+    "host": "app.instantly.ai",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://cal.com/altari/30min",
+    "host": "cal.com",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://console.apify.com/account/integrations",
+    "host": "console.apify.com",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://console.deepgram.com/",
+    "host": "console.deepgram.com",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://console.deepgram.com/signup",
+    "host": "console.deepgram.com",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://dashboard.exa.ai/api-keys",
+    "host": "dashboard.exa.ai",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://esm.sh/@supabase/supabase-js@2",
+    "host": "esm.sh",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://exa.ai",
+    "host": "exa.ai",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://firecrawl.dev",
+    "host": "firecrawl.dev",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://firecrawl.dev/app/api-keys",
+    "host": "firecrawl.dev",
+    "first_party": false,
+    "sources": [
+      "SKILLTREE_CORPUS.md",
+      "raw/skill-previews.js"
+    ]
+  },
+  {
+    "url": "https://fonts.googleapis.com",
+    "host": "fonts.googleapis.com",
+    "first_party": false,
+    "sources": [
+      "raw/map.html",
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://fonts.googleapis.com/css2?family=Marcellus&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+    "host": "fonts.googleapis.com",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Marcellus&display=swap",
+    "host": "fonts.googleapis.com",
+    "first_party": false,
+    "sources": [
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://fonts.gstatic.com",
+    "host": "fonts.gstatic.com",
+    "first_party": false,
+    "sources": [
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html",
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/${cta}",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/M ${x0.toFixed(1)} ${y0.toFixed(1)} L ${x1.toFixed(1)} ${y1.toFixed(1)}",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/M ${x1.toFixed(1)} ${y1.toFixed(1)} L ${x0.toFixed(1)} ${y0.toFixed(1)}",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/api/access",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/api/lead",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html",
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/api/skill?slug=",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/apple-touch-icon.png",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html",
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/chart.html",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/content.js",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/dash/index.html",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/favicon.svg",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html",
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/login",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/map.html",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html",
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/og.png",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html",
+      "raw/preview.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skill-meta.js",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skill-previews.js",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/billing-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/brand-deal-producer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/brand-visual-designer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/business-data-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/buying-signals-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/call-prep-researcher.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/campaign-operations-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/carousel-designer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/case-study-curator.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/client-onboarding-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/client-portal-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/cold-email-copywriter.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/community-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/company-research-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/competitive-intelligence-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/content-performance-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/content-repurposing-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/contracts-coordinator.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/conversion-copywriter.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/creative-strategist.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/customer-success-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/data-enrichment-specialist.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/deal-debrief-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/deal-room-producer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/deliverability-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/delivery-status-reporter.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/dm-fulfillment-specialist.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/document-extraction-engineer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/executive-assistant.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/finance-operations-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/financial-reporting-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/followup-coordinator.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/help-content-writer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/icp-strategist.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/inbound-response-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/inbox-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/instagram-content-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/integration-engineer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/knowledge-base.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/lead-magnet-producer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/lead-scoring-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/lead-sourcing-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/linkedin-outreach-specialist.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/market-mapper.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/meeting-booking-coordinator.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/meeting-intelligence-engineer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/newsletter-editor.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/outbound-inbox-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/outbound-scriptwriter.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/people-operations-assistant.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/personal-brand-designer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/pipeline-operations-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/playbook-writer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/presentation-designer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/pricing-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/proposal-writer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/prospect-research-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/publishing-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/qa-engineer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/reactivation-specialist.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/records-administrator.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/red-team-reviewer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/relationship-mapper.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/reliability-engineer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/research-reporter.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/scriptwriter.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/seo-engineer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/signal-monitoring-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/skilltree-audit.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/social-copywriter.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/social-prospecting-specialist.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/solutions-engineer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/support-answerer.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/support-operations-manager.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/talent-coordinator.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/tiktok-content-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/trend-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/vertical-analyst.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://skilltree.altari.ai/skills/video-editor.md",
+    "host": "skilltree.altari.ai",
+    "first_party": true,
+    "sources": [
+      "raw/content.js"
+    ]
+  },
+  {
+    "url": "https://us.i.posthog.com",
+    "host": "us.i.posthog.com",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://whop.com/checkout/plan_Ev10pfn1io8y1",
+    "host": "whop.com",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  },
+  {
+    "url": "https://www.clarity.ms/tag/",
+    "host": "www.clarity.ms",
+    "first_party": false,
+    "sources": [
+      "raw/map.html"
+    ]
+  }
+]

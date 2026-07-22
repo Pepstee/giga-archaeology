@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "authority": {
+    "actor": "operator",
+    "confirmed_at": "2026-07-22T08:52:37Z",
+    "basis": "The operator explicitly asked Codex to solve the recorded derived-artifact lineage problem gracefully."
+  },
+  "recovery": {
+    "backup": "~/.giga/backups/twin-before-lineage-v2-c0f203a1ccf73824.sqlite3",
+    "sha256": "c0f203a1ccf738244c519de956cb575e0716b3e4a87659c924448afe0add9abb"
+  },
+  "artifacts": [
+    {
+      "path": "architecture/01_LIGHT_MAP.md",
+      "sources": [
+        "00_MASTER.md",
+        "CONTEXT.md",
+        "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256"
+      ],
+      "required_headings": [
+        "# GIGA light architecture map",
+        "## Surface verdict"
+      ],
+      "adoption_statement": "operator-authorized adoption after current source, structure, memory, test and export verification"
+    },
+    {
+      "path": "architecture/02_MEDIUM_MAP.md",
+      "sources": [
+        "00_MASTER.md",
+        "corpus/MANIFEST.md",
+        "architecture/01_LIGHT_MAP.md"
+      ],
+      "required_headings": [
+        "# GIGA medium architecture map",
+        "## Medium-depth architectural verdict"
+      ],
+      "adoption_statement": "operator-authorized adoption after current source, structure, memory, test and export verification"
+    },
+    {
+      "path": "architecture/03_DEEP_MAP.md",
+      "sources": [
+        "architecture/02_MEDIUM_MAP.md",
+        "scripts/daily_personal_knowledge.py",
+        "scripts/jarvis_telegram.py"
+      ],
+      "required_headings": [
+        "# GIGA deep architecture map",
+        "## Verification matrix",
+        "## Deep-pass conclusion"
+      ],
+      "adoption_statement": "operator-authorized adoption after current source, structure, memory, test and export verification"
+    },
+    {
+      "path": "architecture/04_VIRTUAL_TWIN_TARGET.md",
+      "sources": [
+        "CONTEXT.md",
+        "CHARTER.md",
+        "architecture/03_DEEP_MAP.md"
+      ],
+      "required_headings": [
+        "# Virtual Artiom target architecture",
+        "## Promotion scorecard",
+        "## End-state acceptance statement"
+      ],
+      "adoption_statement": "operator-authorized adoption after current source, structure, memory, test and export verification"
+    },
+    {
+      "path": "architecture/05_TRANSITION_ROADMAP.md",
+      "sources": [
+        "architecture/03_DEEP_MAP.md",
+        "architecture/04_VIRTUAL_TWIN_TARGET.md"
+      ],
+      "required_headings": [
+        "# GIGA transition roadmap: evidence substrate → virtual twin",
+        "## Phase 1 — Trust kernel",
+        "## First implementation slice authorised by this plan"
+      ],
+      "adoption_statement": "operator-authorized adoption after current source, structure, memory, test and export verification"
+    },
+    {
+      "path": "architecture/06_IMPLEMENTATION_STATUS.md",
+      "sources": [
+        "architecture/05_TRANSITION_ROADMAP.md",
+        "07_VIRTUAL_TWIN_BRIEF.md",
+        "twin_core/store.py",
+        "twin_core/maturity.py",
+        "twin_core/context_compiler.py",
+        "twin_core/memory_proposals.py",
+        "twin_core/telegram_pipeline.py",
+        "twin_core/provider_adapters.py",
+        "twin_core/external_proof.py",
+        "twin_core/lineage.py",
+        "scripts/jarvis_telegram.py",
+        "scripts/daily_personal_knowledge.py",
+        "external_proof/CONTRACT.md",
+        "memory/INDEX.md",
+        "memory/MEMORY_PROTOCOL.md",
+        "tests/test_twin_store.py",
+        "tests/test_lineage.py",
+        "tests/test_external_proof.py",
+        "skilltree/IMPLEMENTATION_REPORT.md"
+      ],
+      "required_headings": [
+        "# Virtual-twin implementation status",
+        "## What is live",
+        "## Gate evidence",
+        "## Next exact slice"
+      ],
+      "adoption_statement": "operator-authorized adoption after current source, structure, memory, test and export verification"
+    }
+  ]
+}

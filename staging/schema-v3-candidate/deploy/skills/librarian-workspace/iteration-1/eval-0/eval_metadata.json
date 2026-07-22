@@ -1,0 +1,10 @@
+{
+ "eval_id": 0,
+ "eval_name": "file-and-collide",
+ "prompt": "remember: if the orchestrator's Telegram channel goes quiet for more than a day, check supervisor.log before restarting anything \u2014 quiet is a symptom, restarts can destroy state",
+ "assertions": [
+  "A new entry file is created in entries/ with valid frontmatter (type: decision or fact)",
+  "INDEX.md is regenerated containing the new entry's line",
+  "The reply surfaces at least one collision/connection with an existing entry by slug"
+ ]
+}

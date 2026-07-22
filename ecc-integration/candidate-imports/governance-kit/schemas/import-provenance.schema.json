@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga.local/schemas/import-provenance.v1.json",
+  "title": "Pinned upstream import provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["upstream", "commit", "source_path", "source_sha256", "destination", "adaptation", "tests", "decision"],
+  "properties": {
+    "upstream": {"type": "string", "pattern": "^https://"},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "source_path": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "destination": {"type": "string", "minLength": 1},
+    "adaptation": {"type": "string", "minLength": 1},
+    "tests": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "decision": {"enum": ["staged", "certified", "rejected", "retired"]}
+  }
+}

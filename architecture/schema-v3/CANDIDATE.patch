@@ -1,0 +1,606 @@
+Binary files twin_core/__pycache__/__init__.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/__init__.cpython-314.pyc differ
+Binary files twin_core/__pycache__/__main__.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/__main__.cpython-314.pyc differ
+Binary files twin_core/__pycache__/cli.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/cli.cpython-314.pyc differ
+Binary files twin_core/__pycache__/context_compiler.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/context_compiler.cpython-314.pyc differ
+Binary files twin_core/__pycache__/external_proof.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/external_proof.cpython-314.pyc differ
+Binary files twin_core/__pycache__/health.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/health.cpython-314.pyc differ
+Binary files twin_core/__pycache__/integrity.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/integrity.cpython-314.pyc differ
+Binary files twin_core/__pycache__/lineage.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/lineage.cpython-314.pyc differ
+Binary files twin_core/__pycache__/maturity.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/maturity.cpython-314.pyc differ
+Binary files twin_core/__pycache__/memory_proposals.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/memory_proposals.cpython-314.pyc differ
+Binary files twin_core/__pycache__/memory_validation.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/memory_validation.cpython-314.pyc differ
+Binary files twin_core/__pycache__/provider_adapters.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/provider_adapters.cpython-314.pyc differ
+Binary files twin_core/__pycache__/schema_v3.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/schema_v3.cpython-314.pyc differ
+Binary files twin_core/__pycache__/store.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/store.cpython-314.pyc differ
+Binary files twin_core/__pycache__/telegram_pipeline.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/telegram_pipeline.cpython-314.pyc differ
+Binary files twin_core/__pycache__/transcript_actions.cpython-314.pyc and staging/schema-v3-candidate/twin_core/__pycache__/transcript_actions.cpython-314.pyc differ
+diff -ruN twin_core/cli.py staging/schema-v3-candidate/twin_core/cli.py
+--- twin_core/cli.py	2026-07-22 09:51:48
++++ staging/schema-v3-candidate/twin_core/cli.py	2026-07-22 11:56:19
+@@ -13,6 +13,7 @@
+ from .maturity import scorecard
+ from .memory_validation import render_report, validate_memory
+ from .store import DEFAULT_DATABASE, TwinStore
++from .schema_v3 import entropy_report, migrate_v2_to_v3
+ 
+ 
+ def parser() -> argparse.ArgumentParser:
+@@ -21,6 +22,9 @@
+     result.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
+     sub = result.add_subparsers(dest="command", required=True)
+     sub.add_parser("init", help="initialise the secure local trust-kernel store")
++    migrate = sub.add_parser("migrate-v3", help="explicitly migrate an exact v2 store to v3")
++    migrate.add_argument("--backup", type=Path, required=True)
++    sub.add_parser("entropy", help="verify schema-v3 structure and lineage invariants read-only")
+     validate = sub.add_parser("validate-memory", help="validate Markdown memory and index")
+     validate.add_argument("--json", action="store_true", dest="as_json")
+     sub.add_parser("health", help="emit a machine-derived GIGA health snapshot")
+@@ -73,6 +77,13 @@
+         store = TwinStore(args.database)
+         print(json.dumps({"database": str(store.database), "counts": store.counts()}, indent=2))
+         return 0
++    if args.command == "migrate-v3":
++        print(json.dumps(migrate_v2_to_v3(args.database, args.backup), indent=2))
++        return 0
++    if args.command == "entropy":
++        result = entropy_report(args.database)
++        print(json.dumps(result, ensure_ascii=False, indent=2))
++        return 0 if result["ok"] else 1
+     if args.command == "validate-memory":
+         result = validate_memory(args.root / "memory")
+         print(json.dumps(result, ensure_ascii=False, indent=2) if args.as_json else render_report(result))
+diff -ruN twin_core/schema_v3.py staging/schema-v3-candidate/twin_core/schema_v3.py
+--- twin_core/schema_v3.py	1970-01-01 01:00:00
++++ staging/schema-v3-candidate/twin_core/schema_v3.py	2026-07-22 11:59:30
+@@ -0,0 +1,203 @@
++"""Explicit, fail-closed schema-v3 migration and entropy verification."""
++from __future__ import annotations
++
++import hashlib
++import os
++import sqlite3
++from pathlib import Path
++from typing import Callable
++
++from .store import utc_now
++
++SCHEMA_VERSION = 3
++MIGRATION_ID = "twin-schema-v2-to-v3-2026-07-22"
++MIGRATION_SHA256 = hashlib.sha256(MIGRATION_ID.encode()).hexdigest()
++
++TRIGGERS = {
++    "trg_artifact_revision_no_delete": """
++        CREATE TRIGGER trg_artifact_revision_no_delete
++        BEFORE DELETE ON derived_artifact_revisions
++        BEGIN SELECT RAISE(ABORT, 'artifact revisions are append-only'); END""",
++    "trg_artifact_revision_immutable": """
++        CREATE TRIGGER trg_artifact_revision_immutable
++        BEFORE UPDATE OF path,artifact_sha256,source_refs_json,build_command,built_at,
++          provenance_mode,supersedes_revision_id,authority_event_id,verification_json
++        ON derived_artifact_revisions
++        BEGIN SELECT RAISE(ABORT, 'artifact revision payload is immutable'); END""",
++    "trg_artifact_revision_status": """
++        CREATE TRIGGER trg_artifact_revision_status
++        BEFORE UPDATE OF status ON derived_artifact_revisions
++        WHEN NOT (OLD.status = 'current' AND NEW.status = 'superseded')
++        BEGIN SELECT RAISE(ABORT, 'invalid artifact revision status transition'); END""",
++    "trg_artifact_revision_insert_current": """
++        CREATE TRIGGER trg_artifact_revision_insert_current
++        BEFORE INSERT ON derived_artifact_revisions WHEN NEW.status <> 'current'
++        BEGIN SELECT RAISE(ABORT, 'new artifact revision must be current'); END""",
++}
++
++
++def _normalise(sql: str | None) -> str:
++    return " ".join((sql or "").split()).lower()
++
++
++def install_v3_contract(connection: sqlite3.Connection) -> None:
++    for sql in TRIGGERS.values():
++        connection.execute(sql)
++
++
++def verify_v3_contract(connection: sqlite3.Connection) -> None:
++    metadata = connection.execute(
++        "SELECT schema_version FROM schema_metadata WHERE singleton=1"
++    ).fetchone()
++    if metadata is None or int(metadata[0]) != SCHEMA_VERSION:
++        raise RuntimeError("schema_metadata does not identify schema v3")
++    user_version = int(connection.execute("PRAGMA user_version").fetchone()[0])
++    if user_version != SCHEMA_VERSION:
++        raise RuntimeError(f"schema entropy: metadata=3 but user_version={user_version}")
++    rows = connection.execute(
++        "SELECT name,sql FROM sqlite_schema WHERE type='trigger'"
++    ).fetchall()
++    actual = {str(row[0]): _normalise(row[1]) for row in rows}
++    for name, expected in TRIGGERS.items():
++        if actual.get(name) != _normalise(expected):
++            raise RuntimeError(f"schema entropy: missing or altered trigger {name}")
++    if connection.execute(
++        "SELECT 1 FROM sqlite_schema WHERE type='table' AND name='schema_migrations'"
++    ).fetchone() is None:
++        raise RuntimeError("schema entropy: schema_migrations ledger is missing")
++
++
++def _sha256(path: Path) -> str:
++    digest = hashlib.sha256()
++    with path.open("rb") as handle:
++        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
++            digest.update(chunk)
++    return digest.hexdigest()
++
++
++def migrate_v2_to_v3(
++    database: Path,
++    backup: Path,
++    *,
++    fault_hook: Callable[[str], None] | None = None,
++    timeout: float = 5.0,
++) -> dict[str, object]:
++    """Migrate only an exact v2 store, preserving a verified owner-only SQLite backup."""
++    database, backup = database.expanduser().resolve(), backup.expanduser().resolve()
++    if not database.is_file():
++        raise FileNotFoundError(database)
++    if database == backup or backup.exists():
++        raise ValueError("backup must be a new path distinct from the database")
++    backup.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
++    connection = sqlite3.connect(database, timeout=timeout)
++    try:
++        connection.execute(f"PRAGMA busy_timeout={int(timeout * 1000)}")
++        connection.execute("PRAGMA foreign_keys=ON")
++        connection.execute("BEGIN IMMEDIATE")
++        version = connection.execute(
++            "SELECT schema_version FROM schema_metadata WHERE singleton=1"
++        ).fetchone()
++        if version is None or int(version[0]) != 2:
++            raise RuntimeError("migration requires an exact schema-v2 source")
++        if int(connection.execute("PRAGMA user_version").fetchone()[0]) not in (0, 2):
++            raise RuntimeError("v2 source has an unexpected user_version")
++        if connection.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
++            raise RuntimeError("source integrity_check failed")
++        if connection.execute("PRAGMA foreign_key_check").fetchall():
++            raise RuntimeError("source foreign_key_check failed")
++        if fault_hook:
++            fault_hook("after_lock")
++        # The reserved writer lock stays held across backup and migration, so the
++        # recovery image is the exact immediate pre-migration logical state.
++        source = sqlite3.connect(f"file:{database}?mode=ro", uri=True, timeout=timeout)
++        destination = sqlite3.connect(backup)
++        try:
++            source.backup(destination)
++        finally:
++            source.close()
++            destination.close()
++        os.chmod(backup, 0o600)
++        backup_sha256 = _sha256(backup)
++        if fault_hook:
++            fault_hook("after_backup")
++        connection.execute("""CREATE TABLE schema_migrations (
++            id INTEGER PRIMARY KEY AUTOINCREMENT, from_version INTEGER NOT NULL,
++            to_version INTEGER NOT NULL, applied_at TEXT NOT NULL,
++            migration_sha256 TEXT NOT NULL, backup_sha256 TEXT NOT NULL)""")
++        install_v3_contract(connection)
++        if fault_hook:
++            fault_hook("after_ddl")
++        applied_at = utc_now()
++        connection.execute(
++            "UPDATE schema_metadata SET schema_version=3,migrated_at=? WHERE singleton=1",
++            (applied_at,),
++        )
++        connection.execute("PRAGMA user_version=3")
++        connection.execute(
++            "INSERT INTO schema_migrations(from_version,to_version,applied_at,migration_sha256,backup_sha256) VALUES(2,3,?,?,?)",
++            (applied_at, MIGRATION_SHA256, backup_sha256),
++        )
++        if fault_hook:
++            fault_hook("before_commit")
++        verify_v3_contract(connection)
++        connection.commit()
++    except Exception:
++        connection.rollback()
++        raise
++    finally:
++        connection.close()
++    check = sqlite3.connect(f"file:{database}?mode=ro", uri=True)
++    try:
++        verify_v3_contract(check)
++        if check.execute("PRAGMA integrity_check").fetchone()[0] != "ok":
++            raise RuntimeError("post-migration integrity_check failed")
++        if check.execute("PRAGMA foreign_key_check").fetchall():
++            raise RuntimeError("post-migration foreign_key_check failed")
++    finally:
++        check.close()
++    return {"from_version": 2, "to_version": 3, "backup": str(backup),
++            "backup_sha256": backup_sha256, "migration_sha256": MIGRATION_SHA256}
++
++
++def entropy_report(database: Path) -> dict[str, object]:
++    checks: list[dict[str, object]] = []
++    connection = sqlite3.connect(f"file:{database.expanduser().resolve()}?mode=ro", uri=True)
++    try:
++        def add(name: str, ok: bool, detail: object = None) -> None:
++            checks.append({"name": name, "ok": bool(ok), "detail": detail})
++        try:
++            verify_v3_contract(connection)
++            add("schema_contract", True)
++        except Exception as exc:
++            add("schema_contract", False, str(exc))
++        duplicates = connection.execute("""SELECT path,COUNT(*) FROM derived_artifact_revisions
++            WHERE status='current' GROUP BY path HAVING COUNT(*)<>1""").fetchall()
++        add("one_current_revision", not duplicates, [tuple(row) for row in duplicates])
++        mismatch = connection.execute("""SELECT a.path FROM derived_artifacts a
++            LEFT JOIN derived_artifact_revisions r ON r.path=a.path AND r.status='current'
++            WHERE r.id IS NULL OR a.artifact_sha256<>r.artifact_sha256
++              OR a.source_refs_json<>r.source_refs_json OR a.build_command<>r.build_command
++              OR a.built_at<>r.built_at""").fetchall()
++        add("projection_matches_current", not mismatch, [row[0] for row in mismatch])
++        missing_projection = connection.execute("""SELECT r.path FROM derived_artifact_revisions r
++            LEFT JOIN derived_artifacts a ON a.path=r.path
++            WHERE r.status='current' AND a.path IS NULL""").fetchall()
++        add("current_has_projection", not missing_projection, [row[0] for row in missing_projection])
++        orphans = connection.execute("""SELECT r.id FROM derived_artifact_revisions r
++            LEFT JOIN derived_artifact_revisions p ON p.id=r.supersedes_revision_id
++            WHERE r.supersedes_revision_id IS NOT NULL AND p.id IS NULL""").fetchall()
++        add("no_orphan_revision_links", not orphans, [row[0] for row in orphans])
++        rows = connection.execute("SELECT id,supersedes_revision_id FROM derived_artifact_revisions").fetchall()
++        parent = {str(row[0]): (str(row[1]) if row[1] is not None else None) for row in rows}
++        cycles: list[str] = []
++        for start in parent:
++            seen: set[str] = set()
++            node: str | None = start
++            while node is not None and node in parent:
++                if node in seen:
++                    cycles.append(start); break
++                seen.add(node); node = parent[node]
++        add("no_revision_cycles", not cycles, cycles)
++    finally:
++        connection.close()
++    return {"ok": all(bool(item["ok"]) for item in checks), "checks": checks}
+diff -ruN twin_core/store.py staging/schema-v3-candidate/twin_core/store.py
+--- twin_core/store.py	2026-07-22 09:53:18
++++ staging/schema-v3-candidate/twin_core/store.py	2026-07-22 11:55:36
+@@ -17,7 +17,7 @@
+ from typing import Any, Iterator, Mapping, Sequence
+ 
+ 
+-SCHEMA_VERSION = 2
++SCHEMA_VERSION = 3
+ DEFAULT_DATABASE = Path.home() / ".giga" / "twin.sqlite3"
+ TRUST_CLASSES = {
+     "operator_confirmed",
+@@ -37,6 +37,10 @@
+ ARTIFACT_PROVENANCE_MODES = {"built", "reconciled", "legacy"}
+ 
+ 
++class SchemaMigrationRequired(RuntimeError):
++    """Raised when an existing store needs an explicit, operator-controlled migration."""
++
++
+ def utc_now() -> str:
+     return datetime.now(timezone.utc).isoformat()
+ 
+@@ -85,13 +89,14 @@
+ 
+     def __init__(self, database: Path = DEFAULT_DATABASE):
+         self.database = database.expanduser().resolve()
++        database_existed = self.database.exists()
+         parent_existed = self.database.parent.exists()
+         self.database.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+         # Never chmod a caller-supplied shared parent such as /tmp.  Enforce 0700 on the
+         # kernel's own default directory and on directories created by this constructor.
+         if not parent_existed or self.database.parent == DEFAULT_DATABASE.parent.resolve():
+             os.chmod(self.database.parent, 0o700)
+-        self._initialise()
++        self._initialise(database_existed=database_existed)
+         os.chmod(self.database, 0o600)
+ 
+     @contextmanager
+@@ -109,8 +114,27 @@
+         finally:
+             connection.close()
+ 
+-    def _initialise(self) -> None:
++    def _initialise(self, *, database_existed: bool) -> None:
+         with self.connect() as connection:
++            metadata_exists = connection.execute(
++                "SELECT 1 FROM sqlite_schema WHERE type='table' AND name='schema_metadata'"
++            ).fetchone() is not None
++            if database_existed or metadata_exists:
++                if not metadata_exists:
++                    raise RuntimeError("existing database has no schema metadata; refusing mutation")
++                current = connection.execute(
++                    "SELECT schema_version FROM schema_metadata WHERE singleton = 1"
++                ).fetchone()
++                if current is None:
++                    raise RuntimeError("existing database has no singleton schema version")
++                if current["schema_version"] != SCHEMA_VERSION:
++                    raise SchemaMigrationRequired(
++                        f"schema {current['schema_version']} requires explicit migration to "
++                        f"schema {SCHEMA_VERSION}"
++                    )
++                from .schema_v3 import verify_v3_contract
++                verify_v3_contract(connection)
++                return
+             connection.executescript(
+                 """
+                 PRAGMA journal_mode = WAL;
+@@ -250,22 +274,23 @@
+                     ON derived_artifact_revisions(path, built_at);
+                 CREATE UNIQUE INDEX IF NOT EXISTS idx_artifact_revisions_current
+                     ON derived_artifact_revisions(path) WHERE status = 'current';
++                CREATE TABLE IF NOT EXISTS schema_migrations (
++                    id INTEGER PRIMARY KEY AUTOINCREMENT,
++                    from_version INTEGER NOT NULL,
++                    to_version INTEGER NOT NULL,
++                    applied_at TEXT NOT NULL,
++                    migration_sha256 TEXT NOT NULL,
++                    backup_sha256 TEXT NOT NULL
++                );
+                 """
+             )
+-            current = connection.execute(
+-                "SELECT schema_version FROM schema_metadata WHERE singleton = 1"
+-            ).fetchone()
+-            if current is None:
+-                connection.execute(
+-                    "INSERT INTO schema_metadata VALUES (1, ?, ?)",
+-                    (SCHEMA_VERSION, utc_now()),
+-                )
+-            elif current["schema_version"] == 1:
+-                self._migrate_v1_to_v2(connection)
+-            elif current["schema_version"] != SCHEMA_VERSION:
+-                raise RuntimeError(
+-                    f"unsupported twin schema {current['schema_version']}; expected {SCHEMA_VERSION}"
+-                )
++            from .schema_v3 import install_v3_contract, verify_v3_contract
++            connection.execute(
++                "INSERT INTO schema_metadata VALUES (1, ?, ?)", (SCHEMA_VERSION, utc_now())
++            )
++            install_v3_contract(connection)
++            connection.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
++            verify_v3_contract(connection)
+ 
+     def _migrate_v1_to_v2(self, connection: sqlite3.Connection) -> None:
+         """Preserve every v1 projection row as a first-class legacy revision."""
+Binary files tests/__pycache__/test_chatgpt_monthly_index.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_chatgpt_monthly_index.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_context_compiler.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_context_compiler.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_daily_personal_knowledge.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_daily_personal_knowledge.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_external_proof.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_external_proof.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_extract_chatgpt_namespace.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_extract_chatgpt_namespace.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_extract_discord.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_extract_discord.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_extract_prompts_namespaces.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_extract_prompts_namespaces.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_integrity.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_integrity.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_jarvis_telegram.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_jarvis_telegram.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_lineage.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_lineage.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_memory_proposals.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_memory_proposals.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_memory_validation.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_memory_validation.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_prediction_automation.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_prediction_automation.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_prepare_finetune_data.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_prepare_finetune_data.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_schema_v3.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_schema_v3.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_skilltree_operator.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_skilltree_operator.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_telegram_pipeline.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_telegram_pipeline.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_transcript_actions.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_transcript_actions.cpython-314-pytest-9.0.3.pyc differ
+Binary files tests/__pycache__/test_twin_store.cpython-314-pytest-9.0.3.pyc and staging/schema-v3-candidate/tests/__pycache__/test_twin_store.cpython-314-pytest-9.0.3.pyc differ
+diff -ruN tests/test_schema_v3.py staging/schema-v3-candidate/tests/test_schema_v3.py
+--- tests/test_schema_v3.py	1970-01-01 01:00:00
++++ staging/schema-v3-candidate/tests/test_schema_v3.py	2026-07-22 11:59:30
+@@ -0,0 +1,177 @@
++from __future__ import annotations
++
++import hashlib
++import os
++import shutil
++import sqlite3
++import stat
++import tempfile
++import unittest
++from pathlib import Path
++
++from twin_core.schema_v3 import TRIGGERS, entropy_report, migrate_v2_to_v3
++from twin_core.store import SchemaMigrationRequired, TwinStore
++
++
++def snapshot(path: Path) -> tuple[int, dict[str, int], str]:
++    connection = sqlite3.connect(path)
++    try:
++        version = connection.execute("SELECT schema_version FROM schema_metadata").fetchone()[0]
++        tables = [row[0] for row in connection.execute(
++            "SELECT name FROM sqlite_schema WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name"
++        )]
++        counts = {table: connection.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
++                  for table in tables}
++        schema = "\n".join(row[0] or "" for row in connection.execute(
++            "SELECT sql FROM sqlite_schema WHERE sql IS NOT NULL ORDER BY type,name"
++        ))
++        return int(version), counts, hashlib.sha256(schema.encode()).hexdigest()
++    finally:
++        connection.close()
++
++
++def core_digest(path: Path) -> str:
++    connection = sqlite3.connect(path)
++    try:
++        digest = hashlib.sha256()
++        for table in ("events", "processing_attempts", "receipts", "goals", "decisions",
++                      "actions", "derived_artifacts", "derived_artifact_revisions"):
++            columns = [row[1] for row in connection.execute(f'PRAGMA table_info("{table}")')]
++            rows = connection.execute(
++                f'SELECT * FROM "{table}" ORDER BY ' + ",".join(f'"{c}"' for c in columns)
++            ).fetchall()
++            digest.update(repr((table, columns, rows)).encode())
++        return digest.hexdigest()
++    finally:
++        connection.close()
++
++
++def make_v2(path: Path) -> None:
++    # Reuse the production-v2 code in a subprocess-independent way by copying a known v2 DB.
++    source = Path(os.environ.get("GIGA_V2_FIXTURE", "/Users/admin/.giga/twin.sqlite3"))
++    path.parent.mkdir(parents=True, exist_ok=True)
++    source_connection = sqlite3.connect(f"file:{source}?mode=ro", uri=True)
++    destination = sqlite3.connect(path)
++    try:
++        source_connection.backup(destination)
++    finally:
++        source_connection.close(); destination.close()
++
++
++class SchemaV3Tests(unittest.TestCase):
++    def test_fresh_store_has_exact_v3_contract(self) -> None:
++        with tempfile.TemporaryDirectory() as folder:
++            store = TwinStore(Path(folder) / "private" / "twin.sqlite3")
++            connection = sqlite3.connect(store.database)
++            try:
++                self.assertEqual(connection.execute("PRAGMA user_version").fetchone()[0], 3)
++                names = {row[0] for row in connection.execute(
++                    "SELECT name FROM sqlite_schema WHERE type='trigger'")}
++                self.assertEqual(names, set(TRIGGERS))
++            finally: connection.close()
++            self.assertTrue(entropy_report(store.database)["ok"])
++
++    def test_opening_v2_is_fail_closed_and_byte_stable(self) -> None:
++        with tempfile.TemporaryDirectory() as folder:
++            database = Path(folder) / "v2.sqlite3"; make_v2(database)
++            before = database.read_bytes()
++            with self.assertRaises(SchemaMigrationRequired): TwinStore(database)
++            self.assertEqual(before, database.read_bytes())
++
++    def test_migration_preserves_counts_and_backup_and_is_not_repeatable(self) -> None:
++        with tempfile.TemporaryDirectory() as folder:
++            database = Path(folder) / "v2.sqlite3"; backup = Path(folder) / "backup.sqlite3"
++            make_v2(database); before = snapshot(database)
++            logical_before = core_digest(database)
++            result = migrate_v2_to_v3(database, backup)
++            after = snapshot(database)
++            self.assertEqual(before[1]["events"], after[1]["events"])
++            self.assertEqual(before[1]["derived_artifact_revisions"], after[1]["derived_artifact_revisions"])
++            self.assertEqual(snapshot(backup), before)
++            self.assertEqual(core_digest(database), logical_before)
++            self.assertEqual(core_digest(backup), logical_before)
++            self.assertEqual(stat.S_IMODE(backup.stat().st_mode), 0o600)
++            self.assertEqual(result["backup_sha256"], hashlib.sha256(backup.read_bytes()).hexdigest())
++            self.assertTrue(entropy_report(database)["ok"])
++            with self.assertRaises(RuntimeError):
++                migrate_v2_to_v3(database, Path(folder) / "again.sqlite3")
++            restored = Path(folder) / "restored.sqlite3"
++            source = sqlite3.connect(backup); target = sqlite3.connect(restored)
++            try: source.backup(target)
++            finally: source.close(); target.close()
++            self.assertEqual(snapshot(restored), before)
++            self.assertEqual(core_digest(restored), logical_before)
++
++    def test_faults_rollback_every_transaction_stage(self) -> None:
++        for stage in ("after_lock", "after_backup", "after_ddl", "before_commit"):
++            with self.subTest(stage=stage), tempfile.TemporaryDirectory() as folder:
++                database = Path(folder) / "v2.sqlite3"; backup = Path(folder) / "backup.sqlite3"
++                make_v2(database); before = snapshot(database)
++                def fail(current: str) -> None:
++                    if current == stage: raise RuntimeError("injected")
++                with self.assertRaisesRegex(RuntimeError, "injected"):
++                    migrate_v2_to_v3(database, backup, fault_hook=fail)
++                self.assertEqual(snapshot(database), before)
++                self.assertEqual(backup.is_file(), stage != "after_lock")
++
++    def test_database_triggers_block_revision_corruption_but_allow_normal_append(self) -> None:
++        with tempfile.TemporaryDirectory() as folder:
++            store = TwinStore(Path(folder) / "db.sqlite3")
++            first = store.register_artifact(path="a", artifact_sha256="a"*64,
++                source_refs=[{"path":"s","sha256":"b"*64}], build_command="build")
++            connection = sqlite3.connect(store.database)
++            try:
++                for sql in (
++                    "DELETE FROM derived_artifact_revisions WHERE id=?",
++                    "UPDATE derived_artifact_revisions SET artifact_sha256=? WHERE id=?",
++                    "UPDATE derived_artifact_revisions SET status='current' WHERE id=?",
++                ):
++                    with self.assertRaises(sqlite3.IntegrityError):
++                        connection.execute(sql, (("c"*64, first) if "sha256" in sql else (first,)))
++                connection.rollback()
++            finally: connection.close()
++            second = store.register_artifact(path="a", artifact_sha256="d"*64,
++                source_refs=[{"path":"s","sha256":"b"*64}], build_command="build")
++            self.assertNotEqual(first, second)
++            self.assertTrue(entropy_report(store.database)["ok"])
++
++    def test_entropy_detects_projection_and_trigger_tampering(self) -> None:
++        with tempfile.TemporaryDirectory() as folder:
++            store = TwinStore(Path(folder) / "db.sqlite3")
++            store.register_artifact(path="a", artifact_sha256="a"*64,
++                source_refs=[{"path":"s","sha256":"b"*64}], build_command="build")
++            connection = sqlite3.connect(store.database)
++            connection.execute("UPDATE derived_artifacts SET artifact_sha256=?", ("c"*64,))
++            connection.execute("DROP TRIGGER trg_artifact_revision_no_delete")
++            connection.commit(); connection.close()
++            result = entropy_report(store.database)
++            self.assertFalse(result["ok"])
++            failed = {item["name"] for item in result["checks"] if not item["ok"]}
++            self.assertEqual(failed, {"schema_contract", "projection_matches_current"})
++
++    def test_user_version_mismatch_and_unknown_existing_database_fail(self) -> None:
++        with tempfile.TemporaryDirectory() as folder:
++            store = TwinStore(Path(folder) / "db.sqlite3")
++            connection = sqlite3.connect(store.database); connection.execute("PRAGMA user_version=2")
++            connection.commit(); connection.close()
++            with self.assertRaisesRegex(RuntimeError, "entropy"): TwinStore(store.database)
++            unknown = Path(folder) / "unknown.sqlite3"
++            sqlite3.connect(unknown).close()
++            with self.assertRaisesRegex(RuntimeError, "no schema metadata"): TwinStore(unknown)
++
++    def test_writer_lock_causes_clean_timeout_without_partial_schema(self) -> None:
++        with tempfile.TemporaryDirectory() as folder:
++            database = Path(folder) / "v2.sqlite3"; backup = Path(folder) / "backup.sqlite3"
++            make_v2(database); before = snapshot(database)
++            lock = sqlite3.connect(database)
++            lock.execute("BEGIN IMMEDIATE")
++            try:
++                with self.assertRaises(sqlite3.OperationalError):
++                    migrate_v2_to_v3(database, backup, timeout=0.05)
++            finally:
++                lock.rollback(); lock.close()
++            self.assertEqual(snapshot(database), before)
++            self.assertFalse(backup.exists())
++
++
++if __name__ == "__main__": unittest.main()
+diff -ruN tests/test_twin_store.py staging/schema-v3-candidate/tests/test_twin_store.py
+--- tests/test_twin_store.py	2026-07-22 09:49:15
++++ staging/schema-v3-candidate/tests/test_twin_store.py	2026-07-22 11:57:17
+@@ -9,7 +9,7 @@
+ from datetime import datetime, timezone
+ from pathlib import Path
+ 
+-from twin_core.store import TwinStore
++from twin_core.store import SchemaMigrationRequired, TwinStore
+ 
+ 
+ class TwinStoreTests(unittest.TestCase):
+@@ -132,7 +132,7 @@
+                     build_command="build",
+                 )
+ 
+-    def test_schema_v1_artifacts_migrate_to_preserved_legacy_revisions(self) -> None:
++    def test_schema_v1_requires_explicit_migration_without_mutation(self) -> None:
+         with tempfile.TemporaryDirectory() as folder:
+             database = Path(folder) / "private" / "twin.sqlite3"
+             database.parent.mkdir()
+@@ -168,16 +168,10 @@
+             connection.commit()
+             connection.close()
+ 
+-            store = TwinStore(database)
+-            history = store.artifact_history("architecture/map.md")
+-            self.assertEqual(len(history), 1)
+-            self.assertEqual(history[0]["provenance_mode"], "legacy")
+-            self.assertEqual(history[0]["artifact_sha256"], "a" * 64)
+-            with store.connect() as current:
+-                version = current.execute(
+-                    "SELECT schema_version FROM schema_metadata WHERE singleton = 1"
+-                ).fetchone()[0]
+-            self.assertEqual(version, 2)
++            before = database.read_bytes()
++            with self.assertRaises(SchemaMigrationRequired):
++                TwinStore(database)
++            self.assertEqual(database.read_bytes(), before)
+ 
+     def test_reconciliation_requires_operator_authority_and_preserves_history(self) -> None:
+         with tempfile.TemporaryDirectory() as folder:

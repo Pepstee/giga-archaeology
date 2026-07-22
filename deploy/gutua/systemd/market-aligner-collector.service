@@ -1,0 +1,25 @@
+[Unit]
+Description=Market Aligner continuous vacancy collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=gutua
+Group=gutua
+WorkingDirectory=/home/gutua/giga/market-aligner
+Environment=HOME=/home/gutua
+Environment=PATH=/home/gutua/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/gutua/giga/market-aligner/.venv/bin/python scripts/collect_uk_jobs.py --config skeleton/config.overnight.yaml --hours 0 --poll-minutes 15
+Restart=always
+RestartSec=30
+TimeoutStopSec=90
+KillSignal=SIGINT
+NoNewPrivileges=true
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

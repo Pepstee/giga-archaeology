@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hangul Drill — Phase 0</title>
+<style>
+  :root{
+    --bg:#101418; --card:#1a2028; --card2:#212a35; --text:#e8edf2; --dim:#8fa0b0;
+    --accent:#4da3ff; --good:#3ecf8e; --bad:#ff6b6b; --border:#2c3844;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+       display:flex; flex-direction:column; align-items:center; min-height:100vh; padding:24px;}
+  h1{font-size:1.3rem; margin-bottom:4px;}
+  .sub{color:var(--dim); font-size:.85rem; margin-bottom:20px;}
+  .tabs{display:flex; gap:8px; margin-bottom:20px;}
+  .tab{padding:8px 18px; border-radius:20px; border:1px solid var(--border); background:var(--card);
+       color:var(--dim); cursor:pointer; font-size:.9rem;}
+  .tab.active{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .stage{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:32px;
+         width:min(520px,100%); text-align:center;}
+  .prompt{font-size:4.5rem; font-weight:700; margin:12px 0 8px; min-height:5.5rem;}
+  .gloss{color:var(--dim); font-size:.9rem; min-height:1.2rem; margin-bottom:18px;}
+  .choices{display:flex; flex-wrap:wrap; gap:10px; justify-content:center;}
+  .choice{padding:12px 22px; font-size:1.3rem; border-radius:12px; border:1px solid var(--border);
+          background:var(--card2); color:var(--text); cursor:pointer; min-width:90px;}
+  .choice:hover{border-color:var(--accent);}
+  .choice.correct{background:var(--good); border-color:var(--good); color:#08281a;}
+  .choice.wrong{background:var(--bad); border-color:var(--bad); color:#fff;}
+  .row{display:flex; justify-content:space-between; align-items:center; width:min(520px,100%);
+       margin-top:14px; color:var(--dim); font-size:.9rem;}
+  .btn{padding:10px 20px; border-radius:10px; border:none; background:var(--accent); color:#fff;
+       cursor:pointer; font-size:1rem; margin-top:16px;}
+  .warn{background:#3a2f1a; border:1px solid #6b5a2a; color:#e8d9a0; padding:12px 16px;
+        border-radius:10px; font-size:.85rem; margin-top:16px; width:min(520px,100%); display:none;}
+  .hint{color:var(--dim); font-size:.8rem; margin-top:14px; line-height:1.5;}
+</style>
+</head>
+<body>
+<h1>Hangul Drill — Phase 0</h1>
+<div class="sub">Exit test: 20/25 on the listening drill · read any word aloud</div>
+
+<div class="tabs">
+  <button class="tab active" id="tabRead" onclick="setMode('read')">READ (see → romanise)</button>
+  <button class="tab" id="tabListen" onclick="setMode('listen')">LISTEN (hear → identify)</button>
+</div>
+
+<div class="stage">
+  <div class="prompt" id="prompt">—</div>
+  <div class="gloss" id="gloss"></div>
+  <div class="choices" id="choices"></div>
+  <button class="btn" id="playBtn" style="display:none" onclick="playTarget()">&#9654; Play again</button>
+</div>
+
+<div class="row">
+  <span id="score">Score 0/0</span>
+  <span id="streak">Streak 0</span>
+</div>
+
+<div class="warn" id="voiceWarn">
+  No Korean voice found. On macOS: System Settings → Accessibility → Spoken Content →
+  System Voice → Manage Voices → download a Korean voice (e.g. Yuna). Then reload this page.
+</div>
+
+<div class="hint">
+  LISTEN mode — the pitch secret: at the start of a word, lenis (가 다 바) begins on a <b>LOW</b> pitch;
+  aspirated (카 타 파) and tense (까 따 빠) begin <b>HIGH</b>. Tense = your Russian hard unaspirated stop.
+  Also drilled: ㅓ vs ㅗ and ㅜ vs ㅡ.
+</div>
+
+<script>
+// ---------- DATA ----------
+const readItems = [
+  {ko:"나", r:"na", g:"I"}, {ko:"너", r:"neo", g:"you"}, {ko:"나무", r:"namu", g:"tree"},
+  {ko:"우유", r:"uyu", g:"milk"}, {ko:"바다", r:"bada", g:"sea"}, {ko:"가수", r:"gasu", g:"singer"},
+  {ko:"어머니", r:"eomeoni", g:"mother"}, {ko:"아버지", r:"abeoji", g:"father"},
+  {ko:"오이", r:"oi", g:"cucumber"}, {ko:"아기", r:"agi", g:"baby"}, {ko:"나이", r:"nai", g:"age"},
+  {ko:"거미", r:"geomi", g:"spider"}, {ko:"바나나", r:"banana", g:"banana"},
+  {ko:"두부", r:"dubu", g:"tofu"}, {ko:"미소", r:"miso", g:"smile"}, {ko:"구두", r:"gudu", g:"shoes"},
+  {ko:"모자", r:"moja", g:"hat"}, {ko:"가구", r:"gagu", g:"furniture"}, {ko:"이마", r:"ima", g:"forehead"},
+  {ko:"소", r:"so", g:"cow"}, {ko:"무", r:"mu", g:"radish"}, {ko:"두유", r:"duyu", g:"soy milk"},
+  {ko:"어부", r:"eobu", g:"fisherman"}, {ko:"오빠", r:"oppa", g:"older brother"}, {ko:"아빠", r:"appa", g:"dad"}
+];
+// distractor pool built from plausible confusions
+function distractors(correct){
+  const swaps = [["eo","o"],["o","eo"],["u","eu"],["eu","u"],["a","eo"],["b","p"],["g","k"],["d","t"],["j","ch"]];
+  const out = new Set();
+  for(const [x,y] of swaps){
+    if(correct.includes(x)){ out.add(correct.replace(x,y)); }
+  }
+  out.delete(correct);
+  const arr = [...out];
+  while(arr.length < 3){
+    const rand = readItems[Math.floor(Math.random()*readItems.length)].r;
+    if(rand !== correct && !arr.includes(rand)) arr.push(rand);
+  }
+  return arr.slice(0,3);
+}
+const listenSets = [
+  ["가","카","까"], ["다","타","따"], ["바","파","빠"], ["자","차","짜"],
+  ["어","오"], ["거","고"], ["너","노"], ["서","소"],
+  ["우","으"], ["구","그"], ["부","브"], ["수","스"]
+];
+
+// ---------- STATE ----------
+let mode = "read", target = null, answered = false, score = 0, total = 0, streak = 0;
+let koVoice = null;
+
+function pickVoice(){
+  const vs = speechSynthesis.getVoices();
+  koVoice = vs.find(v => v.lang && v.lang.toLowerCase().startsWith("ko")) || null;
+  document.getElementById("voiceWarn").style.display = (mode==="listen" && !koVoice) ? "block" : "none";
+}
+if("speechSynthesis" in window){
+  speechSynthesis.onvoiceschanged = pickVoice; pickVoice();
+}
+
+function setMode(m){
+  mode = m;
+  document.getElementById("tabRead").classList.toggle("active", m==="read");
+  document.getElementById("tabListen").classList.toggle("active", m==="listen");
+  pickVoice();
+  next();
+}
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function next(){
+  answered = false;
+  const choicesEl = document.getElementById("choices");
+  choicesEl.innerHTML = "";
+  document.getElementById("gloss").textContent = "";
+  if(mode === "read"){
+    document.getElementById("playBtn").style.display = "none";
+    const item = readItems[Math.floor(Math.random()*readItems.length)];
+    target = item;
+    document.getElementById("prompt").textContent = item.ko;
+    const opts = shuffle([item.r, ...distractors(item.r)]);
+    for(const o of opts){
+      const b = document.createElement("button");
+      b.className = "choice"; b.textContent = o;
+      b.onclick = () => answer(b, o === item.r, item.g + (o===item.r?"":" — correct: "+item.r));
+      choicesEl.appendChild(b);
+    }
+  } else {
+    document.getElementById("playBtn").style.display = "inline-block";
+    const set = listenSets[Math.floor(Math.random()*listenSets.length)];
+    const t = set[Math.floor(Math.random()*set.length)];
+    target = {ko:t, set:set};
+    document.getElementById("prompt").textContent = "🔊";
+    for(const o of shuffle([...set])){
+      const b = document.createElement("button");
+      b.className = "choice"; b.textContent = o;
+      b.onclick = () => answer(b, o === t, "it was " + t);
+      choicesEl.appendChild(b);
+    }
+    playTarget();
+  }
+}
+
+function playTarget(){
+  if(!koVoice || mode!=="listen") return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(target.ko);
+  u.voice = koVoice; u.lang = koVoice.lang; u.rate = 0.8;
+  speechSynthesis.speak(u);
+}
+
+function answer(btn, correct, feedback){
+  if(answered) return;
+  answered = true; total++;
+  if(correct){ score++; streak++; btn.classList.add("correct"); }
+  else{
+    streak = 0; btn.classList.add("wrong");
+    [...document.getElementById("choices").children].forEach(b=>{
+      const t = (mode==="read") ? target.r : target.ko;
+      if(b.textContent === t) b.classList.add("correct");
+    });
+  }
+  document.getElementById("gloss").textContent = feedback;
+  document.getElementById("score").textContent = `Score ${score}/${total}`;
+  document.getElementById("streak").textContent = `Streak ${streak}`;
+  setTimeout(next, correct ? 900 : 2200);
+}
+
+next();
+</script>
+</body>
+</html>

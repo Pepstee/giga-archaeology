@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily Market Aligner database backup
+
+[Timer]
+OnBootSec=10min
+OnCalendar=daily
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

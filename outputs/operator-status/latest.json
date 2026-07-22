@@ -1,0 +1,199 @@
+{
+  "authority": "read-only-status",
+  "observed_at": "2026-07-22T17:06:39.152479+00:00",
+  "schema_version": "giga.operator-status.v1",
+  "sections": {
+    "activeAgents": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "no runtime evidence supplied",
+      "state": "unknown",
+      "value": null
+    },
+    "checks": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "skilltree/implementation-registry.json;ecc-integration/UPSTREAM.json;ecc-integration/IMPORT_LEDGER.json;outputs/adapter-evidence/registry.json",
+      "state": "observed",
+      "value": {
+        "adapters": {
+          "authorities": {
+            "bounded-write": 0,
+            "proposal-only": 0,
+            "read-only": 1
+          },
+          "authority_granted": false,
+          "command_execution": false,
+          "effective_states": {
+            "adapter-backed": 0,
+            "instruction-backed": 0,
+            "native": 1,
+            "reference-only": 0
+          },
+          "registered_at": "2026-07-22T16:25:19.739781+00:00",
+          "registry_state": "verified",
+          "total": 1,
+          "verification_states": {
+            "stale": 0,
+            "verified": 1
+          }
+        },
+        "ecc": {
+          "commit": "96789caaf90501ff9b55bf1b00f1c28cf3fccbeb",
+          "deployed": false,
+          "entry_decisions": {
+            "implemented-read-only": 2,
+            "staged": 10
+          }
+        },
+        "skilltree": {
+          "jobs_total": 137,
+          "monitoring": "partial",
+          "status_counts": {
+            "available": 5,
+            "blocked": 2,
+            "documented": 120,
+            "external": 2,
+            "implemented": 7,
+            "partial": 1
+          }
+        }
+      }
+    },
+    "context": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "compiler:giga.operator-status",
+      "state": "observed",
+      "value": {
+        "contract": "giga.operator-status.v1",
+        "repository": "giga-user",
+        "root": "."
+      }
+    },
+    "cost": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "no runtime evidence supplied",
+      "state": "unknown",
+      "value": null
+    },
+    "queueState": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "no runtime evidence supplied",
+      "state": "unknown",
+      "value": null
+    },
+    "risk": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "derived:checks+runtime",
+      "state": "degraded",
+      "value": {
+        "adapter_registry_state": "verified",
+        "ecc_deployed": false,
+        "monitoring_status": "partial",
+        "unknown_or_stale_runtime_signals": [
+          "toolCalls",
+          "activeAgents",
+          "cost",
+          "queueState"
+        ]
+      }
+    },
+    "sessionControls": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "contract:giga.operator-status.v1",
+      "state": "observed",
+      "value": {
+        "mutation_performed": false,
+        "supported": [
+          "status"
+        ],
+        "unsupported": [
+          "create",
+          "resume",
+          "stop",
+          "diff",
+          "pullRequest",
+          "mergeQueue",
+          "conflictQueue"
+        ]
+      }
+    },
+    "sync": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "ecc-integration/IMPORT_LEDGER.json",
+      "state": "observed",
+      "value": {
+        "ecc_import_deployed": false,
+        "entry_decisions": {
+          "implemented-read-only": 2,
+          "staged": 10
+        }
+      }
+    },
+    "todos": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "00_MASTER.md",
+      "state": "observed",
+      "value": {
+        "status_counts": {
+          "DONE": 3,
+          "IN PROGRESS": 3,
+          "NOT STARTED": 1
+        },
+        "workstreams": [
+          {
+            "id": "01",
+            "session": "Unified operator charter",
+            "status": "DONE (18 Jul, operator-closed) — v1.1 live on all three surfaces; standing revert clause if he becomes unsatisfied; Session 04 still reviews the week"
+          },
+          {
+            "id": "02",
+            "session": "Memory & standing context",
+            "status": "DONE (18 Jul) — CONTEXT v1.0 live on Claude (PASS), ChatGPT (PASS qualified — dates omitted; snapshot staleness noted), bot (PASS, live-read)"
+          },
+          {
+            "id": "03",
+            "session": "Life infrastructure",
+            "status": "NOT STARTED"
+          },
+          {
+            "id": "04",
+            "session": "Prompt corpus & reasoning retrospective",
+            "status": "IN PROGRESS (22 Jul) — both ChatGPT accounts and Discord landed; a verified 355-file June 2026 UK-laptop Claude/Orchestrator v1 work capsule is now namespace-isolated as development provenance (prompt reconstruction pending); the separate account's complete Mar 2023–Jul 2026 forward review and 6,168 reasoning candidates are done, with explicit source gaps and authorship boundaries; Discord composition triage, final cross-corpus calibration and operator discard-rate review remain"
+          },
+          {
+            "id": "05",
+            "session": "Calibration & prompt bank",
+            "status": "IN PROGRESS (20 Jul) — autonomous SQLite forecast→evidence→calibration loop integrated into daily Jarvis; no manual predictions; prompt bank + review cadence remain"
+          },
+          {
+            "id": "06",
+            "session": "The second memory (Jarvis)",
+            "status": "DONE (18 Jul; daily capture amended 19 Jul) — bot + skill + folder-chat mesh; Cowork + Codex harvested daily at 06:06 ICT; INGEST + recency law; Claude→GPT fallback; synthesis test passed"
+          },
+          {
+            "id": "07",
+            "session": "Virtual-twin control plane",
+            "status": "IN PROGRESS (22 Jul) — P0/P1 pass; P2 Telegram/daily paths deployed, first natural daily run + fault injection remain; relationship-event graph designed; evidence-backed SkillTree registry, draft-only external-proof compiler, read-only operator-status contract and hashed no-authority adapter registry pass; pinned ECC portable extraction complete with repository-wide deterministic enforcement explicitly deferred for separate design; append-only artefact revisions and operator-authorized lineage reconciliation implemented; Market Aligner remains independent"
+          }
+        ]
+      }
+    },
+    "toolCalls": {
+      "observed_at": "2026-07-22T17:06:39.152479+00:00",
+      "source": "no runtime evidence supplied",
+      "state": "unknown",
+      "value": null
+    }
+  },
+  "summary": {
+    "overall_state": "degraded",
+    "state_counts": {
+      "blocked": 0,
+      "degraded": 1,
+      "healthy": 0,
+      "observed": 5,
+      "stale": 0,
+      "unavailable": 0,
+      "unknown": 4
+    }
+  }
+}

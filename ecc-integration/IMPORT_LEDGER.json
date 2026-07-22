@@ -1,0 +1,133 @@
+{
+  "schema": "giga.ecc-import-ledger.v1",
+  "upstream": "https://github.com/affaan-m/ECC",
+  "commit": "96789caaf90501ff9b55bf1b00f1c28cf3fccbeb",
+  "deployed": false,
+  "entries": [
+    {
+      "id": "adapter-evidence-contract",
+      "source_path": "docs/architecture/harness-adapter-compliance.md",
+      "source_sha256": "ea3dea5e1e2915b0f06efdfd6fc566e1fee898fbb03622feb6232eab55a63b7c",
+      "destination": "ecc-integration/candidate-imports/governance-kit/schemas/adapter-evidence.schema.json",
+      "adaptation": "Minimal independent evidence schema",
+      "implementation": [
+        "twin_core/adapter_evidence.py",
+        "scripts/compile_adapter_evidence.py",
+        "contracts/adapter-evidence.v1.schema.json",
+        "contracts/adapter-registry.v1.schema.json",
+        "adapters/README.md",
+        "adapters/manifests/operator-status-local.json",
+        "tests/test_adapter_evidence.py",
+        "outputs/adapter-evidence/registry.json"
+      ],
+      "tests": ["python3 -m pytest -q tests/test_adapter_evidence.py tests/test_operator_status.py"],
+      "decision": "implemented-read-only"
+    },
+    {
+      "id": "evaluator-negative-control-contract",
+      "source_path": "docs/architecture/evaluator-rag-prototype.md",
+      "source_sha256": "071909ed730f179fd296d3de1546a2b725f26072bb616402a36b58b688d85066",
+      "destination": "ecc-integration/candidate-imports/governance-kit/schemas/evaluator-run.schema.json",
+      "adaptation": "Promotion evidence requires accepted and rejected candidates",
+      "tests": ["python3 -m unittest discover -s tests -v"],
+      "decision": "staged"
+    },
+    {
+      "id": "status-field-map",
+      "source_path": "docs/architecture/hud-status-session-control.md",
+      "source_sha256": "8f1dac68ebd1b38a65447363da5bba6150c127edcac6b07110adc42d0ca8eea4",
+      "destination": "ecc-integration/candidate-imports/STATUS_FIELD_MAP.md",
+      "adaptation": "Mapped fields to receipt-based giga-user semantics",
+      "implementation": [
+        "twin_core/operator_status.py",
+        "scripts/operator_status.py",
+        "contracts/operator-status.v1.schema.json",
+        "tests/test_operator_status.py",
+        "outputs/operator-status/latest.json"
+      ],
+      "tests": ["python3 -m unittest tests.test_operator_status -v"],
+      "decision": "implemented-read-only"
+    },
+    {
+      "id": "selective-deployment-contract",
+      "source_path": "scripts/install-plan.js",
+      "source_sha256": "a13c37fceab028bb679df2ecf4058c5944a2fe13dcf3c2e51fac4242013f8e34",
+      "destination": "ecc-integration/candidate-imports/DEPLOYMENT_CONTRACT.md",
+      "adaptation": "Architecture-only import; ECC installer intentionally excluded",
+      "tests": ["test_check_upstream.py", "manual contract review"],
+      "decision": "staged"
+    },
+    {
+      "id": "security-negative-tests",
+      "source_path": "scripts/ci/validate-workflow-security.js",
+      "source_sha256": "6b4103303cd8b5ef1ee27fbf3884442bac266fcfa42045b768565af68f29d8d1",
+      "destination": "ecc-integration/candidate-imports/SECURITY_NEGATIVE_TESTS.md",
+      "adaptation": "Portable test specification; no ECC hooks installed",
+      "tests": ["npm test", "npm run security:ioc-scan"],
+      "decision": "staged"
+    },
+    {
+      "id": "evaluation-compliance-contract",
+      "source_path": "skills/skill-comply/SKILL.md",
+      "source_sha256": "a9861c0d5cdba7543ffdd3ed73d3a999c0997c1ed41a562d163a4b4ff4d5de6e",
+      "destination": "ecc-integration/candidate-imports/EVALUATION_COMPLIANCE_CONTRACT.md",
+      "adaptation": "Predeclared evals, deterministic graders, ordered traces, prompt-independence scenarios and reliability metrics; no ECC runner imported",
+      "tests": ["python3 ecc-integration/scripts/validate_extraction.py"],
+      "decision": "staged"
+    },
+    {
+      "id": "operational-assurance-contract",
+      "source_path": "skills/production-audit/SKILL.md",
+      "source_sha256": "4b5d2bf0530ca5ba7dad0dece7a4c14e028334e9d54066025171ac2ff28f3375",
+      "destination": "ecc-integration/candidate-imports/OPERATIONAL_ASSURANCE_CONTRACT.md",
+      "adaptation": "Evidence/missing-evidence readiness checks, hard score caps and current-lane owner/evidence/next-action rule",
+      "tests": ["python3 ecc-integration/scripts/validate_extraction.py"],
+      "decision": "staged"
+    },
+    {
+      "id": "capability-surface-policy",
+      "source_path": "docs/capability-surface-selection.md",
+      "source_sha256": "1eedb96a9b406cf08397b113f5a77cf5c7fd0d64acabaaf29b3fdd3b334c2db8",
+      "destination": "ecc-integration/candidate-imports/CAPABILITY_SURFACE_POLICY.md",
+      "adaptation": "Deterministic-first routing and explicit token/runtime/supply-chain tax for persistent connector surfaces",
+      "tests": ["python3 ecc-integration/scripts/validate_extraction.py"],
+      "decision": "staged"
+    },
+    {
+      "id": "session-collision-contract",
+      "source_path": "docs/SESSION-ADAPTER-CONTRACT.md",
+      "source_sha256": "e3f257744fa16a501f1f6b0348f5b85dbd5b1b00ed1ecb58e14b2116d433ce0e",
+      "destination": "ecc-integration/candidate-imports/SESSION_AND_COLLISION_CONTRACT.md",
+      "adaptation": "Read-only canonical session shape plus deterministic pre-conflict advisories; no steering authority",
+      "tests": ["python3 ecc-integration/scripts/validate_extraction.py"],
+      "decision": "staged"
+    },
+    {
+      "id": "human-approval-protocol",
+      "source_path": "docs/design/plan-canvas.md",
+      "source_sha256": "286405dbe0dc77315fc45605df467d5bbdd2c193708897f41ac15d03ff5e01ad",
+      "destination": "ecc-integration/candidate-imports/HUMAN_APPROVAL_PROTOCOL.md",
+      "adaptation": "Version-bound annotations and verdict receipts; no UI or local server imported",
+      "tests": ["python3 ecc-integration/scripts/validate_extraction.py"],
+      "decision": "staged"
+    },
+    {
+      "id": "product-integration-boundary",
+      "source_path": "docs/architecture/platform-value-loop.md",
+      "source_sha256": "40cc00fae69f6d2e9d98e52cb506bd7d65a0f2ff9acc9d9ee3738f76c999ac11",
+      "destination": "ecc-integration/candidate-imports/PRODUCT_INTEGRATION_BOUNDARY.md",
+      "adaptation": "Public/local versus credential-gated paths with independent ownership, billing, support and receipt boundaries",
+      "tests": ["python3 ecc-integration/scripts/validate_extraction.py"],
+      "decision": "staged"
+    },
+    {
+      "id": "recursive-decision-ledger",
+      "source_path": "skills/recursive-decision-ledger/SKILL.md",
+      "source_sha256": "2a7af89f104edb01f33406ba7e7f2d7eb9cd9efb0bd0c8404be0c91947f9325e",
+      "destination": "ecc-integration/candidate-imports/RECURSIVE_DECISION_LEDGER.md",
+      "adaptation": "Append-only repeated-rollout evidence with freshness, coherence, replay, risk and authority gates",
+      "tests": ["python3 ecc-integration/scripts/validate_extraction.py"],
+      "decision": "staged"
+    }
+  ]
+}

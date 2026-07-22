@@ -1,0 +1,80 @@
+{
+  "conversation_id": "6728c806-ab90-8012-bf48-ffd38b6261bf",
+  "conversation_template_id": null,
+  "create_time": 1730725894.864316,
+  "current_node": "46c02e6e-ceb5-4cf8-b582-c59753032cee",
+  "default_model_slug": "auto",
+  "id": "6728c806-ab90-8012-bf48-ffd38b6261bf",
+  "is_archived": false,
+  "is_do_not_remember": null,
+  "is_read_only": null,
+  "is_starred": null,
+  "is_study_mode": false,
+  "mapping": {
+    "46c02e6e-ceb5-4cf8-b582-c59753032cee": {
+      "id": "46c02e6e-ceb5-4cf8-b582-c59753032cee",
+      "message": {
+        "author": {
+          "name": null,
+          "role": "assistant"
+        },
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "I've reviewed the document you uploaded, titled *Art of Sales. My Knowledge.*, which contains a comprehensive outline of sales concepts. It includes chapters on various aspects of a successful sales career, such as creating a desirable job environment, understanding the sales landscape, negotiation strategies, client engagement methods, setting goals, mastering follow-ups, and personal branding. Each chapter provides in-depth insights on key skills and techniques, structured as a guide for advancing in the sales profession. It may serve as an excellent foundation for the book you plan to write, especially the sections on goal-setting, sales methods, client retention, and continuous learning.\n\nIf you need help with structuring specific chapters, writing summaries, or exploring additional techniques, just let me know!"
+          ]
+        },
+        "create_time": 1730725904.041272,
+        "id": "46c02e6e-ceb5-4cf8-b582-c59753032cee",
+        "metadata": {
+          "content_references": [],
+          "model_slug": "gpt-4o",
+          "parent_id": "50ad4d13-a24b-4e27-8672-31738802f516"
+        }
+      },
+      "parent": "aaa2ed34-9583-4115-850f-b9167acce336"
+    },
+    "aaa1f027-8c36-4cf7-84cc-a548ed124859": {
+      "id": "aaa1f027-8c36-4cf7-84cc-a548ed124859",
+      "message": null,
+      "parent": null
+    },
+    "aaa2ed34-9583-4115-850f-b9167acce336": {
+      "id": "aaa2ed34-9583-4115-850f-b9167acce336",
+      "message": {
+        "author": {
+          "name": null,
+          "role": "user"
+        },
+        "content": {
+          "content_type": "text",
+          "parts": [
+            ""
+          ]
+        },
+        "create_time": 1730725894.86942,
+        "id": "aaa2ed34-9583-4115-850f-b9167acce336",
+        "metadata": {
+          "attachments": [
+            {
+              "id": "file-uzN56oZnIs6DstjxglhacQGF",
+              "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              "name": "Art of Sales. My knowledge..docx",
+              "size": 88932
+            }
+          ],
+          "serialization_metadata": {
+            "custom_symbol_offsets": []
+          }
+        }
+      },
+      "parent": "aaa1f027-8c36-4cf7-84cc-a548ed124859"
+    }
+  },
+  "memory_scope": "global_enabled",
+  "pinned_time": null,
+  "plugin_ids": null,
+  "title": "Sales Knowledge Summary",
+  "update_time": 1730725905.995464,
+  "voice": null
+}

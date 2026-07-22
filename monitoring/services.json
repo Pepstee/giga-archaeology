@@ -1,0 +1,19 @@
+{
+  "schema_version": "giga.cross-service-monitor.v1",
+  "services": [
+    {
+      "id": "agentic-orchestrator",
+      "source_type": "jsonl",
+      "event_path": "/Users/admin/Documents/agentic-orchestrator/projects/orchestrator-v3/state/tasks.events.log",
+      "max_silence_seconds": 86400,
+      "process_pattern": "control.factory_launch"
+    },
+    {
+      "id": "giga-user-twin",
+      "source_type": "file",
+      "event_path": "/Users/admin/.jarvis/jarvis.log",
+      "max_silence_seconds": 86400,
+      "process_pattern": "scripts/jarvis_telegram.py"
+    }
+  ]
+}

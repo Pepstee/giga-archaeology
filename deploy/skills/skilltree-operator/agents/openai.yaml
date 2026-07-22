@@ -1,0 +1,4 @@
+interface:
+  display_name: "SkillTree Operator"
+  short_description: "Audit and advance verified capabilities"
+  default_prompt: "Use $skilltree-operator to audit my capability tree and implement the highest-value verified next node."

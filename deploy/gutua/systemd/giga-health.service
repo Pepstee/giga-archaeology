@@ -1,0 +1,10 @@
+[Unit]
+Description=Refresh the gutua runtime health snapshot
+
+[Service]
+Type=oneshot
+User=gutua
+Group=gutua
+ExecStart=/usr/bin/python3 /home/gutua/giga/bin/runtime_health.py --shared /home/gutua/giga/shared/market-aligner --output /home/gutua/giga/health/status.json --orchestrator-root /home/gutua/giga/orchestrator-v3
+NoNewPrivileges=true
+UMask=0077

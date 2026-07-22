@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "status": "passed",
+  "authority_level": "A1",
+  "publication_authority": false,
+  "manifest_sha256": "f7d00e8ca49fd9ce149e4525bb0257406cf5ed50d0c47741942443777963a459",
+  "renderer_sha256": "c7756a65c30e8e17cc637419fd56f99809a79969994a420a9b4580a7bae4b202",
+  "pptx_sha256": "3d109974cb15872eb60a28486d6ca6889145c701af9023082584c2107dcf0e04",
+  "slides": 6,
+  "claims": 5,
+  "gates": {
+    "artifact_tool_render": "passed",
+    "editable_pptx_export": "passed",
+    "speaker_note_evidence": "passed",
+    "overflow_detection": "passed",
+    "full_size_visual_inspection": "passed",
+    "draft_authority": "passed"
+  },
+  "rendered_slide_sha256": [
+    "e7c967f44b5a81ce31e44315581f5d5ac0d638510ec500792048e2b364b1862f",
+    "c945da2594135dac7d47f3c5947424e4aba0772a233af093797d56ca3b71d305",
+    "9a0dca8b3f8453100c288c38e9aecf28ead49a104bcf0fb49ccf4345fed2b220",
+    "3a51e4d217fc792a450da2eba046de0a77c4588a3027763517e488b26ef8624b",
+    "8ecf4fb4bd91359137c04f8e32f1693e674eb8ecfa2cddc735205e4e7f9b595f",
+    "8c7e3c84d224d5bdb06fbf8071c4d45c84b4d934f48d9c485f8e1fb94ff1d4c1"
+  ],
+  "note": "All six slides were rendered and inspected individually. No clipping, overflow, unintended overlap, title wrapping, or unresolved placeholder was observed. Human review remains required before external use."
+}
