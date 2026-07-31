@@ -1,0 +1,79 @@
+{
+  "schema_version": "giga.adapter-evidence.v1",
+  "id": "scientific-evidence-public-providers",
+  "state": "adapter-backed",
+  "authority": "read-only",
+  "supported_assets": [
+    "twin_core/scientific_evidence.py",
+    "twin_core/scientific_providers.py",
+    "twin_core/scientific_evidence_cli.py",
+    "twin_core/scientific_campaign.py",
+    "twin_core/scientific_query_compiler.py",
+    "twin_core/scientific_screening.py",
+    "twin_core/scientific_fulltext.py",
+    "twin_core/scientific_review_state.py",
+    "twin_core/scientific_saturation.py",
+    "twin_core/scientific_readiness.py",
+    "twin_core/scientific_pipeline_cli.py",
+    "scripts/scientific_evidence.py",
+    "scripts/run_scientific_campaign.py",
+    "scripts/elicit_evidence.py",
+    "scripts/run_elicit_campaign.py",
+    "scripts/scientific_pipeline.py",
+    "contracts/scientific-appraisal.v1.schema.json",
+    "contracts/scientific-action-candidate.v1.schema.json",
+    "contracts/scientific-llm-eligibility-proposal.v1.schema.json",
+    "contracts/scientific-search-ontology.v1.schema.json"
+  ],
+  "unsupported_surfaces": [
+    "paid Elicit workflows unless ELICIT_API_KEY is separately configured",
+    "Sci-Hub, Z-Library, paywall bypass, credential sharing, or copyright circumvention",
+    "medical recommendation authority",
+    "autonomous clinical or lifestyle execution",
+    "direct writes to the personal-memory source of truth",
+    "unreviewed provider metadata or extraction treated as scientific fact"
+  ],
+  "onramp": "python3 scripts/scientific_pipeline.py --help",
+  "verification_commands": [
+    "python3 -m py_compile twin_core/scientific_evidence.py twin_core/scientific_providers.py twin_core/scientific_evidence_cli.py twin_core/scientific_campaign.py twin_core/scientific_query_compiler.py twin_core/scientific_screening.py twin_core/scientific_fulltext.py twin_core/scientific_review_state.py twin_core/scientific_saturation.py twin_core/scientific_readiness.py twin_core/scientific_pipeline_cli.py scripts/scientific_evidence.py scripts/run_scientific_campaign.py scripts/elicit_evidence.py scripts/run_elicit_campaign.py scripts/scientific_pipeline.py",
+    "ruff check twin_core/scientific_evidence.py twin_core/scientific_providers.py twin_core/scientific_evidence_cli.py twin_core/scientific_campaign.py twin_core/scientific_query_compiler.py twin_core/scientific_screening.py twin_core/scientific_fulltext.py twin_core/scientific_review_state.py twin_core/scientific_saturation.py twin_core/scientific_readiness.py twin_core/scientific_pipeline_cli.py scripts/scientific_evidence.py scripts/run_scientific_campaign.py scripts/elicit_evidence.py scripts/run_elicit_campaign.py scripts/scientific_pipeline.py tests/test_scientific_evidence.py tests/test_scientific_campaign.py tests/test_scientific_providers.py tests/test_scientific_pipeline.py",
+    "python3 -m pytest -q tests/test_scientific_evidence.py",
+    "python3 -m pytest -q tests/test_scientific_campaign.py",
+    "python3 -m pytest -q tests/test_scientific_providers.py",
+    "python3 -m pytest -q tests/test_scientific_pipeline.py",
+    "python3 -m pytest -q tests",
+    "python3 scripts/run_scientific_campaign.py research/elicit/skin-texture/CAMPAIGN.json --phase 1 --max-requests 2",
+    "python3 scripts/scientific_evidence.py --database /tmp/giga-scientific-smoke.sqlite3 audit"
+  ],
+  "risk_notes": [
+    "Every provider result remains a third-party claim until source-specific human appraisal.",
+    "Campaigns are network-free dry runs unless --execute is explicitly supplied, and completed provider requests are skipped unless --refresh is explicitly supplied.",
+    "Official-host transport, contracts, persistence, and gates are offline-verified; Europe PMC, PubMed, ClinicalTrials.gov, and Crossref passed bounded live pilots, while other live providers retain explicit configuration or throttling caveats.",
+    "Unpaywall and Europe PMC resolve lawful open copies only; unavailable full text never silently satisfies full_text_verified.",
+    "Initial list processing is deterministic; fuzzy duplicate matches, ambiguous eligibility and every final screening decision retain explicit human boundaries.",
+    "LLM output is proposal-only, requires verbatim supplied spans and cannot transition the review ledger.",
+    "Search saturation rejects replayed snapshots and screening readiness fails closed when any required human or negative-control gate is absent.",
+    "Campaign replays skip completed acquisitions after transport interruption, but the current HTTP transport does not automatically retry an incomplete chunked response inside one process.",
+    "Passing every evidence gate grants A0 planning readiness only and never recommendation or execution authority.",
+    "Clinical candidates fail closed until clinician review is explicitly recorded."
+  ],
+  "owner": "giga-user",
+  "source_docs": [
+    "research/elicit/README.md",
+    "research/elicit/skin-texture/PROTOCOL.md"
+  ],
+  "evidence_paths": [
+    "tests/test_scientific_evidence.py",
+    "tests/test_scientific_campaign.py",
+    "tests/test_scientific_pipeline.py",
+    "research/elicit/skin-texture/SENTINEL_SOURCES.md",
+    "research/elicit/OFFLINE_VERIFICATION.json",
+    "research/elicit/skin-texture/deterministic-screening-final/SCREENING_SUMMARY.json",
+    "research/elicit/skin-texture/deterministic-screening-final/READINESS_REPORT.json",
+    "research/elicit/skin-texture/DETERMINISTIC_PIPELINE_REPORT.md",
+    "research/elicit/skin-texture/compiled-full-results-2026-07-28-v4/SCREENING_SUMMARY.json",
+    "research/elicit/skin-texture/compiled-full-results-2026-07-28-v4/READINESS_REPORT.json",
+    "research/elicit/skin-texture/COMPILED_RESEARCH_RUN_2026-07-28.md"
+  ],
+  "verified_at": "2026-07-28T17:59:49Z"
+}

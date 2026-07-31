@@ -1,0 +1,593 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga.local/schemas/memory-snapshot-v2.json",
+  "title": "GIGA Memory Snapshot v2",
+  "description": "Canonical validation interchange for an append-only, claim-addressable memory. Physical storage may differ, but every context, proposal, commit, and daily gate must validate an equivalent snapshot.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "snapshot_sha256",
+    "active_truth_sha256",
+    "evaluated_at",
+    "source_manifest",
+    "entries",
+    "tombstones",
+    "derived_artifacts",
+    "migration"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "giga.memory.snapshot.v2"
+    },
+    "snapshot_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "active_truth_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "evaluated_at": {
+      "$ref": "#/$defs/date_or_datetime"
+    },
+    "source_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "history_complete",
+        "sources"
+      ],
+      "properties": {
+        "history_complete": {
+          "type": "boolean"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "sha256",
+              "role"
+            ],
+            "properties": {
+              "path": {
+                "$ref": "#/$defs/relative_path"
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "role": {
+                "enum": [
+                  "legacy-entry",
+                  "legacy-index",
+                  "legacy-policy",
+                  "standing-context",
+                  "migration-receipt"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    },
+    "tombstones": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tombstone"
+      }
+    },
+    "derived_artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/derived_artifact"
+      }
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_version",
+        "status",
+        "blockers",
+        "unknown_values_preserved"
+      ],
+      "properties": {
+        "rules_version": {
+          "const": "giga.memory.migration-rules.v2"
+        },
+        "status": {
+          "enum": [
+            "preflight",
+            "projected",
+            "blocked",
+            "accepted"
+          ]
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "unknown_values_preserved": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._:-]{2,159}$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "date_or_datetime": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}(?:T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2}))?$"
+    },
+    "unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "reason"
+      ],
+      "properties": {
+        "state": {
+          "const": "unknown"
+        },
+        "reason": {
+          "enum": [
+            "not-recorded",
+            "not-applicable",
+            "ambiguous",
+            "requires-review"
+          ]
+        }
+      }
+    },
+    "known_or_unknown_text": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "$ref": "#/$defs/unknown"
+        }
+      ]
+    },
+    "known_or_unknown_confidence": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        {
+          "$ref": "#/$defs/unknown"
+        }
+      ]
+    },
+    "evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_sha256",
+        "locator",
+        "authority"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "locator": {
+          "$ref": "#/$defs/known_or_unknown_text"
+        },
+        "authority": {
+          "enum": [
+            "operator-confirmed",
+            "source-observation",
+            "third-party-claim",
+            "model-inference",
+            "legacy-unclassified"
+          ]
+        }
+      }
+    },
+    "temporal_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_at",
+        "valid_from",
+        "valid_until"
+      ],
+      "properties": {
+        "observed_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/date_or_datetime"
+            },
+            {
+              "$ref": "#/$defs/unknown"
+            }
+          ]
+        },
+        "valid_from": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/date_or_datetime"
+            },
+            {
+              "$ref": "#/$defs/unknown"
+            }
+          ]
+        },
+        "valid_until": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/date_or_datetime"
+            },
+            {
+              "$ref": "#/$defs/unknown"
+            }
+          ]
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "kind",
+        "statement",
+        "statement_sha256",
+        "lifecycle",
+        "epistemic",
+        "temporal",
+        "evidence",
+        "derived_from_claim_ids",
+        "contradicts_claim_ids"
+      ],
+      "properties": {
+        "claim_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "enum": [
+            "fact",
+            "decision",
+            "idea",
+            "reminder",
+            "question",
+            "legacy-entry-assertion"
+          ]
+        },
+        "statement": {
+          "type": "string"
+        },
+        "statement_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "lifecycle": {
+          "enum": [
+            "active",
+            "superseded",
+            "archived",
+            "retracted",
+            "tombstoned",
+            "disputed"
+          ]
+        },
+        "epistemic": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "confidence",
+            "reviewed_by"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "operator-confirmed",
+                "evidence-verified",
+                "source-observed",
+                "model-inferred",
+                "legacy-unreviewed",
+                "disputed",
+                "retracted",
+                "unknown"
+              ]
+            },
+            "confidence": {
+              "$ref": "#/$defs/known_or_unknown_confidence"
+            },
+            "reviewed_by": {
+              "$ref": "#/$defs/known_or_unknown_text"
+            }
+          }
+        },
+        "temporal": {
+          "$ref": "#/$defs/temporal_scope"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence_ref"
+          }
+        },
+        "derived_from_claim_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "contradicts_claim_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision_id",
+        "parent_revision_id",
+        "created_at",
+        "lifecycle",
+        "content",
+        "content_sha256",
+        "original_metadata",
+        "claims"
+      ],
+      "properties": {
+        "revision_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "parent_revision_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/identifier"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "created_at": {
+          "$ref": "#/$defs/date_or_datetime"
+        },
+        "lifecycle": {
+          "enum": [
+            "active",
+            "superseded",
+            "archived",
+            "tombstoned"
+          ]
+        },
+        "content": {
+          "type": "string"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "original_metadata": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claim"
+          }
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry_id",
+        "slug",
+        "legacy_path",
+        "legacy_sha256",
+        "head_revision_id",
+        "revisions"
+      ],
+      "properties": {
+        "entry_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}-[a-z0-9-]+$"
+        },
+        "legacy_path": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "legacy_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "head_revision_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "revisions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/revision"
+          }
+        }
+      }
+    },
+    "tombstone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tombstone_id",
+        "target_type",
+        "target_id",
+        "target_sha256",
+        "reason_code",
+        "rationale",
+        "effective_at",
+        "authorized_by",
+        "evidence",
+        "invalidates_derivatives"
+      ],
+      "properties": {
+        "tombstone_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target_type": {
+          "enum": [
+            "entry",
+            "revision",
+            "claim"
+          ]
+        },
+        "target_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "reason_code": {
+          "enum": [
+            "operator-retracted",
+            "superseded",
+            "duplicate",
+            "false",
+            "privacy",
+            "expired",
+            "corrupt",
+            "policy"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effective_at": {
+          "$ref": "#/$defs/date_or_datetime"
+        },
+        "authorized_by": {
+          "enum": [
+            "operator",
+            "deterministic-policy"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence_ref"
+          }
+        },
+        "invalidates_derivatives": {
+          "const": true
+        }
+      }
+    },
+    "derived_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "stage",
+        "artifact_sha256",
+        "memory_snapshot_sha256",
+        "active_truth_sha256",
+        "claim_dependencies",
+        "revision_dependencies",
+        "state",
+        "invalidated_by"
+      ],
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "stage": {
+          "enum": [
+            "context",
+            "proposal",
+            "commit",
+            "daily",
+            "training",
+            "graph",
+            "profile"
+          ]
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "memory_snapshot_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "active_truth_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "claim_dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "revision_dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "state": {
+          "enum": [
+            "current",
+            "stale",
+            "superseded"
+          ]
+        },
+        "invalidated_by": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

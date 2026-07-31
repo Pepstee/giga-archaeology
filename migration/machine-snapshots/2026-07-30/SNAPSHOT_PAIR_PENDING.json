@@ -1,0 +1,35 @@
+{
+  "schema": "giga.machine-source-snapshot-pair-pending.v1",
+  "created_at": "2026-07-30T07:10:00+01:00",
+  "policy_id": "giga.machine-authority.mac-canonical.v1",
+  "canonical_host": "mac",
+  "registry": {
+    "path": "architecture/machine-authority.v1.json",
+    "sha256": "6ff839c8d32d3298127b2d09dbeaceb1a8f945e1e7312a6b3adfff1a8019dd89"
+  },
+  "snapshots": {
+    "mac": {
+      "location": "migration/machine-snapshots/2026-07-30/mac.source-snapshot.v1.json",
+      "bytes": 2033659,
+      "sha256": "99617a0f69fb8c9e82784756d89bd86069ff989bb713a283069dec1f7a8449c1",
+      "manifest_digest": "2606b0721b3ee93ce141ee11a7dd3f02c0aaef1cc994a5aa0d18c8b262d87514",
+      "root_count": 6,
+      "seal_verified": true
+    },
+    "gutua": {
+      "location": "gutua:/home/gutua/software-factory/.snapshots/mac-gutua-authority-20260730/gutua.source-snapshot.v1.json",
+      "bytes": 9054725,
+      "sha256": "485c4b88ee2a276a4fd74d762613ca4c807385bb9334010bc3e5aabf0dfbc57f",
+      "manifest_digest": "6c1c416a89b6cb2c26d896292b528b8ee53fddafebc6e67fa89ea548bc9eaced",
+      "root_count": 8,
+      "seal_verified_on_gutua": true,
+      "transferred_to_mac": false
+    }
+  },
+  "pair_binding_status": "deferred",
+  "pair_binding_blocker": "Gutua manifest retained remotely to avoid a 9054725-byte transfer while the Mac uses mobile data.",
+  "next_action": "On an unmetered connection, fetch the Gutua manifest, verify its SHA-256 and seal locally, then run scripts/capture_machine_source_snapshot.py bind-pair. Do not recapture either snapshot.",
+  "comparison_performed": false,
+  "promotion_authority_granted": false,
+  "deletion_authority_granted": false
+}

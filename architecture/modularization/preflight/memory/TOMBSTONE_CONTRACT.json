@@ -1,0 +1,79 @@
+{
+  "schema": "giga.memory.tombstone-contract.v1",
+  "memory_schema": "giga.memory.snapshot.v2",
+  "purpose": "Remove a claim from active truth without deleting or rewriting historical evidence.",
+  "identity": {
+    "algorithm": "sha256-canonical-json",
+    "formula": "tmb:sha256({target_type,target_id,target_sha256,reason_code,effective_at,authorized_by})",
+    "immutable_fields": [
+      "tombstone_id",
+      "target_type",
+      "target_id",
+      "target_sha256",
+      "reason_code",
+      "rationale",
+      "effective_at",
+      "authorized_by",
+      "evidence",
+      "invalidates_derivatives"
+    ]
+  },
+  "targets": [
+    "entry",
+    "revision",
+    "claim"
+  ],
+  "reason_codes": [
+    "operator-retracted",
+    "superseded",
+    "duplicate",
+    "false",
+    "privacy",
+    "expired",
+    "corrupt",
+    "policy"
+  ],
+  "authorization": {
+    "operator-retracted": "authenticated operator evidence required",
+    "false": "authenticated operator correction or evidence-verified contradiction required",
+    "privacy": "authenticated operator instruction required",
+    "superseded": "verified replacement revision and lineage edge required",
+    "duplicate": "content-equivalence proof and canonical replacement required",
+    "expired": "deterministic temporal rule with bound source required",
+    "corrupt": "hash or schema failure receipt required",
+    "policy": "versioned deterministic policy and evidence receipt required"
+  },
+  "effects": {
+    "history": "Target payload and all earlier revisions remain immutable and queryable as non-active evidence.",
+    "active_truth": "Target, descendants, and claims in a targeted entry or revision are excluded.",
+    "retrieval": "History-only retrieval must label the statement as tombstoned and include reason/effective_at.",
+    "derivatives": "Transitive dependants become stale or superseded before any further use.",
+    "index": "Active indexes omit the target; historical indexes retain it with tombstone metadata."
+  },
+  "closure_algorithm": [
+    "Seed closure with the direct target.",
+    "For entry targets, add every revision and claim in the entry.",
+    "For revision targets, add every claim in the revision and descendant revisions.",
+    "For claim targets, add every claim whose derived_from_claim_ids reaches the target.",
+    "Add every derived artifact whose claim or revision dependencies intersect the closure.",
+    "Repeat until no new object is added."
+  ],
+  "invariants": [
+    "A tombstone never deletes or mutates its target.",
+    "target_sha256 must match the target payload at creation.",
+    "Each tombstone has at least one evidence reference.",
+    "invalidates_derivatives is always true.",
+    "An unresolved or unauthorized tombstone fails closed and has no authority.",
+    "A target cannot have two different effective tombstones without an explicit conflict receipt.",
+    "Privacy tombstones suppress normal retrieval but preserve encrypted audit evidence."
+  ],
+  "resurrection": {
+    "allowed": false,
+    "rule": "A tombstone is never revoked in place. New evidence creates a new claim or revision with a new ID, explicit relation to the tombstoned target, and fresh authorization.",
+    "active_truth_requirement": "The replacement independently passes the complete active-truth gate."
+  },
+  "rollback": {
+    "rule": "Rollback restores the pre-transaction snapshot and its tombstone set exactly; it never selectively removes a committed tombstone.",
+    "receipt_required": true
+  }
+}

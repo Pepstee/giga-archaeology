@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Extract the Messages section of a Discord account export into canonical JSONL.
+"""Extract the messages section of a Discord account export into canonical JSONL.
 
 The Discord package contains sensitive account, billing and behavioural-analytics data that
-is not needed for language analysis. This extractor reads only ``Messages/`` plus the package
+is not needed for language analysis. This extractor reads only the provider's messages
+section (for example ``Messages/`` or the Russian-localised ``Сообщения/``) plus the package
 README, preserves message provenance, and never fabricates the missing side of a conversation.
 """
 from __future__ import annotations
@@ -48,6 +49,32 @@ def load_json(archive: ZipFile, member: str) -> object:
         raise ValueError(f"invalid or missing Discord export member: {member}") from exc
 
 
+def find_messages_root(names: set[str]) -> str:
+    """Find a Discord messages section without assuming the export language."""
+    candidates = []
+    for name in names:
+        path = PurePosixPath(name)
+        if path.name != "index.json" or len(path.parts) != 2:
+            continue
+        root = path.parent.as_posix()
+        channel_json = any(
+            value.startswith(root + "/c") and value.endswith("/channel.json")
+            for value in names
+        )
+        messages_json = any(
+            value.startswith(root + "/c") and value.endswith("/messages.json")
+            for value in names
+        )
+        if channel_json and messages_json:
+            candidates.append(root)
+    if len(candidates) != 1:
+        raise ValueError(
+            "archive is not a recognised Discord account export: "
+            f"expected one messages section, found {len(candidates)}"
+        )
+    return candidates[0]
+
+
 def extract(source: Path, output: Path, manifest_path: Path, namespace: str,
             force: bool = False) -> dict:
     if not NAMESPACE_RE.fullmatch(namespace):
@@ -70,13 +97,14 @@ def extract(source: Path, output: Path, manifest_path: Path, namespace: str,
     try:
         with ZipFile(source) as archive:
             names = set(archive.namelist())
-            if "README.txt" not in names or "Messages/index.json" not in names:
+            if "README.txt" not in names:
                 raise ValueError("archive is not a recognised Discord account export")
-            index = load_json(archive, "Messages/index.json")
+            messages_root = find_messages_root(names)
+            index = load_json(archive, f"{messages_root}/index.json")
             if not isinstance(index, dict):
-                raise ValueError("Messages/index.json must be an object")
+                raise ValueError(f"{messages_root}/index.json must be an object")
 
-            channel_members = sorted(n for n in names if n.startswith("Messages/")
+            channel_members = sorted(n for n in names if n.startswith(messages_root + "/")
                                      and n.endswith("/channel.json"))
             channels = {}
             for member in channel_members:
@@ -84,7 +112,7 @@ def extract(source: Path, output: Path, manifest_path: Path, namespace: str,
                 if isinstance(channel, dict) and channel.get("id") is not None:
                     channels[str(channel["id"])] = channel
 
-            message_members = sorted(n for n in names if n.startswith("Messages/")
+            message_members = sorted(n for n in names if n.startswith(messages_root + "/")
                                      and n.endswith("/messages.json"))
             for member in message_members:
                 channel_id = PurePosixPath(member).parent.name.removeprefix("c")
@@ -178,7 +206,8 @@ def extract(source: Path, output: Path, manifest_path: Path, namespace: str,
         "by_year": dict(sorted(by_year.items())),
         "by_month": dict(sorted(by_month.items())),
         "by_channel_type": dict(sorted(by_type.items())),
-        "excluded_sections": ["Account", "Activities", "Activity", "Servers", "Support_Tickets"],
+        "messages_root": messages_root,
+        "excluded_sections": "all archive sections outside README.txt and the detected messages root",
         "source_limitations": [
             "Discord exports only messages sent by the account owner.",
             "Deleted messages are absent.",

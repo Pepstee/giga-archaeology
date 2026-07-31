@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga-user.local/contracts/sovereignty-observation.v1.schema.json",
+  "title": "GIGA Sovereignty Index observation packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assessment_id",
+    "period_start",
+    "period_end",
+    "as_of",
+    "observations"
+  ],
+  "properties": {
+    "schema_version": {"const": "giga.sovereignty-observation.v1"},
+    "assessment_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "period_start": {"type": "string", "format": "date"},
+    "period_end": {"type": "string", "format": "date"},
+    "as_of": {"type": "string", "format": "date-time"},
+    "notes": {"type": "string"},
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "indicator",
+          "observed_at",
+          "evidence_class",
+          "confidence",
+          "source",
+          "measurement"
+        ],
+        "properties": {
+          "indicator": {
+            "enum": [
+              "chosen_major_commitments",
+              "intentional_discretionary_time",
+              "refusal_power",
+              "credible_alternative_coverage",
+              "affordable_refusal_coverage",
+              "counterfactual_endorsement_rate",
+              "cross_environment_stability_rate",
+              "delayed_reendorsement_rate",
+              "preference_origin_trace_coverage",
+              "behavioral_contradiction_rate",
+              "time_on_ratified_values",
+              "value_consistent_major_decisions",
+              "identity_congruence",
+              "financial_runway_months",
+              "viable_exit_paths",
+              "critical_dependency_concentration",
+              "geographic_legal_mobility",
+              "intentional_attention_share",
+              "compulsive_feed_share",
+              "protected_unstructured_time",
+              "chosen_commitment_receipt_rate",
+              "plan_follow_through_rate",
+              "decision_to_action_days",
+              "portable_income_share",
+              "substitutable_critical_tools",
+              "administrative_control_coverage",
+              "reversible_major_decisions",
+              "disruption_recovery_days",
+              "slack_buffer_days",
+              "create_commitments_met",
+              "relate_commitments_met",
+              "inhabit_commitments_met",
+              "external_consequence_share",
+              "life_satisfaction",
+              "life_worthwhile",
+              "affect_balance",
+              "capacity_support_days"
+            ]
+          },
+          "observed_at": {"type": "string", "format": "date-time"},
+          "evidence_class": {
+            "enum": [
+              "external_receipt",
+              "operator_log",
+              "external_observation",
+              "operator_confirmed",
+              "derived_observation",
+              "operator_rating",
+              "model_inference"
+            ]
+          },
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "source": {"type": "string", "minLength": 1, "maxLength": 1000},
+          "note": {"type": "string"},
+          "measurement": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["value"],
+                "properties": {"value": {"type": "number"}}
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["numerator", "denominator"],
+                "properties": {
+                  "numerator": {"type": "number", "minimum": 0},
+                  "denominator": {"type": "number", "exclusiveMinimum": 0}
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

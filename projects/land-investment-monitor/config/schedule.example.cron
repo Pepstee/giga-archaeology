@@ -1,0 +1,4 @@
+# Every day at 07:00 local time. Refresh state/listings.json from an
+# authorized/licensed source before this line runs.
+PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
+0 7 * * * cd /Users/admin/Documents/giga-user/projects/land-investment-monitor && /usr/bin/env bash scripts/run_monitor.sh >> state/monitor.log 2>&1

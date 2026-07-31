@@ -1,0 +1,152 @@
+{
+  "schema": "giga.memory.mandatory-validation-gate.v1",
+  "memory_schema": "giga.memory.snapshot.v2",
+  "validator": "validate_memory_preflight.py",
+  "policy": "fail-closed",
+  "required_hashes": [
+    "snapshot_sha256",
+    "active_truth_sha256"
+  ],
+  "common_checks": [
+    "schema_and_exact_fields",
+    "canonical_snapshot_hash",
+    "source_manifest_completeness",
+    "entry_revision_claim_identity_uniqueness",
+    "content_and_statement_hashes",
+    "revision_lineage_acyclicity",
+    "head_revision_consistency",
+    "symmetric_contradictions",
+    "temporal_shape",
+    "tombstone_authority_and_target_hash",
+    "active_truth_exclusion",
+    "transitive_derived_invalidation"
+  ],
+  "stages": [
+    {
+      "stage": "pre-context",
+      "before": "Any context compilation or retrieval",
+      "checks": [
+        "common_checks",
+        "migration accepted",
+        "zero blockers",
+        "active_truth_sha256 recomputed"
+      ],
+      "binds": [
+        "snapshot_sha256",
+        "active_truth_sha256",
+        "claim_dependencies",
+        "revision_dependencies"
+      ],
+      "on_failure": "Return no context and make no model call."
+    },
+    {
+      "stage": "pre-proposal",
+      "before": "Any provider proposal request",
+      "checks": [
+        "pre-context receipt still current",
+        "proposal prompt contains only active truth plus explicitly labelled history",
+        "baseline has zero validation errors"
+      ],
+      "binds": [
+        "context artifact hash",
+        "snapshot_sha256",
+        "active_truth_sha256"
+      ],
+      "on_failure": "Do not invoke a provider; retain the captured event as retryable."
+    },
+    {
+      "stage": "pre-commit",
+      "before": "Any mutation of authoritative memory",
+      "checks": [
+        "source snapshot compare-and-swap hash unchanged",
+        "proposal schema and bounded authority",
+        "isolated projected snapshot passes common_checks",
+        "contradictions and tombstones are fully projected",
+        "downstream invalidation closure is complete"
+      ],
+      "binds": [
+        "proposal hash",
+        "source snapshot hash",
+        "projected snapshot hash",
+        "invalidation closure hash"
+      ],
+      "on_failure": "Commit nothing and mark the attempt retryable."
+    },
+    {
+      "stage": "post-commit",
+      "before": "A committed receipt or user-visible success claim",
+      "checks": [
+        "atomic promotion completed",
+        "authoritative snapshot equals projected hash",
+        "common_checks",
+        "derived artifacts are current or explicitly stale"
+      ],
+      "binds": [
+        "commit receipt hash",
+        "pre-commit snapshot hash",
+        "post-commit snapshot hash"
+      ],
+      "on_failure": "Restore the exact pre-commit snapshot; issue a failed rollback receipt."
+    },
+    {
+      "stage": "pre-scheduled",
+      "before": "Daily or other scheduled memory processing",
+      "checks": [
+        "pre-context",
+        "scheduler cursor bound to last accepted receipt",
+        "input batch hash and provenance present"
+      ],
+      "binds": [
+        "batch hash",
+        "cursor",
+        "snapshot_sha256"
+      ],
+      "on_failure": "Do not run the model and do not advance the cursor."
+    },
+    {
+      "stage": "post-scheduled",
+      "before": "Daily cursor/state advance or success notification",
+      "checks": [
+        "post-commit",
+        "daily report dependencies recorded",
+        "batch receipt committed"
+      ],
+      "binds": [
+        "daily artifact hash",
+        "batch receipt hash",
+        "new cursor"
+      ],
+      "on_failure": "Keep the batch replayable and the prior cursor authoritative."
+    }
+  ],
+  "receipt": {
+    "required_fields": [
+      "gate_schema",
+      "stage",
+      "validator_version",
+      "checked_at",
+      "input_hashes",
+      "result",
+      "findings",
+      "receipt_sha256"
+    ],
+    "result_values": [
+      "passed",
+      "failed",
+      "rolled-back"
+    ],
+    "append_only": true
+  },
+  "rollback": {
+    "source": "hash-bound pre-commit snapshot",
+    "unit": "whole memory snapshot, never individual files",
+    "verify_after_restore": true,
+    "success_receipt_forbidden_until_verified": true
+  },
+  "compatibility": {
+    "legacy_adapter": "read-only projection only",
+    "dual_write": false,
+    "silent_fallback": false,
+    "v1_context_allowed_after_cutover": false
+  }
+}

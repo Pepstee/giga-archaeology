@@ -1,0 +1,780 @@
+{
+  "active_personal_and_system_code": [
+    {
+      "bundle_digest": "1bd6a955b23ba8b73f39fee74eeef8e39dd85996cacbe9bbebd396e884e8e23a",
+      "bundle_file_count": 1,
+      "directory": "/Users/admin/.codex/skills/account-research",
+      "has_openai_manifest": false,
+      "kind": "active-personal-install",
+      "name": "account-research",
+      "skill_file": "/Users/admin/.codex/skills/account-research/SKILL.md",
+      "skill_sha256": "9b73bf462b1e96516ed7de68c628c34c5416b233ddda249d5186fdd4bbdabc17",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "a8fd661508712232016967ec678fe9ae35337cb4b8226c16251919128d4352a0",
+      "bundle_file_count": 1,
+      "directory": "/Users/admin/.codex/skills/browser-use",
+      "has_openai_manifest": false,
+      "kind": "active-personal-install",
+      "name": "browser-use",
+      "skill_file": "/Users/admin/.codex/skills/browser-use/SKILL.md",
+      "skill_sha256": "1ae1697ca45c8604110d1b80274a88f9736e45466f81ac15f38954e5ea7efb2b",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "82e9b16e19c98841a9a7da389f4f7f817e57cd6a5beb8ca5f7e7f6b56d927ce0",
+      "bundle_file_count": 6,
+      "directory": "/Users/admin/.codex/skills/humanizer",
+      "has_openai_manifest": false,
+      "kind": "active-personal-install",
+      "name": "humanizer",
+      "skill_file": "/Users/admin/.codex/skills/humanizer/SKILL.md",
+      "skill_sha256": "243aecdafecb5e11c2d45e2e088b7876e3f6eee34aa50c53f624d8468039afa8",
+      "version_pin": "2.8.2"
+    },
+    {
+      "bundle_digest": "34a2bacba27f8f89636d6d7ab3c4056edd6cb9f98d1e1039e2aac436e9129a5d",
+      "bundle_file_count": 12,
+      "directory": "/Users/admin/.codex/skills/jupyter-notebook",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "jupyter-notebook",
+      "skill_file": "/Users/admin/.codex/skills/jupyter-notebook/SKILL.md",
+      "skill_sha256": "62f102e8554b25716dccef0ffab4572d4e3eaf05ccc76562d33a065bc9c521fb",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "577a728b496838d581f975c5ecea724bcb895b429e338383c89cd51fd76adfff",
+      "bundle_file_count": 9,
+      "directory": "/Users/admin/.codex/skills/playwright",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "playwright",
+      "skill_file": "/Users/admin/.codex/skills/playwright/SKILL.md",
+      "skill_sha256": "0ffaabcc8e0990627c4725f18bf1c7955534a796c1c199e872909de2013ce6a8",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "f104240d3bb148373e3775e153c170c06f52df0a8b7f9fe6ee2719e59050ebe0",
+      "bundle_file_count": 6,
+      "directory": "/Users/admin/.codex/skills/playwright-interactive",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "playwright-interactive",
+      "skill_file": "/Users/admin/.codex/skills/playwright-interactive/SKILL.md",
+      "skill_sha256": "f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "5d538c659e56e16ab1ab90b8581ff3acf4b0d89126ac7d4f669b17194a5bf215",
+      "bundle_file_count": 1,
+      "directory": "/Users/admin/.codex/skills/resume-cover-letter",
+      "has_openai_manifest": false,
+      "kind": "active-personal-install",
+      "name": "resume-cover-letter",
+      "skill_file": "/Users/admin/.codex/skills/resume-cover-letter/SKILL.md",
+      "skill_sha256": "adaa35a36ae0bfa6b1ce14104aebcbfe8a51c65434087056facf4f8f45217b96",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "e61ac2cca2f2f7ac9de9421e96071bb35d35d82eb085a01204d823311022cd3a",
+      "bundle_file_count": 25,
+      "directory": "/Users/admin/.codex/skills/scrapling-official",
+      "has_openai_manifest": false,
+      "kind": "active-personal-install",
+      "name": "scrapling-official",
+      "skill_file": "/Users/admin/.codex/skills/scrapling-official/SKILL.md",
+      "skill_sha256": "46cb4d9eb1e847832be87c20c1737461ff4368f3fb592cf47f99bef7a51ebd09",
+      "version_pin": "0.4.11"
+    },
+    {
+      "bundle_digest": "ee6bcbdac44d50d186fc8defe1ee166072415b4cb79c19b80c59d70402589ce6",
+      "bundle_file_count": 11,
+      "directory": "/Users/admin/.codex/skills/screenshot",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "screenshot",
+      "skill_file": "/Users/admin/.codex/skills/screenshot/SKILL.md",
+      "skill_sha256": "081935a6a163277537d46365f49d6b4a3cb40b4748347e7e88759c5927fa8cf5",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "1d7f4d4a042f05e74befc96bf70bf4b05180d3a2cde3001325653153ab572528",
+      "bundle_file_count": 13,
+      "directory": "/Users/admin/.codex/skills/security-best-practices",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "security-best-practices",
+      "skill_file": "/Users/admin/.codex/skills/security-best-practices/SKILL.md",
+      "skill_sha256": "7b3dae1ffc5434d890f3c65c8f552af52d0307fab3b35dec13013c9ca3844c4f",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "3132af2774a4d5b34b8bb6facca31aa782b40dde5cf38f118dcc1c885a6b89bc",
+      "bundle_file_count": 5,
+      "directory": "/Users/admin/.codex/skills/security-threat-model",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "security-threat-model",
+      "skill_file": "/Users/admin/.codex/skills/security-threat-model/SKILL.md",
+      "skill_sha256": "1283c0dd62a8104d9edda4583569b5d8510b4ddaa45120687c999250fd96bad2",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "50417d335fc90e4575598c7900efdb61298fb2bdc97bf833f1e2380df7b39e88",
+      "bundle_file_count": 7,
+      "directory": "/Users/admin/.codex/skills/skill-router",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "skill-router",
+      "skill_file": "/Users/admin/.codex/skills/skill-router/SKILL.md",
+      "skill_sha256": "f94ff702f47fbadefe71f06f3b409e1470d95f62dc21fad243eed94a08687e3d",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "bad72b9e411784a1309b05520324606245d285d5f70fe939382ef5f1c758e2cd",
+      "bundle_file_count": 1,
+      "directory": "/Users/admin/.codex/skills/skilltree-operator",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "skilltree-operator",
+      "skill_file": "/Users/admin/.codex/skills/skilltree-operator/SKILL.md",
+      "skill_sha256": "1444d24cf3d1377dbef445947da99d89ff7fbae2e3423a907e8e87a0060b3e25",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "d5ae06307c87ef1293666877ac3a14356055ef0b6753443a1d96feec270afecb",
+      "bundle_file_count": 7,
+      "directory": "/Users/admin/.codex/skills/transcribe",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "transcribe",
+      "skill_file": "/Users/admin/.codex/skills/transcribe/SKILL.md",
+      "skill_sha256": "f530021da9f377362ee4214e0bc689cbb5404640d2eb88ee272d51d61f530a09",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "f68c82e108f17edfb70ec1d5330cbeb164c15fb40ab8090d190a474f6fff0825",
+      "bundle_file_count": 12,
+      "directory": "/Users/admin/.codex/skills/.system/imagegen",
+      "has_openai_manifest": true,
+      "kind": "active-system-install",
+      "name": "imagegen",
+      "skill_file": "/Users/admin/.codex/skills/.system/imagegen/SKILL.md",
+      "skill_sha256": "59981d23519222bcecf1be48bb37730bbc50539ceb0e35ad09fcef98a3df19d3",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "d529d9dda245802cbc150cf3d3507d48ce11f730ea0222bc1748cc320dbc94dc",
+      "bundle_file_count": 12,
+      "directory": "/Users/admin/.codex/skills/.system/openai-docs",
+      "has_openai_manifest": true,
+      "kind": "active-system-install",
+      "name": "openai-docs",
+      "skill_file": "/Users/admin/.codex/skills/.system/openai-docs/SKILL.md",
+      "skill_sha256": "9914a79e6e1bd70d780b777e9019677af0eba60bbdfac3b7fe9b0407f16b5cc4",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "5a2a10af57176155472fbac73c00413609b9f2fff4fae95560fb6a23d772004a",
+      "bundle_file_count": 10,
+      "directory": "/Users/admin/.codex/skills/.system/plugin-creator",
+      "has_openai_manifest": true,
+      "kind": "active-system-install",
+      "name": "plugin-creator",
+      "skill_file": "/Users/admin/.codex/skills/.system/plugin-creator/SKILL.md",
+      "skill_sha256": "8fd56316b2c49cbdc657a5d197967a233018e1fada65b00a5dd030dce6499a6e",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "4c7d7e3f9c764f3f3ab47977c7be4ac467a33a4637c2f0d7e8a6da83e7cd8b40",
+      "bundle_file_count": 2,
+      "directory": "/Users/admin/.codex/skills/.system/review-agent",
+      "has_openai_manifest": true,
+      "kind": "active-system-install",
+      "name": "review-agent",
+      "skill_file": "/Users/admin/.codex/skills/.system/review-agent/SKILL.md",
+      "skill_sha256": "07079efd0dc76f05fade424e5dfb048dce1de2df7626e1a4f56292a4f3f92228",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "789894f99ac0c6258b6c9c30fb487d26ccb2fe7201eb935975906b1a3ffc2c6e",
+      "bundle_file_count": 9,
+      "directory": "/Users/admin/.codex/skills/.system/skill-creator",
+      "has_openai_manifest": true,
+      "kind": "active-system-install",
+      "name": "skill-creator",
+      "skill_file": "/Users/admin/.codex/skills/.system/skill-creator/SKILL.md",
+      "skill_sha256": "da44c88f6b3845a8fa8c60792ec9a722110a55a9793c279757b48fefb11f819c",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "a11a4766f1560c036edc07c0b31bb3f37c27bdb53006aa577b0a602d1c2347c0",
+      "bundle_file_count": 8,
+      "directory": "/Users/admin/.codex/skills/.system/skill-installer",
+      "has_openai_manifest": true,
+      "kind": "active-system-install",
+      "name": "skill-installer",
+      "skill_file": "/Users/admin/.codex/skills/.system/skill-installer/SKILL.md",
+      "skill_sha256": "d68b77e5bbb34dedab89d134da52855f140fc4b4299b80104f534e3b9e98f8ee",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "13a856b0d280f219cac5f254228aa022da000b9dd510369d7f2e6688bba6df8d",
+      "bundle_file_count": 1,
+      "directory": "/Users/admin/.agents/skills/find-skills",
+      "has_openai_manifest": false,
+      "kind": "active-personal-install",
+      "name": "find-skills",
+      "skill_file": "/Users/admin/.agents/skills/find-skills/SKILL.md",
+      "skill_sha256": "40f7f04c338fc8f31f987da5f06b74cbd826ed78a73c05a442ca2a8ce8470162",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "70f211e4e6934b82ef5f63caf9169340e9d28d663ee2e4920863669b583c848e",
+      "bundle_file_count": 2,
+      "directory": "/Users/admin/.agents/skills/graphify",
+      "has_openai_manifest": false,
+      "kind": "active-personal-install",
+      "name": "graphify",
+      "skill_file": "/Users/admin/.agents/skills/graphify/SKILL.md",
+      "skill_sha256": "048d70a130aefd4317e348a9b25a6ef90f9cb5866d50d4aca3edb5d05f971fa4",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "01d2cda7f5e7f2531a97021e0140b24299a762229a62bbd1385333271e2473db",
+      "bundle_file_count": 105,
+      "directory": "/Users/admin/.agents/skills/impeccable",
+      "has_openai_manifest": true,
+      "kind": "active-personal-install",
+      "name": "impeccable",
+      "skill_file": "/Users/admin/.agents/skills/impeccable/SKILL.md",
+      "skill_sha256": "14c4642368557af1f7bbaaac0aa184b791e6d70665dfd8fc53d8d4124f81abb8",
+      "version_pin": "3.9.1"
+    }
+  ],
+  "active_plugin_cache_code": [
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/consolidate-memory/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "consolidate-memory",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/consolidate-memory/SKILL.md",
+      "skill_sha256": "1b192314cd6da1042ae8560a846966fb624214079d926dbe87714e66087d26de",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/docx/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "docx",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/docx/SKILL.md",
+      "skill_sha256": "8017469ea95fb7d28225c62daf8e2f3492a7b516fc64c18c28977cbf8980b7fe",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/morning/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "morning",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/morning/SKILL.md",
+      "skill_sha256": "f4c03443f4b3f3a78f8e86f6e57435ace5bc168240ae36f76cf8ba1baa295908",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/pdf/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "pdf",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/pdf/SKILL.md",
+      "skill_sha256": "9f78b8359fbd4943ad260a7a1e436e5a96503406d6c34e99f69223d647d85b9c",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/pptx/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "pptx",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/pptx/SKILL.md",
+      "skill_sha256": "a7ff03e2c85b636f55232a6b1555f5dd90216b7a1a359ab289d8364e6acbc6a0",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/schedule/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "schedule",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/schedule/SKILL.md",
+      "skill_sha256": "e0157221577d046349f686eab4f7efe3d15fb57fcaf5bd0e57bcedcd5dcaad0d",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/setup-cowork/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "setup-cowork",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/setup-cowork/SKILL.md",
+      "skill_sha256": "f691282fef172ce7dd74322db703bfaeb1ad2e214f679fd76937f34b2ac94d32",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/skill-creator/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "skill-creator",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/skill-creator/SKILL.md",
+      "skill_sha256": "42765c880e446a83c85f7852fc77b43ecd46c76ca219d68051799ac7425e6943",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "claude-cowork/anthropic-skills/1.0.0/skills/xlsx/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "xlsx",
+      "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/xlsx/SKILL.md",
+      "skill_sha256": "6712b39718fe815054abca9c3ee72f989613e6f771c8a5c58f30a65a6c905622",
+      "version_pin_from_path": "1.0.0"
+    },
+    {
+      "cache_relative_path": "openai-bundled/browser/26.721.31836/skills/control-in-app-browser/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "control-in-app-browser",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-bundled/browser/26.721.31836/skills/control-in-app-browser/SKILL.md",
+      "skill_sha256": "80c5a591bb761f7242f480fc4fc6883860f303f3d5a91e5714230c7897ad8a8d",
+      "version_pin_from_path": "26.721.31836"
+    },
+    {
+      "cache_relative_path": "openai-bundled/sites/0.1.31/skills/sites-building/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "sites-building",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-bundled/sites/0.1.31/skills/sites-building/SKILL.md",
+      "skill_sha256": "8bc048658106af38808c6c91e23480b7b208203c4030328aa5a51365d6cbcd04",
+      "version_pin_from_path": "0.1.31"
+    },
+    {
+      "cache_relative_path": "openai-bundled/sites/0.1.31/skills/sites-hosting/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "sites-hosting",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-bundled/sites/0.1.31/skills/sites-hosting/SKILL.md",
+      "skill_sha256": "e1cd0842e1426204dbfc856e7bd7f364ee671fe6df78c6458c9a4d5e49b496e3",
+      "version_pin_from_path": "0.1.31"
+    },
+    {
+      "cache_relative_path": "openai-bundled/visualize/1.0.15/skills/visualize/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "visualize",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-bundled/visualize/1.0.15/skills/visualize/SKILL.md",
+      "skill_sha256": "9ba56c003b4549402d924c820b6dc8d02febef7b0778b9b4d52d1e28f3549048",
+      "version_pin_from_path": "1.0.15"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/github/0.1.8-2841cf9749ae/skills/gh-address-comments/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "gh-address-comments",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/github/0.1.8-2841cf9749ae/skills/gh-address-comments/SKILL.md",
+      "skill_sha256": "c1ebc337357402f7faabafe712e0c463981a65f736453efe52abd305bcb74769",
+      "version_pin_from_path": "0.1.8-2841cf9749ae"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/github/0.1.8-2841cf9749ae/skills/gh-fix-ci/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "gh-fix-ci",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/github/0.1.8-2841cf9749ae/skills/gh-fix-ci/SKILL.md",
+      "skill_sha256": "7621a3560d788fb221d25f9753233fe0c393c5cfe63167c88b11f027c277b1f8",
+      "version_pin_from_path": "0.1.8-2841cf9749ae"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/github/0.1.8-2841cf9749ae/skills/github/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "github",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/github/0.1.8-2841cf9749ae/skills/github/SKILL.md",
+      "skill_sha256": "81dbdd90934fe86a79ddc4790fd211e5fca866302a74090ad153395f56f2bd42",
+      "version_pin_from_path": "0.1.8-2841cf9749ae"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/github/0.1.8-2841cf9749ae/skills/yeet/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "yeet",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/github/0.1.8-2841cf9749ae/skills/yeet/SKILL.md",
+      "skill_sha256": "e93c6ea769ba673d30749a981cd8ad75b687f454e3c8e2e45e7cfcbd412df12c",
+      "version_pin_from_path": "0.1.8-2841cf9749ae"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/gmail/0.1.5/skills/gmail/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "gmail",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/gmail/0.1.5/skills/gmail/SKILL.md",
+      "skill_sha256": "3e8c0052dfd397f66d756626c18d695c6289c19da6909b1b6c65dadeb03fc678",
+      "version_pin_from_path": "0.1.5"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/gmail/0.1.5/skills/gmail-inbox-triage/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "gmail-inbox-triage",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/gmail/0.1.5/skills/gmail-inbox-triage/SKILL.md",
+      "skill_sha256": "1ce1ef20bbe99da3e824818e397e50c33238666e528fed8e9ec46250585ec5cc",
+      "version_pin_from_path": "0.1.5"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-analytics-dashboard/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-analytics-dashboard",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-analytics-dashboard/SKILL.md",
+      "skill_sha256": "cf5360fd8b197673bb237c52c603c97fa319c875c3dfa2cd8efff52d4422f513",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-business-review/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-business-review",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-business-review/SKILL.md",
+      "skill_sha256": "27721fc1d67d1b41949caa75ac8f94f81952ff124406878af6524047929e60d2",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-design-report/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-design-report",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-design-report/SKILL.md",
+      "skill_sha256": "563722f53854e606f8a9f87e37e72d7ef70a22d46d5836b8e4d6abfb1b79e9e0",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-experiment-analysis/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-experiment-analysis",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-experiment-analysis/SKILL.md",
+      "skill_sha256": "0b05effc47df0a14f8e0c3e3597e6722224747435546385d38a2cae279bd20b9",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-financial-budget/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-financial-budget",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-financial-budget/SKILL.md",
+      "skill_sha256": "c0b6b7a62a15597aaf2b1ec679e21da48f533b756127f0aef957cdfe9f3da738",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-investment-committee-memo/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-investment-committee-memo",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-investment-committee-memo/SKILL.md",
+      "skill_sha256": "68abd08cfe5e073e3c446a3f675f44c5bf98f57434dba679e8acd8a763379a8b",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-legal-memorandum/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-legal-memorandum",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-legal-memorandum/SKILL.md",
+      "skill_sha256": "51fb9d21baf6119c4ccb1903638a6bac0e859210de63460fffa7025d52e997e0",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-market-trends-report/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-market-trends-report",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-market-trends-report/SKILL.md",
+      "skill_sha256": "d58d019b89cb6f292ac3ab991d561489eef477ff53ce05fb024a0c936f5af26a",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-minimal-letterhead/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-minimal-letterhead",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-minimal-letterhead/SKILL.md",
+      "skill_sha256": "880ef094d4d0c89a7bde5ce9bbe4086625c186651e9e6efc8ba8bdd7cc77f9d5",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-operating-calendar/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-operating-calendar",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-operating-calendar/SKILL.md",
+      "skill_sha256": "33bb660791a0b9a21628a42c34934932220203b6aabd84e98cb1b45327d0384c",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-operating-review/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-operating-review",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-operating-review/SKILL.md",
+      "skill_sha256": "6d63c5cd025ffe936e7bab5db3023672bbaec26af55c2bb8b057d38c202c9c32",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-project-kickoff/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-project-kickoff",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-project-kickoff/SKILL.md",
+      "skill_sha256": "aa893ebd89e7c8d1db4261d01cc2b1add35d78d00785871ccaaa5fc8db783ec9",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-project-tracker/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-project-tracker",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-project-tracker/SKILL.md",
+      "skill_sha256": "d97d5be20189b7f53dd269b6e1c5f694eaf53e5a72f6559fcb1578911b7cda82",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-sales-pipeline/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-sales-pipeline",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-sales-pipeline/SKILL.md",
+      "skill_sha256": "15cfeeedf440021f16ed3f3ad8c7c1ef6d48898b9447741e223d2fb41cfc9800",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-simple-dark-mode/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-simple-dark-mode",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-simple-dark-mode/SKILL.md",
+      "skill_sha256": "b7c8d0c05f75878b9bc21e56a57c41ec1aa29700aca0a24822be0f9f1bd53207",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-simple-light-mode/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-simple-light-mode",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-simple-light-mode/SKILL.md",
+      "skill_sha256": "7c68430c6cf57b55b457d4735dbd1a46b889bef135a32222902dd0848b6e1752",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-strategy-memorandum/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-strategy-memorandum",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-strategy-memorandum/SKILL.md",
+      "skill_sha256": "51d7882ac94e8e57b323394825728c33925af878806e37277217c2dc12a912e5",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-system-design/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-system-design",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-system-design/SKILL.md",
+      "skill_sha256": "87f7b7ed1b0d8410f5e5971cd7f7db9a4165e2f37069e97e52dbfb469b75a57c",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-team-alignment/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-team-alignment",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-team-alignment/SKILL.md",
+      "skill_sha256": "26d7cafdcd1899a937b325c5d02ac57c162d45002153be33a934d35f81eb6110",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-three-statement-forecast/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "artifact-template-three-statement-forecast",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-curated-remote/openai-templates/0.1.0/skills/artifact-template-three-statement-forecast/SKILL.md",
+      "skill_sha256": "74f4a5cccec0107b861548b157e04c51d9b58ec13a990c86394b4c529b8ecf41",
+      "version_pin_from_path": "0.1.0"
+    },
+    {
+      "cache_relative_path": "openai-primary-runtime/documents/26.727.11326/skills/documents/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "documents",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-primary-runtime/documents/26.727.11326/skills/documents/SKILL.md",
+      "skill_sha256": "83969bb5d2b4f8571565e9981240c61708dfcf5d6f489243b7e29f5a04b07f16",
+      "version_pin_from_path": "26.727.11326"
+    },
+    {
+      "cache_relative_path": "openai-primary-runtime/pdf/26.727.11326/skills/pdf/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "pdf",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-primary-runtime/pdf/26.727.11326/skills/pdf/SKILL.md",
+      "skill_sha256": "f22e8cf2b8164a5fb99a65109a9aa84c7fed5c56f44db2b6fb59e9766ce5c65a",
+      "version_pin_from_path": "26.727.11326"
+    },
+    {
+      "cache_relative_path": "openai-primary-runtime/presentations/26.727.11326/skills/presentations/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "Presentations",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-primary-runtime/presentations/26.727.11326/skills/presentations/SKILL.md",
+      "skill_sha256": "03793087176e412e99d09292e9b23d74f956d64f8f3d19765ff9e51fc84c3405",
+      "version_pin_from_path": "26.727.11326"
+    },
+    {
+      "cache_relative_path": "openai-primary-runtime/spreadsheets/26.727.11326/skills/excel-live-control/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "excel-live-control",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.727.11326/skills/excel-live-control/SKILL.md",
+      "skill_sha256": "994e33cf1d3352d3fb4ab9e3f24076b63ecd0a92dae450f2b4a27cd9a7f00e88",
+      "version_pin_from_path": "26.727.11326"
+    },
+    {
+      "cache_relative_path": "openai-primary-runtime/spreadsheets/26.727.11326/skills/spreadsheets/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "Spreadsheets",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-primary-runtime/spreadsheets/26.727.11326/skills/spreadsheets/SKILL.md",
+      "skill_sha256": "5b08bb7f858140ca7f2e94f248e0b0ca26b9c4330914dee1cd32d4ec210136de",
+      "version_pin_from_path": "26.727.11326"
+    },
+    {
+      "cache_relative_path": "openai-primary-runtime/template-creator/26.727.11326/skills/template-creator/SKILL.md",
+      "kind": "active-plugin-cache",
+      "name": "template-creator",
+      "skill_file": "/Users/admin/.codex/plugins/cache/openai-primary-runtime/template-creator/26.727.11326/skills/template-creator/SKILL.md",
+      "skill_sha256": "e1f3a2caa0e95e68dc178b18e61e4a8683dc4d96c4d13972adea4b27dd72360b",
+      "version_pin_from_path": "26.727.11326"
+    }
+  ],
+  "discovery_metadata": [
+    {
+      "executes_skill_code": false,
+      "kind": "project-routing-metadata",
+      "path": "/Users/admin/Documents/giga-user/AGENTS.md",
+      "sha256": "49337ac172bbcaf6dd1a905f03b66c4e75e4fc6fd6e92f89861d9268cb031b5b"
+    },
+    {
+      "executes_skill_code": false,
+      "kind": "global-discovery-registry",
+      "path": "/Users/admin/.codex/skills/skill-router/references/installed-skills.json",
+      "sha256": "0df33a00519dab5a707cf1eac2bccaa147bd84039db4ff458018f00b351ea96d"
+    }
+  ],
+  "generated_at": "2026-07-30T15:05:58.202306+00:00",
+  "name_collisions": [
+    {
+      "copies": [
+        {
+          "kind": "repository-deploy-source",
+          "sha256": "f5911d63a41d848df2ab2592360d8a552b23a4f721ad8e5216dd822698ddd518",
+          "skill_file": "/Users/admin/Documents/giga-user/deploy/skills/librarian/SKILL.md"
+        },
+        {
+          "kind": "staging-copy",
+          "sha256": "f5911d63a41d848df2ab2592360d8a552b23a4f721ad8e5216dd822698ddd518",
+          "skill_file": "/Users/admin/Documents/giga-user/staging/schema-v3-candidate/deploy/skills/librarian/SKILL.md"
+        }
+      ],
+      "distinct_hashes": 1,
+      "name": "librarian"
+    },
+    {
+      "copies": [
+        {
+          "kind": "active-plugin-cache",
+          "sha256": "9f78b8359fbd4943ad260a7a1e436e5a96503406d6c34e99f69223d647d85b9c",
+          "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/pdf/SKILL.md"
+        },
+        {
+          "kind": "active-plugin-cache",
+          "sha256": "f22e8cf2b8164a5fb99a65109a9aa84c7fed5c56f44db2b6fb59e9766ce5c65a",
+          "skill_file": "/Users/admin/.codex/plugins/cache/openai-primary-runtime/pdf/26.727.11326/skills/pdf/SKILL.md"
+        }
+      ],
+      "distinct_hashes": 2,
+      "name": "pdf"
+    },
+    {
+      "copies": [
+        {
+          "kind": "active-system-install",
+          "sha256": "da44c88f6b3845a8fa8c60792ec9a722110a55a9793c279757b48fefb11f819c",
+          "skill_file": "/Users/admin/.codex/skills/.system/skill-creator/SKILL.md"
+        },
+        {
+          "kind": "active-plugin-cache",
+          "sha256": "42765c880e446a83c85f7852fc77b43ecd46c76ca219d68051799ac7425e6943",
+          "skill_file": "/Users/admin/.codex/plugins/cache/claude-cowork/anthropic-skills/1.0.0/skills/skill-creator/SKILL.md"
+        }
+      ],
+      "distinct_hashes": 2,
+      "name": "skill-creator"
+    },
+    {
+      "copies": [
+        {
+          "kind": "repository-deploy-source",
+          "sha256": "1444d24cf3d1377dbef445947da99d89ff7fbae2e3423a907e8e87a0060b3e25",
+          "skill_file": "/Users/admin/Documents/giga-user/deploy/skills/skilltree-operator/SKILL.md"
+        },
+        {
+          "kind": "staging-copy",
+          "sha256": "1444d24cf3d1377dbef445947da99d89ff7fbae2e3423a907e8e87a0060b3e25",
+          "skill_file": "/Users/admin/Documents/giga-user/staging/schema-v3-candidate/deploy/skills/skilltree-operator/SKILL.md"
+        },
+        {
+          "kind": "active-personal-install",
+          "sha256": "1444d24cf3d1377dbef445947da99d89ff7fbae2e3423a907e8e87a0060b3e25",
+          "skill_file": "/Users/admin/.codex/skills/skilltree-operator/SKILL.md"
+        }
+      ],
+      "distinct_hashes": 1,
+      "name": "skilltree-operator"
+    }
+  ],
+  "packaging_implications": [
+    {
+      "id": "discovery-is-not-code",
+      "requirement": "AGENTS.md and installed-skills.json describe routing/discovery; they do not activate repository deploy/skills code."
+    },
+    {
+      "id": "activation-copy-or-package",
+      "requirement": "A first-class specialised-skills module needs an explicit promotion step into an active discovery root or a versioned plugin package."
+    },
+    {
+      "id": "session-refresh",
+      "requirement": "Activation must define when Codex refreshes discovery; installed or changed skills are not assumed visible inside an already-running turn."
+    },
+    {
+      "id": "cache-key",
+      "requirement": "Cache identity must bind the complete skill bundle, not SKILL.md alone: SKILL.md, agents/openai.yaml, scripts, references, assets, and evals."
+    },
+    {
+      "id": "version-pin",
+      "requirement": "Repository deploy skills currently lack an explicit immutable version pin; promotion should bind bundle digest, source commit, compatibility, and rollback target."
+    },
+    {
+      "id": "one-active-copy",
+      "requirement": "Staging and deploy copies must not both be discoverable; one active copy per canonical skill id should be enforced."
+    }
+  ],
+  "repository_skill_code": [
+    {
+      "bundle_digest": "f7a103a2737e3a9c22c36274511596b9bb737f296a28c5ed73422f5b60b1c6a8",
+      "bundle_file_count": 1,
+      "directory": "/Users/admin/Documents/giga-user/deploy/skills/librarian",
+      "has_openai_manifest": false,
+      "kind": "repository-deploy-source",
+      "name": "librarian",
+      "skill_file": "/Users/admin/Documents/giga-user/deploy/skills/librarian/SKILL.md",
+      "skill_sha256": "f5911d63a41d848df2ab2592360d8a552b23a4f721ad8e5216dd822698ddd518",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "8a03e67581e1f22b2ed6867bdac8c1cb61cb1de8619c7abd51a7a56b2abfd84c",
+      "bundle_file_count": 6,
+      "directory": "/Users/admin/Documents/giga-user/deploy/skills/skilltree-operator",
+      "has_openai_manifest": true,
+      "kind": "repository-deploy-source",
+      "name": "skilltree-operator",
+      "skill_file": "/Users/admin/Documents/giga-user/deploy/skills/skilltree-operator/SKILL.md",
+      "skill_sha256": "1444d24cf3d1377dbef445947da99d89ff7fbae2e3423a907e8e87a0060b3e25",
+      "version_pin": null
+    }
+  ],
+  "schema": "giga.modularization-executable-preflight.v1.skill-packaging",
+  "staging_skill_code": [
+    {
+      "bundle_digest": "f7a103a2737e3a9c22c36274511596b9bb737f296a28c5ed73422f5b60b1c6a8",
+      "bundle_file_count": 1,
+      "directory": "/Users/admin/Documents/giga-user/staging/schema-v3-candidate/deploy/skills/librarian",
+      "has_openai_manifest": false,
+      "kind": "staging-copy",
+      "name": "librarian",
+      "skill_file": "/Users/admin/Documents/giga-user/staging/schema-v3-candidate/deploy/skills/librarian/SKILL.md",
+      "skill_sha256": "f5911d63a41d848df2ab2592360d8a552b23a4f721ad8e5216dd822698ddd518",
+      "version_pin": null
+    },
+    {
+      "bundle_digest": "6bca7f88c9109d7dee3ce7ea0157069fcc0889811cc6e8cd5a99dfea2663fd5a",
+      "bundle_file_count": 6,
+      "directory": "/Users/admin/Documents/giga-user/staging/schema-v3-candidate/deploy/skills/skilltree-operator",
+      "has_openai_manifest": true,
+      "kind": "staging-copy",
+      "name": "skilltree-operator",
+      "skill_file": "/Users/admin/Documents/giga-user/staging/schema-v3-candidate/deploy/skills/skilltree-operator/SKILL.md",
+      "skill_sha256": "1444d24cf3d1377dbef445947da99d89ff7fbae2e3423a907e8e87a0060b3e25",
+      "version_pin": null
+    }
+  ]
+}

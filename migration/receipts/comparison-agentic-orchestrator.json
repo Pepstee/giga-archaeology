@@ -1,0 +1,18 @@
+{
+  "changed": [],
+  "changed_count": 0,
+  "created_at": "2026-07-22T20:19:51.565795+00:00",
+  "destination_content_digest": "a5c287ea19e6c56807894e5c5b9889cd3ac984050edb4cc4b378ab39be01fb31",
+  "destination_entry_count": 210477,
+  "destination_manifest_sha256": "c0038be3792b66813d01d2252ffd7fccdc66a438fcd928861de1a22fab2c4b19",
+  "difference_lists_truncated_at": 100,
+  "missing": [],
+  "missing_count": 0,
+  "passed": true,
+  "schema": "giga.factory-tree-comparison.v1",
+  "source_content_digest": "a5c287ea19e6c56807894e5c5b9889cd3ac984050edb4cc4b378ab39be01fb31",
+  "source_entry_count": 210477,
+  "source_manifest_sha256": "a3b12c9439bdd635efe8bd85234e3e92609afb9319c66d909e14ecb2c1885b64",
+  "unexpected": [],
+  "unexpected_count": 0
+}

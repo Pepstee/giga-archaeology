@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "land-investment-monitor"
+version = "0.1.0"
+description = "Personal-use land listing collection, enrichment, anomaly detection, ranking, Excel reporting, and Telegram digesting."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Proprietary — personal use" }
+dependencies = []
+
+[project.optional-dependencies]
+scraping = ["scrapling[all]>=0.4.11,<0.5"]
+llm = ["openai>=1.99", "pydantic>=2.7,<3"]
+dev = ["pytest>=8,<9"]
+full = [
+  "scrapling[all]>=0.4.11,<0.5",
+  "openai>=1.99",
+  "pydantic>=2.7,<3",
+  "pytest>=8,<9",
+]
+
+[project.scripts]
+land-monitor = "land_monitor.cli:main"
+
+[tool.setuptools]
+packages = ["land_monitor"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

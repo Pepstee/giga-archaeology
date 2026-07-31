@@ -1,0 +1,920 @@
+{
+  "schema": "giga.immutable-evidence-ledger.v1",
+  "generated_at_utc": "2026-07-30T15:07:01Z",
+  "repository_root": ".",
+  "scope": {
+    "purpose": "Metadata-only immutable-evidence preflight",
+    "included": [
+      "Provider account exports",
+      "UK laptop intake transfer archives",
+      "Extracted or landed original-source mirrors",
+      "Repository archive-like file discovery"
+    ],
+    "excluded": [
+      "Dubbing Studio",
+      "Git object databases",
+      "dependency caches",
+      "message-content interpretation",
+      "derived-record semantic validation"
+    ],
+    "content_boundary": "Files were read only for byte hashes, archive structure, manifest bindings, and filesystem metadata. Message semantics are outside scope."
+  },
+  "counts": {
+    "known_provider_exports": 7,
+    "immutable_file_authorities": 9,
+    "extracted_original_roots": 5,
+    "archive_like_files_discovered": 14
+  },
+  "legacy_global_baseline": {
+    "path": "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+    "covered_asset_ids": [
+      "instagram_primary_export",
+      "discord_primary_export",
+      "chatgpt_pre2026_export",
+      "claude_primary_export",
+      "chatgpt_gpt2_export"
+    ],
+    "missing_asset_ids": [
+      "discord_teen_export",
+      "telegram_primary_export",
+      "uk_claude_intake_archive",
+      "uk_codex_intake_archive"
+    ]
+  },
+  "archive_discovery": {
+    "extensions": [
+      ".zip",
+      ".tar",
+      ".tar.gz",
+      ".tgz",
+      ".7z",
+      ".rar",
+      ".gz",
+      ".bz2",
+      ".xz",
+      ".zst",
+      ".bundle",
+      ".dmg",
+      ".iso"
+    ],
+    "excluded_directory_names": [
+      ".git",
+      "node_modules",
+      ".venv",
+      "venv",
+      "__pycache__"
+    ],
+    "excluded_path_fragments_casefold": [
+      "dubbing-studio"
+    ],
+    "inventory": [
+      {
+        "relative_path": "1916b63abd801fbb5abf9b44f98d87a68ccd5db992b2a4d30567dd8a4ed29a85-2026-07-19-08-37-41-df72519dd898472489071b0441745ac3.zip",
+        "classification": "immutable_source_export",
+        "asset_id": "chatgpt_gpt2_export",
+        "format": "zip",
+        "size_bytes": 1171034822,
+        "sha256": "f766b446d9a7deb7e5e3b833fe968b44db94102190128959b9c9612d8e586652",
+        "mode": "0644"
+      },
+      {
+        "relative_path": "corpus/chatgpt-export/chatgpt extract (pre-2026 account).zip",
+        "classification": "immutable_source_export",
+        "asset_id": "chatgpt_pre2026_export",
+        "format": "zip",
+        "size_bytes": 642795764,
+        "sha256": "dfec969741f549c876db53bbd8f9ee71d5f4d1b4116311f54ae8ce1268a23a2b",
+        "mode": "0644"
+      },
+      {
+        "relative_path": "corpus/claude-export/data-c564b038-dfec-4526-8f73-9fc65cde9ed0-1784215436-77ecc27c-batch-0000.zip",
+        "classification": "immutable_source_export",
+        "asset_id": "claude_primary_export",
+        "format": "zip",
+        "size_bytes": 9096664,
+        "sha256": "754e30a5d4c1b8781c560687838810724062cb5309a07ecae795dd0e78cd640b",
+        "mode": "0644"
+      },
+      {
+        "relative_path": "corpus/derived/unified_memory_chronological_20260726.jsonl.gz",
+        "classification": "derived_portable_evidence_view",
+        "format": "gzip",
+        "size_bytes": 52172319,
+        "sha256": "ce117ecbc84127952d5437ad7e2802744d5dc0b401aeb5b51aa364f757ddc756",
+        "mode": "0600",
+        "integrity": {
+          "gzip_crc": "pass"
+        }
+      },
+      {
+        "relative_path": "corpus/incoming/uk-laptop-2026-07-22/restricted/transfer-archives/giga-uk-claude-intake-20260722.zip",
+        "classification": "immutable_source_intake",
+        "asset_id": "uk_claude_intake_archive",
+        "format": "zip",
+        "size_bytes": 921429,
+        "sha256": "2c398e8860cada5394baa6f67eaaa45455bfe8030e9bcd89bd13f15d58882a53",
+        "mode": "0600"
+      },
+      {
+        "relative_path": "corpus/incoming/uk-laptop-2026-07-22/restricted/transfer-archives/giga-uk-codex-intake-20260722.zip",
+        "classification": "immutable_source_intake",
+        "asset_id": "uk_codex_intake_archive",
+        "format": "zip",
+        "size_bytes": 391104,
+        "sha256": "61b030f6d342dd5263c65a1e765383420f263c58f5f453b931738ab788dec117",
+        "mode": "0600"
+      },
+      {
+        "relative_path": "instagram-artiom.png-2026-07-16-58GCGdnZ.zip",
+        "classification": "immutable_source_export",
+        "asset_id": "instagram_primary_export",
+        "format": "zip",
+        "size_bytes": 628369284,
+        "sha256": "e800bfcd4b9ede0fb23ff0edfc96001b189e8c34db99a870fe3ec95de0ca01e1",
+        "mode": "0644"
+      },
+      {
+        "relative_path": "outputs/Hyun_Market_Alignment_Results_2026-07-20.zip",
+        "classification": "delivery_archive_not_source_evidence",
+        "format": "zip",
+        "size_bytes": 495604,
+        "sha256": "9be0053272c536ee4b3a14b82d288d071665f3c69a1ca435f05f16c6689ff37a",
+        "mode": "0644",
+        "integrity": {
+          "entries": 4,
+          "file_entries": 4,
+          "directory_entries": 0,
+          "uncompressed_bytes": 830090,
+          "unsafe_paths": 0,
+          "encrypted_entries": 0,
+          "duplicate_names": 0,
+          "symlink_entries": 0,
+          "crc_test": "pass"
+        }
+      },
+      {
+        "relative_path": "outputs/skilltree-export-2026-07-22.zip",
+        "classification": "delivery_archive_not_private_source",
+        "format": "zip",
+        "size_bytes": 1147239,
+        "sha256": "3010ee7acc6cd91b64957e968acb6e9a7f62baf02cc2396d7e564b0e718862b4",
+        "mode": "0644",
+        "integrity": {
+          "entries": 186,
+          "file_entries": 165,
+          "directory_entries": 21,
+          "uncompressed_bytes": 4824238,
+          "unsafe_paths": 0,
+          "encrypted_entries": 0,
+          "duplicate_names": 0,
+          "symlink_entries": 0,
+          "crc_test": "pass"
+        }
+      },
+      {
+        "relative_path": "package(1).zip",
+        "classification": "immutable_source_export",
+        "asset_id": "discord_teen_export",
+        "format": "zip",
+        "size_bytes": 483666368,
+        "sha256": "c9396462fb02dbb4ed75161582c0c9d07c707dcb597d0613291754850cceef4f",
+        "mode": "0644"
+      },
+      {
+        "relative_path": "package.zip",
+        "classification": "immutable_source_export",
+        "asset_id": "discord_primary_export",
+        "format": "zip",
+        "size_bytes": 173231569,
+        "sha256": "6fdf33df674d77badc830d8720b63f0ad9ebab3412f39ebcaf304c78c9050583",
+        "mode": "0644"
+      },
+      {
+        "relative_path": "staging/gutua-cutover-20260722/jaa-mac-worktrees-20260722.tar.gz",
+        "classification": "migration_payload_not_source_evidence",
+        "format": "tar.gz",
+        "size_bytes": 59754091,
+        "sha256": "acb1d23a42bdaec7804b607ad56f1e276c4f4b4951ceea7a9cebd3ba4fc8241c",
+        "mode": "0644",
+        "integrity": {
+          "entries": 26408,
+          "regular_files": 24619,
+          "directories": 1789,
+          "symlinks": 0,
+          "uncompressed_regular_bytes": 304183587,
+          "unsafe_paths": 0,
+          "duplicate_names": 0,
+          "listing": "pass"
+        }
+      },
+      {
+        "relative_path": "staging/gutua-cutover-20260722/job-application-automation-all.bundle",
+        "classification": "git_migration_bundle_not_source_evidence",
+        "format": "git_bundle",
+        "size_bytes": 4778651,
+        "sha256": "803c9ca41159f3d6a3d55023d35f7d0b156634596b5c46a89ac1dfebacdd6fa1",
+        "mode": "0644",
+        "integrity": {
+          "git_bundle_verify": "pass"
+        }
+      },
+      {
+        "relative_path": "staging/gutua-cutover-20260722/job-application-automation-final.bundle",
+        "classification": "git_migration_bundle_not_source_evidence",
+        "format": "git_bundle",
+        "size_bytes": 4783346,
+        "sha256": "2ede00a87a080dafadceb1be3f54034869ed8fb8c554033879bf26e4c4819bb8",
+        "mode": "0644",
+        "integrity": {
+          "git_bundle_verify": "pass"
+        }
+      }
+    ]
+  },
+  "assets": [
+    {
+      "id": "chatgpt_gpt2_export",
+      "relative_path": "1916b63abd801fbb5abf9b44f98d87a68ccd5db992b2a4d30567dd8a4ed29a85-2026-07-19-08-37-41-df72519dd898472489071b0441745ac3.zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "provider_export",
+      "authority_role": "immutable_original",
+      "provider": "ChatGPT",
+      "account_namespace": "gpt2_2026",
+      "size_bytes": 1171034822,
+      "sha256": "f766b446d9a7deb7e5e3b833fe968b44db94102190128959b9c9612d8e586652",
+      "permissions": {
+        "mode": "0644",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 1988,
+        "file_entries": 1988,
+        "directory_entries": 0,
+        "compressed_member_bytes": 1170721700,
+        "uncompressed_bytes": 1377244869,
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "consumer_references": [
+        "corpus/chatgpt-export/gpt2_2026-20260719.manifest.json",
+        "scripts/extract_chatgpt.py",
+        "corpus/raw/chatgpt_prompts_gpt2_2026_20260720.jsonl",
+        "corpus/transcripts/chatgpt_conversations_gpt2_2026.jsonl",
+        "scripts/build_unified_memory.py"
+      ],
+      "baseline_coverage": [
+        "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+        "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md"
+      ],
+      "protection_gaps": [
+        "Group/world-readable mode 0644",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault",
+        "Opaque root filename and root-level placement"
+      ]
+    },
+    {
+      "id": "chatgpt_pre2026_export",
+      "relative_path": "corpus/chatgpt-export/chatgpt extract (pre-2026 account).zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "provider_export",
+      "authority_role": "immutable_original",
+      "provider": "ChatGPT",
+      "account_namespace": "chatgpt_pre2026",
+      "size_bytes": 642795764,
+      "sha256": "dfec969741f549c876db53bbd8f9ee71d5f4d1b4116311f54ae8ce1268a23a2b",
+      "permissions": {
+        "mode": "0644",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 2431,
+        "file_entries": 2431,
+        "directory_entries": 0,
+        "compressed_member_bytes": 642454554,
+        "uncompressed_bytes": 884458831,
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "consumer_references": [
+        "scripts/extract_chatgpt.py",
+        "corpus/raw/chatgpt_prompts_20260719.jsonl",
+        "corpus/transcripts/chatgpt_conversations.jsonl",
+        "scripts/build_unified_memory.py"
+      ],
+      "baseline_coverage": [
+        "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+        "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md"
+      ],
+      "protection_gaps": [
+        "Group/world-readable mode 0644",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault"
+      ]
+    },
+    {
+      "id": "claude_primary_export",
+      "relative_path": "corpus/claude-export/data-c564b038-dfec-4526-8f73-9fc65cde9ed0-1784215436-77ecc27c-batch-0000.zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "provider_export",
+      "authority_role": "immutable_original",
+      "provider": "Claude",
+      "account_namespace": "claude_primary",
+      "size_bytes": 9096664,
+      "sha256": "754e30a5d4c1b8781c560687838810724062cb5309a07ecae795dd0e78cd640b",
+      "permissions": {
+        "mode": "0644",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 11,
+        "file_entries": 11,
+        "directory_entries": 0,
+        "compressed_member_bytes": 9094756,
+        "uncompressed_bytes": 43077373,
+        "member_tree_sha256": "4b4868610ff9ac9ebbca667f29113eca6b50177b18c6a27aa7384d62541237ae",
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "consumer_references": [
+        "scripts/extract_prompts.py",
+        "corpus/transcripts/claude_conversations.jsonl",
+        "scripts/build_unified_memory.py"
+      ],
+      "baseline_coverage": [
+        "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+        "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md"
+      ],
+      "protection_gaps": [
+        "Group/world-readable mode 0644",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault"
+      ]
+    },
+    {
+      "id": "discord_primary_export",
+      "relative_path": "package.zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "provider_export",
+      "authority_role": "immutable_original",
+      "provider": "Discord",
+      "account_namespace": "primary_20260719",
+      "size_bytes": 173231569,
+      "sha256": "6fdf33df674d77badc830d8720b63f0ad9ebab3412f39ebcaf304c78c9050583",
+      "permissions": {
+        "mode": "0644",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 1576,
+        "file_entries": 1100,
+        "directory_entries": 476,
+        "compressed_member_bytes": 172987733,
+        "uncompressed_bytes": 1601982731,
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "consumer_references": [
+        "scripts/extract_discord.py",
+        "corpus/raw/discord_messages_primary_20260719.manifest.json",
+        "corpus/raw/discord_messages_primary_20260719.jsonl",
+        "scripts/build_unified_memory.py"
+      ],
+      "baseline_coverage": [
+        "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+        "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md"
+      ],
+      "protection_gaps": [
+        "Group/world-readable mode 0644",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault",
+        "Generic root filename"
+      ]
+    },
+    {
+      "id": "discord_teen_export",
+      "relative_path": "package(1).zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "provider_export",
+      "authority_role": "immutable_original",
+      "provider": "Discord",
+      "account_namespace": "teen_vstee",
+      "size_bytes": 483666368,
+      "sha256": "c9396462fb02dbb4ed75161582c0c9d07c707dcb597d0613291754850cceef4f",
+      "permissions": {
+        "mode": "0644",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 1685,
+        "file_entries": 1118,
+        "directory_entries": 567,
+        "compressed_member_bytes": 483378762,
+        "uncompressed_bytes": 5553579596,
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "consumer_references": [
+        "scripts/extract_discord.py",
+        "corpus/raw/discord_messages_teen_vstee_20260726.manifest.json",
+        "corpus/raw/discord_messages_teen_vstee_20260726.jsonl",
+        "scripts/build_unified_memory.py"
+      ],
+      "baseline_coverage": [
+        "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md"
+      ],
+      "protection_gaps": [
+        "Absent from architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+        "Group/world-readable mode 0644",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault",
+        "Generic root filename"
+      ]
+    },
+    {
+      "id": "instagram_primary_export",
+      "relative_path": "instagram-artiom.png-2026-07-16-58GCGdnZ.zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "provider_export",
+      "authority_role": "immutable_original",
+      "provider": "Instagram",
+      "account_namespace": "instagram_primary_20260716",
+      "size_bytes": 628369284,
+      "sha256": "e800bfcd4b9ede0fb23ff0edfc96001b189e8c34db99a870fe3ec95de0ca01e1",
+      "permissions": {
+        "mode": "0644",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 1976,
+        "file_entries": 1976,
+        "directory_entries": 0,
+        "compressed_member_bytes": 627858940,
+        "uncompressed_bytes": 627858940,
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "consumer_references": [
+        "scripts/extract_instagram.py",
+        "scripts/extract_instagram_full.py",
+        "corpus/raw/instagram_messages_full_20260726.manifest.json",
+        "corpus/raw/instagram_messages_full_20260726.jsonl",
+        "scripts/build_unified_memory.py"
+      ],
+      "baseline_coverage": [
+        "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+        "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md"
+      ],
+      "protection_gaps": [
+        "Group/world-readable mode 0644",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault",
+        "Root-level placement"
+      ]
+    },
+    {
+      "id": "telegram_primary_export",
+      "relative_path": "result.json",
+      "kind": "file",
+      "format": "json_provider_export",
+      "classification": "provider_export",
+      "authority_role": "immutable_original",
+      "provider": "Telegram",
+      "account_namespace": "telegram_primary_20260722",
+      "size_bytes": 44833962,
+      "sha256": "cb4d6dfd1ed475a5e531853e6a1e8d8f760a8ac2e3ee96d64fe01a640f9cb4c8",
+      "permissions": {
+        "mode": "0644",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "structural_integrity": {
+        "sha256_recheck": "pass",
+        "json_semantic_parse": "not_run_metadata_only_boundary"
+      },
+      "consumer_references": [
+        "scripts/extract_telegram.py",
+        "corpus/raw/telegram_messages_primary_20260722.manifest.json",
+        "corpus/raw/telegram_messages_primary_20260722.jsonl",
+        "scripts/build_unified_memory.py",
+        "twin_core/telegram_pipeline.py"
+      ],
+      "baseline_coverage": [
+        "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md"
+      ],
+      "protection_gaps": [
+        "Absent from architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+        "Group/world-readable mode 0644",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault",
+        "Generic root filename"
+      ]
+    },
+    {
+      "id": "uk_claude_intake_archive",
+      "relative_path": "corpus/incoming/uk-laptop-2026-07-22/restricted/transfer-archives/giga-uk-claude-intake-20260722.zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "machine_intake_export",
+      "authority_role": "immutable_original",
+      "provider": "Claude local-agent",
+      "account_namespace": "uk_laptop_admin_gutua_202606",
+      "size_bytes": 921429,
+      "sha256": "2c398e8860cada5394baa6f67eaaa45455bfe8030e9bcd89bd13f15d58882a53",
+      "permissions": {
+        "mode": "0600",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 364,
+        "file_entries": 358,
+        "directory_entries": 6,
+        "compressed_member_bytes": 762019,
+        "uncompressed_bytes": 8151016,
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "manifest_binding": {
+        "manifest_path": "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_SOURCE_SHA256.csv",
+        "mapping": "uk_claude_archive",
+        "expected": {
+          "manifest_rows_considered": 358,
+          "matched": 358,
+          "missing": [],
+          "changed": [],
+          "extra": []
+        },
+        "manifest_tree_sha256": "15eb81d4be92d5427a0c001ce9b8856a178772c4e97cf9350578458c9c391193"
+      },
+      "consumer_references": [
+        "corpus/incoming/uk-laptop-2026-07-22/README.md",
+        "corpus/incoming/uk-laptop-2026-07-22/INTAKE_REPORT.md",
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_TRANSFER_VERIFICATION.txt",
+        "corpus/claude-local-agent-uk-202606/README.md"
+      ],
+      "baseline_coverage": [
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_SOURCE_SHA256.csv",
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_TRANSFER_VERIFICATION.txt"
+      ],
+      "protection_gaps": [
+        "Absent from the global export baseline",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault",
+        "Not included in the unified-memory source set"
+      ]
+    },
+    {
+      "id": "uk_codex_intake_archive",
+      "relative_path": "corpus/incoming/uk-laptop-2026-07-22/restricted/transfer-archives/giga-uk-codex-intake-20260722.zip",
+      "kind": "archive",
+      "format": "zip",
+      "classification": "machine_intake_export",
+      "authority_role": "immutable_original",
+      "provider": "Codex",
+      "account_namespace": "uk_laptop_admin_gutua_20260722",
+      "size_bytes": 391104,
+      "sha256": "61b030f6d342dd5263c65a1e765383420f263c58f5f453b931738ab788dec117",
+      "permissions": {
+        "mode": "0600",
+        "immutable_flag": false,
+        "extended_attributes_present": true
+      },
+      "archive_integrity": {
+        "entries": 66,
+        "file_entries": 65,
+        "directory_entries": 1,
+        "compressed_member_bytes": 379416,
+        "uncompressed_bytes": 1893697,
+        "unsafe_paths": 0,
+        "encrypted_entries": 0,
+        "duplicate_names": 0,
+        "symlink_entries": 0,
+        "crc_test": "pass"
+      },
+      "manifest_binding": {
+        "manifest_path": "corpus/incoming/uk-laptop-2026-07-22/manifests/CODEX_SOURCE_SHA256.csv",
+        "mapping": "uk_codex_archive",
+        "expected": {
+          "manifest_rows_considered": 64,
+          "matched": 64,
+          "missing": [],
+          "changed": [],
+          "extra": [
+            "CODEX_SOURCE_SHA256.csv"
+          ]
+        },
+        "manifest_tree_sha256": "983ec72983f1573378ca3ac47dc072e9ef2c2fcba1a6e7feb6e923af3b977eb7"
+      },
+      "consumer_references": [
+        "corpus/incoming/uk-laptop-2026-07-22/README.md",
+        "corpus/incoming/uk-laptop-2026-07-22/INTAKE_REPORT.md",
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CODEX_TRANSFER_VERIFICATION.txt"
+      ],
+      "baseline_coverage": [
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CODEX_SOURCE_SHA256.csv",
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CODEX_TRANSFER_VERIFICATION.txt"
+      ],
+      "protection_gaps": [
+        "Absent from the global export baseline",
+        "No filesystem immutable flag",
+        "No verified encrypted two-copy vault",
+        "Quarantined state has not been classified for unique evidence"
+      ]
+    },
+    {
+      "id": "claude_primary_extracted",
+      "relative_path": "corpus/claude-export/data-c564b038-dfec-4526-8f73-9fc65cde9ed0-1784215436-77ecc27c-batch-0000",
+      "kind": "directory",
+      "format": "tree",
+      "classification": "extracted_provider_original",
+      "authority_role": "verified_mirror_not_primary_authority",
+      "provider": "Claude",
+      "account_namespace": "claude_primary",
+      "tree_observation": {
+        "files": 11,
+        "bytes": 43077373,
+        "tree_sha256": "4b4868610ff9ac9ebbca667f29113eca6b50177b18c6a27aa7384d62541237ae",
+        "symlinks": 0,
+        "root_mode": "0700",
+        "file_modes": {
+          "0600": 11
+        }
+      },
+      "mirror_of_asset_id": "claude_primary_export",
+      "consumer_references": [
+        "scripts/extract_prompts.py",
+        "corpus/transcripts/claude_conversations.jsonl"
+      ],
+      "baseline_coverage": [
+        "corpus/claude-export/data-c564b038-dfec-4526-8f73-9fc65cde9ed0-1784215436-77ecc27c-batch-0000.zip"
+      ],
+      "protection_gaps": [
+        "Directory mirror is not separately covered by the global baseline",
+        "No filesystem immutable flag",
+        "Must never supersede the ZIP authority"
+      ]
+    },
+    {
+      "id": "uk_claude_incoming_raw",
+      "relative_path": "corpus/incoming/uk-laptop-2026-07-22/raw/claude",
+      "kind": "directory",
+      "format": "tree",
+      "classification": "extracted_machine_intake",
+      "authority_role": "working_copy_not_primary_authority",
+      "provider": "Claude local-agent",
+      "account_namespace": "uk_laptop_admin_gutua_202606",
+      "tree_observation": {
+        "files": 357,
+        "bytes": 8130213,
+        "tree_sha256": "ed5d161511e47f7cde67da387463f537b87688cc1a04a0264ae37735c8eae9f2",
+        "symlinks": 0,
+        "root_mode": "0755",
+        "file_modes": {
+          "0644": 357
+        }
+      },
+      "manifest_binding": {
+        "manifest_path": "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_SOURCE_SHA256.csv",
+        "mapping": "uk_claude_raw",
+        "expected": {
+          "manifest_rows_considered": 355,
+          "matched": 355,
+          "missing": [],
+          "changed": [],
+          "extra": [
+            "local-agent-mode-sessions/e017cafd-f7f0-4813-b202-c4400fea11cf/c564b038-dfec-4526-8f73-9fc65cde9ed0/local_3335fc5d-8b70-4182-866b-726af6ddc4d7/outputs/repo_src/__pycache__/conftest.cpython-314-pytest-9.0.3.pyc",
+            "local-agent-mode-sessions/e017cafd-f7f0-4813-b202-c4400fea11cf/c564b038-dfec-4526-8f73-9fc65cde9ed0/local_3335fc5d-8b70-4182-866b-726af6ddc4d7/outputs/repo_src2/__pycache__/conftest.cpython-314-pytest-9.0.3.pyc"
+          ]
+        },
+        "manifest_tree_sha256": "9b6348f62667cd49d74d98bdc9be5a50e1eb39459ac6c1168678ff161c4b1561"
+      },
+      "consumer_references": [
+        "corpus/incoming/uk-laptop-2026-07-22/README.md",
+        "corpus/incoming/uk-laptop-2026-07-22/INTAKE_REPORT.md",
+        "corpus/claude-local-agent-uk-202606/README.md"
+      ],
+      "baseline_coverage": [
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_SOURCE_SHA256.csv"
+      ],
+      "protection_gaps": [
+        "Two unmanifested generated .pyc files are present",
+        "Directory and files are group/world-readable",
+        "No filesystem immutable flag",
+        "Use the transfer ZIP, not this tree, as restore authority"
+      ]
+    },
+    {
+      "id": "uk_claude_landed_raw",
+      "relative_path": "corpus/claude-local-agent-uk-202606/raw",
+      "kind": "directory",
+      "format": "tree",
+      "classification": "landed_machine_intake",
+      "authority_role": "working_copy_not_primary_authority",
+      "provider": "Claude local-agent",
+      "account_namespace": "uk_laptop_admin_gutua_202606",
+      "tree_observation": {
+        "files": 357,
+        "bytes": 8130197,
+        "tree_sha256": "21241240d7e6f620e24ee849ebfed0a5395b8b09178e7e52edcd9faddba7da7d",
+        "symlinks": 0,
+        "root_mode": "0755",
+        "file_modes": {
+          "0644": 357
+        }
+      },
+      "manifest_binding": {
+        "manifest_path": "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_SOURCE_SHA256.csv",
+        "mapping": "uk_claude_raw",
+        "expected": {
+          "manifest_rows_considered": 355,
+          "matched": 355,
+          "missing": [],
+          "changed": [],
+          "extra": [
+            "local-agent-mode-sessions/e017cafd-f7f0-4813-b202-c4400fea11cf/c564b038-dfec-4526-8f73-9fc65cde9ed0/local_3335fc5d-8b70-4182-866b-726af6ddc4d7/outputs/repo_src/__pycache__/conftest.cpython-314-pytest-9.0.3.pyc",
+            "local-agent-mode-sessions/e017cafd-f7f0-4813-b202-c4400fea11cf/c564b038-dfec-4526-8f73-9fc65cde9ed0/local_3335fc5d-8b70-4182-866b-726af6ddc4d7/outputs/repo_src2/__pycache__/conftest.cpython-314-pytest-9.0.3.pyc"
+          ]
+        },
+        "manifest_tree_sha256": "9b6348f62667cd49d74d98bdc9be5a50e1eb39459ac6c1168678ff161c4b1561"
+      },
+      "consumer_references": [
+        "corpus/claude-local-agent-uk-202606/README.md",
+        "corpus/MANIFEST.md"
+      ],
+      "baseline_coverage": [
+        "corpus/claude-local-agent-uk-202606/manifests/CLAUDE_SOURCE_SHA256.csv"
+      ],
+      "protection_gaps": [
+        "Two unmanifested generated .pyc files are present",
+        "Those two .pyc files differ from the incoming working copy",
+        "Directory and files are group/world-readable",
+        "No filesystem immutable flag",
+        "Use the transfer ZIP, not this tree, as restore authority"
+      ]
+    },
+    {
+      "id": "uk_claude_restricted_extracted",
+      "relative_path": "corpus/incoming/uk-laptop-2026-07-22/restricted/claude",
+      "kind": "directory",
+      "format": "tree",
+      "classification": "restricted_extracted_machine_intake",
+      "authority_role": "quarantined_working_copy",
+      "provider": "Claude local-agent",
+      "account_namespace": "uk_laptop_admin_gutua_202606",
+      "tree_observation": {
+        "files": 3,
+        "bytes": 22456,
+        "tree_sha256": "8356eb83c4be03e31798016a7fd5467a0c1d4056915e610875a537cf070578d1",
+        "symlinks": 0,
+        "root_mode": "0755",
+        "file_modes": {
+          "0644": 3
+        }
+      },
+      "manifest_binding": {
+        "manifest_path": "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_SOURCE_SHA256.csv",
+        "mapping": "uk_claude_restricted",
+        "expected": {
+          "manifest_rows_considered": 3,
+          "matched": 3,
+          "missing": [],
+          "changed": [],
+          "extra": []
+        }
+      },
+      "consumer_references": [
+        "corpus/incoming/uk-laptop-2026-07-22/README.md",
+        "corpus/incoming/uk-laptop-2026-07-22/INTAKE_REPORT.md"
+      ],
+      "baseline_coverage": [
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CLAUDE_SOURCE_SHA256.csv"
+      ],
+      "protection_gaps": [
+        "Restricted directory and files are group/world-readable",
+        "Configuration may contain sensitive machine state",
+        "No filesystem immutable flag",
+        "Use the transfer ZIP, not this tree, as restore authority"
+      ]
+    },
+    {
+      "id": "uk_codex_restricted_snapshot",
+      "relative_path": "corpus/incoming/uk-laptop-2026-07-22/restricted/codex/snapshot",
+      "kind": "directory",
+      "format": "tree",
+      "classification": "restricted_extracted_machine_intake",
+      "authority_role": "drifted_quarantined_working_copy",
+      "provider": "Codex",
+      "account_namespace": "uk_laptop_admin_gutua_20260722",
+      "tree_observation": {
+        "files": 64,
+        "bytes": 1883745,
+        "tree_sha256": "0b9435fcee5c536fbd06d730c64b1916b11925aaf50365c7c71bc3ded3f5dffb",
+        "symlinks": 0,
+        "root_mode": "0755",
+        "file_modes": {
+          "0644": 64
+        }
+      },
+      "manifest_binding": {
+        "manifest_path": "corpus/incoming/uk-laptop-2026-07-22/manifests/CODEX_SOURCE_SHA256.csv",
+        "mapping": "uk_codex_snapshot",
+        "expected": {
+          "manifest_rows_considered": 64,
+          "matched": 63,
+          "missing": [],
+          "changed": [
+            "logs_2.sqlite-shm"
+          ],
+          "extra": []
+        },
+        "manifest_tree_sha256": "983ec72983f1573378ca3ac47dc072e9ef2c2fcba1a6e7feb6e923af3b977eb7",
+        "changed_file_expected_sha256": "7d94b900bcfa3bda93c078f5924f37b97b9d647e2cb82cfe02b0dbad7a69e6bc",
+        "changed_file_actual_sha256": "035607b2f2928607783b6073f589c84a8479bfd9a17768277c733e81ece443a9"
+      },
+      "consumer_references": [
+        "corpus/incoming/uk-laptop-2026-07-22/README.md",
+        "corpus/incoming/uk-laptop-2026-07-22/INTAKE_REPORT.md"
+      ],
+      "baseline_coverage": [
+        "corpus/incoming/uk-laptop-2026-07-22/manifests/CODEX_SOURCE_SHA256.csv"
+      ],
+      "protection_gaps": [
+        "logs_2.sqlite-shm differs from the source manifest",
+        "Restricted directory and files are group/world-readable",
+        "SQLite state is unsafe to treat as immutable after opening",
+        "No filesystem immutable flag",
+        "Restore only from the still-valid transfer ZIP"
+      ]
+    }
+  ],
+  "migration_readiness": {
+    "ready": false,
+    "blocking_findings": [
+      {
+        "id": "EVID-P0-001",
+        "severity": "P0",
+        "finding": "The global immutable-export baseline covers only five of nine immutable file authorities."
+      },
+      {
+        "id": "EVID-P0-002",
+        "severity": "P0",
+        "finding": "No encrypted, content-addressed, independently restorable two-copy vault has been verified."
+      },
+      {
+        "id": "EVID-P0-003",
+        "severity": "P0",
+        "finding": "Seven provider originals are group/world-readable and no source authority has a filesystem immutable flag."
+      },
+      {
+        "id": "EVID-P0-004",
+        "severity": "P0",
+        "finding": "The extracted Codex snapshot has drifted; logs_2.sqlite-shm does not match the source manifest. The transfer ZIP remains intact and must be the restore authority."
+      },
+      {
+        "id": "EVID-P1-001",
+        "severity": "P1",
+        "finding": "Two unmanifested generated .pyc files contaminate both UK Claude working-copy trees and differ between those trees."
+      },
+      {
+        "id": "EVID-P1-002",
+        "severity": "P1",
+        "finding": "Consumer references still point at scattered root and corpus paths; no tested restore map or cutover receipt exists."
+      }
+    ]
+  }
+}
+

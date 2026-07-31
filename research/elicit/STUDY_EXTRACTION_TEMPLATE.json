@@ -1,0 +1,44 @@
+{
+  "schema_version": "giga.scientific-study-extraction.v1",
+  "group_id": "0000000000000000000000000000000000000000000000000000000000000000",
+  "full_text_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "full_text_verified": true,
+  "study_design": "randomized_controlled_trial",
+  "population": "Describe participants, eligibility and setting.",
+  "condition": "Describe the condition and baseline severity.",
+  "intervention_protocol": "Dose, device settings, sessions, intervals and co-interventions.",
+  "comparator": "Control, placebo, sham or active comparator.",
+  "sample_size": 1,
+  "outcomes": [
+    {
+      "name": "Prespecified outcome",
+      "measurement": "Validated scale or instrument",
+      "timepoint": "Time from treatment"
+    }
+  ],
+  "effect_estimates": [
+    {
+      "outcome": "Prespecified outcome",
+      "measure": "Mean difference, risk ratio or other measure",
+      "value": "Exact reported value",
+      "uncertainty": "Confidence interval or other uncertainty",
+      "timepoint": "Time from treatment",
+      "locator": "Table, figure or page"
+    }
+  ],
+  "follow_up": "Duration and completeness of follow-up.",
+  "adverse_events": "Events by arm, severity and serious events; write 'reported none' if explicit.",
+  "withdrawals": "Counts and reasons by arm; write 'reported none' if explicit.",
+  "funding": "Funding source or explicit statement that none was reported.",
+  "conflicts": "Conflicts or explicit statement that none were reported.",
+  "risk_of_bias": "unclear",
+  "population_applicability": "unknown",
+  "source_locators": [
+    "Page/table/figure supporting the extraction"
+  ],
+  "extracted_by": "operator",
+  "extracted_at": "2026-07-29T12:00:00+00:00",
+  "notes": [
+    "Template only: replace every placeholder after checking the complete paper."
+  ]
+}

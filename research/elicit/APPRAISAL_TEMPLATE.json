@@ -1,0 +1,23 @@
+{
+  "schema_version": "giga.scientific-appraisal.v1",
+  "source_record_id": "0000000000000000000000000000000000000000000000000000000000000000",
+  "study_identity": "doi-or-pmid-or-trial-id",
+  "study_design": "randomized_controlled_trial",
+  "human_verified": false,
+  "full_text_verified": false,
+  "risk_of_bias": "unclear",
+  "population_applicability": "unknown",
+  "harms_assessed": false,
+  "conflicts_assessed": false,
+  "retraction_status": "unknown",
+  "effect_estimate": null,
+  "confidence_interval": null,
+  "outcome_direction": "unknown",
+  "supporting_quote": null,
+  "source_locator": null,
+  "assessed_by": "operator",
+  "assessed_at": "2026-07-28T12:00:00+00:00",
+  "notes": [
+    "Template only: replace every placeholder after checking the source."
+  ]
+}

@@ -1,0 +1,17 @@
+[Unit]
+Description=GIGA concurrent DFI-11 Codex supervisor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/gutua/software-factory/.worktrees/orchestrator-v3-dfi-11
+Environment=PATH=/home/gutua/software-factory/.control/native-dual-lane-20260726/bin:/home/gutua/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=CLAUDE_LOCK_TIMEOUT_SECONDS=7200
+ExecStart=/home/gutua/software-factory/giga-user/deploy/gutua/dual_lane_20260729/run_dfi11_codex_supervisor.sh
+TimeoutStopSec=120
+KillMode=mixed
+Nice=5
+
+[Install]
+WantedBy=default.target

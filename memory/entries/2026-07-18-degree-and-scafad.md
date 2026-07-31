@@ -10,3 +10,8 @@ navigation is a live thread; the orchestrator is the headline portfolio asset on
 end-of-2026 career clock. IELTS practice threads suggest exam-grade English certification
 pursued.
 Source: corpus, claude-web threads 2024-2025 (SCAFAD series, viva prep, post-graduation).
+
+TERMINOLOGY CORRECTION — [operator-confirmed], 2026-07-28: SCAFAD investigated anomaly
+detection **within AWS Lambda environments**, using serverless telemetry. Do not describe it
+as anomaly detection "using AWS Lambda", which implies Lambda was merely the implementation
+tool rather than the environment under study.

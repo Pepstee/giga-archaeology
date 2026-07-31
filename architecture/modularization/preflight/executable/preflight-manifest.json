@@ -1,0 +1,55 @@
+{
+  "entries": [
+    {
+      "mode": "0644",
+      "path": "REPORT.md",
+      "sha256": "2eec7e8a0f895bec2316403c85e1365813690e3283604705099c1bf9517b189c",
+      "size": 2823
+    },
+    {
+      "mode": "0644",
+      "path": "START_PREVENTION_BLOCKERS.json",
+      "sha256": "cedac97706f9418fe2a02fee7a712607368956b856e0f33e857475b48e532234",
+      "size": 4827
+    },
+    {
+      "mode": "0644",
+      "path": "baseline-tests.json",
+      "sha256": "fea16c58a17eef018db204c3ad554359230e42ad6ba039b06d1264e05ed19e74",
+      "size": 3084
+    },
+    {
+      "mode": "0644",
+      "path": "executable-inventory.json",
+      "sha256": "daed2ee76d1bbcd5153d6011425411f9f0bdd21eba74844c22b9744dc04fa7c2",
+      "size": 10870356
+    },
+    {
+      "mode": "0644",
+      "path": "skill-packaging.json",
+      "sha256": "cbeee6a0da8335211248e6b562a51e7bd6643db686b7f5122e1a21178aff0330",
+      "size": 39733
+    },
+    {
+      "mode": "0644",
+      "path": "test_verify_preflight.py",
+      "sha256": "50e28c4ee3025a345cecff115c32859ceca390a8858190d0a2ffa79ed496f899",
+      "size": 672
+    },
+    {
+      "mode": "0755",
+      "path": "verify_preflight.py",
+      "sha256": "ae7c192fbee0898e95d8e97c8f71fbf0b65a9ba0673cce01f3efe9941e617490",
+      "size": 2341
+    },
+    {
+      "mode": "0644",
+      "path": "worktree-seal-summary.json",
+      "sha256": "60e311e3a8c98721270b78f69c91e4ddc73e14a7820cce13971fa0054c5d90c1",
+      "size": 2439
+    }
+  ],
+  "generated_at": "2026-07-30T15:05:58.267613+00:00",
+  "manifest_digest": "ec157b32c52b57c403df850f8c3d6b28bb7a77b2d0a68a83360aa1b33bcd8bc6",
+  "schema": "giga.modularization-executable-preflight.v1.manifest"
+}

@@ -1,0 +1,140 @@
+{
+  "schema_version": "jaa04.public-access-policy-draft.v1",
+  "hosts": [
+    {
+      "host": "api.ashbyhq.com",
+      "terms_url": "https://www.ashbyhq.com/resources/terms",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "api.lever.co",
+      "terms_url": "https://www.lever.co/legal/terms-of-service?hsLang=en-us",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "api.smartrecruiters.com",
+      "terms_url": "https://www.smartrecruiters.com/legal/terms-of-use/",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "apply.workable.com",
+      "terms_url": "https://jobs.workable.com/terms",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "boards-api.greenhouse.io",
+      "terms_url": "https://www.greenhouse.com/legal",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "himalayas.app",
+      "terms_url": "https://himalayas.app/terms",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed. Use is limited to Artiom's personal, non-commercial, transitory job research; do not republish, redistribute or modify source material."
+    },
+    {
+      "host": "job-boards.greenhouse.io",
+      "terms_url": "https://www.greenhouse.com/legal",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "jobicy.com",
+      "terms_url": "https://jobicy.com/jobs-rss-feed",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed. Automated retrieval is permitted only through Jobicy's official API, RSS or MCP routes, no more than once per hour; listing-page harvesting is prohibited."
+    },
+    {
+      "host": "jobs.ashbyhq.com",
+      "terms_url": "https://www.ashbyhq.com/resources/terms",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "jobs.lever.co",
+      "terms_url": "https://www.lever.co/legal/terms-of-service?hsLang=en-us",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "jobs.smartrecruiters.com",
+      "terms_url": "https://www.smartrecruiters.com/legal/terms-of-use/",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    },
+    {
+      "host": "remotefirstjobs.com",
+      "terms_url": "https://remotefirstjobs.com/terms",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed. Use is limited to Artiom's private job research; do not redistribute, commercially exploit or republish source material."
+    },
+    {
+      "host": "www.jobs.ac.uk",
+      "terms_url": "https://www.jobs.ac.uk/legal/terms-and-conditions",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed. Use is limited to private job-seeker research; no account automation, content redistribution or commercial exploitation."
+    },
+    {
+      "host": "www.jobs.nhs.uk",
+      "terms_url": "https://www.jobs.nhs.uk/candidate/acceptable-use",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed. Use is limited to personal, non-commercial job research; no application submission or account action is authorised by this policy."
+    },
+    {
+      "host": "www.workable.com",
+      "terms_url": "https://jobs.workable.com/terms",
+      "determination": "public_read_only_research_permitted",
+      "reviewed_at": "2026-07-26T18:51:38+01:00",
+      "reviewed_by": "Artiom Gutu",
+      "reviewer_type": "human_operator",
+      "notes": "Operator explicitly attested that all relevant terms were read and agreed, and authorised bounded anonymous public read-only job research. No authentication, challenge bypass, messaging, application submission, data resale or public corpus redistribution."
+    }
+  ]
+}

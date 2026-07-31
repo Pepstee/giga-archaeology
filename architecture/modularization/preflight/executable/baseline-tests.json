@@ -1,0 +1,67 @@
+{
+  "commands": [
+    {
+      "cache_posture": "pytest cache disabled; bytecode disabled",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q -p no:cacheprovider tests",
+      "cwd": "/Users/admin/Documents/giga-user",
+      "id": "root-pytest"
+    },
+    {
+      "cache_posture": "ruff cache disabled",
+      "command": "ruff check --no-cache twin_core scripts deploy/gutua tests projects/land-investment-monitor ecc-integration/scripts ecc-integration/tests migration life-logging",
+      "cwd": "/Users/admin/Documents/giga-user",
+      "id": "root-ruff"
+    },
+    {
+      "cache_posture": "read-only command",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/audit_root_layout.py --root .",
+      "cwd": "/Users/admin/Documents/giga-user",
+      "id": "root-layout"
+    },
+    {
+      "cache_posture": "syntax-only",
+      "command": "find scripts deploy migration projects -type f -name '*.sh' ! -path '*dubbing-studio*' -print0 | xargs -0 -n1 bash -n",
+      "cwd": "/Users/admin/Documents/giga-user",
+      "id": "shell-syntax"
+    },
+    {
+      "cache_posture": "syntax-only",
+      "command": "find deploy -type f -name '*.plist' ! -path '*dubbing-studio*' -print0 | xargs -0 -n1 plutil -lint",
+      "cwd": "/Users/admin/Documents/giga-user",
+      "id": "plist-syntax"
+    },
+    {
+      "cache_posture": "pytest cache disabled; may need optional dependencies",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q -p no:cacheprovider scraper/test_scraper.py profiler/test_profiler.py llm/test_llm.py skeleton/test_skeleton.py skeleton/test_graph_gate.py",
+      "cwd": "/Users/admin/Documents/giga-user/market-aligner",
+      "id": "market-aligner"
+    },
+    {
+      "cache_posture": "pytest cache disabled; test writes only temporary paths",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q -p no:cacheprovider tests",
+      "cwd": "/Users/admin/Documents/giga-user/projects/land-investment-monitor",
+      "id": "land-monitor"
+    },
+    {
+      "cache_posture": "pytest cache disabled; no upstream fetch",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m pytest -q -p no:cacheprovider ecc-integration/tests ecc-integration/candidate-imports/governance-kit/tests",
+      "cwd": "/Users/admin/Documents/giga-user",
+      "id": "ecc-integration"
+    },
+    {
+      "cache_posture": "read-only hash verification",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 architecture/modularization/preflight/executable/verify_preflight.py",
+      "cwd": "/Users/admin/Documents/giga-user",
+      "id": "preflight-verifier"
+    }
+  ],
+  "generated_at": "2026-07-30T15:05:58.202466+00:00",
+  "not_safe_as_baseline": [
+    "python -m compileall or py_compile without an isolated cache prefix",
+    "tests that invoke live provider/network campaigns",
+    "systemctl enable/start/restart or launchctl load/bootstrap",
+    "Graphify rebuild/update because it writes graphify-out",
+    "migration prune-appledouble because it deletes files"
+  ],
+  "schema": "giga.modularization-executable-preflight.v1.baseline-tests"
+}

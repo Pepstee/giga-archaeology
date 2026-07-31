@@ -1,0 +1,53 @@
+{
+  "warning": "Демонстрационные точки для проверки алгоритма. Перед реальной эксплуатацией заменить проверенным реестром и указать source_url.",
+  "points": [
+    {
+      "kind": "water",
+      "name": "Демо-точка: берег",
+      "subtype": "водохранилище",
+      "lat": 56.0305,
+      "lon": 36.8480,
+      "source_url": "demo://water-1"
+    },
+    {
+      "kind": "station",
+      "name": "Демо-точка: D4",
+      "subtype": "D4",
+      "lat": 55.6470,
+      "lon": 37.3340,
+      "source_url": "demo://station-1"
+    },
+    {
+      "kind": "infrastructure",
+      "name": "Демо-точка: магазин и бытовые услуги — Переделкино",
+      "subtype": "повседневная инфраструктура",
+      "lat": 55.6490,
+      "lon": 37.3380,
+      "source_url": "demo://infrastructure-1"
+    },
+    {
+      "kind": "infrastructure",
+      "name": "Демо-точка: магазин и бытовые услуги — Истра",
+      "subtype": "повседневная инфраструктура",
+      "lat": 56.0330,
+      "lon": 36.8460,
+      "source_url": "demo://infrastructure-2"
+    },
+    {
+      "kind": "future_growth",
+      "name": "Демо-точка: перспективный транспортный узел",
+      "subtype": "будущая инфраструктура",
+      "lat": 55.6465,
+      "lon": 37.3325,
+      "source_url": "demo://future-1"
+    },
+    {
+      "kind": "adverse",
+      "name": "Демо-точка: зона ручной проверки",
+      "subtype": "репутационный риск",
+      "lat": 55.6412,
+      "lon": 37.3292,
+      "source_url": "demo://adverse-1"
+    }
+  ]
+}

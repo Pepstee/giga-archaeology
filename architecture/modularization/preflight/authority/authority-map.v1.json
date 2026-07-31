@@ -1,0 +1,3118 @@
+{
+  "schema": "giga.modularization.authority-map.v1",
+  "preflight_id": "wave-0a-authority-topology-2026-07-30",
+  "approval_state": "authorized-target-preflight-blocked",
+  "operator_authority": {
+    "source": "explicit acceptance of the modularization plan followed by instruction to begin autonomously",
+    "scope": "target modular architecture and specialised skills module",
+    "qualification": "implementation remains subject to deterministic preflight gates and evidence-backed ambiguity resolution"
+  },
+  "scope": {
+    "root": "/Users/admin/Documents/giga-user",
+    "excluded": [
+      "dubbing-studio"
+    ],
+    "top_level_path_count": 71,
+    "top_level_name_set_sha256": "a411ee3b2caa3389c91e1491f9fa77e9b66faaab0ea7eb02658fb7445c4136b0",
+    "git_head": "82cb47ef82d6973c08513686bcca6ed0469418a7",
+    "git_branch": "main",
+    "read_only_source_analysis": true,
+    "wave0_moves_authorized": false
+  },
+  "authority_precedence": [
+    "explicit operator decision",
+    "CONTEXT.md standing-decision registry",
+    "00_MASTER.md programme status",
+    "CHARTER.md assistant behaviour",
+    "memory/MEMORY_PROTOCOL.md personal-memory mutation",
+    "projects/registry.v1.json project ownership",
+    "architecture/machine-authority.v1.json host authority",
+    "architecture/root-layout.v1.json directory zones",
+    "candidate-bound certificates and tests",
+    "reports, plans, generated output and caches"
+  ],
+  "target_architecture": {
+    "status": "authorized-for-implementation-subject-to-preflight-gates",
+    "root_entrypoints": [
+      ".gitignore",
+      "AGENTS.md",
+      "00_MASTER.md",
+      "01_CHARTER_BRIEF.md",
+      "02_MEMORY_CONTEXT_BRIEF.md",
+      "03_LIFE_INFRA_BRIEF.md",
+      "04_CORPUS_RETROSPECTIVE_BRIEF.md",
+      "05_CALIBRATION_PROMPTBANK_BRIEF.md",
+      "06_SECOND_MEMORY_BRIEF.md",
+      "07_VIRTUAL_TWIN_BRIEF.md",
+      "CHARTER.md",
+      "CONTEXT.md",
+      "CONTEXT_PROTOCOL.md"
+    ],
+    "first_class_zones": {
+      "modules": "GIGA-owned reusable implementation, contracts, deployment and specialised skills",
+      "projects": "Outcome-oriented owned projects with independent lifecycle",
+      "corpus-memory-research": "Protected evidence, human-auditable memory and research",
+      "external": "Upstream or independently owned workspaces; reference/promotion boundary",
+      "runtime": "Generated output, cache, state and temporary files",
+      "archive": "Immutable historical work orders, reports, reviews, patches and receipts",
+      "quarantine": "Unresolved ownership, duplicate candidates and mixed paths; no authority",
+      "intake": "New material awaiting explicit ownership"
+    },
+    "modules": {
+      "digital-twin": {
+        "owner": "GIGA virtual-twin workstream"
+      },
+      "platform": {
+        "owner": "GIGA platform"
+      },
+      "calibration": {
+        "owner": "GIGA calibration workstream"
+      },
+      "sovereignty": {
+        "owner": "GIGA sovereignty module"
+      },
+      "integrations": {
+        "owner": "GIGA integration boundary"
+      },
+      "operations": {
+        "owner": "GIGA operations"
+      },
+      "deployment": {
+        "owner": "GIGA release/deployment"
+      },
+      "proof": {
+        "owner": "GIGA evidence/proof compiler"
+      },
+      "research": {
+        "owner": "GIGA research tooling"
+      },
+      "skills": {
+        "owner": "giga-user platform",
+        "canonical_owned_source": "modules/skills/owned",
+        "capability_registry": "modules/skills/capability-registry",
+        "external_catalogues": "modules/skills/catalogs"
+      }
+    }
+  },
+  "root_move_lock": {
+    "contract": "ROOT_MOVE_LOCK.md",
+    "runtime_path": "~/.giga/locks/giga-user-root-move.v1.lock",
+    "primitive": "atomic mkdir",
+    "single_writer": true,
+    "stale_lock_deletion_is_forbidden_without_recovery_receipt": true
+  },
+  "acceptance_gate": {
+    "contract": "ROOT_MOVE_LOCK.md#acceptance-gate",
+    "all_ambiguities_must_be_resolved": true,
+    "manifest_hash_must_be_bound_to_preflight_receipt": true,
+    "protected_sources_require_pre_and_post_hash_match": true,
+    "moves_execute_in_declared_order": true,
+    "compatibility_and_tests_must_pass_before_source_retirement": true,
+    "migration_receipt_required": true,
+    "migration_batches_must_validate": true
+  },
+  "skills": {
+    "evidence": "outputs/skill-filesystem-inventory-2026-07-30/inventory.json",
+    "evidence_generated_on": "2026-07-30",
+    "physical_manifest_count": 5708,
+    "router_catalog_count": 68,
+    "module": {
+      "target": "modules/skills",
+      "owner": "giga-user platform",
+      "canonical_owned_source": "modules/skills/owned",
+      "capability_registry": "modules/skills/capability-registry",
+      "catalogues_are_reference_only": true,
+      "presence_does_not_grant_authority": true
+    },
+    "giga_owned_skills": [
+      {
+        "name": "librarian",
+        "current_canonical_path": "deploy/skills/librarian/SKILL.md",
+        "copy_count": 2,
+        "content_variant_count": 1,
+        "catalogued_by_skill_router": false,
+        "target": "modules/skills/owned/librarian",
+        "wave0_action": "no-touch"
+      },
+      {
+        "name": "skilltree-operator",
+        "current_canonical_path": "deploy/skills/skilltree-operator/SKILL.md",
+        "copy_count": 2,
+        "content_variant_count": 1,
+        "catalogued_by_skill_router": true,
+        "target": "modules/skills/owned/skilltree-operator",
+        "wave0_action": "no-touch"
+      }
+    ],
+    "source_classes": [
+      {
+        "source_class": "active-claude-personal",
+        "manifest_count": 3,
+        "target_class": "active-personal-system",
+        "ownership": "user-claude-configuration",
+        "target": "modules/skills/catalogs/active-host-index",
+        "handling": "reference-only",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "active-codex-personal-or-system",
+        "manifest_count": 19,
+        "target_class": "active-personal-system",
+        "ownership": "user-or-codex-runtime",
+        "target": "modules/skills/catalogs/active-host-index",
+        "handling": "reference-only; never copy into GIGA-owned skill source",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "active-shared-agent",
+        "manifest_count": 3,
+        "target_class": "active-personal-system",
+        "ownership": "shared-agent-runtime",
+        "target": "modules/skills/catalogs/active-host-index",
+        "handling": "reference-only",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "claude-app-session-or-runtime",
+        "manifest_count": 17,
+        "target_class": "runtime-cache",
+        "ownership": "claude-runtime",
+        "target": "modules/skills/catalogs/runtime-index",
+        "handling": "reference-only; session copies are not source",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "claude-marketplace-checkout",
+        "manifest_count": 31,
+        "target_class": "marketplace-catalog-cache",
+        "ownership": "external-marketplace",
+        "target": "modules/skills/catalogs/marketplaces-index",
+        "handling": "reference-only; presence is not installation",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "claude-scheduled-automation",
+        "manifest_count": 4,
+        "target_class": "active-personal-system",
+        "ownership": "user-claude-automation",
+        "target": "modules/skills/catalogs/active-host-index",
+        "handling": "reference-only; automation status must be verified separately",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "claude-user-project-runtime",
+        "manifest_count": 4,
+        "target_class": "runtime-cache",
+        "ownership": "project-runtime",
+        "target": "modules/skills/catalogs/runtime-index",
+        "handling": "reference-only",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "codex-marketplace-temporary-mirror",
+        "manifest_count": 618,
+        "target_class": "marketplace-catalog-cache",
+        "ownership": "codex-temporary-cache",
+        "target": "modules/skills/catalogs/marketplaces-index",
+        "handling": "reference-only; disposable cache, not authority",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "codex-runtime-cache",
+        "manifest_count": 8,
+        "target_class": "runtime-cache",
+        "ownership": "codex-runtime",
+        "target": "modules/skills/catalogs/runtime-index",
+        "handling": "reference-only",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "giga-corpus-snapshot",
+        "manifest_count": 22,
+        "target_class": "historical-upstream-copy",
+        "ownership": "giga-evidence-corpus",
+        "target": "modules/skills/catalogs/historical-snapshots-index",
+        "handling": "immutable evidence snapshot; not executable authority",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "giga-ecc-upstream",
+        "manifest_count": 889,
+        "target_class": "historical-upstream-copy",
+        "ownership": "ECC-upstream",
+        "target": "modules/skills/catalogs/upstream-history-index",
+        "handling": "upstream evidence; import only through ECC integration receipts",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "giga-owned-deploy",
+        "manifest_count": 2,
+        "target_class": "giga-owned",
+        "ownership": "giga-user/modules/skills",
+        "target": "modules/skills/owned",
+        "handling": "future canonical source after lifecycle review and migration receipt",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "giga-staging",
+        "manifest_count": 2,
+        "target_class": "candidate-copy",
+        "ownership": "giga-user/staging",
+        "target": "quarantine/staging/skills",
+        "handling": "non-authoritative candidate; preserve exact bytes",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "giga-vendored-runtime",
+        "manifest_count": 2,
+        "target_class": "runtime-cache",
+        "ownership": "vendored-dependency",
+        "target": "modules/skills/catalogs/runtime-index",
+        "handling": "dependency copy; not GIGA-owned skill",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "graphify-repository-cache",
+        "manifest_count": 25,
+        "target_class": "marketplace-catalog-cache",
+        "ownership": "graphify-repository-cache",
+        "target": "modules/skills/catalogs/marketplaces-index",
+        "handling": "reference-only; cache is not installation",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "installed-codex-plugin-cache",
+        "manifest_count": 45,
+        "target_class": "external-plugin",
+        "ownership": "plugin-publisher-and-codex-cache",
+        "target": "modules/skills/catalogs/external-plugins-index",
+        "handling": "index exact version/path; do not vendor cache",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "kimi-runtime",
+        "manifest_count": 48,
+        "target_class": "runtime-cache",
+        "ownership": "kimi-runtime",
+        "target": "modules/skills/catalogs/runtime-index",
+        "handling": "reference-only",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "orchestrator-v3-skill-corpus",
+        "manifest_count": 3917,
+        "target_class": "historical-upstream-copy",
+        "ownership": "external-orchestrator-corpus",
+        "target": "modules/skills/catalogs/upstream-history-index",
+        "handling": "evidence/index only; never bulk promote",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "other-accessible-home-path",
+        "manifest_count": 14,
+        "target_class": "unclassified-external",
+        "ownership": "unknown-external",
+        "target": "modules/skills/catalogs/quarantine-index",
+        "handling": "index only; fail closed pending ownership",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "other-project-local",
+        "manifest_count": 18,
+        "target_class": "external-project-skill",
+        "ownership": "owning-project",
+        "target": "modules/skills/catalogs/external-projects-index",
+        "handling": "reference-only; project remains authority",
+        "wave0_action": "no-touch"
+      },
+      {
+        "source_class": "package-manager-or-model-runtime",
+        "manifest_count": 17,
+        "target_class": "runtime-cache",
+        "ownership": "package-or-model-runtime",
+        "target": "modules/skills/catalogs/runtime-index",
+        "handling": "reference-only",
+        "wave0_action": "no-touch"
+      }
+    ]
+  },
+  "entries": [
+    {
+      "source": ".DS_Store",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 12292,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "ephemeral-os-metadata",
+      "destination": "runtime/cache/macos/.DS_Store",
+      "canonical_authority": "architecture/root-layout.v1.json#ignored_root_patterns",
+      "dependencies": [],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "none",
+        "required": false
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": ".gitignore",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 1819,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          " M .gitignore"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "active-control",
+      "destination": ".gitignore",
+      "canonical_authority": "Git repository policy",
+      "dependencies": [],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": ".pytest_cache",
+      "kind": "directory",
+      "file_count": 5,
+      "byte_count": 543726,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "ephemeral-test-cache",
+      "destination": "runtime/cache/pytest",
+      "canonical_authority": "pytest runtime convention",
+      "dependencies": [],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "none",
+        "required": false
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": ".ruff_cache",
+      "kind": "directory",
+      "file_count": 5,
+      "byte_count": 1420,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "ephemeral-lint-cache",
+      "destination": "runtime/cache/ruff",
+      "canonical_authority": "Ruff runtime convention",
+      "dependencies": [],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "none",
+        "required": false
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "00_MASTER.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 7741,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          " M 00_MASTER.md"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-active",
+      "destination": "00_MASTER.md",
+      "canonical_authority": "00_MASTER.md#programme-progress",
+      "dependencies": [
+        "SESSION_LOGS",
+        "01_CHARTER_BRIEF.md",
+        "CONTEXT.md"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "01_CHARTER_BRIEF.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 2992,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-brief",
+      "destination": "01_CHARTER_BRIEF.md",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.authority",
+      "dependencies": [
+        "00_MASTER.md",
+        "CHARTER.md",
+        "SESSION_LOGS/01_log.md"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "02_MEMORY_CONTEXT_BRIEF.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 2144,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-brief",
+      "destination": "02_MEMORY_CONTEXT_BRIEF.md",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.authority",
+      "dependencies": [
+        "00_MASTER.md",
+        "CONTEXT.md",
+        "CONTEXT_PROTOCOL.md"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "03_LIFE_INFRA_BRIEF.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 2456,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-brief",
+      "destination": "03_LIFE_INFRA_BRIEF.md",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.authority",
+      "dependencies": [
+        "00_MASTER.md"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "04_CORPUS_RETROSPECTIVE_BRIEF.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 4029,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-brief",
+      "destination": "04_CORPUS_RETROSPECTIVE_BRIEF.md",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.authority",
+      "dependencies": [
+        "00_MASTER.md",
+        "corpus",
+        "retrospectives"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "05_CALIBRATION_PROMPTBANK_BRIEF.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 2915,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-brief",
+      "destination": "05_CALIBRATION_PROMPTBANK_BRIEF.md",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.authority",
+      "dependencies": [
+        "00_MASTER.md",
+        "PREDICTION_AUTOMATION.md"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "06_SECOND_MEMORY_BRIEF.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 2964,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-brief",
+      "destination": "06_SECOND_MEMORY_BRIEF.md",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.authority",
+      "dependencies": [
+        "00_MASTER.md",
+        "memory"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "07_VIRTUAL_TWIN_BRIEF.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 2612,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-brief",
+      "destination": "07_VIRTUAL_TWIN_BRIEF.md",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.authority",
+      "dependencies": [
+        "00_MASTER.md",
+        "twin_core",
+        "memory",
+        "corpus"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "1916b63abd801fbb5abf9b44f98d87a68ccd5db992b2a4d30567dd8a4ed29a85-2026-07-19-08-37-41-df72519dd898472489071b0441745ac3.zip",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 1171034822,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "immutable-source-export",
+      "destination": "corpus/raw/provider-archives/chatgpt-2026.zip",
+      "canonical_authority": "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+      "dependencies": [
+        "corpus",
+        "FINE_TUNING_READINESS.md",
+        "migration"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 60,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Target path is descriptive only; relocation is blocked until every hash and absolute reference is migrated.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "AGENTS.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 1653,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-agent-instruction",
+      "destination": "AGENTS.md",
+      "canonical_authority": "repository instruction hierarchy",
+      "dependencies": [
+        "00_MASTER.md",
+        "01_CHARTER_BRIEF.md",
+        "modules/skills"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "CHARTER.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 5224,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-active",
+      "destination": "CHARTER.md",
+      "canonical_authority": "CHARTER.md#how-assistants-serve",
+      "dependencies": [
+        "CONTEXT.md",
+        "deploy"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "CONTEXT.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 5061,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-active",
+      "destination": "CONTEXT.md",
+      "canonical_authority": "CONTEXT.md#standing-decisions",
+      "dependencies": [
+        "CONTEXT_PROTOCOL.md",
+        "memory",
+        "deploy"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "CONTEXT_PROTOCOL.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 1765,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-protocol",
+      "destination": "CONTEXT_PROTOCOL.md",
+      "canonical_authority": "CONTEXT_PROTOCOL.md",
+      "dependencies": [
+        "CONTEXT.md",
+        "deploy"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "FABLE_V3_DESIGN_REVIEW.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 19053,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "archive",
+      "lifecycle_status": "historical-review",
+      "destination": "archive/orchestrator/reviews/2026-07-18/FABLE_V3_DESIGN_REVIEW.md",
+      "canonical_authority": "architecture/root-layout.v1.json#legacy_root_exceptions",
+      "dependencies": [
+        "TRAVEL_DESIGNER_GOAL.md",
+        "V3_CONTRACT_DECISIONS.md"
+      ],
+      "provenance_requirements": [
+        "Preserve exact bytes and original path in the archive receipt.",
+        "Record supersession/status before removing the live-path authority implication."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 20,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "FINE_TUNING_READINESS.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 16800,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          " M FINE_TUNING_READINESS.md"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-specification",
+      "destination": "modules/digital-twin/training/FINE_TUNING_READINESS.md",
+      "canonical_authority": "00_MASTER.md#session-04",
+      "dependencies": [
+        "corpus",
+        "scripts",
+        "tests",
+        "outputs"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "MODEL_AGNOSTIC_SPEC.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 6095,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-policy-specification",
+      "destination": "modules/platform/policies/MODEL_AGNOSTIC_SPEC.md",
+      "canonical_authority": "CONTEXT.md#standing-decisions",
+      "dependencies": [
+        "ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+        "deploy"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 36974,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          "?? ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "archive",
+      "lifecycle_status": "historical-subordinate-synthesis",
+      "destination": "archive/architecture/snapshots/2026-07/ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+      "canonical_authority": "file self-declaration: synthesis subordinate to code/certificates/doctrine",
+      "dependencies": [
+        "architecture",
+        "reports",
+        "00_MASTER.md"
+      ],
+      "provenance_requirements": [
+        "Preserve exact bytes and original path in the archive receipt.",
+        "Record supersession/status before removing the live-path authority implication."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 20,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "The file identifies itself as an architectural synthesis and states that code, certificates and standing decisions outrank its prose; archive it as a dated snapshot and point the architecture index at current machine-readable authority.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "PREDICTION_AUTOMATION.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 2978,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-module-specification",
+      "destination": "modules/calibration/PREDICTION_AUTOMATION.md",
+      "canonical_authority": "05_CALIBRATION_PROMPTBANK_BRIEF.md",
+      "dependencies": [
+        "scripts/prediction_automation.py",
+        "tests/test_prediction_automation.py"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "SESSION_LOGS",
+      "kind": "directory",
+      "file_count": 7,
+      "byte_count": 70997,
+      "tracked_file_count": 7,
+      "git_status_summary": {
+        "dirty_path_count": 2,
+        "sample": [
+          " M SESSION_LOGS/04_log.md",
+          " M SESSION_LOGS/07_log.md"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-historical-programme-ledger",
+      "destination": "SESSION_LOGS",
+      "canonical_authority": "00_MASTER.md#session-log-links",
+      "dependencies": [
+        "00_MASTER.md",
+        "01_CHARTER_BRIEF.md",
+        "02_MEMORY_CONTEXT_BRIEF.md"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 45,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "The master and briefs link these logs directly. Header drift is a content-reconciliation issue, not evidence that the live ledger should be relocated.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "SKILLTREE_GIGA_USER_INTEGRATION.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 11149,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-module-specification",
+      "destination": "modules/skills/docs/SKILLTREE_GIGA_USER_INTEGRATION.md",
+      "canonical_authority": "skilltree/implementation-registry.json",
+      "dependencies": [
+        "skilltree",
+        "deploy/skills/skilltree-operator",
+        "outputs/skill-filesystem-inventory-2026-07-30"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "SOVEREIGNTY_INDEX.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 9043,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          "?? SOVEREIGNTY_INDEX.md"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-provisional-module-specification",
+      "destination": "modules/sovereignty/README.md",
+      "canonical_authority": "SOVEREIGNTY_INDEX.md#promotion-test",
+      "dependencies": [
+        "scripts/sovereignty_index.py",
+        "contracts/sovereignty-observation.v1.schema.json",
+        "examples/sovereignty-assessment.synthetic.json"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "TRAVEL_DESIGNER_GOAL.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 5795,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "historical-project-goal",
+      "destination": "projects/travel-designer/GOAL.md",
+      "canonical_authority": "TRAVEL_DESIGNER_GOAL.md",
+      "dependencies": [
+        "FABLE_V3_DESIGN_REVIEW.md"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "medium",
+        "required": true
+      },
+      "migration_order": 30,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "The Offer Accelerator Toolkit (4) (1).pdf",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 31378004,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "licensed-source-document",
+      "destination": "The Offer Accelerator Toolkit (4) (1).pdf",
+      "canonical_authority": "job-application-automation/OFFER_ACCELERATOR_INTEGRATION_ASSESSMENT.md",
+      "dependencies": [
+        "job-application-automation"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Do not relocate until licence/retention policy and source citation paths are explicitly approved.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "V3_CONTRACT_DECISIONS.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 3787,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "archive",
+      "lifecycle_status": "ratified-historical-external-decision",
+      "destination": "archive/orchestrator/decisions/V3_CONTRACT_DECISIONS.md",
+      "canonical_authority": "V3_CONTRACT_DECISIONS.md#ratification-condition",
+      "dependencies": [
+        "FABLE_V3_DESIGN_REVIEW.md",
+        "upstreams"
+      ],
+      "provenance_requirements": [
+        "Preserve exact bytes and original path in the archive receipt.",
+        "Record supersession/status before removing the live-path authority implication."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 99,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "The file's explicit ratification condition is satisfied by landing the file in this repository. It records external Orchestrator decisions and is preserved as historical decision evidence, not current GIGA implementation authority.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "adapters",
+      "kind": "directory",
+      "file_count": 3,
+      "byte_count": 7893,
+      "tracked_file_count": 2,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          "?? adapters/manifests/elicit-scientific-evidence.json"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-platform-source",
+      "destination": "modules/integrations/adapters",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.platform",
+      "dependencies": [
+        "contracts",
+        "twin_core",
+        "outputs/adapter-evidence"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "architecture",
+      "kind": "directory",
+      "file_count": 49,
+      "byte_count": 11439869,
+      "tracked_file_count": 25,
+      "git_status_summary": {
+        "dirty_path_count": 32,
+        "sample": [
+          "?? architecture/GIGA_USER_DIRECTORY_ARCHITECTURE.md",
+          "?? architecture/MAC_GUTUA_AUTHORITY_AND_SNAPSHOT_POLICY.md",
+          "?? architecture/ORCHESTRATOR_V3_DETERMINISTIC_INFRASTRUCTURE_PLAN_2026-07-22.md",
+          "?? architecture/ORCHESTRATOR_V3_DISPROPORTIONATE_SPEED_RETURNS_2026-07-22.md",
+          "?? architecture/ORCHESTRATOR_VS_NATIVE_CODEX_BENCHMARK_V1.md",
+          "?? architecture/ORCHESTRATOR_VS_NATIVE_CODEX_COMPARISON_2026-07-25.md",
+          "?? architecture/machine-authority.v1.json",
+          "?? architecture/modularization/preflight/authority/MIGRATION_BATCHES.v1.json",
+          "?? architecture/modularization/preflight/authority/REPORT.md",
+          "?? architecture/modularization/preflight/authority/ROOT_MOVE_LOCK.md"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-architecture-and-lineage",
+      "destination": "architecture",
+      "canonical_authority": "architecture/GIGA_USER_DIRECTORY_ARCHITECTURE.md",
+      "dependencies": [
+        "00_MASTER.md",
+        "contracts",
+        "migration"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": [
+        {
+          "path": "architecture/modularization/preflight/authority",
+          "handling": "Wave 0A owned preflight artefacts; not a migration target."
+        }
+      ]
+    },
+    {
+      "source": "audit-work",
+      "kind": "directory",
+      "file_count": 3331,
+      "byte_count": 52927838,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "mixed-external-audit-workspace",
+      "destination": "audit-work",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.external_workspaces",
+      "dependencies": [
+        "upstreams",
+        "architecture"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Authored probes, a virtual environment and generated Graphify material remain physically mixed. Treat the whole path as an external no-touch workspace until a separately authorised content cleanup.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "company-admin",
+      "kind": "directory",
+      "file_count": 2,
+      "byte_count": 44359,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 2,
+        "sample": [
+          "?? company-admin/excellence-exalted/2026-dormant-company-closure.md",
+          "?? company-admin/excellence-exalted/evidence/HMRC-dormancy-acknowledgement-2026-07-30.pdf"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-personal-company-project",
+      "destination": "projects/company-admin",
+      "canonical_authority": "company-admin/excellence-exalted/2026-dormant-company-closure.md",
+      "dependencies": [
+        "projects/registry.v1.json"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 30,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "The dormant-company closure file is an active project ledger with evidence and a statutory deadline. Register the project and root-layout path in the same migration batch.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "contracts",
+      "kind": "directory",
+      "file_count": 12,
+      "byte_count": 27319,
+      "tracked_file_count": 3,
+      "git_status_summary": {
+        "dirty_path_count": 9,
+        "sample": [
+          "?? contracts/machine-source-snapshot.v1.schema.json",
+          "?? contracts/scientific-action-candidate.v1.schema.json",
+          "?? contracts/scientific-appraisal.v1.schema.json",
+          "?? contracts/scientific-eligibility-decisions.v1.schema.json",
+          "?? contracts/scientific-llm-eligibility-proposal.v1.schema.json",
+          "?? contracts/scientific-search-ontology.v1.schema.json",
+          "?? contracts/scientific-study-extraction.v1.schema.json",
+          "?? contracts/scientific-synthesis-signoff.v1.schema.json",
+          "?? contracts/sovereignty-observation.v1.schema.json"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-platform-source",
+      "destination": "modules/platform/contracts",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.platform",
+      "dependencies": [
+        "twin_core",
+        "scripts",
+        "tests",
+        "adapters"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "corpus",
+      "kind": "directory",
+      "file_count": 910,
+      "byte_count": 2999875789,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "canonical-evidence-store",
+      "destination": "corpus",
+      "canonical_authority": "corpus/MANIFEST.md",
+      "dependencies": [
+        "memory",
+        "retrospectives",
+        "FINE_TUNING_READINESS.md"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "deploy",
+      "kind": "directory",
+      "file_count": 186,
+      "byte_count": 445004,
+      "tracked_file_count": 109,
+      "git_status_summary": {
+        "dirty_path_count": 69,
+        "sample": [
+          " M deploy/gutua/README.md",
+          " M deploy/gutua/fetch_market_aligner_databases.sh",
+          " M deploy/gutua/runtime_health.py",
+          "?? deploy/gutua/DFI06_CURRENT_GATE.json",
+          "?? deploy/gutua/FABLE_GATE_POLICY.md",
+          "?? deploy/gutua/FABLE_GOVERNED_DFI_CONTINUATION.md",
+          "?? deploy/gutua/blind_opus_portfolio_prompt.md",
+          "?? deploy/gutua/codex_review_gate.py",
+          "?? deploy/gutua/dual_lane_20260726/JAA04_OPERATOR_AUTHORIZATION_20260726.md",
+          "?? deploy/gutua/dual_lane_20260726/dfi09_prompt.md"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-mixed-deployment-surface",
+      "destination": "modules/deployment",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.platform",
+      "dependencies": [
+        "AGENTS.md",
+        "CHARTER.md",
+        "CONTEXT.md",
+        "modules/skills"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "This is a split migration. MIGRATION_BATCHES.v1.json assigns deploy/skills/** to the first-class skills batch and every other child to deployment, with non-overlapping source sets.",
+      "subpath_exceptions": [
+        {
+          "path": "deploy/skills/librarian",
+          "handling": "Owned exclusively by the modules/skills batch; target modules/skills/owned/librarian."
+        },
+        {
+          "path": "deploy/skills/skilltree-operator",
+          "handling": "Owned exclusively by the modules/skills batch; target modules/skills/owned/skilltree-operator."
+        },
+        {
+          "path": "deploy/skills/librarian-workspace",
+          "handling": "Owned exclusively by the modules/skills batch as evaluation/workspace evidence."
+        },
+        {
+          "path": "deploy/gutua",
+          "handling": "Owned by the deployment batch; preserve machine authority policy and candidate history."
+        }
+      ]
+    },
+    {
+      "source": "ecc-integration",
+      "kind": "directory",
+      "file_count": 2766,
+      "byte_count": 59338395,
+      "tracked_file_count": 32,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-integration-candidate",
+      "destination": "modules/integrations/ecc",
+      "canonical_authority": "SKILLTREE_GIGA_USER_INTEGRATION.md",
+      "dependencies": [
+        "upstreams/ECC",
+        "skilltree",
+        "outputs"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "MIGRATION_BATCHES.v1.json assigns authored evidence, candidate imports, scripts and tests to modules/integrations/ecc; generated graphify-out is assigned exclusively to runtime/generated/ecc-graphify.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "examples",
+      "kind": "directory",
+      "file_count": 1,
+      "byte_count": 8291,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          "?? examples/sovereignty-assessment.synthetic.json"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-test-fixtures",
+      "destination": "modules/platform/examples",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.platform",
+      "dependencies": [
+        "SOVEREIGNTY_INDEX.md",
+        "tests"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "medium",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "external_proof",
+      "kind": "directory",
+      "file_count": 2,
+      "byte_count": 6608,
+      "tracked_file_count": 2,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-proof-compiler-input",
+      "destination": "modules/proof/external",
+      "canonical_authority": "07_VIRTUAL_TWIN_BRIEF.md",
+      "dependencies": [
+        "twin_core",
+        "tests",
+        "outputs/external-proof"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "graphify-out",
+      "kind": "directory",
+      "file_count": 71,
+      "byte_count": 871341,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "derived-graph-cache",
+      "destination": "runtime/generated/graphify",
+      "canonical_authority": "graphify skill output contract",
+      "dependencies": [
+        "retrospectives/2026-07-deep-characterisation.md"
+      ],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "low",
+        "required": false
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Existing graph covers a retrospective, not the workspace topology; it grants no architecture authority.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "instagram-artiom.png-2026-07-16-58GCGdnZ.zip",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 628369284,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "immutable-source-export",
+      "destination": "corpus/raw/provider-archives/instagram.zip",
+      "canonical_authority": "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+      "dependencies": [
+        "corpus",
+        "migration"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 60,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Target path is descriptive only; relocation is blocked by immutable hash and reference migration requirements.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "instagram_not_following_back.csv",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 31105,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "derived-personal-data",
+      "destination": "runtime/generated/instagram/not-following-back.csv",
+      "canonical_authority": "Instagram extraction workflow",
+      "dependencies": [
+        "instagram_unfollow_plan.json",
+        "instagram_unfollow_progress.json"
+      ],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "medium",
+        "required": true
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "instagram_unfollow_plan.json",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 8616,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "derived-operational-plan",
+      "destination": "runtime/generated/instagram/unfollow-plan.json",
+      "canonical_authority": "Instagram unfollow workflow",
+      "dependencies": [
+        "instagram_not_following_back.csv",
+        "instagram_unfollow_progress.json"
+      ],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "medium",
+        "required": true
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "instagram_unfollow_progress.json",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 17135,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "runtime-progress-state",
+      "destination": "runtime/state/instagram/unfollow-progress.json",
+      "canonical_authority": "Instagram unfollow workflow",
+      "dependencies": [
+        "instagram_unfollow_plan.json"
+      ],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "intake",
+      "kind": "directory",
+      "file_count": 1,
+      "byte_count": 363,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          "?? intake/README.md"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-intake",
+      "destination": "intake",
+      "canonical_authority": "architecture/GIGA_USER_DIRECTORY_ARCHITECTURE.md#migration-rules",
+      "dependencies": [],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "job-application-automation",
+      "kind": "directory",
+      "file_count": 44,
+      "byte_count": 4028216,
+      "tracked_file_count": 7,
+      "git_status_summary": {
+        "dirty_path_count": 37,
+        "sample": [
+          "?? job-application-automation/applications/rank-17-zscaler/Artiom_Gutu_CV_Zscaler.pdf",
+          "?? job-application-automation/applications/rank-17-zscaler/Artiom_Gutu_Cover_Letter_Zscaler.pdf",
+          "?? job-application-automation/applications/rank-18-mercor/Artiom_Gutu_CV_Mercor.pdf",
+          "?? job-application-automation/applications/rank-18-mercor/README.md",
+          "?? job-application-automation/applications/rank-18-mercor/application_record.json",
+          "?? job-application-automation/applications/rank-18-mercor/rendered/page-1.png",
+          "?? job-application-automation/applications/rank-18-mercor/rendered/page-2.png",
+          "?? job-application-automation/applications/rank-19-senseon/Artiom_Gutu_CV_SenseOn.pdf",
+          "?? job-application-automation/applications/rank-19-senseon/README.md",
+          "?? job-application-automation/applications/rank-19-senseon/application_record.json"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "retain",
+      "lifecycle_status": "active-owned-project",
+      "destination": "job-application-automation",
+      "canonical_authority": "projects/registry.v1.json#job-application-automation",
+      "dependencies": [
+        "market-aligner",
+        "The Offer Accelerator Toolkit (4) (1).pdf"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "korean",
+      "kind": "directory",
+      "file_count": 5,
+      "byte_count": 58516,
+      "tracked_file_count": 5,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "active-owned-project",
+      "destination": "korean",
+      "canonical_authority": "projects/registry.v1.json#korean",
+      "dependencies": [
+        "CONTEXT.md"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "life-logging",
+      "kind": "directory",
+      "file_count": 5,
+      "byte_count": 9266,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 4,
+        "sample": [
+          "?? life-logging/README.md",
+          "?? life-logging/audio-processing/README.md",
+          "?? life-logging/audio-processing/config/path-layout.json",
+          "?? life-logging/audio-processing/scripts/bootstrap_paths.py"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "retain",
+      "lifecycle_status": "active-owned-project",
+      "destination": "life-logging",
+      "canonical_authority": "projects/registry.v1.json#life-logging",
+      "dependencies": [],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "market-aligner",
+      "kind": "directory",
+      "file_count": 11188,
+      "byte_count": 387736877,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "active-independent-canonical-workspace",
+      "destination": "market-aligner",
+      "canonical_authority": "architecture/machine-authority.v1.json#hosts.mac.roots.market-aligner",
+      "dependencies": [
+        "projects/registry.v1.json",
+        "job-application-automation"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Logically external to GIGA platform ownership while physically retained at its stable path.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "market-aligner-artiom",
+      "kind": "directory",
+      "file_count": 103,
+      "byte_count": 710737,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "quarantine",
+      "lifecycle_status": "candidate-duplicate-workspace",
+      "destination": "quarantine/workspaces/market-aligner-artiom",
+      "canonical_authority": "architecture/machine-authority.v1.json#hosts.mac.roots.market-aligner-artiom",
+      "dependencies": [
+        "market-aligner",
+        "projects/registry.v1.json"
+      ],
+      "provenance_requirements": [
+        "Seal exact bytes/tree before relocation.",
+        "Record the unresolved owner or classification; grant no authority by presence."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 99,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "blocked",
+        "reason": "Machine authority labels this a candidate duplicate; reconciliation outcome is not yet ratified."
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "memory",
+      "kind": "directory",
+      "file_count": 75,
+      "byte_count": 1606165,
+      "tracked_file_count": 61,
+      "git_status_summary": {
+        "dirty_path_count": 19,
+        "sample": [
+          " M memory/INDEX.md",
+          " M memory/entries/2026-07-18-client-northern-ray.md",
+          " M memory/entries/2026-07-18-degree-and-scafad.md",
+          " M memory/entries/2026-07-18-education-and-work.md",
+          " M memory/entries/2026-07-18-market-aligner-shipped.md",
+          " M memory/entries/2026-07-18-social-circle.md",
+          "?? memory/entries/2026-07-22-orchestrator-efficiency-career-evidence.md",
+          "?? memory/entries/2026-07-23-genealogy-family-tree.md",
+          "?? memory/entries/2026-07-23-instagram-unfollow-automation.md",
+          "?? memory/entries/2026-07-23-job-application-campaign.md"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "canonical-personal-memory",
+      "destination": "memory",
+      "canonical_authority": "memory/MEMORY_PROTOCOL.md",
+      "dependencies": [
+        "CONTEXT.md",
+        "corpus",
+        "deploy/skills/librarian"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "migration",
+      "kind": "directory",
+      "file_count": 25,
+      "byte_count": 77564634,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 24,
+        "sample": [
+          "?? migration/GIGABYTE_DFI04_SONNET_RESUME_ORDER_2026-07-23.md",
+          "?? migration/GIGABYTE_FACTORY_HANDOFF_2026-07-22.md",
+          "?? migration/GIGABYTE_MIGRATION_COMPLETION_2026-07-22.md",
+          "?? migration/GIGABYTE_MIGRATION_SCOPE_2026-07-22.md",
+          "?? migration/GIGABYTE_UNATTENDED_FACTORY_CONTINUATION_ORDER_2026-07-23.md",
+          "?? migration/MOBILE_CUTOVER_CHECKPOINT_2026-07-23_DFI04_NO_GO.md",
+          "?? migration/MOBILE_CUTOVER_COMPLETION_2026-07-23.md",
+          "?? migration/SOURCE_ARCHIVES_2026-07-22.json",
+          "?? migration/activate_gigabyte_factory.sh",
+          "?? migration/extract_gigabyte_factory.sh"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-migration-evidence-and-tools",
+      "destination": "modules/operations/migration",
+      "canonical_authority": "architecture/MAC_GUTUA_AUTHORITY_AND_SNAPSHOT_POLICY.md",
+      "dependencies": [
+        "architecture/machine-authority.v1.json",
+        "staging",
+        "deploy/gutua"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "monitoring",
+      "kind": "directory",
+      "file_count": 1,
+      "byte_count": 573,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-operations-config",
+      "destination": "modules/operations/monitoring",
+      "canonical_authority": "skilltree/implementation-registry.json#monitoring-and-alerting",
+      "dependencies": [
+        "twin_core",
+        "scripts",
+        "outputs/runtime"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "output",
+      "kind": "directory",
+      "file_count": 2,
+      "byte_count": 12233060,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 2,
+        "sample": [
+          "?? output/imagegen/restored-family-photo-4k-face-locked.png",
+          "?? output/imagegen/restored-family-photo.png"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "generated-media-output",
+      "destination": "runtime/generated/media",
+      "canonical_authority": "tool output convention",
+      "dependencies": [],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "low",
+        "required": false
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "outputs",
+      "kind": "directory",
+      "file_count": 131,
+      "byte_count": 52028321,
+      "tracked_file_count": 65,
+      "git_status_summary": {
+        "dirty_path_count": 14,
+        "sample": [
+          " M outputs/adapter-evidence/registry.json",
+          "?? outputs/interview-prep-2026-07-24/Artiom_Gutu_5_Hour_Interview_Flight_Pack.xlsx",
+          "?? outputs/interview-prep-2026-07-24/Artiom_Gutu_5_Hour_Interview_Flight_Pack.xlsx.inspect.ndjson",
+          "?? outputs/interview-prep-2026-07-24/preview-categories.png",
+          "?? outputs/interview-prep-2026-07-24/preview-flight-plan.png",
+          "?? outputs/interview-prep-2026-07-24/preview-flight-questions.png",
+          "?? outputs/interview-prep-2026-07-24/preview-questions.png",
+          "?? outputs/interview-prep-2026-07-24/preview-source-jobs.png",
+          "?? outputs/interview-prep-2026-07-24/qa-errors.ndjson",
+          "?? outputs/interview-prep-2026-07-24/qa-inspect.ndjson"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "generated",
+      "lifecycle_status": "mixed-derived-output-and-receipts",
+      "destination": "runtime/outputs",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.runtime_and_delivery",
+      "dependencies": [
+        "adapters",
+        "external_proof",
+        "skilltree"
+      ],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Generated does not mean disposable: receipts, registries and the skill inventory require retention policies.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "overseer_fable_exec.patch",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 7086,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "archive",
+      "lifecycle_status": "historical-patch",
+      "destination": "archive/orchestrator/patches/overseer_fable_exec.patch",
+      "canonical_authority": "architecture/root-layout.v1.json#legacy_root_exceptions",
+      "dependencies": [
+        "upstreams"
+      ],
+      "provenance_requirements": [
+        "Preserve exact bytes and original path in the archive receipt.",
+        "Record supersession/status before removing the live-path authority implication."
+      ],
+      "compatibility": {
+        "level": "medium",
+        "required": true
+      },
+      "migration_order": 20,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "package(1).zip",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 483666368,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "immutable-source-export",
+      "destination": "corpus/raw/provider-archives/discord-teen.zip",
+      "canonical_authority": "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md#source-hashes",
+      "dependencies": [
+        "corpus",
+        "FINE_TUNING_READINESS.md",
+        "retrospectives"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 60,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Not present in the five-file baseline but independently hash-recorded as old/teen Discord provenance.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "package.zip",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 173231569,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "immutable-source-export",
+      "destination": "corpus/raw/provider-archives/discord-primary.zip",
+      "canonical_authority": "architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
+      "dependencies": [
+        "corpus",
+        "FINE_TUNING_READINESS.md",
+        "tests/test_extract_discord.py"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 60,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "phase2_sol_exec.patch",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 7364,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "archive",
+      "lifecycle_status": "historical-patch",
+      "destination": "archive/orchestrator/patches/phase2_sol_exec.patch",
+      "canonical_authority": "architecture/root-layout.v1.json#legacy_root_exceptions",
+      "dependencies": [
+        "upstreams"
+      ],
+      "provenance_requirements": [
+        "Preserve exact bytes and original path in the archive receipt.",
+        "Record supersession/status before removing the live-path authority implication."
+      ],
+      "compatibility": {
+        "level": "medium",
+        "required": true
+      },
+      "migration_order": 20,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "projects",
+      "kind": "directory",
+      "file_count": 62,
+      "byte_count": 1668655,
+      "tracked_file_count": 10,
+      "git_status_summary": {
+        "dirty_path_count": 26,
+        "sample": [
+          " M projects/sales-book-rewrite/SOURCE_LEDGER.md",
+          "?? projects/land-investment-monitor/.env.example",
+          "?? projects/land-investment-monitor/.gitignore",
+          "?? projects/land-investment-monitor/README.md",
+          "?? projects/land-investment-monitor/config/goal.json",
+          "?? projects/land-investment-monitor/config/schedule.example.cron",
+          "?? projects/land-investment-monitor/examples/cadastral_values.csv",
+          "?? projects/land-investment-monitor/examples/demo_listings.json",
+          "?? projects/land-investment-monitor/examples/feature_points.json",
+          "?? projects/land-investment-monitor/land_monitor/__init__.py"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "retain",
+      "lifecycle_status": "canonical-project-container-and-registry",
+      "destination": "projects",
+      "canonical_authority": "projects/registry.v1.json",
+      "dependencies": [
+        "job-application-automation",
+        "korean",
+        "life-logging",
+        "market-aligner"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "reports",
+      "kind": "directory",
+      "file_count": 107,
+      "byte_count": 539325,
+      "tracked_file_count": 3,
+      "git_status_summary": {
+        "dirty_path_count": 104,
+        "sample": [
+          "?? reports/BLIND_OPUS_PORTFOLIO_REVIEW_PROTOCOL_2026-07-25.md",
+          "?? reports/CLAUDE_CODEX_QUOTA_AWARE_COLLABORATION_CHECKPOINT_2026-07-24.md",
+          "?? reports/CLAUDE_QUOTA_RESERVATION_2026-07-28.md",
+          "?? reports/CODEX_DFI04_INDEPENDENT_REVIEW_2026-07-23.md",
+          "?? reports/DFI05_CODEX_FINDINGS_REPAIR_ORDER_2026-07-23.md",
+          "?? reports/DFI05_CODEX_INDEPENDENT_REVIEW_ORDER_2026-07-23.md",
+          "?? reports/DFI05_DELETION_REFACTOR_ORDER_2026-07-23.md",
+          "?? reports/DFI05_INTERMODEL_CONCURRENCY_STOP_CHECKPOINT_2026-07-23.md",
+          "?? reports/DFI05_REPAIR_F2_PREMODEL_AUTHORITY_2026-07-24.md",
+          "?? reports/DFI05_REPAIR_F3_REPOSITORY_BINDINGS_2026-07-23.md"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "retain",
+      "lifecycle_status": "active-mixed-knowledge-and-receipts",
+      "destination": "reports",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.knowledge",
+      "dependencies": [
+        "00_MASTER.md",
+        "architecture",
+        "deploy/gutua"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 45,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "The root-layout contract assigns reports to the knowledge zone and live authority documents cite report receipts. Retain the path; supersession indexing remains a content-governance task.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "research",
+      "kind": "directory",
+      "file_count": 195,
+      "byte_count": 283763961,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 194,
+        "sample": [
+          "?? research/elicit/APPRAISAL_TEMPLATE.json",
+          "?? research/elicit/OFFLINE_VERIFICATION.json",
+          "?? research/elicit/README.md",
+          "?? research/elicit/STUDY_EXTRACTION_TEMPLATE.json",
+          "?? research/elicit/SYSTEMATIC_REVIEW_PROTOCOL.example.json",
+          "?? research/elicit/skin-texture/CAMPAIGN.json",
+          "?? research/elicit/skin-texture/COMPILED_RESEARCH_RUN_2026-07-28.md",
+          "?? research/elicit/skin-texture/DETERMINISTIC_PIPELINE_REPORT.md",
+          "?? research/elicit/skin-texture/PROTOCOL.md",
+          "?? research/elicit/skin-texture/SEARCH_ONTOLOGY.json"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "active-research-evidence",
+      "destination": "research",
+      "canonical_authority": "07_VIRTUAL_TWIN_BRIEF.md#raw-evidence-boundary",
+      "dependencies": [
+        "twin_core",
+        "scripts",
+        "contracts",
+        "reports"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Contains source evidence and derived research state; no whole-tree move before per-subpath provenance classification.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "result.json",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 44833962,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 1,
+        "sample": [
+          "?? result.json"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "raw-sensitive-telegram-export",
+      "destination": "corpus/raw/provider-archives/telegram/result.json",
+      "canonical_authority": "reports/UNIFIED_MEMORY_SYSTEM_2026-07-26.md#source-coverage",
+      "dependencies": [
+        "corpus",
+        "scripts/extract_telegram.py"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 60,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Contains personal data. Target path is descriptive only until hashes, permissions and references are migrated.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "retrospectives",
+      "kind": "directory",
+      "file_count": 18,
+      "byte_count": 1193731,
+      "tracked_file_count": 13,
+      "git_status_summary": {
+        "dirty_path_count": 11,
+        "sample": [
+          " M retrospectives/2026-07-deep-characterisation.md",
+          " M retrospectives/2026-07.md",
+          " M retrospectives/closest-friends-evidence-map.md",
+          " M retrospectives/friendship-types-and-functions.md",
+          " M retrospectives/sneg-sasha-evidence-review.md",
+          " M retrospectives/yana-relationship-evidence-review.md",
+          "?? retrospectives/anna-milkovskaya-relationship-review.md",
+          "?? retrospectives/moongazing-yana-2024-reconnection-review.md",
+          "?? retrospectives/sneg-sasha-original-thread-addendum.md",
+          "?? retrospectives/teen-discord-2018-2022-developmental-analysis.md"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "retain",
+      "lifecycle_status": "derived-interpretive-knowledge",
+      "destination": "retrospectives",
+      "canonical_authority": "04_CORPUS_RETROSPECTIVE_BRIEF.md",
+      "dependencies": [
+        "corpus",
+        "memory",
+        "graphify-out"
+      ],
+      "provenance_requirements": [
+        "Preserve Git/file identity; record any later content mutation normally."
+      ],
+      "compatibility": {
+        "level": "high",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "scripts",
+      "kind": "directory",
+      "file_count": 80,
+      "byte_count": 918623,
+      "tracked_file_count": 24,
+      "git_status_summary": {
+        "dirty_path_count": 18,
+        "sample": [
+          " M scripts/extract_discord.py",
+          "?? scripts/analyze_skin_evidence.py",
+          "?? scripts/analyze_unified_memory.py",
+          "?? scripts/audit_root_layout.py",
+          "?? scripts/build_unified_memory.py",
+          "?? scripts/capture_machine_source_snapshot.py",
+          "?? scripts/elicit_evidence.py",
+          "?? scripts/evaluate_persona_lora.py",
+          "?? scripts/extract_instagram_full.py",
+          "?? scripts/extract_telegram.py"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-cross-module-source",
+      "destination": "modules/*/scripts",
+      "canonical_authority": "MIGRATION_BATCHES.v1.json#script_routes",
+      "dependencies": [
+        "twin_core",
+        "contracts",
+        "tests",
+        "deploy"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Every current source file has an explicit owning-module route in MIGRATION_BATCHES.v1.json. Generated __pycache__ content is assigned to the runtime batch.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "skilltree",
+      "kind": "directory",
+      "file_count": 3,
+      "byte_count": 169333,
+      "tracked_file_count": 3,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-capability-registry",
+      "destination": "modules/skills/capability-registry",
+      "canonical_authority": "skilltree/implementation-registry.json",
+      "dependencies": [
+        "deploy/skills/skilltree-operator",
+        "outputs/skill-filesystem-inventory-2026-07-30"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "staging",
+      "kind": "directory",
+      "file_count": 244,
+      "byte_count": 377823163,
+      "tracked_file_count": 150,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "quarantine",
+      "lifecycle_status": "candidate-and-transfer-staging",
+      "destination": "quarantine/staging",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.runtime_and_delivery",
+      "dependencies": [
+        "migration",
+        "deploy",
+        "twin_core"
+      ],
+      "provenance_requirements": [
+        "Seal exact bytes/tree before relocation.",
+        "Record the unresolved owner or classification; grant no authority by presence."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 99,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Candidate presence grants no authority; preserve bundles, receipts and schema-v3 candidate until explicit disposition.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "tests",
+      "kind": "directory",
+      "file_count": 102,
+      "byte_count": 940593,
+      "tracked_file_count": 23,
+      "git_status_summary": {
+        "dirty_path_count": 16,
+        "sample": [
+          " M tests/test_extract_discord.py",
+          "?? tests/test_analyze_skin_evidence.py",
+          "?? tests/test_analyze_unified_memory.py",
+          "?? tests/test_build_unified_memory.py",
+          "?? tests/test_extract_instagram_full.py",
+          "?? tests/test_extract_telegram.py",
+          "?? tests/test_load_memory_claims.py",
+          "?? tests/test_machine_source_snapshot.py",
+          "?? tests/test_prepare_persona_lora.py",
+          "?? tests/test_root_layout.py"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-cross-module-tests",
+      "destination": "modules/*/tests",
+      "canonical_authority": "MIGRATION_BATCHES.v1.json#test_routes",
+      "dependencies": [
+        "twin_core",
+        "scripts",
+        "contracts"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Every current test source has an explicit owning-module route in MIGRATION_BATCHES.v1.json. Generated __pycache__ content is assigned to the runtime batch.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "tier1-findings.md",
+      "kind": "file",
+      "file_count": 1,
+      "byte_count": 5812,
+      "tracked_file_count": 1,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "archive",
+      "lifecycle_status": "historical-external-finding-ledger",
+      "destination": "archive/orchestrator/findings/tier1-findings.md",
+      "canonical_authority": "tier1-findings.md#evidence-scope",
+      "dependencies": [
+        "memory",
+        "upstreams",
+        "migration"
+      ],
+      "provenance_requirements": [
+        "Preserve exact bytes and original path in the archive receipt.",
+        "Record supersession/status before removing the live-path authority implication."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 20,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Although the file declares memory/tier1-findings.md as an intended landing path, its claims concern the external Orchestrator journal and belief pipeline. Preserve it as external-system evidence, not personal-memory authority.",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "tmp",
+      "kind": "directory",
+      "file_count": 3,
+      "byte_count": 281575,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 3,
+        "sample": [
+          "?? tmp/pdfs/hmrc-dormancy-1.png",
+          "?? tmp/pdfs/hmrc-dormancy-2.png",
+          "?? tmp/pdfs/hmrc-dormancy.png"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "generated",
+      "lifecycle_status": "temporary-render-output",
+      "destination": "runtime/tmp",
+      "canonical_authority": "temporary-work convention",
+      "dependencies": [
+        "company-admin"
+      ],
+      "provenance_requirements": [
+        "Identify the deterministic producer or record that output is non-reproducible.",
+        "Do not delete evidence-bearing generated output without a retention decision."
+      ],
+      "compatibility": {
+        "level": "none",
+        "required": false
+      },
+      "migration_order": 10,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "twin_core",
+      "kind": "directory",
+      "file_count": 64,
+      "byte_count": 1297278,
+      "tracked_file_count": 19,
+      "git_status_summary": {
+        "dirty_path_count": 13,
+        "sample": [
+          "?? twin_core/scientific_campaign.py",
+          "?? twin_core/scientific_evidence.py",
+          "?? twin_core/scientific_evidence_cli.py",
+          "?? twin_core/scientific_fulltext.py",
+          "?? twin_core/scientific_pipeline_cli.py",
+          "?? twin_core/scientific_providers.py",
+          "?? twin_core/scientific_query_compiler.py",
+          "?? twin_core/scientific_readiness.py",
+          "?? twin_core/scientific_review_funnel.py",
+          "?? twin_core/scientific_review_state.py"
+        ],
+        "sample_truncated": true
+      },
+      "disposition": "move",
+      "lifecycle_status": "active-shared-platform-source",
+      "destination": "modules/digital-twin/core",
+      "canonical_authority": "07_VIRTUAL_TWIN_BRIEF.md",
+      "dependencies": [
+        "contracts",
+        "scripts",
+        "tests",
+        "memory",
+        "corpus"
+      ],
+      "provenance_requirements": [
+        "Seal pre-move path, size and SHA-256/tree digest.",
+        "Rewrite and verify all path references before promotion.",
+        "Emit a source-to-destination migration receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 40,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "",
+      "subpath_exceptions": []
+    },
+    {
+      "source": "upstreams",
+      "kind": "directory",
+      "file_count": 17748,
+      "byte_count": 1949403663,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
+      },
+      "disposition": "externalize",
+      "lifecycle_status": "protected-upstream-checkout",
+      "destination": "external/upstreams",
+      "canonical_authority": "architecture/root-layout.v1.json#zones.external_workspaces",
+      "dependencies": [
+        "ecc-integration",
+        "audit-work"
+      ],
+      "provenance_requirements": [
+        "Record ownership and canonical-host policy.",
+        "Preserve candidate/history paths; promotion requires a separate receipt."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 50,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "resolved",
+        "reason": null
+      },
+      "notes": "Remain read-only upstream evidence; do not absorb upstream skills into modules/skills/owned.",
+      "subpath_exceptions": []
+    }
+  ]
+}

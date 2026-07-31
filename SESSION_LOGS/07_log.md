@@ -271,3 +271,114 @@ implemented because universal recording and consent capture are still absent.
   repeat-stability, recovery, approval-binding, cost and rollback gates pass.
 - No SkillTree status or evidence declaration changed. Integration Builds remains documented and
   Monitoring & Alerting remains partial.
+
+## 2026-07-28 — provider-neutral scientific evidence acquisition
+
+- Replaced the paid-Elicit dependency with a provider-neutral acquisition layer covering Europe
+  PMC, PubMed, Semantic Scholar, OpenAlex, ClinicalTrials.gov, Crossref and Unpaywall. Elicit
+  remains optional and paid; it is no longer required for the skin evidence campaign.
+- Bound every acquisition to its provider in the append-only hash-chained ledger. Complete raw
+  JSON is retained, while API keys and provider-required contact emails are excluded from the
+  immutable request envelope. Official-host checks and credential rejection fail closed.
+- Added direct ClinicalTrials.gov search, Crossref DOI verification, Unpaywall lawful-OA
+  resolution and SHA-256 registration of papers already held lawfully. Sci-Hub, Z-Library,
+  credential sharing and paywall circumvention are explicitly unsupported.
+- Added a provider-expanded, network-free-by-default campaign runner. The reliable default is
+  Europe PMC plus PubMed; Semantic Scholar became opt-in after its unauthenticated live endpoint
+  returned HTTP 429. OpenAlex and Unpaywall are configuration-gated.
+- Bounded live checks passed for Europe PMC, PubMed, ClinicalTrials.gov and Crossref, with clean
+  temporary ledger audits. The provider contracts and complete owned suite pass 153 tests.
+  Scientific conclusions, full campaign completion, treatment ranking and medical execution
+  authority remain unclaimed; all outputs remain A0 until source-specific human appraisal.
+
+## 2026-07-28 — skin-texture evidence campaign sensitivity pass
+
+- Executed all 37 prespecified skin-texture, photoaging, collagen and scar queries through Europe
+  PMC, PubMed and ClinicalTrials.gov into a dedicated append-only ledger. The ledger audit passes
+  with 71 acquisition entries and 1,968 retained provider records.
+- Added a deterministic analysis stage that deduplicates by DOI, PMID, NCT identifier and exact
+  normalized title/year, without destroying provider provenance. It produced 1,761 candidate
+  groups, collapsing 207 duplicate retrievals, plus screening and lawful-full-text queues.
+- Added separate hashes for canonical queue payloads and the exact CSV files. Repeated generation
+  is byte-identical. A validation test exposed and fixed accent handling in normalized titles.
+- The sensitivity pass is not an effectiveness ranking. Inspection identified substantial
+  off-topic noise because long natural-language research questions were passed to lexical
+  biomedical engines. The protocol now requires provider-appropriate query refinement and formal
+  eligibility screening before appraisal or treatment conclusions.
+- Focused scientific tests pass 38/38; the owned `tests/` suite passes 158/158. Unbounded
+  repository-root pytest remains invalid because it collects duplicated archived and upstream
+  repositories as live test modules.
+
+## 2026-07-28 — deterministic scientific-list processing
+
+- Implemented the versioned ontology and provider-specific search compiler for all 37 skin
+  questions and two unrelated negative controls. Compiled campaigns fail closed rather than
+  falling back to the original natural-language questions.
+- Added deterministic canonicalization, provenance-preserving exact deduplication, review-only
+  fuzzy pairs, reason-coded eligibility proposals, source-located ontology features, study-design
+  buckets, prioritization, PRISMA accounting, exclusion sampling and LLM ambiguity queues. An LLM
+  is not invoked by default and has proposal-only authority under a verbatim-span contract.
+- Added human-bound duplicate decisions, lawful full-text routing, hardened Europe PMC XML
+  acquisition/extraction, an owner-only append-only actor-bounded review ledger, replay-resistant
+  search saturation and a fail-closed screening-readiness report.
+- Regenerated the broad pass deterministically: 1,968 records map to 1,755 groups after 213 exact
+  retrieval duplicates; 130 inclusion, 1,116 exclusion and 509 manual-review proposals; four
+  possible duplicate pairs; 639 full-text plans. The 5,265-event review ledger audits clean.
+- The compiled live pilot now routes incomplete-metadata hits to manual review: 400 records form
+  385 groups with 209 inclusion, 170 manual-review and six non-research-publication exclusion
+  proposals. Negative controls pass 38/38. The broad output replay was byte-identical.
+- The readiness gate remains correctly red: duplicate resolution, false-exclusion audit, final
+  human screening and genuine cumulative search saturation are incomplete. Full-text appraisal,
+  synthesis, ranking, medical recommendation and execution authority remain false.
+- Added `research/elicit/skin-texture/DETERMINISTIC_PIPELINE_REPORT.md`. Focused scientific tests
+  pass 59/59 and the complete owned suite passes 179/179.
+
+## 2026-07-28 — full compiled skin research run
+
+- Executed all 37 refined skin-texture, photoaging, collagen and scar questions as 71
+  provider-specific jobs into a new owner-only ledger. Europe PMC, PubMed and
+  ClinicalTrials.gov returned 6,108 records; all 71 acquisitions and the ledger hash chain audit
+  clean.
+- A live PubMed chunked transfer failed after 47 jobs were durable. Exact replay skipped those
+  jobs and acquired only the remaining 24, proving resumability under a real network failure.
+- Final v4 projection maps 6,108/6,108 records and 37/37 questions, collapses 1,964 exact
+  duplicate retrievals into 4,144 groups, flags five near-duplicate pairs, and emits 2,248
+  inclusion, 28 exclusion and 1,868 manual-review proposals plus 4,116 lawful full-text plans.
+  The 12,432-event review ledger audits clean and no LLM was called.
+- Real-data audit corrected four unsafe projection defects: editorial labels conflicting with
+  research designs now go to manual review; porcine filler material is not treated as an animal
+  model; shared expressions are disambiguated by request limit; and control-only ontology labels
+  cannot pollute main intervention-family or saturation accounting.
+- The final projection replay is exact at artifact-tree SHA-256
+  `e8890ea6aef04acd1fc146e54de0c258123923499f00d8e8560892f3d7b8c676`.
+  Readiness remains correctly red for five duplicate decisions, the 11-record exclusion audit,
+  human screening and saturation. Full text, synthesis and treatment ranking remain unclaimed.
+- Durable run report:
+  `research/elicit/skin-texture/COMPILED_RESEARCH_RUN_2026-07-28.md`.
+
+## 2026-07-29 — six-stage scientific review funnel
+
+- Implemented a deterministic metadata → abstract → evidence hierarchy → selective full-text →
+  condition/intervention grouping → appraisal/synthesis funnel in
+  `twin_core/scientific_review_funnel.py`, exposed through `scripts/scientific_pipeline.py`.
+- Added official PubMed EFetch abstract batching at 200 PMIDs, queue-wide retrieval,
+  identifier-exact enrichment, conflict preservation and automatic feature/eligibility
+  recomputation. Existing abstracts are never overwritten; any applied abstract changes its
+  SHA-256 and invalidates stale human eligibility decisions.
+- Added strict contracts for abstract decisions, full-text study extraction and synthesis
+  sign-off. Full-text extraction now requires population, protocol, comparator, sample size,
+  outcomes, source-located effects, follow-up, harms, withdrawals, funding, conflicts,
+  applicability and risk of bias.
+- Evidence prioritisation starts with guidelines/systematic reviews, then controlled trials,
+  observational safety/durability evidence and lower designs. Trials retain an explicit
+  reference-coverage check rather than being silently treated as covered by a review.
+- Effectiveness ranking fails closed unless the duplicate report is hash-valid and complete,
+  every eligibility decision is abstract-hash-bound, every selected study has verified
+  full-text extraction, bias/effects/harms/conflicts are complete, and a human signs the exact
+  comparison-matrix hash. Recommendation authority remains false even after those gates.
+- Real-data execution processed all 4,144 groups and queued 2,144 missing abstracts: 1,485 have
+  PubMed routes, 277 have PMC routes, 1,361 have DOI routes and 655 lack a machine identifier.
+  All review and ranking gates remain correctly red; no LLM was called.
+- Focused research tests pass 67/67; canonical owned tests pass 192/192; schemas parse, code
+  compiles and diff hygiene passes. Root-recursive pytest remains invalid because it collects
+  archived corpus and upstream repository copies under duplicate Python module names.

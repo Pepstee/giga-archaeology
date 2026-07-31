@@ -1,0 +1,185 @@
+{
+  "schema": "giga.machine-authority.v1",
+  "policy_id": "giga.machine-authority.mac-canonical.v1",
+  "effective_at": "2026-07-30",
+  "authority": {
+    "source": "explicit_operator_decision",
+    "canonical_host": "mac",
+    "promotion_host": "mac",
+    "automatic_remote_promotion": false
+  },
+  "rules": {
+    "gutua_is_candidate_source_only": true,
+    "preserve_gutua": true,
+    "delete_from_gutua": false,
+    "overwrite_mac_from_gutua": false,
+    "timestamp_grants_authority": false,
+    "snapshot_grants_authority": false,
+    "promotion_requires_mac_branch": true,
+    "promotion_requires_validation": true,
+    "promotion_requires_receipt": true,
+    "dubbing_studio_reconciliation_paused": true
+  },
+  "hosts": {
+    "mac": {
+      "role": "canonical",
+      "expected_hostname": null,
+      "roots": [
+        {
+          "id": "giga-user",
+          "path": "/Users/admin/Documents/giga-user",
+          "kind": "git",
+          "purpose": "canonical_giga_workspace"
+        },
+        {
+          "id": "agentic-orchestrator",
+          "path": "/Users/admin/Documents/agentic-orchestrator",
+          "kind": "git",
+          "purpose": "canonical_orchestrator_harness"
+        },
+        {
+          "id": "orchestrator-v3",
+          "path": "/Users/admin/Documents/agentic-orchestrator/projects/orchestrator-v3",
+          "kind": "git",
+          "purpose": "canonical_orchestrator_v3_candidate"
+        },
+        {
+          "id": "dubbing-studio",
+          "path": "/Users/admin/Documents/dubbing-studio",
+          "kind": "git",
+          "purpose": "canonical_project_reconciliation_paused"
+        },
+        {
+          "id": "market-aligner",
+          "path": "/Users/admin/Documents/giga-user/market-aligner",
+          "kind": "tree",
+          "purpose": "canonical_independent_workspace",
+          "excludes": [
+            ".venv",
+            "build",
+            "dist",
+            "__pycache__",
+            ".pytest_cache",
+            ".ruff_cache",
+            "node_modules",
+            "graphify-out",
+            "*.pyc",
+            "*.log",
+            "*.sqlite*",
+            "*.db"
+          ]
+        },
+        {
+          "id": "market-aligner-artiom",
+          "path": "/Users/admin/Documents/giga-user/market-aligner-artiom",
+          "kind": "tree",
+          "purpose": "candidate_duplicate_workspace",
+          "excludes": [
+            ".venv",
+            "build",
+            "dist",
+            "__pycache__",
+            ".pytest_cache",
+            ".ruff_cache",
+            "node_modules",
+            "graphify-out",
+            "*.pyc",
+            "*.log",
+            "*.sqlite*",
+            "*.db"
+          ]
+        }
+      ]
+    },
+    "gutua": {
+      "role": "candidate_source",
+      "expected_hostname": "admin",
+      "transport": {
+        "ssh_host": "100.80.113.74",
+        "ssh_user": "gutua",
+        "execution_environment": "wsl:Ubuntu",
+        "credential_reference": "~/.ssh/giga_uk_transfer_ed25519"
+      },
+      "roots": [
+        {
+          "id": "software-factory-giga-user",
+          "path": "/home/gutua/software-factory/giga-user",
+          "kind": "git",
+          "purpose": "candidate_giga_and_factory_history"
+        },
+        {
+          "id": "software-factory-agentic-orchestrator",
+          "path": "/home/gutua/software-factory/agentic-orchestrator",
+          "kind": "git",
+          "purpose": "candidate_orchestrator_harness"
+        },
+        {
+          "id": "software-factory-orchestrator-v3",
+          "path": "/home/gutua/software-factory/agentic-orchestrator/projects/orchestrator-v3",
+          "kind": "git",
+          "purpose": "candidate_orchestrator_v3_and_dfi_worktrees"
+        },
+        {
+          "id": "software-factory-dubbing-studio",
+          "path": "/home/gutua/software-factory/projects/dubbing-studio",
+          "kind": "git",
+          "purpose": "candidate_project_reconciliation_paused"
+        },
+        {
+          "id": "legacy-orchestrator-v3",
+          "path": "/home/gutua/giga/orchestrator-v3",
+          "kind": "git",
+          "purpose": "legacy_candidate_orchestrator_runtime"
+        },
+        {
+          "id": "legacy-jaa",
+          "path": "/home/gutua/giga/orchestrator-v3/projects/job-application-automation",
+          "kind": "git",
+          "purpose": "candidate_jaa_repository"
+        },
+        {
+          "id": "software-factory-market-aligner",
+          "path": "/home/gutua/software-factory/giga-user/market-aligner",
+          "kind": "tree",
+          "purpose": "candidate_market_aligner_copy",
+          "excludes": [
+            ".venv",
+            "build",
+            "dist",
+            "__pycache__",
+            ".pytest_cache",
+            ".ruff_cache",
+            "node_modules",
+            "graphify-out",
+            "*.pyc",
+            "*.log",
+            "*.sqlite*",
+            "*.db"
+          ]
+        },
+        {
+          "id": "legacy-market-aligner",
+          "path": "/home/gutua/giga/market-aligner",
+          "kind": "tree",
+          "purpose": "legacy_candidate_market_aligner_runtime",
+          "excludes": [
+            ".venv",
+            "build",
+            "dist",
+            "__pycache__",
+            ".pytest_cache",
+            ".ruff_cache",
+            "node_modules",
+            "graphify-out",
+            "*.pyc",
+            "*.log",
+            "*.sqlite*",
+            "*.db",
+            "raw_data",
+            "runtime"
+          ]
+        }
+      ]
+    }
+  }
+}

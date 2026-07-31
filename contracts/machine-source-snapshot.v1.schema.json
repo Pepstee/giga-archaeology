@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga-user.local/contracts/machine-source-snapshot.v1.schema.json",
+  "title": "GIGA machine source snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "created_at",
+    "policy_id",
+    "registry_sha256",
+    "host",
+    "roots",
+    "manifest_digest"
+  ],
+  "properties": {
+    "schema": {
+      "const": "giga.machine-source-snapshot.v1"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "host": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "hostname", "user", "platform"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "role": {"enum": ["canonical", "candidate_source"]},
+        "hostname": {"type": "string", "minLength": 1},
+        "user": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1}
+      }
+    },
+    "roots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "kind", "purpose", "exists"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["git", "tree"]},
+          "purpose": {"type": "string", "minLength": 1},
+          "exists": {"type": "boolean"}
+        }
+      }
+    },
+    "manifest_digest": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

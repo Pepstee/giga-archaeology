@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "projects": [
+    {
+      "id": "job-application-automation",
+      "path": "job-application-automation",
+      "status": "active",
+      "ownership": "giga-user"
+    },
+    {
+      "id": "korean",
+      "path": "korean",
+      "status": "active",
+      "ownership": "giga-user"
+    },
+    {
+      "id": "land-investment-monitor",
+      "path": "projects/land-investment-monitor",
+      "status": "active",
+      "ownership": "giga-user"
+    },
+    {
+      "id": "life-logging",
+      "path": "life-logging",
+      "status": "active",
+      "ownership": "giga-user"
+    },
+    {
+      "id": "sales-book-rewrite",
+      "path": "projects/sales-book-rewrite",
+      "status": "active",
+      "ownership": "giga-user"
+    },
+    {
+      "id": "market-aligner",
+      "path": "market-aligner",
+      "status": "independent",
+      "ownership": "external-workspace"
+    },
+    {
+      "id": "market-aligner-artiom",
+      "path": "market-aligner-artiom",
+      "status": "independent",
+      "ownership": "external-workspace"
+    }
+  ]
+}

@@ -1,10 +1,15 @@
 # Yana relationship: evidence review
 
-**Period:** January 2023–January 2024  
+**Period:** January 2023–August 2024  
 **Prepared:** 20 July 2026  
 **Question:** What did Yana actually do?
 
 ## Evidence boundary
+
+**22 July 2026 update:** the native Telegram export has now landed. The original sections below
+remain the review of the 2023 relationship, but their “incomplete two-sided chat” limitation no
+longer applies to the May–August 2024 reconnection. That later episode is reviewed separately in
+`retrospectives/moongazing-yana-2024-reconnection-review.md`.
 
 This is not a complete two-sided chat. Discord's account export preserves messages sent by
 the operator, not all messages visible to him. One long message apparently written by Yana
@@ -192,6 +197,12 @@ The breakup was probably correct. Their conflict rules were incompatible and by 
 person could grant the other's account legitimacy. But the evidence supports “mutually
 destructive incompatibility with real pressure from her,” not “Yana was conclusively a
 narcissistic abuser.”
+
+The 2024 reconnection is morally less balanced. Yana remained reassurance-seeking and unable to
+disengage, but she accurately identified the contradiction between Artiom's distancing language
+and his later affectionate/sexual conduct. His January 2026 retrospective admission that he knew
+she did not understand and treated recurring sex or revenge as acceptable outcomes makes the later
+episode admitted instrumentalisation rather than merely incompatible conflict styles.
 
 ## Primary corpus anchors
 

@@ -1,5 +1,10 @@
 # Sneg (Sasha): evidence review
 
+> **Correction, 26 July 2026:** this review predates ingestion of the old Discord account.
+> Its claim that the original relationship fell outside the export boundary is superseded.
+> The original outgoing thread contains 3,476 messages from June 2021 to August 2022. Read
+> `sneg-sasha-original-thread-addendum.md` for the corrected relationship reconstruction.
+
 **Likely relationship period:** before June–August 2022  
 **Retained aftermath:** August 2022–October 2023  
 **Prepared:** 20 July 2026
@@ -149,6 +154,22 @@ The two relationships should not be collapsed into a single story.
 Sasha therefore appears more clearly deceptive than Yana on the surviving record. Yana is
 better described as an incompatible and mutually escalating partner; Sasha is better
 described as an unreliable and probably unfaithful one.
+
+## Comparison with Anna
+
+Sasha and Anna form a striking reversal. After Sasha, the operator spent months asking himself
+what the relationship had actually been. Sasha's silence left him unable to distinguish genuine
+attachment from convenience, replacement or deception; the clarifying information came from
+Allen more than a year later. With Anna, she spent years asking the same question of the operator:
+whether the tenderness had been real or merely a rebound technique. He retained control of the
+answer, explicitly said that he enjoyed preserving the mystery, and later minimised the shared
+period.
+
+This does not make the two cases morally identical. Sasha's probable overlapping relationships
+and concealment are more serious than merely declining to define an attachment. It does suggest a
+repetition with reversed power: after being the person who did not know what was real, the operator
+became the person who controlled what another person was permitted to know. Ambiguity ceased to be
+something inflicted on him and became a protective instrument he could use.
 
 ## Developmental significance
 

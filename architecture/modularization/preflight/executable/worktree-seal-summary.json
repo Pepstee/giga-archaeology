@@ -1,0 +1,73 @@
+{
+  "backup": "/Users/admin/.giga/backups/giga-modularization-preflight-20260730",
+  "executable_counts": {
+    "absolute_paths": 667,
+    "entrypoints": 303,
+    "environment_references": 188,
+    "executable_surfaces": 314,
+    "imports": 1929,
+    "path_references": 19842,
+    "python_parse_errors": 0,
+    "scanned_text_files": 720,
+    "schedule_directives": 24388,
+    "service_directives": 61,
+    "writer_sites": 1044
+  },
+  "generated_at": "2026-07-30T15:05:58.202468+00:00",
+  "root": "/Users/admin/Documents/giga-user",
+  "schema": "giga.modularization-executable-preflight.v1.summary",
+  "skill_counts": {
+    "active_personal_system": 23,
+    "active_plugin_cache": 45,
+    "repository": 2,
+    "staging": 2
+  },
+  "start_prevention": {
+    "root_movement_blockers": 1,
+    "total": 11,
+    "uncleared_critical_high": 9
+  },
+  "worktree_seal": {
+    "branch": "main",
+    "bundle_created": true,
+    "bundle_error": null,
+    "captured_at": "2026-07-30T15:05:46.093046+00:00",
+    "describe": "82cb47e-dirty",
+    "git_common_dir": "/Users/admin/Documents/giga-user/.git",
+    "git_dir": "/Users/admin/Documents/giga-user/.git",
+    "head": "82cb47ef82d6973c08513686bcca6ed0469418a7",
+    "head_after_capture": "82cb47ef82d6973c08513686bcca6ed0469418a7",
+    "is_shallow": "false",
+    "large_raw_archives_copied": 0,
+    "large_raw_archives_hashed_only": 0,
+    "nested_git_roots": [
+      {
+        "marker_type": "directory",
+        "path": "."
+      },
+      {
+        "marker_type": "directory",
+        "path": "audit-work/v3/fence-probe"
+      },
+      {
+        "marker_type": "directory",
+        "path": "upstreams/ECC"
+      }
+    ],
+    "refs_count": 9,
+    "root": "/Users/admin/Documents/giga-user",
+    "schema": "giga.modularization-executable-preflight.v1.worktree-seal",
+    "stable_during_capture": true,
+    "staged_patch_bytes": 0,
+    "staged_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status_sha256": "69b5010404296e10326d0fbfa82452aff41b3a6801a1a449aafb32aec9e95471",
+    "submodule_status": "",
+    "tracked_patch_bytes": 90992,
+    "tracked_patch_sha256": "f8b8c05593e81b989b4767a3f201f08f60795744f8daa6a1f3a5b09dc825f90d",
+    "unstable_untracked": [],
+    "unstaged_patch_bytes": 90992,
+    "unstaged_patch_sha256": "f8b8c05593e81b989b4767a3f201f08f60795744f8daa6a1f3a5b09dc825f90d",
+    "untracked_bytes": 444729552,
+    "untracked_count": 561
+  }
+}

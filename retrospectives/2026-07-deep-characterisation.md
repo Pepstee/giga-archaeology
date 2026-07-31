@@ -1,5 +1,12 @@
 # The Sovereign Architect — A Deep Characterisation of Artiom
 
+> **Full-corpus revision, 26 July 2026:** this report was written before the old Discord
+> account was ingested. Its strongest-pattern analysis remains useful, but its “Stage 0” and
+> lowest-point ranking are superseded by `unified-characterisation-2018-2026.md` and
+> `teen-discord-2018-2022-developmental-analysis.md`. The old account supplies 248,752
+> observations, directly recovers the Sneg relationship, establishes 2020–2021 social
+> centrality, and makes 25 May 2022 the strongest documented acute-low candidate.
+
 **Status:** evidence-backed interpretation, awaiting operator calibration.  
 **Evidence ledger:** `2026-07-characterisation-evidence.md`.  
 **Chronological substrate:** `2023-09_to_2026-07-monthly-ledger.md` (35 retained months,

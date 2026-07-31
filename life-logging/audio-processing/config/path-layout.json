@@ -1,0 +1,27 @@
+{
+  "schema_version": "giga.life-logging.audio-paths.v1",
+  "project_relative_root": "life-logging/audio-processing",
+  "engine": {
+    "name": "dubbing-studio",
+    "gigabyte_path": "/home/gutua/software-factory/projects/dubbing-studio"
+  },
+  "hosts": {
+    "mac_root": "/Users/admin/Documents/giga-user/life-logging/audio-processing",
+    "gigabyte_wsl_root": "/home/gutua/software-factory/giga-user/life-logging/audio-processing"
+  },
+  "paths": {
+    "inbox": "recordings/inbox",
+    "archive": "recordings/archive",
+    "processing": "processing",
+    "packages": "outputs/packages",
+    "giga_outbox": "outbox/giga",
+    "state": "state"
+  },
+  "policies": {
+    "git_tracks_runtime_data": false,
+    "inbox_originals_are_immutable": true,
+    "review_required": true,
+    "automatic_giga_promotion": false,
+    "cross_host_raw_audio_mirroring": false
+  }
+}

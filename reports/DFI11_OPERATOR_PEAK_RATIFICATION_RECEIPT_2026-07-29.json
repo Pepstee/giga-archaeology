@@ -1,0 +1,51 @@
+{
+  "schema": "giga.dfi11-operator-peak-ratification-receipt.v1",
+  "recorded_at": "2026-07-29T11:12:22+01:00",
+  "operator_ratification": {
+    "path": "/home/gutua/software-factory/giga-user/reports/DFI11_OPERATOR_PEAK_RATIFICATION_2026-07-29.md",
+    "sha256": "a6239d1bdb46886ad3bf75506b0f13b7e1bcb706cc1741082c0d7f3b4da3dd8b",
+    "exact_statement_sha256": "575755e3d252a28fb93baf84397e6b516294a9f09293d220439f8a02e582d262",
+    "temporary_programme_peak_net_cap": 4649,
+    "scope": "through DFI-11 certification only",
+    "reserved_stop_protected_cutover_retirement_minimum": 1979,
+    "reserved_retirement_claimed_now": 0,
+    "changes_other_authority": false
+  },
+  "conditional_admission": {
+    "gate_id": "DFI11-ADMISSION-20260728",
+    "packet_path": "/home/gutua/software-factory/.control/resumed-dual-lane-20260728/dfi-after-ratification/fable-gates/DFI11-admission-20260728-run-01/gate-packet-9a7039325abe6ce1594e9906923a1087bc5ac22b3ee2084bc9111fb401caf411.json",
+    "packet_sha256": "9a7039325abe6ce1594e9906923a1087bc5ac22b3ee2084bc9111fb401caf411",
+    "ruling_path": "/home/gutua/software-factory/.control/resumed-dual-lane-20260728/dfi-after-ratification/fable-gates/DFI11-admission-20260728-run-01/fable-ruling-9a7039325abe6ce1594e9906923a1087bc5ac22b3ee2084bc9111fb401caf411.json",
+    "ruling_sha256": "7fbc172f7df3cd8eac1e12c2ab194914b9f59abb21d2251d117aadd1276b659f",
+    "broker_receipt_sha256": "317af44571734d6197a5cf7c3e3b0840c9d93b59432072c95f76729f074847c1",
+    "original_decision": "REDIRECT",
+    "conditional_authority_activated": true,
+    "architecture_or_admission_repeated": false
+  },
+  "activated_bounds": {
+    "gross_production_additions_max": 500,
+    "net_production_additions_max": 450,
+    "programme_peak_max": 4649,
+    "net_line_451": "hard-stop-for-fresh-adjudication",
+    "active_delta_certificates": false,
+    "shadow_only": true
+  },
+  "base": {
+    "commit": "bc9fb7bb31708e45355595d2c5a557d59984962b",
+    "tree": "93d2280493a02fdf76ea3613d9b3ccad35aad061",
+    "branch_to_create": "di/dfi-11-delta-shadow",
+    "worktree_to_create": "/home/gutua/software-factory/.worktrees/orchestrator-v3-dfi-11",
+    "clean": true
+  },
+  "provider_budget": {
+    "ordinary_sonnet_before_deterministic_green": 0,
+    "post_green_sonnet": 1,
+    "final_exact_source_fable": 1
+  },
+  "forbidden_claims_preserved": [
+    "The reserved 1979-line retirement tranche is not fulfilled, reduced or pre-claimed.",
+    "No active delta certificate may be issued.",
+    "No DFI-12, production activation, STOP/service/epoch mutation, JAA access, push, canonical merge or deployment is authorised.",
+    "No later DFI stage receives mutation authority from this receipt."
+  ]
+}

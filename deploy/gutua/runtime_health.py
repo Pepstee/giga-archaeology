@@ -48,9 +48,11 @@ def main() -> int:
     parser.add_argument("--shared", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--orchestrator-root", type=Path, required=True)
+    parser.add_argument("--logical-host", default="gutua")
     args = parser.parse_args()
     payload = {
         "observed_at_utc": datetime.now(timezone.utc).isoformat(),
+        "logical_host": args.logical_host,
         "host": os.uname().nodename,
         "units": {
             name: unit_state(name)

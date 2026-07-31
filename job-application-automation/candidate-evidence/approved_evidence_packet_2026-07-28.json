@@ -1,0 +1,116 @@
+{
+  "schema_version": "jaa05.operator-approved-statements.v1",
+  "human_authority": "gutu.artiom444@gmail.com",
+  "approved_at": "2026-07-28",
+  "approval_source": "Codex conversation: explicit approval after exact wording review",
+  "statements": [
+    {
+      "id": "E-001",
+      "kind": "credential",
+      "statement": "I graduated from Birmingham Newman University on 2 July 2026 with a First-Class BSc (Hons) in Computer Science.",
+      "proof_class": "credential"
+    },
+    {
+      "id": "E-002",
+      "kind": "portfolio_artifact",
+      "statement": "My final-year dissertation project, SCAFAD, investigated anomaly detection within AWS Lambda environments using serverless telemetry.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-003",
+      "kind": "employment_record",
+      "statement": "In May 2022, I worked as an assistant at the British Chamber of Commerce Moldova without a written employment contract; I can seek confirmation from the employer.",
+      "proof_class": "employment_record"
+    },
+    {
+      "id": "E-004",
+      "kind": "employment_record",
+      "statement": "In 2022, I worked as a translator and interpreter for the Counter Trafficking Network in Moldova.",
+      "proof_class": "employment_record"
+    },
+    {
+      "id": "E-005",
+      "kind": "employment_record",
+      "statement": "In 2023, I worked as a DHL operative in Telford.",
+      "proof_class": "employment_record"
+    },
+    {
+      "id": "E-006",
+      "kind": "employment_record",
+      "statement": "I have paid experience providing online English lessons.",
+      "proof_class": "employment_record"
+    },
+    {
+      "id": "E-007",
+      "kind": "employment_record",
+      "statement": "I held a customer-facing direct-sales role in Birmingham and recruited, trained or coached new starters; it was not a B2B sales role.",
+      "proof_class": "employment_record"
+    },
+    {
+      "id": "E-008",
+      "kind": "portfolio_artifact",
+      "statement": "Northern Ray was a genuine unpaid external-client website/application project that the client later abandoned; I personally designed or implemented material parts of it.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-009",
+      "kind": "portfolio_artifact",
+      "statement": "I completed a frontend-only website project before my current flagship projects.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-010",
+      "kind": "credential",
+      "statement": "I earned nine GCSEs, seven at grade 7 or higher, and a LIBF Financial Studies qualification with Distinction.",
+      "proof_class": "credential"
+    },
+    {
+      "id": "E-011",
+      "kind": "portfolio_artifact",
+      "statement": "I directed AI agents to implement Market Aligner, including its collectors, validation, caching, SQLite persistence, retries and resumability; I did not personally hand-write the material production code.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-012",
+      "kind": "portfolio_artifact",
+      "statement": "For my multi-agent orchestrator, I own requirements, system architecture, operation, evaluation and acceptance decisions; AI agents generated substantial implementation code.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-013",
+      "kind": "portfolio_artifact",
+      "statement": "My GitHub account is `Pepstee`; its strongest career evidence supports three main bodies of work: the multi-agent software factory, SCAFAD and software produced through the factory.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-014",
+      "kind": "portfolio_artifact",
+      "statement": "Dubbing Studio is a working MVP produced autonomously through my software factory; I provided product direction, operated the factory and validated the result rather than personally implementing every component.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-015",
+      "kind": "test_result",
+      "statement": "In the audited Dubbing Studio checkout, 709 automated tests passed and a real command-line synthesis check produced a timeline-correct WAV; its web acceptance script still required repair.",
+      "proof_class": "test_result"
+    },
+    {
+      "id": "E-016",
+      "kind": "portfolio_artifact",
+      "statement": "Learning Accelerator is a tested software-factory prototype for LLM-assisted question generation, spaced repetition, review sessions, persistence and analytics; it has not yet demonstrated real users or learning outcomes.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-017",
+      "kind": "portfolio_artifact",
+      "statement": "The public `scafad-delta` repository is supporting implementation evidence for my SCAFAD dissertation, not a separate professional project or proof of production security experience.",
+      "proof_class": "portfolio_artifact"
+    },
+    {
+      "id": "E-018",
+      "kind": "portfolio_artifact",
+      "statement": "The public `claude-orchestrator-deprecated` repository is historical evidence for my software-factory architecture, but it is deprecated and should not be presented as the current production release.",
+      "proof_class": "portfolio_artifact"
+    }
+  ]
+}

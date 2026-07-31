@@ -1,0 +1,10 @@
+{
+  "created_at": "2026-07-22T20:00:35.735153+00:00",
+  "destination_manifest_sha256": "b2a03c60d325f12913b7a83ce88b1ce9ed6878806b74662974cfd9763213278a",
+  "removed_bytes": 30114576,
+  "removed_count": 184752,
+  "removed_paths_digest": "ca40244ebb9a1d9ca28591f2b800a46f147966dc2e55b940f296b7bb5faf2aed",
+  "root": "/home/gutua/software-factory/.verified-incoming-20260722/agentic-orchestrator",
+  "schema": "giga.factory-appledouble-prune.v1",
+  "source_manifest_sha256": "4996450b5b34d7b1326dcdc64f816badf0ce6b2e73aabaa657ad7ff757300af6"
+}

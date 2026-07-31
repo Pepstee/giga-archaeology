@@ -1,0 +1,157 @@
+{
+  "schema_version": "giga.scientific-provider-verification.v1",
+  "verified_at": "2026-07-28T17:59:49Z",
+  "results": [
+    {
+      "command": "python3 -m py_compile twin_core/scientific_evidence.py twin_core/scientific_providers.py twin_core/scientific_evidence_cli.py twin_core/scientific_campaign.py scripts/scientific_evidence.py scripts/run_scientific_campaign.py scripts/elicit_evidence.py scripts/run_elicit_campaign.py",
+      "status": "passed"
+    },
+    {
+      "command": "ruff check twin_core/scientific_evidence.py twin_core/scientific_providers.py twin_core/scientific_evidence_cli.py twin_core/scientific_campaign.py scripts/scientific_evidence.py scripts/run_scientific_campaign.py scripts/elicit_evidence.py scripts/run_elicit_campaign.py tests/test_scientific_evidence.py tests/test_scientific_campaign.py tests/test_scientific_providers.py",
+      "status": "passed"
+    },
+    {
+      "command": "python3 -m pytest -q tests",
+      "status": "passed",
+      "tests_passed": 183
+    },
+    {
+      "command": "python3 scripts/run_scientific_campaign.py research/elicit/skin-texture/CAMPAIGN.json --phase 1 --max-requests 2",
+      "status": "passed",
+      "api_calls_made": 0,
+      "provider_jobs": 4
+    },
+    {
+      "command": "python3 scripts/compile_adapter_evidence.py --no-write --json",
+      "status": "passed",
+      "adapter_state": "adapter-backed"
+    },
+    {
+      "command": "python3 scripts/scientific_pipeline.py compile-search research/elicit/skin-texture/CAMPAIGN.json research/elicit/skin-texture/SEARCH_ONTOLOGY.json research/elicit/skin-texture/SEARCH_SPEC.json research/elicit/skin-texture/compiled-search",
+      "status": "passed",
+      "api_calls_made": 0,
+      "compiled_queries": 37,
+      "negative_controls": 2
+    },
+    {
+      "command": "python3 scripts/scientific_pipeline.py screen /Users/admin/.giga/skin-texture-evidence.sqlite3 research/elicit/skin-texture/CAMPAIGN.json research/elicit/skin-texture/compiled-search/COMPILED_SEARCH_MANIFEST.json research/elicit/skin-texture/SEARCH_ONTOLOGY.json research/elicit/skin-texture/SEARCH_SPEC.json research/elicit/skin-texture/deterministic-screening-final --no-state-ledger",
+      "status": "passed",
+      "api_calls_made": 0,
+      "retrieval_records": 1968,
+      "candidate_groups": 1755,
+      "artifact_tree_replay_identical": true
+    },
+    {
+      "command": "python3 scripts/scientific_pipeline.py readiness research/elicit/skin-texture/deterministic-screening-final/SCREENING_SUMMARY.json research/elicit/skin-texture/negative-control-results-final/SCREENING_SUMMARY.json --review-database /Users/admin/.giga/skin-texture-review-final.sqlite3 --output research/elicit/skin-texture/deterministic-screening-final/READINESS_REPORT.json",
+      "status": "passed",
+      "screening_ready": false,
+      "effectiveness_ranking_authorised": false
+    },
+    {
+      "command": "python3 scripts/run_scientific_campaign.py research/elicit/skin-texture/compiled-search/COMPILED_CAMPAIGN.json --database /Users/admin/.giga/skin-texture-compiled-full-2026-07-28.sqlite3 --execute",
+      "status": "passed_after_idempotent_resume",
+      "provider_jobs": 71,
+      "source_records": 6108,
+      "pending_provider_jobs": 0,
+      "ledger_audit_passed": true
+    },
+    {
+      "command": "python3 scripts/scientific_pipeline.py screen /Users/admin/.giga/skin-texture-compiled-full-2026-07-28.sqlite3 research/elicit/skin-texture/compiled-search/COMPILED_CAMPAIGN.json research/elicit/skin-texture/compiled-search/COMPILED_SEARCH_MANIFEST.json research/elicit/skin-texture/SEARCH_ONTOLOGY.json research/elicit/skin-texture/SEARCH_SPEC.json research/elicit/skin-texture/compiled-full-results-2026-07-28-v4 --no-state-ledger",
+      "status": "passed",
+      "retrieval_records": 6108,
+      "candidate_groups": 4144,
+      "mapped_questions": 37,
+      "artifact_tree_replay_identical": true,
+      "artifact_tree_sha256": "e8890ea6aef04acd1fc146e54de0c258123923499f00d8e8560892f3d7b8c676"
+    }
+  ],
+  "live_provider_pilot": {
+    "scope": "one-result bounded read-only requests into temporary owner-only ledgers",
+    "ledger_audits_passed": true,
+    "providers": {
+      "europe_pmc": {
+        "status": "passed",
+        "records_preserved": 1
+      },
+      "pubmed": {
+        "status": "passed",
+        "records_preserved": 1
+      },
+      "clinical_trials": {
+        "status": "passed",
+        "records_preserved": 1
+      },
+      "crossref": {
+        "status": "passed",
+        "records_preserved": 1
+      },
+      "semantic_scholar": {
+        "status": "throttled",
+        "http_status": 429,
+        "effect": "removed from the default stack; remains an explicit optional provider"
+      },
+      "openalex": {
+        "status": "not_run",
+        "reason": "OPENALEX_API_KEY not configured"
+      },
+      "unpaywall": {
+        "status": "not_run",
+        "reason": "UNPAYWALL_EMAIL or SCIENTIFIC_CONTACT_EMAIL not configured"
+      },
+      "elicit": {
+        "status": "not_run",
+        "reason": "optional paid provider; not required by the public stack"
+      }
+    }
+  },
+  "verified_properties": [
+    "official HTTPS host allow-listing for every provider adapter",
+    "API-key and contact-email exclusion from persisted request envelopes",
+    "secret redaction from surfaced provider errors",
+    "credential-field rejection before immutable persistence",
+    "provider-bound acquisition identity and replay detection",
+    "default PubMed retraction exclusion query",
+    "Europe PMC retraction post-filtering",
+    "raw provider-response preservation",
+    "direct ClinicalTrials.gov v2 acquisition",
+    "Crossref DOI verification",
+    "Unpaywall lawful-open-location projection under mocked contract",
+    "lawfully held local-document registration by filename, byte length and SHA-256",
+    "immutable owner-only evidence storage",
+    "hash-chain, append-only trigger, projection and candidate tamper detection",
+    "strict human appraisal contract",
+    "fail-closed evidence and clinical gates",
+    "A0 planning authority only",
+    "provider-neutral campaign fan-out, dry-run and replay skipping",
+    "version-bound provider-specific query compilation for all 37 skin questions",
+    "fail-closed compiled-expression enforcement without natural-language fallback",
+    "Unicode and identifier normalization with exact provenance-preserving deduplication",
+    "review-only fuzzy duplicate candidates with immutable human pair decisions",
+    "conservative deterministic eligibility proposals and source-located feature extraction",
+    "negative-control promotion gate passed for all 38 control groups",
+    "append-only actor-bounded review state with LLM proposal non-authority",
+    "lawful full-text route planning and hardened Europe PMC XML extraction",
+    "distinct cumulative snapshot saturation rule with replay rejection",
+    "fail-closed screening readiness report",
+    "byte-identical real-data screening replay",
+    "live completion of all 71 jobs for the 37-question refined skin campaign",
+    "idempotent recovery after a real interrupted PubMed chunked transfer",
+    "provider-expression-result-limit query provenance disambiguation",
+    "control-only ontology exclusion from main family and saturation accounting"
+  ],
+  "unverified_properties": [
+    "live OpenAlex response compatibility",
+    "live Unpaywall response compatibility",
+    "stable live Semantic Scholar access without a free key",
+    "clinical accuracy of extracted Europe PMC full-text meaning",
+    "official-source abstract enrichment for 1772 current manual-review records",
+    "human resolution of five possible duplicate pairs",
+    "human validation of the deterministic exclusion-audit sample",
+    "final human eligibility decisions",
+    "two consecutive low-yield cumulative search amendments proving saturation",
+    "verified full-text appraisal and risk-of-bias extraction",
+    "completed systematic-review synthesis",
+    "scientific conclusions or treatment rankings",
+    "any medical recommendation or execution authority"
+  ]
+}

@@ -61,3 +61,11 @@ outputs/*.zip.sha256
 **/*.pem
 **/*.key
 **/*.p12
+
+# Life-logging runtime data. The project definition and path contract are tracked,
+# but private recordings, generated transcripts, checkpoints and runtime state are not.
+life-logging/audio-processing/recordings/
+life-logging/audio-processing/processing/
+life-logging/audio-processing/outputs/
+life-logging/audio-processing/outbox/
+life-logging/audio-processing/state/

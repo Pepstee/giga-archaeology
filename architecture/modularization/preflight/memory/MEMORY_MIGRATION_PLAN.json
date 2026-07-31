@@ -1,0 +1,267 @@
+{
+  "schema": "giga.memory.migration-plan.v2",
+  "target_schema": "giga.memory.snapshot.v2",
+  "mode": "preflight-only",
+  "live_migration_authorized": false,
+  "observed_legacy_store": {
+    "root": "memory",
+    "entry_files": 70,
+    "indexed_entries": 69,
+    "frontmatter_parseable": 70,
+    "field_presence": {
+      "type": 70,
+      "tags": 70,
+      "created": 70,
+      "status": 70,
+      "trigger": 21
+    },
+    "type_counts": {
+      "decision": 14,
+      "fact": 33,
+      "idea": 2,
+      "question": 0,
+      "reminder": 21
+    },
+    "lifecycle_counts": {
+      "active": 67,
+      "archived": 1,
+      "superseded": 2
+    },
+    "control_hashes": {
+      "CONTEXT.md": "a02cd9c8291ee20b62ffb43e7769b791af9fb8e6ebe5998e248c5c41f805235d",
+      "memory/INDEX.md": "37a43ab9f29b11e7aec682ce78fe684765a6c288808fc1810c5ec5729d705739",
+      "memory/MEMORY_PROTOCOL.md": "3b88f85feb985cf7bdd5c8352bfcd1ebf356d390a0697e37d854a3f0569272a2",
+      "memory/NEEDS.md": "b92c95f074c03879895a87c967627087b37832de2c7224621f0b772c4ece8ac7"
+    },
+    "current_validator": {
+      "ok": false,
+      "errors": 1,
+      "warnings": 2,
+      "finding_codes": {
+        "index-coverage": 1,
+        "provenance": 2
+      }
+    },
+    "focused_existing_tests": {
+      "tests_run": 8,
+      "passed": 8,
+      "failed": 0
+    }
+  },
+  "current_risks": [
+    {
+      "id": "MEM-P0-001",
+      "severity": "P0",
+      "finding": "The live memory fails its current validator because one entry is absent from INDEX.md.",
+      "acceptance_effect": "blocked"
+    },
+    {
+      "id": "MEM-P0-002",
+      "severity": "P0",
+      "finding": "Context compilation does not call the memory validator before reading control documents and entries.",
+      "acceptance_effect": "blocked"
+    },
+    {
+      "id": "MEM-P0-003",
+      "severity": "P0",
+      "finding": "Context selection does not parse lifecycle state, so archived and superseded entries remain eligible for lexical, reminder, and one-hop selection.",
+      "acceptance_effect": "blocked"
+    },
+    {
+      "id": "MEM-P0-004",
+      "severity": "P0",
+      "finding": "The current proposal path validates a staged tree but commit is atomic only per file; a failed final validation can leave a partial multi-file write.",
+      "acceptance_effect": "blocked"
+    },
+    {
+      "id": "MEM-P0-005",
+      "severity": "P0",
+      "finding": "No claim IDs, contradiction graph, temporal validity model, tombstone ledger, or active-truth digest exists.",
+      "acceptance_effect": "blocked"
+    },
+    {
+      "id": "MEM-P1-001",
+      "severity": "P1",
+      "finding": "Two fact/decision entries have no explicit Source line under the current validator.",
+      "acceptance_effect": "review-required"
+    },
+    {
+      "id": "MEM-P1-002",
+      "severity": "P1",
+      "finding": "The current parser treats frontmatter as untyped strings, silently overwrites duplicate keys, and does not validate dates, tags, status enumeration, or unknown values.",
+      "acceptance_effect": "blocked"
+    },
+    {
+      "id": "MEM-P1-003",
+      "severity": "P1",
+      "finding": "Current tests cover basic links, auto-ingest tags, bounded proposals and lexical context, but not inactive-truth exclusion, contradictions, tombstones, rollback, or scheduled preflight.",
+      "acceptance_effect": "blocked"
+    }
+  ],
+  "source_precedence": [
+    {
+      "rank": 1,
+      "authority": "authenticated-operator-correction",
+      "requirements": [
+        "names affected claim",
+        "has authenticated evidence",
+        "declares effective time"
+      ]
+    },
+    {
+      "rank": 2,
+      "authority": "authenticated-operator-confirmation",
+      "requirements": [
+        "has authenticated evidence",
+        "is within the operator's authority"
+      ]
+    },
+    {
+      "rank": 3,
+      "authority": "evidence-verified-primary-source",
+      "requirements": [
+        "source hash",
+        "exact locator",
+        "temporal scope"
+      ]
+    },
+    {
+      "rank": 4,
+      "authority": "source-observation",
+      "requirements": [
+        "source hash",
+        "provenance"
+      ]
+    },
+    {
+      "rank": 5,
+      "authority": "model-inference",
+      "requirements": [
+        "parent claim IDs",
+        "explicit inference label"
+      ]
+    },
+    {
+      "rank": 6,
+      "authority": "legacy-unreviewed",
+      "requirements": [
+        "legacy path",
+        "legacy hash"
+      ]
+    }
+  ],
+  "identity_rules": {
+    "canonical_json": "UTF-8, keys sorted, compact separators, ensure_ascii=false",
+    "entry_id": "mem:sha256({legacy_path,legacy_sha256})",
+    "revision_id": "rev:sha256({entry_id,parent_revision_id,content_sha256,created_at})",
+    "claim_id": "clm:sha256({revision_id,ordinal,statement_sha256})",
+    "tombstone_id": "tmb:sha256({target_type,target_id,target_sha256,reason_code,effective_at,authorized_by})"
+  },
+  "migration_rules": [
+    "Hash and manifest every legacy file before projection.",
+    "Preserve every original Markdown byte in an immutable root revision.",
+    "Preserve archived and superseded lifecycle states; never reactivate them.",
+    "Represent missing metadata with an explicit unknown object, never a guessed default.",
+    "Create one history-only legacy-entry-assertion until semantic review splits claims.",
+    "Make normalized claims children of the preserved legacy assertion.",
+    "Convert valid legacy supersession pointers into lineage and tombstone records without deleting sources.",
+    "Exclude unresolved contradictions and legacy-unreviewed claims from active truth.",
+    "Bind every derived artifact to snapshot, active-truth, claim, and revision hashes.",
+    "Require whole-snapshot transactional promotion and rollback."
+  ],
+  "phases": [
+    {
+      "phase": "M0",
+      "name": "Freeze and manifest",
+      "writes_live_memory": false,
+      "exit": [
+        "legacy hashes recorded",
+        "current validator findings resolved or explicitly waived by operator",
+        "restore image verified"
+      ]
+    },
+    {
+      "phase": "M1",
+      "name": "Deterministic shadow projection",
+      "writes_live_memory": false,
+      "exit": [
+        "70 of 70 entries projected",
+        "byte-for-byte content preservation",
+        "lifecycle counts preserved",
+        "unknown values preserved"
+      ]
+    },
+    {
+      "phase": "M2",
+      "name": "Claim review and contradiction resolution",
+      "writes_live_memory": false,
+      "exit": [
+        "operator-reviewed active set",
+        "symmetric contradiction edges",
+        "temporal scopes or explicit unknowns",
+        "tombstone authorization complete"
+      ]
+    },
+    {
+      "phase": "M3",
+      "name": "Shadow consumer validation",
+      "writes_live_memory": false,
+      "exit": [
+        "context parity tests",
+        "inactive-truth negative controls",
+        "proposal and daily fail-closed tests",
+        "downstream invalidation drill"
+      ]
+    },
+    {
+      "phase": "M4",
+      "name": "Operator-authorized cutover",
+      "writes_live_memory": true,
+      "requires_new_authority": true,
+      "exit": [
+        "all mandatory gates pass",
+        "atomic cutover receipt",
+        "legacy rollback source read-only",
+        "no dual write"
+      ]
+    }
+  ],
+  "rollback": {
+    "unit": "complete snapshot",
+    "precondition": "verified pre-cutover hash and restore drill",
+    "trigger": "any post-commit validation or compatibility failure",
+    "procedure": [
+      "stop writers",
+      "restore exact prior snapshot",
+      "recompute snapshot and active-truth hashes",
+      "mark failed derivatives stale",
+      "retain failed attempt and rollback receipts",
+      "resume only after mandatory gate passes"
+    ]
+  },
+  "compatibility": {
+    "pre_cutover_authority": "legacy Markdown",
+    "shadow_projection": "allowed read-only",
+    "dual_write": "forbidden",
+    "silent_fallback": "forbidden",
+    "post_cutover_legacy_role": "read-only rollback and audit evidence",
+    "v1_context_after_cutover": "rejected"
+  },
+  "acceptance": {
+    "ready": false,
+    "blocking_ids": [
+      "MEM-P0-001",
+      "MEM-P0-002",
+      "MEM-P0-003",
+      "MEM-P0-004",
+      "MEM-P0-005",
+      "MEM-P1-002",
+      "MEM-P1-003"
+    ],
+    "requires_operator_review": [
+      "Resolve or ratify active claims and contradictions.",
+      "Authorize any privacy or false-statement tombstones.",
+      "Authorize M4 cutover after restore and invalidation drills."
+    ]
+  }
+}

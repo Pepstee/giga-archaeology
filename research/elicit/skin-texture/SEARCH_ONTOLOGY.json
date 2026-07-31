@@ -1,0 +1,191 @@
+{
+  "schema_version": "giga.scientific-search-ontology.v1",
+  "ontology_id": "skin-texture-collagen-scars",
+  "version": "2026-07-28.1",
+  "conditions": {
+    "photoaging": {
+      "terms": ["photoaging", "photoaged skin", "photodamage", "skin aging", "skin ageing", "facial wrinkles"],
+      "subject_headings": ["Skin Aging"]
+    },
+    "facial_texture": {
+      "terms": ["facial skin texture", "skin roughness", "skin laxity", "skin elasticity", "facial rejuvenation"],
+      "subject_headings": []
+    },
+    "atrophic_acne_scar": {
+      "terms": ["atrophic acne scar", "acne scarring", "ice pick scar", "rolling acne scar", "boxcar acne scar"],
+      "subject_headings": ["Acne Vulgaris"]
+    },
+    "hypertrophic_scar_keloid": {
+      "terms": ["hypertrophic scar", "keloid", "pathological scar", "pathologic scar"],
+      "subject_headings": ["Cicatrix, Hypertrophic", "Keloid"]
+    },
+    "surgical_scar": {
+      "terms": ["surgical scar", "postoperative scar", "wound scar"],
+      "subject_headings": ["Cicatrix"]
+    },
+    "facial_pores": {
+      "terms": ["facial pore", "enlarged facial pore", "skin pore size", "visible pores"],
+      "subject_headings": []
+    },
+    "procedure_wound_healing": {
+      "terms": ["cutaneous wound healing", "abnormal scarring", "delayed wound healing", "cutaneous surgery"],
+      "subject_headings": ["Wound Healing"]
+    },
+    "darker_phototypes": {
+      "terms": ["Fitzpatrick skin type", "skin of color", "skin of colour", "dark skin phototype", "postinflammatory hyperpigmentation"],
+      "subject_headings": ["Skin Pigmentation"]
+    },
+    "low_back_pain": {
+      "terms": ["low back pain", "lumbar pain", "chronic back pain"],
+      "subject_headings": ["Low Back Pain"]
+    },
+    "dental_implant": {
+      "terms": ["dental implant", "osseointegration", "implant dentistry"],
+      "subject_headings": ["Dental Implants"]
+    }
+  },
+  "interventions": {
+    "any_skin_intervention": {
+      "terms": ["treatment", "therapy", "intervention", "prevention", "rejuvenation"],
+      "subject_headings": ["Therapeutics"]
+    },
+    "photoprotection": {
+      "terms": ["sunscreen", "sun protection", "photoprotection", "broad spectrum sunscreen"],
+      "subject_headings": ["Sunscreening Agents"]
+    },
+    "topical_retinoids": {
+      "terms": ["tretinoin", "tazarotene", "adapalene", "topical isotretinoin", "retinol", "retinaldehyde"],
+      "subject_headings": ["Retinoids"]
+    },
+    "nonretinoid_topicals": {
+      "terms": ["topical vitamin C", "ascorbic acid", "niacinamide", "alpha hydroxy acid", "glycolic acid", "topical peptide", "topical growth factor", "topical antioxidant", "topical estrogen"],
+      "subject_headings": []
+    },
+    "fractional_lasers": {
+      "terms": ["fractional carbon dioxide laser", "fractional CO2 laser", "Er:YAG laser", "erbium YAG laser", "nonablative fractional laser", "laser resurfacing"],
+      "subject_headings": ["Laser Therapy"]
+    },
+    "microneedling_rf": {
+      "terms": ["microneedling", "micro-needling", "percutaneous collagen induction", "radiofrequency microneedling", "fractional radiofrequency"],
+      "subject_headings": ["Microneedling"]
+    },
+    "peels_dermabrasion": {
+      "terms": ["chemical peel", "dermabrasion", "microdermabrasion", "glycolic acid peel", "trichloroacetic acid peel"],
+      "subject_headings": ["Chemexfoliation", "Dermabrasion"]
+    },
+    "light_ultrasound_plasma": {
+      "terms": ["intense pulsed light", "photodynamic therapy", "red light therapy", "near infrared light", "light emitting diode", "high intensity focused ultrasound", "microfocused ultrasound", "plasma skin resurfacing"],
+      "subject_headings": ["Phototherapy", "High-Intensity Focused Ultrasound Ablation"]
+    },
+    "biostimulators_fillers": {
+      "terms": ["poly-L-lactic acid", "calcium hydroxylapatite", "hyaluronic acid filler", "polymethylmethacrylate filler", "autologous fat grafting", "collagen biostimulator"],
+      "subject_headings": ["Dermal Fillers"]
+    },
+    "regenerative_skin": {
+      "terms": ["platelet rich plasma", "platelet rich fibrin", "polynucleotide injection", "polydeoxyribonucleotide", "PDRN", "exosome", "conditioned media", "stem cell derived product"],
+      "subject_headings": ["Platelet-Rich Plasma"]
+    },
+    "oral_collagen": {
+      "terms": ["oral collagen", "collagen peptide supplement", "hydrolyzed collagen", "hydrolysed collagen"],
+      "subject_headings": ["Collagen"]
+    },
+    "subcision_fillers": {
+      "terms": ["subcision", "subcutaneous incisionless surgery", "scar suction", "dermal filler", "autologous fat", "thread lifting"],
+      "subject_headings": []
+    },
+    "tca_punch": {
+      "terms": ["TCA CROSS", "trichloroacetic acid reconstruction", "punch excision", "punch elevation", "punch grafting", "dermabrasion"],
+      "subject_headings": []
+    },
+    "combination_scar_treatment": {
+      "terms": ["combination treatment", "combined modality", "multimodal treatment", "phenotype directed treatment"],
+      "subject_headings": ["Combined Modality Therapy"]
+    },
+    "silicone_pressure": {
+      "terms": ["silicone gel", "silicone sheeting", "silicone gel sheet", "pressure therapy", "pressure garment"],
+      "subject_headings": []
+    },
+    "intralesional_scar_drugs": {
+      "terms": ["intralesional corticosteroid", "intralesional triamcinolone", "intralesional 5-fluorouracil", "intralesional bleomycin", "intralesional verapamil", "intralesional botulinum toxin"],
+      "subject_headings": ["Injections, Intralesional"]
+    },
+    "scar_laser_cryo": {
+      "terms": ["pulsed dye laser", "fractional carbon dioxide laser", "cryotherapy", "intralesional cryotherapy", "laser therapy"],
+      "subject_headings": ["Laser Therapy", "Cryotherapy"]
+    },
+    "keloid_surgery_adjuvant": {
+      "terms": ["keloid excision", "scar excision", "adjuvant radiotherapy", "postoperative radiotherapy", "imiquimod", "adjuvant corticosteroid", "adjuvant 5-fluorouracil"],
+      "subject_headings": ["Radiotherapy, Adjuvant"]
+    },
+    "topical_collagen": {
+      "terms": ["topical collagen", "collagen cream", "collagen moisturizer", "collagen moisturiser"],
+      "subject_headings": []
+    },
+    "home_dermarolling": {
+      "terms": ["home dermarolling", "home microneedling", "dermaroller", "self microneedling"],
+      "subject_headings": []
+    },
+    "facial_manipulation": {
+      "terms": ["facial exercise", "facial massage", "jade roller", "gua sha"],
+      "subject_headings": ["Massage"]
+    },
+    "vitamin_e_onion": {
+      "terms": ["topical vitamin E", "tocopherol scar", "onion extract", "Allium cepa gel"],
+      "subject_headings": ["Vitamin E"]
+    },
+    "isotretinoin_exposure": {
+      "terms": ["isotretinoin", "oral isotretinoin", "13-cis-retinoic acid"],
+      "subject_headings": ["Isotretinoin"]
+    },
+    "pore_treatments": {
+      "terms": ["pore treatment", "pore minimizer", "laser pore treatment", "radiofrequency pore treatment", "topical pore treatment"],
+      "subject_headings": []
+    },
+    "procedural_devices": {
+      "terms": ["laser", "microneedling", "radiofrequency", "chemical peel", "resurfacing procedure"],
+      "subject_headings": ["Laser Therapy", "Microneedling"]
+    },
+    "sham_microneedling": {
+      "terms": ["microneedling", "dry needling"],
+      "subject_headings": ["Microneedling"]
+    },
+    "dental_collagen_membrane": {
+      "terms": ["collagen membrane", "guided bone regeneration"],
+      "subject_headings": ["Guided Tissue Regeneration"]
+    }
+  },
+  "outcomes": {
+    "texture_photoaging": {
+      "terms": ["skin texture", "skin roughness", "wrinkle", "skin elasticity", "skin laxity", "photoaging score"],
+      "subject_headings": ["Skin Aging"]
+    },
+    "collagen_remodelling": {
+      "terms": ["dermal collagen", "collagen synthesis", "neocollagenesis", "collagen remodeling", "collagen remodelling"],
+      "subject_headings": ["Collagen"]
+    },
+    "atrophic_scar_severity": {
+      "terms": ["acne scar severity", "ECCA score", "Goodman Baron score", "atrophic scar improvement"],
+      "subject_headings": []
+    },
+    "pathologic_scar_severity": {
+      "terms": ["Vancouver Scar Scale", "Patient and Observer Scar Assessment Scale", "POSAS", "scar thickness", "scar pliability"],
+      "subject_headings": []
+    },
+    "recurrence": {
+      "terms": ["scar recurrence", "keloid recurrence", "recurrence rate"],
+      "subject_headings": ["Recurrence"]
+    },
+    "harms": {
+      "terms": ["adverse event", "complication", "postinflammatory hyperpigmentation", "dyspigmentation", "scarring risk"],
+      "subject_headings": ["Treatment Outcome"]
+    },
+    "wound_healing": {
+      "terms": ["wound healing", "delayed healing", "abnormal scar formation"],
+      "subject_headings": ["Wound Healing"]
+    },
+    "pore_size": {
+      "terms": ["facial pore size", "pore count", "pore appearance", "visible pores"],
+      "subject_headings": []
+    }
+  }
+}

@@ -1,0 +1,349 @@
+{
+  "schema_version": "giga.scientific-search-campaign.v1",
+  "campaign_id": "skin-texture-collagen-scars-2026",
+  "protocol": "research/elicit/skin-texture/PROTOCOL.md",
+  "created_at": "2026-07-28T15:00:00Z",
+  "execution_state": "ready_for_bounded_public_api_pilot",
+  "defaults": {
+    "endpoint": "search/papers",
+    "corpus": "pubmed",
+    "search_mode": "semantic",
+    "max_results": 100,
+    "filters": {
+      "retracted": "exclude_retracted"
+    }
+  },
+  "queries": [
+    {
+      "id": "P1-photoaging-overview-synthesis",
+      "phase": 1,
+      "question": "Which interventions improve objectively measured facial skin texture, roughness, wrinkles, elasticity or laxity in adults with photoaging?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-photoprotection-photoaging",
+      "phase": 1,
+      "question": "Does daily broad-spectrum sunscreen or photoprotection prevent or improve clinical signs of photoaging, skin texture and wrinkles in adults?",
+      "filters": {
+        "typeTags": ["RCT", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-topical-retinoids-photoaging",
+      "phase": 1,
+      "question": "What are the comparative efficacy, dose response, tolerability and durability of tretinoin, tazarotene, adapalene, topical isotretinoin, retinol and retinaldehyde for facial photoaging and texture?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-other-topicals-photoaging",
+      "phase": 1,
+      "question": "Which non-retinoid topical treatments improve objective photoaging or texture outcomes: vitamin C, niacinamide, alpha hydroxy acids, peptides, growth factors, antioxidants or topical hormones?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-laser-resurfacing-photoaging",
+      "phase": 1,
+      "question": "How do ablative fractional CO2, Er:YAG and non-ablative fractional lasers compare for facial photoaging, wrinkles, texture, durability, downtime and adverse effects?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-needling-radiofrequency-photoaging",
+      "phase": 1,
+      "question": "What clinical evidence supports microneedling, radiofrequency microneedling and non-needle radiofrequency for facial texture, wrinkles, laxity and collagen remodeling?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-peels-dermabrasion-photoaging",
+      "phase": 1,
+      "question": "What are the efficacy and harms of chemical peels, dermabrasion and microdermabrasion for facial texture, roughness and photoaging?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-light-ultrasound-plasma-photoaging",
+      "phase": 1,
+      "question": "What evidence supports IPL, photodynamic therapy, red or near-infrared LED, HIFU, ultrasound and plasma devices for facial texture, wrinkles and dermal collagen?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-injectable-biostimulators-photoaging",
+      "phase": 1,
+      "question": "What clinical evidence supports poly-L-lactic acid, calcium hydroxylapatite, hyaluronic acid, PMMA, autologous fat or other injectable biostimulators for skin quality, texture and collagen remodeling?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-regenerative-photoaging",
+      "phase": 1,
+      "question": "What are the efficacy, durability and safety of PRP, PRF, polynucleotides, PDRN, exosomes, conditioned media and stem-cell-derived products for facial rejuvenation and skin texture?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-oral-collagen-photoaging",
+      "phase": 1,
+      "question": "Do oral hydrolyzed collagen or collagen peptides improve wrinkles, roughness, dermal collagen, elasticity or hydration, and do effects persist in high-quality non-industry-funded trials?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-atrophic-acne-scar-overview",
+      "phase": 1,
+      "question": "What is the comparative effectiveness of treatments for atrophic acne scars when separated into ice-pick, rolling and boxcar subtypes?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-atrophic-scar-lasers",
+      "phase": 1,
+      "question": "How do fractional CO2, Er:YAG and non-ablative fractional lasers compare for atrophic acne scars by scar subtype, phototype, adverse effects and durability?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-atrophic-scar-needling-rf",
+      "phase": 1,
+      "question": "How effective are microneedling and radiofrequency microneedling for ice-pick, rolling and boxcar acne scars compared with lasers, peels or no treatment?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-atrophic-scar-subcision-fillers",
+      "phase": 1,
+      "question": "What are the efficacy, technique-dependent outcomes and harms of subcision alone or with suction, fillers, fat, PRP or threads for tethered rolling acne scars?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-atrophic-scar-tca-peels-punch",
+      "phase": 1,
+      "question": "What is the comparative effectiveness of TCA CROSS, chemical peels, punch excision, punch elevation, punch grafting and dermabrasion for ice-pick and boxcar acne scars?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-atrophic-scar-combinations",
+      "phase": 1,
+      "question": "Which phenotype-directed combination treatments outperform monotherapy for mixed atrophic acne scars, and what sequence and interval were used?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-hypertrophic-keloid-overview",
+      "phase": 1,
+      "question": "What treatments prevent or improve hypertrophic scars and keloids, including long-term recurrence, symptoms and adverse effects?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "Review"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-pathologic-scar-silicone-pressure",
+      "phase": 1,
+      "question": "Do silicone gel, silicone sheeting and pressure therapy prevent or treat hypertrophic scars or keloids versus placebo or usual care?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-pathologic-scar-injections",
+      "phase": 1,
+      "question": "How do intralesional corticosteroid, 5-fluorouracil, bleomycin, verapamil and botulinum toxin compare for keloids and hypertrophic scars?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-pathologic-scar-laser-cryo",
+      "phase": 1,
+      "question": "What are the comparative efficacy and harms of pulsed-dye laser, fractional CO2 laser, other lasers and cryotherapy for hypertrophic scars and keloids?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P1-keloid-surgery-adjuvant",
+      "phase": 1,
+      "question": "Which adjuvants reduce keloid recurrence after excision: corticosteroid, 5-fluorouracil, radiotherapy, pressure, silicone, cryotherapy, laser or imiquimod?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P2-photoaging-primary-trials",
+      "phase": 2,
+      "question": "Randomized controlled trials reporting objective facial texture, roughness, wrinkle, elasticity or collagen outcomes for any anti-photoaging intervention.",
+      "filters": {
+        "typeTags": ["RCT"],
+        "retracted": "exclude_retracted"
+      },
+      "max_results": 250
+    },
+    {
+      "id": "P2-atrophic-scar-primary-trials",
+      "phase": 2,
+      "question": "Randomized controlled trials of treatments for atrophic acne scars with validated scar scores and results by ice-pick, rolling or boxcar subtype.",
+      "filters": {
+        "typeTags": ["RCT"],
+        "retracted": "exclude_retracted"
+      },
+      "max_results": 250
+    },
+    {
+      "id": "P2-pathologic-scar-primary-trials",
+      "phase": 2,
+      "question": "Randomized controlled trials for hypertrophic scars or keloids reporting Vancouver Scar Scale, POSAS, symptoms, thickness or recurrence.",
+      "filters": {
+        "typeTags": ["RCT"],
+        "retracted": "exclude_retracted"
+      },
+      "max_results": 250
+    },
+    {
+      "id": "P3-topical-collagen-claim",
+      "phase": 3,
+      "question": "Does topically applied collagen penetrate human skin or produce clinically meaningful durable improvement in wrinkles, texture or dermal collagen?",
+      "filters": {
+        "typeTags": ["Systematic Review", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-home-dermarolling",
+      "phase": 3,
+      "question": "What evidence and adverse events exist for unsupervised home dermarolling or home microneedling for texture, photoaging or acne scars?",
+      "filters": {
+        "typeTags": ["Review", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-face-exercise-massage-gua-sha",
+      "phase": 3,
+      "question": "Do facial exercises, massage, jade rollers or gua sha produce durable improvements in wrinkles, facial skin texture, laxity or dermal collagen in controlled human studies?",
+      "filters": {
+        "typeTags": ["Systematic Review", "RCT", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-vitamin-e-onion-scar",
+      "phase": 3,
+      "question": "Do topical vitamin E or onion extract prevent or improve surgical, hypertrophic or keloid scars compared with placebo, silicone or usual care?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-isotretinoin-procedure-timing",
+      "phase": 3,
+      "question": "Does recent or concurrent isotretinoin increase abnormal scarring or impaired wound healing after laser, peeling, dermabrasion or cutaneous surgery, and which procedures truly require delay?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Review", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-pore-size-claims",
+      "phase": 3,
+      "question": "Which interventions produce objectively measured durable reduction in facial pore appearance or size, and which only create transient optical or sebum effects?",
+      "filters": {
+        "typeTags": ["Systematic Review", "RCT"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-collagen-funding-bias",
+      "phase": 3,
+      "question": "Do apparent skin benefits of oral collagen supplements persist when trials are restricted by study quality, preregistration and non-industry funding?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-emerging-regenerative-harms",
+      "phase": 3,
+      "question": "What human adverse events, regulatory concerns and evidence gaps exist for cosmetic exosome, stem-cell-derived, conditioned-media, PDRN and polynucleotide skin treatments?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Review", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P3-phototype-PIH-harms",
+      "phase": 3,
+      "question": "How do post-inflammatory hyperpigmentation, dyspigmentation and scarring risks after lasers, microneedling, radiofrequency and peels vary by Fitzpatrick phototype and treatment parameters?",
+      "filters": {
+        "typeTags": ["Systematic Review", "Meta-Analysis", "Longitudinal"],
+        "retracted": "exclude_retracted"
+      }
+    },
+    {
+      "id": "P4-photoaging-trials",
+      "phase": 4,
+      "endpoint": "search/trials",
+      "question": "facial photoaging skin texture wrinkles collagen rejuvenation",
+      "max_results": 250
+    },
+    {
+      "id": "P4-atrophic-scar-trials",
+      "phase": 4,
+      "endpoint": "search/trials",
+      "question": "atrophic acne scars ice pick rolling boxcar treatment",
+      "max_results": 250
+    },
+    {
+      "id": "P4-keloid-hypertrophic-trials",
+      "phase": 4,
+      "endpoint": "search/trials",
+      "question": "keloid hypertrophic scar treatment recurrence",
+      "max_results": 250
+    }
+  ],
+  "completion_rule": "Repeat targeted amendment searches until two consecutive passes identify no new treatment family and less than one percent new eligible records."
+}

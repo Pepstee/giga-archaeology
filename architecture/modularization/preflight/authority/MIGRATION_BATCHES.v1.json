@@ -1,0 +1,1608 @@
+{
+  "schema": "giga.modularization.migration-batches.v1",
+  "preflight_id": "wave-0d-authority-resolution-2026-07-31",
+  "execution_authority": "plan-only; no move is authorised without ROOT_MOVE_LOCK.md acceptance gates",
+  "root": "/Users/admin/Documents/giga-user",
+  "authority_map": "architecture/modularization/preflight/authority/authority-map.v1.json",
+  "authority_map_sha256": "a0e77eb3227da4c0c0f645de4310ee97510e300731c4bf6f0685cc0713603f48",
+  "executable_inventory": "architecture/modularization/preflight/executable/executable-inventory.json",
+  "executable_inventory_sha256": "daed2ee76d1bbcd5153d6011425411f9f0bdd21eba74844c22b9744dc04fa7c2",
+  "root_move_lock": "ROOT_MOVE_LOCK.md",
+  "source_set_semantics": "Every source path is exclusive across batches; parent paths are omitted when their children are split.",
+  "script_routes": {
+    "scripts/audit_root_layout.py": "modules/platform/scripts/audit_root_layout.py",
+    "scripts/capture_machine_source_snapshot.py": "modules/platform/scripts/capture_machine_source_snapshot.py",
+    "scripts/build_skill_inventory.py": "modules/skills/tooling/build_skill_inventory.py",
+    "scripts/export_skilltree.py": "modules/skills/tooling/export_skilltree.py",
+    "scripts/extract_skilltree_data.mjs": "modules/skills/tooling/extract_skilltree_data.mjs",
+    "scripts/inventory_filesystem_skills.py": "modules/skills/tooling/inventory_filesystem_skills.py",
+    "scripts/analyze_unified_memory.py": "modules/digital-twin/scripts/analyze_unified_memory.py",
+    "scripts/build_instagram_pairs.py": "modules/digital-twin/scripts/build_instagram_pairs.py",
+    "scripts/build_unified_memory.py": "modules/digital-twin/scripts/build_unified_memory.py",
+    "scripts/chatgpt_monthly_index.py": "modules/digital-twin/scripts/chatgpt_monthly_index.py",
+    "scripts/daily_personal_knowledge.py": "modules/digital-twin/scripts/daily_personal_knowledge.py",
+    "scripts/evaluate_persona_lora.py": "modules/digital-twin/training/scripts/evaluate_persona_lora.py",
+    "scripts/extract_chatgpt.py": "modules/digital-twin/scripts/extract_chatgpt.py",
+    "scripts/extract_discord.py": "modules/digital-twin/scripts/extract_discord.py",
+    "scripts/extract_instagram.py": "modules/digital-twin/scripts/extract_instagram.py",
+    "scripts/extract_instagram_full.py": "modules/digital-twin/scripts/extract_instagram_full.py",
+    "scripts/extract_prompts.py": "modules/digital-twin/scripts/extract_prompts.py",
+    "scripts/extract_telegram.py": "modules/digital-twin/scripts/extract_telegram.py",
+    "scripts/jarvis_telegram.py": "modules/digital-twin/scripts/jarvis_telegram.py",
+    "scripts/load_memory_claims.py": "modules/digital-twin/scripts/load_memory_claims.py",
+    "scripts/prepare_finetune_data.py": "modules/digital-twin/training/scripts/prepare_finetune_data.py",
+    "scripts/prepare_persona_lora.py": "modules/digital-twin/training/scripts/prepare_persona_lora.py",
+    "scripts/process_transcript.py": "modules/digital-twin/scripts/process_transcript.py",
+    "scripts/profile_corpus_audit.py": "modules/digital-twin/scripts/profile_corpus_audit.py",
+    "scripts/retrospective.py": "modules/digital-twin/scripts/retrospective.py",
+    "scripts/run_daily_personal_knowledge.sh": "modules/digital-twin/scripts/run_daily_personal_knowledge.sh",
+    "scripts/run_jarvis.sh": "modules/digital-twin/scripts/run_jarvis.sh",
+    "scripts/train_casual_v0.sh": "modules/digital-twin/training/scripts/train_casual_v0.sh",
+    "scripts/prediction_automation.py": "modules/calibration/scripts/prediction_automation.py",
+    "scripts/sovereignty_index.py": "modules/sovereignty/scripts/sovereignty_index.py",
+    "scripts/analyze_skin_evidence.py": "modules/research/scripts/analyze_skin_evidence.py",
+    "scripts/elicit_evidence.py": "modules/research/scripts/elicit_evidence.py",
+    "scripts/run_elicit_campaign.py": "modules/research/scripts/run_elicit_campaign.py",
+    "scripts/run_scientific_campaign.py": "modules/research/scripts/run_scientific_campaign.py",
+    "scripts/scientific_evidence.py": "modules/research/scripts/scientific_evidence.py",
+    "scripts/scientific_pipeline.py": "modules/research/scripts/scientific_pipeline.py",
+    "scripts/compile_sop.py": "modules/proof/scripts/compile_sop.py",
+    "scripts/render_external_proof_deck.mjs": "modules/proof/scripts/render_external_proof_deck.mjs",
+    "scripts/collect_cross_service_telemetry.py": "modules/operations/scripts/collect_cross_service_telemetry.py",
+    "scripts/compile_adapter_evidence.py": "modules/operations/scripts/compile_adapter_evidence.py",
+    "scripts/operator_status.py": "modules/operations/scripts/operator_status.py"
+  },
+  "test_routes": {
+    "tests/test_root_layout.py": "modules/platform/tests/test_root_layout.py",
+    "tests/test_machine_source_snapshot.py": "modules/platform/tests/test_machine_source_snapshot.py",
+    "tests/test_skilltree_operator.py": "modules/skills/tests/test_skilltree_operator.py",
+    "tests/test_analyze_unified_memory.py": "modules/digital-twin/tests/test_analyze_unified_memory.py",
+    "tests/test_build_unified_memory.py": "modules/digital-twin/tests/test_build_unified_memory.py",
+    "tests/test_chatgpt_monthly_index.py": "modules/digital-twin/tests/test_chatgpt_monthly_index.py",
+    "tests/test_context_compiler.py": "modules/digital-twin/tests/test_context_compiler.py",
+    "tests/test_daily_personal_knowledge.py": "modules/digital-twin/tests/test_daily_personal_knowledge.py",
+    "tests/test_extract_chatgpt_namespace.py": "modules/digital-twin/tests/test_extract_chatgpt_namespace.py",
+    "tests/test_extract_discord.py": "modules/digital-twin/tests/test_extract_discord.py",
+    "tests/test_extract_instagram_full.py": "modules/digital-twin/tests/test_extract_instagram_full.py",
+    "tests/test_extract_prompts_namespaces.py": "modules/digital-twin/tests/test_extract_prompts_namespaces.py",
+    "tests/test_extract_telegram.py": "modules/digital-twin/tests/test_extract_telegram.py",
+    "tests/test_integrity.py": "modules/digital-twin/tests/test_integrity.py",
+    "tests/test_jarvis_telegram.py": "modules/digital-twin/tests/test_jarvis_telegram.py",
+    "tests/test_lineage.py": "modules/digital-twin/tests/test_lineage.py",
+    "tests/test_load_memory_claims.py": "modules/digital-twin/tests/test_load_memory_claims.py",
+    "tests/test_memory_proposals.py": "modules/digital-twin/tests/test_memory_proposals.py",
+    "tests/test_memory_validation.py": "modules/digital-twin/tests/test_memory_validation.py",
+    "tests/test_prepare_finetune_data.py": "modules/digital-twin/training/tests/test_prepare_finetune_data.py",
+    "tests/test_prepare_persona_lora.py": "modules/digital-twin/training/tests/test_prepare_persona_lora.py",
+    "tests/test_telegram_pipeline.py": "modules/digital-twin/tests/test_telegram_pipeline.py",
+    "tests/test_transcript_actions.py": "modules/digital-twin/tests/test_transcript_actions.py",
+    "tests/test_twin_store.py": "modules/digital-twin/tests/test_twin_store.py",
+    "tests/test_prediction_automation.py": "modules/calibration/tests/test_prediction_automation.py",
+    "tests/test_sovereignty.py": "modules/sovereignty/tests/test_sovereignty.py",
+    "tests/test_analyze_skin_evidence.py": "modules/research/tests/test_analyze_skin_evidence.py",
+    "tests/test_scientific_campaign.py": "modules/research/tests/test_scientific_campaign.py",
+    "tests/test_scientific_evidence.py": "modules/research/tests/test_scientific_evidence.py",
+    "tests/test_scientific_pipeline.py": "modules/research/tests/test_scientific_pipeline.py",
+    "tests/test_scientific_providers.py": "modules/research/tests/test_scientific_providers.py",
+    "tests/test_scientific_review_funnel.py": "modules/research/tests/test_scientific_review_funnel.py",
+    "tests/test_external_proof.py": "modules/proof/tests/test_external_proof.py",
+    "tests/test_external_proof_deck.py": "modules/proof/tests/test_external_proof_deck.py",
+    "tests/test_sop_compiler.py": "modules/proof/tests/test_sop_compiler.py",
+    "tests/test_adapter_evidence.py": "modules/operations/tests/test_adapter_evidence.py",
+    "tests/test_cross_service_monitor.py": "modules/operations/tests/test_cross_service_monitor.py",
+    "tests/test_operator_status.py": "modules/operations/tests/test_operator_status.py"
+  },
+  "batches": [
+    {
+      "id": "B010-historical-authority-archive",
+      "order": 10,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA architecture",
+      "depends_on": [],
+      "lock_required": true,
+      "source_paths": [
+        "FABLE_V3_DESIGN_REVIEW.md",
+        "ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+        "V3_CONTRACT_DECISIONS.md",
+        "tier1-findings.md",
+        "overseer_fable_exec.patch",
+        "phase2_sol_exec.patch"
+      ],
+      "source_path_set_sha256": "c9db7cf891f04d856c440093026bc1cf06e8000abedce4bb5ab15354e2ef12ed",
+      "moves": [
+        {
+          "source": "FABLE_V3_DESIGN_REVIEW.md",
+          "destination": "archive/orchestrator/reviews/2026-07-18/FABLE_V3_DESIGN_REVIEW.md",
+          "action": "move"
+        },
+        {
+          "source": "ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+          "destination": "archive/architecture/snapshots/2026-07/ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+          "action": "move"
+        },
+        {
+          "source": "V3_CONTRACT_DECISIONS.md",
+          "destination": "archive/orchestrator/decisions/V3_CONTRACT_DECISIONS.md",
+          "action": "move"
+        },
+        {
+          "source": "tier1-findings.md",
+          "destination": "archive/orchestrator/findings/tier1-findings.md",
+          "action": "move"
+        },
+        {
+          "source": "overseer_fable_exec.patch",
+          "destination": "archive/orchestrator/patches/overseer_fable_exec.patch",
+          "action": "move"
+        },
+        {
+          "source": "phase2_sol_exec.patch",
+          "destination": "archive/orchestrator/patches/phase2_sol_exec.patch",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "architecture/current-authority-index.v1.json",
+          "change": "Point current authority to machine-readable contracts and mark all six sources historical."
+        },
+        {
+          "path": "repository references",
+          "change": "Rewrite historical links or install temporary read-only compatibility shims."
+        }
+      ],
+      "tests": [
+        "python3 architecture/modularization/preflight/authority/validate_authority_map.py",
+        "rg -n 'FABLE_V3_DESIGN_REVIEW|ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE|V3_CONTRACT_DECISIONS|tier1-findings|overseer_fable_exec|phase2_sol_exec' --glob '!archive/**' ."
+      ],
+      "rollback_checks": [
+        "all six archived byte hashes equal their sealed source hashes",
+        "compatibility shims resolve each former root path without granting current authority"
+      ],
+      "expected_post_move_paths": [
+        "archive/orchestrator/reviews/2026-07-18/FABLE_V3_DESIGN_REVIEW.md",
+        "archive/architecture/snapshots/2026-07/ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+        "archive/orchestrator/decisions/V3_CONTRACT_DECISIONS.md",
+        "archive/orchestrator/findings/tier1-findings.md",
+        "archive/orchestrator/patches/overseer_fable_exec.patch",
+        "archive/orchestrator/patches/phase2_sol_exec.patch"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B020-project-registration",
+      "order": 20,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA project portfolio",
+      "depends_on": [],
+      "lock_required": true,
+      "source_paths": [
+        "company-admin",
+        "TRAVEL_DESIGNER_GOAL.md"
+      ],
+      "source_path_set_sha256": "1acbc5e2d4697f3de30efbfd276d7bdf70547516782dc8a136e17f5947a64fbf",
+      "moves": [
+        {
+          "source": "company-admin",
+          "destination": "projects/company-admin",
+          "action": "move"
+        },
+        {
+          "source": "TRAVEL_DESIGNER_GOAL.md",
+          "destination": "projects/travel-designer/GOAL.md",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "projects/registry.v1.json",
+          "change": "Register company-admin and travel-designer owners, lifecycle and canonical paths."
+        },
+        {
+          "path": "architecture/root-layout.v1.json",
+          "change": "Replace both legacy root exceptions with project paths."
+        }
+      ],
+      "tests": [
+        "python3 tests/test_root_layout.py",
+        "python3 -m json.tool projects/registry.v1.json >/dev/null"
+      ],
+      "rollback_checks": [
+        "project registry can be reverted without losing project files",
+        "company evidence and deadline ledger hashes match the source tree seal"
+      ],
+      "expected_post_move_paths": [
+        "projects/company-admin",
+        "projects/travel-designer/GOAL.md"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B030-specialised-skills",
+      "order": 30,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "giga-user platform",
+      "depends_on": [],
+      "lock_required": true,
+      "source_paths": [
+        "deploy/skills/librarian",
+        "deploy/skills/skilltree-operator",
+        "deploy/skills/librarian-workspace",
+        "skilltree",
+        "SKILLTREE_GIGA_USER_INTEGRATION.md",
+        "scripts/build_skill_inventory.py",
+        "scripts/export_skilltree.py",
+        "scripts/extract_skilltree_data.mjs",
+        "scripts/inventory_filesystem_skills.py",
+        "tests/test_skilltree_operator.py"
+      ],
+      "source_path_set_sha256": "0230a51669b930983ed34bc7d8f78b37a4e444018b440951d3545d57a2bd7543",
+      "moves": [
+        {
+          "source": "deploy/skills/librarian",
+          "destination": "modules/skills/owned/librarian",
+          "action": "move"
+        },
+        {
+          "source": "deploy/skills/skilltree-operator",
+          "destination": "modules/skills/owned/skilltree-operator",
+          "action": "move"
+        },
+        {
+          "source": "deploy/skills/librarian-workspace",
+          "destination": "modules/skills/evaluations/librarian",
+          "action": "move"
+        },
+        {
+          "source": "skilltree",
+          "destination": "modules/skills/capability-registry",
+          "action": "move"
+        },
+        {
+          "source": "SKILLTREE_GIGA_USER_INTEGRATION.md",
+          "destination": "modules/skills/docs/SKILLTREE_GIGA_USER_INTEGRATION.md",
+          "action": "move"
+        },
+        {
+          "source": "scripts/build_skill_inventory.py",
+          "destination": "modules/skills/tooling/build_skill_inventory.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/export_skilltree.py",
+          "destination": "modules/skills/tooling/export_skilltree.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/extract_skilltree_data.mjs",
+          "destination": "modules/skills/tooling/extract_skilltree_data.mjs",
+          "action": "move"
+        },
+        {
+          "source": "scripts/inventory_filesystem_skills.py",
+          "destination": "modules/skills/tooling/inventory_filesystem_skills.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_skilltree_operator.py",
+          "destination": "modules/skills/tests/test_skilltree_operator.py",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "AGENTS.md and deploy consumers",
+          "change": "Rewrite owned-skill and implementation-registry paths; preserve router/install boundaries."
+        },
+        {
+          "path": "host skill catalogs",
+          "change": "Index only; do not copy active personal/system, plugin, marketplace, cache or upstream skills into owned source."
+        }
+      ],
+      "tests": [
+        "python3 modules/skills/tests/test_skilltree_operator.py",
+        "python3 /Users/admin/.codex/skills/skill-router/scripts/audit_skills.py --write /Users/admin/.codex/skills/skill-router/references/installed-skills.json --check --agents /Users/admin/.codex/AGENTS.md"
+      ],
+      "rollback_checks": [
+        "owned skill manifests match sealed source hashes",
+        "all five skill authority classes remain distinct and no external cache became owned"
+      ],
+      "expected_post_move_paths": [
+        "modules/skills/owned/librarian",
+        "modules/skills/owned/skilltree-operator",
+        "modules/skills/evaluations/librarian",
+        "modules/skills/capability-registry",
+        "modules/skills/docs/SKILLTREE_GIGA_USER_INTEGRATION.md",
+        "modules/skills/tooling/build_skill_inventory.py",
+        "modules/skills/tooling/export_skilltree.py",
+        "modules/skills/tooling/extract_skilltree_data.mjs",
+        "modules/skills/tooling/inventory_filesystem_skills.py",
+        "modules/skills/tests/test_skilltree_operator.py"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B040-platform-foundations",
+      "order": 40,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA platform",
+      "depends_on": [
+        "B030-specialised-skills"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "contracts",
+        "examples",
+        "MODEL_AGNOSTIC_SPEC.md",
+        "adapters",
+        "scripts/audit_root_layout.py",
+        "scripts/capture_machine_source_snapshot.py",
+        "tests/test_root_layout.py",
+        "tests/test_machine_source_snapshot.py"
+      ],
+      "source_path_set_sha256": "1bf1ea3185562ebe8c0bb4f1da998221e07246cf151d613a2b1de73af0a1a99f",
+      "moves": [
+        {
+          "source": "contracts",
+          "destination": "modules/platform/contracts",
+          "action": "move"
+        },
+        {
+          "source": "examples",
+          "destination": "modules/platform/examples",
+          "action": "move"
+        },
+        {
+          "source": "MODEL_AGNOSTIC_SPEC.md",
+          "destination": "modules/platform/policies/MODEL_AGNOSTIC_SPEC.md",
+          "action": "move"
+        },
+        {
+          "source": "adapters",
+          "destination": "modules/integrations/adapters",
+          "action": "move"
+        },
+        {
+          "source": "scripts/audit_root_layout.py",
+          "destination": "modules/platform/scripts/audit_root_layout.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/capture_machine_source_snapshot.py",
+          "destination": "modules/platform/scripts/capture_machine_source_snapshot.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_root_layout.py",
+          "destination": "modules/platform/tests/test_root_layout.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_machine_source_snapshot.py",
+          "destination": "modules/platform/tests/test_machine_source_snapshot.py",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "Python imports and shell entrypoints",
+          "change": "Rewrite contract, adapter and platform-tool paths; retain compatibility launchers until closure."
+        },
+        {
+          "path": "architecture/root-layout.v1.json",
+          "change": "Register platform and integration module destinations."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest modules.platform.tests.test_root_layout modules.platform.tests.test_machine_source_snapshot",
+        "python3 -m compileall -q modules/platform modules/integrations/adapters"
+      ],
+      "rollback_checks": [
+        "all platform tree digests match pre-move seals",
+        "old import and CLI surfaces remain resolvable through reversible shims"
+      ],
+      "expected_post_move_paths": [
+        "modules/platform/contracts",
+        "modules/platform/examples",
+        "modules/platform/policies/MODEL_AGNOSTIC_SPEC.md",
+        "modules/integrations/adapters",
+        "modules/platform/scripts/audit_root_layout.py",
+        "modules/platform/scripts/capture_machine_source_snapshot.py",
+        "modules/platform/tests/test_root_layout.py",
+        "modules/platform/tests/test_machine_source_snapshot.py"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B050-digital-twin-core",
+      "order": 50,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA virtual-twin workstream",
+      "depends_on": [
+        "B040-platform-foundations"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "twin_core",
+        "FINE_TUNING_READINESS.md",
+        "scripts/analyze_unified_memory.py",
+        "scripts/build_instagram_pairs.py",
+        "scripts/build_unified_memory.py",
+        "scripts/chatgpt_monthly_index.py",
+        "scripts/daily_personal_knowledge.py",
+        "scripts/evaluate_persona_lora.py",
+        "scripts/extract_chatgpt.py",
+        "scripts/extract_discord.py",
+        "scripts/extract_instagram.py",
+        "scripts/extract_instagram_full.py",
+        "scripts/extract_prompts.py",
+        "scripts/extract_telegram.py",
+        "scripts/jarvis_telegram.py",
+        "scripts/load_memory_claims.py",
+        "scripts/prepare_finetune_data.py",
+        "scripts/prepare_persona_lora.py",
+        "scripts/process_transcript.py",
+        "scripts/profile_corpus_audit.py",
+        "scripts/retrospective.py",
+        "scripts/run_daily_personal_knowledge.sh",
+        "scripts/run_jarvis.sh",
+        "scripts/train_casual_v0.sh",
+        "tests/test_analyze_unified_memory.py",
+        "tests/test_build_unified_memory.py",
+        "tests/test_chatgpt_monthly_index.py",
+        "tests/test_context_compiler.py",
+        "tests/test_daily_personal_knowledge.py",
+        "tests/test_extract_chatgpt_namespace.py",
+        "tests/test_extract_discord.py",
+        "tests/test_extract_instagram_full.py",
+        "tests/test_extract_prompts_namespaces.py",
+        "tests/test_extract_telegram.py",
+        "tests/test_integrity.py",
+        "tests/test_jarvis_telegram.py",
+        "tests/test_lineage.py",
+        "tests/test_load_memory_claims.py",
+        "tests/test_memory_proposals.py",
+        "tests/test_memory_validation.py",
+        "tests/test_prepare_finetune_data.py",
+        "tests/test_prepare_persona_lora.py",
+        "tests/test_telegram_pipeline.py",
+        "tests/test_transcript_actions.py",
+        "tests/test_twin_store.py"
+      ],
+      "source_path_set_sha256": "6533fcecf73f0d59a2df486bc6ff969625d8696c516f6409b663c3afea2520ae",
+      "moves": [
+        {
+          "source": "twin_core",
+          "destination": "modules/digital-twin/core",
+          "action": "move"
+        },
+        {
+          "source": "FINE_TUNING_READINESS.md",
+          "destination": "modules/digital-twin/training/FINE_TUNING_READINESS.md",
+          "action": "move"
+        },
+        {
+          "source": "scripts/analyze_unified_memory.py",
+          "destination": "modules/digital-twin/scripts/analyze_unified_memory.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/build_instagram_pairs.py",
+          "destination": "modules/digital-twin/scripts/build_instagram_pairs.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/build_unified_memory.py",
+          "destination": "modules/digital-twin/scripts/build_unified_memory.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/chatgpt_monthly_index.py",
+          "destination": "modules/digital-twin/scripts/chatgpt_monthly_index.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/daily_personal_knowledge.py",
+          "destination": "modules/digital-twin/scripts/daily_personal_knowledge.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/evaluate_persona_lora.py",
+          "destination": "modules/digital-twin/training/scripts/evaluate_persona_lora.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/extract_chatgpt.py",
+          "destination": "modules/digital-twin/scripts/extract_chatgpt.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/extract_discord.py",
+          "destination": "modules/digital-twin/scripts/extract_discord.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/extract_instagram.py",
+          "destination": "modules/digital-twin/scripts/extract_instagram.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/extract_instagram_full.py",
+          "destination": "modules/digital-twin/scripts/extract_instagram_full.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/extract_prompts.py",
+          "destination": "modules/digital-twin/scripts/extract_prompts.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/extract_telegram.py",
+          "destination": "modules/digital-twin/scripts/extract_telegram.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/jarvis_telegram.py",
+          "destination": "modules/digital-twin/scripts/jarvis_telegram.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/load_memory_claims.py",
+          "destination": "modules/digital-twin/scripts/load_memory_claims.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/prepare_finetune_data.py",
+          "destination": "modules/digital-twin/training/scripts/prepare_finetune_data.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/prepare_persona_lora.py",
+          "destination": "modules/digital-twin/training/scripts/prepare_persona_lora.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/process_transcript.py",
+          "destination": "modules/digital-twin/scripts/process_transcript.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/profile_corpus_audit.py",
+          "destination": "modules/digital-twin/scripts/profile_corpus_audit.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/retrospective.py",
+          "destination": "modules/digital-twin/scripts/retrospective.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/run_daily_personal_knowledge.sh",
+          "destination": "modules/digital-twin/scripts/run_daily_personal_knowledge.sh",
+          "action": "move"
+        },
+        {
+          "source": "scripts/run_jarvis.sh",
+          "destination": "modules/digital-twin/scripts/run_jarvis.sh",
+          "action": "move"
+        },
+        {
+          "source": "scripts/train_casual_v0.sh",
+          "destination": "modules/digital-twin/training/scripts/train_casual_v0.sh",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_analyze_unified_memory.py",
+          "destination": "modules/digital-twin/tests/test_analyze_unified_memory.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_build_unified_memory.py",
+          "destination": "modules/digital-twin/tests/test_build_unified_memory.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_chatgpt_monthly_index.py",
+          "destination": "modules/digital-twin/tests/test_chatgpt_monthly_index.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_context_compiler.py",
+          "destination": "modules/digital-twin/tests/test_context_compiler.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_daily_personal_knowledge.py",
+          "destination": "modules/digital-twin/tests/test_daily_personal_knowledge.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_extract_chatgpt_namespace.py",
+          "destination": "modules/digital-twin/tests/test_extract_chatgpt_namespace.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_extract_discord.py",
+          "destination": "modules/digital-twin/tests/test_extract_discord.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_extract_instagram_full.py",
+          "destination": "modules/digital-twin/tests/test_extract_instagram_full.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_extract_prompts_namespaces.py",
+          "destination": "modules/digital-twin/tests/test_extract_prompts_namespaces.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_extract_telegram.py",
+          "destination": "modules/digital-twin/tests/test_extract_telegram.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_integrity.py",
+          "destination": "modules/digital-twin/tests/test_integrity.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_jarvis_telegram.py",
+          "destination": "modules/digital-twin/tests/test_jarvis_telegram.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_lineage.py",
+          "destination": "modules/digital-twin/tests/test_lineage.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_load_memory_claims.py",
+          "destination": "modules/digital-twin/tests/test_load_memory_claims.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_memory_proposals.py",
+          "destination": "modules/digital-twin/tests/test_memory_proposals.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_memory_validation.py",
+          "destination": "modules/digital-twin/tests/test_memory_validation.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_prepare_finetune_data.py",
+          "destination": "modules/digital-twin/training/tests/test_prepare_finetune_data.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_prepare_persona_lora.py",
+          "destination": "modules/digital-twin/training/tests/test_prepare_persona_lora.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_telegram_pipeline.py",
+          "destination": "modules/digital-twin/tests/test_telegram_pipeline.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_transcript_actions.py",
+          "destination": "modules/digital-twin/tests/test_transcript_actions.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_twin_store.py",
+          "destination": "modules/digital-twin/tests/test_twin_store.py",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "all Python imports, cron/launchd commands and shell wrappers",
+          "change": "Rewrite twin_core and script/test paths; keep compatibility package and launchers until full-suite success."
+        },
+        {
+          "path": "00_MASTER.md and virtual-twin briefs",
+          "change": "Update canonical implementation and training-readiness links."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest discover -s modules/digital-twin/tests -p 'test_*.py' -v",
+        "python3 -m compileall -q modules/digital-twin"
+      ],
+      "rollback_checks": [
+        "canonical memory/corpus protected-source hashes remain unchanged",
+        "old twin_core imports and script entrypoints still resolve before source retirement"
+      ],
+      "expected_post_move_paths": [
+        "modules/digital-twin/core",
+        "modules/digital-twin/training/FINE_TUNING_READINESS.md",
+        "modules/digital-twin/scripts/analyze_unified_memory.py",
+        "modules/digital-twin/scripts/build_instagram_pairs.py",
+        "modules/digital-twin/scripts/build_unified_memory.py",
+        "modules/digital-twin/scripts/chatgpt_monthly_index.py",
+        "modules/digital-twin/scripts/daily_personal_knowledge.py",
+        "modules/digital-twin/training/scripts/evaluate_persona_lora.py",
+        "modules/digital-twin/scripts/extract_chatgpt.py",
+        "modules/digital-twin/scripts/extract_discord.py",
+        "modules/digital-twin/scripts/extract_instagram.py",
+        "modules/digital-twin/scripts/extract_instagram_full.py",
+        "modules/digital-twin/scripts/extract_prompts.py",
+        "modules/digital-twin/scripts/extract_telegram.py",
+        "modules/digital-twin/scripts/jarvis_telegram.py",
+        "modules/digital-twin/scripts/load_memory_claims.py",
+        "modules/digital-twin/training/scripts/prepare_finetune_data.py",
+        "modules/digital-twin/training/scripts/prepare_persona_lora.py",
+        "modules/digital-twin/scripts/process_transcript.py",
+        "modules/digital-twin/scripts/profile_corpus_audit.py",
+        "modules/digital-twin/scripts/retrospective.py",
+        "modules/digital-twin/scripts/run_daily_personal_knowledge.sh",
+        "modules/digital-twin/scripts/run_jarvis.sh",
+        "modules/digital-twin/training/scripts/train_casual_v0.sh",
+        "modules/digital-twin/tests/test_analyze_unified_memory.py",
+        "modules/digital-twin/tests/test_build_unified_memory.py",
+        "modules/digital-twin/tests/test_chatgpt_monthly_index.py",
+        "modules/digital-twin/tests/test_context_compiler.py",
+        "modules/digital-twin/tests/test_daily_personal_knowledge.py",
+        "modules/digital-twin/tests/test_extract_chatgpt_namespace.py",
+        "modules/digital-twin/tests/test_extract_discord.py",
+        "modules/digital-twin/tests/test_extract_instagram_full.py",
+        "modules/digital-twin/tests/test_extract_prompts_namespaces.py",
+        "modules/digital-twin/tests/test_extract_telegram.py",
+        "modules/digital-twin/tests/test_integrity.py",
+        "modules/digital-twin/tests/test_jarvis_telegram.py",
+        "modules/digital-twin/tests/test_lineage.py",
+        "modules/digital-twin/tests/test_load_memory_claims.py",
+        "modules/digital-twin/tests/test_memory_proposals.py",
+        "modules/digital-twin/tests/test_memory_validation.py",
+        "modules/digital-twin/training/tests/test_prepare_finetune_data.py",
+        "modules/digital-twin/training/tests/test_prepare_persona_lora.py",
+        "modules/digital-twin/tests/test_telegram_pipeline.py",
+        "modules/digital-twin/tests/test_transcript_actions.py",
+        "modules/digital-twin/tests/test_twin_store.py"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B060-agency-modules",
+      "order": 60,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA calibration and sovereignty workstreams",
+      "depends_on": [
+        "B040-platform-foundations",
+        "B050-digital-twin-core"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "PREDICTION_AUTOMATION.md",
+        "SOVEREIGNTY_INDEX.md",
+        "scripts/prediction_automation.py",
+        "scripts/sovereignty_index.py",
+        "tests/test_prediction_automation.py",
+        "tests/test_sovereignty.py"
+      ],
+      "source_path_set_sha256": "05f69fe8bb4fa28046e9828cc64337387ad69e8d72c4b9762e6e0c85bcc2adbe",
+      "moves": [
+        {
+          "source": "PREDICTION_AUTOMATION.md",
+          "destination": "modules/calibration/PREDICTION_AUTOMATION.md",
+          "action": "move"
+        },
+        {
+          "source": "SOVEREIGNTY_INDEX.md",
+          "destination": "modules/sovereignty/README.md",
+          "action": "move"
+        },
+        {
+          "source": "scripts/prediction_automation.py",
+          "destination": "modules/calibration/scripts/prediction_automation.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/sovereignty_index.py",
+          "destination": "modules/sovereignty/scripts/sovereignty_index.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_prediction_automation.py",
+          "destination": "modules/calibration/tests/test_prediction_automation.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_sovereignty.py",
+          "destination": "modules/sovereignty/tests/test_sovereignty.py",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "05_CALIBRATION_PROMPTBANK_BRIEF.md and sovereignty consumers",
+          "change": "Rewrite module documentation, schema and command paths."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest modules.calibration.tests.test_prediction_automation modules.sovereignty.tests.test_sovereignty"
+      ],
+      "rollback_checks": [
+        "prediction and sovereignty fixtures produce the same outputs before and after the move",
+        "legacy command shims can be removed only after schedule/reference closure"
+      ],
+      "expected_post_move_paths": [
+        "modules/calibration/PREDICTION_AUTOMATION.md",
+        "modules/sovereignty/README.md",
+        "modules/calibration/scripts/prediction_automation.py",
+        "modules/sovereignty/scripts/sovereignty_index.py",
+        "modules/calibration/tests/test_prediction_automation.py",
+        "modules/sovereignty/tests/test_sovereignty.py"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B070-research-tooling",
+      "order": 70,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA research tooling",
+      "depends_on": [
+        "B040-platform-foundations"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "scripts/analyze_skin_evidence.py",
+        "scripts/elicit_evidence.py",
+        "scripts/run_elicit_campaign.py",
+        "scripts/run_scientific_campaign.py",
+        "scripts/scientific_evidence.py",
+        "scripts/scientific_pipeline.py",
+        "tests/test_analyze_skin_evidence.py",
+        "tests/test_scientific_campaign.py",
+        "tests/test_scientific_evidence.py",
+        "tests/test_scientific_pipeline.py",
+        "tests/test_scientific_providers.py",
+        "tests/test_scientific_review_funnel.py"
+      ],
+      "source_path_set_sha256": "ac8ec6317e3827292651001dff48d1b0b987a0537382c90655092c9481427778",
+      "moves": [
+        {
+          "source": "scripts/analyze_skin_evidence.py",
+          "destination": "modules/research/scripts/analyze_skin_evidence.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/elicit_evidence.py",
+          "destination": "modules/research/scripts/elicit_evidence.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/run_elicit_campaign.py",
+          "destination": "modules/research/scripts/run_elicit_campaign.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/run_scientific_campaign.py",
+          "destination": "modules/research/scripts/run_scientific_campaign.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/scientific_evidence.py",
+          "destination": "modules/research/scripts/scientific_evidence.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/scientific_pipeline.py",
+          "destination": "modules/research/scripts/scientific_pipeline.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_analyze_skin_evidence.py",
+          "destination": "modules/research/tests/test_analyze_skin_evidence.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_scientific_campaign.py",
+          "destination": "modules/research/tests/test_scientific_campaign.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_scientific_evidence.py",
+          "destination": "modules/research/tests/test_scientific_evidence.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_scientific_pipeline.py",
+          "destination": "modules/research/tests/test_scientific_pipeline.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_scientific_providers.py",
+          "destination": "modules/research/tests/test_scientific_providers.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_scientific_review_funnel.py",
+          "destination": "modules/research/tests/test_scientific_review_funnel.py",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "research command references",
+          "change": "Rewrite tooling paths without moving protected research evidence."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest discover -s modules/research/tests -p 'test_*.py' -v"
+      ],
+      "rollback_checks": [
+        "research/ evidence tree hash is unchanged",
+        "tool outputs remain candidate-bound and reproducible"
+      ],
+      "expected_post_move_paths": [
+        "modules/research/scripts/analyze_skin_evidence.py",
+        "modules/research/scripts/elicit_evidence.py",
+        "modules/research/scripts/run_elicit_campaign.py",
+        "modules/research/scripts/run_scientific_campaign.py",
+        "modules/research/scripts/scientific_evidence.py",
+        "modules/research/scripts/scientific_pipeline.py",
+        "modules/research/tests/test_analyze_skin_evidence.py",
+        "modules/research/tests/test_scientific_campaign.py",
+        "modules/research/tests/test_scientific_evidence.py",
+        "modules/research/tests/test_scientific_pipeline.py",
+        "modules/research/tests/test_scientific_providers.py",
+        "modules/research/tests/test_scientific_review_funnel.py"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B080-proof-compiler",
+      "order": 80,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA evidence/proof compiler",
+      "depends_on": [
+        "B050-digital-twin-core"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "external_proof",
+        "scripts/compile_sop.py",
+        "scripts/render_external_proof_deck.mjs",
+        "tests/test_external_proof.py",
+        "tests/test_external_proof_deck.py",
+        "tests/test_sop_compiler.py"
+      ],
+      "source_path_set_sha256": "5c1eb9dde173e13348c8054bf324a6bac67bb842c61be3b2102dd6f3d52c9e6f",
+      "moves": [
+        {
+          "source": "external_proof",
+          "destination": "modules/proof/external",
+          "action": "move"
+        },
+        {
+          "source": "scripts/compile_sop.py",
+          "destination": "modules/proof/scripts/compile_sop.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/render_external_proof_deck.mjs",
+          "destination": "modules/proof/scripts/render_external_proof_deck.mjs",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_external_proof.py",
+          "destination": "modules/proof/tests/test_external_proof.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_external_proof_deck.py",
+          "destination": "modules/proof/tests/test_external_proof_deck.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_sop_compiler.py",
+          "destination": "modules/proof/tests/test_sop_compiler.py",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "proof build commands and report links",
+          "change": "Rewrite source, renderer and test paths while preserving output receipts."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest discover -s modules/proof/tests -p 'test_*.py' -v"
+      ],
+      "rollback_checks": [
+        "rendered proof hashes or declared nondeterminism match the sealed baseline",
+        "source citations still resolve to canonical evidence"
+      ],
+      "expected_post_move_paths": [
+        "modules/proof/external",
+        "modules/proof/scripts/compile_sop.py",
+        "modules/proof/scripts/render_external_proof_deck.mjs",
+        "modules/proof/tests/test_external_proof.py",
+        "modules/proof/tests/test_external_proof_deck.py",
+        "modules/proof/tests/test_sop_compiler.py"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B090-operations-and-deployment",
+      "order": 90,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA operations and deployment",
+      "depends_on": [
+        "B030-specialised-skills",
+        "B040-platform-foundations",
+        "B050-digital-twin-core"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "migration",
+        "monitoring",
+        "deploy/chatgpt_custom_instructions.txt",
+        "deploy/claude_preferences.txt",
+        "deploy/v3_operator_model.md",
+        "deploy/gutua",
+        "deploy/launchd",
+        "scripts/collect_cross_service_telemetry.py",
+        "scripts/compile_adapter_evidence.py",
+        "scripts/operator_status.py",
+        "tests/test_adapter_evidence.py",
+        "tests/test_cross_service_monitor.py",
+        "tests/test_operator_status.py"
+      ],
+      "source_path_set_sha256": "33c433003cb979b979d3c5583d5178dabd7288b01dcad51a6009bef4ffb30781",
+      "moves": [
+        {
+          "source": "migration",
+          "destination": "modules/operations/migration",
+          "action": "move"
+        },
+        {
+          "source": "monitoring",
+          "destination": "modules/operations/monitoring",
+          "action": "move"
+        },
+        {
+          "source": "deploy/chatgpt_custom_instructions.txt",
+          "destination": "modules/deployment/surfaces/chatgpt_custom_instructions.txt",
+          "action": "move"
+        },
+        {
+          "source": "deploy/claude_preferences.txt",
+          "destination": "modules/deployment/surfaces/claude_preferences.txt",
+          "action": "move"
+        },
+        {
+          "source": "deploy/v3_operator_model.md",
+          "destination": "modules/deployment/surfaces/v3_operator_model.md",
+          "action": "move"
+        },
+        {
+          "source": "deploy/gutua",
+          "destination": "modules/deployment/gutua",
+          "action": "move"
+        },
+        {
+          "source": "deploy/launchd",
+          "destination": "modules/deployment/launchd",
+          "action": "move"
+        },
+        {
+          "source": "scripts/collect_cross_service_telemetry.py",
+          "destination": "modules/operations/scripts/collect_cross_service_telemetry.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/compile_adapter_evidence.py",
+          "destination": "modules/operations/scripts/compile_adapter_evidence.py",
+          "action": "move"
+        },
+        {
+          "source": "scripts/operator_status.py",
+          "destination": "modules/operations/scripts/operator_status.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_adapter_evidence.py",
+          "destination": "modules/operations/tests/test_adapter_evidence.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_cross_service_monitor.py",
+          "destination": "modules/operations/tests/test_cross_service_monitor.py",
+          "action": "move"
+        },
+        {
+          "source": "tests/test_operator_status.py",
+          "destination": "modules/operations/tests/test_operator_status.py",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "launchd/systemd/cron and Gutua deployment manifests",
+          "change": "Rewrite commands atomically; preserve old launchers disabled-but-restorable until health checks pass."
+        },
+        {
+          "path": "machine authority and migration receipts",
+          "change": "Bind new module paths to Mac canonical/Gutua candidate policy."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest discover -s modules/operations/tests -p 'test_*.py' -v",
+        "launchctl print gui/$(id -u) >/dev/null"
+      ],
+      "rollback_checks": [
+        "all service definitions have captured pre-move state and reversible install commands",
+        "old deployment paths remain available until service health and telemetry pass"
+      ],
+      "expected_post_move_paths": [
+        "modules/operations/migration",
+        "modules/operations/monitoring",
+        "modules/deployment/surfaces/chatgpt_custom_instructions.txt",
+        "modules/deployment/surfaces/claude_preferences.txt",
+        "modules/deployment/surfaces/v3_operator_model.md",
+        "modules/deployment/gutua",
+        "modules/deployment/launchd",
+        "modules/operations/scripts/collect_cross_service_telemetry.py",
+        "modules/operations/scripts/compile_adapter_evidence.py",
+        "modules/operations/scripts/operator_status.py",
+        "modules/operations/tests/test_adapter_evidence.py",
+        "modules/operations/tests/test_cross_service_monitor.py",
+        "modules/operations/tests/test_operator_status.py"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B100-ecc-integration",
+      "order": 100,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA integration boundary",
+      "depends_on": [
+        "B030-specialised-skills",
+        "B040-platform-foundations"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "ecc-integration/COMPONENT_INVENTORY.json",
+        "ecc-integration/DEEP_ANALYSIS.md",
+        "ecc-integration/EXTRACTION_COMPLETE.md",
+        "ecc-integration/FIRST_IMPLEMENTATION_DECISION.md",
+        "ecc-integration/FUTURE_WORK.md",
+        "ecc-integration/IMPORT_LEDGER.json",
+        "ecc-integration/PORTABLE_FINDINGS.json",
+        "ecc-integration/SECURITY_REVIEW.md",
+        "ecc-integration/SKILL_CLASSIFICATION.json",
+        "ecc-integration/UPSTREAM.json",
+        "ecc-integration/UPSTREAM_SYNC.md",
+        "ecc-integration/candidate-imports",
+        "ecc-integration/scripts",
+        "ecc-integration/tests"
+      ],
+      "source_path_set_sha256": "528885da5ce2edd0afc43222a8224e762b52bb88461f84f9bfc0df82a5a9377c",
+      "moves": [
+        {
+          "source": "ecc-integration/COMPONENT_INVENTORY.json",
+          "destination": "modules/integrations/ecc/COMPONENT_INVENTORY.json",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/DEEP_ANALYSIS.md",
+          "destination": "modules/integrations/ecc/DEEP_ANALYSIS.md",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/EXTRACTION_COMPLETE.md",
+          "destination": "modules/integrations/ecc/EXTRACTION_COMPLETE.md",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/FIRST_IMPLEMENTATION_DECISION.md",
+          "destination": "modules/integrations/ecc/FIRST_IMPLEMENTATION_DECISION.md",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/FUTURE_WORK.md",
+          "destination": "modules/integrations/ecc/FUTURE_WORK.md",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/IMPORT_LEDGER.json",
+          "destination": "modules/integrations/ecc/IMPORT_LEDGER.json",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/PORTABLE_FINDINGS.json",
+          "destination": "modules/integrations/ecc/PORTABLE_FINDINGS.json",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/SECURITY_REVIEW.md",
+          "destination": "modules/integrations/ecc/SECURITY_REVIEW.md",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/SKILL_CLASSIFICATION.json",
+          "destination": "modules/integrations/ecc/SKILL_CLASSIFICATION.json",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/UPSTREAM.json",
+          "destination": "modules/integrations/ecc/UPSTREAM.json",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/UPSTREAM_SYNC.md",
+          "destination": "modules/integrations/ecc/UPSTREAM_SYNC.md",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/candidate-imports",
+          "destination": "modules/integrations/ecc/candidate-imports",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/scripts",
+          "destination": "modules/integrations/ecc/scripts",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/tests",
+          "destination": "modules/integrations/ecc/tests",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "ECC import ledgers and upstream references",
+          "change": "Rewrite authored integration paths; keep upstream source read-only and separately owned."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest discover -s modules/integrations/ecc/tests -p 'test_*.py' -v",
+        "python3 -m json.tool modules/integrations/ecc/IMPORT_LEDGER.json >/dev/null"
+      ],
+      "rollback_checks": [
+        "candidate-import hashes and upstream provenance equal their source seals",
+        "no generated Graphify content is present under the authored integration module"
+      ],
+      "expected_post_move_paths": [
+        "modules/integrations/ecc/COMPONENT_INVENTORY.json",
+        "modules/integrations/ecc/DEEP_ANALYSIS.md",
+        "modules/integrations/ecc/EXTRACTION_COMPLETE.md",
+        "modules/integrations/ecc/FIRST_IMPLEMENTATION_DECISION.md",
+        "modules/integrations/ecc/FUTURE_WORK.md",
+        "modules/integrations/ecc/IMPORT_LEDGER.json",
+        "modules/integrations/ecc/PORTABLE_FINDINGS.json",
+        "modules/integrations/ecc/SECURITY_REVIEW.md",
+        "modules/integrations/ecc/SKILL_CLASSIFICATION.json",
+        "modules/integrations/ecc/UPSTREAM.json",
+        "modules/integrations/ecc/UPSTREAM_SYNC.md",
+        "modules/integrations/ecc/candidate-imports",
+        "modules/integrations/ecc/scripts",
+        "modules/integrations/ecc/tests"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B110-external-upstreams",
+      "order": 110,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA external-workspace boundary",
+      "depends_on": [
+        "B100-ecc-integration"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "upstreams"
+      ],
+      "source_path_set_sha256": "7b76de4c4c1b010360347fd7ade4fef30dd4f18383ad110827bdec46685525f6",
+      "moves": [
+        {
+          "source": "upstreams",
+          "destination": "external/upstreams",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "all upstream path references",
+          "change": "Rewrite to external/upstreams and install a read-only compatibility path until reference closure."
+        }
+      ],
+      "tests": [
+        "git -C external/upstreams/ECC status --short",
+        "rg -n '(^|[ /])upstreams/' --glob '!external/**' ."
+      ],
+      "rollback_checks": [
+        "every upstream checkout HEAD/status/tree digest equals its pre-move seal",
+        "no upstream file is promoted into GIGA-owned modules by relocation"
+      ],
+      "expected_post_move_paths": [
+        "external/upstreams"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B120-generated-runtime",
+      "order": 120,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA runtime",
+      "depends_on": [
+        "B050-digital-twin-core",
+        "B080-proof-compiler",
+        "B090-operations-and-deployment",
+        "B100-ecc-integration"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        ".DS_Store",
+        ".pytest_cache",
+        ".ruff_cache",
+        "graphify-out",
+        "ecc-integration/graphify-out",
+        "instagram_not_following_back.csv",
+        "instagram_unfollow_plan.json",
+        "instagram_unfollow_progress.json",
+        "output",
+        "outputs",
+        "tmp",
+        "scripts/__pycache__",
+        "tests/__pycache__"
+      ],
+      "source_path_set_sha256": "d776ceec76f476a20ad9e421196a21233227462d71db02600fffeafbc27c0f71",
+      "moves": [
+        {
+          "source": ".DS_Store",
+          "destination": "runtime/cache/macos/.DS_Store",
+          "action": "move"
+        },
+        {
+          "source": ".pytest_cache",
+          "destination": "runtime/cache/pytest",
+          "action": "move"
+        },
+        {
+          "source": ".ruff_cache",
+          "destination": "runtime/cache/ruff",
+          "action": "move"
+        },
+        {
+          "source": "graphify-out",
+          "destination": "runtime/generated/graphify",
+          "action": "move"
+        },
+        {
+          "source": "ecc-integration/graphify-out",
+          "destination": "runtime/generated/ecc-graphify",
+          "action": "move"
+        },
+        {
+          "source": "instagram_not_following_back.csv",
+          "destination": "runtime/generated/instagram/not-following-back.csv",
+          "action": "move"
+        },
+        {
+          "source": "instagram_unfollow_plan.json",
+          "destination": "runtime/generated/instagram/unfollow-plan.json",
+          "action": "move"
+        },
+        {
+          "source": "instagram_unfollow_progress.json",
+          "destination": "runtime/state/instagram/unfollow-progress.json",
+          "action": "move"
+        },
+        {
+          "source": "output",
+          "destination": "runtime/generated/media",
+          "action": "move"
+        },
+        {
+          "source": "outputs",
+          "destination": "runtime/outputs",
+          "action": "move"
+        },
+        {
+          "source": "tmp",
+          "destination": "runtime/tmp",
+          "action": "move"
+        },
+        {
+          "source": "scripts/__pycache__",
+          "destination": "runtime/cache/python/scripts",
+          "action": "move"
+        },
+        {
+          "source": "tests/__pycache__",
+          "destination": "runtime/cache/python/tests",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "output producers, reports and receipts",
+          "change": "Rewrite output/state paths; distinguish reproducible cache from evidence-bearing receipts."
+        },
+        {
+          "path": ".gitignore",
+          "change": "Ignore disposable runtime caches without ignoring evidence-bearing runtime outputs."
+        }
+      ],
+      "tests": [
+        "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+        "python3 architecture/modularization/preflight/authority/validate_authority_map.py"
+      ],
+      "rollback_checks": [
+        "evidence-bearing output and receipt hashes equal their source seals",
+        "every reproducible cache has a producer; non-reproducible output has a retention receipt"
+      ],
+      "expected_post_move_paths": [
+        "runtime/cache/macos/.DS_Store",
+        "runtime/cache/pytest",
+        "runtime/cache/ruff",
+        "runtime/generated/graphify",
+        "runtime/generated/ecc-graphify",
+        "runtime/generated/instagram/not-following-back.csv",
+        "runtime/generated/instagram/unfollow-plan.json",
+        "runtime/state/instagram/unfollow-progress.json",
+        "runtime/generated/media",
+        "runtime/outputs",
+        "runtime/tmp",
+        "runtime/cache/python/scripts",
+        "runtime/cache/python/tests"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    },
+    {
+      "id": "B130-quarantine-staging",
+      "order": 130,
+      "status": "ready-after-lock-and-preconditions",
+      "owner": "GIGA intake/quarantine",
+      "depends_on": [
+        "B090-operations-and-deployment",
+        "B120-generated-runtime"
+      ],
+      "lock_required": true,
+      "source_paths": [
+        "staging"
+      ],
+      "source_path_set_sha256": "e919a75364398a449f860aeadddc57fa0502145a4e63959ddb33c417a48dc0da",
+      "moves": [
+        {
+          "source": "staging",
+          "destination": "quarantine/staging",
+          "action": "move"
+        }
+      ],
+      "compatibility_updates": [
+        {
+          "path": "migration and candidate-bundle consumers",
+          "change": "Rewrite staging references while preserving no-authority semantics."
+        }
+      ],
+      "tests": [
+        "rg -n '(^|[ /])staging/' migration modules architecture",
+        "python3 architecture/modularization/preflight/authority/validate_authority_map.py"
+      ],
+      "rollback_checks": [
+        "candidate bundles, receipts and schema-v3 candidate hashes match the pre-move seal",
+        "quarantined presence grants no canonical authority"
+      ],
+      "expected_post_move_paths": [
+        "quarantine/staging"
+      ],
+      "preconditions": [
+        "authority-map and migration-batch validators pass against the live root",
+        "root-move lock acquired and bound to HEAD, dirty-state digest and this source-path-set hash",
+        "pre-move hashes/tree digests and reference closure sealed",
+        "dry-run proves destinations do not exist and rollback is possible"
+      ]
+    }
+  ],
+  "deferred": [
+    {
+      "source": "market-aligner-artiom",
+      "reason": "Machine authority identifies a candidate duplicate, but no reconciliation outcome is ratified.",
+      "required_decision": "compare against canonical market-aligner, seal both trees, and ratify merge/archive/delete/quarantine outcome"
+    }
+  ],
+  "no_touch": [
+    "1916b63abd801fbb5abf9b44f98d87a68ccd5db992b2a4d30567dd8a4ed29a85-2026-07-19-08-37-41-df72519dd898472489071b0441745ac3.zip",
+    "The Offer Accelerator Toolkit (4) (1).pdf",
+    "audit-work",
+    "corpus",
+    "instagram-artiom.png-2026-07-16-58GCGdnZ.zip",
+    "market-aligner",
+    "memory",
+    "package(1).zip",
+    "package.zip",
+    "research",
+    "result.json"
+  ],
+  "retained": [
+    ".gitignore",
+    "00_MASTER.md",
+    "01_CHARTER_BRIEF.md",
+    "02_MEMORY_CONTEXT_BRIEF.md",
+    "03_LIFE_INFRA_BRIEF.md",
+    "04_CORPUS_RETROSPECTIVE_BRIEF.md",
+    "05_CALIBRATION_PROMPTBANK_BRIEF.md",
+    "06_SECOND_MEMORY_BRIEF.md",
+    "07_VIRTUAL_TWIN_BRIEF.md",
+    "AGENTS.md",
+    "CHARTER.md",
+    "CONTEXT.md",
+    "CONTEXT_PROTOCOL.md",
+    "SESSION_LOGS",
+    "architecture",
+    "intake",
+    "job-application-automation",
+    "korean",
+    "life-logging",
+    "projects",
+    "reports",
+    "retrospectives"
+  ]
+}

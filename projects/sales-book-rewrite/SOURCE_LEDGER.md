@@ -65,6 +65,20 @@ selling, objections, qualification, closes and Feel Felt Found. Their presence o
 side of the transcript does not make them original notes. They are external source material
 and require normal citation and rights-safe paraphrase if used at all.
 
+### Ilya Yablonsky sales-training transcript
+
+On 23 July 2026 the operator supplied a 5,380-word transcript identified as training material
+from Ilya Yablonsky. It records a setter/qualification call for a $15,000–$20,000
+property-development mentorship. The transcript is analysed in
+`analysis/ilya-yablonsky-setter-call-analysis.md`.
+
+Permitted use: an attributed external case study of discovery, financial qualification,
+decision-authority checks, identity commitment, price preframing, setter-to-closer handoff and
+ethical risk.
+
+Forbidden use: presenting its techniques as knowledge recorded during the author's five months
+at Saleshub/Appco, copying its wording, or treating unverified company performance claims as fact.
+
 ### Uploaded DOCX
 
 The export records an upload named `Art of Sales. My knowledge..docx`, MIME type DOCX, size

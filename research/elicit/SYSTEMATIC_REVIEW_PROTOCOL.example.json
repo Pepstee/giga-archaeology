@@ -1,0 +1,62 @@
+{
+  "researchQuestion": "In healthy adults, how does resistance-training frequency affect muscle hypertrophy when weekly training volume is matched?",
+  "protocolDetails": "Population: healthy adults. Intervention/comparator: different weekly resistance-training frequencies with approximately matched weekly volume. Primary outcome: validated change in muscle size. Record training status, programme duration, adherence, adverse events, funding, conflicts and risk-of-bias information. Exclude animal, in-vitro and non-resistance-training studies.",
+  "searches": [
+    {
+      "query": "resistance training frequency muscle hypertrophy volume equated adults",
+      "corpus": "elicit",
+      "searchMode": "semantic",
+      "maxResults": 100,
+      "retracted": "exclude_retracted"
+    },
+    {
+      "query": "resistance training frequency hypertrophy volume equated",
+      "corpus": "pubmed",
+      "searchMode": "semantic",
+      "maxResults": 100,
+      "retracted": "exclude_retracted"
+    }
+  ],
+  "abstractScreening": {
+    "criteria": [
+      {
+        "name": "Human comparative intervention",
+        "instructions": "Include comparative resistance-training interventions in human adults that report a direct muscle-size outcome."
+      },
+      {
+        "name": "Frequency comparison",
+        "instructions": "Include only studies comparing at least two weekly training frequencies."
+      },
+      {
+        "name": "Volume comparability",
+        "instructions": "Include studies that match or explicitly report weekly training volume across groups."
+      }
+    ]
+  },
+  "extraction": {
+    "questions": [
+      {
+        "name": "Population",
+        "instructions": "Extract sample size, age, sex distribution and resistance-training status by arm."
+      },
+      {
+        "name": "Intervention",
+        "instructions": "Extract weekly frequency, weekly sets, intensity, exercise selection and programme duration by arm."
+      },
+      {
+        "name": "Hypertrophy outcome",
+        "instructions": "Extract measurement method, anatomical site, change by arm, between-group effect estimate and confidence interval."
+      },
+      {
+        "name": "Harms and adherence",
+        "instructions": "Extract adverse events, attrition and adherence by arm."
+      },
+      {
+        "name": "Bias and conflicts",
+        "instructions": "Extract randomisation, allocation concealment, blinding where applicable, missing-data handling, funding and conflicts."
+      }
+    ]
+  },
+  "generateReport": true,
+  "isPublic": false
+}

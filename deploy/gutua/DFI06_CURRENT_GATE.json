@@ -1,0 +1,23 @@
+{
+  "schema": "giga.software-factory-gate.v1",
+  "gate_id": "DFI06-2026-07-25-scope-fixture-architecture",
+  "stage": "DFI-06",
+  "summary": "DFI-06 is repaired but uncertified because pyproject.toml is outside the prior allowlist, an external JAA fixture is absent in the isolated worktree, and the ARCHITECTURE_EXPANSION controller-policy gate is not independently proven.",
+  "requested_outcome": "Resolve the three blockers without weakening tests, mutating production/JAA, or abandoning the unattended work window; then independently certify DFI-06 and continue the DFI roadmap.",
+  "known_evidence": {
+    "targeted_first_repair": "190 passed in 3.05s",
+    "first_full_suite": "4034 passed, 22 failed, 9 skipped in 479.92s",
+    "second_sonnet_claim": "603 focused passes; not independently verified",
+    "candidate_sha256": "561c8f7729ca144f39af10e3b8e11db4994e15ae019d4ea379269141f12aee4b",
+    "production_head": "35efb19b07867bb58e1288479513078cf9ab65e4e",
+    "production_stop_sha256": "b9fd288d7acdf65e8169f99ffb64e8ffc587e91cdfe4ac59c900c782878c13d7"
+  },
+  "relevant_files": [
+    "/home/gutua/software-factory/giga-user/reports/DFI06_EXPANDED_COORDINATOR_STOP_CHECKPOINT_2026-07-24.md",
+    "/home/gutua/software-factory/giga-user/reports/DFI06_OPERATOR_SCOPE_RATIFICATION_2026-07-24.md",
+    "/home/gutua/software-factory/giga-user/reports/DFI06_EXPANDED_WORK_ORDER_2026-07-24.md",
+    "/home/gutua/software-factory/giga-user/reports/DFI06_SCOPE_ENTROPY_INTERVENTION_2026-07-24.md",
+    "/home/gutua/software-factory/.control/gigabyte-dfi06-dfi07-20260724/dfi06_full_suite.log",
+    "/home/gutua/software-factory/.control/gigabyte-dfi06-dfi07-20260724/dfi06_fullsuite_repair.stdout"
+  ]
+}

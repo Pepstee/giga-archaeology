@@ -201,8 +201,8 @@ datafication. Once friends are primarily treated as characters to rank, predict,
 analysis can replace encounter. Constant irony also makes unambiguous care unusually
 expensive. Definition's identified 2022–23 DM now shows that at least one Svinarnik
 relationship had considerably deeper bilateral history than the selected 2025 Telegram
-excerpts alone revealed. The native Telegram export remains absent, so later group dynamics
-still cannot be reconstructed completely.
+excerpts alone revealed. **Update, 22 Jul 2026:** the native Telegram export has now landed;
+later group dynamics still require a dedicated chronological and alias-reconciliation pass.
 
 ## Development over time
 
@@ -274,8 +274,10 @@ The genuine risk is subtler: **private relationships can gradually become group-
 other-initiated**. Serge and Allen have historically carried more of the reopening burden;
 Joel's relationship, previously led more by Artiom, has also tilted toward Joel recently.
 Group presence preserves familiarity but does not fully replace being individually chosen.
-Andrei cannot be measured comparably because Discord is one-sided and later Telegram appears
-only in selected pasted excerpts. The latest substantial retained two-sided example, on
+The earlier claim that Andrei could not be measured comparably is now obsolete: the 22 Jul
+native Telegram landing contains 49,990 bilateral records with him. A full reconciled pass is
+still required because Discord remains one-sided and aliases must be joined. The latest
+substantial previously retained two-sided example, on
 11 June 2026, is initiated by Andrei (“ну че челлоид”; then “ты не спился?”) before he brings
 his mother's visa problem (`corpus/transcripts/chatgpt_conversations_gpt2_2026.jsonl:12494`).
 It confirms active trust but does not support treating Bottle as the one friendship Artiom

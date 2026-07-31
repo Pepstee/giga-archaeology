@@ -31,6 +31,12 @@ verified surname. Source: Discord account export, channel `1007163133728657489`,
 2022-May 2026; messages `1041639927718363156`, `1055013925151842375`,
 `1055013939169218581`, `1197471267830378556`, `1220257386636251197`.
 
+Native Telegram correction (22 Jul 2026): overall evidenced ranking is Andrei/Bottle, Serge,
+Allen, Lino/Dima, Joel, Oleg, Definition/Anton. Lino is newly promoted by 11,363 bilateral
+Telegram records across 33 active months, apparent decade-long history, mutual disclosure,
+“best friend” language and plans for a possible first meeting; 1,349 forwards and the remote,
+politics/gaming-heavy register prevent raw volume from displacing the broader top three.
+
 Historical identity resolution (operator-calibrated 21 Jul 2026): Discord channel
 `1007192045523312662`, the deleted-participant DM with 16,422 outgoing messages from Aug
 2022-Jul 2023, is Definition / Anton from Svinarnik at high confidence. Internal evidence

@@ -8,15 +8,16 @@ from scripts.extract_discord import extract
 
 
 class DiscordExtractorTests(unittest.TestCase):
-    def make_export(self, root: Path) -> Path:
+    def make_export(self, root: Path, messages_root: str = "Messages") -> Path:
         package = root / "package.zip"
         with ZipFile(package, "w") as archive:
             archive.writestr("README.txt", "Discord export")
-            archive.writestr("Messages/index.json", json.dumps({"123": "Direct Message with X"}))
-            archive.writestr("Messages/c123/channel.json", json.dumps({
+            archive.writestr(f"{messages_root}/index.json",
+                             json.dumps({"123": "Direct Message with X"}))
+            archive.writestr(f"{messages_root}/c123/channel.json", json.dumps({
                 "id": "123", "type": "DM", "recipients": ["1", "2"]
             }))
-            archive.writestr("Messages/c123/messages.json", json.dumps([
+            archive.writestr(f"{messages_root}/c123/messages.json", json.dumps([
                 {"ID": 2, "Timestamp": "2023-01-02 03:04:05", "Contents": "hello",
                  "Attachments": ""},
                 {"ID": 1, "Timestamp": "2022-12-31 23:59:59", "Contents": "",
@@ -42,7 +43,22 @@ class DiscordExtractorTests(unittest.TestCase):
             self.assertEqual(rows[0]["composition_status"], "unverified")
             self.assertEqual(manifest["records"], 2)
             self.assertEqual(manifest["empty_content_records"], 1)
+            self.assertEqual(manifest["messages_root"], "Messages")
             self.assertFalse(manifest["direct_sft_authorised"])
+
+    def test_extracts_localised_messages_root(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            package = self.make_export(root, "Сообщения")
+            output = root / "messages.jsonl"
+            manifest_path = root / "manifest.json"
+            manifest = extract(package, output, manifest_path, "teen_vstee")
+            rows = [json.loads(line) for line in output.read_text().splitlines()]
+
+            self.assertEqual(len(rows), 2)
+            self.assertEqual(manifest["records"], 2)
+            self.assertEqual(manifest["messages_root"], "Сообщения")
+            self.assertTrue(rows[0]["archive_member"].startswith("Сообщения/"))
 
     def test_rejects_invalid_namespace(self):
         with tempfile.TemporaryDirectory() as folder:

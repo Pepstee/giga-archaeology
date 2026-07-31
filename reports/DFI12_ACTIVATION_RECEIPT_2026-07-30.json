@@ -1,0 +1,72 @@
+{
+  "schema": "giga.dfi12-activation-receipt.v1",
+  "recorded_at": "2026-07-30T18:32:23+09:00",
+  "operator_ratification": {
+    "path": "/home/gutua/software-factory/giga-user/reports/DFI12_OPERATOR_PEAK_RATIFICATION_2026-07-30.md",
+    "sha256": "02343880d3de9a558106678ed0b86ffd1372e8460699e97ec34d55a2b0a7a7cc",
+    "peak_statement_sha256": "1e452bed2767c8c9720d9a728efc56f50eaf6d3165e743127530358cd37e001e",
+    "threshold_statement_sha256": "305788d3d56b4fbc60019c8811cc5e45b640858349562f5d394dfdb321d87a49",
+    "normalization_disclosure": "The corrective message omitted only the leading I before ', the operator'; the immediately preceding refused message supplied it and every other term. The durable report preserves both facts and records the unambiguous combined correction.",
+    "temporary_programme_peak_net_cap": 5299,
+    "certified_cumulative_before_dfi12": 4649,
+    "dfi12_net_additions_max": 650,
+    "dfi12_gross_additions_max": 700,
+    "net_line_651": "hard-stop-for-fresh-adjudication",
+    "scope": "through DFI-12 post-commit certification only",
+    "reserved_cutover_retirement_minimum": 1979,
+    "reserved_retirement_claimed_now": 0,
+    "changes_other_authority": false
+  },
+  "conditional_admission": {
+    "gate_id": "DFI12-ADMISSION-DRAFT-20260730",
+    "packet_path": "/home/gutua/software-factory/.control/dfi11-codex-20260729/DFI12_ADMISSION_GATE_DRAFT_20260730.json",
+    "packet_sha256": "8adbaa1b9acd02c4df89473598be9940bd6c2f1f9fdfe54bd352ad00b9e96197",
+    "ruling_path": "/home/gutua/software-factory/.control/dfi11-codex-20260729/DFI12_ADMISSION_FABLE_RULING_20260730.json",
+    "ruling_sha256": "a02ecf55964c8d503f84826fd66e6ea19ad4fa127f1c9731534facd280c6c142",
+    "decision": "ADMIT_WITH_BINDINGS",
+    "conditional_authority_activated": true,
+    "architecture_or_admission_repeated": false
+  },
+  "base": {
+    "commit": "17d1b23bb617a2b775ba54a37747ed6dabee0b76",
+    "tree": "7a06cbd74e246e5fa51987bf7c8ccde179a88b19",
+    "branch_to_create": "di/dfi-12-delta-active",
+    "worktree_to_create": "/home/gutua/software-factory/.worktrees/orchestrator-v3-dfi-12",
+    "clean": true
+  },
+  "activated_quality_thresholds": {
+    "judge_token_reduction_minimum_percent": 25,
+    "measurement_scope": "delta-eligible subset",
+    "complete_telemetry_required": true,
+    "missing_telemetry": "fail",
+    "material_verdict_parity_percent": 100,
+    "material_finding_loss_maximum": 0
+  },
+  "architecture": {
+    "certificate_model": "separate-closed-delta-certificate-schema-plus-compact-current-projection",
+    "full_review_required_for": [
+      "first component certificate",
+      "typed scope expansion",
+      "integration policy boundary",
+      "every release"
+    ],
+    "frozen_paths": [
+      "agents/judge.py",
+      "control/workflow_compiler.py"
+    ],
+    "rollback": "route all semantic review to authoritative full mode without product source change"
+  },
+  "provider_budget": {
+    "pre_final_sonnet_review_max": 1,
+    "final_exact_source_fable_max": 1,
+    "failed_or_interrupted_calls_count": true,
+    "specialised_provider_calls_serialized": true
+  },
+  "forbidden_claims_preserved": [
+    "No delta-only release or integration certificate is authorised.",
+    "No production, STOP, service, daemon, epoch, JAA, push, canonical merge or deployment action is authorised.",
+    "No DFI-13 or later-stage mutation authority is granted.",
+    "No claim against the reserved >=1,979-line cutover retirement tranche is granted.",
+    "No modification of agents/judge.py or control/workflow_compiler.py is authorised."
+  ]
+}

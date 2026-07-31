@@ -1,0 +1,42 @@
+{
+  "schema": "giga.factory-migration-source-archives.v1",
+  "created_date": "2026-07-22",
+  "destination": "gutua@100.80.113.74:/home/gutua/software-factory/.archives-20260722",
+  "archives": [
+    {
+      "name": "agentic-orchestrator-20260722.tar.zst",
+      "bytes": 421470130,
+      "sha256": "a69336ada7915d68d6aff3f3dd9f47b8399fcd36a8aed8851f5d1e72661ae3a9",
+      "zstd_long_window": 30,
+      "entry_count": 210478
+    },
+    {
+      "name": "giga-user-no-exports-20260722.tar.zst",
+      "bytes": 570658297,
+      "sha256": "3e08f0f70783123eac8a513e45d00fee2ccca8b92a7cfdc59387b54154aeb893",
+      "zstd_long_window": 29,
+      "entry_count": 40704,
+      "excluded": [
+        "giga-user/corpus/",
+        "giga-user/package.zip",
+        "giga-user/instagram-artiom.png-2026-07-16-58GCGdnZ.zip",
+        "giga-user/1916b63abd801fbb5abf9b44f98d87a68ccd5db992b2a4d30567dd8a4ed29a85-2026-07-19-08-37-41-df72519dd898472489071b0441745ac3.zip"
+      ]
+    },
+    {
+      "name": "factory-user-control-layer-20260722.tar.zst",
+      "bytes": 117741180,
+      "sha256": "122bb1697d4057666f5e81627e937507434c75273990dd3c97cb59a88e84153a",
+      "zstd_long_window": null,
+      "entry_count": 2446,
+      "activation_policy": "Preserve all; activate portable rules and skills only. Plugin binaries remain an inactive snapshot."
+    },
+    {
+      "name": "factory-graphify-repos-20260722.tar.zst",
+      "bytes": 383167267,
+      "sha256": "f7ed88d3cc83294d85e1ced8da481140d24677b695bdaa8d5adce999989dcc61",
+      "zstd_long_window": 28,
+      "activation_policy": "Restore the external Graphify repository cache under the WSL user's home; project graph outputs remain in their project trees."
+    }
+  ]
+}

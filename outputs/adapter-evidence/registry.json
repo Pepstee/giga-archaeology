@@ -61,35 +61,247 @@
       ],
       "verification_state": "verified",
       "verified_at": "2026-07-22T15:30:22.556520+00:00"
+    },
+    {
+      "authority": "read-only",
+      "declared_state": "adapter-backed",
+      "effective_state": "adapter-backed",
+      "evidence": [
+        {
+          "bytes": 15499,
+          "path": "tests/test_scientific_evidence.py",
+          "sha256": "37ae9e6a657be9f48058201b02f256b2d061fb51d2abaee53e219c9583f29a37"
+        },
+        {
+          "bytes": 6669,
+          "path": "tests/test_scientific_campaign.py",
+          "sha256": "196a774facc6493b2b4efb101d6f8888843e8bde0c2084476a3afef9338df351"
+        },
+        {
+          "bytes": 29338,
+          "path": "tests/test_scientific_pipeline.py",
+          "sha256": "20ca640693db0c4e826c9dc25d4d3fc48ab3af1800d3b7fdc7c1ebcaab2d6a7d"
+        },
+        {
+          "bytes": 4778,
+          "path": "research/elicit/skin-texture/SENTINEL_SOURCES.md",
+          "sha256": "f2b296c621016d91e57748f69969d7be709cf203d731d84e01e66b2c34e3936c"
+        },
+        {
+          "bytes": 8102,
+          "path": "research/elicit/OFFLINE_VERIFICATION.json",
+          "sha256": "fde1a8d29aee3952289a99c7134939c62e462c3a386f6c32579e23a7ff133b5a"
+        },
+        {
+          "bytes": 3995,
+          "path": "research/elicit/skin-texture/deterministic-screening-final/SCREENING_SUMMARY.json",
+          "sha256": "f5226d4b15fa8e493d7be05b30ab21cfa9d804012f27117b6ee4fd1a36b8a1bb"
+        },
+        {
+          "bytes": 1238,
+          "path": "research/elicit/skin-texture/deterministic-screening-final/READINESS_REPORT.json",
+          "sha256": "ab77aa75dfa46e5bf63ef5d0498b797db27a03fd902be35c4f8505b416a2e144"
+        },
+        {
+          "bytes": 6233,
+          "path": "research/elicit/skin-texture/DETERMINISTIC_PIPELINE_REPORT.md",
+          "sha256": "5005f4b267b8f60bd2ba8e8000e0755454e2468a736f49e6cfd426221c5803b0"
+        },
+        {
+          "bytes": 4017,
+          "path": "research/elicit/skin-texture/compiled-full-results-2026-07-28-v4/SCREENING_SUMMARY.json",
+          "sha256": "29b4bcb11d782923b419e4f72c717bd307d3fcd2461893e29fc706b56beb2c37"
+        },
+        {
+          "bytes": 1239,
+          "path": "research/elicit/skin-texture/compiled-full-results-2026-07-28-v4/READINESS_REPORT.json",
+          "sha256": "a2f24714a27f23325ee6761766fa80c2b7b8f8f532f6fe384f3ec252bd274f0f"
+        },
+        {
+          "bytes": 6413,
+          "path": "research/elicit/skin-texture/COMPILED_RESEARCH_RUN_2026-07-28.md",
+          "sha256": "661c7edeefe007c935279121d382fee3368b7ed2487354bf2e74be1b537671db"
+        }
+      ],
+      "id": "scientific-evidence-public-providers",
+      "onramp": "python3 scripts/scientific_pipeline.py --help",
+      "owner": "giga-user",
+      "risk_notes": [
+        "Every provider result remains a third-party claim until source-specific human appraisal.",
+        "Campaigns are network-free dry runs unless --execute is explicitly supplied, and completed provider requests are skipped unless --refresh is explicitly supplied.",
+        "Official-host transport, contracts, persistence, and gates are offline-verified; Europe PMC, PubMed, ClinicalTrials.gov, and Crossref passed bounded live pilots, while other live providers retain explicit configuration or throttling caveats.",
+        "Unpaywall and Europe PMC resolve lawful open copies only; unavailable full text never silently satisfies full_text_verified.",
+        "Initial list processing is deterministic; fuzzy duplicate matches, ambiguous eligibility and every final screening decision retain explicit human boundaries.",
+        "LLM output is proposal-only, requires verbatim supplied spans and cannot transition the review ledger.",
+        "Search saturation rejects replayed snapshots and screening readiness fails closed when any required human or negative-control gate is absent.",
+        "Campaign replays skip completed acquisitions after transport interruption, but the current HTTP transport does not automatically retry an incomplete chunked response inside one process.",
+        "Passing every evidence gate grants A0 planning readiness only and never recommendation or execution authority.",
+        "Clinical candidates fail closed until clinician review is explicitly recorded."
+      ],
+      "source_docs": [
+        {
+          "bytes": 15005,
+          "path": "research/elicit/README.md",
+          "sha256": "0264df490ef1dcb107039164ffee64ff4c83e6736a6b3f461d90ebaccde91c71"
+        },
+        {
+          "bytes": 15731,
+          "path": "research/elicit/skin-texture/PROTOCOL.md",
+          "sha256": "ce6554e836c4a2a05d4fac83a13b7365d414da9853485e57f13520905217baf2"
+        }
+      ],
+      "supported_assets": [
+        {
+          "bytes": 58774,
+          "path": "twin_core/scientific_evidence.py",
+          "sha256": "5e2f8e47db4d64d8c941d8cfc24698bce784c0c7c073793f491eaf7bf67f2f37"
+        },
+        {
+          "bytes": 40670,
+          "path": "twin_core/scientific_providers.py",
+          "sha256": "9b46b7480656388632a3ac057436d4fc22319a8e098fc1b486b62e8a5ef59630"
+        },
+        {
+          "bytes": 15673,
+          "path": "twin_core/scientific_evidence_cli.py",
+          "sha256": "dd710e8485cd1dac89cbd5b044a1f6299cb01e44adc51545d983f59c745b1e37"
+        },
+        {
+          "bytes": 17814,
+          "path": "twin_core/scientific_campaign.py",
+          "sha256": "0cdf0a5406ad895cbdf7117f31030532dd96c4c189628a77e3fd817c3fc4cea2"
+        },
+        {
+          "bytes": 18734,
+          "path": "twin_core/scientific_query_compiler.py",
+          "sha256": "236d8cf29f5c8265e5833637b0da85e4cee0278cda3477b618e513a114664c48"
+        },
+        {
+          "bytes": 58618,
+          "path": "twin_core/scientific_screening.py",
+          "sha256": "dd7c5767b26688b19265cf073a6a39d88a82c129b1f16ff332a2f37e367de5b4"
+        },
+        {
+          "bytes": 11581,
+          "path": "twin_core/scientific_fulltext.py",
+          "sha256": "adc4eace2b1969fd95655019e8c37a789ae8c899ec530963de030a276572b0b1"
+        },
+        {
+          "bytes": 31971,
+          "path": "twin_core/scientific_review_state.py",
+          "sha256": "62b79c899c63cf6d8aebb442ea17755fd4e7534e2209cce170914f48052d9d18"
+        },
+        {
+          "bytes": 5934,
+          "path": "twin_core/scientific_saturation.py",
+          "sha256": "779b4d3f229a69ea9e78b75239739b7966b45f98208a6f2b7980d2946ea50f62"
+        },
+        {
+          "bytes": 4002,
+          "path": "twin_core/scientific_readiness.py",
+          "sha256": "59b34d80e4c65c93cc53b649600621bfdf153c2eb45768af9eee6d14504d7e45"
+        },
+        {
+          "bytes": 19850,
+          "path": "twin_core/scientific_pipeline_cli.py",
+          "sha256": "73e5587e9659cce9b32aae53d17db6380e2419d335c8e98f647780735d60318e"
+        },
+        {
+          "bytes": 359,
+          "path": "scripts/scientific_evidence.py",
+          "sha256": "8c78d3ba5e86d872fb9f1694b8131c6bfb568ff8d378bf60acf1fb6bd18ca912"
+        },
+        {
+          "bytes": 3538,
+          "path": "scripts/run_scientific_campaign.py",
+          "sha256": "307f9c161e2395661c33936032ae19fb8cb8a84643176b5918fa2b5fb349261a"
+        },
+        {
+          "bytes": 358,
+          "path": "scripts/elicit_evidence.py",
+          "sha256": "66cf8cc41163d24dc19e97d9db40d8d144b66338dc5d2fa0be2b4d3a2897fb13"
+        },
+        {
+          "bytes": 2468,
+          "path": "scripts/run_elicit_campaign.py",
+          "sha256": "b5e4573529babbe3e3a3e43b1993934aa92fbec0f8809d56dd15dbe1e4c750fd"
+        },
+        {
+          "bytes": 361,
+          "path": "scripts/scientific_pipeline.py",
+          "sha256": "a3c4386d51cbe96c7ecc9590d7a8cc43194d08eda67f34af0719b5cc6552985a"
+        },
+        {
+          "bytes": 2403,
+          "path": "contracts/scientific-appraisal.v1.schema.json",
+          "sha256": "abbec328a09178f16deeb54d79c87aa50ecd13d868b2ff2d049fe173ee2511ec"
+        },
+        {
+          "bytes": 2028,
+          "path": "contracts/scientific-action-candidate.v1.schema.json",
+          "sha256": "982d8cf02dcf150cab3466246e857d908b951797b89dbcdc87112ed07c5ef95c"
+        },
+        {
+          "bytes": 1619,
+          "path": "contracts/scientific-llm-eligibility-proposal.v1.schema.json",
+          "sha256": "3f4c7f7d2fe08a7ec5e5fea3746951201d8b6218d8d0f80abb56186bbc8fc941"
+        },
+        {
+          "bytes": 1694,
+          "path": "contracts/scientific-search-ontology.v1.schema.json",
+          "sha256": "ba42392fbbe9baa3106c8c121c3af7d4a12295cefbf31dbce970a0f19cc2d809"
+        }
+      ],
+      "unsupported_surfaces": [
+        "paid Elicit workflows unless ELICIT_API_KEY is separately configured",
+        "Sci-Hub, Z-Library, paywall bypass, credential sharing, or copyright circumvention",
+        "medical recommendation authority",
+        "autonomous clinical or lifestyle execution",
+        "direct writes to the personal-memory source of truth",
+        "unreviewed provider metadata or extraction treated as scientific fact"
+      ],
+      "verification_commands": [
+        "python3 -m py_compile twin_core/scientific_evidence.py twin_core/scientific_providers.py twin_core/scientific_evidence_cli.py twin_core/scientific_campaign.py twin_core/scientific_query_compiler.py twin_core/scientific_screening.py twin_core/scientific_fulltext.py twin_core/scientific_review_state.py twin_core/scientific_saturation.py twin_core/scientific_readiness.py twin_core/scientific_pipeline_cli.py scripts/scientific_evidence.py scripts/run_scientific_campaign.py scripts/elicit_evidence.py scripts/run_elicit_campaign.py scripts/scientific_pipeline.py",
+        "ruff check twin_core/scientific_evidence.py twin_core/scientific_providers.py twin_core/scientific_evidence_cli.py twin_core/scientific_campaign.py twin_core/scientific_query_compiler.py twin_core/scientific_screening.py twin_core/scientific_fulltext.py twin_core/scientific_review_state.py twin_core/scientific_saturation.py twin_core/scientific_readiness.py twin_core/scientific_pipeline_cli.py scripts/scientific_evidence.py scripts/run_scientific_campaign.py scripts/elicit_evidence.py scripts/run_elicit_campaign.py scripts/scientific_pipeline.py tests/test_scientific_evidence.py tests/test_scientific_campaign.py tests/test_scientific_providers.py tests/test_scientific_pipeline.py",
+        "python3 -m pytest -q tests/test_scientific_evidence.py",
+        "python3 -m pytest -q tests/test_scientific_campaign.py",
+        "python3 -m pytest -q tests/test_scientific_providers.py",
+        "python3 -m pytest -q tests/test_scientific_pipeline.py",
+        "python3 -m pytest -q tests",
+        "python3 scripts/run_scientific_campaign.py research/elicit/skin-texture/CAMPAIGN.json --phase 1 --max-requests 2",
+        "python3 scripts/scientific_evidence.py --database /tmp/giga-scientific-smoke.sqlite3 audit"
+      ],
+      "verification_state": "verified",
+      "verified_at": "2026-07-28T17:59:49Z"
     }
   ],
   "authority": "read-only-evidence",
   "authority_granted": false,
   "command_execution": false,
-  "observed_at": "2026-07-22T16:25:19.739781+00:00",
+  "observed_at": "2026-07-28T17:59:49Z",
   "schema_version": "giga.adapter-registry.v1",
   "summary": {
     "authorities": {
       "bounded-write": 0,
       "proposal-only": 0,
-      "read-only": 1
+      "read-only": 2
     },
     "declared_states": {
-      "adapter-backed": 0,
+      "adapter-backed": 1,
       "instruction-backed": 0,
       "native": 1,
       "reference-only": 0
     },
     "effective_states": {
-      "adapter-backed": 0,
+      "adapter-backed": 1,
       "instruction-backed": 0,
       "native": 1,
       "reference-only": 0
     },
-    "total": 1,
+    "total": 2,
     "verification_states": {
       "stale": 0,
-      "verified": 1
+      "verified": 2
     }
   }
 }

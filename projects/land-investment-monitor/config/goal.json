@@ -1,0 +1,47 @@
+{
+  "raw_text": "Ищу от 20 соток, лучше 30+, до 7 млн рублей. ИЖС, без обязательных взносов. Две выборки: природа у воды с дубами или лиственницами и безопасность рядом с D4. Считать путь до Москва, улица Смоленская, 10. Красный статус — если цена за сотку на 20% ниже локальной медианы в радиусе 1 км.",
+  "pools": [
+    "Природа",
+    "Безопасность"
+  ],
+  "locations": [
+    "Истринское водохранилище",
+    "Алёхново",
+    "Лыщево",
+    "Лопотово",
+    "Новораково",
+    "Мичуринец",
+    "Переделкино",
+    "D4"
+  ],
+  "min_area_sotki": 20.0,
+  "ideal_area_sotki": 30.0,
+  "max_budget_rub": 7000000.0,
+  "allowed_land_categories": [
+    "ИЖС"
+  ],
+  "exclude_mandatory_fees": true,
+  "underpricing_red_threshold": 0.2,
+  "cluster_anomaly_threshold": 0.25,
+  "comparable_radius_km": 1.0,
+  "future_growth_bonus_radius_km": 1.0,
+  "adverse_exclusion_radius_km": 0.5,
+  "target_address": "Москва, улица Смоленская, 10",
+  "target_lat": 55.7477,
+  "target_lon": 37.5822,
+  "soul_weights": {
+    "price": 0.25,
+    "water": 0.25,
+    "trees": 0.2,
+    "area": 0.15,
+    "access_and_utilities": 0.15
+  },
+  "investment_weights": {
+    "undervaluation": 0.5,
+    "cadastral_discount": 0.15,
+    "urgency": 0.1,
+    "poor_presentation": 0.1,
+    "future_growth": 0.15
+  }
+}
+

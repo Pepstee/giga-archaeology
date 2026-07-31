@@ -13,9 +13,10 @@ database writer.
 - Mutable databases: `/home/gutua/giga/shared/market-aligner`
 - Private giga-user corpus: `/home/gutua/giga/giga-user`
 - Health snapshot: `/home/gutua/giga/health/status.json`
-- Automated database snapshots: `/home/gutua/giga/backups/market-aligner`
+- Automated database snapshots: `/home/gutua/giga/backups/daily`
+- Manual cutover/probe snapshots: `/home/gutua/giga/backups/market-aligner`
 - Preserved v2 cold standby: `/home/gutua/cold-standby/orchestrator-v2-20260722T120000Z`
-- Preserved Mac JAA worktrees: `/home/gutua/giga/archives/jaa-mac-worktrees-20260722`
+- Preserved Mac JAA worktrees: `/home/gutua/giga/archives/jaa-mac-worktrees-20260722.tar.gz`
 
 Do not develop JAA independently on the Mac after cutover. Bring changes back
 with Git, or perform an explicit quiesce/snapshot/reverse-handoff. Never allow
@@ -31,6 +32,16 @@ giga-database-backup.timer           online SQLite snapshots with retention
 giga-health.timer                    compact health JSON
 ```
 
+The active Codex CLI is `0.145.0`; `0.139.0` was the pre-cutover version and
+can be restored with `npm install -g @openai/codex@0.139.0` if the newer CLI
+itself regresses. The Linux Bubblewrap receipt must be regenerated after any
+orchestrator isolation/runner/manifest change:
+
+```bash
+cd /home/gutua/giga/orchestrator-v3
+.venv/bin/python -m dispatch.isolation certify --root "$PWD"
+```
+
 Inspect them from WSL:
 
 ```bash
@@ -41,8 +52,9 @@ journalctl -u market-aligner-collector.service -n 100 --no-pager
 ```
 
 The units restart failed long-running processes automatically. Systemd journal
-retention supplies log rotation. The Windows scheduled task starts Ubuntu/WSL
-after login, and Windows AC sleep/hibernate are disabled.
+retention is capped at 1 GiB persistent / 256 MiB runtime with a 30-day maximum.
+The Windows scheduled task starts Ubuntu/WSL after login; Windows AC
+sleep/hibernate and the AC lid-close sleep action are disabled.
 
 ## Safe pause and resume
 
@@ -87,4 +99,3 @@ remains untouched at `/home/gutua/agentic-orchestrator`, with an independently
 verified snapshot and Git bundle in the cold-standby directory above. Restore
 v2 manually only after confirming v3 is stopped; never run both factories
 against the same project or state.
-

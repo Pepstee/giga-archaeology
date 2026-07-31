@@ -1,0 +1,134 @@
+{
+  "blockers": [
+    {
+      "evidence": {
+        "staged_patch_bytes": 0,
+        "tracked_patch_bytes": 90992,
+        "untracked_count": 561
+      },
+      "id": "DIRTY_WORKTREE_UNPROMOTABLE",
+      "blocks_root_movement": true,
+      "gate_scope": "root-movement-and-promotion",
+      "prevents": "structural moves, deletion, release, or deployment promotion",
+      "severity": "critical"
+    },
+    {
+      "evidence": {
+        "stable_during_capture": true
+      },
+      "id": "SEAL_CAPTURE_UNSTABLE",
+      "blocks_root_movement": true,
+      "gate_scope": "root-movement-integrity",
+      "prevents": "claiming this seal is a single coherent filesystem instant",
+      "severity": "cleared"
+    },
+    {
+      "evidence": {
+        "lockfiles": [],
+        "pyproject_exists": false
+      },
+      "id": "NO_ROOT_PACKAGE_LOCK",
+      "blocks_root_movement": false,
+      "gate_scope": "packaging-and-installation",
+      "prevents": "reproducible installation and one canonical command surface",
+      "severity": "high"
+    },
+    {
+      "evidence": {
+        "candidate": "staging/schema-v3-candidate/twin_core/schema_v3.py",
+        "live_store": "twin_core/store.py"
+      },
+      "id": "SCHEMA_V3_SHADOW_FORK",
+      "blocks_root_movement": false,
+      "gate_scope": "trust-kernel-schema-activation",
+      "prevents": "declaring one trust-kernel schema authority",
+      "severity": "high"
+    },
+    {
+      "evidence": [
+        "deploy/launchd/com.artiom.daily-personal-knowledge.plist",
+        "scripts/run_daily_personal_knowledge.sh",
+        "scripts/jarvis_telegram.py"
+      ],
+      "id": "COMPETING_DAILY_CLOCKS",
+      "blocks_root_movement": false,
+      "gate_scope": "daily-memory-scheduler-activation",
+      "prevents": "safe unattended activation without duplicate-run analysis",
+      "severity": "high"
+    },
+    {
+      "evidence": [
+        "market-aligner/scripts/collect_uk_jobs.py",
+        "market-aligner/scripts/process_collected_jobs.py",
+        "market-aligner/skeleton/config.overnight.yaml"
+      ],
+      "id": "GUTUA_SERVICE_TARGETS_MISSING_LOCALLY",
+      "blocks_root_movement": false,
+      "gate_scope": "market-aligner-gutua-service-certification",
+      "prevents": "certifying checked-in Market Aligner services from this tree",
+      "severity": "high"
+    },
+    {
+      "evidence": {
+        "absolute_reference_count": 667,
+        "hosts": [
+          "/Users/admin",
+          "/home/gutua"
+        ]
+      },
+      "id": "HOST_ABSOLUTE_PATH_DRIFT",
+      "blocks_root_movement": false,
+      "gate_scope": "cross-host-deployment",
+      "prevents": "portable Mac/Gutua deployment without a host-profile compiler",
+      "severity": "high"
+    },
+    {
+      "evidence": "deploy/gutua/codex_review_gate.py:83-85",
+      "id": "REVIEW_GATE_HAS_WRITE_AUTHORITY",
+      "blocks_root_movement": false,
+      "gate_scope": "review-evidence-release-certification",
+      "prevents": "treating review evidence as mutation-free",
+      "severity": "high"
+    },
+    {
+      "evidence": [
+        "twin_core/cross_service_monitor.py",
+        "deploy/gutua/runtime_health.py",
+        "twin_core/operator_status.py"
+      ],
+      "id": "TELEMETRY_SCHEMA_SPLIT",
+      "blocks_root_movement": false,
+      "gate_scope": "cross-host-operator-status-activation",
+      "prevents": "one cross-host operator-status feed",
+      "severity": "medium"
+    },
+    {
+      "evidence": {
+        "repository_skill_count": 2,
+        "routing_metadata": [
+          "/Users/admin/Documents/giga-user/AGENTS.md",
+          "/Users/admin/.codex/skills/skill-router/references/installed-skills.json"
+        ]
+      },
+      "id": "SKILL_SOURCE_NOT_ACTIVATION",
+      "blocks_root_movement": false,
+      "gate_scope": "specialised-skills-activation",
+      "prevents": "claiming deploy/skills is a first-class installed skills module",
+      "severity": "high"
+    },
+    {
+      "evidence": [
+        "/Users/admin/Documents/giga-user/deploy/skills/librarian/SKILL.md",
+        "/Users/admin/Documents/giga-user/deploy/skills/skilltree-operator/SKILL.md"
+      ],
+      "id": "SKILL_BUNDLES_UNPINNED",
+      "blocks_root_movement": false,
+      "gate_scope": "specialised-skills-promotion-and-rollback",
+      "prevents": "cache-safe activation, rollback, and reproducible promotion",
+      "severity": "high"
+    }
+  ],
+  "generated_at": "2026-07-30T15:05:58.202451+00:00",
+  "policy": "Fail closed per affected operation. Only an uncleared blocker with blocks_root_movement=true blocks structural root movement. Other findings block only their named activation, certification, deployment, packaging, or release lane and may be preserved through structural migration as explicit unresolved debt.",
+  "schema": "giga.modularization-executable-preflight.v1.start-prevention"
+}

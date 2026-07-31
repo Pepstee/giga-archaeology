@@ -1,0 +1,16 @@
+[Unit]
+Description=GIGA JAA-06 isolated preparation lane
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/gutua/software-factory/.worktrees/jaa06-prep-20260728
+Environment=PATH=/home/gutua/software-factory/.control/native-dual-lane-20260726/bin:/home/gutua/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/gutua/software-factory/giga-user/deploy/gutua/dual_lane_20260728/run_jaa_auxiliary_lane.sh jaa06-preparation /home/gutua/software-factory/.worktrees/jaa06-prep-20260728 /home/gutua/software-factory/giga-user/deploy/gutua/dual_lane_20260728/jaa06_preparation_prompt.md /home/gutua/software-factory/.control/jaa06-preparation-20260728 894484336111913ea728985f13e1dbfed35448fd 10800
+TimeoutStopSec=120
+KillMode=mixed
+Nice=8
+
+[Install]
+WantedBy=default.target

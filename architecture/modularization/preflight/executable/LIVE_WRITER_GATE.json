@@ -1,0 +1,20 @@
+{
+  "schema": "giga.modularization.live-writer-gate.v1",
+  "captured_at": "2026-07-31T03:34:56.006582+00:00",
+  "repository_root": "/Users/admin/Documents/giga-user",
+  "host": "Artioms-MacBook-Air.local",
+  "platform": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+  "root_inode": 6277911,
+  "git_head": "82cb47ef82d6973c08513686bcca6ed0469418a7",
+  "git_branch": "codex/giga-modularization-20260731",
+  "worktree_allowlist_sha256": "5d691b0fc1a7038a774933aa93c835b8abc6e1dd81f18142f9ae73143a703fdd",
+  "repo_bound_processes": [],
+  "possibly_related_launchd_jobs": [],
+  "ready_for_root_move": true,
+  "decision": "pass-no-repository-bound-writers-observed",
+  "limitations": [
+    "This is a point-in-time observation, not a persistent filesystem fence.",
+    "Possibly related launchd labels are not treated as writers without a repository-bound command.",
+    "The root-move lock and an immediate second process check remain mandatory."
+  ]
+}

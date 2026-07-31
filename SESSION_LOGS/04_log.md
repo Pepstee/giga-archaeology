@@ -167,7 +167,8 @@
 
 - A historical plaintext Instagram credential was observed in raw conversation history. Rotate it and stop any reuse. Raw exports are immutable provenance; do not copy secrets into derived artefacts or memory.
 - The supplied Revolut statement revises the financial premise: visible closing holdings are about £124,000, approximately 90% BTC. This is runway, not verified earned income. It also requires private, coherent transaction and tax documentation; the report links official HMRC record-keeping guidance.
-- The corpus still lacks Telegram, Gmail, and texts. Discord has now landed but is one-sided.
+- At the time of that finding, the corpus still lacked Telegram, Gmail, and texts. Telegram
+  subsequently landed on 22 Jul; Gmail and texts remain absent. Discord remains one-sided.
   The second ChatGPT account closes much of the 2026 conversational gap through 19 July, but
   provider exports still overrepresent prompted concerns and cannot establish unrecorded life.
   The report makes no claim of complete personal-history coverage.
@@ -218,10 +219,68 @@
   Serge and Allen, and only one of five Joel sessions in the final 30 export-days, but remained
   active with 175 Brotein Shake messages in the same period. The present risk is private
   friendships becoming group-only or other-initiated, not wholesale social disappearance.
-- Bottle cannot be treated as the sole non-neglected friend from retained data: post-2024
-  Telegram is incomplete, and the latest substantial two-sided excerpt (11 Jun 2026) is
-  reopened by Andrei before he discloses his mother's visa problem. This proves current trust,
-  not that Artiom carries the maintenance burden.
+- Bottle could not be treated as the sole non-neglected friend from the evidence available on
+  21 Jul. The full Telegram landing now supersedes that absence and requires recalculation.
+
+## Native Telegram landing (22 Jul 2026)
+
+- Read and hash-verified the root Telegram Desktop JSON export without changing it. Added
+  `scripts/extract_telegram.py` and focused tests, producing a canonical 99,411-record two-sided
+  JSONL view with zero invalid records and retained reply/forward/edit/reaction/media provenance.
+- Recorded the source and derived hashes, date span, direction counts, privacy boundary and
+  training prohibition in `corpus/MANIFEST.md` and the adjacent machine-readable manifest.
+- Wrote `reports/telegram-first-read-2026-07-22.md`. The first pass establishes Andrei/Bottle as
+  49,990 bilateral records (50.29% of the export), followed by Serjo, Lino, Elena and Allen, while
+  explicitly refusing to convert volume directly into closeness.
+- A rough recent session-initiation check corrects the blanket neglect hypothesis: after 72-hour
+  gaps in the final three months, Artiom reopened more Andrei and Allen sessions, while Serjo and
+  Joel remained more other-initiated. A relationship-specific event graph is now required.
+- Marked prior “native Telegram absent” caveats as obsolete but did not silently rewrite the
+  closest-friends ranking before full alias reconciliation and chronological relationship review.
+- Fine-tuning remains unauthorised. The corpus includes forwards, long pasted/generated candidates,
+  third-party identities, financial/family material and potentially secret-bearing historical URLs.
+
+## Post-Telegram friendship ranking (22 Jul 2026)
+
+- Re-ranked the friendship network using continuity, reciprocity, disclosure, embodied/shared
+  life, maintenance and present relevance rather than Telegram volume alone.
+- Overall order: Andrei/Bottle, Serge, Allen, Lino/Dima, Joel, Oleg, Definition/Anton.
+- Lino is the material new finding: 11,363 bilateral Telegram records across 33 active months,
+  apparent decade-long history, “best friend” language and possible first-meeting plans. He is
+  held below the cross-platform top three because 1,349 messages are forwards and the bond is
+  remote and heavily politics/gaming-mediated.
+- Wrote `reports/closest-friends-ranking-post-telegram-2026-07-22.md` and updated the evidence
+  map and durable social-circle memory. Fourth versus fifth remains criterion-sensitive:
+  Lino wins duration/density; Joel wins embodied present/future construction.
+
+## Operator calibration required
+
+## Moongazing/Yana native Telegram review (22 Jul 2026)
+
+- Resolved Moongazing as Yana and reconstructed the May–August 2024 post-breakup reconnection
+  from 2,681 bilateral Telegram messages across 41 active days.
+- Wrote `retrospectives/moongazing-yana-2024-reconnection-review.md` and added a native-export
+  correction to the original 2023 Yana evidence review.
+- The 2023 relationship remains best classified as mutually destructive incompatibility. The
+  2024 reconnection is more asymmetrical: Yana repeatedly pursued clarity and closeness; Artiom
+  controlled distance, escalated affectionate/sexual framing and later admitted knowing that she
+  did not understand his instrumental objective.
+- Preserved the distinction between Yana's pressure/reassurance demands, her substantially accurate
+  reading of the 2024 contradiction, and Artiom's later self-reported motives. Insight in 2026 is
+  not treated as retroactive repair.
+
+## Operator calibration required
+
+## Friendship maintenance plan (22 Jul 2026)
+
+- Converted the post-Telegram ranking into a relationship-specific plan in
+  `reports/friendship-maintenance-plan-2026-07-22.md`.
+- The shared mechanism is private initiative + shared reality + remembered follow-up + mutual
+  disclosure. The shared prohibition is treating friends as projects, rankings or AI-analysis
+  subjects.
+- Immediate priorities: choose Serge privately; let Joel lead an activity; turn Lino's imagined
+  reunion into a feasibility call; combine craft with present-life contact for Allen. Preserve
+  equality with Andrei; reconnect with Oleg and Definition only from genuine reciprocal interest.
 
 ## Operator calibration required
 
@@ -234,3 +293,49 @@
 
 - Session 05 should use the evaluator's explicit limits: keyword counts are review queues, not scores of character or correctness.
 - Session 03/Gmail or a later security session should establish an access-controlled remediation workflow for secret-bearing historical exports.
+
+## Teen Discord, unified memory and local LoRA pass (26 Jul 2026)
+
+- Preserved `package(1).zip` as immutable provenance and extracted 248,752 account-sent
+  records under the `teen_vstee` namespace. The archive's populated core is 2020–21; the
+  account-sent-only boundary means it supports chronology and style, not fabricated reply
+  supervision.
+- Added the full two-sided Instagram normalisation and built
+  `corpus/derived/unified_memory_20260726.sqlite3`: 532,274 observations, 5,176 threads,
+  23,702 deterministic 12-hour episodes and 92 months. The database exposes Tier-1 evidence,
+  Tier-2 episodes and 28 operator-review Tier-3 hypotheses linked by 103 exact evidence edges.
+  Originals were not modified.
+- Corrected the Sneg/Sasha record from the newly available original thread. It includes the
+  25 May 2022 possible-death statement, the 13 July birthday message and the 3 August
+  guilt/withdrawal sequence. This supersedes claims that the original exchange was absent and
+  makes “she simply betrayed/ghosted him” an incomplete account.
+- Added deterministic longitudinal signals and three evidence reports:
+  `teen-discord-2018-2022-developmental-analysis.md`,
+  `unified-characterisation-2018-2026.md` and
+  `sneg-sasha-original-thread-addendum.md`. Strongest documented acute crisis is now
+  25 May 2022; strongest global self-condemnation remains 2–3 December 2025; strongest
+  documented happiness remains 24–25 April 2026.
+- Prepared separate, leakage-controlled local datasets:
+  21,346/319/1,849 current two-sided speech examples and 6,983/299/591
+  model-answer→operator-steering examples. Historical one-sided Discord remains excluded from
+  paired SFT.
+- Began explicitly authorised local MLX LoRA experiments on
+  `mlx-community/Qwen2.5-3B-Instruct-4bit`. A batch-4/2,048-token speech configuration was
+  stopped after `nan` loss and a 27.036 GB peak, with failure evidence retained. The safe
+  batch-2/1,024-token replacement produced a validation-selected iteration-200 speech adapter:
+  locked-test loss 2.973 versus base 6.311. It transfers brevity and natural reply style but
+  failed an epistemic boundary by inventing an unspecified deployment cause.
+- The separate 2,048-token reasoning-steering run was deterministically replayed to its
+  validation-best iteration 100: locked-test loss 3.113 versus base 5.833. It learned terse
+  questioning/correction cadence, but failed precise missing-evidence and destructive-scope
+  cases. It is retained as a research artefact, not a thinking clone or promotion candidate.
+- All adapter weights, failed/early-stopped histories, locked-test hashes, synthetic
+  base-versus-adapter outputs and manual reviews are preserved locally with owner-only
+  permissions. No corpus or adapter was uploaded.
+
+### Remaining Session 04 gates
+
+1. Obtain operator calibration on the 28 Tier-3 hypotheses and record the discard rate.
+2. Blind-rank the speech adapter in relationship-specific modes before any promotion.
+3. Build true task→operator-answer or explicit chosen/rejected reasoning supervision before
+   attempting a second reasoning model; next-turn critique alone is insufficient.

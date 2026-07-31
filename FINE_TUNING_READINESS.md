@@ -1,8 +1,9 @@
 # Virtual Artiom — Fine-tuning Readiness
 
-**Status:** ingestion and dataset preparation are ready; model training is **not yet
-authorised**.  
-**Trigger:** Discord landed 19 Jul 2026; the isolated second ChatGPT export landed and completed chronological review on 20 Jul 2026.  
+**Status:** two strictly local experimental runs were authorised by the operator on
+26 July 2026; **promotion remains blocked** pending held-out behavioural and privacy review.
+**Trigger:** both Discord accounts, Telegram, full two-sided Instagram, Claude and both
+ChatGPT accounts are now unified in the provenance-bearing memory database.
 **Objective:** make each arrival a deterministic import into versioned candidate datasets,
 then train only after privacy, mode, leakage and evaluation gates pass.
 
@@ -40,6 +41,51 @@ Copy `corpus/training/mode_map.template.json` to a private reviewed map and pass
 general-casual adapter from intimate correspondence.
 
 ## What is ready now
+
+### 26 July experimental datasets and runs
+
+The operator explicitly directed the system to plan and proceed with LoRA tuning. That
+authorises local experimentation on the exact manifests below; it does not waive privacy,
+semantic-boundary or promotion gates.
+
+`scripts/prepare_persona_lora.py` creates two non-interchangeable datasets directly from the
+read-only unified evidence layer:
+
+| Dataset | Train | Valid | Locked test | Quarantine | Semantic boundary |
+|---|---:|---:|---:|---:|---|
+| `speech-current-experimental-v1` | 21,346 | 319 | 1,849 | 7 | Real third-party→Artiom Telegram/Instagram reply bursts |
+| `reasoning-steering-experimental-v1` | 6,983 | 299 | 591 | 680 | Model answer→Artiom critique/refinement/next instruction |
+
+The speech test SHA-256 is
+`76edb90d6b8236d3bb47aca083c35f211ae729cc778535bc38085feefcf70a11`.
+The reasoning test SHA-256 is
+`77cafdaea09a5dd3d7c54cf2163460290aacf24506f220fdd541c2cb95a43e3c`.
+Neither test file enters training.
+
+The preparation pass removes exact duplicates, rejects runtime-injection wrappers, screens
+credentials, code and logs, and quarantines any operator-labelled target that exactly matches
+a model-authored message elsewhere in the unified corpus. This last check addresses the
+provider-role failure where pasted AI output is technically stored as a human turn.
+
+The base is the locally cached `mlx-community/Qwen2.5-3B-Instruct-4bit`. Training uses MLX,
+LoRA over 16 layers, prompt masking and local-private data. The runs are separate adapters so
+casual speech and reasoning-steering cannot silently define one undifferentiated persona.
+See `corpus/training/LORA_PLAN_AND_RUN_20260726.md` for immutable commands and results.
+
+The validation-selected speech checkpoint is
+`corpus/training/adapters/speech-current-experimental-v1a-best-0200/`. On the same 50 locked
+test batches it reduced loss from 6.311 (base) to 2.973. Synthetic evaluation confirms much
+shorter, more natural Russian/English replies and no disclosure on a privacy canary, but it
+also invented an unspecified CI/CD cause in a professional boundary test. This is useful
+evidence that voice transfer worked and equally useful evidence that promotion has not.
+
+The reasoning-steering checkpoint is
+`corpus/training/adapters/reasoning-steering-experimental-v1-best-0100/`. A seeded replay
+reproduced the validation-best iteration exactly and reduced 50-batch locked-test loss from
+5.833 to 3.113. Behaviourally, however, it learned terse questioning more successfully than
+evidence-sensitive reasoning: it missed the repository/run-log request and responded to
+unauthorised deletion with an irrelevant user-count question. It therefore failed the current
+reasoning-promotion suite and is only a research artefact for correction cadence.
 
 ### Versioned pair preparation
 
@@ -106,6 +152,15 @@ training candidate dataset. Discord proves that the account sent a message, not 
 composed it: the export visibly contains copypasta, forwarded messages, lesson material,
 commands, documents and AI-formatted output. Every record is therefore marked
 `composition_status: unverified` pending function/authorship triage.
+
+The old/teen account subsequently landed as `package(1).zip` (SHA-256
+`c9396462fb02dbb4ed75161582c0c9d07c707dcb597d0613291754850cceef4f`). A
+Russian-localised structural extraction produced 248,752 account-sent records across 485
+populated channels, spanning 25 June 2018 to 29 May 2026 and overwhelmingly concentrated in
+2019–22. Its 240,253 text-bearing records include 66,579 normalised duplicate excess and three
+possible-credential candidates. The same one-sided and composition-unverified limits apply.
+It has therefore informed developmental chronology and speech-pattern analysis but remains
+excluded from contextual reply SFT.
 
 ### Second ChatGPT export landed and isolated
 
@@ -256,22 +311,24 @@ Every run records:
 
 Adapters are append-only versions. Never overwrite a promoted or rejected adapter.
 
-## Current blockers to training
+## Current blockers to promotion
 
-1. Private thread→mode mapping has not been completed.
-2. The reasoning candidates have not been quality-curated; many are extremely long and some
-   targets are pasted code rather than operator reasoning.
-3. Discord composition/function triage is incomplete; 19 possible credential-bearing texts
-   remain quarantinable and 13,588 duplicate excess cannot define style.
-4. Locked multi-mode evaluations do not yet exist.
-5. The previous `casual-v0` scheduled run produced no adapter; its log stops after prefetch and
-   sleep. It is not a baseline result.
-6. Base model and training method should be selected only after the combined source mix and
-   evaluation lengths are known. The local MLX LoRA path remains available, not ratified.
+1. The speech adapter deliberately uses a mixed-private experimental mode. A private
+   operator-reviewed thread→mode map is still required before a general-casual adapter can be
+   promoted.
+2. Discord remains style-only and is not in either reply-supervision dataset. Historical
+   causal-style training still needs composition/function triage and era conditioning.
+3. Locked automatic loss evaluation exists, but blind operator ranking across general,
+   intimate, group and work registers remains outstanding.
+4. Privacy canaries, memorisation checks, register-routing tests and current-fact
+   memory-separation tests must pass.
+5. The adapter must beat the same base model with charter/context/retrieval, not merely the
+   unprompted base.
+6. Reasoning-steering may only be described as learning operator reactions to model output.
+   It cannot be promoted or marketed as a clone of independent hidden reasoning.
 
 ## Definition of ready
 
-When the two sources arrive, GIGA is operationally ready if their import requires no new data
-model or ad-hoc split logic. It is ready to **train** only when G0–G5 are recorded as PASS and
-the chosen dataset manifest changes from `training_authorised: false` to an operator-reviewed
-signed decision.
+GIGA is now operationally ready to ingest, build evidence, and run local experimental LoRA
+training without ad-hoc source rewriting. It is ready to **promote** an adapter only when the
+remaining G3–G5 behavioural, mode, privacy and baseline comparisons are recorded as PASS.

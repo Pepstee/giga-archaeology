@@ -1,0 +1,20 @@
+[Unit]
+Description=GIGA native Codex DFI completion lane
+After=default.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/gutua/software-factory/.worktrees/orchestrator-v3-dfi-08
+Environment=PATH=/home/gutua/software-factory/.control/native-dual-lane-20260726/bin:/home/gutua/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=CLAUDE_LOCK_TIMEOUT_SECONDS=7200
+ExecStart=/home/gutua/software-factory/giga-user/deploy/gutua/dual_lane_20260726/run_native_lane.sh dfi /home/gutua/software-factory/.worktrees/orchestrator-v3-dfi-08 /home/gutua/software-factory/giga-user/deploy/gutua/dual_lane_20260726/dfi_prompt.md /home/gutua/software-factory/.control/native-dual-lane-20260726/dfi
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=120
+KillMode=mixed
+Nice=5
+
+[Install]
+WantedBy=default.target
+

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "root": "giga-user",
+  "policy": {
+    "deployment": "Local-first. Gigabyte receives certified releases from GitHub, not routine working-tree syncs.",
+    "move_rule": "Do not move active or provenance-bearing paths until references, imports, and hashes have been migrated and verified."
+  },
+  "zones": {
+    "authority": {
+      "paths": [
+        "00_MASTER.md",
+        "01_CHARTER_BRIEF.md",
+        "02_MEMORY_CONTEXT_BRIEF.md",
+        "03_LIFE_INFRA_BRIEF.md",
+        "04_CORPUS_RETROSPECTIVE_BRIEF.md",
+        "05_CALIBRATION_PROMPTBANK_BRIEF.md",
+        "06_SECOND_MEMORY_BRIEF.md",
+        "07_VIRTUAL_TWIN_BRIEF.md",
+        "AGENTS.md",
+        "CHARTER.md",
+        "CONTEXT.md",
+        "CONTEXT_PROTOCOL.md"
+      ]
+    },
+    "platform": {
+      "paths": [
+        "adapters",
+        "architecture",
+        "contracts",
+        "deploy",
+        "examples",
+        "monitoring",
+        "scripts",
+        "skilltree",
+        "tests",
+        "twin_core"
+      ]
+    },
+    "knowledge": {
+      "paths": [
+        "corpus",
+        "external_proof",
+        "memory",
+        "reports",
+        "research",
+        "retrospectives",
+        "SESSION_LOGS"
+      ]
+    },
+    "projects": {
+      "registry": "projects/registry.v1.json",
+      "paths": [
+        "projects",
+        "job-application-automation",
+        "korean",
+        "life-logging"
+      ]
+    },
+    "external_workspaces": {
+      "paths": [
+        "audit-work",
+        "ecc-integration",
+        "market-aligner",
+        "market-aligner-artiom",
+        "upstreams"
+      ]
+    },
+    "runtime_and_delivery": {
+      "paths": [
+        "migration",
+        "output",
+        "outputs",
+        "staging"
+      ]
+    },
+    "intake": {
+      "paths": [
+        "intake"
+      ]
+    }
+  },
+  "legacy_root_exceptions": [
+    "FABLE_V3_DESIGN_REVIEW.md",
+    "FINE_TUNING_READINESS.md",
+    "INSTAGRAM_ANALYSIS_PLAN.md",
+    "INSTAGRAM_ANALYSIS_PROGRESS.md",
+    "MODEL_AGNOSTIC_SPEC.md",
+    "ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md",
+    "PREDICTION_AUTOMATION.md",
+    "SKILLTREE_GIGA_USER_INTEGRATION.md",
+    "SKILLTREE_VISUALIZER_IMPLEMENTATION_PLAN.md",
+    "SOVEREIGNTY_INDEX.md",
+    "TRAVEL_DESIGNER_GOAL.md",
+    "The Offer Accelerator Toolkit (4) (1).pdf",
+    "V3_CONTRACT_DECISIONS.md",
+    "instagram_following.csv",
+    "instagram_not_following_back.csv",
+    "instagram_unfollow_plan.json",
+    "instagram_unfollow_progress.json",
+    "overseer_fable_exec.patch",
+    "phase2_sol_exec.patch",
+    "result.json",
+    "tier1-findings.md"
+  ],
+  "ignored_root_patterns": [
+    ".*",
+    "*.zip",
+    "graphify-out"
+  ]
+}
