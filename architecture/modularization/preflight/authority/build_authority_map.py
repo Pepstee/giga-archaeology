@@ -352,6 +352,23 @@ MAPPING: dict[str, dict[str, Any]] = {
         "projects/registry.v1.json#korean", 0, "high",
         dependencies=["CONTEXT.md"],
     ),
+    "life-admin": reviewed(
+        "protected/no-touch", "active-concurrent-workspace", "projects/life-admin",
+        "concurrent-task handoff: top-level life-admin workspace created after the authority checkpoint",
+        0,
+        "critical",
+        dependencies=["projects/registry.v1.json", "architecture/root-layout.v1.json"],
+        ambiguity=(
+            "The workspace was created by a concurrent task after the authority "
+            "checkpoint; originating writer, ownership and reference closure are "
+            "not yet reconciled."
+        ),
+        notes=(
+            "The destination is descriptive only. Do not inspect, edit or move the "
+            "workspace until the originating task is identified, the tree is sealed, "
+            "the project is registered and a later isolated migration batch is approved."
+        ),
+    ),
     "life-logging": reviewed(
         "retain", "active-owned-project", "life-logging",
         "projects/registry.v1.json#life-logging", 0, "high",

@@ -11,13 +11,15 @@ pre-existing path
 ## Verdict
 
 The target modular architecture is authorised. The machine map is structurally
-valid and covers all **71** current top-level paths exactly once. Repository
-evidence resolved **11 of the 12** Wave 0A ambiguities. The only unresolved
-item, `market-aligner-artiom/`, remains fail-closed and is excluded from every
-executable batch.
+valid and covers all **72** current top-level paths exactly once. Repository
+evidence resolved **11 of the 12** Wave 0A ambiguities. The original unresolved
+item, `market-aligner-artiom/`, remains fail-closed. A concurrent task then
+created `life-admin/` after the checkpoint; it is recorded as a second,
+post-checkpoint blocker without inspecting or changing its contents. Both paths
+are excluded from every executable batch.
 
-The repository-wide gate remains `acceptance_ready: false` because that one
-authority decision is outstanding. The 13 planned batches are individually
+The repository-wide gate remains `acceptance_ready: false` because those two
+authority decisions are outstanding. The 13 planned batches remain individually
 `ready-after-lock-and-preconditions`; this is not permission to execute them.
 
 Current disposition totals:
@@ -26,13 +28,13 @@ Current disposition totals:
 |---|---:|
 | retain | 22 |
 | move | 19 |
-| protected/no-touch | 11 |
+| protected/no-touch | 12 |
 | generated | 10 |
 | quarantine | 2 |
 | archive | 6 |
 | externalize | 1 |
 
-Forty-two paths have critical compatibility requirements. “Generated” does not
+Forty-three paths have critical compatibility requirements. “Generated” does not
 mean disposable: `outputs/` contains registries, receipts and the exhaustive
 skill inventory.
 
@@ -144,6 +146,8 @@ The following are no-touch until separate hash/reference gates pass:
 - the raw Telegram `result.json`;
 - `corpus/`, `memory/` and `research/`;
 - the mixed external `audit-work/` workspace;
+- the concurrent `life-admin/` workspace pending writer, ownership and
+  reference-closure reconciliation;
 - independent canonical `market-aligner/`;
 - the licensed Offer Accelerator source PDF.
 
@@ -167,11 +171,13 @@ baseline and migration receipts must remain valid.
 | `tests/` | Route all 38 current test files with their owning modules. |
 | `tier1-findings.md` | Archive as external Orchestrator finding evidence, not personal-memory authority. |
 | `market-aligner-artiom/` | **Unresolved.** Machine authority identifies a candidate duplicate, but no comparison-backed reconciliation decision exists. |
+| post-checkpoint `life-admin/` drift | **Unresolved and protected/no-touch.** Its future `projects/life-admin` target is descriptive only. Identify the originating task, seal the tree, register the project, then migrate it in a later isolated batch. |
 
-The unresolved candidate is listed only in `deferred`; it is absent from all
-batch source sets. Resolution requires sealing and comparing it with canonical
-`market-aligner/`, then ratifying merge, archive, delete or continued
-quarantine.
+Both unresolved paths are listed only in `deferred`; neither appears in a batch
+source set. `market-aligner-artiom/` requires sealing and comparison with
+canonical `market-aligner/`, followed by a ratified merge, archive, delete or
+continued-quarantine outcome. `life-admin/` requires the originating task,
+sealed tree, project registration and a later isolated migration batch.
 
 ## Migration batches
 
@@ -216,7 +222,7 @@ permission to delete the lock. The gate requires:
 
 ## Outputs and verification
 
-- [`authority-map.v1.json`](authority-map.v1.json) — complete 71-path mapping,
+- [`authority-map.v1.json`](authority-map.v1.json) — complete 72-path mapping,
   target architecture, skills taxonomy, dependencies, provenance,
   compatibility and migration order.
 - [`MIGRATION_BATCHES.v1.json`](MIGRATION_BATCHES.v1.json) — dependency-ordered
@@ -242,5 +248,6 @@ python3 -m unittest discover -s architecture/modularization/preflight/authority 
 ```
 
 Structural and batch validation must pass. `acceptance_ready` correctly remains
-`false` until the `market-aligner-artiom/` authority decision is ratified, even
-though that path is excluded from the 13 planned batches.
+`false` until the `market-aligner-artiom/` and `life-admin/` authority decisions
+are ratified, even though both paths are excluded from the unchanged 13 planned
+batches.

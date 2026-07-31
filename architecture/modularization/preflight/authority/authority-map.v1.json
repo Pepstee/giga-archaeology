@@ -12,10 +12,10 @@
     "excluded": [
       "dubbing-studio"
     ],
-    "top_level_path_count": 71,
-    "top_level_name_set_sha256": "a411ee3b2caa3389c91e1491f9fa77e9b66faaab0ea7eb02658fb7445c4136b0",
-    "git_head": "82cb47ef82d6973c08513686bcca6ed0469418a7",
-    "git_branch": "main",
+    "top_level_path_count": 72,
+    "top_level_name_set_sha256": "719ee24e096aff1968790c788ab69e0ebf2e5efc2b80530ca59f1df571e8f4eb",
+    "git_head": "ab4b6111b0f15d04a1f219f805dd8cb18e788d12",
+    "git_branch": "codex/giga-modularization-20260731",
     "read_only_source_analysis": true,
     "wave0_moves_authorized": false
   },
@@ -377,10 +377,8 @@
       "byte_count": 1819,
       "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          " M .gitignore"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "retain",
@@ -477,10 +475,8 @@
       "byte_count": 7741,
       "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          " M 00_MASTER.md"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "retain",
@@ -979,10 +975,8 @@
       "byte_count": 16800,
       "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          " M FINE_TUNING_READINESS.md"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "move",
@@ -1055,12 +1049,10 @@
       "kind": "file",
       "file_count": 1,
       "byte_count": 36974,
-      "tracked_file_count": 0,
+      "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          "?? ORCHESTRATOR_AND_GIGA_USER_ARCHITECTURE.md"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "archive",
@@ -1133,11 +1125,8 @@
       "byte_count": 70997,
       "tracked_file_count": 7,
       "git_status_summary": {
-        "dirty_path_count": 2,
-        "sample": [
-          " M SESSION_LOGS/04_log.md",
-          " M SESSION_LOGS/07_log.md"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "retain",
@@ -1208,12 +1197,10 @@
       "kind": "file",
       "file_count": 1,
       "byte_count": 9043,
-      "tracked_file_count": 0,
+      "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          "?? SOVEREIGNTY_INDEX.md"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "move",
@@ -1355,12 +1342,10 @@
       "kind": "directory",
       "file_count": 3,
       "byte_count": 7893,
-      "tracked_file_count": 2,
+      "tracked_file_count": 3,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          "?? adapters/manifests/elicit-scientific-evidence.json"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "move",
@@ -1393,24 +1378,20 @@
     {
       "source": "architecture",
       "kind": "directory",
-      "file_count": 49,
-      "byte_count": 11439869,
-      "tracked_file_count": 25,
+      "file_count": 67,
+      "byte_count": 11865585,
+      "tracked_file_count": 70,
       "git_status_summary": {
-        "dirty_path_count": 32,
+        "dirty_path_count": 6,
         "sample": [
-          "?? architecture/GIGA_USER_DIRECTORY_ARCHITECTURE.md",
-          "?? architecture/MAC_GUTUA_AUTHORITY_AND_SNAPSHOT_POLICY.md",
-          "?? architecture/ORCHESTRATOR_V3_DETERMINISTIC_INFRASTRUCTURE_PLAN_2026-07-22.md",
-          "?? architecture/ORCHESTRATOR_V3_DISPROPORTIONATE_SPEED_RETURNS_2026-07-22.md",
-          "?? architecture/ORCHESTRATOR_VS_NATIVE_CODEX_BENCHMARK_V1.md",
-          "?? architecture/ORCHESTRATOR_VS_NATIVE_CODEX_COMPARISON_2026-07-25.md",
-          "?? architecture/machine-authority.v1.json",
-          "?? architecture/modularization/preflight/authority/MIGRATION_BATCHES.v1.json",
-          "?? architecture/modularization/preflight/authority/REPORT.md",
-          "?? architecture/modularization/preflight/authority/ROOT_MOVE_LOCK.md"
+          " M architecture/modularization/preflight/authority/MIGRATION_BATCHES.v1.json",
+          " M architecture/modularization/preflight/authority/REPORT.md",
+          " M architecture/modularization/preflight/authority/authority-map.v1.json",
+          " M architecture/modularization/preflight/authority/build_authority_map.py",
+          " M architecture/modularization/preflight/authority/build_migration_batches.py",
+          " M architecture/modularization/preflight/authority/test_authority_map.py"
         ],
-        "sample_truncated": true
+        "sample_truncated": false
       },
       "disposition": "retain",
       "lifecycle_status": "canonical-architecture-and-lineage",
@@ -1483,11 +1464,10 @@
       "kind": "directory",
       "file_count": 2,
       "byte_count": 44359,
-      "tracked_file_count": 0,
+      "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 2,
+        "dirty_path_count": 1,
         "sample": [
-          "?? company-admin/excellence-exalted/2026-dormant-company-closure.md",
           "?? company-admin/excellence-exalted/evidence/HMRC-dormancy-acknowledgement-2026-07-30.pdf"
         ],
         "sample_truncated": false
@@ -1522,20 +1502,10 @@
       "kind": "directory",
       "file_count": 12,
       "byte_count": 27319,
-      "tracked_file_count": 3,
+      "tracked_file_count": 12,
       "git_status_summary": {
-        "dirty_path_count": 9,
-        "sample": [
-          "?? contracts/machine-source-snapshot.v1.schema.json",
-          "?? contracts/scientific-action-candidate.v1.schema.json",
-          "?? contracts/scientific-appraisal.v1.schema.json",
-          "?? contracts/scientific-eligibility-decisions.v1.schema.json",
-          "?? contracts/scientific-llm-eligibility-proposal.v1.schema.json",
-          "?? contracts/scientific-search-ontology.v1.schema.json",
-          "?? contracts/scientific-study-extraction.v1.schema.json",
-          "?? contracts/scientific-synthesis-signoff.v1.schema.json",
-          "?? contracts/sovereignty-observation.v1.schema.json"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "move",
@@ -1607,23 +1577,12 @@
       "source": "deploy",
       "kind": "directory",
       "file_count": 186,
-      "byte_count": 445004,
-      "tracked_file_count": 109,
+      "byte_count": 445686,
+      "tracked_file_count": 175,
       "git_status_summary": {
-        "dirty_path_count": 69,
-        "sample": [
-          " M deploy/gutua/README.md",
-          " M deploy/gutua/fetch_market_aligner_databases.sh",
-          " M deploy/gutua/runtime_health.py",
-          "?? deploy/gutua/DFI06_CURRENT_GATE.json",
-          "?? deploy/gutua/FABLE_GATE_POLICY.md",
-          "?? deploy/gutua/FABLE_GOVERNED_DFI_CONTINUATION.md",
-          "?? deploy/gutua/blind_opus_portfolio_prompt.md",
-          "?? deploy/gutua/codex_review_gate.py",
-          "?? deploy/gutua/dual_lane_20260726/JAA04_OPERATOR_AUTHORIZATION_20260726.md",
-          "?? deploy/gutua/dual_lane_20260726/dfi09_prompt.md"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "move",
       "lifecycle_status": "active-mixed-deployment-surface",
@@ -1713,12 +1672,10 @@
       "kind": "directory",
       "file_count": 1,
       "byte_count": 8291,
-      "tracked_file_count": 0,
+      "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          "?? examples/sovereignty-assessment.synthetic.json"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "move",
@@ -1968,12 +1925,10 @@
       "kind": "directory",
       "file_count": 1,
       "byte_count": 363,
-      "tracked_file_count": 0,
+      "tracked_file_count": 1,
       "git_status_summary": {
-        "dirty_path_count": 1,
-        "sample": [
-          "?? intake/README.md"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "retain",
@@ -2002,9 +1957,9 @@
       "kind": "directory",
       "file_count": 44,
       "byte_count": 4028216,
-      "tracked_file_count": 7,
+      "tracked_file_count": 20,
       "git_status_summary": {
-        "dirty_path_count": 37,
+        "dirty_path_count": 24,
         "sample": [
           "?? job-application-automation/applications/rank-17-zscaler/Artiom_Gutu_CV_Zscaler.pdf",
           "?? job-application-automation/applications/rank-17-zscaler/Artiom_Gutu_Cover_Letter_Zscaler.pdf",
@@ -2078,19 +2033,53 @@
       "subpath_exceptions": []
     },
     {
+      "source": "life-admin",
+      "kind": "directory",
+      "file_count": 2,
+      "byte_count": 8307,
+      "tracked_file_count": 0,
+      "git_status_summary": {
+        "dirty_path_count": 2,
+        "sample": [
+          "?? life-admin/korea-bank-account/CASE.md",
+          "?? life-admin/korea-housing/CASE.md"
+        ],
+        "sample_truncated": false
+      },
+      "disposition": "protected/no-touch",
+      "lifecycle_status": "active-concurrent-workspace",
+      "destination": "projects/life-admin",
+      "canonical_authority": "concurrent-task handoff: top-level life-admin workspace created after the authority checkpoint",
+      "dependencies": [
+        "projects/registry.v1.json",
+        "architecture/root-layout.v1.json"
+      ],
+      "provenance_requirements": [
+        "Verify existing immutable/source hash where available.",
+        "Never rewrite, normalize, delete or overwrite during modularization."
+      ],
+      "compatibility": {
+        "level": "critical",
+        "required": true
+      },
+      "migration_order": 0,
+      "wave0_move_authorized": false,
+      "ambiguity": {
+        "state": "blocked",
+        "reason": "The workspace was created by a concurrent task after the authority checkpoint; originating writer, ownership and reference closure are not yet reconciled."
+      },
+      "notes": "The destination is descriptive only. Do not inspect, edit or move the workspace until the originating task is identified, the tree is sealed, the project is registered and a later isolated migration batch is approved.",
+      "subpath_exceptions": []
+    },
+    {
       "source": "life-logging",
       "kind": "directory",
       "file_count": 5,
       "byte_count": 9266,
-      "tracked_file_count": 0,
+      "tracked_file_count": 4,
       "git_status_summary": {
-        "dirty_path_count": 4,
-        "sample": [
-          "?? life-logging/README.md",
-          "?? life-logging/audio-processing/README.md",
-          "?? life-logging/audio-processing/config/path-layout.json",
-          "?? life-logging/audio-processing/scripts/bootstrap_paths.py"
-        ],
+        "dirty_path_count": 0,
+        "sample": [],
         "sample_truncated": false
       },
       "disposition": "retain",
@@ -2191,22 +2180,11 @@
       "kind": "directory",
       "file_count": 75,
       "byte_count": 1606165,
-      "tracked_file_count": 61,
+      "tracked_file_count": 74,
       "git_status_summary": {
-        "dirty_path_count": 19,
-        "sample": [
-          " M memory/INDEX.md",
-          " M memory/entries/2026-07-18-client-northern-ray.md",
-          " M memory/entries/2026-07-18-degree-and-scafad.md",
-          " M memory/entries/2026-07-18-education-and-work.md",
-          " M memory/entries/2026-07-18-market-aligner-shipped.md",
-          " M memory/entries/2026-07-18-social-circle.md",
-          "?? memory/entries/2026-07-22-orchestrator-efficiency-career-evidence.md",
-          "?? memory/entries/2026-07-23-genealogy-family-tree.md",
-          "?? memory/entries/2026-07-23-instagram-unfollow-automation.md",
-          "?? memory/entries/2026-07-23-job-application-campaign.md"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "protected/no-touch",
       "lifecycle_status": "canonical-personal-memory",
@@ -2239,22 +2217,11 @@
       "kind": "directory",
       "file_count": 25,
       "byte_count": 77564634,
-      "tracked_file_count": 0,
+      "tracked_file_count": 24,
       "git_status_summary": {
-        "dirty_path_count": 24,
-        "sample": [
-          "?? migration/GIGABYTE_DFI04_SONNET_RESUME_ORDER_2026-07-23.md",
-          "?? migration/GIGABYTE_FACTORY_HANDOFF_2026-07-22.md",
-          "?? migration/GIGABYTE_MIGRATION_COMPLETION_2026-07-22.md",
-          "?? migration/GIGABYTE_MIGRATION_SCOPE_2026-07-22.md",
-          "?? migration/GIGABYTE_UNATTENDED_FACTORY_CONTINUATION_ORDER_2026-07-23.md",
-          "?? migration/MOBILE_CUTOVER_CHECKPOINT_2026-07-23_DFI04_NO_GO.md",
-          "?? migration/MOBILE_CUTOVER_COMPLETION_2026-07-23.md",
-          "?? migration/SOURCE_ARCHIVES_2026-07-22.json",
-          "?? migration/activate_gigabyte_factory.sh",
-          "?? migration/extract_gigabyte_factory.sh"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "move",
       "lifecycle_status": "active-migration-evidence-and-tools",
@@ -2362,11 +2329,10 @@
       "kind": "directory",
       "file_count": 131,
       "byte_count": 52028321,
-      "tracked_file_count": 65,
+      "tracked_file_count": 69,
       "git_status_summary": {
-        "dirty_path_count": 14,
+        "dirty_path_count": 9,
         "sample": [
-          " M outputs/adapter-evidence/registry.json",
           "?? outputs/interview-prep-2026-07-24/Artiom_Gutu_5_Hour_Interview_Flight_Pack.xlsx",
           "?? outputs/interview-prep-2026-07-24/Artiom_Gutu_5_Hour_Interview_Flight_Pack.xlsx.inspect.ndjson",
           "?? outputs/interview-prep-2026-07-24/preview-categories.png",
@@ -2377,7 +2343,7 @@
           "?? outputs/interview-prep-2026-07-24/qa-errors.ndjson",
           "?? outputs/interview-prep-2026-07-24/qa-inspect.ndjson"
         ],
-        "sample_truncated": true
+        "sample_truncated": false
       },
       "disposition": "generated",
       "lifecycle_status": "mixed-derived-output-and-receipts",
@@ -2554,22 +2520,11 @@
       "kind": "directory",
       "file_count": 62,
       "byte_count": 1668655,
-      "tracked_file_count": 10,
+      "tracked_file_count": 35,
       "git_status_summary": {
-        "dirty_path_count": 26,
-        "sample": [
-          " M projects/sales-book-rewrite/SOURCE_LEDGER.md",
-          "?? projects/land-investment-monitor/.env.example",
-          "?? projects/land-investment-monitor/.gitignore",
-          "?? projects/land-investment-monitor/README.md",
-          "?? projects/land-investment-monitor/config/goal.json",
-          "?? projects/land-investment-monitor/config/schedule.example.cron",
-          "?? projects/land-investment-monitor/examples/cadastral_values.csv",
-          "?? projects/land-investment-monitor/examples/demo_listings.json",
-          "?? projects/land-investment-monitor/examples/feature_points.json",
-          "?? projects/land-investment-monitor/land_monitor/__init__.py"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "retain",
       "lifecycle_status": "canonical-project-container-and-registry",
@@ -2600,24 +2555,13 @@
     {
       "source": "reports",
       "kind": "directory",
-      "file_count": 107,
-      "byte_count": 539325,
-      "tracked_file_count": 3,
+      "file_count": 108,
+      "byte_count": 541934,
+      "tracked_file_count": 108,
       "git_status_summary": {
-        "dirty_path_count": 104,
-        "sample": [
-          "?? reports/BLIND_OPUS_PORTFOLIO_REVIEW_PROTOCOL_2026-07-25.md",
-          "?? reports/CLAUDE_CODEX_QUOTA_AWARE_COLLABORATION_CHECKPOINT_2026-07-24.md",
-          "?? reports/CLAUDE_QUOTA_RESERVATION_2026-07-28.md",
-          "?? reports/CODEX_DFI04_INDEPENDENT_REVIEW_2026-07-23.md",
-          "?? reports/DFI05_CODEX_FINDINGS_REPAIR_ORDER_2026-07-23.md",
-          "?? reports/DFI05_CODEX_INDEPENDENT_REVIEW_ORDER_2026-07-23.md",
-          "?? reports/DFI05_DELETION_REFACTOR_ORDER_2026-07-23.md",
-          "?? reports/DFI05_INTERMODEL_CONCURRENCY_STOP_CHECKPOINT_2026-07-23.md",
-          "?? reports/DFI05_REPAIR_F2_PREMODEL_AUTHORITY_2026-07-24.md",
-          "?? reports/DFI05_REPAIR_F3_REPOSITORY_BINDINGS_2026-07-23.md"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "retain",
       "lifecycle_status": "active-mixed-knowledge-and-receipts",
@@ -2649,20 +2593,20 @@
       "kind": "directory",
       "file_count": 195,
       "byte_count": 283763961,
-      "tracked_file_count": 1,
+      "tracked_file_count": 13,
       "git_status_summary": {
-        "dirty_path_count": 194,
+        "dirty_path_count": 182,
         "sample": [
-          "?? research/elicit/APPRAISAL_TEMPLATE.json",
-          "?? research/elicit/OFFLINE_VERIFICATION.json",
-          "?? research/elicit/README.md",
-          "?? research/elicit/STUDY_EXTRACTION_TEMPLATE.json",
-          "?? research/elicit/SYSTEMATIC_REVIEW_PROTOCOL.example.json",
-          "?? research/elicit/skin-texture/CAMPAIGN.json",
-          "?? research/elicit/skin-texture/COMPILED_RESEARCH_RUN_2026-07-28.md",
-          "?? research/elicit/skin-texture/DETERMINISTIC_PIPELINE_REPORT.md",
-          "?? research/elicit/skin-texture/PROTOCOL.md",
-          "?? research/elicit/skin-texture/SEARCH_ONTOLOGY.json"
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/CANONICAL_RECORDS.jsonl",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/DEDUP_GROUPS.jsonl",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/DUPLICATE_DECISION_REPORT.json",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/DUPLICATE_DECISION_TEMPLATE.json",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/ELIGIBILITY_PROPOSALS.jsonl",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/EXCLUSION_AUDIT.csv",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/FEATURES.jsonl",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/FULLTEXT_PLAN.jsonl",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/LLM_REVIEW_QUEUE.jsonl",
+          "?? research/elicit/skin-texture/compiled-full-results-2026-07-28-v2/NEGATIVE_CONTROLS.json"
         ],
         "sample_truncated": true
       },
@@ -2736,22 +2680,11 @@
       "kind": "directory",
       "file_count": 18,
       "byte_count": 1193731,
-      "tracked_file_count": 13,
+      "tracked_file_count": 18,
       "git_status_summary": {
-        "dirty_path_count": 11,
-        "sample": [
-          " M retrospectives/2026-07-deep-characterisation.md",
-          " M retrospectives/2026-07.md",
-          " M retrospectives/closest-friends-evidence-map.md",
-          " M retrospectives/friendship-types-and-functions.md",
-          " M retrospectives/sneg-sasha-evidence-review.md",
-          " M retrospectives/yana-relationship-evidence-review.md",
-          "?? retrospectives/anna-milkovskaya-relationship-review.md",
-          "?? retrospectives/moongazing-yana-2024-reconnection-review.md",
-          "?? retrospectives/sneg-sasha-original-thread-addendum.md",
-          "?? retrospectives/teen-discord-2018-2022-developmental-analysis.md"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "retain",
       "lifecycle_status": "derived-interpretive-knowledge",
@@ -2783,22 +2716,11 @@
       "kind": "directory",
       "file_count": 80,
       "byte_count": 918623,
-      "tracked_file_count": 24,
+      "tracked_file_count": 41,
       "git_status_summary": {
-        "dirty_path_count": 18,
-        "sample": [
-          " M scripts/extract_discord.py",
-          "?? scripts/analyze_skin_evidence.py",
-          "?? scripts/analyze_unified_memory.py",
-          "?? scripts/audit_root_layout.py",
-          "?? scripts/build_unified_memory.py",
-          "?? scripts/capture_machine_source_snapshot.py",
-          "?? scripts/elicit_evidence.py",
-          "?? scripts/evaluate_persona_lora.py",
-          "?? scripts/extract_instagram_full.py",
-          "?? scripts/extract_telegram.py"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "move",
       "lifecycle_status": "active-cross-module-source",
@@ -2907,22 +2829,11 @@
       "kind": "directory",
       "file_count": 102,
       "byte_count": 940593,
-      "tracked_file_count": 23,
+      "tracked_file_count": 38,
       "git_status_summary": {
-        "dirty_path_count": 16,
-        "sample": [
-          " M tests/test_extract_discord.py",
-          "?? tests/test_analyze_skin_evidence.py",
-          "?? tests/test_analyze_unified_memory.py",
-          "?? tests/test_build_unified_memory.py",
-          "?? tests/test_extract_instagram_full.py",
-          "?? tests/test_extract_telegram.py",
-          "?? tests/test_load_memory_claims.py",
-          "?? tests/test_machine_source_snapshot.py",
-          "?? tests/test_prepare_persona_lora.py",
-          "?? tests/test_root_layout.py"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "move",
       "lifecycle_status": "active-cross-module-tests",
@@ -3032,22 +2943,11 @@
       "kind": "directory",
       "file_count": 64,
       "byte_count": 1297278,
-      "tracked_file_count": 19,
+      "tracked_file_count": 32,
       "git_status_summary": {
-        "dirty_path_count": 13,
-        "sample": [
-          "?? twin_core/scientific_campaign.py",
-          "?? twin_core/scientific_evidence.py",
-          "?? twin_core/scientific_evidence_cli.py",
-          "?? twin_core/scientific_fulltext.py",
-          "?? twin_core/scientific_pipeline_cli.py",
-          "?? twin_core/scientific_providers.py",
-          "?? twin_core/scientific_query_compiler.py",
-          "?? twin_core/scientific_readiness.py",
-          "?? twin_core/scientific_review_funnel.py",
-          "?? twin_core/scientific_review_state.py"
-        ],
-        "sample_truncated": true
+        "dirty_path_count": 0,
+        "sample": [],
+        "sample_truncated": false
       },
       "disposition": "move",
       "lifecycle_status": "active-shared-platform-source",

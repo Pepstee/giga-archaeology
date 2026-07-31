@@ -507,6 +507,11 @@ def build() -> dict[str, Any]:
         "batches": batches,
         "deferred": [
             {
+                "source": "life-admin",
+                "reason": "A concurrent task created the workspace after the authority checkpoint; originating writer, ownership and reference closure are not yet reconciled.",
+                "required_decision": "identify originating task, seal tree, register project, then migrate in a later isolated batch",
+            },
+            {
                 "source": "market-aligner-artiom",
                 "reason": "Machine authority identifies a candidate duplicate, but no reconciliation outcome is ratified.",
                 "required_decision": "compare against canonical market-aligner, seal both trees, and ratify merge/archive/delete/quarantine outcome",

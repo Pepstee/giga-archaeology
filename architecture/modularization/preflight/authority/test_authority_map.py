@@ -71,7 +71,37 @@ class AuthorityMapTest(unittest.TestCase):
         self.assertFalse(errors)
         self.assertTrue(blockers)
         blocked_sources = {item.split(":", 1)[0] for item in blockers}
-        self.assertEqual(blocked_sources, {"market-aligner-artiom"})
+        self.assertEqual(
+            blocked_sources, {"life-admin", "market-aligner-artiom"}
+        )
+
+    def test_concurrent_life_admin_workspace_is_fail_closed(self) -> None:
+        entry = next(
+            item for item in self.payload["entries"]
+            if item["source"] == "life-admin"
+        )
+        self.assertEqual(entry["disposition"], "protected/no-touch")
+        self.assertEqual(entry["lifecycle_status"], "active-concurrent-workspace")
+        self.assertEqual(entry["destination"], "projects/life-admin")
+        self.assertEqual(entry["ambiguity"]["state"], "blocked")
+        deferred = {
+            item["source"]: item
+            for item in self.batches["deferred"]
+        }
+        self.assertIn("life-admin", deferred)
+        self.assertEqual(
+            deferred["life-admin"]["required_decision"],
+            "identify originating task, seal tree, register project, then migrate in a later isolated batch",
+        )
+        self.assertEqual(len(self.batches["batches"]), 13)
+        self.assertNotIn(
+            "life-admin",
+            {
+                source
+                for batch in self.batches["batches"]
+                for source in batch["source_paths"]
+            },
+        )
 
     def test_migration_batches_validate(self) -> None:
         errors = validator.validate_batches(self.batches, self.payload)

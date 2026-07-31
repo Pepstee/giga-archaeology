@@ -4,7 +4,7 @@
   "execution_authority": "plan-only; no move is authorised without ROOT_MOVE_LOCK.md acceptance gates",
   "root": "/Users/admin/Documents/giga-user",
   "authority_map": "architecture/modularization/preflight/authority/authority-map.v1.json",
-  "authority_map_sha256": "a0e77eb3227da4c0c0f645de4310ee97510e300731c4bf6f0685cc0713603f48",
+  "authority_map_sha256": "61727fab37e2fbcb5ea96c16d402a44dfea05345e3d8bb4ce6a78cf66825f804",
   "executable_inventory": "architecture/modularization/preflight/executable/executable-inventory.json",
   "executable_inventory_sha256": "daed2ee76d1bbcd5153d6011425411f9f0bdd21eba74844c22b9744dc04fa7c2",
   "root_move_lock": "ROOT_MOVE_LOCK.md",
@@ -1563,6 +1563,11 @@
   ],
   "deferred": [
     {
+      "source": "life-admin",
+      "reason": "A concurrent task created the workspace after the authority checkpoint; originating writer, ownership and reference closure are not yet reconciled.",
+      "required_decision": "identify originating task, seal tree, register project, then migrate in a later isolated batch"
+    },
+    {
       "source": "market-aligner-artiom",
       "reason": "Machine authority identifies a candidate duplicate, but no reconciliation outcome is ratified.",
       "required_decision": "compare against canonical market-aligner, seal both trees, and ratify merge/archive/delete/quarantine outcome"
@@ -1574,6 +1579,7 @@
     "audit-work",
     "corpus",
     "instagram-artiom.png-2026-07-16-58GCGdnZ.zip",
+    "life-admin",
     "market-aligner",
     "memory",
     "package(1).zip",
