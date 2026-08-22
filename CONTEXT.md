@@ -1,6 +1,6 @@
 # Standing Context — Artiom
 
-*v1.3 — 2026-07-22 (entropy merge: this file's standing-decisions block is now the canonical
+*v1.5 — 2026-08-18 (working-increments amendment; this file's standing-decisions block is the canonical
 doctrine registry). Surfaces carry dated copies (CONTEXT_PROTOCOL.md governs size,
 staleness, verification). Charter = how to respond; this file = what to know + what is settled.*
 
@@ -29,7 +29,9 @@ British English throughout.
 
 - **Mid-trip, currently Da Nang** (until ~24 Jul: tailoring + derm treatment window), then
   KL (2d) → Jakarta MH725 27 Jul → Korea (ticket not yet booked). Sprint 15→~23 Jul.
-- Charter v1.1 on a one-week natural-usage trial (verdict: Session 04).
+- Charter v1.3 source and deployment payloads include the reuse-before-creation and
+  working-increments amendments;
+  Codex enforcement is live through `AGENTS.md`, while Claude/ChatGPT repaste remains unverified.
 - Corpus: work/reasoning/casual registers landed: 20,358 canonical prompts, 7,062 Instagram
   training pairs, 83,779 Discord account-sent records and two-sided Claude/ChatGPT
   transcripts. Historical ChatGPT ends Dec 2025; 2026 ChatGPT remains absent.
@@ -56,7 +58,14 @@ eyes-before-hands (read-only first) · no secrets in repos or memory files · me
 derived, not dictated · model-agnostic at every layer · proposal reconciliation before
 invention: inspect relevant canon and reality, classify overlap/conflict/novelty, give an
 evidence-backed verdict, and replace sound-but-inefficient proposals with the leanest complete,
-verifiable form under current constraints (mutate only when authorised).
+verifiable form under current constraints (mutate only when authorised) · reuse before creation:
+before creating a file, search the relevant scope for the canonical file already doing the same
+job and extend it; create a new file only for a genuinely distinct responsibility, lifecycle,
+ownership boundary, or format, and record why the existing canonical file cannot serve it ·
+working reality before optimisation: first make the smallest real end-to-end path work, then make
+it good; never attempt a whole project as one shot — advance through independently runnable,
+verified increments and preserve the last working state. "Make it work" never licenses stubs,
+false success, unsafe shortcuts, or calling an unverified path complete.
 
 ## Deployed copies
 

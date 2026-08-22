@@ -80,13 +80,21 @@ def _extract_text(msg) -> str | None:
 
 
 def _looks_injected(text: str) -> bool:
-    """Skip harness-injected user turns (system reminders, command wrappers)."""
+    """Skip harness-injected user turns (system reminders, replay wrappers, UI state).
+
+    Codex persists several machine-authored envelopes as ``role=user`` response items.  They
+    can contain a verbatim operator objective, but they are not a new operator utterance and
+    must not be re-dated or multiplied in the personal corpus.  The original utterance remains
+    available elsewhere in the same task, so these wrappers fail closed here.
+    """
     t = text.lstrip()
     return t.startswith((
         "<system-reminder>", "<command-", "<local-command", "Caveat:",
         "<recommended_plugins>", "<environment_context>", "<app-context>",
         "<permissions instructions>", "# AGENTS.md instructions",
-        "[[task:",
+        "[[task:", "<scheduled-task", "<codex_internal_context",
+        "<codex_delegation>", "<in-app-browser-context", "<heartbeat>",
+        "<subagent_notification>", "<turn_aborted>", "<skill>",
     ))
 
 

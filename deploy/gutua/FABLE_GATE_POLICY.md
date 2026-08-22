@@ -61,3 +61,16 @@ be interpreted as permission to fabricate Fable's ruling.
 - STOP and repository-integrity changes are escalated immediately.
 - If Fable orders `HARD_STOP`, the coordinator preserves state, alerts the
   operator and continues only work explicitly identified as isolated and safe.
+
+## Constitutional semantic-review boundary
+
+For a v1 constitutional work order, deterministic code owns schema, hashes,
+Git state, path/action authority, rollback binding, proof presence and receipt
+verification. Fable receives the work order, canonical Constitution and a
+read-only Git summary with no tools and no mutation authority. It may return
+only `PASS`, `WARN` or `HELD_FOR_REVIEW`, structured reasons and confidence.
+
+Fable does not hard-reject implementation style, decide technical correctness
+or certify completion. Ambiguous contextual judgment is held for the operator.
+An override is exact-scope, expiring and hash-chained and cannot waive a
+mechanical safety or evidence failure.

@@ -39,6 +39,13 @@ authority. It does not authorise bulk applications or weaken eligibility,
 truth, duplicate-prevention, release, receipt, evidence or certification
 gates.
 
+Also read and hash-verify the operator's bounded answers for relocation,
+country-specific work authorisation and salary expectations:
+
+`/home/gutua/software-factory/giga-user/reports/JAA_OPERATOR_APPLICATION_ANSWERS_2026-07-31.md`
+
+Use those answers only under that document's exact verification boundaries.
+
 ## Durable entry state
 
 Read repository instructions, `BUILD_PLAN.md`, `IMPLEMENTATION_SLICES.yaml`,
@@ -149,3 +156,51 @@ calls/cost where known, external requests, withheld claims and next safe
 action. Create `OBJECTIVE_COMPLETE` only when all JAA slices are implemented
 and independently certified. Create `BLOCKED` only after Fable confirms that
 no authorised dependency-independent work remains.
+
+## Controlling continuation amendment — 2026-08-01
+
+Read and hash-verify these later operator authorities before taking another
+material action:
+
+- `/home/gutua/software-factory/giga-user/reports/JAA10_EXTERNAL_EVIDENCE_AND_COMPLETION_AUTHORITY_2026-08-01.md`
+- `/home/gutua/software-factory/giga-user/reports/JAA10_EXTERNAL_EVIDENCE_AND_COMPLETION_AUTHORITY_RECEIPT_2026-08-01.json`
+- `/home/gutua/software-factory/giga-user/reports/JAA_DFI_CONTINUATION_AND_FROZEN_HANDOFF_ORDER_2026-08-01.md`
+- `/home/gutua/software-factory/giga-user/reports/JAA_DFI_CONTINUATION_AND_FROZEN_HANDOFF_ORDER_RECEIPT_2026-08-01.json`
+
+The operator has corrected the scheduling model. JAA and DFI are intentionally
+concurrent. Do not wait for DFI and do not stop DFI. Preserve separate
+worktrees and one integration writer per mutable worktree. JAA keeps priority
+only when the host-global Claude/Fable lock is contested; never run competing
+specialised-model calls outside that lock.
+
+The JAA-10 authority supersedes the sealed 2026-07-31 external-evidence block.
+Proceed through the independently selected honest time-separated protocol,
+then JAA-10 certification, the already-authorised one-canary outside the
+deterministic top 20, receipt capture, JAA-12 through JAA-16, whole-system
+regression and candidate freeze. It does not authorise a second application,
+fabricated personal truth, bypassing CAPTCHA/MFA, optional marketing consent,
+payment, or any other broadened consequential action.
+
+Do not present, copy or transfer this changing worktree as a canonical import.
+When and only when all slices, required live evidence, the bounded canary,
+recovery/replay drills, whole-system regression and independent exact-source
+certification agree, stop all JAA writers at a clean frozen candidate and
+produce the hash-bound manifest required by the continuation order. A passing
+test suite alone is not completion.
+
+### Terminal-marker protocol
+
+This running service watches:
+
+`/home/gutua/software-factory/.control/jaa-single-codex-successor3-20260730`
+
+The older canonical continuity directory remains historical evidence, but its
+markers do not terminate this service. On a genuine new sealed block, write a
+hash-bound blocker packet and identical `BLOCKED` marker into both the older
+canonical directory and the current service directory, then end the round.
+Do not spend another round re-auditing an unchanged sealed blocker. On genuine
+operator-only input, likewise write the evidence packet plus both
+`OPERATOR_INPUT_REQUIRED` and `BLOCKED` into the current service directory so
+this older wrapper terminates without another audit loop. Create
+`OBJECTIVE_COMPLETE` in the current service directory only after the frozen
+handoff manifest and sidecar hash both verify and the worktree is clean.

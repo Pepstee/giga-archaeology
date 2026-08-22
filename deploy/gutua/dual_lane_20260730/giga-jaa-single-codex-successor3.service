@@ -15,6 +15,7 @@ Environment=JAA_PREDECESSOR_CONTROL=/home/gutua/software-factory/.control/jaa-si
 ExecStart=/home/gutua/software-factory/giga-user/deploy/gutua/dual_lane_20260730/run_jaa_successor3_wait.sh
 Restart=on-failure
 RestartSec=30
+RestartPreventExitStatus=42
 TimeoutStopSec=120
 KillMode=mixed
 Nice=5

@@ -2,6 +2,14 @@
 
 Read /Users/admin/Documents/giga-user/00_MASTER.md and 01_CHARTER_BRIEF.md at the beginning of every chat and every 5 messages
 
+## Reuse before creation
+
+- Before creating any file, search the relevant scope for the canonical existing file that already
+  performs the same job. Update or extend that file instead of creating a parallel or
+  near-duplicate file.
+- Create a new file only when its responsibility, lifecycle, ownership boundary, or required format
+  is genuinely distinct. Record why the canonical existing file cannot serve the job.
+
 <!-- skill-router:start -->
 ## Mandatory skill routing for giga-user
 

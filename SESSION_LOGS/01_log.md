@@ -47,6 +47,18 @@ recorded in `interim_corpus_log_20260717.md`.*
 1. ~~Repaste v1.1 Claude preferences~~ — done (operator, 17 Jul).
 2. ~~Deploy ChatGPT custom instructions~~ — done (operator, 17 Jul).
 3. Session 04: run the week-of-usage verdict; then master table 01 → DONE (or revert).
+4. Repaste the 18 Aug v1.2 payloads into live Claude and ChatGPT settings and verify recitation.
+
+## Amendment — 18 Aug 2026
+
+- The operator directly ratified **reuse before creation**: search for and extend the canonical
+  existing file that already performs the same job; prohibit parallel or near-duplicate files.
+- A new file is allowed only for a distinct responsibility, lifecycle, ownership boundary, or
+  required format, with the non-reuse reason recorded.
+- Updated the existing canonical registry, charter, three deployment payloads, project and global
+  Codex instruction files, master status, and this log. No new policy file was created.
+- Codex enforcement is live through the project and global `AGENTS.md` files. Live
+  Claude/ChatGPT repaste remains unverified.
 
 ## For other sessions
 

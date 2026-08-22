@@ -30,6 +30,7 @@ model-normalised statements into production-approved JAA evidence.
 23. Market Aligner components were implemented through AI: yes.
 24. Orchestrator role description—requirements owner, architect, operator, evaluator and acceptance authority, with substantial AI-generated implementation: yes.
 25. First-Class BSc (Hons) Computer Science and graduation on 2 July 2026: yes.
+26. UK residence: Artiom resides in the United Kingdom. His current presence in South Korea is a temporary holiday and must not be interpreted as residence outside the UK.
 
 Corrections supplied after exact-wording review:
 
@@ -39,3 +40,31 @@ Corrections supplied after exact-wording review:
   written.
 - Corrected E-002/E-003 and GitHub-backed E-013 through E-018 were subsequently approved
   exactly as written.
+
+## Tool and environment clarification — 2026-08-19
+
+Status: **FIRST-PARTY FACTUAL RESOLUTION WITH CONTEXT BOUNDARIES**
+
+Artiom directly confirmed personal use of the following development environments:
+
+- AI-assisted development: Claude Code in its desktop/Cowork and CLI forms, OpenAI Codex,
+  Kimi and Cursor.
+- Conventional integrated development environments: Visual Studio Code, Xcode and PyCharm.
+- Cybersecurity virtual labs completed during the CompTIA PenTest+ course: Wireshark, Nmap,
+  Metasploit, Hydra and Nikto.
+
+The cybersecurity products above must be described as virtual-lab or course exposure. They
+do not establish professional penetration-testing, security-operations or production-security
+experience.
+
+The operator's first-person corpus independently contains historical evidence for Claude Code,
+Codex, Cursor, Visual Studio Code, PyCharm and Xcode use; Robot Framework, pytest and unittest
+coursework; Axure prototyping; WordPress; and PenTest+ study or lab material involving Nmap,
+Wireshark, Metasploit and Nikto. The same course corpus mentions Nessus, OpenVAS, Burp Suite,
+enum4linux, John the Ripper and Shodan, but those additional tools remain **course-material
+exposure only** unless Artiom separately confirms hands-on use.
+
+Repository presence alone does not prove that Artiom personally operated a dependency. In
+particular, RunPod and Hugging Face may be described as project-stack components only after
+their personal-use boundary is confirmed; they must not be silently promoted to previous-role
+experience.

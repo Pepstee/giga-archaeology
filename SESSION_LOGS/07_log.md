@@ -382,3 +382,76 @@ implemented because universal recording and consent capture are still absent.
 - Focused research tests pass 67/67; canonical owned tests pass 192/192; schemas parse, code
   compiles and diff hygiene passes. Root-recursive pytest remains invalid because it collects
   archived corpus and upstream repository copies under duplicate Python module names.
+
+## 2026-08-19 — sovereign-runtime implementation blueprint and same-day correction
+
+- Added `architecture/12_JARVIS_SOVEREIGN_RUNTIME_IMPLEMENTATION_BLUEPRINT.md` as the living,
+  planning-only execution companion to the unratified sovereign-runtime proposal. It does not
+  supersede the current target or grant authority.
+- The initial draft incorrectly treated the operator's provisional example of 75 slices as a
+  planning boundary. The same canonical file was rewritten as an open-ended catalogue whose size
+  emerges from atomic outcomes. Compound entries were split across governance, state, policy,
+  Vault, cognition, continuity, domain and identity work; numeric IDs are stable references, not
+  an order or implied total. Every slice names prerequisites, an objective gate, immediate
+  standalone value and a safe stopping condition.
+- Added universal Definition of Done, pause/restart and six-month-resumption protocols, safety
+  rungs, readiness waves, migration-hazard review, residual-risk register, end-state coverage and
+  future-proofing invariants. This draft initially named JSR-002, JSR-007, JSR-008 and JSR-015 as
+  a first implementation set because they can improve reproducibility, portability and current
+  memory health without broader authority; the instruction-manual correction below supersedes
+  that default sequence.
+- Indexed the corrected blueprint in `architecture/00_DISCOVERY_INDEX.md`. Structural validation
+  requires unique IDs, no unknown dependencies, no cycles, objective gates on every catalogue row
+  and complete R-01–R-22 traceability; it deliberately has no expected-count assertion. The root
+  suite passes 85/85 and all five immutable exports verify. Memory validation remains truthfully
+  red with one missing index entry and two provenance warnings; JSR-015 owns the bounded repair.
+- Embedded the instruction manual into the canonical blueprint instead of creating a parallel
+  runbook. GIGA is explicitly treated as the operator's live work folder, and normal work takes
+  priority over architecture work.
+- The catalogue is now operationally a menu, not a queue. A slice must demonstrate present value
+  and proof of need/absence, then prefer adopt → configure → repair → extend → wrap before building
+  new. Doing nothing or dropping a low-value slice is an acceptable result.
+- Added default orientation/search/implementation budgets, a four-hour unattended ceiling, no
+  next-day continuation without fresh authorisation, mandatory stop conditions, restrictions on
+  background AI scope expansion, and copyable preflight/work-order/completion-report contracts.
+- Replaced the default “first four” sequence with a conditional starter menu. The first session is
+  now a maximum 20-minute selection pass that may end with DO NOTHING or ADOPT EXISTING; no slice
+  starts automatically. This documentation change grants no runtime or external-action authority.
+- Revalidation after the manual edit finds 108 unique catalogue IDs, known acyclic dependencies,
+  an objective gate on every row, complete R-01–R-22 coverage and all required manual controls.
+  The owned root suite still passes 85/85 and all five immutable exports verify. The same bounded
+  memory-health issue remains red and was deliberately not repaired opportunistically.
+- Added the checklist requested by the operator directly to every canonical catalogue row rather
+  than creating a parallel backlog. Each slice now carries an open/claimed/blocked/closed marker,
+  exact lifecycle status and evidence/work-order field.
+- Added receipt-backed anti-repetition rules: checked rows cannot be selected again; claimed work
+  resumes from its linked checkpoint; stale completed work is revalidated before any new coding;
+  and a failed revalidation creates a new linked repair/superseding ID instead of rewriting or
+  repeating the completed slice.
+- All 108 current catalogue entries remain `[ ] PROPOSED`. No row was pre-checked from code
+  resemblance or earlier planning because none yet has a slice-specific verification receipt.
+  JSR-003 now upgrades this manual ledger into a generated machine-readable registry without
+  creating two editable sources of truth.
+- Checklist validation passes across all 108 rows: every marker/status pair is legal, every
+  claimed/blocked/closed state would require an evidence link, all objective gates remain present,
+  and the dependency graph remains known and acyclic. The owned root suite passes 85/85 and all
+  five immutable exports still verify; the pre-existing memory-health error and two warnings are
+  unchanged and remain outside this documentation-only amendment.
+
+## 2026-08-19 — canonical end-state architecture flowchart
+
+- Added one comprehensive Mermaid flowchart to the canonical unratified sovereign-runtime proposal.
+  The earlier system-context diagram remains because it shows ownership; the new diagram has the
+  distinct responsibility of showing the complete operational and feedback path.
+- The flow covers stimuli, portable runtime and work state, Jarvis persistence/initiative, routing,
+  Faceless operational compartments, optional Twin/Vault context, LLM proposal roles, deterministic
+  Constitutional admission, domain adapters, external receipts, outcome learning and renewed
+  initiative.
+- It also makes the cross-cutting Constitution and evidence planes visible, preserves manual domain
+  paths and STOP, keeps Overseer inside Orchestrator and JAA/profiler inside Market Aligner, and
+  routes PPP/personal-memory learning through the single-writer Vault compiler.
+- The diagram is target-only. It does not ratify the proposal, mark any implementation slice
+  complete or grant Jarvis data, identity, execution or external-representation authority.
+- Static validation confirms seven balanced Mermaid subgraphs, all required core nodes and feedback
+  edges, explicit Faceless/Twin and portable-restore paths, complete policy/evidence plane coverage
+  of the official stages, and no router/model/context-to-adapter bypass edge. Diff hygiene passes.

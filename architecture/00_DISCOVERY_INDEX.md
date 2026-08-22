@@ -13,6 +13,8 @@ This directory is the durable hand-off for the three-pass reassessment requested
 | Historical provenance | `../retrospectives/gpt2_2026-2023-03_to_2026-07-forward-ledger.md` | Full month-by-month review of the separate ChatGPT account, including authorship and safety boundaries |
 | Designing the twin | `04_VIRTUAL_TWIN_TARGET.md` | Target capabilities, authority model and success criteria |
 | Implementing | `05_TRANSITION_ROADMAP.md` | Current-to-target gaps, dependency order and acceptance gates |
+| Reviewing the proposed Jarvis redesign | `11_JARVIS_SOVEREIGN_RUNTIME_PROPOSED_ARCHITECTURE.md` | Unratified proposal with the canonical end-state operational flowchart: Jarvis as the persistent engine, portable work module, optional local Personal Vault, OSI-like layers, unavoidable policy/evidence planes, routing, LLM/determinism boundaries, domain loops and multi-year continuity |
+| Selecting independent Jarvis work | `12_JARVIS_SOVEREIGN_RUNTIME_IMPLEMENTATION_BLUEPRINT.md` | Living open-ended atomic-slice blueprint with its operating manual and canonical receipt-backed checklist: current-value selection, anti-repetition/resumption rules, proof of reuse/absence, strict timeboxes and stop rules, bounded work-order template, prerequisites, objective gates and end-state coverage |
 
 ## Interpretation law
 
