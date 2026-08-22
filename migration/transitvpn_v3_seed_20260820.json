@@ -1,0 +1,38 @@
+{
+  "task_id": "transitvpn-beijing-readiness-20260820",
+  "title": "Finish and certify TransitVPN for Artiom's Beijing travel",
+  "task_type": "plan",
+  "project": "transitvpn",
+  "depends_on": [],
+  "acceptance_criteria": [
+    "Implement the complete contract in PROJECT_BRIEF.md through small independently verified increments.",
+    "Use current official Xray documentation and a pinned real Xray binary; reject stale or unsupported configuration shapes.",
+    "Keep every credential out of Git, prompts, logs, fixtures and evidence, and prove that boundary with executable negative controls.",
+    "Prove a real local server-to-client tunnel, failure handling, restart persistence, DNS/routing behaviour and truthful recovery-path semantics.",
+    "Produce runnable deployment, rollback, key rotation, Mac/phone client import and offline Beijing recovery artefacts.",
+    "Distinguish local certification, external endpoint certification and Beijing field verification; never claim what has not been tested.",
+    "Finish all work not genuinely blocked by missing public infrastructure or authentication, and surface any such blocker precisely."
+  ],
+  "payload": {
+    "brief": "PROJECT_BRIEF.md",
+    "baseline_commit": "5a9839c17ad417305838733cb824816881e0a3d5",
+    "operator_priority": "urgent-before-beijing",
+    "external_actions": "bounded-by-PROJECT_BRIEF.md",
+    "mode": "build",
+    "state": {
+      "done": [
+        "Implemented a current deterministic Xray configuration and version-validation boundary"
+      ],
+      "failed": [
+        {
+          "task_id": "historical-tvpn01-test-current-xray",
+          "diagnostic_ref": "historical:test-current-xray",
+          "title": "Independent current-Xray contract test",
+          "cause": "CurrentXrayContractTests.test_deployment_rejects_odd_length_and_malformed_short_ids failed because DeploymentConfig accepted the odd-length REALITY short ID 'abc' instead of raising ValueError. Repair this implementation defect first, then add and run independent tests before continuing the remaining PROJECT_BRIEF.md work."
+        }
+      ]
+    }
+  },
+  "priority": 100,
+  "max_retries": 3
+}

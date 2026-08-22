@@ -1,0 +1,195 @@
+[
+  {
+    "task_id": "tvpn01-implement-current-xray",
+    "title": "Implement current deterministic Xray configuration and version validation",
+    "task_type": "implement",
+    "project": "transitvpn",
+    "depends_on": [],
+    "acceptance_criteria": [
+      "Read and obey PROJECT_BRIEF.md; treat the imported implementation as untrusted legacy input.",
+      "Implement one validated deployment model that generates matching current Xray server and client configurations for VLESS plus REALITY using a fresh non-empty short ID and configurable verified target.",
+      "Pin an exact supported Xray release and add a subprocess boundary that validates generated configs with the real binary while recording binary identity without recording secrets.",
+      "Remove or correct obsolete claims including automatic Shadowsocks fallback and indistinguishability guarantees.",
+      "Do not write tests in this task and do not copy any old state credentials."
+    ],
+    "payload": {"brief": "PROJECT_BRIEF.md", "phase": "current-xray"},
+    "priority": 100,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn01-test-current-xray",
+    "title": "Independently test current Xray configuration and stale-config rejection",
+    "task_type": "test",
+    "project": "transitvpn",
+    "depends_on": ["tvpn01-implement-current-xray"],
+    "acceptance_criteria": [
+      "Add independent tests only; do not repair implementation defects in the test task.",
+      "Exercise server/client config agreement, non-empty even-length short IDs, target validation, pinned-version enforcement, malformed/stale configuration rejection and credential-redacted receipts.",
+      "Where the pinned official binary can be obtained and hash-verified, prove it accepts generated configs and rejects an injected invalid config.",
+      "Run the focused and inherited suites and report exact results."
+    ],
+    "payload": {"phase": "current-xray-tests"},
+    "priority": 99,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn01-validate-current-xray",
+    "title": "Review current Xray increment against the work order and evidence",
+    "task_type": "validate",
+    "project": "transitvpn",
+    "depends_on": ["tvpn01-test-current-xray"],
+    "acceptance_criteria": [
+      "Review only; do not modify files.",
+      "Reject unsupported Xray fields, mismatched client/server identities, false censorship claims, secrets in evidence, fake binary validation or tests that only restate implementation.",
+      "Return a precise pass or actionable findings bound to the exact source."
+    ],
+    "payload": {"phase": "current-xray-review"},
+    "priority": 98,
+    "max_retries": 2
+  },
+  {
+    "task_id": "tvpn02-implement-deployment",
+    "title": "Implement secret-safe idempotent deployment, service health, rotation and rollback",
+    "task_type": "implement",
+    "project": "transitvpn",
+    "depends_on": ["tvpn01-validate-current-xray"],
+    "acceptance_criteria": [
+      "Implement an idempotent Linux deployment path for the pinned Xray binary with checksum verification, restrictive runtime permissions, config pre-validation, supervised restart and rollback.",
+      "Implement key generation, rotation, revocation and backup/restore without placing secrets in Git, stdout, logs, model-readable evidence or test snapshots.",
+      "Make status distinguish PID existence, listening socket and a successful protocol-level health probe.",
+      "Represent missing public endpoint, router authority or VPS credentials honestly; do not purchase or expose infrastructure.",
+      "Do not write tests in this task."
+    ],
+    "payload": {"phase": "deployment"},
+    "priority": 90,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn02-test-deployment",
+    "title": "Independently test deployment safety, lifecycle and credential containment",
+    "task_type": "test",
+    "project": "transitvpn",
+    "depends_on": ["tvpn02-implement-deployment"],
+    "acceptance_criteria": [
+      "Add independent tests only.",
+      "Test idempotent install/upgrade, checksum failure, malformed config, occupied port, daemon crash, stale PID, restart, rollback, rotation, revoked profile and backup restore.",
+      "Scan the tracked tree, receipts and captured output for generated credential material and prove a deliberately injected secret fails the gate.",
+      "Run focused and inherited suites and report exact results."
+    ],
+    "payload": {"phase": "deployment-tests"},
+    "priority": 89,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn02-validate-deployment",
+    "title": "Review deployment and secret boundaries independently",
+    "task_type": "validate",
+    "project": "transitvpn",
+    "depends_on": ["tvpn02-test-deployment"],
+    "acceptance_criteria": [
+      "Review only; do not modify files.",
+      "Reject non-idempotent privileged mutations, secret-bearing evidence, process-only health, unverified downloads, destructive rollback or unsupported production claims.",
+      "Return a source-bound verdict with actionable findings."
+    ],
+    "payload": {"phase": "deployment-review"},
+    "priority": 88,
+    "max_retries": 2
+  },
+  {
+    "task_id": "tvpn03-implement-client-pack",
+    "title": "Implement Mac and phone client profiles, routing, DNS and offline recovery pack",
+    "task_type": "implement",
+    "project": "transitvpn",
+    "depends_on": ["tvpn02-validate-deployment"],
+    "acceptance_criteria": [
+      "Generate importable, matching client configurations and QR/URI material from the validated deployment model without persisting those secrets in tracked files or evidence.",
+      "Specify full-tunnel routing, DNS handling, kill-switch/direct-fallback behaviour and IPv4/IPv6 treatment explicitly.",
+      "Support multiple independently provisioned endpoints with deterministic priority and truthful failover; an absent second endpoint must remain visibly unprovisioned.",
+      "Produce an offline Beijing setup, diagnosis and recovery pack suitable for the operator's Mac and phone.",
+      "Do not write tests in this task."
+    ],
+    "payload": {"phase": "client-pack"},
+    "priority": 80,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn03-test-client-pack",
+    "title": "Independently test client imports, routing, DNS and failover semantics",
+    "task_type": "test",
+    "project": "transitvpn",
+    "depends_on": ["tvpn03-implement-client-pack"],
+    "acceptance_criteria": [
+      "Add independent tests only.",
+      "Validate generated client configs with the real pinned core and test server/client identity agreement.",
+      "Test unreachable primary, missing recovery endpoint, wrong key, wrong short ID, revoked profile, DNS failure, IPv6 handling and prohibition of unintended direct fallback.",
+      "Prove public documentation and evidence redact all client secrets while the private generated pack remains usable.",
+      "Run focused and inherited suites."
+    ],
+    "payload": {"phase": "client-pack-tests"},
+    "priority": 79,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn03-validate-client-pack",
+    "title": "Review client and travel-recovery increment independently",
+    "task_type": "validate",
+    "project": "transitvpn",
+    "depends_on": ["tvpn03-test-client-pack"],
+    "acceptance_criteria": [
+      "Review only; do not modify files.",
+      "Reject invalid client schemas, DNS leaks, accidental direct routing, fake failover, secret-bearing QR evidence, unsupported app claims or an online-only recovery guide.",
+      "Return a source-bound verdict."
+    ],
+    "payload": {"phase": "client-pack-review"},
+    "priority": 78,
+    "max_retries": 2
+  },
+  {
+    "task_id": "tvpn04-implement-e2e-release",
+    "title": "Implement real end-to-end tunnel assurance and release receipts",
+    "task_type": "implement",
+    "project": "transitvpn",
+    "depends_on": ["tvpn03-validate-client-pack"],
+    "acceptance_criteria": [
+      "Implement a hermetic real-core integration harness that starts separate Xray server and client processes, sends an HTTP request through the tunnel and records only non-secret content-addressed evidence.",
+      "Implement deterministic release checks binding source, dependency, binary, configuration-schema, test and documentation identities.",
+      "Add a privacy-preserving Gigabyte ingress diagnostic and a production activation checklist that separates local, external-endpoint and Beijing-field evidence.",
+      "Do not claim a public endpoint or Beijing reachability without the corresponding live evidence and do not write tests in this task."
+    ],
+    "payload": {"phase": "e2e-release"},
+    "priority": 70,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn04-test-e2e-release",
+    "title": "Run independent real-core end-to-end and release negative controls",
+    "task_type": "test",
+    "project": "transitvpn",
+    "depends_on": ["tvpn04-implement-e2e-release"],
+    "acceptance_criteria": [
+      "Add independent tests only and execute the real-core tunnel, not a mocked proxy.",
+      "Prove a request traverses the local tunnel and negative controls fail for wrong credentials, invalid short ID, occupied port, dead server, DNS failure and tampered release evidence.",
+      "Run the complete clean suite, lint, config validation, secret scan and restart drill; preserve exact non-secret receipts.",
+      "Report any production-only requirement as an explicit blocker rather than weakening acceptance."
+    ],
+    "payload": {"phase": "e2e-release-tests"},
+    "priority": 69,
+    "max_retries": 3
+  },
+  {
+    "task_id": "tvpn04-validate-final",
+    "title": "Independently certify the exact TransitVPN release candidate",
+    "task_type": "validate",
+    "project": "transitvpn",
+    "depends_on": ["tvpn04-test-e2e-release"],
+    "acceptance_criteria": [
+      "Review only; do not modify files.",
+      "Verify every global acceptance criterion in PROJECT_BRIEF.md against exact source and executable evidence.",
+      "Reject mocks presented as network proof, stale receipts, tracked secrets, unverified binaries, unproved recovery paths, false Beijing claims or incomplete operational documentation.",
+      "Return final status as implemented percentage, independently certified fraction, explicit remaining blockers and the next exact operation."
+    ],
+    "payload": {"phase": "final-certification"},
+    "priority": 68,
+    "max_retries": 2
+  }
+]

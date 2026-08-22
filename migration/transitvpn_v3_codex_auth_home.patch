@@ -1,0 +1,189 @@
+diff --git a/dispatch/runner.py b/dispatch/runner.py
+--- a/dispatch/runner.py	2026-08-20 19:30:08
++++ b/dispatch/runner.py	2026-08-20 19:31:00
+@@ -30,7 +30,7 @@
+
+ from core.models import AgentResult, Task
+ import dispatch.gate_runner as gate_runner_module
+-from dispatch.container import generate_profile
++from dispatch.container import ContainerProfile, generate_profile
+ from dispatch.gate_runner import (
+     isolated_gate_environment_policy_hash,
+     isolated_gate_executor,
+@@ -43,7 +43,7 @@
+     source_root,
+ )
+ from dispatch.registry_gen import AgentEntry
+-from infra.atomic_io import create_symlink, ensure_dir
++from infra.atomic_io import ensure_dir, set_permissions, write_bytes_atomic
+ from infra.canonical import object_sha256
+ from infra.factory_policy import host_assurance_mode
+ from infra.worktree import assurance_candidate_worktree
+@@ -148,32 +148,34 @@
+     return value
+
+
+-def _prepare_codex_home(entry: AgentEntry, scratch: Path, environment: dict[str, str]) -> None:
+-    """Give a sandboxed Codex CLI a writable home without copying its login secret.
++def _prepare_codex_home(entry: AgentEntry, root: Path) -> Path | None:
++    """Return a private, persistent credential home for a sandboxed Codex CLI.
+
+-    Codex persists local runtime databases even for an ephemeral turn. Pointing it at the
+-    operator's normal ``~/.codex`` makes Seatbelt correctly deny those writes before the model
+-    can start. The task scratch directory is already the only non-project writable mount, so use
+-    a home there and expose the existing login through a read-only symlink. An API-key based
+-    login needs no symlink and follows the same writable-home path.
++    Codex rotates subscription credentials while it runs. A symlink from task scratch to the
++    operator's auth file becomes read-only under the certified sandbox and makes a healthy
++    long-running factory fail as soon as the access token expires. Seed one factory-owned copy
++    from the operator login, once, and never copy it back. The copy lives under runtime state,
++    is excluded from project worktrees, and is mounted writable only for OpenAI-capable agents.
++    Subsequent calls preserve the factory copy so refresh-token rotation survives task changes.
+     """
+     manifest = entry.manifest
+     if manifest is None or "llm:openai" not in manifest.capabilities:
+-        return
++        return None
+
+     source_home = Path(os.environ.get("CODEX_HOME") or (Path.home() / ".codex")).resolve()
+-    codex_home = ensure_dir(scratch / "codex-home")
++    codex_home = ensure_dir(Path(root).resolve() / "state" / "provider-auth" / "codex")
++    set_permissions(codex_home, 0o700)
+     source_auth = source_home / "auth.json"
+     target_auth = codex_home / "auth.json"
+-    if source_auth.is_file():
+-        if target_auth.is_symlink():
+-            if target_auth.resolve() != source_auth.resolve():
+-                raise ValueError(f"Codex auth link points at an unexpected source: {target_auth}")
+-        elif target_auth.exists():
+-            raise ValueError(f"Codex auth target must be a symlink, not a regular file: {target_auth}")
+-        else:
+-            create_symlink(target_auth, source_auth.resolve())
+-    environment["CODEX_HOME"] = str(codex_home.resolve())
++    if target_auth.is_symlink():
++        raise ValueError(f"factory Codex auth target must not be a symlink: {target_auth}")
++    if target_auth.exists() and not target_auth.is_file():
++        raise ValueError(f"factory Codex auth target must be a regular file: {target_auth}")
++    if not target_auth.exists() and source_auth.is_file():
++        write_bytes_atomic(target_auth, source_auth.read_bytes())
++    if target_auth.exists():
++        set_permissions(target_auth, 0o600)
++    return codex_home.resolve()
+
+
+ def isolation_ready(root: Path | str) -> tuple[bool, str]:
+@@ -420,14 +422,24 @@
+         # scratch, but give temporary files a narrower child directory; the CLI home then sits
+         # outside the temporary subtree without gaining another writable host path.
+         temporary = ensure_dir(scratch / "tmp")
++        codex_home = _prepare_codex_home(entry, Path(root))
+         profile = generate_profile(
+             entry.manifest, workdir=workdir.resolve(), root=Path(root), scratch=scratch.resolve(),
+         )
++        if codex_home is not None:
++            profile = ContainerProfile(
++                mounts=[*profile.mounts, (codex_home, "rw")],
++                network_egress=profile.network_egress,
++                secrets=profile.secrets,
++                llm_auth=profile.llm_auth,
++            )
+         command = sandbox_command(runtime, profile, entry.command)
+         environment = agent_environment(
+             runtime, profile, scratch=temporary, implementation_root=_SOURCE_ROOT,
+             agent_name=entry.name,
+         )
++        if codex_home is not None:
++            environment["CODEX_HOME"] = str(codex_home)
+         # Codex's documented externally-sandboxed mode is safe only because this exact child is
+         # already inside the receipt-certified profile constructed above. Overwrite any ambient
+         # value so the child receives the live receipt identity, not a caller assertion.
+@@ -435,7 +447,6 @@
+         # Internal routing data, set after the ambient-environment filter. The planner uses this
+         # only as the provider CLI cwd; it does not enter the immutable task wire record.
+         environment[TASK_WORKDIR_ENV] = str(workdir.resolve())
+-        _prepare_codex_home(entry, scratch, environment)
+         namespace_receipt = _attempt_namespaces(scratch, environment, task)
+     except (OSError, ValueError) as exc:
+         return AgentResult(
+diff --git a/infra/atomic_io.py b/infra/atomic_io.py
+--- a/infra/atomic_io.py	2026-08-20 19:30:12
++++ b/infra/atomic_io.py	2026-08-20 19:31:00
+@@ -66,6 +66,13 @@
+     return p
+
+
++def set_permissions(path: Path | str, mode: int) -> None:
++    """Set restrictive POSIX permissions through the single sanctioned mutation boundary."""
++    target = Path(path)
++    os.chmod(target, mode)
++    _fsync_dir(target if target.is_dir() else target.parent)
++
++
+ def create_symlink(path: Path | str, target: Path | str) -> None:
+     """Create one symlink and durably record its directory entry.
+
+diff --git a/tests/test_container_runner_integration.py b/tests/test_container_runner_integration.py
+--- a/tests/test_container_runner_integration.py	2026-08-20 19:30:16
++++ b/tests/test_container_runner_integration.py	2026-08-20 19:31:00
+@@ -230,7 +230,7 @@
+     assert "literal-token-must-not-be-an-argument" not in json.dumps(seen["argv"])
+
+
+-def test_openai_manifest_gets_writable_scratch_home_with_read_only_login_link(
++def test_openai_manifest_gets_private_persistent_writable_factory_home(
+     tmp_path, monkeypatch,
+ ):
+     source_home = tmp_path / "operator-codex-home"
+@@ -244,20 +244,46 @@
+     assert result.ok is True
+     codex_home = Path(seen["codex_home"])
+     temporary = Path(seen["tmpdir"])
+-    assert codex_home.is_relative_to(tmp_path / "state" / "isolation" / "scratch")
++    assert codex_home == (tmp_path / "state" / "provider-auth" / "codex").resolve()
+     assert temporary.name == "tmp"
+-    assert temporary.is_relative_to(codex_home.parent)
+-    assert codex_home not in temporary.parents
+     assert not codex_home.is_relative_to(temporary)
+-    auth_link = codex_home / "auth.json"
+-    assert auth_link.is_symlink()
+-    assert auth_link.resolve() == source_auth.resolve()
++    factory_auth = codex_home / "auth.json"
++    assert factory_auth.is_file()
++    assert not factory_auth.is_symlink()
++    assert factory_auth.read_bytes() == source_auth.read_bytes()
++    assert factory_auth.stat().st_mode & 0o777 == 0o600
++    assert codex_home.stat().st_mode & 0o777 == 0o700
++    profile = seen["argv"][seen["argv"].index("-p") + 1]
++    assert str(codex_home) in profile
+     assert seen["outer_sandbox"] == "test-in-process-injection"
+     assert all(seen["namespaces"].values())
+     assert len(set(seen["namespaces"].values())) == 7
+     assert result.metadata["attempt_namespace_receipt"]["paths"] == seen["namespaces"]
++    assert source_auth.read_text(encoding="utf-8") == '{"auth_mode":"chatgpt"}'
++
++
++def test_factory_codex_auth_rotation_is_reused_without_overwriting_from_operator(
++    tmp_path, monkeypatch,
++):
++    source_home = tmp_path / "operator-codex-home"
++    source_home.mkdir()
++    source_auth = source_home / "auth.json"
++    source_auth.write_text('{"token":"operator-original"}', encoding="utf-8")
++    monkeypatch.setenv("CODEX_HOME", str(source_home))
+
++    first, seen = _inspection(tmp_path, monkeypatch, ["llm:openai"])
++    assert first.ok is True
++    factory_auth = Path(seen["codex_home"]) / "auth.json"
++    factory_auth.write_text('{"token":"factory-rotated"}', encoding="utf-8")
++    source_auth.write_text('{"token":"operator-changed"}', encoding="utf-8")
+
++    second, seen_again = _inspection(tmp_path, monkeypatch, ["llm:openai"])
++    assert second.ok is True
++    assert Path(seen_again["codex_home"]) == factory_auth.parent
++    assert factory_auth.read_text(encoding="utf-8") == '{"token":"factory-rotated"}'
++    assert source_auth.read_text(encoding="utf-8") == '{"token":"operator-changed"}'
++
++
+ def test_network_capability_is_required_for_network_allow_rule(tmp_path, monkeypatch):
+     result, seen = _inspection(tmp_path, monkeypatch, ["network:api.example.com"])
+     assert result.ok is True
