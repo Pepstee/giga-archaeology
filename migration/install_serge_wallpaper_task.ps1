@@ -107,7 +107,10 @@ Register-ScheduledTask `
     -Force | Out-Null
 
 $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction Stop
-if ($task.Principal.UserId -notin @($targetAccount, $targetSid)) {
+$taskPrincipalSid = (
+    New-Object System.Security.Principal.NTAccount($task.Principal.UserId)
+).Translate([System.Security.Principal.SecurityIdentifier]).Value
+if ($taskPrincipalSid -ne $targetSid) {
     throw 'The wallpaper task principal does not match the Serge account.'
 }
 if ($task.Principal.LogonType -ne 'Interactive') {
@@ -129,6 +132,7 @@ $receiptPath = Join-Path $receiptDirectory 'serge-task-install.json'
     target_user = $TargetUser
     target_sid = $targetSid
     principal = $task.Principal.UserId
+    principal_sid = $taskPrincipalSid
     logon_type = $task.Principal.LogonType.ToString()
     run_level = $task.Principal.RunLevel.ToString()
     wallpaper_path = $wallpaperFullPath

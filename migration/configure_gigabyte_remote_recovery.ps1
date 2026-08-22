@@ -69,9 +69,10 @@ Invoke-PowerCfg -Arguments @('/setacvalueindex', $scheme, $subSleep, $wakeTimers
 Invoke-PowerCfg -Arguments @('/setactive', $scheme) | Out-Null
 
 $action = New-ScheduledTaskAction -Execute $cmdExe -Argument '/d /c exit 0'
-$trigger = New-ScheduledTaskTrigger -Daily -At (Get-Date).AddMinutes(5)
-$trigger.Repetition.Interval = "PT${WakeIntervalMinutes}M"
-$trigger.Repetition.Duration = 'P1D'
+$trigger = New-ScheduledTaskTrigger `
+    -Once `
+    -At (Get-Date).AddMinutes(5) `
+    -RepetitionInterval (New-TimeSpan -Minutes $WakeIntervalMinutes)
 $principal = New-ScheduledTaskPrincipal `
     -UserId 'SYSTEM' `
     -LogonType ServiceAccount `
