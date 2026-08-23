@@ -1,0 +1,46 @@
+{
+  "schema": "giga.benchmark-supersession-evidence.v1",
+  "observed_at": "2026-08-24T04:08:00+09:00",
+  "source_study": {
+    "study_id": "weak-model-orchestration-v1",
+    "study_arm_id": "ensemble-with-critics",
+    "repeat_index": 1,
+    "experiment_id": "study-a53496154b9d269c66cf4cea",
+    "runtime_receipt_sha256": "9bb99f45ddd42c002a60c8126110cb64b1540461839b5964b5bf7a7ab5e77a0a",
+    "candidate_models": 3,
+    "cross_model_critiques": 6,
+    "remote_calls": 9,
+    "provider_reported_cost_usd": 0.0
+  },
+  "false_positive": {
+    "benchmark_id": "fabric-json-test-plan-001",
+    "candidate_id": "candidate-e82fad33750548aaaff4654dee0f8857",
+    "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+    "candidate_output_sha256": "38337a8d32da5c713fe2c72b152c752865b300a577d7fc0a4ec1c97f59379be7",
+    "old_gate_verdict": "PASS",
+    "defect": "positive and negative_control cases used the identical input with contradictory expected outcomes",
+    "independent_critic_evidence": [
+      {
+        "critic_model_id": "thinkingmachines/inkling-small:free",
+        "findings_sha256": "2a29bf51ad7b74cd4adb873f1a42dd687058f8accac14d36eeefc250d0494b15"
+      },
+      {
+        "critic_model_id": "thinkingmachines/inkling:free",
+        "findings_sha256": "9932b4cac150cc92442c925dd829e908cb8109c71df35b86879918ef279c6b2d"
+      }
+    ]
+  },
+  "superseding_benchmark": {
+    "benchmark_id": "fabric-json-test-plan-002",
+    "fixture_sha256": "18fa55f7239668bf7db300fb887e67cf875ac151b61d9bb78454347f3ce72f17",
+    "evaluator_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d",
+    "new_invariants": [
+      "positive and negative-control inputs are unique and disjoint",
+      "expected outcomes reject modal, relative and alternative language",
+      "all prior strict structural requirements remain"
+    ],
+    "study_catalogue": "config/studies-v2.json",
+    "study_catalogue_sha256": "f6e66e2b9cb392996004c7ddbc670cde2d87df338a59d51e34654f58f8cf6c8c"
+  },
+  "verdict": "V1_STRUCTURAL_RESULT_PRESERVED_BUT_SUPERSEDED_FOR_FUTURE_UTILITY_STUDIES"
+}

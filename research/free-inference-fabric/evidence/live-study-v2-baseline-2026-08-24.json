@@ -1,0 +1,32 @@
+{
+  "schema": "giga.live-study-cell-evidence.v1",
+  "observed_at": "2026-08-24T04:12:00+09:00",
+  "study_id": "weak-model-orchestration-v2",
+  "study_contract_sha256": "f6e66e2b9cb392996004c7ddbc670cde2d87df338a59d51e34654f58f8cf6c8c",
+  "study_arm_id": "single-shot-no-memory",
+  "repeat_index": 1,
+  "benchmark_id": "fabric-json-test-plan-002",
+  "benchmark_fixture_sha256": "18fa55f7239668bf7db300fb887e67cf875ac151b61d9bb78454347f3ce72f17",
+  "experiment_id": "study-f8469bfaabc1144148cafb2f",
+  "model_id": "thinkingmachines/inkling-small:free",
+  "candidates": 1,
+  "critics": 0,
+  "repair_rounds_used": 0,
+  "experience_enabled": false,
+  "remote_calls": 1,
+  "provider_reported_cost_usd": 0.0,
+  "latency_ms": 64629,
+  "objective_gate": {
+    "passed": true,
+    "score": 1.0,
+    "exit_code": 0,
+    "output": "VERIFIED giga.test-plan.v1 disjoint-controls\n"
+  },
+  "runtime_receipt_sha256": "4814683df32f925a9c65e449b519d3d9c74ab546d2f9b91b89b8c301a140ebe8",
+  "verdict": "VERIFIED_SINGLE_SHOT_NO_MEMORY_BASELINE",
+  "limitations": [
+    "One repeat does not establish a stable success rate.",
+    "Repair, memory and ensemble arms remain unmeasured against this v2 benchmark.",
+    "No paid frontier or useful local-model baseline has been run."
+  ]
+}

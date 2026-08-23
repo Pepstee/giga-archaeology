@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-json-test-plan-002",
+  "project": "giga-free-inference-fabric",
+  "workload": "model-benchmark",
+  "objective": "Produce a deterministic JSON test plan with disjoint positive and negative controls",
+  "prompt": "Return only JSON. Use schema giga.test-plan.v1 with exactly schema and tests at top level. Include a non-empty tests array. Every test needs non-empty string fields id, kind, input and expected. Include at least one kind=positive and one kind=negative_control. Test IDs and inputs must be unique. A negative_control expected value must explicitly reject, fail or error. Expected values must be deterministic: no should, baseline, uncertainty, indicate or alternative 'or' outcomes.",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ],
+  "supersedes_for_future_studies": "fabric-json-test-plan-001"
+}

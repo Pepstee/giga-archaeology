@@ -1,0 +1,56 @@
+{
+  "schema": "giga.study-catalogue.v1",
+  "studies": [
+    {
+      "id": "weak-model-orchestration-v2",
+      "question": "How far do repair loops, memory and cross-model criticism improve free-model utility under disjoint-control verification?",
+      "benchmark_id": "fabric-json-test-plan-002",
+      "arms": [
+        {
+          "id": "single-shot-no-memory",
+          "description": "One free model, one candidate and no prior experience.",
+          "cost_tier": "free",
+          "candidates_per_round": 1,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 1,
+          "max_rounds": 1,
+          "use_experience": false,
+          "repeats": 3
+        },
+        {
+          "id": "repair-no-memory",
+          "description": "One free model with objective repair feedback but no cross-experiment memory.",
+          "cost_tier": "free",
+          "candidates_per_round": 1,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 1,
+          "max_rounds": 4,
+          "use_experience": false,
+          "repeats": 3
+        },
+        {
+          "id": "repair-with-memory",
+          "description": "One free model with repair feedback and accumulated evidence memory.",
+          "cost_tier": "free",
+          "candidates_per_round": 1,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 1,
+          "max_rounds": 4,
+          "use_experience": true,
+          "repeats": 3
+        },
+        {
+          "id": "ensemble-with-critics",
+          "description": "Three independent free models, two cross-model critics and repair memory.",
+          "cost_tier": "free",
+          "candidates_per_round": 3,
+          "critics_per_candidate": 2,
+          "min_distinct_models": 3,
+          "max_rounds": 4,
+          "use_experience": true,
+          "repeats": 3
+        }
+      ]
+    }
+  ]
+}

@@ -172,6 +172,10 @@ def test_benchmark_binding_detects_fixture_drift_and_registry_is_immutable(tmp_p
     binding = build_benchmark_contract(str(fixture), "python3 verify.py")
     evaluator_contract = verify_benchmark_contract(binding)
     assert evaluator_contract["commands"] == [["python3", "verify.py"]]
+    cache = fixture / "__pycache__"
+    cache.mkdir()
+    (cache / "verify.cpython-314.pyc").write_bytes(b"runtime cache")
+    assert verify_benchmark_contract(binding)["commands"] == [["python3", "verify.py"]]
 
     store = ExperimentStore(tmp_path / "experiments.sqlite3")
     try:
@@ -312,6 +316,26 @@ def test_committed_live_transport_evidence_is_self_consistent_and_secret_free():
     assert not any(result["status"] == "VERIFIED" for result in local["results"])
     assert "sk-or-" not in local_raw and "OPENROUTER_API_KEY=" not in local_raw
 
+    supersession_raw = (
+        ROOT / "evidence" / "benchmark-v1-cross-critic-supersession-2026-08-24.json"
+    ).read_text(encoding="utf-8")
+    supersession = json.loads(supersession_raw)
+    assert supersession["false_positive"]["old_gate_verdict"] == "PASS"
+    assert len(supersession["false_positive"]["independent_critic_evidence"]) == 2
+    assert supersession["superseding_benchmark"]["benchmark_id"] == "fabric-json-test-plan-002"
+    assert "SUPERSEDED" in supersession["verdict"]
+    assert "sk-or-" not in supersession_raw and "OPENROUTER_API_KEY=" not in supersession_raw
+
+    baseline_raw = (
+        ROOT / "evidence" / "live-study-v2-baseline-2026-08-24.json"
+    ).read_text(encoding="utf-8")
+    baseline = json.loads(baseline_raw)
+    assert baseline["verdict"] == "VERIFIED_SINGLE_SHOT_NO_MEMORY_BASELINE"
+    assert baseline["experience_enabled"] is False
+    assert baseline["candidates"] == 1 and baseline["critics"] == 0
+    assert baseline["objective_gate"]["exit_code"] == 0
+    assert "sk-or-" not in baseline_raw and "OPENROUTER_API_KEY=" not in baseline_raw
+
 
 def test_bundled_real_benchmark_accepts_valid_plan_and_rejects_false_control():
     fixture = ROOT / "benchmarks" / "fabric-json-test-plan-001"
@@ -341,3 +365,51 @@ def test_bundled_real_benchmark_accepts_valid_plan_and_rejects_false_control():
     result = evaluator.evaluate(invalid)
     assert not result.passed
     assert "negative control" in result.checks[0]["output"]
+
+
+def test_v2_benchmark_rejects_cross_critic_false_positive_and_vague_outcomes():
+    fixture = ROOT / "benchmarks" / "fabric-json-test-plan-002"
+    evaluator = CommandEvaluator((("python3", "verify_candidate.py"),), fixture)
+    same_input = Candidate(
+        "same-input", "exp", 1, "test-first",
+        Completion(json.dumps({
+            "schema": "giga.test-plan.v1",
+            "tests": [
+                {"id": "p1", "kind": "positive", "input": "same", "expected": "accepted"},
+                {"id": "n1", "kind": "negative_control", "input": "same", "expected": "rejected"},
+            ],
+        }), "fixture", "fake"), "hash",
+    )
+    result = evaluator.evaluate(same_input)
+    assert not result.passed
+    assert "disjoint" in result.checks[0]["output"]
+
+    vague = Candidate(
+        "vague", "exp", 1, "test-first",
+        Completion(json.dumps({
+            "schema": "giga.test-plan.v1",
+            "tests": [
+                {"id": "p1", "kind": "positive", "input": "valid", "expected": "above baseline"},
+                {"id": "n1", "kind": "negative_control", "input": "invalid", "expected": "should reject"},
+            ],
+        }), "fixture", "fake"), "hash",
+    )
+    assert not evaluator.evaluate(vague).passed
+
+    valid = Candidate(
+        "valid-v2", "exp", 1, "test-first",
+        Completion(json.dumps({
+            "schema": "giga.test-plan.v1",
+            "tests": [
+                {"id": "p1", "kind": "positive", "input": "valid", "expected": "accepted"},
+                {"id": "n1", "kind": "negative_control", "input": "invalid", "expected": "error INVALID_INPUT"},
+            ],
+        }), "fixture", "fake"), "hash",
+    )
+    assert evaluator.evaluate(valid).passed
+
+    v2_path = ROOT / "config" / "studies-v2.json"
+    assert study_catalogue_hash(v2_path) == "f6e66e2b9cb392996004c7ddbc670cde2d87df338a59d51e34654f58f8cf6c8c"
+    study, arm = resolve_study_arm(v2_path, "weak-model-orchestration-v2", "ensemble-with-critics")
+    assert study.benchmark_id == "fabric-json-test-plan-002"
+    assert arm.min_distinct_models == 3

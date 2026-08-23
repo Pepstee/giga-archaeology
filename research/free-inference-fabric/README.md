@@ -167,10 +167,13 @@ autonomous production activation remains owned by GIGA-v2's JSR-086 authority bo
 
 ## Real-project benchmarks
 
-The repository includes `benchmarks/fabric-json-test-plan-001`, a runnable first benchmark rather
-than a placeholder. Its external verifier requires strict JSON, exact fields, unique test IDs and
-both positive and explicit negative-control cases. Benchmark fixtures are separate from unit tests
-because they measure models and must remain immutable across model comparisons.
+The repository preserves `benchmarks/fabric-json-test-plan-001`, the runnable first structural
+benchmark. A live three-model/six-critic study exposed a false-positive: v1 accepted contradictory
+positive and negative controls with the same input. That result remains immutable evidence, but
+future utility studies use `fabric-json-test-plan-002`, which also requires disjoint inputs and
+deterministic non-modal outcomes. See
+`evidence/benchmark-v1-cross-critic-supersession-2026-08-24.json`. Benchmark fixtures are separate
+from unit tests because they measure models and must remain immutable across comparisons.
 
 ```bash
 python3 -m giga_inference_fabric.cli benchmark-register \
@@ -293,8 +296,14 @@ completion receipt.
 - **Live benchmark-proven:** the bound `fabric-json-test-plan-001` external verifier rejected eight
   Nemotron candidates and accepted Inkling Small on its first attempt, all at provider-reported
   zero cost; see `evidence/live-benchmark-comparison-2026-08-24.json`.
-- **Implemented but not yet executed as complete studies:** fixed orchestration, ensemble/frontier
-  and Pareto arm matrices with idempotent repeat identities and study scoreboards.
+- **One live mutual-criticism cell completed:** three candidate models, six independent critiques,
+  nine zero-cost calls and one objective PASS. Critics then exposed a v1 verifier false-positive;
+  the immutable result is retained and the strengthened v2 study contract supersedes it.
+- **First strengthened v2 baseline completed:** Inkling Small passed the disjoint-control verifier
+  in one no-memory/no-repair call at reported zero cost. See
+  `evidence/live-study-v2-baseline-2026-08-24.json`.
+- **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
+  and Pareto cells with idempotent repeat identities and study scoreboards.
 - **Local transport live-proven, utility rejected:** existing MLX models were discovered and called
   with `remote_calls=0` under Vault policy, but none passed the minimal exact-output gate. See
   `evidence/live-local-negative-results-2026-08-24.json`; no local server was left running.

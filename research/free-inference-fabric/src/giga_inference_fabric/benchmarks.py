@@ -22,11 +22,16 @@ def hash_fixture(path: Path) -> str:
         return digest.hexdigest()
     if not root.is_dir():
         raise ValueError("benchmark fixture must be a regular file or directory")
+    ignored_directories = {".git", "__pycache__", ".pytest_cache", ".ruff_cache"}
+    ignored_files = {".DS_Store"}
     files = []
     for candidate in root.rglob("*"):
+        relative = candidate.relative_to(root)
         if candidate.is_symlink():
             raise ValueError(f"benchmark fixture contains a symlink: {candidate.relative_to(root)}")
-        if candidate.is_file():
+        if any(part in ignored_directories for part in relative.parts):
+            continue
+        if candidate.is_file() and candidate.name not in ignored_files and candidate.suffix != ".pyc":
             files.append(candidate)
     for candidate in sorted(files, key=lambda item: item.relative_to(root).as_posix()):
         relative = candidate.relative_to(root).as_posix()
