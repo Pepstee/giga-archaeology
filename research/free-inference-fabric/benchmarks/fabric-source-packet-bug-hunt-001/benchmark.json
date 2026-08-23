@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-source-packet-bug-hunt-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "bug-hunt",
+  "objective": "Find and reproduce the frozen source-packet builder and verifier canonicalization inconsistencies",
+  "prompt": "Return only strict JSON using schema giga.source-packet-bug-report.v1 with top-level fields schema, project, source_packet_sha256 and findings. Return exactly two findings: one embedded_newline differential and one unsupported_control differential. Each finding has exactly id, defect, impact, confidence, sources, reproducer, expected and observed. confidence must be certain. sources are exact path:line anchors and must include both the builder normalization/rejection logic and verifier reconstruction logic. reproducer has exactly kind and payload. embedded_newline payload must contain a newline but no CR/NUL; unsupported_control payload must contain CR or NUL. The hidden verifier constructs hash-consistent external packets, executes the frozen verifier, and differentially compares the frozen builder. Do not return Python or Markdown.",
+  "source_packet_sha256": "cbb53200fa16401afcd5f7151e1baf16764e945d747c7e3940fae33af18206d3",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

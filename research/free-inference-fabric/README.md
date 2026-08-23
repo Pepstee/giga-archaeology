@@ -279,6 +279,14 @@ byte caps, CR/binary content, secrets, project identity and duplicate inputs. Ad
 prove 9/9 reference cases and 7/7 mutation kills. It is queued fourth at priority 70. See
 `evidence/source-packet-test-generation-admission-2026-08-24.json`.
 
+`fabric-source-packet-bug-hunt-001` captures two real defects discovered in the frozen verifier:
+hash-consistent external rows can contain embedded newlines or unsupported CR/NUL content even
+though the builder canonicalises or rejects the identical bytes. The hidden evaluator requires two
+data-only differential reproductions with both builder and verifier anchors. It is queued fifth at
+priority 60; runtime remediation waits until the higher-priority live-source architecture job has
+run, so its immutable binding is not silently invalidated. See
+`evidence/source-packet-bug-hunt-admission-2026-08-24.json`.
+
 ## Controlled orchestration studies
 
 The admitted future-study contracts use the strengthened disjoint-control benchmark:
@@ -460,7 +468,7 @@ completion receipt.
   `evidence/live-controlled-progress-2026-08-24-r3.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
-- **Callable but not yet live-proven on portfolio source:** bug/debt discovery, refactoring,
+- **Callable but not yet live-proven on portfolio source:** debt discovery, refactoring,
   code/security review and periodic
   re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
   verifier and retained result before the corresponding utility claim advances to live-proven.
@@ -473,6 +481,8 @@ completion receipt.
   benchmark is queued third; no model result is accepted yet.
 - **Executable test generation admitted, awaiting inference:** a safe data-only mutation benchmark
   is queued fourth; no model-generated suite is accepted yet.
+- **Real bug hunt admitted, awaiting inference:** two builder/verifier differential defects are
+  independently reproducible and queued fifth; model bug-finding utility is not accepted yet.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
@@ -507,7 +517,8 @@ been activated across the project portfolio.
 - [x] Approach switching: stagnation injects a strategy-reset contract and rotates approaches.
 - [queued] Mass test generation: a frozen real-module DSL benchmark requires reference 9/9 and
   hidden mutation 7/7; no model result is accepted yet.
-- [profile] Bug search: `bug-hunt` workload with reproducer gate.
+- [queued] Bug search: two real frozen-code defects have data-only differential reproducers and a
+  hidden external gate; no model result is accepted yet.
 - [profile] Technical-debt search: `technical-debt` workload with measured-impact gate.
 - [profile] Refactoring: behaviour-preserving `refactoring` workload.
 - [queued] Existing-code documentation: the source-bound operational brief is admitted behind the
