@@ -1,0 +1,37 @@
+{
+  "schema": "giga.background-work-admission-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "benchmark": {
+    "benchmark_id": "fabric-config-audit-001",
+    "manifest_sha256": "b04b7c05a8ac5d83e3855e3e44d3fdb88254abd536ee67c2e726c85777c5d85f",
+    "verifier_sha256": "c11f76eda6c965af4bb15a760e93720417a94aaf51c735464ac766ce950d67cd",
+    "fixture_sha256": "1679c7dd210f45e80909fe72438859d948e82724fa56737c8b0b7449a7970e00",
+    "evaluator_command_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d"
+  },
+  "source_packet": {
+    "schema": "giga.source-packet.v1",
+    "packet_sha256": "c1aec9a2a7787b44f9e76642ad099910fa1d5a99fc297480a348dd31e64318cd",
+    "serialized_sha256": "b3d549be532459a6a9cf991f359d2bbb09753d68c0280ed6c8a09ecfaaaf00c7",
+    "storage": "benchmarks/fabric-config-audit-001/source-packet.json",
+    "file_count": 11,
+    "total_source_bytes": 54176,
+    "portable_frozen_fixture": true
+  },
+  "required_coverage": {
+    "package_runtime_facts": 7,
+    "configuration_findings": 4,
+    "deterministic_integrity_checks": 5
+  },
+  "queue": {
+    "work_id": "work-fabric-config-audit-001",
+    "idempotency_key": "1395ce6dcd7ba98884a677c994070948645c5f1344a5a0992aeb4f2202117e94",
+    "priority": 80,
+    "max_attempts": 3,
+    "status_at_admission": "QUEUED",
+    "attempts_at_admission": 0,
+    "predecessor_work_id": "work-fabric-operational-brief-001"
+  },
+  "provider_calls_during_admission": 0,
+  "claim_boundary": "Portable admission and deterministic verification are proven; audit utility remains unproven until a retained candidate passes the external verifier."
+}

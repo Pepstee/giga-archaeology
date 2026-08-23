@@ -266,6 +266,12 @@ rules, all with live anchors. It is queued behind the architecture map at lower 
 attempts; admission made no provider call. See
 `evidence/operational-brief-admission-2026-08-24.json`.
 
+`fabric-config-audit-001` is a portable dependency/configuration audit: unlike the first two live-
+source benchmarks, its 11-file packet is frozen inside the fixture. The hidden verifier validates
+the packet itself, three study-catalogue digests, package/runtime facts, OpenCode admission guards
+and four concrete configuration findings. It is queued third at priority 80 with zero attempts.
+See `evidence/config-audit-admission-2026-08-24.json`.
+
 ## Controlled orchestration studies
 
 The admitted future-study contracts use the strengthened disjoint-control benchmark:
@@ -448,7 +454,7 @@ completion receipt.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
 - **Callable but not yet live-proven on portfolio source:** test generation, bug/debt discovery,
-  refactoring, code/security/dependency review and periodic
+  refactoring, code/security review and periodic
   re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
   verifier and retained result before the corresponding utility claim advances to live-proven.
 - **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
@@ -456,6 +462,8 @@ completion receipt.
   its external verifier accepts a retained model result.
 - **Operational documentation admitted, awaiting inference:** the second real-source benchmark is
   immutable and queued behind architecture mapping; no model result is accepted yet.
+- **Dependency/config audit admitted, awaiting inference:** a self-contained frozen-packet
+  benchmark is queued third; no model result is accepted yet.
 - **Real-work heartbeat activated with a negative control:** the existing six-hour heartbeat now
   attempts at most one queue item before harvesting/studies. Its stricter 38-call admission gate
   returned `BUDGET_WAIT` at 38/38 without discovery, provider spend or a queue-attempt increment.
@@ -496,7 +504,8 @@ been activated across the project portfolio.
   no model result is accepted yet.
 - [profile] Code review: reproducibility-gated `code-review` workload.
 - [profile] Security review: authorised, non-live-exploitation `security-review` workload.
-- [profile] Dependency/config review: primary-source-backed `dependency-config-audit` workload.
+- [queued] Dependency/config review: a frozen-packet audit with deterministic digest and
+  configuration checks is admitted third; no model result is accepted yet.
 - [profile] Many alternative implementations: `alternative-implementation` plus candidate fan-out.
 - [x] Successful-chain memory and reuse: `solution_patterns` are injected into later matching tasks.
 - [x] Model-error/correction history: `failure_patterns`, attempts, critiques and gate outputs.

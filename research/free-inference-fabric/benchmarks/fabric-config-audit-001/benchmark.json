@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-config-audit-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "dependency-config-audit",
+  "objective": "Audit the frozen inference-fabric package and study configuration with deterministic integrity checks",
+  "prompt": "Return only strict JSON using schema giga.config-audit.v1. Top-level fields must be schema, project, source_packet_sha256, facts, findings and integrity_checks. Extract every required package/runtime fact, identify every material configuration finding with exact evidence and bounded remediation, and report every required integrity check. Use only path:line anchors from the frozen packet. Confidence must be certain for direct contradictions or complete-file absence and inferred for reproducibility/development-dependency risks. Do not use Markdown and do not claim a check passed unless the packet proves it.",
+  "source_packet_sha256": "c1aec9a2a7787b44f9e76642ad099910fa1d5a99fc297480a348dd31e64318cd",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}
