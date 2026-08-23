@@ -6,8 +6,13 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from giga_inference_fabric.benchmarks import build_benchmark_contract, verify_benchmark_contract
-from giga_inference_fabric.catalogue import load_profiles, model_window_diff
-from giga_inference_fabric.cli import _select_explicit_free_models, study_next
+from giga_inference_fabric.catalogue import (
+    harvest_experiment_id,
+    harvest_targets,
+    load_profiles,
+    model_window_diff,
+)
+from giga_inference_fabric.cli import _select_explicit_free_models, harvest_next, study_next
 from giga_inference_fabric.evaluators import CommandEvaluator, evaluator_from_contract
 from giga_inference_fabric.models import Candidate, Completion, CostTier, ModelSpec
 from giga_inference_fabric.providers import (
@@ -27,6 +32,74 @@ from giga_inference_fabric.studies import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def _register_test_harvest_benchmark(store: ExperimentStore, tmp_path: Path) -> None:
+    fixture = tmp_path / "harvest-benchmark"
+    fixture.mkdir()
+    manifest = {
+        "benchmark_id": "harvest-bench", "project": "fabric", "workload": "model-benchmark",
+        "objective": "return locked artifact", "prompt": "return the locked artifact",
+    }
+    (fixture / "benchmark.json").write_text(json.dumps(manifest), encoding="utf-8")
+    (fixture / "verify_candidate.py").write_text("raise SystemExit(0)\n", encoding="utf-8")
+    binding = build_benchmark_contract(str(fixture), "python3 verify_candidate.py")
+    assert store.register_benchmark(
+        "harvest-bench", "fabric", "model-benchmark", "return locked artifact",
+        str(fixture), "python3 verify_candidate.py", {"binding": binding},
+    )
+
+
+def test_free_window_harvest_prioritises_preview_and_has_stable_identity():
+    binding = {"fixture_sha256": "fixture", "evaluator_sha256": "evaluator"}
+    models = [
+        ModelSpec("free/z", "openrouter", CostTier.FREE),
+        ModelSpec("preview/b", "openrouter", CostTier.FREE, preview=True),
+        ModelSpec("preview/a", "openrouter", CostTier.FREE, preview=True),
+        ModelSpec("paid/a", "openrouter", CostTier.PAID, preview=True),
+    ]
+    targets = harvest_targets(
+        models, binding, max_rounds=1, excluded_model_ids=set(), claimed_experiment_ids=set(),
+    )
+    assert [target.model_id for target in targets] == ["preview/a", "preview/b", "free/z"]
+    assert targets[0].experiment_id == harvest_experiment_id(
+        binding, "preview/a", max_rounds=1,
+    )
+    assert harvest_experiment_id(binding, "preview/a", max_rounds=1) != harvest_experiment_id(
+        binding, "preview/a", max_rounds=2,
+    )
+    assert harvest_targets(
+        models, binding, max_rounds=1, excluded_model_ids={"preview/a"},
+        claimed_experiment_ids={targets[1].experiment_id},
+    )[0].model_id == "free/z"
+
+
+def test_harvest_next_refuses_before_provider_discovery_when_budget_is_exhausted(
+    tmp_path: Path, capsys,
+):
+    db = tmp_path / "experiments.sqlite3"
+    store = ExperimentStore(db)
+    try:
+        _register_test_harvest_benchmark(store, tmp_path)
+        store.observe_models([
+            ModelSpec("preview/model", "openrouter", CostTier.FREE, preview=True),
+        ])
+    finally:
+        store.close()
+    args = SimpleNamespace(
+        db=db, benchmark_id="harvest-bench", rounds=1, daily_remote_limit=0,
+        execute=False,
+    )
+    assert harvest_next(args) == 4
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "BUDGET_WAIT"
+    assert payload["model_id"] == "preview/model" and payload["preview"] is True
+    store = ExperimentStore(db)
+    try:
+        assert store.experiment_ids() == set()
+        assert store.remote_calls_today() == 0
+    finally:
+        store.close()
 
 
 def test_explicit_free_model_selection_preserves_declared_order_and_fails_closed():

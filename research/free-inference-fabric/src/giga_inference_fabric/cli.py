@@ -12,7 +12,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from .benchmarks import build_benchmark_contract, verify_benchmark_contract
-from .catalogue import load_profiles, model_window_diff
+from .catalogue import harvest_targets, load_profiles, model_window_diff
 from .engine import ExperimentEngine
 from .evaluators import evaluator_from_contract
 from .models import CostTier, ExperimentRequest, ModelPolicy, ModelSpec, PrivacyClass
@@ -210,6 +210,33 @@ def study_scoreboard(args: argparse.Namespace) -> int:
     return 0
 
 
+def _load_registered_benchmark(
+    store: ExperimentStore, benchmark_id: str,
+) -> tuple[dict, dict, dict]:
+    try:
+        benchmark = store.get_benchmark(benchmark_id)
+    except KeyError as exc:
+        raise SystemExit(f"unknown or inactive benchmark: {benchmark_id}") from exc
+    metadata = json.loads(benchmark["metadata_json"])
+    binding = metadata.get("binding")
+    if not isinstance(binding, dict):
+        raise SystemExit("benchmark has no immutable v1 binding")
+    try:
+        verify_benchmark_contract(binding)
+    except ValueError as exc:
+        raise SystemExit(str(exc)) from exc
+    manifest_path = Path(benchmark["fixture_ref"]) / "benchmark.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if (
+        manifest.get("benchmark_id") != benchmark["benchmark_id"]
+        or manifest.get("objective") != benchmark["objective"]
+        or manifest.get("workload") != benchmark["workload"]
+        or not isinstance(manifest.get("prompt"), str)
+    ):
+        raise SystemExit("benchmark manifest does not match its immutable registration")
+    return benchmark, manifest, binding
+
+
 def study_next(args: argparse.Namespace) -> int:
     store = ExperimentStore(args.db)
     try:
@@ -249,24 +276,7 @@ def study_next(args: argparse.Namespace) -> int:
             payload["status"] = "READY"
             print(json.dumps(payload, indent=2, sort_keys=True))
             return 0
-        try:
-            benchmark = store.get_benchmark(study.benchmark_id)
-        except KeyError as exc:
-            raise SystemExit(f"unknown or inactive benchmark: {study.benchmark_id}") from exc
-        metadata = json.loads(benchmark["metadata_json"])
-        binding = metadata.get("binding")
-        if not isinstance(binding, dict):
-            raise SystemExit("benchmark has no immutable v1 binding")
-        verify_benchmark_contract(binding)
-        manifest_path = Path(benchmark["fixture_ref"]) / "benchmark.json"
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        if (
-            manifest.get("benchmark_id") != benchmark["benchmark_id"]
-            or manifest.get("objective") != benchmark["objective"]
-            or manifest.get("workload") != benchmark["workload"]
-            or not isinstance(manifest.get("prompt"), str)
-        ):
-            raise SystemExit("benchmark manifest does not match its immutable registration")
+        benchmark, manifest, _binding = _load_registered_benchmark(store, study.benchmark_id)
     finally:
         store.close()
 
@@ -286,6 +296,68 @@ def study_next(args: argparse.Namespace) -> int:
         include_paid=args.include_paid, paid_model=args.paid_model,
         max_cost_usd=args.max_cost_usd,
         output=args.output_dir / cell.study_id / f"{cell.arm_id}-r{cell.repeat_index}.json",
+    )
+    return run(run_args)
+
+
+def harvest_next(args: argparse.Namespace) -> int:
+    """Select and optionally benchmark one unmeasured free model; preview models come first."""
+    store = ExperimentStore(args.db)
+    try:
+        benchmark, manifest, binding = _load_registered_benchmark(store, args.benchmark_id)
+        models = store.latest_models()
+        if not models:
+            print(json.dumps({
+                "schema": "giga.free-window-harvest.v1", "status": "NO_SNAPSHOT",
+                "benchmark_id": args.benchmark_id,
+            }, indent=2, sort_keys=True))
+            return 3
+        targets = harvest_targets(
+            models, binding, max_rounds=args.rounds,
+            excluded_model_ids=store.benchmark_attempted_model_ids(args.benchmark_id),
+            claimed_experiment_ids=store.experiment_ids(),
+        )
+        used_today = store.remote_calls_today()
+        if not targets:
+            print(json.dumps({
+                "schema": "giga.free-window-harvest.v1", "status": "COMPLETE",
+                "benchmark_id": args.benchmark_id, "remote_calls_today": used_today,
+            }, indent=2, sort_keys=True))
+            return 0
+        target = targets[0]
+        remaining = max(0, args.daily_remote_limit - used_today)
+        payload = {
+            "schema": "giga.free-window-harvest.v1", "benchmark_id": args.benchmark_id,
+            "model_id": target.model_id, "preview": target.preview,
+            "experiment_id": target.experiment_id, "worst_case_remote_calls": args.rounds,
+            "remote_calls_today": used_today, "daily_remote_limit": args.daily_remote_limit,
+            "remaining_remote_calls": remaining,
+        }
+        if args.rounds > remaining:
+            payload["status"] = "BUDGET_WAIT"
+            print(json.dumps(payload, indent=2, sort_keys=True))
+            return 4
+        if not args.execute:
+            payload["status"] = "READY"
+            print(json.dumps(payload, indent=2, sort_keys=True))
+            return 0
+    finally:
+        store.close()
+
+    run_args = argparse.Namespace(
+        db=args.db, objective=benchmark["objective"], prompt=manifest["prompt"], context="",
+        workload=benchmark["workload"], benchmark_id=args.benchmark_id,
+        study_id=None, study_arm=None, repeat_index=None, study_catalogue=DEFAULT_STUDIES,
+        experiment_id=target.experiment_id, no_experience=True,
+        require=[], forbid=[], check_command=[], evaluator_cwd=None, command_timeout=300,
+        candidates=1, critics=0, min_distinct_models=1, rounds=args.rounds,
+        max_remote_calls=args.rounds, daily_remote_limit=args.daily_remote_limit,
+        max_output_tokens=args.max_output_tokens, stagnation_rounds=2,
+        privacy=args.privacy, require_zdr=args.require_zdr, local_only=False,
+        use_opencode_auth=args.use_opencode_auth, free_model=[target.model_id],
+        local_model=[], local_base_url="http://127.0.0.1:11434/v1",
+        include_paid=False, paid_model=[], max_cost_usd=0.0,
+        output=args.output_dir / args.benchmark_id / f"{target.experiment_id}.json",
     )
     return run(run_args)
 
@@ -443,6 +515,10 @@ def worker_once(args: argparse.Namespace) -> int:
 
 def run(args: argparse.Namespace) -> int:
     study_arm, study_experiment_id, study_contract_hash = _bind_study_arm(args)
+    explicit_experiment_id = getattr(args, "experiment_id", None)
+    if study_experiment_id and explicit_experiment_id:
+        raise SystemExit("experiment identity cannot override a controlled study cell")
+    experiment_id = study_experiment_id or explicit_experiment_id
     if args.include_paid and (not args.paid_model or args.max_cost_usd <= 0):
         raise SystemExit("--include-paid requires at least one --paid-model and a positive --max-cost-usd")
     if args.use_opencode_auth and args.include_paid:
@@ -498,12 +574,12 @@ def run(args: argparse.Namespace) -> int:
         study_contract_sha256=study_contract_hash,
         repeat_index=args.repeat_index,
         use_experience=not args.no_experience,
-        experiment_id=study_experiment_id,
+        experiment_id=experiment_id,
     )
     store = ExperimentStore(args.db)
     try:
-        if study_experiment_id and store.experiment_exists(study_experiment_id):
-            raise SystemExit("study cell already exists; use the next declared repeat index")
+        if experiment_id and store.experiment_exists(experiment_id):
+            raise SystemExit("deterministic experiment identity already exists")
         if args.benchmark_id:
             try:
                 benchmark = store.get_benchmark(args.benchmark_id)
@@ -555,6 +631,27 @@ def build_parser() -> argparse.ArgumentParser:
         "--output", type=Path, default=ROOT / "state" / "last-monitor-receipt.json",
     )
     monitor_parser.set_defaults(func=monitor_once)
+
+    harvest_parser = sub.add_parser(
+        "harvest-next", help="benchmark exactly one unmeasured free/preview model",
+    )
+    harvest_parser.add_argument("--benchmark-id", default="fabric-json-test-plan-002")
+    harvest_parser.add_argument("--rounds", type=int, default=1)
+    harvest_parser.add_argument(
+        "--daily-remote-limit", type=int,
+        default=int(os.environ.get("OPENROUTER_FREE_DAILY_LIMIT", "50")),
+    )
+    harvest_parser.add_argument("--execute", action="store_true")
+    harvest_parser.add_argument("--use-opencode-auth", action="store_true")
+    harvest_parser.add_argument("--max-output-tokens", type=int, default=512)
+    harvest_parser.add_argument(
+        "--privacy", choices=[item.value for item in PrivacyClass], default="internal",
+    )
+    harvest_parser.add_argument("--require-zdr", action="store_true")
+    harvest_parser.add_argument(
+        "--output-dir", type=Path, default=ROOT / "state" / "harvest",
+    )
+    harvest_parser.set_defaults(func=harvest_next)
 
     profiles_parser = sub.add_parser("profiles", help="list reusable background workloads")
     profiles_parser.add_argument("--profiles", type=Path, default=DEFAULT_PROFILES)

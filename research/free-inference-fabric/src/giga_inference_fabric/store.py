@@ -321,6 +321,15 @@ class ExperimentStore:
     def experiment_ids(self) -> set[str]:
         return {row[0] for row in self.connection.execute("SELECT experiment_id FROM experiments")}
 
+    def benchmark_attempted_model_ids(self, benchmark_id: str) -> set[str]:
+        return {
+            row[0] for row in self.connection.execute(
+                """SELECT DISTINCT a.model_id FROM attempts a
+                     JOIN experiments e USING(experiment_id) WHERE e.benchmark_id=?""",
+                (benchmark_id,),
+            )
+        }
+
     def study_scoreboard(self, study_id: str) -> list[dict]:
         self.connection.row_factory = sqlite3.Row
         experiment_rows = self.connection.execute(

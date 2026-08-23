@@ -61,6 +61,8 @@ The implementation includes:
 - an idempotent, leased, retry-bounded background work queue;
 - deterministic one-cell study progression that refuses before discovery when the remaining daily
   allowance cannot cover the declared worst case;
+- preview-first `harvest-next` selection that benchmarks one still-unmeasured free model against an
+  immutable objective gate and cannot claim or spend on the same model/contract twice;
 - escalation packets that give a frontier model prior experiments and failures;
 - 19 reusable workloads covering tests, bug finding, debt, refactoring, documentation,
   codebase research, architecture maps, code/security/dependency review, alternatives,
@@ -70,7 +72,7 @@ The implementation includes:
 
 | Operator intent | Implemented mechanism |
 |---|---|
-| Exploit free OpenRouter and temporary previews | Public discovery snapshot, free/preview classification, `free-window-harvest` workload |
+| Exploit free OpenRouter and temporary previews | Public discovery snapshot, preview-first `harvest-next`, immutable benchmark and deterministic claim |
 | Compensate for weak models | Multi-round engine with objective feedback, critics and approach rotation |
 | Try independent solutions and models | `candidates_per_round`, model rotation and mandatory independent approaches |
 | One model checks another / mutual criticism | Candidate model is excluded from its critic pool; several critics can be required |
@@ -120,6 +122,14 @@ python3 -m giga_inference_fabric.cli discover
 
 # Produce one scheduler-friendly receipt. Exit 10 means a free/preview window changed.
 python3 -m giga_inference_fabric.cli monitor-once
+
+# Select the highest-priority unmeasured preview/free model without calling it. Add --execute and
+# the existing OpenCode bridge only when the printed worst-case call count fits the daily budget.
+python3 -m giga_inference_fabric.cli harvest-next \
+  --benchmark-id fabric-json-test-plan-002 --daily-remote-limit 20
+python3 -m giga_inference_fabric.cli harvest-next \
+  --benchmark-id fabric-json-test-plan-002 --daily-remote-limit 20 \
+  --execute --use-opencode-auth
 
 # Discover models served by a local OpenAI-compatible endpoint.
 python3 -m giga_inference_fabric.cli discover-local \
@@ -377,7 +387,7 @@ production scheduler has been activated across the project portfolio.
 - [x] Model-error/correction history: `failure_patterns`, attempts, critiques and gate outputs.
 - [x] Real-project benchmarks: immutable registry with verified fixture and evaluator hashes.
 - [x] Workflow-specific utility: scorecard records gate score, success, latency, tokens and cost.
-- [x] Temporary free previews: preview detection and `free-window-harvest` workload.
+- [x] Temporary free previews: preview-first `harvest-next` executes one immutable benchmark cell.
 - [x] New/free-window monitoring: `monitor-once` records durable open/close events and receipts.
 - [x] Local inference: OpenAI-compatible adapter plus local model discovery.
 - [x] Local/free/paid composition: common adapter contract; paid tier requires explicit admission.
