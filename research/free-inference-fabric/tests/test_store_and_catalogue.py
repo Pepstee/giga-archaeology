@@ -772,6 +772,44 @@ def test_opencode_adapter_rejects_missing_output_cap_receipt(monkeypatch, tmp_pa
         raise AssertionError("missing output-cap receipt was accepted")
 
 
+def test_opencode_adapter_preserves_usage_when_provider_returns_no_text(monkeypatch, tmp_path):
+    class Result:
+        returncode = 0
+        stdout = json.dumps({
+            "type": "step_finish",
+            "part": {"cost": 0, "tokens": {"input": 2000, "output": 0, "reasoning": 512}},
+        })
+
+    def fake_run(command, **kwargs):
+        root = Path(kwargs.get("cwd") or command[command.index("--dir") + 1])
+        (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
+        if command[1:3] == ["debug", "config"]:
+            plugin = (ROOT / "opencode/giga-output-budget.js").as_uri()
+            return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
+        (root / "output-cap-receipt.json").write_text(json.dumps({
+            "invocationCount": 1, "providerID": "openrouter", "modelID": "free/model",
+            "maxOutputTokens": 512,
+        }), encoding="utf-8")
+        return Result()
+
+    monkeypatch.setattr("giga_inference_fabric.providers.subprocess.run", fake_run)
+    auth_file = tmp_path / "auth.json"
+    auth_file.write_text("{}", encoding="utf-8")
+    try:
+        OpenCodeOpenRouterAdapter(binary="opencode", auth_file=auth_file).complete(
+            ModelSpec("free/model", "opencode-openrouter", CostTier.FREE),
+            system="system", prompt="prompt", max_output_tokens=512,
+        )
+    except ProviderError as exc:
+        assert "no text event" in str(exc)
+        assert exc.completion is not None
+        assert exc.completion.prompt_tokens == 2000
+        assert exc.completion.completion_tokens == 512
+        assert exc.completion.cost_usd == 0.0
+    else:
+        raise AssertionError("empty completion was accepted")
+
+
 def test_opencode_adapter_totalises_missing_plugin_init_receipt(monkeypatch, tmp_path):
     def fake_run(command, **kwargs):
         plugin = (ROOT / "opencode/giga-output-budget.js").as_uri()

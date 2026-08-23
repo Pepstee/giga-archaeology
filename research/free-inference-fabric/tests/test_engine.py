@@ -91,6 +91,49 @@ def test_provider_failure_cannot_pass_a_weak_text_gate(tmp_path: Path):
         store.close()
 
 
+def test_provider_failure_telemetry_is_retained_and_charged(tmp_path: Path):
+    class TelemetryFailureAdapter:
+        name = "fake"
+
+        def complete(self, model, **_kwargs):
+            raise ProviderError(
+                "empty final text",
+                completion=Completion(
+                    "", model.model_id, self.name, prompt_tokens=100,
+                    completion_tokens=20, latency_ms=50, cost_usd=0.004,
+                ),
+            )
+
+    paid = ModelSpec(
+        "paid/a", "fake", CostTier.PAID,
+        metadata={"pricing": {"prompt": "0.000001", "completion": "0.000001"}},
+    )
+    store = ExperimentStore(tmp_path / "experiments.sqlite3")
+    try:
+        request = ExperimentRequest(
+            objective="x", prompt="x", candidates_per_round=1, critics_per_candidate=0,
+            min_distinct_models=1, max_rounds=1, max_output_tokens=20,
+            policy=ModelPolicy(
+                allowed_tiers=frozenset({CostTier.PAID}),
+                allowed_adapters=frozenset({"fake"}),
+                allow_paid_escalation=True, max_total_cost_usd=1.0,
+            ),
+        )
+        result = ExperimentEngine(
+            adapters={"fake": TelemetryFailureAdapter()}, models=[paid], store=store,
+        ).run(request, TextContractEvaluator((r"pass",)))
+        assert result.status == "UNVERIFIED"
+        assert result.best_candidate and result.best_candidate.completion.completion_tokens == 20
+        assert result.escalation_packet["total_cost_usd"] == 0.004
+        call = store.connection.execute(
+            "SELECT prompt_tokens,completion_tokens,latency_ms,cost_usd,success "
+            "FROM provider_calls"
+        ).fetchone()
+        assert tuple(call) == (100, 20, 50, 0.004, 0)
+    finally:
+        store.close()
+
+
 def test_provider_failure_rotates_to_a_different_free_model(tmp_path: Path):
     adapter = ScriptedAdapter({"free/a": [], "free/b": ["GOOD"]})
     store = ExperimentStore(tmp_path / "experiments.sqlite3")

@@ -173,7 +173,9 @@ Paid models are excluded by default. Adding one requires all three explicit elem
 paid call, the engine uses the highest published base/override prompt and completion prices, a
 conservative UTF-8 prompt bound and the provider-side output-token ceiling to reserve the maximum
 call cost atomically. Missing, invalid, stale-catalogue or over-budget admission fails before
-provider execution.
+provider execution. Provider failures remain failures, but any returned latency, token usage and
+cost are still charged to the experiment and written to the ledger; failure cannot erase spend or
+bias the cheap-versus-frontier comparison.
 
 ```bash
 python3 -m giga_inference_fabric.cli run \

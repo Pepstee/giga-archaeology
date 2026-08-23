@@ -19,7 +19,9 @@ OPENCODE_BUDGET_PLUGIN = Path(__file__).resolve().parents[2] / "opencode/giga-ou
 
 
 class ProviderError(RuntimeError):
-    pass
+    def __init__(self, message: str, *, completion: Completion | None = None):
+        super().__init__(message)
+        self.completion = completion
 
 
 class ModelAdapter(Protocol):
@@ -283,16 +285,8 @@ class OpenCodeOpenRouterAdapter:
                 prompt_tokens += int(tokens.get("input") or 0)
                 completion_tokens += int(tokens.get("output") or 0) + int(tokens.get("reasoning") or 0)
                 cost_usd += float(part.get("cost") or 0.0)
-        if result.returncode != 0 or errors:
-            detail = "; ".join(errors) or result.stdout[-2000:] or f"exit {result.returncode}"
-            raise ProviderError(f"OpenCode provider failure: {detail}")
-        completion_text = "".join(text_parts).strip()
-        if not completion_text:
-            raise ProviderError("OpenCode provider returned no text event")
-        if model.cost_tier == CostTier.FREE and cost_usd > 0:
-            raise ProviderError("free-tier OpenCode call reported non-zero cost")
-        return Completion(
-            text=completion_text, model_id=model.model_id, adapter=self.name,
+        telemetry = Completion(
+            text="", model_id=model.model_id, adapter=self.name,
             prompt_tokens=prompt_tokens, completion_tokens=completion_tokens,
             latency_ms=int((time.monotonic() - started) * 1000), cost_usd=cost_usd,
             raw={
@@ -301,6 +295,23 @@ class OpenCodeOpenRouterAdapter:
                 "llm_invocations": hook_receipt["invocationCount"],
                 "auth_exposure": "isolated-symlink-only",
             },
+        )
+        if result.returncode != 0 or errors:
+            detail = "; ".join(errors) or result.stdout[-2000:] or f"exit {result.returncode}"
+            raise ProviderError(f"OpenCode provider failure: {detail}", completion=telemetry)
+        completion_text = "".join(text_parts).strip()
+        if not completion_text:
+            raise ProviderError("OpenCode provider returned no text event", completion=telemetry)
+        if model.cost_tier == CostTier.FREE and cost_usd > 0:
+            raise ProviderError(
+                "free-tier OpenCode call reported non-zero cost", completion=telemetry,
+            )
+        return Completion(
+            text=completion_text, model_id=telemetry.model_id, adapter=telemetry.adapter,
+            prompt_tokens=telemetry.prompt_tokens,
+            completion_tokens=telemetry.completion_tokens,
+            latency_ms=telemetry.latency_ms, cost_usd=telemetry.cost_usd,
+            raw=telemetry.raw,
         )
 
 

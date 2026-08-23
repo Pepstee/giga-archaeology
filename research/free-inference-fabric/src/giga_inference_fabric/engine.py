@@ -126,8 +126,15 @@ class ExperimentEngine:
                 except ProviderError as exc:
                     # Provider failure is evidence and consumes the bounded attempt, but cannot
                     # become a model-authored success or an infinite retry.
+                    telemetry = exc.completion or Completion(
+                        text="", model_id=model.model_id, adapter=model.adapter,
+                    )
                     completion = Completion(
-                        text=f"PROVIDER_FAILURE: {exc}", model_id=model.model_id, adapter=model.adapter,
+                        text=f"PROVIDER_FAILURE: {exc}", model_id=telemetry.model_id,
+                        adapter=telemetry.adapter, prompt_tokens=telemetry.prompt_tokens,
+                        completion_tokens=telemetry.completion_tokens,
+                        latency_ms=telemetry.latency_ms, cost_usd=telemetry.cost_usd,
+                        raw=telemetry.raw,
                     )
                     provider_failed = True
                 if model.adapter != "local" and "budget exhausted" not in completion.text:
@@ -245,7 +252,7 @@ CANDIDATE:\n{candidate.completion.text[-16000:]}"""
                 except ProviderError as exc:
                     text = f"CRITIC_PROVIDER_FAILURE: {exc}"
                     success = False
-                    completion = None
+                    completion = exc.completion
                 else:
                     text = completion.text
                     success = True
@@ -290,6 +297,12 @@ CANDIDATE:\n{candidate.completion.text[-16000:]}"""
             completion = self.adapters[model.adapter].complete(
                 model, system=SYSTEM, prompt=prompt, max_output_tokens=self._max_output_tokens,
             )
+        except ProviderError as exc:
+            with self._budget_lock:
+                self._reserved_cost_usd -= reservation
+                if exc.completion is not None:
+                    self._total_cost_usd += exc.completion.cost_usd
+            raise
         except Exception:
             with self._budget_lock:
                 self._reserved_cost_usd -= reservation
