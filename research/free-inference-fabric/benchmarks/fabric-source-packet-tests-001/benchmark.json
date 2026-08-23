@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-source-packet-tests-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "test-generation",
+  "objective": "Generate a data-only executable test suite that passes the frozen source-packet builder and kills all hidden seeded mutants",
+  "prompt": "Return only strict JSON using schema giga.executable-source-packet-tests.v1 with top-level fields schema, project, source_packet_sha256 and tests. Provide 9 to 24 unique tests. Every test has exactly id, project, requested_files, setup, max_total_bytes, max_file_bytes and expected. setup is an array of {path,kind,content,target}; kind is file or symlink, file uses string content and null target, symlink uses null content and a target path naming another setup file. expected has exactly status, error_pattern, file_count and total_source_bytes; rejected cases use status=reject, a concrete error substring, and null counts, while accepted cases use status=ok, null error_pattern and exact integer counts. Include at least two accepted and seven rejected tests. The verifier safely executes this data DSL against the frozen real implementation and requires the suite to kill every hidden mutation involving path bounds, symlinks, byte caps, binary/CR content, secrets, project identity and duplicate inputs. Do not return Python or Markdown.",
+  "source_packet_sha256": "cbb53200fa16401afcd5f7151e1baf16764e945d747c7e3940fae33af18206d3",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

@@ -272,6 +272,13 @@ the packet itself, three study-catalogue digests, package/runtime facts, OpenCod
 and four concrete configuration findings. It is queued third at priority 80 with zero attempts.
 See `evidence/config-audit-admission-2026-08-24.json`.
 
+`fabric-source-packet-tests-001` promotes test generation to a safe executable benchmark over the
+real source-packet builder. A model returns data, never executable code; the hidden verifier runs
+that DSL against the frozen reference and seven seeded mutants covering path traversal, symlinks,
+byte caps, CR/binary content, secrets, project identity and duplicate inputs. Admission controls
+prove 9/9 reference cases and 7/7 mutation kills. It is queued fourth at priority 70. See
+`evidence/source-packet-test-generation-admission-2026-08-24.json`.
+
 ## Controlled orchestration studies
 
 The admitted future-study contracts use the strengthened disjoint-control benchmark:
@@ -453,8 +460,8 @@ completion receipt.
   `evidence/live-controlled-progress-2026-08-24-r3.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
-- **Callable but not yet live-proven on portfolio source:** test generation, bug/debt discovery,
-  refactoring, code/security review and periodic
+- **Callable but not yet live-proven on portfolio source:** bug/debt discovery, refactoring,
+  code/security review and periodic
   re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
   verifier and retained result before the corresponding utility claim advances to live-proven.
 - **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
@@ -464,6 +471,8 @@ completion receipt.
   immutable and queued behind architecture mapping; no model result is accepted yet.
 - **Dependency/config audit admitted, awaiting inference:** a self-contained frozen-packet
   benchmark is queued third; no model result is accepted yet.
+- **Executable test generation admitted, awaiting inference:** a safe data-only mutation benchmark
+  is queued fourth; no model-generated suite is accepted yet.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
@@ -496,7 +505,8 @@ been activated across the project portfolio.
 - [x] Automatic correction: failed gate evidence enters the next repair prompt.
 - [x] Loop detection: output hashes and score-improvement windows.
 - [x] Approach switching: stagnation injects a strategy-reset contract and rotates approaches.
-- [profile] Mass test generation: `test-generation` workload.
+- [queued] Mass test generation: a frozen real-module DSL benchmark requires reference 9/9 and
+  hidden mutation 7/7; no model result is accepted yet.
 - [profile] Bug search: `bug-hunt` workload with reproducer gate.
 - [profile] Technical-debt search: `technical-debt` workload with measured-impact gate.
 - [profile] Refactoring: behaviour-preserving `refactoring` workload.
