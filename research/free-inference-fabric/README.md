@@ -447,6 +447,10 @@ completion receipt.
 - **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
   benchmark is immutable, source-bound and queued with zero attempts. It is not live-proven until
   its external verifier accepts a retained model result.
+- **Real-work heartbeat activated with a negative control:** the existing six-hour heartbeat now
+  attempts at most one queue item before harvesting/studies. Its stricter 38-call admission gate
+  returned `BUDGET_WAIT` at 38/38 without discovery, provider spend or a queue-attempt increment.
+  See `evidence/background-worker-activation-2026-08-24.json`.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact
   externally gated `READY` token in one attempt with `remote_calls=0` under Vault policy. The same
   model failed the stronger immutable strict-JSON benchmark twice, so general engineering utility

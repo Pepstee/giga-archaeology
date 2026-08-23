@@ -1,0 +1,36 @@
+{
+  "schema": "giga.background-worker-activation-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "automation": {
+    "id": "openrouter-free-window-monitor",
+    "kind": "heartbeat",
+    "status": "ACTIVE",
+    "cadence_hours": 6,
+    "notification_policy": "failed_runs_only",
+    "real_work_position": "before harvest and controlled studies",
+    "maximum_real_work_items_per_run": 1
+  },
+  "worker_contract": {
+    "candidates": 1,
+    "critics": 0,
+    "rounds": 1,
+    "worst_case_remote_calls": 1,
+    "daily_remote_limit": 38,
+    "model": "thinkingmachines/inkling-small:free",
+    "paid_models_admitted": false,
+    "vault_access_admitted": false
+  },
+  "activation_negative_control": {
+    "status": "BUDGET_WAIT",
+    "exit_code": 4,
+    "remote_calls_before": 38,
+    "remote_calls_after": 38,
+    "remaining_remote_calls": 0,
+    "work_id": "work-fabric-architecture-map-001",
+    "queue_status_before": "QUEUED",
+    "queue_status_after": "QUEUED",
+    "attempts_before": 0,
+    "attempts_after": 0
+  },
+  "claim_boundary": "The recurring path and fail-closed budget behaviour are proven. Real-source model utility remains pending until a later budget window executes and externally verifies the queued benchmark."
+}
