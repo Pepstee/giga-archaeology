@@ -159,7 +159,10 @@ class OpenCodeOpenRouterAdapter:
         )
         started = time.monotonic()
         with tempfile.TemporaryDirectory(prefix="giga-opencode-") as empty_dir:
-            root = Path(empty_dir)
+            # OpenCode canonicalises macOS /var to /private/var. Use that same identity for the
+            # project directory, explicit file-plugin URI and receipts or its compatibility
+            # loader can treat the local plugin as outside the active project.
+            root = Path(empty_dir).resolve()
             home = root / "home"
             home.mkdir()
             auth_source = self.auth_file or (Path.home() / ".local/share/opencode/auth.json")
@@ -216,7 +219,7 @@ class OpenCodeOpenRouterAdapter:
             try:
                 result = subprocess.run(
                     [
-                        binary, "run", "--format", "json", "--dir", empty_dir,
+                        binary, "run", "--format", "json", "--dir", str(root),
                         "--title", "giga-inference-fabric", "--model", model_id, message,
                     ],
                     text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
