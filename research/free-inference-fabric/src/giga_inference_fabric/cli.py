@@ -31,6 +31,7 @@ from .studies import (
     resolve_study_arm,
     study_catalogue_hash,
     study_experiment_id,
+    unschedulable_study_cells,
 )
 
 
@@ -191,11 +192,19 @@ def study_plan(args: argparse.Namespace) -> int:
                 "critics_per_candidate": arm.critics_per_candidate,
                 "min_distinct_models": arm.min_distinct_models,
                 "max_rounds": arm.max_rounds, "use_experience": arm.use_experience,
+                "schedulable_within_daily_limit": (
+                    cell.worst_case_remote_calls <= args.daily_remote_limit
+                ),
             })
+    unschedulable = unschedulable_study_cells(
+        args.study_catalogue, study.id, args.daily_remote_limit,
+    )
     print(json.dumps({
         "schema": "giga.study-plan.v1", "study_id": study.id,
         "study_contract_sha256": study_catalogue_hash(args.study_catalogue),
-        "question": study.question, "cells": cells,
+        "question": study.question, "daily_remote_limit": args.daily_remote_limit,
+        "unschedulable_cells": [cell.experiment_id for cell in unschedulable],
+        "cells": cells,
     }, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
 
@@ -664,6 +673,10 @@ def build_parser() -> argparse.ArgumentParser:
     study_plan_parser = sub.add_parser("study-plan", help="expand one controlled study into fixed cells")
     study_plan_parser.add_argument("--study-id", required=True)
     study_plan_parser.add_argument("--study-catalogue", type=Path, default=DEFAULT_STUDIES)
+    study_plan_parser.add_argument(
+        "--daily-remote-limit", type=int,
+        default=int(os.environ.get("OPENROUTER_FREE_DAILY_LIMIT", "50")),
+    )
     study_plan_parser.set_defaults(func=study_plan)
 
     study_scoreboard_parser = sub.add_parser("study-scoreboard", help="score completed controlled-study arms")

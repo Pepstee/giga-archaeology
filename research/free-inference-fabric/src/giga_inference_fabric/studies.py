@@ -153,3 +153,14 @@ def next_pending_study_cell(
         (cell for cell in expand_study_cells(path, study_id) if cell.experiment_id not in completed_experiment_ids),
         None,
     )
+
+
+def unschedulable_study_cells(
+    path: Path, study_id: str, daily_remote_limit: int,
+) -> list[StudyCell]:
+    if daily_remote_limit < 0:
+        raise ValueError("daily remote limit cannot be negative")
+    return [
+        cell for cell in expand_study_cells(path, study_id)
+        if cell.worst_case_remote_calls > daily_remote_limit
+    ]

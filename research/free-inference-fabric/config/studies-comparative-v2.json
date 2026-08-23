@@ -1,0 +1,85 @@
+{
+  "schema": "giga.study-catalogue.v1",
+  "studies": [
+    {
+      "id": "free-ensemble-vs-frontier-v2",
+      "question": "Can a free evidence-gated ensemble replace one explicitly budgeted frontier call under disjoint-control verification?",
+      "benchmark_id": "fabric-json-test-plan-002",
+      "arms": [
+        {
+          "id": "free-ensemble",
+          "description": "Three free candidates, two independent cross-model critics per candidate and up to four objective repair rounds.",
+          "cost_tier": "free",
+          "candidates_per_round": 3,
+          "critics_per_candidate": 2,
+          "min_distinct_models": 3,
+          "max_rounds": 4,
+          "use_experience": true,
+          "repeats": 5
+        },
+        {
+          "id": "paid-frontier-single-shot",
+          "description": "One explicitly admitted paid frontier model with no memory, critics or repair.",
+          "cost_tier": "paid",
+          "candidates_per_round": 1,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 1,
+          "max_rounds": 1,
+          "use_experience": false,
+          "repeats": 5
+        }
+      ]
+    },
+    {
+      "id": "cheap-attempt-pareto-v2",
+      "question": "Where is the measured Pareto frontier between one, four or twelve free attempts and one explicitly budgeted frontier attempt?",
+      "benchmark_id": "fabric-json-test-plan-002",
+      "arms": [
+        {
+          "id": "free-one-attempt",
+          "description": "One free single-shot candidate without memory.",
+          "cost_tier": "free",
+          "candidates_per_round": 1,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 1,
+          "max_rounds": 1,
+          "use_experience": false,
+          "repeats": 5
+        },
+        {
+          "id": "free-four-attempts",
+          "description": "One free candidate across four objective repair rounds without cross-experiment memory.",
+          "cost_tier": "free",
+          "candidates_per_round": 1,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 1,
+          "max_rounds": 4,
+          "use_experience": false,
+          "repeats": 5
+        },
+        {
+          "id": "free-twelve-attempts",
+          "description": "Three independent free candidates across four objective repair rounds without critics or cross-experiment memory.",
+          "cost_tier": "free",
+          "candidates_per_round": 3,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 3,
+          "max_rounds": 4,
+          "use_experience": false,
+          "repeats": 5
+        },
+        {
+          "id": "paid-frontier-one-attempt",
+          "description": "One explicitly admitted paid frontier attempt without memory, critics or repair.",
+          "cost_tier": "paid",
+          "candidates_per_round": 1,
+          "critics_per_candidate": 0,
+          "min_distinct_models": 1,
+          "max_rounds": 1,
+          "use_experience": false,
+          "repeats": 5
+        }
+      ]
+    }
+  ]
+}

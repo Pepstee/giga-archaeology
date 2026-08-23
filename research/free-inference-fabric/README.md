@@ -126,9 +126,9 @@ python3 -m giga_inference_fabric.cli monitor-once
 # Select the highest-priority unmeasured preview/free model without calling it. Add --execute and
 # the existing OpenCode bridge only when the printed worst-case call count fits the daily budget.
 python3 -m giga_inference_fabric.cli harvest-next \
-  --benchmark-id fabric-json-test-plan-002 --daily-remote-limit 20
+  --benchmark-id fabric-json-test-plan-002 --daily-remote-limit 40
 python3 -m giga_inference_fabric.cli harvest-next \
-  --benchmark-id fabric-json-test-plan-002 --daily-remote-limit 20 \
+  --benchmark-id fabric-json-test-plan-002 --daily-remote-limit 40 \
   --execute --use-opencode-auth
 
 # Discover models served by a local OpenAI-compatible endpoint.
@@ -217,23 +217,35 @@ identity has a distinct lifecycle from provider discovery, workload profiles and
 
 ## Controlled orchestration studies
 
-The three research questions are now fixed experimental contracts rather than informal profiles:
+The admitted future-study contracts use the strengthened disjoint-control benchmark:
 
-- `weak-model-orchestration-v1`: single-shot, repair-only, repair-plus-memory and ensemble-plus-critics;
-- `free-ensemble-vs-frontier-v1`: a repeated free ensemble against an explicitly admitted paid single shot;
-- `cheap-attempt-pareto-v1`: one, four and twelve-candidate free budgets against one paid attempt.
+- `weak-model-orchestration-v2`: single-shot, repair-only, repair-plus-memory and
+  ensemble-plus-critics;
+- `free-ensemble-vs-frontier-v2`: a repeated free ensemble against an explicitly admitted paid
+  single shot;
+- `cheap-attempt-pareto-v2`: clean one, four and twelve-free-attempt budgets against one paid
+  attempt.
+
+The original `config/studies.json` remains immutable historical evidence, but its v1 studies are
+bound to the superseded false-positive benchmark and must not be used for future conclusions.
+`config/studies-v2.json` preserves the already-started orchestration study; the comparative studies
+live in `config/studies-comparative-v2.json` because modifying either admitted catalogue would
+invalidate deterministic experiment identities.
 
 ```bash
-# Inspect all immutable arm definitions and expand the 12 cells in the first study.
-python3 -m giga_inference_fabric.cli studies
+# Inspect the current immutable arm definitions and expand the 12 orchestration cells. The plan
+# reports cells that cannot fit the selected daily limit instead of leaving them permanently stuck.
+python3 -m giga_inference_fabric.cli studies --study-catalogue config/studies-v2.json
 python3 -m giga_inference_fabric.cli study-plan \
-  --study-id weak-model-orchestration-v1
+  --study-id weak-model-orchestration-v2 \
+  --study-catalogue config/studies-v2.json --daily-remote-limit 40
 
 # Run one declared cell. The study contract overrides candidates, critics, rounds, memory and tier.
 # Reusing the same study/arm/repeat identity fails closed instead of duplicating a datapoint.
 python3 -m giga_inference_fabric.cli run \
-  --study-id weak-model-orchestration-v1 \
+  --study-id weak-model-orchestration-v2 \
   --study-arm single-shot-no-memory --repeat-index 1 \
+  --study-catalogue config/studies-v2.json \
   --use-opencode-auth \
   --free-model thinkingmachines/inkling-small:free \
   --workload model-benchmark \
@@ -241,14 +253,13 @@ python3 -m giga_inference_fabric.cli run \
   --prompt 'Return only a strict giga.test-plan.v1 JSON candidate.'
 
 python3 -m giga_inference_fabric.cli study-scoreboard \
-  --study-id weak-model-orchestration-v1
+  --study-id weak-model-orchestration-v2
 ```
 
 Memory-off arms bypass reusable experience in the engine rather than merely hiding it in reports.
 Paid arms still require named models, explicit admission and pre-reserved cost authority. Study
-definitions live separately in `config/studies.json` because experimental controls must not drift
-with background workload prompts. `config/studies.json.sha256` is the admitted catalogue identity;
-any unadmitted edit blocks listing, planning and execution.
+Definitions live separately from background workload prompts and each catalogue has its own
+SHA-256 identity file. Any unadmitted edit blocks listing, planning and execution.
 
 The strengthened live study is `weak-model-orchestration-v2` in `config/studies-v2.json`. Its
 external verifier rejects overlapping positive/negative inputs and vague expected outcomes. A
@@ -262,7 +273,7 @@ without a provider call if the entire cell cannot fit inside the remaining daily
 python3 -m giga_inference_fabric.cli study-next \
   --study-id weak-model-orchestration-v2 \
   --study-catalogue config/studies-v2.json \
-  --daily-remote-limit 20 \
+  --daily-remote-limit 40 \
   --free-model thinkingmachines/inkling-small:free
 
 # Execute at most that one cell. The deterministic experiment primary key prevents duplicate
@@ -270,15 +281,16 @@ python3 -m giga_inference_fabric.cli study-next \
 python3 -m giga_inference_fabric.cli study-next \
   --study-id weak-model-orchestration-v2 \
   --study-catalogue config/studies-v2.json \
-  --daily-remote-limit 20 --execute --use-opencode-auth \
+  --daily-remote-limit 40 --execute --use-opencode-auth \
   --free-model thinkingmachines/inkling-small:free \
   --free-model nvidia/nemotron-3-super-120b-a12b:free \
   --free-model thinkingmachines/inkling:free
 ```
 
-The current 20-call research ceiling is intentionally lower than OpenRouter's documented general
-free allowance. It is a local risk budget, not a claim about provider entitlement. Increasing it is
-an explicit study-policy decision; retries cannot silently raise it.
+The current 40-call research ceiling fits the largest declared 36-call ensemble while retaining ten
+requests of headroom below OpenRouter's documented 50-request daily allowance for accounts below
+the $10 purchased-credit threshold. It is a local risk budget, not a claim about provider
+entitlement; retries cannot silently raise it.
 
 ## Background work
 

@@ -28,6 +28,7 @@ from giga_inference_fabric.studies import (
     next_pending_study_cell,
     resolve_study_arm,
     study_catalogue_hash,
+    unschedulable_study_cells,
 )
 
 
@@ -187,6 +188,37 @@ def test_controlled_study_catalogue_has_locked_ablation_and_tradeoff_arms():
     )
     assert frontier.cost_tier == CostTier.PAID
     assert frontier.max_rounds == 1 and not frontier.use_experience
+
+
+def test_superseding_comparative_studies_use_strong_benchmark_and_fit_daily_budget():
+    path = ROOT / "config" / "studies-comparative-v2.json"
+    assert study_catalogue_hash(path) == "42642ae140495c1fcb20a56e19dc8bc0752cbaa8fa8c5f41fd099bc67f86eb24"
+    studies = {study.id: study for study in load_studies(path)}
+    assert set(studies) == {"free-ensemble-vs-frontier-v2", "cheap-attempt-pareto-v2"}
+    assert all(study.benchmark_id == "fabric-json-test-plan-002" for study in studies.values())
+    assert not unschedulable_study_cells(path, "free-ensemble-vs-frontier-v2", 40)
+    assert not unschedulable_study_cells(path, "cheap-attempt-pareto-v2", 40)
+
+    ensemble_cells = expand_study_cells(path, "free-ensemble-vs-frontier-v2")
+    assert {cell.worst_case_remote_calls for cell in ensemble_cells} == {1, 36}
+    pareto = expand_study_cells(path, "cheap-attempt-pareto-v2")
+    arm_budgets = {}
+    for cell in pareto:
+        arm_budgets.setdefault(cell.arm_id, cell.worst_case_remote_calls)
+    assert arm_budgets == {
+        "free-one-attempt": 1,
+        "free-four-attempts": 4,
+        "free-twelve-attempts": 12,
+        "paid-frontier-one-attempt": 1,
+    }
+
+
+def test_study_budget_audit_exposes_unschedulable_cells_without_altering_contract():
+    path = ROOT / "config" / "studies-v2.json"
+    blocked = unschedulable_study_cells(path, "weak-model-orchestration-v2", 20)
+    assert len(blocked) == 3
+    assert {cell.arm_id for cell in blocked} == {"ensemble-with-critics"}
+    assert not unschedulable_study_cells(path, "weak-model-orchestration-v2", 40)
 
 
 def test_model_observations_preserve_preview_and_capabilities(tmp_path: Path):
