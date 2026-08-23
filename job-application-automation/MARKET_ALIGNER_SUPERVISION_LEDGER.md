@@ -201,8 +201,28 @@ real Collector persistence path.
 
 ## Current blocker and next supervisor action
 
-- No external blocker is established. R1 is rejected and R2 has been delegated through the parent
-  control task to the same Ox logical session.
-- Next action: obtain one separate R2 commit, independently rerun the original four falsifiers plus
-  the new crash/CAS/path/replay matrix, and either accept the full INGEST-001 chain or return another
-  bounded repair. Do not integrate or advance to another slice before that review.
+- R2 is preserved uncommitted in the same builder worktree and logical session. Its five-file diff
+  currently touches `README.md`, `cli.py`, `collectors/engine.py`, `state/operations.py`, and
+  `test_ingest_cli.py`; HEAD remains rejected R1 `53c4726e`. The repository suite over the preserved
+  diff reports 69 passed and 2 skipped, and `compileall` plus `git diff --check` pass. These green
+  gates do not authorize integration.
+- Independent review reproduced a same-operation race: two callers can both load an absent record
+  before the scope lock; the winner performs exactly one provider cycle and seals `completed`, but
+  the loser waits until after that seal and then falsely returns `in_progress/in_flight` instead of
+  reloading and replaying the terminal receipt. The terminal record bytes remain intact.
+- The R2 overlap test is not yet an authority because its set-based active-operation guard can drop
+  a tag when one of several same-operation parallel fetches exits while another is still active.
+  It must use per-operation reference counts before it can prove cross-operation exclusion.
+- Two further ordering/binding defects are recorded for the same repair: configured path containment
+  currently runs only after `ProductPaths.ensure()` and journal construction, so an escaping config
+  creates/chmods state before refusal; and the semantic config and raw-file hash come from separate
+  uncoordinated reads, allowing a changed file to bind incoherent identities. Both must fail before
+  journal/provider access with exact zero-call tests.
+- The shared free Ox provider reached its enforced daily quota after the session stopped at a safe
+  dirty boundary; reset is 09:00 Korea time. No paid/weaker model substitution and no competing
+  Market writer are authorized. Resume the same logical session
+  `ses_fd01f0ce2ffe1qs5qKy9nTE4iv` after reset, close only the recorded falsifiers, run the full
+  gates, and create one separate Artiom-authored R2 commit. Then independently rerun the original
+  four R1 falsifiers plus the new same-ID, reference-count, preflight-order, config-coherence,
+  crash/CAS/path/replay matrix before deciding acceptance. Do not integrate or select another slice
+  first.
