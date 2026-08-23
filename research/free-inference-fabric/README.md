@@ -464,10 +464,13 @@ completion receipt.
   immutable and queued behind architecture mapping; no model result is accepted yet.
 - **Dependency/config audit admitted, awaiting inference:** a self-contained frozen-packet
   benchmark is queued third; no model result is accepted yet.
-- **Real-work heartbeat activated with a negative control:** the existing six-hour heartbeat now
-  attempts at most one queue item before harvesting/studies. Its stricter 38-call admission gate
-  returned `BUDGET_WAIT` at 38/38 without discovery, provider spend or a queue-attempt increment.
-  See `evidence/background-worker-activation-2026-08-24.json`.
+- **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
+  one queue item before harvesting/studies. The initial one-shot activation is preserved in
+  `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
+  free models, two cross-model critics per candidate and up to two rounds: at most 18 real-work
+  calls per day, leaving 22 under the global 40-call ceiling for harvesting/studies. Its exact
+  negative control returned `BUDGET_WAIT` at 38 calls without discovery, spend or a queue-attempt
+  increment. See `evidence/background-ensemble-worker-2026-08-24.json`.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact
   externally gated `READY` token in one attempt with `remote_calls=0` under Vault policy. The same
   model failed the stronger immutable strict-JSON benchmark twice, so general engineering utility

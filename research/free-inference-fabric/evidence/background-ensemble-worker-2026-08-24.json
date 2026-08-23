@@ -1,0 +1,43 @@
+{
+  "schema": "giga.background-worker-reconfiguration-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "automation": {
+    "id": "openrouter-free-window-monitor",
+    "kind": "heartbeat",
+    "status": "ACTIVE",
+    "cadence_hours": 6,
+    "notification_policy": "failed_runs_only",
+    "real_work_position": "before harvest and controlled studies",
+    "maximum_real_work_items_per_run": 1
+  },
+  "real_work_cell": {
+    "candidates_per_round": 3,
+    "critics_per_candidate": 2,
+    "minimum_distinct_models": 3,
+    "maximum_rounds": 2,
+    "worst_case_remote_calls": 18,
+    "real_work_daily_limit": 18,
+    "global_daily_limit": 40,
+    "reserved_for_harvest_and_studies": 22,
+    "models": [
+      "thinkingmachines/inkling-small:free",
+      "nvidia/nemotron-3-super-120b-a12b:free",
+      "thinkingmachines/inkling:free"
+    ],
+    "paid_models_admitted": false,
+    "vault_access_admitted": false
+  },
+  "negative_control": {
+    "status": "BUDGET_WAIT",
+    "exit_code": 4,
+    "remote_calls_before": 38,
+    "remote_calls_after": 38,
+    "remaining_real_work_calls": 0,
+    "worst_case_remote_calls": 18,
+    "queued_work_items_before": 3,
+    "queued_work_items_after": 3,
+    "total_attempts_before": 0,
+    "total_attempts_after": 0
+  },
+  "claim_boundary": "The scheduled real-work ensemble contract and pre-discovery refusal are proven. Cross-model utility on the queued source benchmarks remains pending until the daily ledger resets."
+}
