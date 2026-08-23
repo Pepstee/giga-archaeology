@@ -358,6 +358,10 @@ completion receipt.
 - **First strengthened v2 baseline completed:** Inkling Small passed the disjoint-control verifier
   in one no-memory/no-repair call at reported zero cost. See
   `evidence/live-study-v2-baseline-2026-08-24.json`.
+- **Controlled v2 progression live-proven:** the second weak-model single shot and the first
+  one-attempt Pareto cell passed at zero reported cost; a newly harvested preview model failed the
+  same external verifier, and the 36-call ensemble was refused before execution with only 17 calls
+  remaining. See `evidence/live-controlled-progress-2026-08-24-r2.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact

@@ -1,0 +1,76 @@
+{
+  "schema": "giga.live-controlled-inference-progress.v1",
+  "observed_at": "2026-08-24T04:47:41+09:00",
+  "provider_allowance_evidence": {
+    "source": "https://openrouter.ai/docs/api/reference/limits.md",
+    "free_requests_per_day_below_10_usd_purchased_credits": 50,
+    "free_requests_per_minute": 20,
+    "enforced_local_daily_limit": 40,
+    "headroom_requests": 10
+  },
+  "contracts": {
+    "weak_model_study_sha256": "f6e66e2b9cb392996004c7ddbc670cde2d87df338a59d51e34654f58f8cf6c8c",
+    "comparative_study_sha256": "42642ae140495c1fcb20a56e19dc8bc0752cbaa8fa8c5f41fd099bc67f86eb24",
+    "benchmark_definition_sha256": "1ddd86e7cfb0c43f68c147c08597ccbc69ba1f9d3f0254041f8e830c89357079",
+    "external_verifier_sha256": "0b7703ae9b524b53684b72b45af92faa36ee91cdbc4babb6ef823ed4de47b0bb"
+  },
+  "results": [
+    {
+      "experiment_id": "harvest-f5c80477e518ee591d8706dd",
+      "kind": "preview_harvest",
+      "model": "dots-studio/dots-3-note-preview:free",
+      "status": "UNVERIFIED",
+      "remote_calls": 1,
+      "recorded_cost_usd": 0.0,
+      "result_sha256": "4f6996bce6455c0185d790559f924c36d4fed5df81def30aa872acb0a5334a9d",
+      "objective_failure": "A negative control used an empty input string, violating the immutable non-empty-field contract.",
+      "stop_reason": "round budget exhausted"
+    },
+    {
+      "experiment_id": "study-47b048e27e106bfcf3a1d8fd",
+      "kind": "weak_model_orchestration_v2",
+      "arm": "single-shot-no-memory",
+      "repeat_index": 2,
+      "model": "thinkingmachines/inkling-small:free",
+      "status": "VERIFIED",
+      "remote_calls": 1,
+      "recorded_cost_usd": 0.0,
+      "gate_score": 1.0,
+      "result_sha256": "a5cfe5357178ec82179b1ddfea409c43e0c64c6c559195f9d797d70ea641837b"
+    },
+    {
+      "experiment_id": "study-d73e6fac0bf9d58d29e032b1",
+      "kind": "cheap_attempt_pareto_v2",
+      "arm": "free-one-attempt",
+      "repeat_index": 1,
+      "model": "thinkingmachines/inkling-small:free",
+      "status": "VERIFIED",
+      "remote_calls": 1,
+      "recorded_cost_usd": 0.0,
+      "gate_score": 1.0,
+      "result_sha256": "eff3c62943b473927d6b7bee98126bc020acc5e6aae4c6fb80d3c6cfb87fb5a1"
+    },
+    {
+      "experiment_id": "study-40a77a3840a14e6e3b6625ad",
+      "kind": "free_ensemble_vs_frontier_v2",
+      "arm": "free-ensemble",
+      "status": "BUDGET_WAIT",
+      "worst_case_remote_calls": 36,
+      "remote_calls_today_before_admission": 23,
+      "remaining_calls": 17,
+      "provider_calls_started": 0
+    }
+  ],
+  "ledger_after_run": {
+    "remote_calls_today": 23,
+    "total_provider_calls": 23,
+    "total_recorded_cost_usd": 0.0,
+    "sqlite_integrity": "ok"
+  },
+  "verdict": "CONTROLLED_PROGRESS_WITH_OBJECTIVE_REJECTION_AND_BUDGET_ENFORCEMENT_PROVEN",
+  "limitations": [
+    "Two single-shot passes do not establish ensemble or repair-loop superiority.",
+    "The frontier comparison remains unexecuted and no paid authority was exercised.",
+    "The 36-call ensemble requires a fresh day with sufficient remaining local allowance."
+  ]
+}
