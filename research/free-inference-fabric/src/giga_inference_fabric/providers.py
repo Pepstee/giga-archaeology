@@ -229,12 +229,23 @@ class OpenCodeOpenRouterAdapter:
                 resolved_config = json.loads(preflight.stdout)
             except json.JSONDecodeError as exc:
                 raise ProviderError("OpenCode config preflight returned invalid JSON") from exc
+            init_loaded = (
+                init_receipt_path.is_file()
+                and init_receipt_path.read_text(encoding="utf-8") == "loaded"
+            )
             if (
                 preflight.returncode != 0
                 or plugin_path.as_uri() not in resolved_config.get("plugin", [])
-                or init_receipt_path.read_text(encoding="utf-8") != "loaded"
+                or not init_loaded
             ):
-                raise ProviderError("OpenCode config/plugin preflight failed closed")
+                diagnostic = subprocess.run(
+                    [binary, "debug", "config", "--print-logs", "--log-level", "DEBUG"],
+                    cwd=str(root), text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                    timeout=min(timeout, 60), check=False, env=environment,
+                )
+                raise ProviderError(
+                    "OpenCode config/plugin preflight failed closed: " + diagnostic.stdout[-4000:]
+                )
             init_receipt_path.unlink()
             try:
                 result = subprocess.run(

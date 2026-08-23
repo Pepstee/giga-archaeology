@@ -651,6 +651,29 @@ def test_opencode_adapter_rejects_missing_output_cap_receipt(monkeypatch, tmp_pa
         raise AssertionError("missing output-cap receipt was accepted")
 
 
+def test_opencode_adapter_totalises_missing_plugin_init_receipt(monkeypatch, tmp_path):
+    def fake_run(command, **kwargs):
+        root = Path(kwargs["cwd"])
+        plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+        if "--print-logs" in command:
+            return SimpleNamespace(returncode=0, stdout="plugin load diagnostic")
+        return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
+
+    monkeypatch.setattr("giga_inference_fabric.providers.subprocess.run", fake_run)
+    auth_file = tmp_path / "auth.json"
+    auth_file.write_text("{}", encoding="utf-8")
+    try:
+        OpenCodeOpenRouterAdapter(binary="opencode", auth_file=auth_file).complete(
+            ModelSpec("free/model", "opencode-openrouter", CostTier.FREE),
+            system="system", prompt="prompt", max_output_tokens=32,
+        )
+    except ProviderError as exc:
+        assert "config/plugin preflight failed closed" in str(exc)
+        assert "plugin load diagnostic" in str(exc)
+    else:
+        raise AssertionError("missing plugin-init receipt escaped totalised provider failure")
+
+
 def test_committed_live_transport_evidence_is_self_consistent_and_secret_free():
     evidence_path = ROOT / "evidence" / "live-free-transport-2026-08-24.json"
     raw = evidence_path.read_text(encoding="utf-8")
