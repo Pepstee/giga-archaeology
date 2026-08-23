@@ -1,0 +1,64 @@
+{
+  "schema": "giga.live-paid-frontier-qualification-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "status": "VERIFIED",
+  "source_commit": "d7ebf7ce7b2dba8368f78bd5be4f0f8b53f8d8a7",
+  "transport_canary": {
+    "experiment_id": "exp-44c411ca85d5475e92bcd14282a6cef9",
+    "requested_model_id": "cohere/north-mini-code:free",
+    "status": "VERIFIED",
+    "provider_reported_cost_usd": 0.0,
+    "completion_tokens": 141,
+    "provider_output_cap": 512,
+    "llm_invocations": 1,
+    "permission_profile": "deny",
+    "auth_exposure": "isolated-symlink-only",
+    "output_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+    "result_sha256": "b2abf631d8c932407922d10a325cfe167c1102fbfa88dbeec548a8270bf1024c"
+  },
+  "paid_study_cell": {
+    "study_id": "free-ensemble-vs-frontier-v2",
+    "study_arm_id": "paid-frontier-single-shot",
+    "repeat_index": 1,
+    "experiment_id": "study-ee8b9826e3607e046f02740f",
+    "requested_model_id": "openai/gpt-5.6-sol",
+    "served_model_id": "openai/gpt-5.6-sol",
+    "status": "VERIFIED",
+    "rounds": 1,
+    "attempts": 1,
+    "remote_calls": 1,
+    "admitted_max_cost_usd": 0.02,
+    "provider_reported_cost_usd": 0.0083885,
+    "prompt_tokens": 3,
+    "completion_tokens": 283,
+    "provider_output_cap": 512,
+    "llm_invocations": 1,
+    "permission_profile": "deny",
+    "auth_exposure": "isolated-symlink-only",
+    "objective_gate": {
+      "passed": true,
+      "score": 1.0,
+      "summary": "objective commands passed 1/1",
+      "command": [
+        "python3",
+        "verify_candidate.py"
+      ],
+      "exit_code": 0,
+      "output": "VERIFIED giga.test-plan.v1 disjoint-controls\n"
+    },
+    "output_sha256": "cf42907f7dd7a37f79d0662139bd8b0ed8823a25a8b7ded5ddb8cc42cb0aff2b",
+    "result_sha256": "4c1d85516e24cd7e83d971da839962beb2156bfd81af5e24370c76c3b77371a0"
+  },
+  "bindings": {
+    "study_catalogue_sha256": "42642ae140495c1fcb20a56e19dc8bc0752cbaa8fa8c5f41fd099bc67f86eb24",
+    "benchmark_manifest_sha256": "1ddd86e7cfb0c43f68c147c08597ccbc69ba1f9d3f0254041f8e830c89357079",
+    "benchmark_verifier_sha256": "0b7703ae9b524b53684b72b45af92faa36ee91cdbc4babb6ef823ed4de47b0bb",
+    "opencode_budget_plugin_sha256": "0ff0a03a60775c5acfb2c3a069e9dc5116c6587b6849804b11701f335532ce60"
+  },
+  "database_after_run": {
+    "provider_calls_today_conservative": 31,
+    "provider_reported_total_cost_usd": 0.0083885,
+    "integrity_check": "ok"
+  },
+  "scope_note": "This proves one safety-gated paid frontier study cell. It does not establish statistical equivalence between the paid arm and the free ensemble."
+}

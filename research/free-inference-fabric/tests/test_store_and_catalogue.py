@@ -683,6 +683,27 @@ def test_committed_live_transport_evidence_is_self_consistent_and_secret_free():
     assert hashlib.sha256(evidence["output"].encode("utf-8")).hexdigest() == evidence["output_sha256"]
     assert "sk-or-" not in raw and "OPENROUTER_API_KEY=" not in raw
 
+    paid_raw = (
+        ROOT / "evidence" / "live-paid-frontier-qualification-2026-08-24.json"
+    ).read_text(encoding="utf-8")
+    paid = json.loads(paid_raw)
+    cell = paid["paid_study_cell"]
+    assert paid["status"] == "VERIFIED" and cell["status"] == "VERIFIED"
+    assert cell["requested_model_id"] == cell["served_model_id"] == "openai/gpt-5.6-sol"
+    assert cell["provider_reported_cost_usd"] <= cell["admitted_max_cost_usd"]
+    assert cell["completion_tokens"] <= cell["provider_output_cap"]
+    assert cell["llm_invocations"] == 1 and cell["objective_gate"]["passed"] is True
+    assert paid["transport_canary"]["provider_reported_cost_usd"] == 0.0
+    bindings = paid["bindings"]
+    for name, relative in {
+        "study_catalogue_sha256": "config/studies-comparative-v2.json",
+        "benchmark_manifest_sha256": "benchmarks/fabric-json-test-plan-002/benchmark.json",
+        "benchmark_verifier_sha256": "benchmarks/fabric-json-test-plan-002/verify_candidate.py",
+        "opencode_budget_plugin_sha256": "opencode/giga-output-budget.js",
+    }.items():
+        assert hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == bindings[name]
+    assert "sk-or-" not in paid_raw and "OPENROUTER_API_KEY=" not in paid_raw
+
     comparison_raw = (
         ROOT / "evidence" / "live-benchmark-comparison-2026-08-24.json"
     ).read_text(encoding="utf-8")

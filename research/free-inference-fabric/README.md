@@ -370,6 +370,12 @@ completion receipt.
   one-attempt Pareto cell passed at zero reported cost; a newly harvested preview model failed the
   same external verifier, and the 36-call ensemble was refused before execution with only 17 calls
   remaining. See `evidence/live-controlled-progress-2026-08-24-r2.json`.
+- **Paid frontier transport and one controlled cell live-proven:** a free canary first proved the
+  isolated one-invocation OpenCode plugin (`141 <= 512` tokens, `$0.00`). One explicitly admitted
+  `openai/gpt-5.6-sol` call then passed the immutable disjoint-control verifier in a single shot at
+  provider-reported cost `$0.0083885`, below the `$0.02` cap, with `283 <= 512` tokens. See
+  `evidence/live-paid-frontier-qualification-2026-08-24.json`. This is one datapoint, not yet a
+  statistical free-ensemble/frontier conclusion.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact
