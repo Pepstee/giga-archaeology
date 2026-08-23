@@ -80,6 +80,8 @@ class ExperimentRequest:
     study_contract_sha256: str | None = None
     repeat_index: int | None = None
     use_experience: bool = True
+    source_experiment_id: str | None = None
+    source_result_sha256: str | None = None
 
 
 @dataclass(frozen=True)

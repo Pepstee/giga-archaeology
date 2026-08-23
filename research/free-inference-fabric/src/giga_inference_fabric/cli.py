@@ -485,6 +485,101 @@ def queue_finish(args: argparse.Namespace) -> int:
     return 0
 
 
+def escalate(args: argparse.Namespace) -> int:
+    """Bind one paid successor to canonical failed evidence; never restart from an empty prompt."""
+    if args.source_result.is_symlink() or not args.source_result.is_file():
+        raise SystemExit("source result must be a regular non-symlink file")
+    source_bytes = args.source_result.read_bytes()
+    source_sha256 = hashlib.sha256(source_bytes).hexdigest()
+    try:
+        source = json.loads(source_bytes)
+    except json.JSONDecodeError as exc:
+        raise SystemExit("source result is not valid JSON") from exc
+    packet = source.get("escalation_packet")
+    experiment_id = source.get("experiment_id")
+    best_gate = source.get("best_gate")
+    if (
+        source.get("status") != "UNVERIFIED"
+        or not isinstance(packet, dict)
+        or packet.get("schema") != "giga.frontier-escalation-packet.v1"
+        or packet.get("status") != "UNVERIFIED"
+        or packet.get("experiment_id") != experiment_id
+        or not isinstance(best_gate, dict)
+        or best_gate.get("passed") is not False
+    ):
+        raise SystemExit("only an objectively UNVERIFIED canonical result may be escalated")
+    if args.max_cost_usd <= 0 or args.max_output_tokens < 1 or args.max_output_tokens > 65536:
+        raise SystemExit("escalation requires positive bounded cost and output-token admission")
+    if not isinstance(packet.get("attempts"), list) or not packet["attempts"]:
+        raise SystemExit("escalation source has no failed attempt evidence")
+    if not isinstance(packet.get("critiques"), list):
+        raise SystemExit("escalation source has malformed critique evidence")
+
+    store = ExperimentStore(args.db)
+    try:
+        try:
+            record = store.experiment_record(experiment_id)
+        except KeyError as exc:
+            raise SystemExit("source experiment is absent from the canonical database") from exc
+        request = json.loads(record["request_json"])
+        if (
+            record["status"] != "UNVERIFIED"
+            or record["objective"] != packet.get("objective")
+            or request.get("objective") != record["objective"]
+            or request.get("workload") != record["workload"]
+            or request.get("benchmark_id") != record["benchmark_id"]
+            or packet["attempts"] != store.experiment_attempts(experiment_id)
+            or packet["critiques"] != store.experiment_critiques(experiment_id)
+        ):
+            raise SystemExit("source result drifted from canonical experiment evidence")
+        benchmark_id = record["benchmark_id"]
+        if not benchmark_id:
+            raise SystemExit("automatic frontier escalation requires an immutable registered benchmark")
+        benchmark, manifest, _binding = _load_registered_benchmark(store, benchmark_id)
+        successor_id = "escalation-" + hashlib.sha256(
+            (
+                source_sha256 + "\0" + args.paid_model + "\0" + str(args.max_cost_usd)
+                + "\0" + str(args.max_output_tokens)
+            ).encode("utf-8")
+        ).hexdigest()[:24]
+        if store.experiment_exists(successor_id):
+            raise SystemExit("deterministic escalation successor already exists")
+    finally:
+        store.close()
+
+    prompt = (
+        "Resolve the remaining objective-gate failures using the complete prior evidence below. "
+        "Do not restart analysis from zero and do not claim success; return only the corrected candidate.\n\n"
+        "SOURCE RESULT SHA256: " + source_sha256 + "\n"
+        "SOURCE EXPERIMENT: " + experiment_id + "\n"
+        "ESCALATION PACKET:\n" + json.dumps(packet, ensure_ascii=False, sort_keys=True)
+    )
+    run_args = argparse.Namespace(
+        db=args.db, objective=benchmark["objective"], prompt=prompt,
+        context=json.dumps({
+            "source_experiment_id": experiment_id,
+            "source_result_sha256": source_sha256,
+        }, sort_keys=True),
+        workload=benchmark["workload"], benchmark_id=benchmark_id,
+        study_id=None, study_arm=None, repeat_index=None, study_catalogue=DEFAULT_STUDIES,
+        experiment_id=successor_id, no_experience=True,
+        require=[], forbid=[], check_command=[], evaluator_cwd=None, command_timeout=300,
+        candidates=1, critics=0, min_distinct_models=1, rounds=1,
+        max_remote_calls=1, daily_remote_limit=args.daily_remote_limit,
+        max_output_tokens=args.max_output_tokens, stagnation_rounds=2,
+        privacy=args.privacy, require_zdr=args.require_zdr, local_only=False,
+        use_opencode_auth=args.use_opencode_auth, free_model=[], local_model=[],
+        local_base_url="http://127.0.0.1:11434/v1", include_paid=True,
+        paid_model=[args.paid_model], max_cost_usd=args.max_cost_usd,
+        output=args.output_dir / f"{successor_id}.json",
+        source_experiment_id=experiment_id, source_result_sha256=source_sha256,
+    )
+    # The benchmark manifest prompt is intentionally not reused: the frontier receives the prior
+    # attempts, objective failures and critiques. The same immutable evaluator remains authoritative.
+    assert manifest["benchmark_id"] == benchmark_id
+    return run(run_args)
+
+
 def worker_once(args: argparse.Namespace) -> int:
     """Lease and execute exactly one background item; never become an unbounded daemon."""
     store = ExperimentStore(args.db)
@@ -600,6 +695,8 @@ def run(args: argparse.Namespace) -> int:
         study_contract_sha256=study_contract_hash,
         repeat_index=args.repeat_index,
         use_experience=not args.no_experience,
+        source_experiment_id=getattr(args, "source_experiment_id", None),
+        source_result_sha256=getattr(args, "source_result_sha256", None),
         experiment_id=experiment_id,
     )
     store = ExperimentStore(args.db)
@@ -765,6 +862,22 @@ def build_parser() -> argparse.ArgumentParser:
     queue_finish_parser.add_argument("--experiment-id", required=True)
     queue_finish_parser.add_argument("--verified", action="store_true")
     queue_finish_parser.set_defaults(func=queue_finish)
+
+    escalate_parser = sub.add_parser(
+        "escalate", help="send one canonical failed evidence packet to one budgeted paid model",
+    )
+    escalate_parser.add_argument("--source-result", type=Path, required=True)
+    escalate_parser.add_argument("--paid-model", required=True)
+    escalate_parser.add_argument("--max-cost-usd", type=float, required=True)
+    escalate_parser.add_argument("--max-output-tokens", type=int, default=4096)
+    escalate_parser.add_argument("--daily-remote-limit", type=int, default=50)
+    escalate_parser.add_argument("--use-opencode-auth", action="store_true")
+    escalate_parser.add_argument(
+        "--privacy", choices=[item.value for item in PrivacyClass], default="public",
+    )
+    escalate_parser.add_argument("--require-zdr", action="store_true")
+    escalate_parser.add_argument("--output-dir", type=Path, default=ROOT / "state/escalations")
+    escalate_parser.set_defaults(func=escalate)
 
     worker_parser = sub.add_parser("worker-once", help="execute one leased background item and exit")
     worker_parser.add_argument("--lease-minutes", type=int, default=30)

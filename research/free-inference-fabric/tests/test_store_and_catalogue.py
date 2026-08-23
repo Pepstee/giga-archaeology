@@ -15,11 +15,19 @@ from giga_inference_fabric.catalogue import (
 from giga_inference_fabric.cli import (
     _select_explicit_free_models,
     _select_explicit_paid_models,
+    escalate,
     harvest_next,
     study_next,
 )
 from giga_inference_fabric.evaluators import CommandEvaluator, evaluator_from_contract
-from giga_inference_fabric.models import Candidate, Completion, CostTier, ModelSpec
+from giga_inference_fabric.models import (
+    Candidate,
+    Completion,
+    CostTier,
+    ExperimentRequest,
+    GateResult,
+    ModelSpec,
+)
 from giga_inference_fabric.providers import (
     OpenAICompatibleAdapter,
     OpenCodeOpenRouterAdapter,
@@ -54,6 +62,52 @@ def _register_test_harvest_benchmark(store: ExperimentStore, tmp_path: Path) -> 
         "harvest-bench", "fabric", "model-benchmark", "return locked artifact",
         str(fixture), "python3 verify_candidate.py", {"binding": binding},
     )
+
+
+def _write_failed_benchmark_result(tmp_path: Path) -> tuple[Path, Path, str]:
+    db = tmp_path / "experiments.sqlite3"
+    store = ExperimentStore(db)
+    experiment_id = "source-failed-experiment"
+    try:
+        _register_test_harvest_benchmark(store, tmp_path)
+        request = ExperimentRequest(
+            objective="return locked artifact", prompt="return the locked artifact",
+            workload="model-benchmark", benchmark_id="harvest-bench",
+            candidates_per_round=1, critics_per_candidate=0, min_distinct_models=1,
+        )
+        store.start(experiment_id, request)
+        candidate = Candidate(
+            candidate_id="failed-candidate", experiment_id=experiment_id,
+            round_number=1, approach="minimal_direct",
+            completion=Completion("bad", "free/model", "openrouter"),
+            output_hash=hashlib.sha256(b"bad").hexdigest(),
+            requested_model_id="free/model",
+        )
+        store.record_candidate(candidate)
+        store.record_gate(candidate.candidate_id, GateResult(False, 0.0, "missing artifact"))
+        store.finish(experiment_id, "UNVERIFIED", "round budget exhausted")
+        packet = {
+            "schema": "giga.frontier-escalation-packet.v1",
+            "experiment_id": experiment_id,
+            "objective": request.objective,
+            "status": "UNVERIFIED",
+            "stop_reason": "round budget exhausted",
+            "remote_calls": 1,
+            "total_cost_usd": 0.0,
+            "attempts": store.experiment_attempts(experiment_id),
+            "critiques": store.experiment_critiques(experiment_id),
+            "instruction": "Use this evidence; do not restart the task from zero.",
+        }
+    finally:
+        store.close()
+    result_path = tmp_path / "failed-result.json"
+    result_path.write_text(json.dumps({
+        "experiment_id": experiment_id,
+        "status": "UNVERIFIED",
+        "best_gate": {"passed": False, "score": 0.0, "summary": "missing artifact"},
+        "escalation_packet": packet,
+    }, sort_keys=True), encoding="utf-8")
+    return db, result_path, experiment_id
 
 
 def test_free_window_harvest_prioritises_preview_and_has_stable_identity():
@@ -143,6 +197,74 @@ def test_explicit_paid_model_selection_preserves_order_adapter_and_fails_closed(
         assert "absent from the live paid catalogue" in str(exc)
     else:
         raise AssertionError("free model was accepted through paid admission")
+
+
+def test_escalation_binds_paid_successor_to_canonical_failed_evidence(
+    tmp_path: Path, monkeypatch,
+):
+    db, source_result, source_experiment_id = _write_failed_benchmark_result(tmp_path)
+    captured = {}
+
+    def fake_run(args):
+        captured["args"] = args
+        return 0
+
+    monkeypatch.setattr("giga_inference_fabric.cli.run", fake_run)
+    args = SimpleNamespace(
+        db=db, source_result=source_result, paid_model="openai/gpt-5.6-sol",
+        max_cost_usd=0.02, max_output_tokens=512, daily_remote_limit=40,
+        use_opencode_auth=True, privacy="public", require_zdr=False,
+        output_dir=tmp_path / "escalations",
+    )
+    assert escalate(args) == 0
+    successor = captured["args"]
+    source_sha = hashlib.sha256(source_result.read_bytes()).hexdigest()
+    assert successor.experiment_id.startswith("escalation-")
+    assert successor.source_experiment_id == source_experiment_id
+    assert successor.source_result_sha256 == source_sha
+    assert successor.include_paid is True and successor.paid_model == ["openai/gpt-5.6-sol"]
+    assert successor.candidates == successor.rounds == successor.max_remote_calls == 1
+    assert "missing artifact" in successor.prompt and '"output_text": "bad"' in successor.prompt
+    assert source_sha in successor.prompt and successor.benchmark_id == "harvest-bench"
+
+
+def test_escalation_rejects_edited_or_verified_source_before_paid_dispatch(
+    tmp_path: Path, monkeypatch,
+):
+    db, source_result, _experiment_id = _write_failed_benchmark_result(tmp_path)
+    dispatched = False
+
+    def fake_run(_args):
+        nonlocal dispatched
+        dispatched = True
+        return 0
+
+    monkeypatch.setattr("giga_inference_fabric.cli.run", fake_run)
+    base_args = SimpleNamespace(
+        db=db, source_result=source_result, paid_model="openai/gpt-5.6-sol",
+        max_cost_usd=0.02, max_output_tokens=512, daily_remote_limit=40,
+        use_opencode_auth=True, privacy="public", require_zdr=False,
+        output_dir=tmp_path / "escalations",
+    )
+    edited = json.loads(source_result.read_text(encoding="utf-8"))
+    edited["escalation_packet"]["attempts"][0]["output_text"] = "tampered"
+    source_result.write_text(json.dumps(edited), encoding="utf-8")
+    try:
+        escalate(base_args)
+    except SystemExit as exc:
+        assert "drifted from canonical" in str(exc)
+    else:
+        raise AssertionError("edited source evidence reached paid dispatch")
+
+    edited["status"] = "VERIFIED"
+    source_result.write_text(json.dumps(edited), encoding="utf-8")
+    try:
+        escalate(base_args)
+    except SystemExit as exc:
+        assert "objectively UNVERIFIED" in str(exc)
+    else:
+        raise AssertionError("verified source reached unnecessary paid dispatch")
+    assert not dispatched
 
 
 def test_study_next_refuses_before_discovery_when_daily_budget_cannot_cover_cell(

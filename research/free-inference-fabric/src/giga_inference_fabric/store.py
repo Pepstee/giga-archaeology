@@ -318,6 +318,15 @@ class ExperimentStore:
             "SELECT 1 FROM experiments WHERE experiment_id=?", (experiment_id,)
         ).fetchone() is not None
 
+    def experiment_record(self, experiment_id: str) -> dict:
+        self.connection.row_factory = sqlite3.Row
+        row = self.connection.execute(
+            "SELECT * FROM experiments WHERE experiment_id=?", (experiment_id,),
+        ).fetchone()
+        if not row:
+            raise KeyError(experiment_id)
+        return dict(row)
+
     def experiment_ids(self) -> set[str]:
         return {row[0] for row in self.connection.execute("SELECT experiment_id FROM experiments")}
 

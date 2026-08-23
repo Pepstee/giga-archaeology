@@ -184,8 +184,27 @@ python3 -m giga_inference_fabric.cli run \
   --prompt "$(<state/last-result.json)" --require '...'
 ```
 
-The laboratory emits the escalation packet automatically. Paid fallback is still operator-invoked;
-autonomous production activation remains owned by GIGA-v2's JSR-086 authority boundary.
+The laboratory emits the escalation packet automatically. Paid fallback still requires an explicit
+`escalate` invocation by an operator or admitted scheduler; autonomous production activation
+remains owned by GIGA-v2's JSR-086 authority boundary.
+
+The `escalate` command closes the cheap-to-frontier handoff without asking the paid model to restart
+from zero. It accepts only a non-symlink result whose experiment and failed attempts/critiques still
+match SQLite, whose evaluator is an immutable registered benchmark, and whose objective gate is
+UNVERIFIED. The source-file hash, paid model, cost ceiling and token ceiling deterministically bind
+the one-shot successor; a VERIFIED, edited, unregistered or already-escalated source is refused.
+
+```bash
+python3 -m giga_inference_fabric.cli escalate \
+  --source-result state/path/to/failed-result.json \
+  --use-opencode-auth --paid-model openai/gpt-5.6-sol \
+  --max-cost-usd 0.02 --max-output-tokens 512 --daily-remote-limit 40
+```
+
+Calling `escalate` is itself explicit paid admission; it performs one candidate call with no paid
+critics or repair loop. A scheduler may invoke it after cheap work fails, subject to the same
+deterministic budget and privacy policy. Generic ad-hoc results are deliberately unsupported until
+their evaluator contract can be carried and reverified as strongly as a registered benchmark.
 
 ## Real-project benchmarks
 
@@ -422,7 +441,8 @@ production scheduler has been activated across the project portfolio.
 - [x] Local inference: OpenAI-compatible adapter plus local model discovery.
 - [x] Local/free/paid composition: common adapter contract; paid tier requires explicit admission.
 - [x] Cheap context preparation: `frontier-context-preparation` workload.
-- [x] Frontier model receives prior work: versioned escalation packet includes every attempt and gate.
+- [x] Frontier model receives prior work: hash-bound `escalate` verifies the source against SQLite
+  and sends every attempt, critique and objective-gate failure to one budgeted paid successor.
 - [x] Parallel hypotheses: candidate calls execute concurrently, while evidence commits remain ordered.
 - [x] Continuous test-coverage improvement: schedulable test-generation queue items.
 - [x] Periodic legacy audit: `legacy-reaudit` workload.
