@@ -496,9 +496,15 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     observed = {}
 
     def fake_run(command, **kwargs):
+        if command[1:3] == ["debug", "config"]:
+            root = Path(kwargs["cwd"])
+            (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
+            plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+            return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
         observed["command"] = command
         observed["kwargs"] = kwargs
         root = Path(command[command.index("--dir") + 1])
+        (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
         observed["config"] = json.loads((root / "opencode.json").read_text(encoding="utf-8"))
         observed["plugin"] = (
             root / ".opencode" / "plugins" / "giga-output-budget.js"
@@ -546,6 +552,7 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     )
     assert observed["kwargs"]["env"]["OPENCODE_CONFIG_DIR"].endswith("/.opencode")
     assert "--title" in observed["command"]
+    assert "--print-logs" in observed["command"]
     assert observed["kwargs"]["check"] is False
 
 
@@ -583,7 +590,13 @@ def test_opencode_adapter_allows_admitted_paid_model_and_preserves_reported_cost
         ])
 
     def fake_run(command, **_kwargs):
+        if command[1:3] == ["debug", "config"]:
+            root = Path(_kwargs["cwd"])
+            (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
+            plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+            return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
         root = Path(command[command.index("--dir") + 1])
+        (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
         (root / "output-cap-receipt.json").write_text(json.dumps({
             "invocationCount": 1,
             "providerID": "openrouter",
@@ -616,9 +629,15 @@ def test_opencode_adapter_rejects_missing_output_cap_receipt(monkeypatch, tmp_pa
         returncode = 0
         stdout = json.dumps({"type": "text", "part": {"text": "READY"}})
 
-    monkeypatch.setattr(
-        "giga_inference_fabric.providers.subprocess.run", lambda *_args, **_kwargs: Result(),
-    )
+    def fake_run(command, **kwargs):
+        root = Path(kwargs.get("cwd") or command[command.index("--dir") + 1])
+        (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
+        if command[1:3] == ["debug", "config"]:
+            plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+            return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
+        return Result()
+
+    monkeypatch.setattr("giga_inference_fabric.providers.subprocess.run", fake_run)
     auth_file = tmp_path / "auth.json"
     auth_file.write_text("{}", encoding="utf-8")
     try:

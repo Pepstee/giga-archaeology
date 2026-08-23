@@ -174,6 +174,7 @@ class OpenCodeOpenRouterAdapter:
             plugin_dir = root / ".opencode" / "plugins"
             plugin_dir.mkdir(parents=True)
             plugin_path = plugin_dir / "giga-output-budget.js"
+            init_receipt_path = root / "plugin-init-receipt"
             hook_receipt_path = root / "output-cap-receipt.json"
             (root / "opencode.json").write_text(
                 json.dumps({
@@ -189,7 +190,9 @@ class OpenCodeOpenRouterAdapter:
             plugin_path.write_text(
                 "import { writeFileSync } from 'node:fs';\n"
                 "let invocationCount = 0;\n"
-                "export const GigaOutputBudget = async () => ({\n"
+                "export const GigaOutputBudget = async () => {\n"
+                f"  writeFileSync({json.dumps(str(init_receipt_path))}, 'loaded', {{ mode: 0o600 }});\n"
+                "  return ({\n"
                 "  'chat.params': async (input, output) => {\n"
                 "    invocationCount += 1;\n"
                 "    if (invocationCount !== 1) throw new Error('multiple LLM invocations denied');\n"
@@ -202,7 +205,8 @@ class OpenCodeOpenRouterAdapter:
                 "      maxOutputTokens: output.maxOutputTokens,\n"
                 "    }}), { mode: 0o600 });\n"
                 "  },\n"
-                "});\n",
+                "  });\n"
+                "};\n",
                 encoding="utf-8",
             )
             environment = {
@@ -216,10 +220,27 @@ class OpenCodeOpenRouterAdapter:
             environment["XDG_CACHE_HOME"] = str(root / "xdg-cache")
             environment["OPENCODE_CONFIG_DIR"] = str(root / ".opencode")
             environment["NO_COLOR"] = "1"
+            preflight = subprocess.run(
+                [binary, "debug", "config"], cwd=str(root), text=True,
+                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                timeout=min(timeout, 60), check=False, env=environment,
+            )
+            try:
+                resolved_config = json.loads(preflight.stdout)
+            except json.JSONDecodeError as exc:
+                raise ProviderError("OpenCode config preflight returned invalid JSON") from exc
+            if (
+                preflight.returncode != 0
+                or plugin_path.as_uri() not in resolved_config.get("plugin", [])
+                or init_receipt_path.read_text(encoding="utf-8") != "loaded"
+            ):
+                raise ProviderError("OpenCode config/plugin preflight failed closed")
+            init_receipt_path.unlink()
             try:
                 result = subprocess.run(
                     [
-                        binary, "run", "--format", "json", "--dir", str(root),
+                        binary, "run", "--print-logs", "--log-level", "WARN",
+                        "--format", "json", "--dir", str(root),
                         "--title", "giga-inference-fabric", "--model", model_id, message,
                     ],
                     text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
@@ -227,6 +248,10 @@ class OpenCodeOpenRouterAdapter:
                 )
             except subprocess.TimeoutExpired as exc:
                 raise ProviderError(f"OpenCode transport timed out after {timeout}s") from exc
+            if not init_receipt_path.is_file():
+                raise ProviderError(
+                    "OpenCode run process did not load the admitted plugin: " + result.stdout[-2000:]
+                )
             try:
                 hook_receipt = json.loads(hook_receipt_path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError) as exc:
