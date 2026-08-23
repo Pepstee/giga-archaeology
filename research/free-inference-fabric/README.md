@@ -250,6 +250,15 @@ tokens and monetary cost. A model does not become “good” because another mod
 Benchmark binding and verification live in a separate `benchmarks.py` module because fixture
 identity has a distinct lifecycle from provider discovery, workload profiles and experiment state.
 
+`fabric-architecture-map-001` is the first admitted real-source background benchmark. Its bounded
+packet contains exactly ten inference-fabric Python modules (147,505 source bytes), and its hidden
+verifier requires all ten components, all 18 direct internal imports, valid live `path:line`
+anchors, the exact packet hash and non-certain labels for inferred risks. The verifier also hashes
+the live source modules, so source drift requires a new benchmark version instead of silently
+changing the task. The current local queue contains one priority-100 job with zero attempts; no
+provider call was made during admission. See
+`evidence/architecture-map-admission-2026-08-24.json`.
+
 ## Controlled orchestration studies
 
 The admitted future-study contracts use the strengthened disjoint-control benchmark:
@@ -432,9 +441,12 @@ completion receipt.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
 - **Callable but not yet live-proven on portfolio source:** test generation, bug/debt discovery,
-  refactoring, documentation, architecture mapping, code/security/dependency review and periodic
+  refactoring, documentation, code/security/dependency review and periodic
   re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
   verifier and retained result before the corresponding utility claim advances to live-proven.
+- **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
+  benchmark is immutable, source-bound and queued with zero attempts. It is not live-proven until
+  its external verifier accepts a retained model result.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact
   externally gated `READY` token in one attempt with `remote_calls=0` under Vault policy. The same
   model failed the stronger immutable strict-JSON benchmark twice, so general engineering utility
@@ -466,7 +478,8 @@ been activated across the project portfolio.
 - [profile] Refactoring: behaviour-preserving `refactoring` workload.
 - [profile] Existing-code documentation: source-anchored `documentation` workload.
 - [profile] Large-codebase research: bounded `codebase-research` workload.
-- [profile] Architecture/dependency maps: extracted-versus-inferred `architecture-map` workload.
+- [queued] Architecture/dependency maps: the first source-bound benchmark is admitted and queued;
+  no model result is accepted yet.
 - [profile] Code review: reproducibility-gated `code-review` workload.
 - [profile] Security review: authorised, non-live-exploitation `security-review` workload.
 - [profile] Dependency/config review: primary-source-backed `dependency-config-audit` workload.

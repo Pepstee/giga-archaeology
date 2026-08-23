@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-architecture-map-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "architecture-map",
+  "objective": "Produce a source-anchored structural architecture map of the admitted inference-fabric modules",
+  "prompt": "Return only strict JSON using schema giga.architecture-map.v1. Top-level fields must be schema, project, source_packet_sha256, components, edges and risks. Map every admitted Python module exactly once. Each component needs id, responsibility and one or more path:line sources. Record every direct internal import between admitted modules as an edge with from, to, kind=imports, confidence=certain and one or more path:line evidence anchors. Add two to eight concrete architectural risks; risk confidence must be inferred or low, never certain. Do not cite files outside the bound packet and do not use Markdown.",
+  "source_packet_sha256": "caada6897d0f4db28a3d5371b39c3bed5f5f1cf7207efd5926088530a178edda",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}
