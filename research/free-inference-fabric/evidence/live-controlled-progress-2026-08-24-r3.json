@@ -1,0 +1,84 @@
+{
+  "schema": "giga.live-controlled-progress-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "status": "PARTIAL_EVIDENCE",
+  "source_commit_at_final_run": "932a1c771666d05fcf7bda6ee41a0f4c05081884",
+  "study_id": "weak-model-orchestration-v2",
+  "model_id": "thinkingmachines/inkling-small:free",
+  "new_cells": [
+    {
+      "arm_id": "single-shot-no-memory",
+      "repeat_index": 3,
+      "experiment_id": "study-58e620df93a26de55b51b6f0",
+      "status": "UNVERIFIED",
+      "remote_calls": 1,
+      "provider_reported_cost_usd": 0.0,
+      "result_sha256": "6b83492864065540fcdacdad381d30912e6bbf48eb3342b6f423fe7942bd7d16",
+      "note": "The provider returned no final text. This cell predates failed-call telemetry retention, so its result contains zero usage rather than a recoverable provider token count."
+    },
+    {
+      "arm_id": "repair-no-memory",
+      "repeat_index": 1,
+      "experiment_id": "study-f7360045badf63fc44141617",
+      "status": "VERIFIED",
+      "remote_calls": 1,
+      "provider_reported_cost_usd": 0.0,
+      "output_sha256": "e59a3d7b2853bd298262fd112c217079e7b3c8a83ae5d5cbd9312563ceeeb882",
+      "result_sha256": "ba5058becb2a56121f8222c758d78de46dce4ce362ce6458208031ca19606cf4"
+    },
+    {
+      "arm_id": "repair-no-memory",
+      "repeat_index": 2,
+      "experiment_id": "study-638a9675917fee4a51541e13",
+      "status": "VERIFIED",
+      "remote_calls": 1,
+      "provider_reported_cost_usd": 0.0,
+      "output_sha256": "36a9bae86c0c145f7af4a42a47def51fca2f918ce91c1988bd0b6161cd106f80",
+      "result_sha256": "aef246f6d5208bb5756bfbd52299878b07e6199363f9546e2e121ae294d75a56"
+    },
+    {
+      "arm_id": "repair-no-memory",
+      "repeat_index": 3,
+      "experiment_id": "study-acec86d1f77f4616f8f86a9a",
+      "status": "UNVERIFIED",
+      "remote_calls": 4,
+      "provider_reported_cost_usd": 0.0,
+      "best_output_sha256": "f8eb4851e7fc1e0c7cdb99c60bb925eb91b7fb96b6a47736de730d84213d7f93",
+      "best_gate_summary": "objective commands passed 0/1",
+      "best_gate_evidence": "candidate is not readable strict JSON",
+      "observed_failure": "The model emitted Bash tool-call markup instead of the required JSON candidate.",
+      "result_sha256": "a0b72a9ca5dcdfcef813da43338184980be483f9014802fdda24fe00050f3e66"
+    }
+  ],
+  "provisional_scoreboard": [
+    {
+      "arm_id": "single-shot-no-memory",
+      "runs": 3,
+      "verified_runs": 2,
+      "verification_rate": 0.6667,
+      "candidate_attempts": 3,
+      "remote_calls": 3,
+      "provider_reported_cost_usd": 0.0
+    },
+    {
+      "arm_id": "repair-no-memory",
+      "runs": 3,
+      "verified_runs": 2,
+      "verification_rate": 0.6667,
+      "candidate_attempts": 6,
+      "remote_calls": 6,
+      "provider_reported_cost_usd": 0.0
+    }
+  ],
+  "bindings": {
+    "study_catalogue_sha256": "f6e66e2b9cb392996004c7ddbc670cde2d87df338a59d51e34654f58f8cf6c8c",
+    "benchmark_manifest_sha256": "1ddd86e7cfb0c43f68c147c08597ccbc69ba1f9d3f0254041f8e830c89357079",
+    "benchmark_verifier_sha256": "0b7703ae9b524b53684b72b45af92faa36ee91cdbc4babb6ef823ed4de47b0bb"
+  },
+  "database_after_run": {
+    "provider_calls_today_conservative": 38,
+    "provider_reported_total_cost_usd": 0.0083885,
+    "integrity_check": "ok"
+  },
+  "conclusion": "At three repeats per arm, repair-no-memory did not improve verification rate over single-shot-no-memory and used twice as many remote calls. The sample is too small for a general conclusion; remaining arms and repeats stay pending."
+}

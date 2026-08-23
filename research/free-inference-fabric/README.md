@@ -397,6 +397,11 @@ completion receipt.
   provider-reported cost `$0.0083885`, below the `$0.02` cap, with `283 <= 512` tokens. See
   `evidence/live-paid-frontier-qualification-2026-08-24.json`. This is one datapoint, not yet a
   statistical free-ensemble/frontier conclusion.
+- **Three-repeat weak-model comparison recorded:** single-shot-no-memory and repair-no-memory both
+  verified 2/3 runs (66.7%); repair used six calls versus three. One repair failure exhausted four
+  rounds and emitted tool-call markup instead of strict JSON. This early result does not show an
+  orchestration advantage and is not statistically conclusive. See
+  `evidence/live-controlled-progress-2026-08-24-r3.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact

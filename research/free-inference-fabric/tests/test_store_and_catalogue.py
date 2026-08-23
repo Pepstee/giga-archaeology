@@ -864,6 +864,21 @@ def test_committed_live_transport_evidence_is_self_consistent_and_secret_free():
         assert hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == bindings[name]
     assert "sk-or-" not in paid_raw and "OPENROUTER_API_KEY=" not in paid_raw
 
+    progress_raw = (
+        ROOT / "evidence" / "live-controlled-progress-2026-08-24-r3.json"
+    ).read_text(encoding="utf-8")
+    progress = json.loads(progress_raw)
+    assert progress["status"] == "PARTIAL_EVIDENCE"
+    scoreboard = {row["arm_id"]: row for row in progress["provisional_scoreboard"]}
+    assert scoreboard["single-shot-no-memory"]["verification_rate"] == 0.6667
+    assert scoreboard["repair-no-memory"]["verification_rate"] == 0.6667
+    assert scoreboard["repair-no-memory"]["remote_calls"] == 6
+    assert progress["database_after_run"]["integrity_check"] == "ok"
+    assert hashlib.sha256((ROOT / "config/studies-v2.json").read_bytes()).hexdigest() == (
+        progress["bindings"]["study_catalogue_sha256"]
+    )
+    assert "sk-or-" not in progress_raw and "OPENROUTER_API_KEY=" not in progress_raw
+
     comparison_raw = (
         ROOT / "evidence" / "live-benchmark-comparison-2026-08-24.json"
     ).read_text(encoding="utf-8")
