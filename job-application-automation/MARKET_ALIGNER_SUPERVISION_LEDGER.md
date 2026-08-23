@@ -211,18 +211,33 @@ real Collector persistence path.
   the loser waits until after that seal and then falsely returns `in_progress/in_flight` instead of
   reloading and replaying the terminal receipt. The terminal record bytes remain intact.
 - The R2 overlap test is not yet an authority because its set-based active-operation guard can drop
-  a tag when one of several same-operation parallel fetches exits while another is still active.
-  It must use per-operation reference counts before it can prove cross-operation exclusion.
+  a tag when one of several same-operation parallel fetches exits while another is still active;
+  its thread-local operation tag also does not propagate into the Collector's provider thread pools.
+  It must use exact operation-tagged adapters or an equivalent whole-cycle proof plus per-operation
+  reference counts before it can prove cross-operation exclusion.
+- Locking and blocker scans currently compare the complete source-scope list for equality. An
+  executable barrier probe proved that scopes `[fixtureboard]` and
+  `[fixtureboard, otherboard]` on the same data home enter their collection cycles concurrently.
+  An unresolved superset likewise does not block a subset retry. R2 must hold sorted per-board locks
+  for the whole operation and treat any scope intersection as an unresolved blocker.
+- Claim publication is not atomic: `claim` writes directly into the final O_EXCL JSON path. Process
+  death during that write can leave a partial final record and permanently block an operation even
+  though no provider ran. The claim must be fully written and fsynced privately, published
+  no-replace as one directory-entry transition, and parent-fsynced before provider access; a
+  pre-publish/partial-write failure must leave no final record and permit the same ID to retry.
 - Two further ordering/binding defects are recorded for the same repair: configured path containment
   currently runs only after `ProductPaths.ensure()` and journal construction, so an escaping config
   creates/chmods state before refusal; and the semantic config and raw-file hash come from separate
   uncoordinated reads, allowing a changed file to bind incoherent identities. Both must fail before
   journal/provider access with exact zero-call tests.
+- `boards.enabled` is not type-checked before constructing the operation scope; a scalar string is
+  silently converted into a sorted list of characters. Require an exact nonempty list of unique,
+  bounded, nonempty board names in the shared Collector/config seam before journal/provider access.
 - The shared free Ox provider reached its enforced daily quota after the session stopped at a safe
   dirty boundary; reset is 09:00 Korea time. No paid/weaker model substitution and no competing
   Market writer are authorized. Resume the same logical session
   `ses_fd01f0ce2ffe1qs5qKy9nTE4iv` after reset, close only the recorded falsifiers, run the full
   gates, and create one separate Artiom-authored R2 commit. Then independently rerun the original
-  four R1 falsifiers plus the new same-ID, reference-count, preflight-order, config-coherence,
-  crash/CAS/path/replay matrix before deciding acceptance. Do not integrate or select another slice
-  first.
+  four R1 falsifiers plus the new same-ID, reference-count, intersecting-scope, atomic-claim,
+  preflight-order, config-coherence, scope-type, crash/CAS/path/replay matrix before deciding
+  acceptance. Do not integrate or select another slice first.
