@@ -27,6 +27,34 @@ class ModelAdapter(Protocol):
     ) -> Completion: ...
 
 
+def _assistant_text(message: object) -> tuple[str, str]:
+    """Extract a candidate from common OpenAI-compatible response variants.
+
+    Final content remains authoritative when present. Some local reasoning models exhaust the
+    generation budget before emitting final content and expose only ``reasoning`` or
+    ``reasoning_content``. That output is retained as an explicitly labelled fallback candidate;
+    the external objective evaluator still decides whether it is useful.
+    """
+    if not isinstance(message, dict):
+        raise ProviderError("provider returned a malformed assistant message")
+    content = message.get("content")
+    if isinstance(content, str) and content.strip():
+        return content, "content"
+    if isinstance(content, list):
+        fragments = [
+            item.get("text") for item in content
+            if isinstance(item, dict) and isinstance(item.get("text"), str)
+        ]
+        joined = "".join(fragments)
+        if joined.strip():
+            return joined, "content_fragments"
+    for field in ("reasoning", "reasoning_content"):
+        value = message.get(field)
+        if isinstance(value, str) and value.strip():
+            return value, f"{field}_fallback"
+    raise ProviderError("provider returned empty completion and no reasoning fallback")
+
+
 def _post_json(url: str, payload: dict, headers: dict[str, str], timeout: int) -> tuple[dict, int]:
     request = urllib.request.Request(
         url,
@@ -74,9 +102,7 @@ class OpenAICompatibleAdapter:
         choices = raw.get("choices") or []
         if not choices:
             raise ProviderError("provider returned no choices")
-        text = choices[0].get("message", {}).get("content")
-        if not isinstance(text, str) or not text.strip():
-            raise ProviderError("provider returned empty completion")
+        text, text_source = _assistant_text(choices[0].get("message"))
         usage = raw.get("usage") or {}
         return Completion(
             text=text,
@@ -86,7 +112,10 @@ class OpenAICompatibleAdapter:
             completion_tokens=int(usage.get("completion_tokens") or 0),
             latency_ms=latency_ms,
             cost_usd=float(raw.get("usage", {}).get("cost") or 0.0),
-            raw={"id": raw.get("id"), "finish_reason": choices[0].get("finish_reason")},
+            raw={
+                "id": raw.get("id"), "finish_reason": choices[0].get("finish_reason"),
+                "text_source": text_source,
+            },
         )
 
 

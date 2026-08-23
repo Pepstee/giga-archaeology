@@ -10,7 +10,12 @@ from giga_inference_fabric.catalogue import load_profiles, model_window_diff
 from giga_inference_fabric.cli import _select_explicit_free_models, study_next
 from giga_inference_fabric.evaluators import CommandEvaluator, evaluator_from_contract
 from giga_inference_fabric.models import Candidate, Completion, CostTier, ModelSpec
-from giga_inference_fabric.providers import OpenCodeOpenRouterAdapter, ProviderError, discover_local_models
+from giga_inference_fabric.providers import (
+    OpenAICompatibleAdapter,
+    OpenCodeOpenRouterAdapter,
+    ProviderError,
+    discover_local_models,
+)
 from giga_inference_fabric.store import ExperimentStore
 from giga_inference_fabric.studies import (
     expand_study_cells,
@@ -298,6 +303,53 @@ def test_local_openai_compatible_model_discovery(monkeypatch):
     models = discover_local_models("http://127.0.0.1:11434/v1")
     assert [model.model_id for model in models] == ["local/a", "local/b"]
     assert all(model.cost_tier == CostTier.LOCAL and model.adapter == "local" for model in models)
+
+
+def test_openai_compatible_adapter_prefers_final_content_and_labels_reasoning_fallback(
+    monkeypatch,
+):
+    responses = iter([
+        ({
+            "model": "local/reasoner", "choices": [{
+                "message": {"content": "FINAL", "reasoning": "PRIVATE DRAFT"},
+                "finish_reason": "stop",
+            }],
+        }, 12),
+        ({
+            "model": "local/reasoner", "choices": [{
+                "message": {"content": "", "reasoning": "ONLY REASONING"},
+                "finish_reason": "length",
+            }],
+        }, 34),
+    ])
+    monkeypatch.setattr(
+        "giga_inference_fabric.providers._post_json", lambda *_args, **_kwargs: next(responses),
+    )
+    adapter = OpenAICompatibleAdapter("local", "http://127.0.0.1:9999/v1")
+    model = ModelSpec("local/reasoner", "local", CostTier.LOCAL)
+
+    final = adapter.complete(model, system="system", prompt="prompt")
+    assert final.text == "FINAL"
+    assert final.raw["text_source"] == "content"
+
+    fallback = adapter.complete(model, system="system", prompt="prompt")
+    assert fallback.text == "ONLY REASONING"
+    assert fallback.raw["text_source"] == "reasoning_fallback"
+    assert fallback.raw["finish_reason"] == "length"
+
+
+def test_openai_compatible_adapter_rejects_truly_empty_completion(monkeypatch):
+    monkeypatch.setattr(
+        "giga_inference_fabric.providers._post_json",
+        lambda *_args, **_kwargs: ({"choices": [{"message": {"content": " "}}]}, 1),
+    )
+    adapter = OpenAICompatibleAdapter("local", "http://127.0.0.1:9999/v1")
+    try:
+        adapter.complete(ModelSpec("local/empty", "local", CostTier.LOCAL), system="s", prompt="p")
+    except ProviderError as exc:
+        assert "no reasoning fallback" in str(exc)
+    else:
+        raise AssertionError("empty local completion was accepted")
 
 
 def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkeypatch):

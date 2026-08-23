@@ -43,6 +43,8 @@ The implementation includes:
 
 - OpenRouter model discovery using its public models API, with free and preview classification;
 - OpenAI-compatible adapters for OpenRouter and local servers such as Ollama;
+- final-content-first parsing with explicitly labelled reasoning-only fallback for local reasoning
+  servers; objective gates still decide whether fallback text is usable;
 - a policy boundary for `local`, `free` and explicitly admitted `paid` tiers, including paid-call reservation;
 - public/internal/personal/Vault privacy classes and ZDR eligibility;
 - several independent candidates per round, enforced minimum model diversity and different approaches;
@@ -336,9 +338,12 @@ completion receipt.
   `evidence/live-study-v2-baseline-2026-08-24.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
-- **Local transport live-proven, utility rejected:** existing MLX models were discovered and called
-  with `remote_calls=0` under Vault policy, but none passed the minimal exact-output gate. See
-  `evidence/live-local-negative-results-2026-08-24.json`; no local server was left running.
+- **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact
+  externally gated `READY` token in one attempt with `remote_calls=0` under Vault policy. The same
+  model failed the stronger immutable strict-JSON benchmark twice, so general engineering utility
+  remains unproven. See `evidence/live-local-qwen25-qualification-2026-08-24.json`; earlier negative
+  models remain preserved in `evidence/live-local-negative-results-2026-08-24.json`. No local server
+  was left running.
 - **Deliberately not activated:** a recurring portfolio writer or production GIGA-v2 fallback.
   The non-conflict instruction leaves those actions with `(8) End result architecture (2)`.
 

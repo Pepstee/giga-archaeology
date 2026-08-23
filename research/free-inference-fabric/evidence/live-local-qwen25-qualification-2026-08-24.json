@@ -1,0 +1,56 @@
+{
+  "schema": "giga.live-local-model-qualification.v1",
+  "observed_at": "2026-08-24T04:32:23+09:00",
+  "runtime": {
+    "name": "mlx_lm.server",
+    "bind": "127.0.0.1:18080",
+    "persistent_after_test": false,
+    "chat_template_args": {
+      "enable_thinking": false
+    }
+  },
+  "hardware_class": "Apple M2 MacBook Air with 24 GB unified memory",
+  "model": {
+    "id": "mlx-community/Qwen2.5-3B-Instruct-4bit",
+    "cached_snapshot": "4f83f8f146fdf28b512a06562b671d7af4fab457",
+    "config_sha256": "ceb97c46fe17f523ac42c0f0254fd18d9589f8725f0bbbe0bef541f8ef84547a"
+  },
+  "privacy_class": "vault",
+  "external_provider_calls": 0,
+  "recorded_cost_usd": 0.0,
+  "experiments": [
+    {
+      "experiment_id": "exp-0d86351e48cc475ea098199d85e1c9fe",
+      "task": "fabric-json-test-plan-002 immutable external-verifier benchmark",
+      "status": "UNVERIFIED",
+      "attempts": 2,
+      "remote_calls": 0,
+      "result_sha256": "c45a5ac936533c2175984d105f35a9b83b4489c8a6e63b4945a1267357ed87e4",
+      "failure": "Both candidates were Markdown-fenced and schema-invalid; the external verifier rejected them as unreadable strict JSON.",
+      "stop_reason": "round budget exhausted"
+    },
+    {
+      "experiment_id": "exp-141807bfcb7f45e3b536a173f104e438",
+      "task": "exact readiness-token gate",
+      "status": "VERIFIED",
+      "attempts": 1,
+      "remote_calls": 0,
+      "result_sha256": "1c20b0b95027f7e9a1838e46243e0fd734b813820fa2fb0edf3c164add9739b0",
+      "candidate": "READY",
+      "gate_score": 1.0,
+      "stop_reason": "objective gate passed"
+    }
+  ],
+  "adapter_evidence": {
+    "openai_compatible_reasoning_fallback": "implemented and explicitly labelled in completion metadata",
+    "provider_source_sha256": "d4c37aa81359a98d295448736890daaa7b4ac0316f71617e4916622ace789323",
+    "unit_and_regression_tests": "33 passed"
+  },
+  "verdict": "LOCAL_MODEL_MINIMAL_UTILITY_PROVEN_COMPLEX_BENCHMARK_REJECTED",
+  "limitations": [
+    "This proves a bounded exact-output workload, not general software-engineering utility.",
+    "The same model failed the stronger strict-JSON benchmark after one repair round.",
+    "The local runtime is experimental and was stopped after qualification.",
+    "No local result changes GIGA-v2 policy or project state."
+  ]
+}
