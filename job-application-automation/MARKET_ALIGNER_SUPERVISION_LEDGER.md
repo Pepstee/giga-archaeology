@@ -135,7 +135,7 @@ Before selecting or resuming any slice, the supervisor must:
 | Slice | Objective | Reuse/absence evidence | Acceptance | Status | Next action |
 |---|---|---|---|---|---|
 | RECOVERY-001 | Safely reconcile canonical and Ox copies | Same tree hash; no remotes/upstreams; independent histories retained | Exact Git evidence plus identical cache-free baseline | accepted | Do not repeat unless either tree or remote configuration changes |
-| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | active | Ox session `ses_fd01f0ce2ffe1qs5qKy9nTE4iv` is implementing in the isolated builder worktree; Codex will review its single candidate commit |
+| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | repair active | Preserve rejected R1 `53c4726e`; the same Ox session must produce a separate R2 closing the recorded operation-lifecycle and path-authority falsifiers |
 | JAA-IMPORT-001 | Reconcile and import sealed JAA authority/contracts | Current migration report says protected upstream is not frozen or sealed | Frozen archive, commit, manifest, licence/provenance, independent certification, field-by-field compatibility matrix | blocked | Recheck only when sealed upstream evidence exists |
 
 ## First bounded Ox slice: INGEST-001
@@ -175,11 +175,34 @@ real Collector persistence path.
   `EPERM`, then missing read-only access to the root OpenCode configuration. Both failed before
   session creation and repository mutation. The retry changed only the launcher confinement.
 
+## INGEST-001 R1 rejection
+
+- Rejected candidate: `53c4726e87b4fb9cf006f52d4f5216b5f64cb612`, tree
+  `f8b5d02b549ebefc7cfdfffe95ed299cbee64a96`, authored as Artiom Gutu. Its own suite and the
+  independent exact-tree rerun both reported 60 passed and 2 skipped.
+- Falsifier 1: operation identity was derived solely from configuration and source scope. The first
+  run exited 0, every later intentional run of the unchanged configuration exited 2, and the CLI
+  exposed no operation-id input. The surface could not perform periodic ingestion.
+- Falsifier 2: while one owner was blocked inside its real cycle, a contender rewrote the owner's
+  `in_flight` record to `indeterminate`; the original owner later overwrote that record to
+  `completed`. The contender's interruption claim was false and the journal had no owner/CAS rule.
+- Falsifier 3: `io.database`, `io.job_urls`, and `io.raw_cache` values containing `..` escaped the
+  explicit data-home. The command exited 0 and created all three outputs outside the boundary.
+- Falsifier 4: a record with an unknown authority field and forged fetched count was accepted after
+  recomputing its public record hash. The schema, types, receipt identity, and stored result were not
+  exact authority.
+- Static durability gap: journal creation and replacement fsynced the file but not its parent; a
+  crash could lose the durable claim around provider access. Finalization had no expected-prior or
+  owner compare-and-swap.
+- Disposition: reject without integration. Preserve R1 as evidence. A bounded R2 was delegated to
+  the same logical session; it must add explicit repeatable operation identity, exact successful
+  terminal replay, live-owner isolation, same-scope unresolved blocking, strict under-data-home
+  paths, exact typed receipts, and crash-durable publication.
+
 ## Current blocker and next supervisor action
 
-- No implementation blocker is currently established. Ox is inspecting the existing canonical
-  collector/config/state seams under the bounded contract.
-- Next action: wait for exactly one candidate commit, stop the writer, independently inspect its
-  diff and receipt/crash authority model, rerun the baseline and adversarial acceptance gates from
-  the exact commit, and accept or return a bounded repair to the same session. Do not integrate or
-  advance to another slice before that review.
+- No external blocker is established. R1 is rejected and R2 has been delegated through the parent
+  control task to the same Ox logical session.
+- Next action: obtain one separate R2 commit, independently rerun the original four falsifiers plus
+  the new crash/CAS/path/replay matrix, and either accept the full INGEST-001 chain or return another
+  bounded repair. Do not integrate or advance to another slice before that review.
