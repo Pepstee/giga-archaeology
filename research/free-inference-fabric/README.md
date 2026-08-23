@@ -61,6 +61,8 @@ The implementation includes:
 - deterministic, explicit-file, hash-bound source packets with traversal, symlink, binary and
   high-confidence-secret rejection;
 - an idempotent, leased, retry-bounded background work queue;
+- optional immutable benchmark binding on queued work, revalidated before lease so evaluator drift
+  does not consume an attempt;
 - full-cell remote-budget admission before queue leasing, so a budget refusal cannot consume a
   work attempt or leave an item waiting for lease expiry;
 - deterministic one-cell study progression that refuses before discovery when the remaining daily
@@ -224,7 +226,7 @@ from unit tests because they measure models and must remain immutable across com
 
 ```bash
 python3 -m giga_inference_fabric.cli benchmark-register \
-  --benchmark-id orchestrator-retry-regression-001 \
+  --benchmark-id orchestrator-bug-hunt-001 \
   --project orchestrator-v3 \
   --workload implementation \
   --objective 'Fix the locked retry regression without changing public semantics' \
@@ -347,12 +349,10 @@ python3 -m giga_inference_fabric.cli source-packet \
 
 python3 -m giga_inference_fabric.cli queue-add \
   --project orchestrator-v3 --workload bug-hunt \
+  --benchmark-id orchestrator-retry-regression-001 \
   --objective 'Find one reproducible state-machine defect' \
   --prompt 'Inspect only the admitted source packet and provide a deterministic reproducer.' \
   --source-packet state/source-packets/orchestrator-retry.json \
-  --require 'reproducer' \
-  --check-command 'python3 verify_candidate.py' \
-  --evaluator-cwd /absolute/path/to/disposable-fixture \
   --max-attempts 3
 
 python3 -m giga_inference_fabric.cli queue-next --lease-minutes 30
@@ -399,6 +399,8 @@ completion receipt.
   stagnation reset, budgets, paid pre-reservation, external command gates, benchmark drift
   rejection, experience memory, queues, hash-bound source packets, pre-lease budget refusal and
   model-window events.
+- **Benchmark-bound background admission proven locally:** a queued immutable evaluator is
+  re-hashed before lease; fixture drift refuses without model discovery or an attempt increment.
 - **Live-proven without content disclosure:** OpenRouter public discovery and consecutive
   `monitor-once` checks.
 - **Live-proven:** one authenticated, zero-cost OpenRouter completion through the isolated OpenCode

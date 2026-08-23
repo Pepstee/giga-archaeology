@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from giga_inference_fabric.benchmarks import build_benchmark_contract
 from giga_inference_fabric.cli import queue_add, source_packet, worker_once
 from giga_inference_fabric.source_packets import (
     build_source_packet,
@@ -120,6 +121,75 @@ def test_queue_identity_binds_context_evaluator_and_returns_canonical_work_id(
     duplicate = json.loads(capsys.readouterr().out)
     assert duplicate["inserted"] is False
     assert duplicate["work_id"] == "work-a"
+
+
+def test_queue_rejects_source_packet_for_another_project(tmp_path: Path):
+    root = tmp_path / "project"
+    root.mkdir()
+    (root / "source.py").write_text("SAFE = True\n", encoding="utf-8")
+    packet = build_source_packet(root, "project-a", ["source.py"])
+    packet_path = tmp_path / "packet.json"
+    packet_path.write_text(json.dumps(packet), encoding="utf-8")
+    args = SimpleNamespace(
+        db=tmp_path / "experiments.sqlite3", work_id="work-a", idempotency_key=None,
+        project="project-b", workload="documentation", objective="document",
+        prompt="return report", context="", source_packet=packet_path, benchmark_id=None,
+        require=["report"], forbid=[], check_command=[], evaluator_cwd=None,
+        command_timeout=30, priority=0, max_attempts=2,
+    )
+    with pytest.raises(SystemExit, match="does not match"):
+        queue_add(args)
+
+
+def test_benchmark_queue_rechecks_immutable_binding_before_lease(
+    tmp_path: Path, monkeypatch, capsys,
+):
+    fixture = tmp_path / "benchmark"
+    fixture.mkdir()
+    (fixture / "benchmark.json").write_text("{}\n", encoding="utf-8")
+    verifier = fixture / "verify_candidate.py"
+    verifier.write_text("raise SystemExit(0)\n", encoding="utf-8")
+    binding = build_benchmark_contract(fixture, "python3 verify_candidate.py")
+    db = tmp_path / "experiments.sqlite3"
+    store = ExperimentStore(db)
+    try:
+        store.register_benchmark(
+            "architecture-001", "example", "architecture-map", "map architecture",
+            binding["fixture_ref"], "python3 verify_candidate.py", {"binding": binding},
+        )
+    finally:
+        store.close()
+    queue_args = SimpleNamespace(
+        db=db, work_id="work-architecture", idempotency_key=None, project="example",
+        workload="architecture-map", benchmark_id="architecture-001",
+        objective="map architecture", prompt="return JSON", context="", source_packet=None,
+        require=[], forbid=[], check_command=[], evaluator_cwd=None, command_timeout=30,
+        priority=0, max_attempts=2,
+    )
+    assert queue_add(queue_args) == 0
+    capsys.readouterr()
+    verifier.write_text("raise SystemExit(1)\n", encoding="utf-8")
+    monkeypatch.setattr(
+        "giga_inference_fabric.cli.discover_openrouter_models",
+        lambda: (_ for _ in ()).throw(AssertionError("discovery must not run on drift")),
+    )
+    worker_args = SimpleNamespace(
+        db=db, lease_minutes=30, local_only=False, candidates=1, critics=0, rounds=1,
+        daily_remote_limit=40, use_opencode_auth=True, free_model=[], local_model=[],
+        local_base_url="http://127.0.0.1:11434/v1", privacy="internal",
+        require_zdr=False, max_remote_calls=1, max_output_tokens=512,
+        min_distinct_models=1,
+    )
+    with pytest.raises(SystemExit, match="drift"):
+        worker_once(worker_args)
+    store = ExperimentStore(db)
+    try:
+        row = store.connection.execute(
+            "SELECT status,attempts,benchmark_id FROM work_queue WHERE work_id='work-architecture'"
+        ).fetchone()
+        assert tuple(row) == ("QUEUED", 0, "architecture-001")
+    finally:
+        store.close()
 
 
 def test_worker_budget_wait_does_not_lease_or_discover_models(tmp_path: Path, monkeypatch, capsys):

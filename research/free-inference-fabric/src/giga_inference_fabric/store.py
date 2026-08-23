@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS benchmarks(
  active INTEGER NOT NULL DEFAULT 1, metadata_json TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS work_queue(
  work_id TEXT PRIMARY KEY, idempotency_key TEXT NOT NULL UNIQUE, project TEXT NOT NULL,
- workload TEXT NOT NULL, objective TEXT NOT NULL, prompt TEXT NOT NULL, context TEXT NOT NULL,
+ workload TEXT NOT NULL, benchmark_id TEXT, objective TEXT NOT NULL, prompt TEXT NOT NULL, context TEXT NOT NULL,
  evaluator_json TEXT NOT NULL, priority INTEGER NOT NULL DEFAULT 0,
  status TEXT NOT NULL CHECK(status IN ('QUEUED','LEASED','VERIFIED','FAILED','EXHAUSTED')),
  attempts INTEGER NOT NULL DEFAULT 0, max_attempts INTEGER NOT NULL DEFAULT 3,
@@ -84,6 +84,12 @@ class ExperimentStore:
             self.connection.execute(
                 "ALTER TABLE attempts ADD COLUMN gate_checks_json TEXT NOT NULL DEFAULT '[]'"
             )
+            self.connection.commit()
+        work_columns = {
+            row[1] for row in self.connection.execute("PRAGMA table_info(work_queue)")
+        }
+        if "benchmark_id" not in work_columns:
+            self.connection.execute("ALTER TABLE work_queue ADD COLUMN benchmark_id TEXT")
             self.connection.commit()
 
     def close(self) -> None:
@@ -392,14 +398,14 @@ class ExperimentStore:
     def enqueue(
         self, *, work_id: str, idempotency_key: str, project: str, workload: str,
         objective: str, prompt: str, context: str, evaluator: dict,
-        priority: int = 0, max_attempts: int = 3,
+        benchmark_id: str | None = None, priority: int = 0, max_attempts: int = 3,
     ) -> bool:
         cursor = self.connection.execute(
             """INSERT OR IGNORE INTO work_queue(
-               work_id,idempotency_key,project,workload,objective,prompt,context,evaluator_json,
-               priority,status,max_attempts) VALUES(?,?,?,?,?,?,?,?,?,'QUEUED',?)""",
-            (work_id, idempotency_key, project, workload, objective, prompt, context,
-             json.dumps(evaluator, sort_keys=True), priority, max_attempts),
+               work_id,idempotency_key,project,workload,benchmark_id,objective,prompt,context,
+               evaluator_json,priority,status,max_attempts) VALUES(?,?,?,?,?,?,?,?,?,?,'QUEUED',?)""",
+            (work_id, idempotency_key, project, workload, benchmark_id, objective, prompt,
+             context, json.dumps(evaluator, sort_keys=True), priority, max_attempts),
         )
         self.connection.commit()
         return cursor.rowcount == 1
@@ -431,6 +437,16 @@ class ExperimentStore:
         )
         self.connection.commit()
         return dict(self.connection.execute("SELECT * FROM work_queue WHERE work_id=?", (row["work_id"],)).fetchone())
+
+    def peek_next(self) -> dict | None:
+        self.connection.row_factory = sqlite3.Row
+        row = self.connection.execute(
+            """SELECT * FROM work_queue
+               WHERE (status='QUEUED' OR (status='FAILED' AND attempts<max_attempts)
+                      OR (status='LEASED' AND lease_until<CURRENT_TIMESTAMP))
+               ORDER BY priority DESC,created_at,work_id LIMIT 1"""
+        ).fetchone()
+        return dict(row) if row else None
 
     def finish_work(self, work_id: str, *, verified: bool, experiment_id: str) -> None:
         row = self.connection.execute("SELECT attempts,max_attempts FROM work_queue WHERE work_id=?", (work_id,)).fetchone()
