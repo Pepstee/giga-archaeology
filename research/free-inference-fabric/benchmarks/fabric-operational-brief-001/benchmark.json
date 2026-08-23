@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-operational-brief-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "documentation",
+  "objective": "Produce a source-anchored operational brief of the admitted inference-fabric modules",
+  "prompt": "Return only strict JSON using schema giga.operational-brief.v1. Top-level fields must be schema, project, source_packet_sha256, entrypoints, state_stores, failure_paths and operating_rules. Document every admitted entrypoint, durable state store, required failure path and enforced operating rule exactly once. Every claim needs one or more exact path:line anchors from the bound packet. Responsibilities, triggers, containment and rule statements must be concrete rather than generic. Failure-path confidence must be certain for directly encoded behaviour. Do not use Markdown or cite files outside the packet.",
+  "source_packet_sha256": "caada6897d0f4db28a3d5371b39c3bed5f5f1cf7207efd5926088530a178edda",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

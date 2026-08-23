@@ -1,0 +1,35 @@
+{
+  "schema": "giga.background-work-admission-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "benchmark": {
+    "benchmark_id": "fabric-operational-brief-001",
+    "manifest_sha256": "351601192456470cdee82c588fd59c36d776da360a5e8f5be854521cecb49096",
+    "verifier_sha256": "2f8eb745bbdd6342af070f323d0384e1da7b0f632bb9b3e5209e352e75349926",
+    "fixture_sha256": "4795486ec50aa6fc84f2870f0eccc2b8157aaa2f5668517854a8afd964f6b773",
+    "evaluator_command_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d"
+  },
+  "source_packet": {
+    "schema": "giga.source-packet.v1",
+    "packet_sha256": "caada6897d0f4db28a3d5371b39c3bed5f5f1cf7207efd5926088530a178edda",
+    "file_count": 10,
+    "total_source_bytes": 147505
+  },
+  "required_coverage": {
+    "entrypoints": 7,
+    "durable_state_stores": 7,
+    "encoded_failure_paths": 7,
+    "unavoidable_operating_rules": 5
+  },
+  "queue": {
+    "work_id": "work-fabric-operational-brief-001",
+    "idempotency_key": "4b2d3571fbf0845a751462a3de2fd147a361d7d9225bcdc4fe1b473bb577121d",
+    "priority": 90,
+    "max_attempts": 3,
+    "status_at_admission": "QUEUED",
+    "attempts_at_admission": 0,
+    "predecessor_work_id": "work-fabric-architecture-map-001"
+  },
+  "provider_calls_during_admission": 0,
+  "claim_boundary": "Admission and deterministic verification are proven; documentation utility remains unproven until a retained candidate passes the external verifier."
+}

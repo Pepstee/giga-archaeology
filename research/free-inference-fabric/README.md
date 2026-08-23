@@ -259,6 +259,13 @@ changing the task. The current local queue contains one priority-100 job with ze
 provider call was made during admission. See
 `evidence/architecture-map-admission-2026-08-24.json`.
 
+`fabric-operational-brief-001` promotes existing-code documentation from a prompt profile to a
+second source-bound benchmark on the same immutable packet. Its verifier requires seven CLI
+entrypoints, seven durable stores, seven encoded failure paths and five unavoidable operating
+rules, all with live anchors. It is queued behind the architecture map at lower priority with zero
+attempts; admission made no provider call. See
+`evidence/operational-brief-admission-2026-08-24.json`.
+
 ## Controlled orchestration studies
 
 The admitted future-study contracts use the strengthened disjoint-control benchmark:
@@ -441,12 +448,14 @@ completion receipt.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
 - **Callable but not yet live-proven on portfolio source:** test generation, bug/debt discovery,
-  refactoring, documentation, code/security/dependency review and periodic
+  refactoring, code/security/dependency review and periodic
   re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
   verifier and retained result before the corresponding utility claim advances to live-proven.
 - **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
   benchmark is immutable, source-bound and queued with zero attempts. It is not live-proven until
   its external verifier accepts a retained model result.
+- **Operational documentation admitted, awaiting inference:** the second real-source benchmark is
+  immutable and queued behind architecture mapping; no model result is accepted yet.
 - **Real-work heartbeat activated with a negative control:** the existing six-hour heartbeat now
   attempts at most one queue item before harvesting/studies. Its stricter 38-call admission gate
   returned `BUDGET_WAIT` at 38/38 without discovery, provider spend or a queue-attempt increment.
@@ -480,7 +489,8 @@ been activated across the project portfolio.
 - [profile] Bug search: `bug-hunt` workload with reproducer gate.
 - [profile] Technical-debt search: `technical-debt` workload with measured-impact gate.
 - [profile] Refactoring: behaviour-preserving `refactoring` workload.
-- [profile] Existing-code documentation: source-anchored `documentation` workload.
+- [queued] Existing-code documentation: the source-bound operational brief is admitted behind the
+  architecture job; no model result is accepted yet.
 - [profile] Large-codebase research: bounded `codebase-research` workload.
 - [queued] Architecture/dependency maps: the first source-bound benchmark is admitted and queued;
   no model result is accepted yet.
