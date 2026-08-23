@@ -97,6 +97,20 @@ first slice must not bypass that gate or claim JAA integration prematurely.
 - At recovery time the active Ox session was executing a different admitted GIGA portfolio slice.
   Market Aligner work must not race it in the same workspace.
 
+Dedicated isolated worktrees created for this goal:
+
+- builder: `/Users/admin/Documents/ox-alpha-giga-workspace/worktrees/market-aligner-ingest-001`,
+  branch `ox/market-aligner-ingest-001`;
+- adversarial reviewer: `/Users/admin/Documents/ox-alpha-giga-workspace/worktrees/market-aligner-ingest-review`,
+  branch `ox/market-aligner-ingest-review`;
+- capability/gap analyst: `/Users/admin/Documents/ox-alpha-giga-workspace/worktrees/market-aligner-gap-map`,
+  branch `ox/market-aligner-gap-map`.
+
+Multiple Ox agents are permitted only through isolated worktrees and non-overlapping roles. The
+reviewer and analyst do not modify or integrate the builder's candidate. The first dedicated
+builder launch attempts exited before session creation with OpenCode's generic `Unexpected` error;
+the bounded session-start operation was delegated back to the parent supervisor task for recovery.
+
 ## Anti-repetition protocol
 
 Before selecting or resuming any slice, the supervisor must:
