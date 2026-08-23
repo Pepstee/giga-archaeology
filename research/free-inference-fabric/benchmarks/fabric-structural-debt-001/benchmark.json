@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-structural-debt-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "technical-debt",
+  "objective": "Identify and quantify the frozen inference-fabric structural debt with AST-derived metrics",
+  "prompt": "Return only strict JSON using schema giga.structural-debt-report.v1 with top-level fields schema, project, source_packet_sha256 and findings. Report exactly five findings covering the CLI module size, build_parser span, duplicated model-construction calls shared by worker_once and run, ExperimentStore class span, and OpenCodeOpenRouterAdapter class span. Each finding has exactly id, metric, impact, remediation, confidence and sources. metric has exactly name, value and unit and must match the frozen AST measurement. confidence must be inferred because size/duplication is evidence of maintenance risk rather than proof of a runtime defect. Cite exact path:line definition anchors; the duplication finding must cite both functions. Do not use Markdown and do not propose a whole-system rewrite.",
+  "source_packet_sha256": "be20698dff9fe65831ea3529308bd8d2253e3cc62e5796d1695e2beedab99775",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

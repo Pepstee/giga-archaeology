@@ -1,0 +1,47 @@
+{
+  "schema": "giga.background-work-admission-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "benchmark": {
+    "benchmark_id": "fabric-structural-debt-001",
+    "manifest_sha256": "a8f735f1ccc5e1db3013689ecfd26647bfe5ea0b0e3a62dc8d403bd2717cbee5",
+    "verifier_sha256": "60d63594525cab14bf894eab8c7b32ac48ae558902f5250dbe4add6cf30afd17",
+    "fixture_sha256": "0a382725ec328b600141e3025fd31920762ac490b2f31d96d50afcf4dc56799e",
+    "evaluator_command_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d"
+  },
+  "source_packet": {
+    "schema": "giga.source-packet.v1",
+    "packet_sha256": "be20698dff9fe65831ea3529308bd8d2253e3cc62e5796d1695e2beedab99775",
+    "serialized_sha256": "65efd5b5b8b6430e84522ba223fd1a188771cf823de559892c71a47ca62ff76a",
+    "storage": "benchmarks/fabric-structural-debt-001/source-packet.json",
+    "file_count": 4,
+    "total_source_bytes": 115716,
+    "portable_frozen_fixture": true
+  },
+  "objective_controls": {
+    "ast_metrics_recomputed": 5,
+    "metrics": {
+      "cli_physical_lines": 1116,
+      "build_parser_definition_span": 218,
+      "worker_run_shared_construction_calls": 9,
+      "experiment_store_class_span": 410,
+      "opencode_adapter_class_span": 174
+    },
+    "negative_controls": [
+      "missing debt signal rejected",
+      "invented metric rejected"
+    ],
+    "whole_system_rewrite_allowed": false
+  },
+  "queue": {
+    "work_id": "work-fabric-structural-debt-001",
+    "idempotency_key": "764a9d3666ffbc3d4eb267e0be88fd5093d37e78293864cc71d0f76e8d007a81",
+    "priority": 50,
+    "max_attempts": 3,
+    "status_at_admission": "QUEUED",
+    "attempts_at_admission": 0,
+    "predecessor_work_id": "work-fabric-source-packet-bug-hunt-001"
+  },
+  "provider_calls_during_admission": 0,
+  "claim_boundary": "The frozen metrics and external gate are proven; model debt-analysis utility remains unproven until a retained candidate passes."
+}
