@@ -1,0 +1,52 @@
+{
+  "schema": "giga.live-benchmark-comparison-evidence.v1",
+  "observed_at": "2026-08-24T03:41:00+09:00",
+  "benchmark_id": "fabric-json-test-plan-001",
+  "fixture_sha256": "02117be8ccc95cf83782baf80cf93cb7d63755c313856babd80a9ff5fedeb0cc",
+  "evaluator_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d",
+  "external_gate": {
+    "command": [
+      "python3",
+      "verify_candidate.py"
+    ],
+    "exit_code_required": 0,
+    "winning_output": "VERIFIED giga.test-plan.v1\n"
+  },
+  "winner": {
+    "experiment_id": "exp-f204364157884c2980b84e58b5c11f7d",
+    "model_id": "thinkingmachines/inkling-small:free",
+    "adapter": "opencode-openrouter",
+    "attempts": 1,
+    "verified_candidates": 1,
+    "gate_score": 1.0,
+    "latency_ms": 8117,
+    "provider_reported_cost_usd": 0.0,
+    "runtime_receipt_sha256": "0f626088b72ea2e195b9e771d3a54f01975d96a385a1f0334c584d8f2ca50acb"
+  },
+  "comparison": {
+    "model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+    "experiments": 4,
+    "candidate_attempts": 8,
+    "verified_candidates": 0,
+    "mean_gate_score": 0.0,
+    "mean_latency_ms": 25183.9,
+    "provider_reported_cost_usd": 0.0,
+    "observed_repair_progress": [
+      "missing top-level schema",
+      "non-string test fields",
+      "empty negative-control input"
+    ]
+  },
+  "batch": {
+    "fabric_recorded_remote_calls": 10,
+    "successful_transport_calls": 10,
+    "provider_reported_total_cost_usd": 0.0,
+    "operator_selected_batch_cap": 10
+  },
+  "verdict": "VERIFIED_DIFFERENTIAL_UTILITY",
+  "limitations": [
+    "One benchmark cannot establish general model superiority.",
+    "The comparison does not yet include a paid frontier baseline, a local model or statistical repeats.",
+    "Zero provider-reported cost does not guarantee future availability or unchanged OpenRouter policy."
+  ]
+}

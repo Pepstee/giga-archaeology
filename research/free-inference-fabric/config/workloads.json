@@ -1,0 +1,157 @@
+{
+  "schema": "giga.inference-workload-catalogue.v1",
+  "profiles": [
+    {
+      "id": "test-generation",
+      "purpose": "Mass-generate high-value positive, negative, property and regression tests.",
+      "prompt": "Inspect the bounded source and propose tests that can genuinely fail. Deduplicate against the current suite and rank by defect-catching value.",
+      "objective_gate": "New tests fail on seeded defects and pass on the accepted implementation.",
+      "cadence": "after material code changes and during idle capacity",
+      "risk": "test volume without mutation strength creates false confidence"
+    },
+    {
+      "id": "bug-hunt",
+      "purpose": "Search for reproducible defects and failure modes.",
+      "prompt": "Generate independent bug hypotheses, then supply the smallest deterministic reproducer for each.",
+      "objective_gate": "A clean checkout reproduces the defect or the finding is rejected.",
+      "cadence": "continuous bounded batches",
+      "risk": "plausible prose without a reproducer"
+    },
+    {
+      "id": "technical-debt",
+      "purpose": "Find debt that has measurable reliability, cost or maintenance impact.",
+      "prompt": "Identify debt with exact source evidence, downstream consequence and a bounded remediation.",
+      "objective_gate": "Static evidence plus a before/after metric or removed failure path.",
+      "cadence": "weekly",
+      "risk": "style preferences disguised as debt"
+    },
+    {
+      "id": "refactoring",
+      "purpose": "Generate alternative behaviour-preserving refactors.",
+      "prompt": "Produce independent minimal refactors that preserve public behaviour and reduce a named cost.",
+      "objective_gate": "Existing tests, locked behaviour fixtures and a named structural metric pass.",
+      "cadence": "only after a measured debt finding",
+      "risk": "large rewrites and semantic drift"
+    },
+    {
+      "id": "documentation",
+      "purpose": "Document existing code from inspected evidence.",
+      "prompt": "Explain entrypoints, state, dependencies, failure paths and operational procedures with source anchors.",
+      "objective_gate": "Every material claim resolves to a current source anchor and documented commands execute.",
+      "cadence": "after interface changes",
+      "risk": "documentation confidently describing nonexistent behaviour"
+    },
+    {
+      "id": "codebase-research",
+      "purpose": "Investigate large codebases and answer bounded architecture questions.",
+      "prompt": "Trace the requested behaviour from entrypoint through state and external effects; distinguish extracted facts from inference.",
+      "objective_gate": "Source paths and executable probes support the trace.",
+      "cadence": "on demand",
+      "risk": "context truncation and fabricated edges"
+    },
+    {
+      "id": "architecture-map",
+      "purpose": "Build dependency and responsibility maps.",
+      "prompt": "Extract components, owners, calls, data flows and trust boundaries; mark ambiguous relationships.",
+      "objective_gate": "AST/config evidence validates structural edges; semantic edges retain confidence and sources.",
+      "cadence": "after architectural changes",
+      "risk": "stale graph or invented dependency"
+    },
+    {
+      "id": "code-review",
+      "purpose": "Use independent models to review a candidate change.",
+      "prompt": "Review only actionable correctness, reliability, compatibility and evidence defects; cite exact locations.",
+      "objective_gate": "Findings reproduce, fail a test, or are rejected.",
+      "cadence": "every candidate",
+      "risk": "review volume mistaken for correctness"
+    },
+    {
+      "id": "security-review",
+      "purpose": "Generate security hypotheses for authorised code only.",
+      "prompt": "Inspect trust boundaries, untrusted inputs, secrets, privileges and dependency exposure; propose safe local verification.",
+      "objective_gate": "Authorised deterministic reproduction or static proof; no live exploitation.",
+      "cadence": "before release and periodically",
+      "risk": "unsafe testing or speculative vulnerabilities"
+    },
+    {
+      "id": "dependency-config-audit",
+      "purpose": "Check dependencies, locks, build files and runtime configuration.",
+      "prompt": "Find drift, unsupported versions, missing locks, unsafe defaults and configuration contradictions.",
+      "objective_gate": "Package-manager/config validators and current primary documentation confirm findings.",
+      "cadence": "weekly and before release",
+      "risk": "stale vulnerability or version knowledge"
+    },
+    {
+      "id": "alternative-implementation",
+      "purpose": "Generate many genuinely independent implementations or hypotheses.",
+      "prompt": "Use the assigned approach and do not imitate prior candidates. Return a complete bounded candidate.",
+      "objective_gate": "The same objective suite scores every alternative; best is selected by evidence.",
+      "cadence": "when design uncertainty is high",
+      "risk": "correlated candidates and wasted quota"
+    },
+    {
+      "id": "legacy-reaudit",
+      "purpose": "Periodically re-audit older code against current tests and standards.",
+      "prompt": "Recheck the bounded legacy surface, prioritising changed dependencies, prior incidents and untested paths.",
+      "objective_gate": "New evidence is compared with the prior audit; unchanged noise is suppressed.",
+      "cadence": "monthly rotating portfolio",
+      "risk": "repeating the same low-value findings"
+    },
+    {
+      "id": "frontier-context-preparation",
+      "purpose": "Spend cheap inference to prepare a compact evidence packet for an expensive model.",
+      "prompt": "Consolidate attempts, tests, failures, disagreements, source anchors and unresolved decisions without restarting analysis.",
+      "objective_gate": "Packet hashes all referenced artifacts and stays within its context budget.",
+      "cadence": "only when cheap ensemble cannot pass the gate",
+      "risk": "context bloat or majority error presented as fact"
+    },
+    {
+      "id": "model-benchmark",
+      "purpose": "Measure each model and ensemble on real project tasks.",
+      "prompt": "Solve the locked task without access to hidden expected results.",
+      "objective_gate": "Project-specific tests score success, repair cost, latency, tokens, cost and false claims.",
+      "cadence": "on model arrival and monthly",
+      "risk": "benchmark leakage and overfitting"
+    },
+    {
+      "id": "weak-model-orchestration-research",
+      "purpose": "Measure how far orchestration, memory, tools, tests and retries lift a mediocre model.",
+      "prompt": "Run locked tasks under single-shot, repair-loop, ensemble and ensemble-plus-memory conditions.",
+      "objective_gate": "Compare held-out pass rate, false-success rate, repair attempts, latency, tokens and cost.",
+      "cadence": "monthly and on material engine changes",
+      "risk": "changing several variables without controlled ablations"
+    },
+    {
+      "id": "ensemble-vs-frontier",
+      "purpose": "Test whether a free-model ensemble replaces one frontier call for a workload class.",
+      "prompt": "Run the same hidden benchmark through the cheap ensemble and the frontier baseline.",
+      "objective_gate": "Use identical locked evaluators and report quality, false claims, wall time and total cost.",
+      "cadence": "per benchmark release",
+      "risk": "judge bias, data leakage or comparing different context"
+    },
+    {
+      "id": "attempt-tradeoff",
+      "purpose": "Estimate the optimal number of cheap attempts versus one expensive attempt.",
+      "prompt": "Sweep independent-candidate and repair budgets on locked tasks using deterministic stopping rules.",
+      "objective_gate": "Produce a Pareto frontier over success, repair cost, latency, tokens and monetary cost.",
+      "cadence": "quarterly or after price/model changes",
+      "risk": "quota waste without sequential stopping"
+    },
+    {
+      "id": "frontier-architecture-redesign",
+      "purpose": "Use a future stronger model to redesign the inference fabric from accumulated evidence.",
+      "prompt": "Review benchmark history, incidents, current contracts and unresolved tradeoffs; propose a versioned architecture candidate.",
+      "objective_gate": "Independent review, migration plan, backwards-compatible contracts and benchmark improvement are required before adoption.",
+      "cadence": "when a materially stronger model becomes available",
+      "risk": "prestige-driven rewrite that discards proven mechanisms"
+    },
+    {
+      "id": "free-window-harvest",
+      "purpose": "Use temporary preview/free capacity before expiry.",
+      "prompt": "Run the highest-value queued benchmark or audit compatible with this model's capabilities.",
+      "objective_gate": "Every request maps to a queued workload and stores useful evidence; no quota-burning loops.",
+      "cadence": "while a verified free window is active",
+      "risk": "availability chasing displacing valuable work"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "giga.live-local-inference-evidence.v1",
+  "observed_at": "2026-08-24T03:56:00+09:00",
+  "runtime": "mlx_lm.server",
+  "endpoint": "localhost-only temporary server; stopped after evaluation",
+  "privacy_class": "vault",
+  "remote_calls": 0,
+  "results": [
+    {
+      "model": "sahilchachra/Qwythos-9B-v2-MXFP4",
+      "status": "UNVERIFIED",
+      "attempts": 2,
+      "failure": "HTTP 200 responses exhausted their output budget in reasoning and returned no content",
+      "runtime_receipt_sha256": "2890878179a7b05f36c2918eb31f3714b63cfc75e7007b048dec13978a141ea3"
+    },
+    {
+      "model": "mlx-community/Qwen3-8B-abliterated-v2-mxfp4",
+      "status": "UNAVAILABLE",
+      "attempts": 0,
+      "failure": "local directory contains downloading_model.safetensors.part but no complete safetensors weights"
+    },
+    {
+      "model": "lukey03/Qwen3.5-9B-abliterated-MLX-4bit",
+      "status": "UNVERIFIED",
+      "attempts": 1,
+      "memory_mode": "enabled",
+      "latency_ms": 143630,
+      "failure": "generated an unrelated evidence-like JSON fragment rather than READY",
+      "runtime_receipt_sha256": "5f24dd55e076e3c7070e6db89185fa2c3b1e7e165dc2331a909515aeddfcca25"
+    },
+    {
+      "model": "lukey03/Qwen3.5-9B-abliterated-MLX-4bit",
+      "status": "UNVERIFIED",
+      "attempts": 1,
+      "memory_mode": "disabled",
+      "latency_ms": 49155,
+      "failure": "generated an unrelated Python fragment rather than READY",
+      "runtime_receipt_sha256": "cff3d2c3ceac9da182e9c874a5773f2971bbe34b9d3327d61d373516df5eaca9"
+    }
+  ],
+  "verdict": "LOCAL_TRANSPORT_PROVEN_MODEL_UTILITY_NOT_PROVEN",
+  "limitations": [
+    "The localhost OpenAI-compatible discovery and completion transport worked.",
+    "None of the currently complete local models passed the minimal exact-output gate.",
+    "No weights were downloaded and no persistent server was installed or left running."
+  ]
+}

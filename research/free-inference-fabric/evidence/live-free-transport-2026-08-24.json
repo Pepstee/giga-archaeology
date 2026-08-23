@@ -1,0 +1,32 @@
+{
+  "schema": "giga.live-free-transport-evidence.v1",
+  "observed_at": "2026-08-24T03:30:22+09:00",
+  "experiment_id": "exp-15cf90b89eaa422f950df7c7a5d14ec0",
+  "objective": "Prove the authenticated zero-cost transport path",
+  "transport": "opencode-openrouter",
+  "credential_handling": "OpenCode-managed; credential value was neither read nor copied",
+  "requested_model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+  "served_model_id": "nvidia/nemotron-3-super-120b-a12b:free",
+  "remote_calls": 1,
+  "rounds": 1,
+  "attempts": 1,
+  "output": "READY",
+  "output_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+  "gate": {
+    "contract": "^READY$",
+    "passed": true,
+    "score": 1.0,
+    "summary": "required 1/1; forbidden hits 0"
+  },
+  "provider_reported_cost_usd": 0.0,
+  "latency_ms": 59429,
+  "prompt_tokens": 8355,
+  "completion_and_reasoning_tokens": 311,
+  "runtime_receipt_sha256": "786ffb795a9292e9ad686d8998a8fbd525eacc53042b5b3076eab033d60ec47c",
+  "status": "VERIFIED",
+  "limitations": [
+    "This proves one authenticated free completion, not long-term provider availability.",
+    "It does not prove a multi-model ensemble, local inference, recurring scheduling or project mutation.",
+    "The OpenCode bridge is restricted to models classified as free and cannot admit paid models."
+  ]
+}
