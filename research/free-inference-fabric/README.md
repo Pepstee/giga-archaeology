@@ -1,4 +1,4 @@
-# GIGA Free-Inference Fabric v0.3 — experimental laboratory
+# GIGA Free-Inference Fabric v0.4 — experimental laboratory
 
 This is an executable, provider-neutral laboratory for turning cheap inference into useful,
 measured project work. It treats models as replaceable workers and obtains quality from the whole
@@ -58,7 +58,11 @@ The implementation includes:
 - SQLite storage for attempts, outputs, model identity, telemetry, critiques and gate evidence;
 - reusable successful solution patterns and accumulated failure/correction patterns;
 - immutable, fixture-hash-bound real-project benchmarks and benchmark-filtered model scorecards;
+- deterministic, explicit-file, hash-bound source packets with traversal, symlink, binary and
+  high-confidence-secret rejection;
 - an idempotent, leased, retry-bounded background work queue;
+- full-cell remote-budget admission before queue leasing, so a budget refusal cannot consume a
+  work attempt or leave an item waiting for lease expiry;
 - deterministic one-cell study progression that refuses before discovery when the remaining daily
   allowance cannot cover the declared worst case;
 - preview-first `harvest-next` selection that benchmarks one still-unmeasured free model against an
@@ -79,14 +83,14 @@ The implementation includes:
 | Trust tests, not self-evaluation | Evaluators run outside the model; provider failure and model prose can never produce PASS |
 | Continue repairing until tests pass | Bounded repair loop with prior candidate and exact gate evidence |
 | Detect loops and change approach | Output hashes, score windows, `STAGNATION DETECTED`, approach rotation and call ceilings |
-| Generate tests, find bugs/debt, refactor, document, map, review | Versioned workload catalogue with an objective gate for every workload |
+| Generate tests, find bugs/debt, refactor, document, map, review | Versioned callable workload catalogue; each profile still requires a bound real-project packet and objective verifier before it is live-proven |
 | Preserve useful experience and errors | `solution_patterns`, `failure_patterns`, attempts and critiques in SQLite |
 | Build real project benchmarks | Immutable fixture/evaluator bindings plus benchmark-filtered scorecards |
 | Compare free ensembles with frontier models | Locked `ensemble-vs-frontier`, `weak-model-orchestration-research` and `attempt-tradeoff` profiles |
 | Combine local, free and paid models | Provider-neutral `ModelSpec`/adapter contract; paid use requires explicit CLI admission |
 | Prepare context before expensive inference | `giga.frontier-escalation-packet.v1` includes all attempts and gate evidence |
 | Parallel hypothesis exploration | Candidate calls execute concurrently; evidence commits and objective gates remain ordered |
-| Turn idle inference into background work | Idempotent queue, leases, attempt ceiling and periodic `queue-next` consumption |
+| Turn idle inference into background work | Idempotent queue, source-packet binding, pre-lease full-cell budget gate, leases and attempt ceiling |
 | Redesign later with a stronger model | `frontier-architecture-redesign` workload requires evidence and migration proof, not a prestige rewrite |
 
 ## Why this does not simply use `openrouter/free`
@@ -323,13 +327,29 @@ entitlement; retries cannot silently raise it.
 
 ## Background work
 
-Queue insertion is idempotent, so a periodic feeder cannot create the same job repeatedly:
+Source access is explicit rather than ambient. `source-packet` admits only the named UTF-8 files,
+sorts them deterministically, rejects symlinks/path escape/secret-bearing filenames and
+high-confidence credential patterns, and binds every line to a packet SHA-256. The resulting JSON
+is portable across machines and treated as untrusted data by the worker. A hash-addressed packet is
+idempotent: an existing file with different bytes is never overwritten.
+
+Queue insertion hashes the complete project, objective, prompt, context and evaluator contract, so
+a periodic feeder cannot collapse distinct source/evaluator jobs or create the same job repeatedly:
 
 ```bash
+# Create a bounded packet without exposing the rest of the working tree.
+python3 -m giga_inference_fabric.cli source-packet \
+  --source-root /absolute/path/to/project \
+  --project orchestrator-v3 \
+  --file src/state_machine.py \
+  --file tests/test_state_machine.py \
+  --output state/source-packets/orchestrator-retry.json
+
 python3 -m giga_inference_fabric.cli queue-add \
   --project orchestrator-v3 --workload bug-hunt \
   --objective 'Find one reproducible state-machine defect' \
   --prompt 'Inspect only the admitted source packet and provide a deterministic reproducer.' \
+  --source-packet state/source-packets/orchestrator-retry.json \
   --require 'reproducer' \
   --check-command 'python3 verify_candidate.py' \
   --evaluator-cwd /absolute/path/to/disposable-fixture \
@@ -339,14 +359,18 @@ python3 -m giga_inference_fabric.cli queue-next --lease-minutes 30
 
 # A scheduler or supervisor can instead execute exactly one item and exit.
 python3 -m giga_inference_fabric.cli worker-once \
-  --lease-minutes 30 --candidates 3 --critics 2 --rounds 4
+  --lease-minutes 30 --candidates 3 --critics 2 --rounds 4 \
+  --max-remote-calls 36 --daily-remote-limit 40
 ```
 
 A supervisor can run the leased item in a disposable checkout itself and record `queue-finish`, or
 invoke `worker-once`; the worker never becomes an unbounded daemon. Objective commands receive the
 candidate only through `GIGA_CANDIDATE_PATH`, run without a shell and receive a minimal environment
 that excludes provider credentials. They are execution gates, not an OS sandbox, so the working
-directory must still be an admitted disposable fixture. This v0.3 intentionally does not install a
+directory must still be an admitted disposable fixture. Before discovery or leasing, the worker
+requires enough remaining daily allowance and `--max-remote-calls` capacity for the complete
+candidate × round × (producer + critics) cell. A refusal returns `BUDGET_WAIT` without incrementing
+queue attempts. This v0.4 intentionally does not install a
 launchd job or mutate project trees:
 the active architecture task already owns project supervision, and silently adding a second writer
 would violate the operator's non-conflict requirement.
@@ -373,7 +397,8 @@ completion receipt.
 
 - **Runtime-proven locally:** orchestration, enforced diversity, critique-to-repair feedback,
   stagnation reset, budgets, paid pre-reservation, external command gates, benchmark drift
-  rejection, experience memory, queues and model-window events.
+  rejection, experience memory, queues, hash-bound source packets, pre-lease budget refusal and
+  model-window events.
 - **Live-proven without content disclosure:** OpenRouter public discovery and consecutive
   `monitor-once` checks.
 - **Live-proven:** one authenticated, zero-cost OpenRouter completion through the isolated OpenCode
@@ -404,6 +429,10 @@ completion receipt.
   `evidence/live-controlled-progress-2026-08-24-r3.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
+- **Callable but not yet live-proven on portfolio source:** test generation, bug/debt discovery,
+  refactoring, documentation, architecture mapping, code/security/dependency review and periodic
+  re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
+  verifier and retained result before the corresponding utility claim advances to live-proven.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact
   externally gated `READY` token in one attempt with `remote_calls=0` under Vault policy. The same
   model failed the stronger immutable strict-JSON benchmark twice, so general engineering utility
@@ -415,8 +444,9 @@ completion receipt.
 
 ## Operator requirements checklist
 
-`[x]` means an executable laboratory mechanism or callable workload exists. It does not mean that a
-production scheduler has been activated across the project portfolio.
+`[x]` means an executable laboratory mechanism exists. `profile` means the callable contract exists
+but real-project utility is not yet evidenced. It does not mean that a production scheduler has
+been activated across the project portfolio.
 
 - [x] Free OpenRouter inference: discovery plus explicit zero-cost model selection.
 - [x] Weak-model compensation: bounded generate → evaluate → repair cycles.
@@ -428,17 +458,17 @@ production scheduler has been activated across the project portfolio.
 - [x] Automatic correction: failed gate evidence enters the next repair prompt.
 - [x] Loop detection: output hashes and score-improvement windows.
 - [x] Approach switching: stagnation injects a strategy-reset contract and rotates approaches.
-- [x] Mass test generation: `test-generation` workload.
-- [x] Bug search: `bug-hunt` workload with reproducer gate.
-- [x] Technical-debt search: `technical-debt` workload with measured-impact gate.
-- [x] Refactoring: behaviour-preserving `refactoring` workload.
-- [x] Existing-code documentation: source-anchored `documentation` workload.
-- [x] Large-codebase research: bounded `codebase-research` workload.
-- [x] Architecture/dependency maps: extracted-versus-inferred `architecture-map` workload.
-- [x] Code review: reproducibility-gated `code-review` workload.
-- [x] Security review: authorised, non-live-exploitation `security-review` workload.
-- [x] Dependency/config review: primary-source-backed `dependency-config-audit` workload.
-- [x] Many alternative implementations: `alternative-implementation` plus candidate fan-out.
+- [profile] Mass test generation: `test-generation` workload.
+- [profile] Bug search: `bug-hunt` workload with reproducer gate.
+- [profile] Technical-debt search: `technical-debt` workload with measured-impact gate.
+- [profile] Refactoring: behaviour-preserving `refactoring` workload.
+- [profile] Existing-code documentation: source-anchored `documentation` workload.
+- [profile] Large-codebase research: bounded `codebase-research` workload.
+- [profile] Architecture/dependency maps: extracted-versus-inferred `architecture-map` workload.
+- [profile] Code review: reproducibility-gated `code-review` workload.
+- [profile] Security review: authorised, non-live-exploitation `security-review` workload.
+- [profile] Dependency/config review: primary-source-backed `dependency-config-audit` workload.
+- [profile] Many alternative implementations: `alternative-implementation` plus candidate fan-out.
 - [x] Successful-chain memory and reuse: `solution_patterns` are injected into later matching tasks.
 - [x] Model-error/correction history: `failure_patterns`, attempts, critiques and gate outputs.
 - [x] Real-project benchmarks: immutable registry with verified fixture and evaluator hashes.
@@ -451,9 +481,10 @@ production scheduler has been activated across the project portfolio.
 - [x] Frontier model receives prior work: hash-bound `escalate` verifies the source against SQLite
   and sends every attempt, critique and objective-gate failure to one budgeted paid successor.
 - [x] Parallel hypotheses: candidate calls execute concurrently, while evidence commits remain ordered.
-- [x] Continuous test-coverage improvement: schedulable test-generation queue items.
-- [x] Periodic legacy audit: `legacy-reaudit` workload.
-- [x] Idle compute becomes useful background work: idempotent queue, lease, `worker-once`, attempt cap.
+- [profile] Continuous test-coverage improvement: test-generation queue contract; no portfolio run retained yet.
+- [profile] Periodic legacy audit: `legacy-reaudit` workload; no portfolio run retained yet.
+- [x] Idle compute foundation: hash-bound source packets, idempotent queue, pre-lease budget gate,
+  lease, `worker-once` and attempt cap. A real-source workload remains to be admitted.
 - [x] Models are replaceable resources: provider-neutral model and adapter contracts.
 - [x] Weak-model orchestration research: immutable single-shot/repair/ensemble/memory study arms.
 - [x] Free ensemble versus frontier: repeated tier-bound arms with paid admission retained.

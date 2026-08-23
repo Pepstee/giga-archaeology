@@ -404,6 +404,14 @@ class ExperimentStore:
         self.connection.commit()
         return cursor.rowcount == 1
 
+    def work_id_for_idempotency_key(self, idempotency_key: str) -> str:
+        row = self.connection.execute(
+            "SELECT work_id FROM work_queue WHERE idempotency_key=?", (idempotency_key,),
+        ).fetchone()
+        if not row:
+            raise KeyError(idempotency_key)
+        return str(row[0])
+
     def lease_next(self, lease_minutes: int = 30) -> dict | None:
         self.connection.execute("BEGIN IMMEDIATE")
         self.connection.row_factory = sqlite3.Row
