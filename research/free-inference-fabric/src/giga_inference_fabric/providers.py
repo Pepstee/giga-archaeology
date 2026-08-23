@@ -170,10 +170,12 @@ class OpenCodeOpenRouterAdapter:
             (isolated_data / "auth.json").symlink_to(auth_source.resolve())
             plugin_dir = root / ".opencode" / "plugins"
             plugin_dir.mkdir(parents=True)
+            plugin_path = plugin_dir / "giga-output-budget.js"
             hook_receipt_path = root / "output-cap-receipt.json"
             (root / "opencode.json").write_text(
                 json.dumps({
                     "$schema": "https://opencode.ai/config.json",
+                    "plugin": [plugin_path.as_uri()],
                     "permission": "deny",
                     "share": "disabled",
                     "autoupdate": False,
@@ -181,7 +183,7 @@ class OpenCodeOpenRouterAdapter:
                 }),
                 encoding="utf-8",
             )
-            (plugin_dir / "giga-output-budget.js").write_text(
+            plugin_path.write_text(
                 "import { writeFileSync } from 'node:fs';\n"
                 "let invocationCount = 0;\n"
                 "export const GigaOutputBudget = async () => ({\n"
@@ -209,6 +211,7 @@ class OpenCodeOpenRouterAdapter:
             environment["XDG_DATA_HOME"] = str(root / "xdg-data")
             environment["XDG_STATE_HOME"] = str(root / "xdg-state")
             environment["XDG_CACHE_HOME"] = str(root / "xdg-cache")
+            environment["OPENCODE_CONFIG_DIR"] = str(root / ".opencode")
             environment["NO_COLOR"] = "1"
             try:
                 result = subprocess.run(

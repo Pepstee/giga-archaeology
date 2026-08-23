@@ -532,6 +532,7 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     assert "OPENROUTER_API_KEY" not in observed["kwargs"]["env"]
     assert observed["config"]["permission"] == "deny"
     assert observed["config"]["share"] == "disabled"
+    assert observed["config"]["plugin"][0].endswith("/giga-output-budget.js")
     assert "output.maxOutputTokens = 100" in observed["plugin"]
     assert "multiple LLM invocations denied" in observed["plugin"]
     assert "unadmitted model invocation denied" in observed["plugin"]
@@ -543,6 +544,7 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     assert observed["kwargs"]["env"]["HOME"].startswith(
         observed["command"][observed["command"].index("--dir") + 1]
     )
+    assert observed["kwargs"]["env"]["OPENCODE_CONFIG_DIR"].endswith("/.opencode")
     assert "--title" in observed["command"]
     assert observed["kwargs"]["check"] is False
 
