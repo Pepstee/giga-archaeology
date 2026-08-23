@@ -151,9 +151,10 @@ python3 -m giga_inference_fabric.cli run \
   --rounds 4 --max-remote-calls 50 --max-output-tokens 4096
 
 # Or reuse an existing OpenCode OpenRouter login without reading/copying its key. Paid access is
-# denied by default. Every call runs in a temporary project with all tool permissions denied, a
-# provider-side output-token cap plugin, a separate config root and a credential-scrubbed process
-# environment; OpenCode itself retains access to its own authenticated data store.
+# denied by default. Every call runs with an isolated HOME/config/data/state/cache, all tool
+# permissions denied, sharing/snapshots disabled, a one-invocation exact-model output-cap plugin
+# and a credential-scrubbed process environment. Only a symlink to OpenCode's own auth file is
+# exposed; its existing session database, user plugins and project instructions are not loaded.
 python3 -m giga_inference_fabric.cli run \
   --use-opencode-auth \
   --free-model nvidia/nemotron-3-super-120b-a12b:free \

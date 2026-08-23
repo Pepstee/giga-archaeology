@@ -140,6 +140,7 @@ class OpenCodeOpenRouterAdapter:
     name: str = "opencode-openrouter"
     binary: str | None = None
     allow_paid: bool = False
+    auth_file: Path | None = None
 
     def complete(
         self, model: ModelSpec, *, system: str, prompt: str,
@@ -159,40 +160,81 @@ class OpenCodeOpenRouterAdapter:
         started = time.monotonic()
         with tempfile.TemporaryDirectory(prefix="giga-opencode-") as empty_dir:
             root = Path(empty_dir)
+            home = root / "home"
+            home.mkdir()
+            auth_source = self.auth_file or (Path.home() / ".local/share/opencode/auth.json")
+            if not auth_source.is_file():
+                raise ProviderError("OpenCode authentication file is unavailable")
+            isolated_data = root / "xdg-data" / "opencode"
+            isolated_data.mkdir(parents=True)
+            (isolated_data / "auth.json").symlink_to(auth_source.resolve())
             plugin_dir = root / ".opencode" / "plugins"
             plugin_dir.mkdir(parents=True)
+            hook_receipt_path = root / "output-cap-receipt.json"
             (root / "opencode.json").write_text(
                 json.dumps({
                     "$schema": "https://opencode.ai/config.json",
                     "permission": "deny",
+                    "share": "disabled",
+                    "autoupdate": False,
+                    "snapshot": False,
                 }),
                 encoding="utf-8",
             )
             (plugin_dir / "giga-output-budget.js").write_text(
+                "import { writeFileSync } from 'node:fs';\n"
+                "let invocationCount = 0;\n"
                 "export const GigaOutputBudget = async () => ({\n"
-                "  'chat.params': async (_input, output) => {\n"
+                "  'chat.params': async (input, output) => {\n"
+                "    invocationCount += 1;\n"
+                "    if (invocationCount !== 1) throw new Error('multiple LLM invocations denied');\n"
+                f"    if (input.model.providerID !== 'openrouter' || input.model.id !== {json.dumps(model.model_id)}) {{\n"
+                "      throw new Error('unadmitted model invocation denied');\n"
+                "    }\n"
                 f"    output.maxOutputTokens = {int(max_output_tokens)};\n"
+                f"    writeFileSync({json.dumps(str(hook_receipt_path))}, JSON.stringify({{\n"
+                "      invocationCount, providerID: input.model.providerID, modelID: input.model.id,\n"
+                "      maxOutputTokens: output.maxOutputTokens,\n"
+                "    }}), { mode: 0o600 });\n"
                 "  },\n"
                 "});\n",
                 encoding="utf-8",
             )
             environment = {
                 key: value for key, value in os.environ.items()
-                if key in {"HOME", "PATH", "LANG", "LC_ALL", "LC_CTYPE", "TMPDIR"}
+                if key in {"PATH", "LANG", "LC_ALL", "LC_CTYPE", "TMPDIR"}
             }
+            environment["HOME"] = str(home)
             environment["XDG_CONFIG_HOME"] = str(root / "xdg-config")
+            environment["XDG_DATA_HOME"] = str(root / "xdg-data")
+            environment["XDG_STATE_HOME"] = str(root / "xdg-state")
+            environment["XDG_CACHE_HOME"] = str(root / "xdg-cache")
             environment["NO_COLOR"] = "1"
             try:
                 result = subprocess.run(
                     [
                         binary, "run", "--format", "json", "--dir", empty_dir,
-                        "--model", model_id, message,
+                        "--title", "giga-inference-fabric", "--model", model_id, message,
                     ],
                     text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                     timeout=timeout, check=False, env=environment,
                 )
             except subprocess.TimeoutExpired as exc:
                 raise ProviderError(f"OpenCode transport timed out after {timeout}s") from exc
+            try:
+                hook_receipt = json.loads(hook_receipt_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ProviderError(
+                    "OpenCode output-cap hook did not produce a valid receipt: " + result.stdout[-2000:]
+                ) from exc
+            expected_receipt = {
+                "invocationCount": 1,
+                "providerID": "openrouter",
+                "modelID": model.model_id,
+                "maxOutputTokens": max_output_tokens,
+            }
+            if hook_receipt != expected_receipt:
+                raise ProviderError("OpenCode output-cap hook receipt failed closed")
         text_parts = []
         prompt_tokens = completion_tokens = 0
         cost_usd = 0.0
@@ -226,7 +268,12 @@ class OpenCodeOpenRouterAdapter:
             text=completion_text, model_id=model.model_id, adapter=self.name,
             prompt_tokens=prompt_tokens, completion_tokens=completion_tokens,
             latency_ms=int((time.monotonic() - started) * 1000), cost_usd=cost_usd,
-            raw={"provider_output_cap": max_output_tokens, "permission_profile": "deny"},
+            raw={
+                "provider_output_cap": max_output_tokens,
+                "permission_profile": "deny",
+                "llm_invocations": hook_receipt["invocationCount"],
+                "auth_exposure": "isolated-symlink-only",
+            },
         )
 
 

@@ -482,7 +482,7 @@ def test_openai_compatible_adapter_rejects_truly_empty_completion(monkeypatch):
         raise AssertionError("empty local completion was accepted")
 
 
-def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkeypatch):
+def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkeypatch, tmp_path):
     class Result:
         returncode = 0
         stdout = "\n".join([
@@ -503,10 +503,24 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
         observed["plugin"] = (
             root / ".opencode" / "plugins" / "giga-output-budget.js"
         ).read_text(encoding="utf-8")
+        receipt_path = root / "output-cap-receipt.json"
+        receipt_path.write_text(json.dumps({
+            "invocationCount": 1,
+            "providerID": "openrouter",
+            "modelID": "free/model",
+            "maxOutputTokens": 100,
+        }), encoding="utf-8")
+        auth_link = root / "xdg-data" / "opencode" / "auth.json"
+        observed["auth_is_symlink"] = auth_link.is_symlink()
+        observed["auth_target"] = auth_link.resolve()
         return Result()
 
     monkeypatch.setattr("giga_inference_fabric.providers.subprocess.run", fake_run)
-    completion = OpenCodeOpenRouterAdapter(binary="/usr/local/bin/opencode").complete(
+    auth_file = tmp_path / "auth.json"
+    auth_file.write_text("{}", encoding="utf-8")
+    completion = OpenCodeOpenRouterAdapter(
+        binary="/usr/local/bin/opencode", auth_file=auth_file,
+    ).complete(
         ModelSpec("free/model", "opencode-openrouter", CostTier.FREE),
         system="system", prompt="prompt", max_output_tokens=100,
     )
@@ -517,10 +531,19 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     assert "OPENROUTER_API_KEY" not in " ".join(observed["command"])
     assert "OPENROUTER_API_KEY" not in observed["kwargs"]["env"]
     assert observed["config"]["permission"] == "deny"
+    assert observed["config"]["share"] == "disabled"
     assert "output.maxOutputTokens = 100" in observed["plugin"]
+    assert "multiple LLM invocations denied" in observed["plugin"]
+    assert "unadmitted model invocation denied" in observed["plugin"]
+    assert observed["auth_is_symlink"]
+    assert observed["auth_target"] == auth_file.resolve()
     assert observed["kwargs"]["env"]["XDG_CONFIG_HOME"].startswith(
         observed["command"][observed["command"].index("--dir") + 1]
     )
+    assert observed["kwargs"]["env"]["HOME"].startswith(
+        observed["command"][observed["command"].index("--dir") + 1]
+    )
+    assert "--title" in observed["command"]
     assert observed["kwargs"]["check"] is False
 
 
@@ -544,7 +567,9 @@ def test_opencode_adapter_rejects_paid_models_before_execution(monkeypatch):
     assert not called
 
 
-def test_opencode_adapter_allows_admitted_paid_model_and_preserves_reported_cost(monkeypatch):
+def test_opencode_adapter_allows_admitted_paid_model_and_preserves_reported_cost(
+    monkeypatch, tmp_path,
+):
     class Result:
         returncode = 0
         stdout = "\n".join([
@@ -555,18 +580,54 @@ def test_opencode_adapter_allows_admitted_paid_model_and_preserves_reported_cost
             }),
         ])
 
-    monkeypatch.setattr(
-        "giga_inference_fabric.providers.subprocess.run", lambda *_args, **_kwargs: Result(),
-    )
+    def fake_run(command, **_kwargs):
+        root = Path(command[command.index("--dir") + 1])
+        (root / "output-cap-receipt.json").write_text(json.dumps({
+            "invocationCount": 1,
+            "providerID": "openrouter",
+            "modelID": "paid/model",
+            "maxOutputTokens": 32,
+        }), encoding="utf-8")
+        return Result()
+
+    monkeypatch.setattr("giga_inference_fabric.providers.subprocess.run", fake_run)
+    auth_file = tmp_path / "auth.json"
+    auth_file.write_text("{}", encoding="utf-8")
     completion = OpenCodeOpenRouterAdapter(
-        binary="opencode", allow_paid=True,
+        binary="opencode", allow_paid=True, auth_file=auth_file,
     ).complete(
         ModelSpec("paid/model", "opencode-openrouter", CostTier.PAID),
         system="system", prompt="prompt", max_output_tokens=32,
     )
     assert completion.text == "READY"
     assert completion.cost_usd == 0.004
-    assert completion.raw == {"provider_output_cap": 32, "permission_profile": "deny"}
+    assert completion.raw == {
+        "provider_output_cap": 32,
+        "permission_profile": "deny",
+        "llm_invocations": 1,
+        "auth_exposure": "isolated-symlink-only",
+    }
+
+
+def test_opencode_adapter_rejects_missing_output_cap_receipt(monkeypatch, tmp_path):
+    class Result:
+        returncode = 0
+        stdout = json.dumps({"type": "text", "part": {"text": "READY"}})
+
+    monkeypatch.setattr(
+        "giga_inference_fabric.providers.subprocess.run", lambda *_args, **_kwargs: Result(),
+    )
+    auth_file = tmp_path / "auth.json"
+    auth_file.write_text("{}", encoding="utf-8")
+    try:
+        OpenCodeOpenRouterAdapter(binary="opencode", auth_file=auth_file).complete(
+            ModelSpec("free/model", "opencode-openrouter", CostTier.FREE),
+            system="system", prompt="prompt", max_output_tokens=32,
+        )
+    except ProviderError as exc:
+        assert "output-cap hook did not produce a valid receipt" in str(exc)
+    else:
+        raise AssertionError("missing output-cap receipt was accepted")
 
 
 def test_committed_live_transport_evidence_is_self_consistent_and_secret_free():
