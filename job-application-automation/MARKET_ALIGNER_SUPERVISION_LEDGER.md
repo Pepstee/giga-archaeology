@@ -135,7 +135,7 @@ Before selecting or resuming any slice, the supervisor must:
 | Slice | Objective | Reuse/absence evidence | Acceptance | Status | Next action |
 |---|---|---|---|---|---|
 | RECOVERY-001 | Safely reconcile canonical and Ox copies | Same tree hash; no remotes/upstreams; independent histories retained | Exact Git evidence plus identical cache-free baseline | accepted | Do not repeat unless either tree or remote configuration changes |
-| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | queued | Dispatch to idle Ox session as the first bounded implementation slice |
+| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | active | Ox session `ses_fd01f0ce2ffe1qs5qKy9nTE4iv` is implementing in the isolated builder worktree; Codex will review its single candidate commit |
 | JAA-IMPORT-001 | Reconcile and import sealed JAA authority/contracts | Current migration report says protected upstream is not frozen or sealed | Frozen archive, commit, manifest, licence/provenance, independent certification, field-by-field compatibility matrix | blocked | Recheck only when sealed upstream evidence exists |
 
 ## First bounded Ox slice: INGEST-001
@@ -160,11 +160,26 @@ config substitution, operation substitution, receipt tamper, and interrupted-run
 not accepted merely because mocked CLI parsing works; at least one fixture adapter must traverse the
 real Collector persistence path.
 
-## Current blockers and next supervisor action
+## Active INGEST-001 execution evidence
 
-- The canonical and Ox repositories are outside the current Codex task's writable roots. This task
-  can inspect and test them but cannot directly edit or integrate them.
-- The Ox workspace is itself outside the current writable roots, and its observed session is already
-  active on another slice. The supervisor must not start a competing writer.
-- Next action: when the Ox session becomes idle and the workspace is writable to the execution
-  engine, dispatch INGEST-001, then independently review its exact candidate commit and tests.
+- Dedicated session: `ses_fd01f0ce2ffe1qs5qKy9nTE4iv`.
+- Launch process at admission: PID `55977`, model `openrouter/stealth/ox-alpha`, variant `max`.
+- Exact cwd: `/Users/admin/Documents/ox-alpha-giga-workspace/worktrees/market-aligner-ingest-001`.
+- Branch/base: `ox/market-aligner-ingest-001` at
+  `acf57e05feca284ed767754a3c0cb7320d26077d`; initial porcelain was clean.
+- Durable session log:
+  `/Users/admin/Documents/ox-alpha-giga-workspace/logs/market-aligner-ingest-001.jsonl`.
+- The central portfolio Ox process has a different cwd and an explicit non-collision rule; it does
+  not own or write this Market Aligner worktree.
+- Two failed launcher attempts preceded the admitted session: first a confined temp-directory
+  `EPERM`, then missing read-only access to the root OpenCode configuration. Both failed before
+  session creation and repository mutation. The retry changed only the launcher confinement.
+
+## Current blocker and next supervisor action
+
+- No implementation blocker is currently established. Ox is inspecting the existing canonical
+  collector/config/state seams under the bounded contract.
+- Next action: wait for exactly one candidate commit, stop the writer, independently inspect its
+  diff and receipt/crash authority model, rerun the baseline and adversarial acceptance gates from
+  the exact commit, and accept or return a bounded repair to the same session. Do not integrate or
+  advance to another slice before that review.
