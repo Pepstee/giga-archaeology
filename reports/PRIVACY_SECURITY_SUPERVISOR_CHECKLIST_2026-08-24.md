@@ -1,6 +1,6 @@
 # Privacy and Security Supervisor — Durable Control Checklist
 
-**State:** RUNNING; OX JSR-025A SESSION ACTIVE
+**State:** RUNNING; JSR-025A R1 ADMITTED, OX PROVIDER RESET PENDING
 
 **Supervisor:** Codex, policy/architecture/review/integration authority
 
@@ -25,11 +25,9 @@ Finish cross-cutting Vault gating, compartmentalisation, capability grants, secr
 audit, recovery, bypass detection, and privacy enforcement to the highest standard while
 preserving the operator's accepted-risk rule when Vault is explicitly connected.
 
-The task goal service currently contains an earlier, unfinished ArtVault goal in `paused` state.
-The service refused creation of this new goal because only one unfinished goal may exist. The
-objective above is therefore the durable continuation authority until the operator resumes or
-completes the earlier task goal. This is a continuity limitation, not permission to weaken any
-gate.
+The task goal service now records this objective as the active persistent goal for task
+`01a01958-c803-7472-9c71-708f40b8d1e5`. JSR-025A is only the first prerequisite slice; completing
+it does not complete the persistent goal.
 
 ## Bound architecture authority
 
@@ -123,6 +121,9 @@ Requested lane: `/Users/admin/Documents/ox-alpha-giga-workspace/lanes/privacy-se
 - First Ox status: authority sources read, bounded todo created, and the correct sequence selected:
   search, check, exact work order, scope ratification, admit, then mutate. No integration or
   completion claim has been made.
+- The later sole-writer repair session `ses_fcfdc9fe4ffeiJ475i6BxGPZw8` stopped on an OpenRouter
+  provider `429` with `X-RateLimit-Remaining: 0`; the provider reset is
+  `2026-08-24T00:00:00Z` (09:00 KST). It did not commit, verify, attest, or integrate.
 
 ## Baseline receipt
 
@@ -235,7 +236,7 @@ Status vocabulary: `DONE`, `READY`, `BLOCKED`, `NOT STARTED`.
 
 ## First bounded Ox candidate — JSR-025A privacy decision contract
 
-**State:** WORK ORDER VALIDATED AND EXACT PATHS RATIFIED; admission/implementation pending.
+**State:** R1 WORK ORDER ADMITTED; IMPLEMENTATION PENDING PROVIDER RESET.
 
 **Purpose:** create the smallest deterministic end-to-end policy path capable of expressing
 faceless operation, explicit Vault connection, purpose-bound context release, and separate
@@ -303,6 +304,33 @@ deployment.
 - Implementation remains unaccepted until admission, candidate diff, all twelve objective gates,
   secret/private-data scan, candidate commit/tree, verification, and attestation are independently
   reviewed.
+
+### JSR-025A rejected partial and R1 recovery receipt
+
+- The original candidate worktree is preserved as rejected evidence at
+  `/Users/admin/Documents/ox-alpha-giga-workspace/.tmp/privacy-security-jsr025a/worktree`.
+  Independent review reproduced four blockers: mutable rule identity, missing compiler/bypass
+  enforcement, malformed-input echo, and an exception escape through hostile mapping methods.
+  A partial repair remained internally inconsistent and is not an integration candidate.
+- Architecture control created a separate clean R1 worktree rather than extending or silently
+  accepting the rejected candidate:
+  `/Users/admin/Documents/ox-alpha-giga-workspace/.tmp/privacy-security-jsr025a-r1/worktree`.
+- R1 branch and seed: `candidate/jsr-025a-privacy-decision-r1` at
+  `47237c24a0e1a7321bbda9531a312228d3aa6343`.
+- R1 work order: `WO-JSR-025A-PRIVACY-DECISION-R1`; SHA-256
+  `80dd606c78da603aaf551aaf6932044ce1e72df840ce40d73e4d37a10378642f`.
+- R1 preflight raw-file SHA-256:
+  `a4efb1f600ed0f14d8086b7e91b44ea1764c23758ec166ca5ff8272fe3c5b3af`;
+  receipt self-hash:
+  `639ea9e2c72a843505d939bf66aec3cc82984f29b30e97bd125f02f820af9940`;
+  status `PASS`.
+- R1 expiry: `2026-08-24T07:49:00Z` (16:49 KST). Its implementation surface is unchanged:
+  only `giga_control/extensions/privacy_decision.py` and
+  `tests/constitution/test_privacy_decision.py`, plus gate-owned lifecycle artifacts.
+- The R1 worktree currently contains no implementation files. After the 09:00 KST provider
+  reset, Ox remains the sole writer responsible for porting and repairing the rejected partial;
+  Codex will only line-review, reproduce tests, judge the twelve gates, and issue an integration
+  recommendation. No duplicate model or fallback writer is authorised.
 
 ## Ox lane bootstrap handoff
 
