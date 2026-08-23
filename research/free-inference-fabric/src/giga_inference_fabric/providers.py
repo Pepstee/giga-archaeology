@@ -9,6 +9,7 @@ import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Protocol
 
 from .models import Completion, CostTier, ModelSpec
@@ -138,13 +139,16 @@ class OpenCodeOpenRouterAdapter:
 
     name: str = "opencode-openrouter"
     binary: str | None = None
+    allow_paid: bool = False
 
     def complete(
         self, model: ModelSpec, *, system: str, prompt: str,
         max_output_tokens: int = 4096, timeout: int = 180,
     ) -> Completion:
-        if model.cost_tier != CostTier.FREE:
-            raise ProviderError("OpenCode credential bridge is restricted to free-tier models")
+        if model.cost_tier == CostTier.PAID and not self.allow_paid:
+            raise ProviderError("OpenCode paid transport requires explicit adapter admission")
+        if model.cost_tier not in {CostTier.FREE, CostTier.PAID}:
+            raise ProviderError("OpenCode transport accepts only OpenRouter free or paid models")
         binary = self.binary or os.environ.get("OPENCODE_BIN") or shutil.which("opencode")
         if not binary:
             raise ProviderError("OpenCode binary is unavailable")
@@ -154,14 +158,38 @@ class OpenCodeOpenRouterAdapter:
         )
         started = time.monotonic()
         with tempfile.TemporaryDirectory(prefix="giga-opencode-") as empty_dir:
+            root = Path(empty_dir)
+            plugin_dir = root / ".opencode" / "plugins"
+            plugin_dir.mkdir(parents=True)
+            (root / "opencode.json").write_text(
+                json.dumps({
+                    "$schema": "https://opencode.ai/config.json",
+                    "permission": "deny",
+                }),
+                encoding="utf-8",
+            )
+            (plugin_dir / "giga-output-budget.js").write_text(
+                "export const GigaOutputBudget = async () => ({\n"
+                "  'chat.params': async (_input, output) => {\n"
+                f"    output.maxOutputTokens = {int(max_output_tokens)};\n"
+                "  },\n"
+                "});\n",
+                encoding="utf-8",
+            )
+            environment = {
+                key: value for key, value in os.environ.items()
+                if key in {"HOME", "PATH", "LANG", "LC_ALL", "LC_CTYPE", "TMPDIR"}
+            }
+            environment["XDG_CONFIG_HOME"] = str(root / "xdg-config")
+            environment["NO_COLOR"] = "1"
             try:
                 result = subprocess.run(
                     [
-                        binary, "run", "--pure", "--format", "json", "--dir", empty_dir,
+                        binary, "run", "--format", "json", "--dir", empty_dir,
                         "--model", model_id, message,
                     ],
                     text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                    timeout=timeout, check=False,
+                    timeout=timeout, check=False, env=environment,
                 )
             except subprocess.TimeoutExpired as exc:
                 raise ProviderError(f"OpenCode transport timed out after {timeout}s") from exc
@@ -192,12 +220,13 @@ class OpenCodeOpenRouterAdapter:
         completion_text = "".join(text_parts).strip()
         if not completion_text:
             raise ProviderError("OpenCode provider returned no text event")
-        if cost_usd > 0:
+        if model.cost_tier == CostTier.FREE and cost_usd > 0:
             raise ProviderError("free-tier OpenCode call reported non-zero cost")
         return Completion(
             text=completion_text, model_id=model.model_id, adapter=self.name,
             prompt_tokens=prompt_tokens, completion_tokens=completion_tokens,
             latency_ms=int((time.monotonic() - started) * 1000), cost_usd=cost_usd,
+            raw={"provider_output_cap": max_output_tokens, "permission_profile": "deny"},
         )
 
 

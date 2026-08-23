@@ -99,6 +99,23 @@ def _select_explicit_free_models(
     return [free_by_id[model_id] for model_id in ordered_ids]
 
 
+def _select_explicit_paid_models(
+    models: list[ModelSpec], requested_ids: list[str], *, adapter: str | None = None,
+) -> list[ModelSpec]:
+    """Admit only named models still published as paid, preserving declared order."""
+    paid_by_id = {
+        model.model_id: model for model in models if model.cost_tier == CostTier.PAID
+    }
+    ordered_ids = list(dict.fromkeys(requested_ids))
+    missing = [model_id for model_id in ordered_ids if model_id not in paid_by_id]
+    if missing:
+        raise SystemExit(
+            "requested paid model is absent from the live paid catalogue: " + ", ".join(missing)
+        )
+    selected = [paid_by_id[model_id] for model_id in ordered_ids]
+    return [replace(model, adapter=adapter) for model in selected] if adapter else selected
+
+
 def discover(args: argparse.Namespace) -> int:
     models = discover_openrouter_models()
     free = [model for model in models if model.cost_tier == CostTier.FREE]
@@ -530,8 +547,6 @@ def run(args: argparse.Namespace) -> int:
     experiment_id = study_experiment_id or explicit_experiment_id
     if args.include_paid and (not args.paid_model or args.max_cost_usd <= 0):
         raise SystemExit("--include-paid requires at least one --paid-model and a positive --max-cost-usd")
-    if args.use_opencode_auth and args.include_paid:
-        raise SystemExit("--use-opencode-auth is a free-tier bridge and cannot admit paid models")
     discovered = discover_openrouter_models() if not args.local_only else []
     models = _select_explicit_free_models(discovered, args.free_model)
     if args.use_opencode_auth:
@@ -539,7 +554,7 @@ def run(args: argparse.Namespace) -> int:
     adapters = {}
     if not args.local_only:
         if args.use_opencode_auth:
-            adapters["opencode-openrouter"] = OpenCodeOpenRouterAdapter()
+            adapters["opencode-openrouter"] = OpenCodeOpenRouterAdapter(allow_paid=args.include_paid)
         else:
             adapters["openrouter"] = openrouter_adapter()
     for model_id in args.local_model:
@@ -547,8 +562,10 @@ def run(args: argparse.Namespace) -> int:
     if args.local_model:
         adapters["local"] = local_adapter(args.local_base_url)
     if args.include_paid:
-        requested_paid = set(args.paid_model)
-        models.extend(model for model in discovered if model.model_id in requested_paid and model.cost_tier == CostTier.PAID)
+        models.extend(_select_explicit_paid_models(
+            discovered, args.paid_model,
+            adapter="opencode-openrouter" if args.use_opencode_auth else None,
+        ))
     if not models:
         raise SystemExit("no free or local models discovered")
     allowed_tiers = (

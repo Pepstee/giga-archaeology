@@ -150,8 +150,10 @@ python3 -m giga_inference_fabric.cli run \
   --candidates 3 --critics 2 --min-distinct-models 2 \
   --rounds 4 --max-remote-calls 50 --max-output-tokens 4096
 
-# Or reuse an existing OpenCode OpenRouter login without reading/copying its key. This bridge is
-# isolated to free-tier models and runs OpenCode in an empty temporary directory.
+# Or reuse an existing OpenCode OpenRouter login without reading/copying its key. Paid access is
+# denied by default. Every call runs in a temporary project with all tool permissions denied, a
+# provider-side output-token cap plugin, a separate config root and a credential-scrubbed process
+# environment; OpenCode itself retains access to its own authenticated data store.
 python3 -m giga_inference_fabric.cli run \
   --use-opencode-auth \
   --free-model nvidia/nemotron-3-super-120b-a12b:free \
@@ -165,13 +167,16 @@ python3 -m giga_inference_fabric.cli run \
 ```
 
 Paid models are excluded by default. Adding one requires all three explicit elements. Before every
-paid call, the engine uses the published prompt/completion prices, a conservative UTF-8 prompt
-bound and the hard output-token ceiling to reserve the maximum call cost atomically. Missing,
-invalid or over-budget pricing fails before provider execution.
+paid call, the engine uses the highest published base/override prompt and completion prices, a
+conservative UTF-8 prompt bound and the provider-side output-token ceiling to reserve the maximum
+call cost atomically. Missing, invalid, stale-catalogue or over-budget admission fails before
+provider execution.
 
 ```bash
 python3 -m giga_inference_fabric.cli run \
-  --include-paid --paid-model provider/model-id --max-cost-usd 1.00 \
+  --use-opencode-auth \
+  --include-paid --paid-model openai/gpt-5.6-sol --max-cost-usd 0.02 \
+  --max-output-tokens 128 --max-remote-calls 1 \
   --objective 'Resolve only the failures in the supplied escalation packet' \
   --prompt "$(<state/last-result.json)" --require '...'
 ```

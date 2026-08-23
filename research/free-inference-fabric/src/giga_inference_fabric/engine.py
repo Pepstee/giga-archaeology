@@ -303,12 +303,27 @@ CANDIDATE:\n{candidate.completion.text[-16000:]}"""
         pricing = model.metadata.get("pricing")
         if not isinstance(pricing, dict):
             raise ProviderError("paid model has no published pricing for pre-call reservation")
+        price_rows = [pricing]
+        overrides = pricing.get("overrides", [])
+        if isinstance(overrides, dict):
+            price_rows.extend(value for value in overrides.values() if isinstance(value, dict))
+        elif isinstance(overrides, list):
+            price_rows.extend(value for value in overrides if isinstance(value, dict))
         try:
-            prompt_price = float(pricing["prompt"])
-            completion_price = float(pricing["completion"])
+            price_pairs = [
+                (float(row["prompt"]), float(row["completion"])) for row in price_rows
+                if "prompt" in row or "completion" in row
+            ]
         except (KeyError, TypeError, ValueError) as exc:
             raise ProviderError("paid model pricing is invalid") from exc
-        if prompt_price < 0 or completion_price < 0 or prompt_price + completion_price <= 0:
+        if not price_pairs or any(
+            prompt_price < 0 or completion_price < 0
+            for prompt_price, completion_price in price_pairs
+        ):
+            raise ProviderError("paid model pricing is invalid or zero")
+        prompt_price = max(pair[0] for pair in price_pairs)
+        completion_price = max(pair[1] for pair in price_pairs)
+        if prompt_price + completion_price <= 0:
             raise ProviderError("paid model pricing is invalid or zero")
         # UTF-8 byte length is deliberately much more conservative than a normal token estimate.
         # The extra allowance covers message framing and provider-specific special tokens.

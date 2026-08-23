@@ -12,7 +12,12 @@ from giga_inference_fabric.catalogue import (
     load_profiles,
     model_window_diff,
 )
-from giga_inference_fabric.cli import _select_explicit_free_models, harvest_next, study_next
+from giga_inference_fabric.cli import (
+    _select_explicit_free_models,
+    _select_explicit_paid_models,
+    harvest_next,
+    study_next,
+)
 from giga_inference_fabric.evaluators import CommandEvaluator, evaluator_from_contract
 from giga_inference_fabric.models import Candidate, Completion, CostTier, ModelSpec
 from giga_inference_fabric.providers import (
@@ -118,6 +123,26 @@ def test_explicit_free_model_selection_preserves_declared_order_and_fails_closed
         assert "not currently free/available" in str(exc)
     else:
         raise AssertionError("missing explicit free model was accepted")
+
+
+def test_explicit_paid_model_selection_preserves_order_adapter_and_fails_closed():
+    models = [
+        ModelSpec("paid/a", "openrouter", CostTier.PAID),
+        ModelSpec("free/x", "openrouter", CostTier.FREE),
+        ModelSpec("paid/b", "openrouter", CostTier.PAID),
+    ]
+    selected = _select_explicit_paid_models(
+        models, ["paid/b", "paid/a", "paid/b"], adapter="opencode-openrouter",
+    )
+    assert [model.model_id for model in selected] == ["paid/b", "paid/a"]
+    assert {model.adapter for model in selected} == {"opencode-openrouter"}
+
+    try:
+        _select_explicit_paid_models(models, ["free/x"])
+    except SystemExit as exc:
+        assert "absent from the live paid catalogue" in str(exc)
+    else:
+        raise AssertionError("free model was accepted through paid admission")
 
 
 def test_study_next_refuses_before_discovery_when_daily_budget_cannot_cover_cell(
@@ -473,6 +498,11 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     def fake_run(command, **kwargs):
         observed["command"] = command
         observed["kwargs"] = kwargs
+        root = Path(command[command.index("--dir") + 1])
+        observed["config"] = json.loads((root / "opencode.json").read_text(encoding="utf-8"))
+        observed["plugin"] = (
+            root / ".opencode" / "plugins" / "giga-output-budget.js"
+        ).read_text(encoding="utf-8")
         return Result()
 
     monkeypatch.setattr("giga_inference_fabric.providers.subprocess.run", fake_run)
@@ -483,8 +513,14 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     assert completion.text == "READY"
     assert completion.cost_usd == 0
     assert completion.prompt_tokens == 10 and completion.completion_tokens == 3
-    assert "--pure" in observed["command"] and "--dir" in observed["command"]
+    assert "--pure" not in observed["command"] and "--dir" in observed["command"]
     assert "OPENROUTER_API_KEY" not in " ".join(observed["command"])
+    assert "OPENROUTER_API_KEY" not in observed["kwargs"]["env"]
+    assert observed["config"]["permission"] == "deny"
+    assert "output.maxOutputTokens = 100" in observed["plugin"]
+    assert observed["kwargs"]["env"]["XDG_CONFIG_HOME"].startswith(
+        observed["command"][observed["command"].index("--dir") + 1]
+    )
     assert observed["kwargs"]["check"] is False
 
 
@@ -502,10 +538,35 @@ def test_opencode_adapter_rejects_paid_models_before_execution(monkeypatch):
             system="system", prompt="prompt",
         )
     except ProviderError as exc:
-        assert "restricted to free-tier" in str(exc)
+        assert "explicit adapter admission" in str(exc)
     else:
         raise AssertionError("paid model must be rejected before OpenCode execution")
     assert not called
+
+
+def test_opencode_adapter_allows_admitted_paid_model_and_preserves_reported_cost(monkeypatch):
+    class Result:
+        returncode = 0
+        stdout = "\n".join([
+            json.dumps({"type": "text", "part": {"text": "READY"}}),
+            json.dumps({
+                "type": "step_finish",
+                "part": {"cost": 0.004, "tokens": {"input": 12, "output": 2}},
+            }),
+        ])
+
+    monkeypatch.setattr(
+        "giga_inference_fabric.providers.subprocess.run", lambda *_args, **_kwargs: Result(),
+    )
+    completion = OpenCodeOpenRouterAdapter(
+        binary="opencode", allow_paid=True,
+    ).complete(
+        ModelSpec("paid/model", "opencode-openrouter", CostTier.PAID),
+        system="system", prompt="prompt", max_output_tokens=32,
+    )
+    assert completion.text == "READY"
+    assert completion.cost_usd == 0.004
+    assert completion.raw == {"provider_output_cap": 32, "permission_profile": "deny"}
 
 
 def test_committed_live_transport_evidence_is_self_consistent_and_secret_free():
