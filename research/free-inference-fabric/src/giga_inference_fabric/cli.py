@@ -24,7 +24,14 @@ from .providers import (
     openrouter_adapter,
 )
 from .store import ExperimentStore
-from .studies import load_studies, resolve_study_arm, study_catalogue_hash
+from .studies import (
+    expand_study_cells,
+    load_studies,
+    next_pending_study_cell,
+    resolve_study_arm,
+    study_catalogue_hash,
+    study_experiment_id,
+)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -71,6 +78,24 @@ def _jsonable(value):
     if isinstance(value, list):
         return [_jsonable(item) for item in value]
     return value
+
+
+def _select_explicit_free_models(
+    models: list[ModelSpec], requested_ids: list[str],
+) -> list[ModelSpec]:
+    """Select available free models in operator-declared order, failing closed on drift."""
+    free_by_id = {
+        model.model_id: model for model in models if model.cost_tier == CostTier.FREE
+    }
+    if not requested_ids:
+        return list(free_by_id.values())
+    ordered_ids = list(dict.fromkeys(requested_ids))
+    missing = [model_id for model_id in ordered_ids if model_id not in free_by_id]
+    if missing:
+        raise SystemExit(
+            "requested model is not currently free/available: " + ", ".join(missing)
+        )
+    return [free_by_id[model_id] for model_id in ordered_ids]
 
 
 def discover(args: argparse.Namespace) -> int:
@@ -150,17 +175,23 @@ def study_plan(args: argparse.Namespace) -> int:
     if not selected:
         raise SystemExit(f"unknown study: {args.study_id}")
     study = selected[0]
-    cells = [
-        {
-            "study_id": study.id, "arm_id": arm.id, "repeat_index": repeat,
-            "benchmark_id": study.benchmark_id, "cost_tier": arm.cost_tier.value,
-            "candidates_per_round": arm.candidates_per_round,
-            "critics_per_candidate": arm.critics_per_candidate,
-            "min_distinct_models": arm.min_distinct_models,
-            "max_rounds": arm.max_rounds, "use_experience": arm.use_experience,
-        }
-        for arm in study.arms for repeat in range(1, arm.repeats + 1)
-    ]
+    expanded = {
+        (cell.arm_id, cell.repeat_index): cell for cell in expand_study_cells(args.study_catalogue, study.id)
+    }
+    cells = []
+    for arm in study.arms:
+        for repeat in range(1, arm.repeats + 1):
+            cell = expanded[(arm.id, repeat)]
+            cells.append({
+                "study_id": study.id, "arm_id": arm.id, "repeat_index": repeat,
+                "benchmark_id": study.benchmark_id, "experiment_id": cell.experiment_id,
+                "worst_case_remote_calls": cell.worst_case_remote_calls,
+                "cost_tier": arm.cost_tier.value,
+                "candidates_per_round": arm.candidates_per_round,
+                "critics_per_candidate": arm.critics_per_candidate,
+                "min_distinct_models": arm.min_distinct_models,
+                "max_rounds": arm.max_rounds, "use_experience": arm.use_experience,
+            })
     print(json.dumps({
         "schema": "giga.study-plan.v1", "study_id": study.id,
         "study_contract_sha256": study_catalogue_hash(args.study_catalogue),
@@ -177,6 +208,86 @@ def study_scoreboard(args: argparse.Namespace) -> int:
         store.close()
     print(json.dumps(rows, ensure_ascii=False, indent=2, sort_keys=True))
     return 0
+
+
+def study_next(args: argparse.Namespace) -> int:
+    store = ExperimentStore(args.db)
+    try:
+        try:
+            cell = next_pending_study_cell(
+                args.study_catalogue, args.study_id, store.experiment_ids(),
+            )
+        except KeyError as exc:
+            raise SystemExit(str(exc)) from exc
+        used_today = store.remote_calls_today()
+        if cell is None:
+            print(json.dumps({
+                "schema": "giga.study-next.v1", "study_id": args.study_id,
+                "status": "COMPLETE", "remote_calls_today": used_today,
+            }, indent=2, sort_keys=True))
+            return 0
+        study, arm = resolve_study_arm(args.study_catalogue, cell.study_id, cell.arm_id)
+        remaining = max(0, args.daily_remote_limit - used_today)
+        payload = {
+            "schema": "giga.study-next.v1", "study_id": cell.study_id,
+            "study_arm_id": cell.arm_id, "repeat_index": cell.repeat_index,
+            "experiment_id": cell.experiment_id, "benchmark_id": cell.benchmark_id,
+            "cost_tier": arm.cost_tier.value,
+            "worst_case_remote_calls": cell.worst_case_remote_calls,
+            "remote_calls_today": used_today, "daily_remote_limit": args.daily_remote_limit,
+            "remaining_remote_calls": remaining,
+        }
+        if cell.worst_case_remote_calls > remaining:
+            payload["status"] = "BUDGET_WAIT"
+            print(json.dumps(payload, indent=2, sort_keys=True))
+            return 4
+        if arm.cost_tier == CostTier.FREE and len(dict.fromkeys(args.free_model)) < arm.min_distinct_models:
+            raise SystemExit(
+                f"next arm requires {arm.min_distinct_models} explicit distinct --free-model values"
+            )
+        if not args.execute:
+            payload["status"] = "READY"
+            print(json.dumps(payload, indent=2, sort_keys=True))
+            return 0
+        try:
+            benchmark = store.get_benchmark(study.benchmark_id)
+        except KeyError as exc:
+            raise SystemExit(f"unknown or inactive benchmark: {study.benchmark_id}") from exc
+        metadata = json.loads(benchmark["metadata_json"])
+        binding = metadata.get("binding")
+        if not isinstance(binding, dict):
+            raise SystemExit("benchmark has no immutable v1 binding")
+        verify_benchmark_contract(binding)
+        manifest_path = Path(benchmark["fixture_ref"]) / "benchmark.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if (
+            manifest.get("benchmark_id") != benchmark["benchmark_id"]
+            or manifest.get("objective") != benchmark["objective"]
+            or manifest.get("workload") != benchmark["workload"]
+            or not isinstance(manifest.get("prompt"), str)
+        ):
+            raise SystemExit("benchmark manifest does not match its immutable registration")
+    finally:
+        store.close()
+
+    run_args = argparse.Namespace(
+        db=args.db, objective=benchmark["objective"], prompt=manifest["prompt"], context="",
+        workload=benchmark["workload"], benchmark_id=study.benchmark_id,
+        study_id=study.id, study_arm=arm.id, repeat_index=cell.repeat_index,
+        study_catalogue=args.study_catalogue, no_experience=False,
+        require=[], forbid=[], check_command=[], evaluator_cwd=None, command_timeout=300,
+        candidates=arm.candidates_per_round, critics=arm.critics_per_candidate,
+        min_distinct_models=arm.min_distinct_models, rounds=arm.max_rounds,
+        max_remote_calls=cell.worst_case_remote_calls, daily_remote_limit=args.daily_remote_limit,
+        max_output_tokens=args.max_output_tokens, stagnation_rounds=2,
+        privacy=args.privacy, require_zdr=args.require_zdr, local_only=False,
+        use_opencode_auth=args.use_opencode_auth, free_model=args.free_model,
+        local_model=[], local_base_url="http://127.0.0.1:11434/v1",
+        include_paid=args.include_paid, paid_model=args.paid_model,
+        max_cost_usd=args.max_cost_usd,
+        output=args.output_dir / cell.study_id / f"{cell.arm_id}-r{cell.repeat_index}.json",
+    )
+    return run(run_args)
 
 
 def _bind_study_arm(args: argparse.Namespace) -> tuple[object | None, str | None, str | None]:
@@ -203,10 +314,9 @@ def _bind_study_arm(args: argparse.Namespace) -> tuple[object | None, str | None
     if arm.cost_tier == CostTier.FREE and args.include_paid:
         raise SystemExit("free study arm cannot include paid models")
     contract_hash = study_catalogue_hash(args.study_catalogue)
-    identity = hashlib.sha256(
-        f"{contract_hash}\0{study.id}\0{arm.id}\0{args.repeat_index}\0{study.benchmark_id}".encode("utf-8")
-    ).hexdigest()[:24]
-    return arm, f"study-{identity}", contract_hash
+    return arm, study_experiment_id(
+        contract_hash, study.id, arm.id, args.repeat_index, study.benchmark_id,
+    ), contract_hash
 
 
 def benchmark_register(args: argparse.Namespace) -> int:
@@ -287,12 +397,9 @@ def worker_once(args: argparse.Namespace) -> int:
         return 3
     try:
         evaluator_contract = json.loads(item["evaluator_json"])
-        models = [] if args.local_only else [
-            model for model in discover_openrouter_models() if model.cost_tier == CostTier.FREE
-        ]
-        if args.free_model:
-            requested_free = set(args.free_model)
-            models = [model for model in models if model.model_id in requested_free]
+        models = [] if args.local_only else _select_explicit_free_models(
+            discover_openrouter_models(), args.free_model,
+        )
         if args.use_opencode_auth:
             models = [replace(model, adapter="opencode-openrouter") for model in models]
         adapters = {} if args.local_only else (
@@ -341,13 +448,7 @@ def run(args: argparse.Namespace) -> int:
     if args.use_opencode_auth and args.include_paid:
         raise SystemExit("--use-opencode-auth is a free-tier bridge and cannot admit paid models")
     discovered = discover_openrouter_models() if not args.local_only else []
-    models = [model for model in discovered if model.cost_tier == CostTier.FREE]
-    if args.free_model:
-        requested_free = set(args.free_model)
-        models = [model for model in models if model.model_id in requested_free]
-        missing_free = requested_free - {model.model_id for model in models}
-        if missing_free:
-            raise SystemExit("requested model is not currently free/available: " + ", ".join(sorted(missing_free)))
+    models = _select_explicit_free_models(discovered, args.free_model)
     if args.use_opencode_auth:
         models = [replace(model, adapter="opencode-openrouter") for model in models]
     adapters = {}
@@ -471,6 +572,31 @@ def build_parser() -> argparse.ArgumentParser:
     study_scoreboard_parser = sub.add_parser("study-scoreboard", help="score completed controlled-study arms")
     study_scoreboard_parser.add_argument("--study-id", required=True)
     study_scoreboard_parser.set_defaults(func=study_scoreboard)
+
+    study_next_parser = sub.add_parser(
+        "study-next", help="select and optionally execute exactly one pending study cell",
+    )
+    study_next_parser.add_argument("--study-id", required=True)
+    study_next_parser.add_argument("--study-catalogue", type=Path, default=DEFAULT_STUDIES)
+    study_next_parser.add_argument(
+        "--daily-remote-limit", type=int,
+        default=int(os.environ.get("OPENROUTER_FREE_DAILY_LIMIT", "50")),
+    )
+    study_next_parser.add_argument("--execute", action="store_true")
+    study_next_parser.add_argument("--use-opencode-auth", action="store_true")
+    study_next_parser.add_argument("--free-model", action="append", default=[])
+    study_next_parser.add_argument("--include-paid", action="store_true")
+    study_next_parser.add_argument("--paid-model", action="append", default=[])
+    study_next_parser.add_argument("--max-cost-usd", type=float, default=0.0)
+    study_next_parser.add_argument("--max-output-tokens", type=int, default=512)
+    study_next_parser.add_argument(
+        "--privacy", choices=[item.value for item in PrivacyClass], default="internal",
+    )
+    study_next_parser.add_argument("--require-zdr", action="store_true")
+    study_next_parser.add_argument(
+        "--output-dir", type=Path, default=ROOT / "state" / "studies",
+    )
+    study_next_parser.set_defaults(func=study_next)
 
     register_parser = sub.add_parser("benchmark-register", help="register a locked real-project benchmark")
     register_parser.add_argument("--benchmark-id", required=True)

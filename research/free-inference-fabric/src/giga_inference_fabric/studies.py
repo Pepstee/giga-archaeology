@@ -29,6 +29,16 @@ class StudyDefinition:
     arms: tuple[StudyArm, ...]
 
 
+@dataclass(frozen=True)
+class StudyCell:
+    study_id: str
+    arm_id: str
+    repeat_index: int
+    benchmark_id: str
+    experiment_id: str
+    worst_case_remote_calls: int
+
+
 def study_catalogue_hash(path: Path) -> str:
     identity_path = path.with_name(path.name + ".sha256")
     if not identity_path.is_file():
@@ -103,3 +113,43 @@ def resolve_study_arm(path: Path, study_id: str, arm_id: str) -> tuple[StudyDefi
                     return study, arm
             raise KeyError(f"unknown arm {arm_id} for study {study_id}")
     raise KeyError(f"unknown study {study_id}")
+
+
+def study_experiment_id(
+    contract_hash: str, study_id: str, arm_id: str, repeat_index: int, benchmark_id: str,
+) -> str:
+    identity = hashlib.sha256(
+        f"{contract_hash}\0{study_id}\0{arm_id}\0{repeat_index}\0{benchmark_id}".encode("utf-8")
+    ).hexdigest()[:24]
+    return f"study-{identity}"
+
+
+def expand_study_cells(path: Path, study_id: str) -> list[StudyCell]:
+    contract_hash = study_catalogue_hash(path)
+    studies = [study for study in load_studies(path) if study.id == study_id]
+    if not studies:
+        raise KeyError(f"unknown study {study_id}")
+    study = studies[0]
+    return [
+        StudyCell(
+            study_id=study.id, arm_id=arm.id, repeat_index=repeat_index,
+            benchmark_id=study.benchmark_id,
+            experiment_id=study_experiment_id(
+                contract_hash, study.id, arm.id, repeat_index, study.benchmark_id,
+            ),
+            worst_case_remote_calls=(
+                0 if arm.cost_tier == CostTier.LOCAL
+                else arm.candidates_per_round * (1 + arm.critics_per_candidate) * arm.max_rounds
+            ),
+        )
+        for arm in study.arms for repeat_index in range(1, arm.repeats + 1)
+    ]
+
+
+def next_pending_study_cell(
+    path: Path, study_id: str, completed_experiment_ids: set[str],
+) -> StudyCell | None:
+    return next(
+        (cell for cell in expand_study_cells(path, study_id) if cell.experiment_id not in completed_experiment_ids),
+        None,
+    )

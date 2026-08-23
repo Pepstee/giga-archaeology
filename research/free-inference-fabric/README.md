@@ -57,6 +57,8 @@ The implementation includes:
 - reusable successful solution patterns and accumulated failure/correction patterns;
 - immutable, fixture-hash-bound real-project benchmarks and benchmark-filtered model scorecards;
 - an idempotent, leased, retry-bounded background work queue;
+- deterministic one-cell study progression that refuses before discovery when the remaining daily
+  allowance cannot cover the declared worst case;
 - escalation packets that give a frontier model prior experiments and failures;
 - 19 reusable workloads covering tests, bug finding, debt, refactoring, documentation,
   codebase research, architecture maps, code/security/dependency review, alternatives,
@@ -235,6 +237,36 @@ Paid arms still require named models, explicit admission and pre-reserved cost a
 definitions live separately in `config/studies.json` because experimental controls must not drift
 with background workload prompts. `config/studies.json.sha256` is the admitted catalogue identity;
 any unadmitted edit blocks listing, planning and execution.
+
+The strengthened live study is `weak-model-orchestration-v2` in `config/studies-v2.json`. Its
+external verifier rejects overlapping positive/negative inputs and vague expected outcomes. A
+scheduler should use `study-next`, not invent repeat numbers. The command deterministically selects
+exactly one unclaimed SHA-bound cell, preserves the explicitly declared model order and calculates
+the cell's maximum candidate-plus-critic call count before model discovery. It emits `BUDGET_WAIT`
+without a provider call if the entire cell cannot fit inside the remaining daily allowance.
+
+```bash
+# Read-only: show the next cell or the reason it cannot run today.
+python3 -m giga_inference_fabric.cli study-next \
+  --study-id weak-model-orchestration-v2 \
+  --study-catalogue config/studies-v2.json \
+  --daily-remote-limit 20 \
+  --free-model thinkingmachines/inkling-small:free
+
+# Execute at most that one cell. The deterministic experiment primary key prevents duplicate
+# workers from spending inference on the same cell.
+python3 -m giga_inference_fabric.cli study-next \
+  --study-id weak-model-orchestration-v2 \
+  --study-catalogue config/studies-v2.json \
+  --daily-remote-limit 20 --execute --use-opencode-auth \
+  --free-model thinkingmachines/inkling-small:free \
+  --free-model nvidia/nemotron-3-super-120b-a12b:free \
+  --free-model thinkingmachines/inkling:free
+```
+
+The current 20-call research ceiling is intentionally lower than OpenRouter's documented general
+free allowance. It is a local risk budget, not a claim about provider entitlement. Increasing it is
+an explicit study-policy decision; retries cannot silently raise it.
 
 ## Background work
 

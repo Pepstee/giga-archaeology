@@ -318,6 +318,9 @@ class ExperimentStore:
             "SELECT 1 FROM experiments WHERE experiment_id=?", (experiment_id,)
         ).fetchone() is not None
 
+    def experiment_ids(self) -> set[str]:
+        return {row[0] for row in self.connection.execute("SELECT experiment_id FROM experiments")}
+
     def study_scoreboard(self, study_id: str) -> list[dict]:
         self.connection.row_factory = sqlite3.Row
         experiment_rows = self.connection.execute(

@@ -3,17 +3,82 @@ from __future__ import annotations
 import json
 import hashlib
 from pathlib import Path
+from types import SimpleNamespace
 
 from giga_inference_fabric.benchmarks import build_benchmark_contract, verify_benchmark_contract
 from giga_inference_fabric.catalogue import load_profiles, model_window_diff
+from giga_inference_fabric.cli import _select_explicit_free_models, study_next
 from giga_inference_fabric.evaluators import CommandEvaluator, evaluator_from_contract
 from giga_inference_fabric.models import Candidate, Completion, CostTier, ModelSpec
 from giga_inference_fabric.providers import OpenCodeOpenRouterAdapter, ProviderError, discover_local_models
 from giga_inference_fabric.store import ExperimentStore
-from giga_inference_fabric.studies import load_studies, resolve_study_arm, study_catalogue_hash
+from giga_inference_fabric.studies import (
+    expand_study_cells,
+    load_studies,
+    next_pending_study_cell,
+    resolve_study_arm,
+    study_catalogue_hash,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_explicit_free_model_selection_preserves_declared_order_and_fails_closed():
+    models = [
+        ModelSpec("free/a", "openrouter", CostTier.FREE),
+        ModelSpec("paid/x", "openrouter", CostTier.PAID),
+        ModelSpec("free/b", "openrouter", CostTier.FREE),
+    ]
+    selected = _select_explicit_free_models(models, ["free/b", "free/a", "free/b"])
+    assert [model.model_id for model in selected] == ["free/b", "free/a"]
+
+    try:
+        _select_explicit_free_models(models, ["free/missing"])
+    except SystemExit as exc:
+        assert "not currently free/available" in str(exc)
+    else:
+        raise AssertionError("missing explicit free model was accepted")
+
+
+def test_study_next_refuses_before_discovery_when_daily_budget_cannot_cover_cell(
+    tmp_path: Path, capsys,
+):
+    db = tmp_path / "experiments.sqlite3"
+    args = SimpleNamespace(
+        db=db, study_catalogue=ROOT / "config" / "studies-v2.json",
+        study_id="weak-model-orchestration-v2", daily_remote_limit=0,
+        free_model=["thinkingmachines/inkling-small:free"], execute=False,
+    )
+    assert study_next(args) == 4
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["status"] == "BUDGET_WAIT"
+    assert payload["worst_case_remote_calls"] == 1
+    store = ExperimentStore(db)
+    try:
+        assert store.experiment_ids() == set()
+        assert store.remote_calls_today() == 0
+    finally:
+        store.close()
+
+
+def test_study_next_reports_one_ready_deterministic_cell_without_executing(
+    tmp_path: Path, capsys,
+):
+    db = tmp_path / "experiments.sqlite3"
+    args = SimpleNamespace(
+        db=db, study_catalogue=ROOT / "config" / "studies-v2.json",
+        study_id="weak-model-orchestration-v2", daily_remote_limit=20,
+        free_model=["thinkingmachines/inkling-small:free"], execute=False,
+    )
+    assert study_next(args) == 0
+    payload = json.loads(capsys.readouterr().out)
+    expected = expand_study_cells(
+        ROOT / "config" / "studies-v2.json", "weak-model-orchestration-v2",
+    )[0]
+    assert payload["status"] == "READY"
+    assert payload["experiment_id"] == expected.experiment_id
+    assert payload["repeat_index"] == 1
 
 
 def test_workload_catalogue_covers_requested_background_work():
@@ -413,3 +478,12 @@ def test_v2_benchmark_rejects_cross_critic_false_positive_and_vague_outcomes():
     study, arm = resolve_study_arm(v2_path, "weak-model-orchestration-v2", "ensemble-with-critics")
     assert study.benchmark_id == "fabric-json-test-plan-002"
     assert arm.min_distinct_models == 3
+
+    cells = expand_study_cells(v2_path, "weak-model-orchestration-v2")
+    assert len(cells) == 12
+    ensemble = next(cell for cell in cells if cell.arm_id == "ensemble-with-critics")
+    assert ensemble.worst_case_remote_calls == 36
+    assert next_pending_study_cell(v2_path, "weak-model-orchestration-v2", set()) == cells[0]
+    assert next_pending_study_cell(
+        v2_path, "weak-model-orchestration-v2", {cells[0].experiment_id},
+    ) == cells[1]
