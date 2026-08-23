@@ -1,0 +1,156 @@
+# Market Aligner and JAA supervision ledger
+
+Updated: 2026-08-24  
+Supervisor: Codex  
+Implementation engine: Ox Alpha, `openrouter/stealth/ox-alpha`, reasoning variant `max`  
+Purpose: durable execution state and anti-repetition authority for the Market Aligner product and its internal JAA subsystem.
+
+This is a distinct execution ledger rather than an extension of
+`JAA_MARKET_ALIGNER_BASELINE_COMPREHENSION_2026-08-18.md`: the earlier file is a point-in-time
+architecture assessment, while this file owns resumable supervisor state, slice disposition,
+verification evidence, and the next authorized action.
+
+## Persistent objective
+
+Finish Market Aligner with internal JAA to the highest production standard through verified,
+recoverable increments: official vacancy ingestion, evidence-bound eligibility and fit, cited
+employer research, ATS inventory and filling, explicit deterministic/model boundaries, a production
+coordinator, one-use release authority, one certified final-click primitive, crash recovery, and
+forensic provider receipts. A submission is successful only when the provider supplies evidence
+that the system independently verifies. After one truthful canary, prove a bounded three-application
+cohort before claiming operational readiness.
+
+## Recovery and synchronization receipt
+
+| Identity | Canonical copy | Independent Ox copy |
+|---|---|---|
+| Path | `/Users/admin/Projects/market-aligner` | `/Users/admin/Documents/ox-alpha-giga-workspace/projects/market-aligner` |
+| Branch | `codex/reconciliation-20260801` | `ox-alpha-work` |
+| Commit | `246e9cf55c376b6dd92bbfe394d0db73187c33d9` | `acf57e05feca284ed767754a3c0cb7320d26077d` |
+| Tree | `7596ee2be4ed01c1511cc9718d5d3fb57576b4bd` | `7596ee2be4ed01c1511cc9718d5d3fb57576b4bd` |
+| Status | clean | clean |
+| Upstream | none | none |
+| Remotes | none | none |
+| Worktrees | one, its own root | one, its own root |
+
+Disposition:
+
+- No fetch or prune could be performed because neither repository has a remote.
+- No pull was attempted because neither branch has an upstream. A fast-forward pull was therefore
+  neither necessary nor safe to infer.
+- The repositories intentionally have independent Git histories. Their source trees are exactly
+  equal at the recorded tree hash. The only non-Git directory differences observed were ignored
+  Python and pytest caches in the canonical copy.
+- The Ox copy was not linked to the canonical `.git` and was not rewritten. Refresh was unnecessary.
+
+## Verified baseline
+
+Both copies were tested independently with the same cache-free command:
+
+```text
+env PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 TMPDIR=/private/tmp \
+  python3 -m unittest discover -s tests -p 'test_*.py'
+```
+
+Canonical result: `Ran 51 tests in 3.540s`, `OK (skipped=2)`.  
+Ox result: `Ran 51 tests in 3.527s`, `OK (skipped=2)`.
+
+Graphify structural baseline: 119 supported source files, approximately 39,804 words, with 1,456
+AST nodes and 4,614 AST edges. No repository-owned `graphify-out/graph.json` existed at recovery.
+The structural extraction was kept outside the read-only source checkout; a semantic rebuild remains
+required after the first accepted recovery increment.
+
+## Current capability truth
+
+Implemented in the recovered source tree:
+
+- 34 registered collection adapters, uncapped parallel collection, durable resume state, and the
+  Scrapling protocol boundary;
+- opaque external profiles and evidence ledgers;
+- persistence, normalisation, deduplication, viability and hard-eligibility gates;
+- versioned semantic extraction and evidence-alignment contracts with content-bound receipts;
+- deterministic opportunity and explicitly uncalibrated fit scoring;
+- research admission, leased workers, cited dossier contracts, and profile-scoped reports;
+- a local assessment service and a provisional versioned JAA handoff/event protocol.
+
+Not operational in this lineage:
+
+- collection, normalisation, research, reporting, or handoff as supported public commands;
+- a concrete model/research provider;
+- a concrete Market Aligner-to-JAA client/consumer;
+- a generic current-vacancy JAA production authority;
+- ATS inventory/fill, release, final-click, recovery, and provider-confirmed receipt flow inside this
+  repository.
+
+The repository's sealed-import gate explicitly forbids importing the protected Gutua JAA
+implementation until its frozen archive, commit, manifest, and certification receipts exist. The
+first slice must not bypass that gate or claim JAA integration prematurely.
+
+## Ox execution identity
+
+- Workspace: `/Users/admin/Documents/ox-alpha-giga-workspace`
+- Declared persistent session: `ses_fd069841affepp0wt0Gu32ia3k`
+- Observed active log session during recovery: `ses_fd03cf3b5ffeDcBpwqEH0pJTMu`
+- Model: `openrouter/stealth/ox-alpha`
+- Variant: `max`
+- Ox remains the implementation engine; Codex owns scope, review, acceptance, and integration.
+- At recovery time the active Ox session was executing a different admitted GIGA portfolio slice.
+  Market Aligner work must not race it in the same workspace.
+
+## Anti-repetition protocol
+
+Before selecting or resuming any slice, the supervisor must:
+
+1. Match the proposed objective and exact input identities against every row below.
+2. Search canonical code, tests, migration ledger, and declared upstream evidence before creating a
+   parallel mechanism.
+3. If a matching row is `accepted`, do not repeat it unless a named input hash changed; record the
+   changed identity and start a successor row.
+4. If a row is `rejected`, reuse its evidence and address the recorded falsifier; do not replay the
+   rejected approach.
+5. If a row is `blocked`, recheck only the named blocker. Preserve unrelated operator work and do
+   not reset, force, stash, discard, or silently clean.
+6. A worker commit is only a candidate. Codex independently reviews the diff, runs acceptance and
+   adversarial tests against the exact commit, and integrates only accepted work authored as
+   `Artiom Gutu <gutu.artiom444@gmail.com>`.
+7. Provider submission success requires provider-confirmed evidence. A click, HTTP success code,
+   model assertion, or local state transition is not sufficient.
+
+## Slice register
+
+| Slice | Objective | Reuse/absence evidence | Acceptance | Status | Next action |
+|---|---|---|---|---|---|
+| RECOVERY-001 | Safely reconcile canonical and Ox copies | Same tree hash; no remotes/upstreams; independent histories retained | Exact Git evidence plus identical cache-free baseline | accepted | Do not repeat unless either tree or remote configuration changes |
+| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | queued | Dispatch to idle Ox session as the first bounded implementation slice |
+| JAA-IMPORT-001 | Reconcile and import sealed JAA authority/contracts | Current migration report says protected upstream is not frozen or sealed | Frozen archive, commit, manifest, licence/provenance, independent certification, field-by-field compatibility matrix | blocked | Recheck only when sealed upstream evidence exists |
+
+## First bounded Ox slice: INGEST-001
+
+Work only in the independent Ox Market Aligner repository. Reuse `market_aligner.cli`,
+`config_loader.load_config`, `collectors.engine.Collector`, `ProductPaths`, and the existing vacancy
+database. Do not create another collector, service, state database, or config system.
+
+Required behavior:
+
+- add one public command that runs one bounded official collection cycle;
+- accept an exact configuration file and the established external data-home boundary;
+- make the operation identity explicit and stable so a retry cannot cause an untracked second live
+  fetch;
+- emit canonical JSON and a durable content-bound receipt recording configuration identity,
+  operation identity, source scope, collector result, and terminal disposition;
+- preserve the last good database/raw cache on provider failure and make crash/replay state explicit;
+- keep all irreversible application/release/submission capabilities out of scope.
+
+Acceptance must include the existing baseline plus positive, replay, partial-provider-failure,
+config substitution, operation substitution, receipt tamper, and interrupted-run tests. The slice is
+not accepted merely because mocked CLI parsing works; at least one fixture adapter must traverse the
+real Collector persistence path.
+
+## Current blockers and next supervisor action
+
+- The canonical and Ox repositories are outside the current Codex task's writable roots. This task
+  can inspect and test them but cannot directly edit or integrate them.
+- The Ox workspace is itself outside the current writable roots, and its observed session is already
+  active on another slice. The supervisor must not start a competing writer.
+- Next action: when the Ox session becomes idle and the workspace is writable to the execution
+  engine, dispatch INGEST-001, then independently review its exact candidate commit and tests.
