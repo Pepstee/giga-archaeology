@@ -499,16 +499,14 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
         if command[1:3] == ["debug", "config"]:
             root = Path(kwargs["cwd"])
             (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
-            plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+            plugin = (ROOT / "opencode/giga-output-budget.js").as_uri()
             return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
         observed["command"] = command
         observed["kwargs"] = kwargs
         root = Path(command[command.index("--dir") + 1])
         (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
         observed["config"] = json.loads((root / "opencode.json").read_text(encoding="utf-8"))
-        observed["plugin"] = (
-            root / ".opencode" / "plugins" / "giga-output-budget.js"
-        ).read_text(encoding="utf-8")
+        observed["plugin"] = (ROOT / "opencode/giga-output-budget.js").read_text(encoding="utf-8")
         receipt_path = root / "output-cap-receipt.json"
         receipt_path.write_text(json.dumps({
             "invocationCount": 1,
@@ -538,8 +536,8 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     assert "OPENROUTER_API_KEY" not in observed["kwargs"]["env"]
     assert observed["config"]["permission"] == "deny"
     assert observed["config"]["share"] == "disabled"
-    assert observed["config"]["plugin"][0].endswith("/giga-output-budget.js")
-    assert "output.maxOutputTokens = 100" in observed["plugin"]
+    assert observed["config"]["plugin"] == [(ROOT / "opencode/giga-output-budget.js").as_uri()]
+    assert "output.maxOutputTokens = maxOutputTokens" in observed["plugin"]
     assert "multiple LLM invocations denied" in observed["plugin"]
     assert "unadmitted model invocation denied" in observed["plugin"]
     assert observed["auth_is_symlink"]
@@ -550,7 +548,8 @@ def test_opencode_adapter_parses_zero_cost_events_without_accessing_a_key(monkey
     assert observed["kwargs"]["env"]["HOME"].startswith(
         observed["command"][observed["command"].index("--dir") + 1]
     )
-    assert observed["kwargs"]["env"]["OPENCODE_CONFIG_DIR"].endswith("/.opencode")
+    assert observed["kwargs"]["env"]["GIGA_OPENCODE_MAX_OUTPUT_TOKENS"] == "100"
+    assert observed["kwargs"]["env"]["GIGA_OPENCODE_EXPECTED_MODEL"] == "free/model"
     assert "--title" in observed["command"]
     assert "--print-logs" in observed["command"]
     assert observed["kwargs"]["check"] is False
@@ -593,7 +592,7 @@ def test_opencode_adapter_allows_admitted_paid_model_and_preserves_reported_cost
         if command[1:3] == ["debug", "config"]:
             root = Path(_kwargs["cwd"])
             (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
-            plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+            plugin = (ROOT / "opencode/giga-output-budget.js").as_uri()
             return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
         root = Path(command[command.index("--dir") + 1])
         (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
@@ -633,7 +632,7 @@ def test_opencode_adapter_rejects_missing_output_cap_receipt(monkeypatch, tmp_pa
         root = Path(kwargs.get("cwd") or command[command.index("--dir") + 1])
         (root / "plugin-init-receipt").write_text("loaded", encoding="utf-8")
         if command[1:3] == ["debug", "config"]:
-            plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+            plugin = (ROOT / "opencode/giga-output-budget.js").as_uri()
             return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))
         return Result()
 
@@ -653,8 +652,7 @@ def test_opencode_adapter_rejects_missing_output_cap_receipt(monkeypatch, tmp_pa
 
 def test_opencode_adapter_totalises_missing_plugin_init_receipt(monkeypatch, tmp_path):
     def fake_run(command, **kwargs):
-        root = Path(kwargs["cwd"])
-        plugin = (root / ".opencode" / "plugins" / "giga-output-budget.js").as_uri()
+        plugin = (ROOT / "opencode/giga-output-budget.js").as_uri()
         if "--print-logs" in command:
             return SimpleNamespace(returncode=0, stdout="plugin load diagnostic")
         return SimpleNamespace(returncode=0, stdout=json.dumps({"plugin": [plugin]}))

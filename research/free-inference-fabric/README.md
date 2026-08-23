@@ -155,6 +155,8 @@ python3 -m giga_inference_fabric.cli run \
 # permissions denied, sharing/snapshots disabled, a one-invocation exact-model output-cap plugin
 # and a credential-scrubbed process environment. Only a symlink to OpenCode's own auth file is
 # exposed; its existing session database, user plugins and project instructions are not loaded.
+# The canonical safety plugin is versioned at opencode/giga-output-budget.js because OpenCode
+# rejects executable file-plugins generated inside the macOS temporary tree.
 python3 -m giga_inference_fabric.cli run \
   --use-opencode-auth \
   --free-model nvidia/nemotron-3-super-120b-a12b:free \

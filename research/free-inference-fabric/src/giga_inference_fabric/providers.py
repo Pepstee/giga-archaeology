@@ -15,6 +15,9 @@ from typing import Protocol
 from .models import Completion, CostTier, ModelSpec
 
 
+OPENCODE_BUDGET_PLUGIN = Path(__file__).resolve().parents[2] / "opencode/giga-output-budget.js"
+
+
 class ProviderError(RuntimeError):
     pass
 
@@ -171,9 +174,9 @@ class OpenCodeOpenRouterAdapter:
             isolated_data = root / "xdg-data" / "opencode"
             isolated_data.mkdir(parents=True)
             (isolated_data / "auth.json").symlink_to(auth_source.resolve())
-            plugin_dir = root / ".opencode" / "plugins"
-            plugin_dir.mkdir(parents=True)
-            plugin_path = plugin_dir / "giga-output-budget.js"
+            plugin_path = OPENCODE_BUDGET_PLUGIN
+            if not plugin_path.is_file():
+                raise ProviderError("canonical OpenCode budget plugin is unavailable")
             init_receipt_path = root / "plugin-init-receipt"
             hook_receipt_path = root / "output-cap-receipt.json"
             (root / "opencode.json").write_text(
@@ -187,28 +190,6 @@ class OpenCodeOpenRouterAdapter:
                 }),
                 encoding="utf-8",
             )
-            plugin_path.write_text(
-                "import { writeFileSync } from 'node:fs';\n"
-                "let invocationCount = 0;\n"
-                "export const GigaOutputBudget = async () => {\n"
-                f"  writeFileSync({json.dumps(str(init_receipt_path))}, 'loaded', {{ mode: 0o600 }});\n"
-                "  return ({\n"
-                "  'chat.params': async (input, output) => {\n"
-                "    invocationCount += 1;\n"
-                "    if (invocationCount !== 1) throw new Error('multiple LLM invocations denied');\n"
-                f"    if (input.model.providerID !== 'openrouter' || input.model.id !== {json.dumps(model.model_id)}) {{\n"
-                "      throw new Error('unadmitted model invocation denied');\n"
-                "    }\n"
-                f"    output.maxOutputTokens = {int(max_output_tokens)};\n"
-                f"    writeFileSync({json.dumps(str(hook_receipt_path))}, JSON.stringify({{\n"
-                "      invocationCount, providerID: input.model.providerID, modelID: input.model.id,\n"
-                "      maxOutputTokens: output.maxOutputTokens,\n"
-                "    }}), { mode: 0o600 });\n"
-                "  },\n"
-                "  });\n"
-                "};\n",
-                encoding="utf-8",
-            )
             environment = {
                 key: value for key, value in os.environ.items()
                 if key in {"PATH", "LANG", "LC_ALL", "LC_CTYPE", "TMPDIR"}
@@ -218,7 +199,11 @@ class OpenCodeOpenRouterAdapter:
             environment["XDG_DATA_HOME"] = str(root / "xdg-data")
             environment["XDG_STATE_HOME"] = str(root / "xdg-state")
             environment["XDG_CACHE_HOME"] = str(root / "xdg-cache")
-            environment["OPENCODE_CONFIG_DIR"] = str(root / ".opencode")
+            environment["GIGA_OPENCODE_EXPECTED_PROVIDER"] = "openrouter"
+            environment["GIGA_OPENCODE_EXPECTED_MODEL"] = model.model_id
+            environment["GIGA_OPENCODE_MAX_OUTPUT_TOKENS"] = str(int(max_output_tokens))
+            environment["GIGA_OPENCODE_INIT_RECEIPT"] = str(init_receipt_path)
+            environment["GIGA_OPENCODE_HOOK_RECEIPT"] = str(hook_receipt_path)
             environment["NO_COLOR"] = "1"
             preflight = subprocess.run(
                 [binary, "debug", "config"], cwd=str(root), text=True,
