@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-security-review-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "security-review",
+  "objective": "Identify the frozen inference-fabric local-transport classification and enforcement-plugin integrity gaps",
+  "prompt": "Return only strict JSON using schema giga.security-review-report.v1 with exactly schema, project, source_packet_sha256, findings and scope. Report exactly two findings: SEC-LOCAL-REMOTE-CLASSIFICATION (high) and SEC-PLUGIN-INTEGRITY (medium). For each return exactly id, severity, condition_confidence=certain, impact_confidence=inferred, title, condition, impact, remediation and sources. Cite the exact required frozen-source anchors. Explain that an arbitrary local base URL is labelled/exempted as local without loopback validation, and that the OpenCode enforcement plugin is checked for existence/loading/receipts without a cryptographic content binding. Remediation must be bounded and fail closed. Scope must say exploit_performed=false, fixes_applied=false and must not claim live exploitability. No Markdown.",
+  "source_packet_sha256": "be20698dff9fe65831ea3529308bd8d2253e3cc62e5796d1695e2beedab99775",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

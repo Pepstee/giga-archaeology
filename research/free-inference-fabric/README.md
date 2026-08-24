@@ -482,9 +482,9 @@ completion receipt.
   `evidence/live-controlled-progress-2026-08-24-r3.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
-- **Callable but not yet live-proven on portfolio source:** code and security review. Their workload
-  contracts exist; each still needs a bounded real-source packet, an external verifier and retained
-  result before the corresponding utility claim advances to live-proven.
+- **Code review is composed from canonical admitted work, awaiting inference:** mutation testing,
+  bug reproduction, structural-debt analysis and restricted refactoring jointly form the review
+  pipeline. No duplicate umbrella job is queued and no model review result is accepted yet.
 - **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
   benchmark is immutable, source-bound and queued with zero attempts. It is not live-proven until
   its external verifier accepts a retained model result.
@@ -504,6 +504,10 @@ completion receipt.
   independently recomputed AST metrics. Fabricated deltas and an overbroad scope claim fail closed;
   the eighth queue item has zero attempts. This proves the re-audit mechanism, not recurring
   portfolio scheduling or model utility. See `evidence/legacy-reaudit-admission-2026-08-24.json`.
+- **Passive security review admitted, awaiting inference:** two real enforcement conditions are
+  independently source-proven and queued ninth. The gate rejects severity downgrades and false
+  claims of live exploitation; no fixes are applied. See
+  `evidence/security-review-admission-2026-08-24.json`.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
@@ -550,11 +554,14 @@ across the project portfolio.
 - [profile] Large-codebase research: bounded `codebase-research` workload.
 - [queued] Architecture/dependency maps: the first source-bound benchmark is admitted and queued;
   no model result is accepted yet.
-- [profile] Code review: reproducibility-gated `code-review` workload.
-- [profile] Security review: authorised, non-live-exploitation `security-review` workload.
+- [queued] Code review: canonical mutation-test, bug-hunt, debt and restricted-refactor jobs jointly
+  provide the review pipeline without a duplicate umbrella inference job.
+- [queued] Security review: two source-proven enforcement gaps have a passive exact-anchor gate;
+  live exploitability, fixes and model utility remain unproven.
 - [queued] Dependency/config review: a frozen-packet audit with deterministic digest and
   configuration checks is admitted third; no model result is accepted yet.
-- [profile] Many alternative implementations: `alternative-implementation` plus candidate fan-out.
+- [queued] Many alternative implementations: the restricted-refactor job will fan out three
+  distinct-model candidates per round; no alternative is accepted before its hidden gate passes.
 - [x] Successful-chain memory and reuse: `solution_patterns` are injected into later matching tasks.
 - [x] Model-error/correction history: `failure_patterns`, attempts, critiques and gate outputs.
 - [x] Real-project benchmarks: immutable registry with verified fixture and evaluator hashes.

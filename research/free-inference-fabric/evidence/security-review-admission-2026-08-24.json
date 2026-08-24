@@ -1,0 +1,44 @@
+{
+  "schema": "giga.background-work-admission-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "benchmark": {
+    "benchmark_id": "fabric-security-review-001",
+    "manifest_sha256": "45a9077a7681bfcc16fb71520a6e09c8c1814d99a1f6021b4b249b0f05c93732",
+    "verifier_sha256": "ddc2ea8f1412d3d0c2b306e2ca4ea10f1ccffe5c4e084e57a27155fd40573301",
+    "fixture_sha256": "d33fa9653e62c6809ad434e2fa8baee86bf60fe8bb69df53a48dd708b6c056ee",
+    "evaluator_command_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d"
+  },
+  "source_packet": {
+    "schema": "giga.source-packet.v1",
+    "packet_sha256": "be20698dff9fe65831ea3529308bd8d2253e3cc62e5796d1695e2beedab99775",
+    "serialized_sha256": "65efd5b5b8b6430e84522ba223fd1a188771cf823de559892c71a47ca62ff76a",
+    "storage": "benchmarks/fabric-structural-debt-001/source-packet.json",
+    "portable_frozen_fixture": true
+  },
+  "objective_controls": {
+    "passive_findings": 2,
+    "finding_ids": [
+      "SEC-LOCAL-REMOTE-CLASSIFICATION",
+      "SEC-PLUGIN-INTEGRITY"
+    ],
+    "negative_controls": [
+      "downgraded required severity rejected",
+      "false claim that a live exploit was performed rejected"
+    ],
+    "live_exploitation_allowed": false,
+    "automatic_fixes_allowed": false
+  },
+  "queue": {
+    "work_id": "work-fabric-security-review-001",
+    "idempotency_key": "19f809adbf7ecfe33c01cb4846d73ddc559611a634a501e0ab27979d8b004868",
+    "priority": 20,
+    "max_attempts": 3,
+    "status_at_admission": "QUEUED",
+    "attempts_at_admission": 0,
+    "predecessor_work_id": "work-fabric-legacy-reaudit-001"
+  },
+  "provider_calls_during_admission": 0,
+  "local_day_remote_calls_after_admission": 38,
+  "claim_boundary": "The two frozen code conditions and passive external gate are proven; model security-review utility, live exploitability and fixes remain unproven."
+}
