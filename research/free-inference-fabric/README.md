@@ -514,7 +514,9 @@ completion receipt.
   free models, two cross-model critics per candidate and up to two rounds: at most 18 real-work
   calls per day, leaving 22 under the global 40-call ceiling for harvesting/studies. Its exact
   negative control returned `BUDGET_WAIT` at 38 calls without discovery, spend or a queue-attempt
-  increment. See `evidence/background-ensemble-worker-2026-08-24.json`.
+  increment. A later unexplained `PAUSED` state was detected and restored through the official
+  control plane without changing the contract, ledger or nine-item queue; permanent liveness is
+  not claimed. See `evidence/background-ensemble-worker-2026-08-24.json`.
 - **Local transport and minimal utility live-proven:** cached Qwen2.5-3B-Instruct produced the exact
   externally gated `READY` token in one attempt with `remote_calls=0` under Vault policy. The same
   model failed the stronger immutable strict-JSON benchmark twice, so general engineering utility

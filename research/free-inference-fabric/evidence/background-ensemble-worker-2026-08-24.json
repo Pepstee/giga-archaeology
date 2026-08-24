@@ -39,5 +39,20 @@
     "total_attempts_before": 0,
     "total_attempts_after": 0
   },
-  "claim_boundary": "The scheduled real-work ensemble contract and pre-discovery refusal are proven. Cross-model utility on the queued source benchmarks remains pending until the daily ledger resets."
+  "pause_recovery": {
+    "detected_at_local": "2026-08-24T14:34:10+09:00",
+    "detected_status": "PAUSED",
+    "cause": "UNDETERMINED",
+    "operator_pause_evidence_found": false,
+    "recovery_control_plane": "Codex automation API",
+    "restored_status": "ACTIVE",
+    "contract_changed": false,
+    "remote_calls_before": 38,
+    "remote_calls_after": 38,
+    "queued_items_before": 9,
+    "queued_items_after": 9,
+    "queue_attempts_before": 0,
+    "queue_attempts_after": 0
+  },
+  "claim_boundary": "The scheduled real-work ensemble contract, pre-discovery refusal and one control-plane pause recovery are proven. The pause cause is unknown, so permanent liveness is not claimed. Cross-model utility on the queued source benchmarks remains pending until the daily ledger resets."
 }
