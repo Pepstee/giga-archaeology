@@ -356,3 +356,35 @@ coverage, but do not treat it as sufficient acceptance evidence:
   create one separate Artiom Gutu commit, then stop for fresh independent assurance.
 - FIT-001 and every later JAA/coordinator slice are stopped until the R5 repair is accepted and a
   forward canonical repair commit is integrated.
+
+## INGEST-001 R5/R6 rejection and R7 repair
+
+- R5 candidate `c0322d5cd30ed10261b2835819d4746e234875f1`, tree
+  `5d52a9cc37783f1aa43845c2b11d33e109134008`, parent R4 `9e92a0f...`, is rejected. Author and
+  committer are exactly `Artiom Gutu <gutu.artiom444@gmail.com>` and its worktree was clean.
+- R5 materially prevents an ordinary reader from unlinking a live publisher's claim temp, moves
+  abandoned cleanup behind an operation-lock probe, and adds deterministic link-window,
+  abandonment, lock-freedom, and 100-race tests. Independent reruns completed three exact
+  100-race/200-command gates plus an unmasked warning-strict 86-test suite with two expected skips.
+  These passing gates are regression evidence only.
+- Exact production falsifier: R5 treats `nlink == 2` as a readable live-publication state whenever
+  the operation lock is held, without proving that the second link is the publisher's private temp.
+  A foreign hardlink plus a held operation lock can therefore masquerade as publication. With a
+  real matching temp plus a foreign third link, free-lock cleanup removes the temp but ignores that
+  the final still has two links; `_settled_record_bytes` then reads the forged two-link inode under
+  the same leniency. No record bytes may be accepted at link count greater than one.
+- R6 candidate `8bfb4c1c79edc92baa0643650562eb84998d03ec`, tree
+  `a86477bf709c1848af39dbbb6a297de73332af66`, parent R5, is a test-authority preservation commit
+  only. It binds each successful stress result to the exact instantiated adapter tag, discover
+  board, and complete source scope. It does not alter or accept R5 production behavior.
+- Preserve R5 and R6 unchanged. The same sole-writer Ox session is authorized for one forward R7
+  source-and-test repair. The invariant is exact: readers never accept bytes while `nlink > 1` and
+  never mutate a live publisher. They serialize on the exact typed operation lock, then either
+  finish one matching abandoned publication and prove the final is `nlink == 1`, or reject.
+- R7 tests must include: the deterministic live link window with the loser blocked and temp
+  untouched until publisher release; two-link foreign substitution while the operation lock is
+  held; three-link matching-temp plus foreign substitution after lock release; exact abandoned
+  publication recovery to one link; at least 100 independent disjoint-scope races; every R4 unsafe
+  pre-claim/null-disposition and source-scope precedence invariant; unmasked warning-strict full
+  suite; compileall and diff-check. One separate Artiom Gutu commit only, then fresh independent
+  review. No FIT-001, integration, push, provider, model, browser, release, or submission action.
