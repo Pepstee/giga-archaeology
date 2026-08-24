@@ -135,7 +135,7 @@ Before selecting or resuming any slice, the supervisor must:
 | Slice | Objective | Reuse/absence evidence | Acceptance | Status | Next action |
 |---|---|---|---|---|---|
 | RECOVERY-001 | Safely reconcile canonical and Ox copies | Same tree hash; no remotes/upstreams; independent histories retained | Exact Git evidence plus identical cache-free baseline | accepted | Do not repeat unless either tree or remote configuration changes |
-| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | repair active | Preserve rejected R1 `53c4726e`; the same Ox session must produce a separate R2 closing the recorded operation-lifecycle and path-authority falsifiers |
+| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | repair active | Preserve rejected R1 `53c4726e` and rejected R2 `6214363a`; the same Ox session must produce a separate narrow R3 that canonicalizes valid board order and closes the documentation/test defects recorded below |
 | JAA-IMPORT-001 | Reconcile and import sealed JAA authority/contracts | Current migration report says protected upstream is not frozen or sealed | Frozen archive, commit, manifest, licence/provenance, independent certification, field-by-field compatibility matrix | blocked | Recheck only when sealed upstream evidence exists |
 
 ## First bounded Ox slice: INGEST-001
@@ -252,3 +252,33 @@ real Collector persistence path.
   deciding acceptance. Do not integrate or select another slice first. The preserved diff's full
   69-test suite also passes with `DeprecationWarning` elevated to an error; this remains regression
   evidence only, not acceptance evidence for the reproduced defects above.
+
+## INGEST-001 R2 terminal review and R3 repair
+
+- R2 candidate `6214363a696e9fecc0fc17da9d8492a459269426`, tree
+  `55549f568781a174c7e5673ce8cb17a3f8aa40f6`, parent rejected R1 `53c4726e`, is rejected pending a
+  narrow follow-up. It is authored and committed as `Artiom Gutu <gutu.artiom444@gmail.com>` and
+  the worktree is clean. An earlier same-tree/same-parent commit `e32c7b28a...` used the shortened
+  name `Artiom`; Ox replaced the branch ref with `6214363a` via `commit-tree`/`update-ref` before the
+  supervisor could stop it. The unreachable commit remains visible to `git fsck` and the reflog.
+  This disclosed ref-replacement is candidate-preparation provenance, not an accepted integration.
+- Independent lane-first full baseline with `DeprecationWarning` elevated to an error reports
+  78 passed and 2 expected skips; `compileall` and `git diff --check` pass. The original R1
+  operation-identity, owner/CAS, under-data-home, strict receipt, long-error, and provider overlap
+  defects are materially repaired. These gates do not override the new executable falsifier.
+- Exact R2 falsifier: a valid configuration with `boards.enabled` ordered as
+  `['secondboard', 'fixtureboard']` reaches claim construction with the unsorted source scope.
+  `verify_record` raises an uncaught `OperationRefused('tampered_receipt')`, the fresh data home has
+  already been created, and providers remain uncalled. R2 validates that receipts are sorted but
+  never performs the contract-required canonical sort. The command must canonicalize the operation
+  scope once before bindings, locks, claim and receipt while leaving Collector board semantics
+  intact; a deterministic reversed-order positive must prove both boards are contacted exactly once
+  and the stored/output scope is sorted.
+- R2 documentation also gives an unusable ingest command without required `--operation-id` and
+  describes one whole-scope lock despite the implementation's per-board intersection locks.
+  `cli.py` contains duplicate definitions of `_emit_refusal`, `_emit_ingest`, and
+  `_binding_refusals`; remove the dead duplicates without changing behavior.
+- The same Ox logical session is authorized for exactly one separate R3 repair commit. It must not
+  amend, reset, replace refs, integrate or push. After its own gates, Codex will rerun the entire
+  consolidated R1/R2/R3 adversarial matrix before accepting INGEST-001 or selecting the next
+  abandonment-safe production-coordinator/JAA submission slice.
