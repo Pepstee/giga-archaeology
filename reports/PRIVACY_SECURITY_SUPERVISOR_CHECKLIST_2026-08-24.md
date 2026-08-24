@@ -170,6 +170,42 @@ The five unverified cases are:
 A native macOS lane outside this outer sandbox must rerun the complete suite. Until then, the
 quality boundary is **not fully satisfied** even though the core Constitution gate passes.
 
+## Portable authority JSR-005 candidate-contract review
+
+Architecture control owns the sole candidate-preparation lane at
+`/Users/admin/Documents/ox-alpha-giga-workspace/worktrees/giga-user-v2-full-history`, branch
+`ox/giga-v2-full-history`, base commit
+`396c34c92e5add3a63e41c66217613a9368e267a`, tree
+`f81261d96d328bc189d04c812f0a2b5d7befb2a9`. The lane has no remote and grants no commit,
+integration, runtime, deployment, Vault, identity, spending, or external-write authority.
+
+The binding contract is `.git/ox-contracts/portable-authority-v3.md`, byte-identical to
+`/Users/admin/Documents/ox-alpha-giga-workspace/control/giga-v2-portable-authority-v3.md`, with
+SHA-256 `fbc1a6544cb5a461889444337799fac82e08bd0b00caa8938e66c9a8c84d889d`.
+Independent review verified both ratified authority sources against their exact sizes and hashes:
+
+- sovereign architecture: 65,781 bytes,
+  `fc65e8221416178eb3c7ef2801b4e631269853926a648683648dc7cc293dc245`;
+- implementation blueprint: 97,251 bytes,
+  `eebb08490dcba120f793f4a5c513a71accefa0d4871c2b05f24d8d1d6a3ae6a8`.
+
+**Review state: PRE-WRITE REJECT pending two contract corrections.**
+
+1. The contract requires a self-bound amendment record that also binds the candidate manifest but
+   does not define a non-recursive convention. A manifest containing the amendment's final file
+   hash is self-referential. The contract must either exclude the amendment from the ordered
+   candidate manifest and self-hash its canonical body separately, or bind a precisely defined
+   semantic-body hash. Rehash/substitution must have an explicit negative proof.
+2. Protected candidate responsibilities are named across prose but not collected into one
+   normative exhaustive add/modify/delete path allowlist. The revised contract must enumerate the
+   exact candidate path set and fail any extra path before Ox writes.
+
+The lane currently has only untracked `.tmp/` OpenCode/cache material (about 13 MiB) and no
+protected candidate diff. A stable candidate must remove only its own generated cache and present
+exactly the allowlisted protected diff. The historic `programme/architecture-index.json` must
+remain byte-identical JSR-001 evidence and must not be consumed as current source-availability
+state after stewardship v3 activates.
+
 ## Current capability/gap map
 
 | Control family | Current evidence | State |
