@@ -181,7 +181,7 @@ integration, runtime, deployment, Vault, identity, spending, or external-write a
 
 The binding contract is `.git/ox-contracts/portable-authority-v3.md`, byte-identical to
 `/Users/admin/Documents/ox-alpha-giga-workspace/control/giga-v2-portable-authority-v3.md`, with
-SHA-256 `fbc1a6544cb5a461889444337799fac82e08bd0b00caa8938e66c9a8c84d889d`.
+SHA-256 `194b2ea3cf2082135f468c33338c2ccededec85602024ed270f27aaa3a29076b`.
 Independent review verified both ratified authority sources against their exact sizes and hashes:
 
 - sovereign architecture: 65,781 bytes,
@@ -189,22 +189,30 @@ Independent review verified both ratified authority sources against their exact 
 - implementation blueprint: 97,251 bytes,
   `eebb08490dcba120f793f4a5c513a71accefa0d4871c2b05f24d8d1d6a3ae6a8`.
 
-**Review state: PRE-WRITE REJECT pending two contract corrections.**
+**Review state: PRE-WRITE REJECT pending one strict-parser correction.**
 
-1. The contract requires a self-bound amendment record that also binds the candidate manifest but
-   does not define a non-recursive convention. A manifest containing the amendment's final file
-   hash is self-referential. The contract must either exclude the amendment from the ordered
-   candidate manifest and self-hash its canonical body separately, or bind a precisely defined
-   semantic-body hash. Rehash/substitution must have an explicit negative proof.
-2. Protected candidate responsibilities are named across prose but not collected into one
-   normative exhaustive add/modify/delete path allowlist. The revised contract must enumerate the
-   exact candidate path set and fail any extra path before Ox writes.
+The corrected contract resolves both earlier blockers before any protected source edit:
 
-The lane currently has only untracked `.tmp/` OpenCode/cache material (about 13 MiB) and no
-protected candidate diff. A stable candidate must remove only its own generated cache and present
-exactly the allowlisted protected diff. The historic `programme/architecture-index.json` must
-remain byte-identical JSR-001 evidence and must not be consumed as current source-availability
-state after stewardship v3 activates.
+1. the amendment is excluded from its own candidate manifest and is self-bound by canonical JSON
+   with only `amendment_sha256` omitted, with explicit rehash/substitution negatives; and
+2. one normative exhaustive action allowlist now binds exactly 14 paths: six additions, five
+   modifications, and three deletions. Independent base-tree inspection confirmed all additions
+   are absent, all modifications and deletions exist as mode `100644`, and there are no duplicate
+   paths. `programme/architecture-index.json` remains immutable historical JSR-001 evidence.
+
+One authority-boundary defect remains. The contract calls the v3 policy and its source descriptors
+exact and closed, but it does not require rejection of duplicate raw JSON object keys. The current
+`giga_control/gate.py` loader uses ordinary `json.loads`, which silently applies last-key-wins
+semantics. A raw authority document can therefore contain an attacker-shadow key that disappears
+before the closed-key and self-hash checks. The revised contract must require deterministic
+recursive duplicate-key rejection for every JSON authority object newly introduced or consumed by
+this slice—at minimum the active stewardship v3 policy, the amendment record, and local-
+verification v2 contract—and add a negative proving that a duplicate-key document rejects even
+when its parsed last-key-wins object and every attacker-controlled hash otherwise match.
+
+The candidate lane is clean at the exact base and has no protected diff, cache directory, remote,
+or live writer. No writer may start until this final parser requirement is incorporated into a new
+byte-identical, hash-bound contract revision.
 
 ## Current capability/gap map
 
