@@ -135,7 +135,7 @@ Before selecting or resuming any slice, the supervisor must:
 | Slice | Objective | Reuse/absence evidence | Acceptance | Status | Next action |
 |---|---|---|---|---|---|
 | RECOVERY-001 | Safely reconcile canonical and Ox copies | Same tree hash; no remotes/upstreams; independent histories retained | Exact Git evidence plus identical cache-free baseline | accepted | Do not repeat unless either tree or remote configuration changes |
-| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI had no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing baseline remains green | accepted | Integrated accepted final tree `45f4224d` into canonical commit `e8f8c8f`; do not repeat unless a bound input or official-provider contract changes |
+| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI had no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing baseline remains green | repair-required | Canonical `e8f8c8f` preserves the R4 tree as an intermediate; independently accept and integrate one forward R5 repair for the live claim-publication race before starting FIT-001 |
 | JAA-IMPORT-001 | Reconcile and import sealed JAA authority/contracts | Current migration report says protected upstream is not frozen or sealed | Frozen archive, commit, manifest, licence/provenance, independent certification, field-by-field compatibility matrix | blocked | Recheck only when sealed upstream evidence exists |
 
 ## First bounded Ox slice: INGEST-001
@@ -305,9 +305,9 @@ real Collector persistence path.
   `compileall`, and `git diff --check`, then stop. No amend, ref rewrite, reset, integration, push or
   competing Market writer is authorized.
 
-## INGEST-001 acceptance and integration
+## INGEST-001 R4 provisional integration and retracted acceptance
 
-- Accepted terminal Ox candidate: `9e92a0f918c4cb7a5c05ecb24307b0e36a8db71d`, tree
+- Provisionally accepted Ox candidate: `9e92a0f918c4cb7a5c05ecb24307b0e36a8db71d`, tree
   `45f4224dff77de269b4287a7d31a5d539c48b6e1`, parent rejected R3 `b994e2e`. Author and committer
   are exactly `Artiom Gutu <gutu.artiom444@gmail.com>`; the lane worktree was clean.
 - Independent acceptance on the exact candidate: 82 repository tests passed with
@@ -330,3 +330,29 @@ real Collector persistence path.
   and the canonical worktree is clean.
 - No remote exists, so no push or pull occurred. No live provider, model, browser, application,
   release, final-click, or submission action occurred.
+
+The terminal acceptance above was retracted after stronger independent assurance reproduced a
+low-frequency race on the exact same tree. Preserve all of the passing evidence as regression
+coverage, but do not treat it as sufficient acceptance evidence:
+
+- Claim publication links a private temp inode to the final operation path and then unlinks the
+  temp name. A concurrent pre-operation-lock `load()` can enter `_repair_own_claim_temp` during
+  that two-link publication window and unlink the live publisher's temp name.
+- The publisher then receives `ENOENT` while unlinking its temp and reports
+  `claim_publication_failed`, although the final authoritative record already exists as
+  `in_flight`. A second reproduced interleaving lets the contender observe a transient
+  `unsafe_journal_file` instead of the required exact same-ID/scope disposition.
+- Independent warning-strict full-suite assurance failed 1 of 82 tests and stress reproduced the
+  race around iterations 76--78. The earlier twelve consecutive focused passes do not falsify a
+  lower-frequency interleaving.
+- Canonical commit `e8f8c8f...` is therefore a repair-required historical intermediate. Do not
+  reset, rewrite, revert, or conceal it; integrate a separate forward repair after terminal review.
+- The same sole-writer Ox session is authorized for R5 only. Readers must not mutate a live claim
+  publication. Recovery may remove a temp only with proof, under the appropriate lock, that the
+  publication is abandoned. Deterministic link-window and high-count stress tests must prove one
+  winner completion, one exact loser disposition, one provider cycle, and no leaked temp.
+- Preserve all R4 source-scope precedence and unsafe pre-claim lock semantics, including retained
+  operation ID and null disposition. Run the complete warning-strict suite and repeated stress,
+  create one separate Artiom Gutu commit, then stop for fresh independent assurance.
+- FIT-001 and every later JAA/coordinator slice are stopped until the R5 repair is accepted and a
+  forward canonical repair commit is integrated.
