@@ -513,6 +513,13 @@ completion receipt.
   The new test shard independently checks 58 AST-discovered tests across eight transport-safe files;
   two secret-pattern fixtures remain excluded rather than weakening privacy gates. The tenth queue
   item has zero attempts. See `evidence/test-topology-admission-2026-08-24.json`.
+- **Continuous coverage feeder activated for the first real target:** each heartbeat now runs the
+  full local test suite under Coverage.py before inference, hashes `source_packets.py` plus its two
+  related test modules, and feeds a changed gap to the canonical mutation benchmark. The live
+  baseline is 95/127 statements (74.80%) with 32 missing lines. The first fingerprint bound to the
+  already queued work instead of duplicating it; an identical repeat returned `NO_CHANGE`. Failed
+  tests, ambiguous reports and stale benchmark source hashes fail closed. No model code executes or
+  merges automatically. See `evidence/coverage-feeder-activation-2026-08-24.json`.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
@@ -582,7 +589,9 @@ across the project portfolio.
 - [x] Frontier model receives prior work: hash-bound `escalate` verifies the source against SQLite
   and sends every attempt, critique and objective-gate failure to one budgeted paid successor.
 - [x] Parallel hypotheses: candidate calls execute concurrently, while evidence commits remain ordered.
-- [profile] Continuous test-coverage improvement: test-generation queue contract; no portfolio run retained yet.
+- [x] Continuous test-coverage improvement: a six-hour measured feeder is live for the first real
+  module and idempotently binds changed gaps to the mutation benchmark; portfolio-wide rollout and
+  an observed coverage increase remain pending.
 - [queued] Periodic legacy audit: a frozen five-metric baseline comparison has an external gate and
   zero attempts; model utility, a later snapshot and recurring portfolio scheduling remain unproven.
 - [x] Idle compute foundation: hash-bound source packets, idempotent queue, pre-lease budget gate,

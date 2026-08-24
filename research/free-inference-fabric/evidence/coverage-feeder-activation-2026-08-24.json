@@ -1,0 +1,52 @@
+{
+  "schema": "giga.coverage-feeder-activation-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "implementation": {
+    "script": "scripts/coverage_feeder.py",
+    "script_sha256": "2c7c2b5b872b2b8eea2ae4cc0a536183734be1391408b029a74679e3643b386f",
+    "regression_test": "tests/test_coverage_feeder.py",
+    "regression_test_sha256": "a0e2c40a45d8b791bbc3df70957ce43ed0e430554290802c243bc643deba5099"
+  },
+  "live_baseline": {
+    "target": "src/giga_inference_fabric/source_packets.py",
+    "target_sha256": "6abcab4db74c432195291692523960b9fc4e1633f3bd2a47087fb72020f4d788",
+    "covered_lines": 95,
+    "missing_lines": 32,
+    "num_statements": 127,
+    "percent_covered": 74.80314960629921,
+    "gap_fingerprint": "c3686321afa08b3ec988767b1239a038b03b47d4063764ba27d0d9405360a122"
+  },
+  "queue_binding": {
+    "benchmark_id": "fabric-source-packet-tests-001",
+    "existing_work_id": "work-fabric-source-packet-tests-001",
+    "first_status": "BOUND_TO_PENDING",
+    "repeat_status": "NO_CHANGE",
+    "duplicate_work_created": false,
+    "benchmark_queue_rows_after_repeat": 1
+  },
+  "enforcement": {
+    "coverage_test_exit_must_be_zero": true,
+    "coverage_report_target_must_be_unique": true,
+    "source_and_related_test_hashes_bound": true,
+    "stale_benchmark_status": "BENCHMARK_REFRESH_REQUIRED",
+    "state_write": "atomic replace",
+    "automatic_model_code_execution": false,
+    "automatic_merge": false
+  },
+  "negative_controls": [
+    "failed coverage test command rejected before report admission",
+    "ambiguous target report rejected",
+    "stale benchmark source hash rejected",
+    "second identical observation created no queue duplicate"
+  ],
+  "heartbeat": {
+    "automation_id": "openrouter-free-window-monitor",
+    "status_after_update": "ACTIVE",
+    "position": "after model-window monitor and before inference worker",
+    "cadence_hours": 6
+  },
+  "provider_calls_during_activation": 0,
+  "local_day_remote_calls_after_activation": 38,
+  "claim_boundary": "Recurring measurement and idempotent gap-to-benchmark feeding are live for source_packets.py. Coverage improvement remains pending until the queued mutation benchmark passes and admitted tests raise the next measured baseline; portfolio-wide coverage feeding is not claimed."
+}
