@@ -477,3 +477,33 @@ coverage, but do not treat it as sufficient acceptance evidence:
   100-race/200-command runs, the unmasked warning-strict suite, and static gates before fresh
   independent assurance. FIT-001, canonical integration, providers, models, browsers, release,
   submission and push remain stopped.
+
+## INGEST-001 terminal R10 acceptance and canonical forward integration
+
+- Terminal Ox candidate: R9 production repair `ee4f08e2b05260f0b5cb2ea85c92f20f73a5549b`
+  plus test-authority R10 `629c7d915e146604a6238b83d432e4d44b3fcadc`, final tree
+  `3bd579542a4739e415e2e17b18e45ecf1560508d`. R10 changes only
+  `tests/test_ingest_cli.py`; R9 owns the exact-contention production repair. Both commits are
+  authored and committed as `Artiom Gutu <gutu.artiom444@gmail.com>`.
+- Fresh independent acceptance on the exact final tree passed the strengthened 14-test
+  publication/authority matrix, including in-lifetime independent shared probes for both
+  single-link and two-link residue states; three independent 100-iteration/200-command stress
+  runs; the warning-strict full suite with 94 tests and two explicit environment-certification
+  skips; direct busy-versus-`EIO` error classification; `py_compile`, `compileall`, diff-check,
+  authorship, ancestry, and clean-state checks. A separate assurance replay also returned green.
+- Canonical forward integration is commit `231fce458fccbbd820cf215076f8cf23ee0aead5`, tree exact
+  `3bd579542a4739e415e2e17b18e45ecf1560508d`, parent preserved repair-required intermediate
+  `e8f8c8fe8bc0ff2c41f1c9208ee09ffcfe8459c1`. It applies only the net R4-to-R10 delta in
+  `src/market_aligner/cli.py`, `src/market_aligner/state/operations.py`, and
+  `tests/test_ingest_cli.py`; no rejected Ox history was imported. Author and committer are exactly
+  Artiom Gutu. No amend, reset, revert, ref rewrite, duplicate integration, or hidden rollback was
+  used.
+- Independent post-integration canonical validation again passed the full warning-strict suite:
+  94 tests, two explicit skips, including the built-in 100-race/200-command stress; `py_compile`,
+  `compileall`, `git diff --check`, exact tree/parent/authorship, and clean status all passed.
+- `/Users/admin/Projects/market-aligner` has no configured remote, so no push was possible or
+  attempted. No live provider, model, browser, release, final-click, application or submission
+  action occurred.
+- INGEST-001 is terminally accepted. FIT-001 may now be defined as a new bounded slice, but it must
+  not weaken this abandonment-safe ingestion authority or claim calibrated fit without a sealed
+  evidence/matching contract.
