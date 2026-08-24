@@ -135,7 +135,7 @@ Before selecting or resuming any slice, the supervisor must:
 | Slice | Objective | Reuse/absence evidence | Acceptance | Status | Next action |
 |---|---|---|---|---|---|
 | RECOVERY-001 | Safely reconcile canonical and Ox copies | Same tree hash; no remotes/upstreams; independent histories retained | Exact Git evidence plus identical cache-free baseline | accepted | Do not repeat unless either tree or remote configuration changes |
-| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI has no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing 51 tests remain green | repair active | Preserve rejected R1 `53c4726e` and rejected R2 `6214363a`; the same Ox session must produce a separate narrow R3 that canonicalizes valid board order and closes the documentation/test defects recorded below |
+| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI had no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing baseline remains green | accepted | Integrated accepted final tree `45f4224d` into canonical commit `e8f8c8f`; do not repeat unless a bound input or official-provider contract changes |
 | JAA-IMPORT-001 | Reconcile and import sealed JAA authority/contracts | Current migration report says protected upstream is not frozen or sealed | Frozen archive, commit, manifest, licence/provenance, independent certification, field-by-field compatibility matrix | blocked | Recheck only when sealed upstream evidence exists |
 
 ## First bounded Ox slice: INGEST-001
@@ -304,3 +304,29 @@ real Collector persistence path.
   `binding_source_scope` assertion, rerun the full suite plus repeated provider-authority races,
   `compileall`, and `git diff --check`, then stop. No amend, ref rewrite, reset, integration, push or
   competing Market writer is authorized.
+
+## INGEST-001 acceptance and integration
+
+- Accepted terminal Ox candidate: `9e92a0f918c4cb7a5c05ecb24307b0e36a8db71d`, tree
+  `45f4224dff77de269b4287a7d31a5d539c48b6e1`, parent rejected R3 `b994e2e`. Author and committer
+  are exactly `Artiom Gutu <gutu.artiom444@gmail.com>`; the lane worktree was clean.
+- Independent acceptance on the exact candidate: 82 repository tests passed with
+  `DeprecationWarning` elevated to an error; the seven-test concurrency/lock set passed 12
+  consecutive runs; 13 targeted crash/config/journal/replay tests passed; `compileall`,
+  `git diff --check`, and clean status passed.
+- Independent executable probes proved: malformed scope leaves a fresh data home absent; unsafe
+  pre-existing operation locks refuse before claim with null disposition and zero provider calls;
+  reversed board order canonicalizes; forced same-ID/disjoint scopes both observe absence but run
+  exactly one provider cycle and return exact `binding_source_scope`; forced identical same-ID
+  twins both observe absence and return one success plus one byte-identical replay. Negative-control
+  removal of board locks made both provider-overlap tests fail, proving their zero-overlap positives
+  are non-vacuous.
+- Canonical repository `/Users/admin/Projects/market-aligner` was clean at
+  `246e9cf55c376b6dd92bbfe394d0db73187c33d9` with tree
+  `7596ee2be4ed01c1511cc9718d5d3fb57576b4bd`, exactly matching the independent Ox base tree. The
+  accepted final tree was integrated without importing rejected intermediate history as canonical
+  commit `e8f8c8fe8bc0ff2c41f1c9208ee09ffcfe8459c1`, authored and committed as Artiom Gutu. Its tree is
+  exactly the accepted `45f4224d...`; the post-integration suite again reports 82 passed, 2 skipped,
+  and the canonical worktree is clean.
+- No remote exists, so no push or pull occurred. No live provider, model, browser, application,
+  release, final-click, or submission action occurred.
