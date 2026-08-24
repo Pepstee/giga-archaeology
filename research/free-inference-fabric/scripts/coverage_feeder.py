@@ -19,6 +19,8 @@ RELATED_TESTS = (
     ROOT / "tests/test_source_packet_generation_benchmark.py",
 )
 BENCHMARK_ID = "fabric-source-packet-tests-001"
+BOOTSTRAP_FINGERPRINT = "c3686321afa08b3ec988767b1239a038b03b47d4063764ba27d0d9405360a122"
+BOOTSTRAP_WORK_ID = "work-fabric-source-packet-tests-001"
 SOURCE_PACKET = ROOT / "benchmarks/fabric-source-packet-tests-001/source-packet.json"
 OBJECTIVE = (
     "Generate a data-only executable test suite that passes the frozen source-packet builder "
@@ -91,10 +93,32 @@ def measure() -> dict:
 
 def read_state(path: Path) -> dict:
     if not path.exists():
-        return {"schema": "giga.coverage-feeder-state.v1", "last_observed": None, "last_enqueued": None, "work_id": None}
+        return {
+            "schema": "giga.coverage-feeder-state.v2",
+            "last_observed": None,
+            "admitted_fingerprints": {},
+        }
     payload = json.loads(path.read_text(encoding="utf-8"))
-    if set(payload) != {"schema", "last_observed", "last_enqueued", "work_id"} or payload["schema"] != "giga.coverage-feeder-state.v1":
+    if payload.get("schema") == "giga.coverage-feeder-state.v1" and set(payload) == {
+        "schema", "last_observed", "last_enqueued", "work_id",
+    }:
+        admitted = {}
+        if isinstance(payload["last_enqueued"], str) and isinstance(payload["work_id"], str):
+            admitted[payload["last_enqueued"]] = payload["work_id"]
+        return {
+            "schema": "giga.coverage-feeder-state.v2",
+            "last_observed": payload["last_observed"],
+            "admitted_fingerprints": admitted,
+        }
+    if set(payload) != {"schema", "last_observed", "admitted_fingerprints"} or payload.get("schema") != "giga.coverage-feeder-state.v2":
         raise ValueError("coverage feeder state is malformed")
+    admitted = payload["admitted_fingerprints"]
+    if not isinstance(admitted, dict) or not all(
+        isinstance(fingerprint, str) and len(fingerprint) == 64
+        and isinstance(work_id, str) and work_id
+        for fingerprint, work_id in admitted.items()
+    ):
+        raise ValueError("coverage feeder admission history is malformed")
     return payload
 
 
@@ -124,6 +148,24 @@ def benchmark_matches_target() -> bool:
     return matches[0]["sha256"] == digest(TARGET)
 
 
+def decide_status(
+    state: dict, *, fingerprint: str, pending: str | None, benchmark_current: bool,
+) -> str:
+    if not benchmark_current:
+        return "BENCHMARK_REFRESH_REQUIRED"
+    if fingerprint in state["admitted_fingerprints"]:
+        return "NO_CHANGE"
+    if pending:
+        if (
+            not state["admitted_fingerprints"]
+            and fingerprint == BOOTSTRAP_FINGERPRINT
+            and pending == BOOTSTRAP_WORK_ID
+        ):
+            return "BOUND_TO_PENDING"
+        return "DEFER_PENDING"
+    return "READY_TO_ENQUEUE"
+
+
 def write_state(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -140,20 +182,15 @@ def main() -> int:
     observation = measure()
     state = read_state(args.state)
     pending = active_work(args.db)
-    if not benchmark_matches_target():
-        status = "BENCHMARK_REFRESH_REQUIRED"
-    elif state["last_observed"] == observation["fingerprint"]:
-        status = "NO_CHANGE"
-    elif pending:
-        status = "BOUND_TO_PENDING" if state["last_enqueued"] is None else "DEFER_PENDING"
-        if status == "BOUND_TO_PENDING":
-            state["last_enqueued"] = observation["fingerprint"]
-            state["work_id"] = pending
-    else:
-        status = "READY_TO_ENQUEUE"
+    status = decide_status(
+        state, fingerprint=observation["fingerprint"], pending=pending,
+        benchmark_current=benchmark_matches_target(),
+    )
+    if status == "BOUND_TO_PENDING":
+        state["admitted_fingerprints"][observation["fingerprint"]] = pending
     state["last_observed"] = observation["fingerprint"]
 
-    work_id = state["work_id"]
+    work_id = state["admitted_fingerprints"].get(observation["fingerprint"])
     if status == "READY_TO_ENQUEUE" and args.execute:
         work_id = "work-coverage-source-packets-" + observation["fingerprint"][:16]
         command = [
@@ -168,8 +205,7 @@ def main() -> int:
         queued = subprocess.run(command, cwd=ROOT, env=environment, text=True, capture_output=True, check=False)
         if queued.returncode != 0:
             raise RuntimeError("coverage queue admission failed closed: " + (queued.stdout + queued.stderr)[-4000:])
-        state["last_enqueued"] = observation["fingerprint"]
-        state["work_id"] = work_id
+        state["admitted_fingerprints"][observation["fingerprint"]] = work_id
         status = "ENQUEUED"
     if args.execute:
         write_state(args.state, state)

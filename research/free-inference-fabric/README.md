@@ -518,8 +518,10 @@ completion receipt.
   related test modules, and feeds a changed gap to the canonical mutation benchmark. The live
   baseline is 95/127 statements (74.80%) with 32 missing lines. The first fingerprint bound to the
   already queued work instead of duplicating it; an identical repeat returned `NO_CHANGE`. Failed
-  tests, ambiguous reports and stale benchmark source hashes fail closed. No model code executes or
-  merges automatically. See `evidence/coverage-feeder-activation-2026-08-24.json`.
+  tests, ambiguous reports and stale benchmark source hashes fail closed. State v2 retains every
+  admitted fingerprint, so an old gap cannot be repeated, a refreshed gap cannot disappear into
+  `NO_CHANGE`, and state loss cannot bind a new gap to stale pending work. No model code executes
+  or merges automatically. See `evidence/coverage-feeder-activation-2026-08-24.json`.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct

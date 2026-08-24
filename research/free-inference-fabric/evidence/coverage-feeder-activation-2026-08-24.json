@@ -4,9 +4,9 @@
   "project": "giga-free-inference-fabric",
   "implementation": {
     "script": "scripts/coverage_feeder.py",
-    "script_sha256": "2c7c2b5b872b2b8eea2ae4cc0a536183734be1391408b029a74679e3643b386f",
+    "script_sha256": "007bc27591db0cc25839308367bc2dac74c78ecbd7e7b04fdef3af55dfbebd8b",
     "regression_test": "tests/test_coverage_feeder.py",
-    "regression_test_sha256": "a0e2c40a45d8b791bbc3df70957ce43ed0e430554290802c243bc643deba5099"
+    "regression_test_sha256": "2d4f689ba2fba5d283019d1ffbb7cca911fa2a02fdea97717c335246287c9eea"
   },
   "live_baseline": {
     "target": "src/giga_inference_fabric/source_packets.py",
@@ -23,13 +23,20 @@
     "first_status": "BOUND_TO_PENDING",
     "repeat_status": "NO_CHANGE",
     "duplicate_work_created": false,
-    "benchmark_queue_rows_after_repeat": 1
+    "benchmark_queue_rows_after_repeat": 1,
+    "state_schema": "giga.coverage-feeder-state.v2",
+    "admission_history_entries": 1,
+    "v1_state_migrated_live": true
   },
   "enforcement": {
     "coverage_test_exit_must_be_zero": true,
     "coverage_report_target_must_be_unique": true,
     "source_and_related_test_hashes_bound": true,
+    "all_admitted_fingerprints_retained": true,
+    "return_to_prior_fingerprint_requeues": false,
+    "state_loss_can_bind_only_exact_bootstrap_work": true,
     "stale_benchmark_status": "BENCHMARK_REFRESH_REQUIRED",
+    "refreshed_unadmitted_gap_status": "READY_TO_ENQUEUE",
     "state_write": "atomic replace",
     "automatic_model_code_execution": false,
     "automatic_merge": false
@@ -38,6 +45,9 @@
     "failed coverage test command rejected before report admission",
     "ambiguous target report rejected",
     "stale benchmark source hash rejected",
+    "refreshed gap cannot collapse into NO_CHANGE before admission",
+    "prior fingerprint recurrence creates no repeated work",
+    "state loss cannot bind a new gap to old pending work",
     "second identical observation created no queue duplicate"
   ],
   "heartbeat": {

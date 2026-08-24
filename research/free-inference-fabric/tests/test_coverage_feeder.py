@@ -76,3 +76,60 @@ def test_benchmark_target_binding_rejects_stale_packet(tmp_path: Path, monkeypat
     }), encoding="utf-8")
     monkeypatch.setattr(MODULE, "SOURCE_PACKET", packet)
     assert MODULE.benchmark_matches_target() is False
+
+
+def test_v1_state_migrates_to_complete_admission_history(tmp_path: Path):
+    state = tmp_path / "feeder.json"
+    state.write_text(json.dumps({
+        "schema": "giga.coverage-feeder-state.v1",
+        "last_observed": MODULE.BOOTSTRAP_FINGERPRINT,
+        "last_enqueued": MODULE.BOOTSTRAP_FINGERPRINT,
+        "work_id": MODULE.BOOTSTRAP_WORK_ID,
+    }), encoding="utf-8")
+    migrated = MODULE.read_state(state)
+    assert migrated == {
+        "schema": "giga.coverage-feeder-state.v2",
+        "last_observed": MODULE.BOOTSTRAP_FINGERPRINT,
+        "admitted_fingerprints": {
+            MODULE.BOOTSTRAP_FINGERPRINT: MODULE.BOOTSTRAP_WORK_ID,
+        },
+    }
+
+
+def test_refresh_then_current_gap_becomes_ready_not_no_change():
+    changed = "1" * 64
+    state = {
+        "schema": "giga.coverage-feeder-state.v2",
+        "last_observed": changed,
+        "admitted_fingerprints": {MODULE.BOOTSTRAP_FINGERPRINT: MODULE.BOOTSTRAP_WORK_ID},
+    }
+    assert MODULE.decide_status(
+        state, fingerprint=changed, pending=None, benchmark_current=False,
+    ) == "BENCHMARK_REFRESH_REQUIRED"
+    assert MODULE.decide_status(
+        state, fingerprint=changed, pending=None, benchmark_current=True,
+    ) == "READY_TO_ENQUEUE"
+
+
+def test_history_prevents_repeat_and_state_loss_cannot_misbind_pending_work():
+    admitted = {
+        "schema": "giga.coverage-feeder-state.v2",
+        "last_observed": "2" * 64,
+        "admitted_fingerprints": {"2" * 64: "work-two", "3" * 64: "work-three"},
+    }
+    assert MODULE.decide_status(
+        admitted, fingerprint="2" * 64, pending=None, benchmark_current=True,
+    ) == "NO_CHANGE"
+    empty = {
+        "schema": "giga.coverage-feeder-state.v2",
+        "last_observed": None,
+        "admitted_fingerprints": {},
+    }
+    assert MODULE.decide_status(
+        empty, fingerprint="4" * 64, pending=MODULE.BOOTSTRAP_WORK_ID,
+        benchmark_current=True,
+    ) == "DEFER_PENDING"
+    assert MODULE.decide_status(
+        empty, fingerprint=MODULE.BOOTSTRAP_FINGERPRINT,
+        pending=MODULE.BOOTSTRAP_WORK_ID, benchmark_current=True,
+    ) == "BOUND_TO_PENDING"
