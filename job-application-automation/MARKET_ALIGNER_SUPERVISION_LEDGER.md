@@ -447,3 +447,33 @@ coverage, but do not treat it as sufficient acceptance evidence:
   contention; reject every other errno; add injected `EINTR`/`EIO` authority and scope-scan tests;
   reorder the no-upgrade assertions; then rerun the complete R7/R8 matrices, three 100-race runs,
   full warning-strict suite and static gates. No integration or FIT-001 before fresh assurance.
+
+## INGEST-001 R9 implementation pass and R10 test-authority repair
+
+- R9 candidate `ee4f08e2b05260f0b5cb2ea85c92f20f73a5549b`, tree
+  `e77362db50eca7e717d8d63045d9e47f0cbea4cf`, parent rejected R8 `2445c9b...`, is not terminally
+  accepted. Author and committer are exactly `Artiom Gutu <gutu.artiom444@gmail.com>` and the
+  committed lane was clean before the Ox session left a separate test-only follow-up dirty.
+- The production repair is materially correct under the current evidence: only explicit
+  `EAGAIN`/`EWOULDBLOCK` establish flock contention in the supplied-authority probe,
+  `_operation_lock_is_free`, and nonblocking scope settlement. `EINTR`, `EIO`, and every other
+  error produce structured refusal rather than authority escalation or blocker skipping.
+- Independent Codex replay on exact R9 passed the decisive 14-test publication/authority matrix;
+  three independent 100-iteration runs exercising the deterministic link window and same-ID
+  replay (200 concurrent commands per run); the complete warning-strict suite with 94 tests and
+  two explicit environment skips; a direct `_operation_lock_is_free` busy-versus-`EIO` falsifier;
+  `py_compile`, `compileall`, and `git diff --check`.
+- R9's committed injected-error regression is nevertheless insufficient acceptance authority. It
+  closes the unheld supplied descriptor in `finally` and only then opens the independent shared
+  probe. A defective implementation that upgraded the supplied descriptor to `LOCK_EX` could be
+  masked because closing that descriptor releases the illegitimate lock before observation.
+- Preserve R9 unchanged. The same sole Ox session is authorized for one separate R10 test-only
+  hardening commit atop R9. The independent shared probe must execute while the suspect supplied
+  descriptor is still open, before any unlock, relock, downgrade, or close. Cover both a strict
+  single-link record and an exact two-link final-plus-own-temp residue, asserting structured
+  refusal, independent shared-lock availability, byte/link/temp preservation, and no settlement.
+  Production source should remain byte-identical unless the strengthened test exposes a defect.
+- R10 must rerun the strengthened focused tests, the complete R7/R8/R9 matrix, three independent
+  100-race/200-command runs, the unmasked warning-strict suite, and static gates before fresh
+  independent assurance. FIT-001, canonical integration, providers, models, browsers, release,
+  submission and push remain stopped.
