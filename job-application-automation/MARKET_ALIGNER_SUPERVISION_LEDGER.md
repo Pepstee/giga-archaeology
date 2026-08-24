@@ -282,3 +282,25 @@ real Collector persistence path.
   amend, reset, replace refs, integrate or push. After its own gates, Codex will rerun the entire
   consolidated R1/R2/R3 adversarial matrix before accepting INGEST-001 or selecting the next
   abandonment-safe production-coordinator/JAA submission slice.
+
+## INGEST-001 R3 rejection and R4 repair
+
+- R3 candidate `b994e2e29bacdf44ae22270e176a5f487105f7f1`, tree
+  `17a5043293c7233c1b31f817d78ee086278e498a`, parent rejected R2 `6214363a`, is rejected pending one
+  narrow follow-up. Author and committer are exactly `Artiom Gutu <gutu.artiom444@gmail.com>` and
+  the worktree was clean after commit. The worker reported 82 passed with 2 expected skips,
+  repeated focused concurrency passes, `compileall`, and `git diff --check`; these remain candidate
+  evidence, not acceptance.
+- R3 materially closes canonical board ordering, structured board/operation-lock substitution
+  refusal before provider access, same-ID post-wait reload with a caller-owned operation lock,
+  explicit provider-thread operation tags, usable documentation, and the duplicated CLI helpers.
+- Exact terminal falsifier: the simultaneous same-operation-ID/disjoint-scope test was weakened to
+  accept either `binding_config_source` or `binding_source_scope`, while `_binding_refusals` still
+  checks the config locator before the consequential source-scope boundary. The required result is
+  exact: after operation-lock serialization the loser must report `binding_source_scope`, never a
+  generic or alternate binding reason, and must perform zero second provider cycles.
+- Preserve R3 unchanged. Resume the same logical Ox session for one separate R4 commit atop R3:
+  check `source_scope` before config path/file/semantic bindings, restore an exact
+  `binding_source_scope` assertion, rerun the full suite plus repeated provider-authority races,
+  `compileall`, and `git diff --check`, then stop. No amend, ref rewrite, reset, integration, push or
+  competing Market writer is authorized.
