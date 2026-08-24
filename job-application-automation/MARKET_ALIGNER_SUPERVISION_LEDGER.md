@@ -388,3 +388,34 @@ coverage, but do not treat it as sufficient acceptance evidence:
   pre-claim/null-disposition and source-scope precedence invariant; unmasked warning-strict full
   suite; compileall and diff-check. One separate Artiom Gutu commit only, then fresh independent
   review. No FIT-001, integration, push, provider, model, browser, release, or submission action.
+
+## INGEST-001 R7 rejection and R8 exclusive-authority repair
+
+- R7 candidate `193cad30ca4a76957607d13123bce89dc57d6109`, tree
+  `24021a433b9324a9fcd57840f8e027871e045293`, parent R6 `8bfb4c1...`, is rejected. Author and
+  committer are exactly `Artiom Gutu <gutu.artiom444@gmail.com>` and the Ox worktree was clean.
+- R7 materially closes the live-temp unlink race and the R5 hardlink false accept: multi-link
+  journal bytes are never parsed; readers serialize on the exact operation lock; settlement accepts
+  only `nlink == 2` with exactly one matching same-inode claim temp; foreign two-link, composite
+  three-link, excess-temp and path-race states fail closed without mutation. It also passes the
+  actually acquired local lock into no-fd CAS settlement and normalizes filesystem races.
+- Independent Codex evidence on the exact commit: 11 focused publication/authority/hardlink/lstat
+  tests passed; three independent 100-race/200-command runs passed; the full warning-strict suite
+  passed 92 tests with two explicit environment certifications skipped; `py_compile`, `compileall`,
+  `git diff --check`, authorship, ancestry and clean-state checks passed. These results remain
+  regression evidence only.
+- Exact terminal falsifier: `_verify_supplied_authority` probes exclusivity by attempting an
+  exclusive lock on a second descriptor and then calls `LOCK_EX|LOCK_NB` on the supplied descriptor.
+  A caller holding only `LOCK_SH` makes the second exclusive probe fail, after which the verifier
+  upgrades the supplied shared lock to exclusive and accepts it. This violates the requirement that
+  supplied authority already be exclusively held and allows an authority escalation despite every
+  green repository gate.
+- Preserve R7 unchanged. The same compacted sole-writer Ox session is authorized for one separate
+  R8 commit. The non-upgrading proof must attempt `LOCK_SH|LOCK_NB` on a same-inode no-follow probe:
+  success proves no exclusive holder and must refuse; failure may continue only if idempotent
+  `LOCK_EX|LOCK_NB` on the supplied descriptor succeeds, proving that descriptor is the exclusive
+  holder. Exact held-shared-lock negatives must cover single- and multi-link records and prove no
+  read, mutation, temp removal, provider call or authority promotion.
+- R8 must preserve every R7/R6/R4 invariant and rerun the focused matrix, three 100-race runs, full
+  unmasked warning-strict suite, compile checks and diff-check before one Artiom-authored commit.
+  Fresh independent assurance is mandatory. FIT-001 and canonical integration remain stopped.
