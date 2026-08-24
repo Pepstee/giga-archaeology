@@ -1,0 +1,64 @@
+{
+  "schema": "giga.background-work-admission-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "benchmark": {
+    "benchmark_id": "fabric-test-topology-001",
+    "manifest_sha256": "20fe34be7e8e07400f9ff076478e3201d6ac101458c07ff5f5935bd6c5a52fc6",
+    "verifier_sha256": "1171c2a19256de7b64ce591a1f2c0c3a084aeab8b50224e01ee220a1b831562e",
+    "fixture_sha256": "ee66f2546973bf6ad626a92fa90afc142f861c8eabcf96f13861e5ca0a68f7f4",
+    "evaluator_command_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d",
+    "regression_test_sha256": "e55a07026c78498eaa7b786d22ee689bf7543a3eba4ad26df949b69de0b15d04"
+  },
+  "source_packet": {
+    "schema": "giga.source-packet.v1",
+    "packet_sha256": "556e90887355cf2ebccda0b5252ccc529821a96d1e0c5731d602a6133204b96f",
+    "serialized_sha256": "e4b36e446636d4f3c13a8b96f593936a29b93a2c3349b2040099c4c630ead055",
+    "storage": "benchmarks/fabric-test-topology-001/source-packet.json",
+    "file_count": 8,
+    "total_source_bytes": 84300,
+    "portable_frozen_fixture": true
+  },
+  "large_codebase_shards": {
+    "production_architecture": {
+      "benchmark_id": "fabric-architecture-map-001",
+      "file_count": 10,
+      "total_source_bytes": 147505,
+      "direct_edges": 18
+    },
+    "test_topology": {
+      "benchmark_id": "fabric-test-topology-001",
+      "file_count": 8,
+      "total_source_bytes": 84300,
+      "test_functions": 58,
+      "direct_edges": 13
+    },
+    "combined_file_count": 18,
+    "combined_source_bytes": 231805,
+    "combined_direct_edges": 31
+  },
+  "objective_controls": {
+    "positive_control": "eight modules, 58 tests, 13 direct imports and two exclusions accepted",
+    "negative_controls": [
+      "invented AST test count rejected",
+      "weakened secret-pattern exclusion reason rejected",
+      "two secret-pattern-bearing modules rejected during packet construction"
+    ],
+    "excluded_files": [
+      "tests/test_source_packet_generation_benchmark.py",
+      "tests/test_source_packets.py"
+    ]
+  },
+  "queue": {
+    "work_id": "work-fabric-test-topology-001",
+    "idempotency_key": "e6e1e9b825a71e047abc63b8f311a39ac240355256fee7cf396ce9bb6026c873",
+    "priority": 10,
+    "max_attempts": 3,
+    "status_at_admission": "QUEUED",
+    "attempts_at_admission": 0,
+    "predecessor_work_id": "work-fabric-security-review-001"
+  },
+  "provider_calls_during_admission": 0,
+  "local_day_remote_calls_after_admission": 38,
+  "claim_boundary": "Deterministic sharding, privacy exclusions and the complementary objective gate are proven across 231805 source bytes; model research utility and a cross-shard synthesis result remain unproven."
+}

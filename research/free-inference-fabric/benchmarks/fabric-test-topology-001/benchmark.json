@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-test-topology-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "codebase-research",
+  "objective": "Map the safe frozen test topology shard and its direct production-module dependencies",
+  "prompt": "Return only strict JSON using schema giga.test-topology.v1 with exactly schema, project, source_packet_sha256, modules, edges, exclusions and risks. Map all eight admitted test modules exactly once. Each module has exactly id, path, test_count, responsibility and sources; test_count must equal the AST count and sources must contain the first test definition anchor. Record every direct import from an admitted test module to a giga_inference_fabric module as an edge with exactly from, to, kind=tests and evidence. Record exactly two excluded files, tests/test_source_packet_generation_benchmark.py and tests/test_source_packets.py, with reason=secret-pattern-boundary; do not infer their contents. Add two to six distinct source-anchored risks with confidence inferred or low. No Markdown.",
+  "source_packet_sha256": "556e90887355cf2ebccda0b5252ccc529821a96d1e0c5731d602a6133204b96f",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

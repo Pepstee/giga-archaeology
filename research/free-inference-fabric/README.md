@@ -508,6 +508,11 @@ completion receipt.
   independently source-proven and queued ninth. The gate rejects severity downgrades and false
   claims of live exploitation; no fixes are applied. See
   `evidence/security-review-admission-2026-08-24.json`.
+- **Sharded codebase research admitted, awaiting inference:** the production architecture and test
+  topology shards jointly cover 18 modules, 231,805 source bytes and 31 direct dependency edges.
+  The new test shard independently checks 58 AST-discovered tests across eight transport-safe files;
+  two secret-pattern fixtures remain excluded rather than weakening privacy gates. The tenth queue
+  item has zero attempts. See `evidence/test-topology-admission-2026-08-24.json`.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
@@ -553,7 +558,8 @@ across the project portfolio.
   hidden invalid cases; no model result is accepted yet.
 - [queued] Existing-code documentation: the source-bound operational brief is admitted behind the
   architecture job; no model result is accepted yet.
-- [profile] Large-codebase research: bounded `codebase-research` workload.
+- [queued] Large-codebase research: two complementary immutable shards cover 18 modules and
+  231,805 source bytes; model utility and a retained cross-shard synthesis remain unproven.
 - [queued] Architecture/dependency maps: the first source-bound benchmark is admitted and queued;
   no model result is accepted yet.
 - [queued] Code review: canonical mutation-test, bug-hunt, debt and restricted-refactor jobs jointly
@@ -580,7 +586,7 @@ across the project portfolio.
 - [queued] Periodic legacy audit: a frozen five-metric baseline comparison has an external gate and
   zero attempts; model utility, a later snapshot and recurring portfolio scheduling remain unproven.
 - [x] Idle compute foundation: hash-bound source packets, idempotent queue, pre-lease budget gate,
-  lease, `worker-once` and attempt cap; eight ordered real-source workloads are now admitted.
+  lease, `worker-once` and attempt cap; ten ordered real-source workloads are now admitted.
 - [x] Models are replaceable resources: provider-neutral model and adapter contracts.
 - [x] Weak-model orchestration research: immutable single-shot/repair/ensemble/memory study arms.
 - [x] Free ensemble versus frontier: repeated tier-bound arms with paid admission retained.
