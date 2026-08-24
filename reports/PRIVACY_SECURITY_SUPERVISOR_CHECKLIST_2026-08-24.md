@@ -1,6 +1,6 @@
 # Privacy and Security Supervisor — Durable Control Checklist
 
-**State:** RUNNING; JSR-025A R1 ADMITTED, OX PROVIDER RESET PENDING
+**State:** SUPERVISORY; JSR-025A REJECTED/QUARANTINED, PREDECESSOR CLOSURE REQUIRED
 
 **Supervisor:** Codex, policy/architecture/review/integration authority
 
@@ -28,6 +28,30 @@ preserving the operator's accepted-risk rule when Vault is explicitly connected.
 The task goal service now records this objective as the active persistent goal for task
 `01a01958-c803-7472-9c71-708f40b8d1e5`. JSR-025A is only the first prerequisite slice; completing
 it does not complete the persistent goal.
+
+## Binding programme priority and sequence
+
+Architecture control set the following operator priority order on 2026-08-24:
+
+1. Market Aligner + JAA — super-mega priority;
+2. executable Constitution / GIGA architecture — high;
+3. main CV projects — medium;
+4. additional CV projects — medium-low;
+5. everything else — last.
+
+This Privacy task is a supervisory lane inside the executable-GIGA priority, not an independent
+implementation programme. The binding sequence is now:
+
+1. make the two ratified architecture authorities portable, repository-owned JSR-005 sources;
+2. repair and terminally close the existing JSR-024 lifecycle evidence;
+3. reshape the existing JSR-025A identity—never invent JSR-025B—into a source-traceable,
+   review-only Constitution compiler spine plus one complete privacy/authority rule family;
+4. admit one exact two-file-or-explicitly-ratified slice before Ox writes;
+5. let Ox perform the heavy implementation while this task owns contract, line review,
+   adversarial assurance, and integration recommendation.
+
+No step grants a runtime caller, deployment, Personal Vault access, duplicate registry, active
+canonical checkout mutation, or competing writer.
 
 ## Bound architecture authority
 
@@ -188,8 +212,16 @@ Status vocabulary: `DONE`, `READY`, `BLOCKED`, `NOT STARTED`.
 
 ### P1 — unavoidable policy/kernel substrate
 
-- [ ] **JSR-025 — Deterministic policy compiler.** `READY FOR ARCHITECTURE-CONTROL REVIEW` as the
-  first candidate slice below.
+- [ ] **JSR-005 — Portable repository-owned architecture authority.** `READY FOR EXACT
+  ARCHITECTURE-CONTROL SLICE`; `programme/architecture-index.json` still records both ratified
+  sources as `EXTERNAL_HASH_ONLY_PENDING_JSR-005` and `source_material_embedded=false`.
+- [ ] **JSR-024 — Terminal lifecycle closure.** `IN PROGRESS` in the existing isolated
+  `ox/jsr024-lifecycle-r3` candidate at `1493020a634ec557fcaa5cfb6d910e80427b445c`.
+  Independent rerun on 2026-08-24 passed `giga_control check` and all 77 registry tests, but the
+  canonical JSR-024 registry row remains evidence-null and the candidate deliberately derives
+  only `IN_PROGRESS`; passing repair tests are not lifecycle closure.
+- [ ] **JSR-025 — Deterministic policy compiler.** `BLOCKED ON JSR-005 + JSR-024 CLOSURE`.
+  Preserve the JSR-025A identity and reshape its contract after both predecessors close.
 - [ ] **JSR-026 — Capability registry.** `NOT STARTED`; must distinguish observe, context-read,
   credential-use, write, execute, external-side-effect, and recovery capabilities.
 - [ ] **JSR-027/028 — Request and observe-only kernel.** `NOT STARTED`; every access path must
@@ -236,7 +268,7 @@ Status vocabulary: `DONE`, `READY`, `BLOCKED`, `NOT STARTED`.
 
 ## First bounded Ox candidate — JSR-025A privacy decision contract
 
-**State:** R1 WORK ORDER ADMITTED; IMPLEMENTATION PENDING PROVIDER RESET.
+**State:** REJECTED PARTIAL AND R1 BOTH QUARANTINED; DO NOT RESUME EITHER WRITER.
 
 **Purpose:** create the smallest deterministic end-to-end policy path capable of expressing
 faceless operation, explicit Vault connection, purpose-bound context release, and separate
@@ -327,10 +359,13 @@ deployment.
 - R1 expiry: `2026-08-24T07:49:00Z` (16:49 KST). Its implementation surface is unchanged:
   only `giga_control/extensions/privacy_decision.py` and
   `tests/constitution/test_privacy_decision.py`, plus gate-owned lifecycle artifacts.
-- The R1 worktree currently contains no implementation files. After the 09:00 KST provider
-  reset, Ox remains the sole writer responsible for porting and repairing the rejected partial;
-  Codex will only line-review, reproduce tests, judge the twelve gates, and issue an integration
-  recommendation. No duplicate model or fallback writer is authorised.
+- The R1 worktree contains no implementation files. Its admitted work order is retained as
+  historical evidence only and must not be executed or renewed. The rejected partial must not be
+  ported forward mechanically: the later JSR-025A contract must be source-traceable, review-only,
+  and bind one complete privacy/authority rule family to repository-owned Constitution sources.
+- No Ox writer may start until architecture control supplies that exact admitted successor slice
+  under the same JSR-025A identity. Codex remains contract/review/assurance owner and will not
+  create a competing implementation.
 
 ## Ox lane bootstrap handoff
 
