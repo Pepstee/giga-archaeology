@@ -482,9 +482,9 @@ completion receipt.
   `evidence/live-controlled-progress-2026-08-24-r3.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
-- **Callable but not yet live-proven on portfolio source:** code/security review and periodic
-  re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
-  verifier and retained result before the corresponding utility claim advances to live-proven.
+- **Callable but not yet live-proven on portfolio source:** code and security review. Their workload
+  contracts exist; each still needs a bounded real-source packet, an external verifier and retained
+  result before the corresponding utility claim advances to live-proven.
 - **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
   benchmark is immutable, source-bound and queued with zero attempts. It is not live-proven until
   its external verifier accepts a retained model result.
@@ -500,6 +500,10 @@ completion receipt.
   recomputed and queued sixth; model debt-analysis utility is not accepted yet.
 - **Restricted refactoring admitted, awaiting inference:** a behavior-preserving, hidden-regression
   task is queued seventh; no model-authored refactor is accepted yet.
+- **Repeat legacy audit admitted, awaiting inference:** an immutable baseline is compared with five
+  independently recomputed AST metrics. Fabricated deltas and an overbroad scope claim fail closed;
+  the eighth queue item has zero attempts. This proves the re-audit mechanism, not recurring
+  portfolio scheduling or model utility. See `evidence/legacy-reaudit-admission-2026-08-24.json`.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
@@ -518,9 +522,10 @@ completion receipt.
 
 ## Operator requirements checklist
 
-`[x]` means an executable laboratory mechanism exists. `profile` means the callable contract exists
-but real-project utility is not yet evidenced. It does not mean that a production scheduler has
-been activated across the project portfolio.
+`[x]` means an executable laboratory mechanism exists. `queued` means a real-source immutable
+benchmark has been admitted but no model result is accepted yet. `profile` means only the callable
+contract exists. None of these labels alone means that a production scheduler has been activated
+across the project portfolio.
 
 - [x] Free OpenRouter inference: discovery plus explicit zero-cost model selection.
 - [x] Weak-model compensation: bounded generate → evaluate → repair cycles.
@@ -563,9 +568,10 @@ been activated across the project portfolio.
   and sends every attempt, critique and objective-gate failure to one budgeted paid successor.
 - [x] Parallel hypotheses: candidate calls execute concurrently, while evidence commits remain ordered.
 - [profile] Continuous test-coverage improvement: test-generation queue contract; no portfolio run retained yet.
-- [profile] Periodic legacy audit: `legacy-reaudit` workload; no portfolio run retained yet.
+- [queued] Periodic legacy audit: a frozen five-metric baseline comparison has an external gate and
+  zero attempts; model utility, a later snapshot and recurring portfolio scheduling remain unproven.
 - [x] Idle compute foundation: hash-bound source packets, idempotent queue, pre-lease budget gate,
-  lease, `worker-once` and attempt cap. A real-source workload remains to be admitted.
+  lease, `worker-once` and attempt cap; eight ordered real-source workloads are now admitted.
 - [x] Models are replaceable resources: provider-neutral model and adapter contracts.
 - [x] Weak-model orchestration research: immutable single-shot/repair/ensemble/memory study arms.
 - [x] Free ensemble versus frontier: repeated tier-bound arms with paid admission retained.

@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-legacy-reaudit-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "legacy-reaudit",
+  "objective": "Re-audit the frozen inference-fabric structural baseline and classify every measured delta",
+  "prompt": "Return only strict JSON using schema giga.legacy-reaudit-report.v1. Compare the admitted 2026-08-24 baseline against the bound source packet. The baseline contains five metrics: cli_module_size physical_lines=1116; build_parser_span definition_span=218; duplicated_worker_run_construction shared_construction_calls=9; experiment_store_span class_span=410; opencode_adapter_span class_span=174. Return exactly schema, project, baseline_source_packet_sha256, current_source_packet_sha256, findings and summary. Each finding must report the exact metric name/unit, baseline/current/delta values, status, confidence, interpretation, bounded remediation and exact definition anchors. Use status unchanged, improved or regressed from the numeric delta; a zero delta is unchanged. Metrics are certain; maintenance consequences remain inferred. Do not use Markdown or claim that an unchanged snapshot proves the absence of other debt.",
+  "source_packet_sha256": "be20698dff9fe65831ea3529308bd8d2253e3cc62e5796d1695e2beedab99775",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

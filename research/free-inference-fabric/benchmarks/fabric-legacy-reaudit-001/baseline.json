@@ -1,0 +1,46 @@
+{
+  "schema": "giga.legacy-audit-baseline.v1",
+  "project": "giga-free-inference-fabric",
+  "recorded_at": "2026-08-24",
+  "source_packet_sha256": "be20698dff9fe65831ea3529308bd8d2253e3cc62e5796d1695e2beedab99775",
+  "metrics": [
+    {
+      "id": "cli_module_size",
+      "name": "physical_lines",
+      "value": 1116,
+      "unit": "lines",
+      "sources": ["src/giga_inference_fabric/cli.py:1"]
+    },
+    {
+      "id": "build_parser_span",
+      "name": "definition_span",
+      "value": 218,
+      "unit": "lines",
+      "sources": ["src/giga_inference_fabric/cli.py:890"]
+    },
+    {
+      "id": "duplicated_worker_run_construction",
+      "name": "shared_construction_calls",
+      "value": 9,
+      "unit": "calls",
+      "sources": [
+        "src/giga_inference_fabric/cli.py:698",
+        "src/giga_inference_fabric/cli.py:789"
+      ]
+    },
+    {
+      "id": "experiment_store_span",
+      "name": "class_span",
+      "value": 410,
+      "unit": "lines",
+      "sources": ["src/giga_inference_fabric/store.py:73"]
+    },
+    {
+      "id": "opencode_adapter_span",
+      "name": "class_span",
+      "value": 174,
+      "unit": "lines",
+      "sources": ["src/giga_inference_fabric/providers.py:142"]
+    }
+  ]
+}

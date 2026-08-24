@@ -1,0 +1,47 @@
+{
+  "schema": "giga.background-work-admission-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "benchmark": {
+    "benchmark_id": "fabric-legacy-reaudit-001",
+    "manifest_sha256": "cede237b2647984dbcb7b761a351b0f102477ab9bfebf5ff646d55bbeb633aea",
+    "baseline_sha256": "9b3dcf2abe0e2805fe0174bbde6bd2b255e82977b269ee6bd792a742d3a84526",
+    "verifier_sha256": "7df832d40b94e45c01f3affabec80da0bbea33f80bc581486473ce41253ef70f",
+    "fixture_sha256": "fcf1347744a7065356031c3314adaa09e0b13ffaaf16982532d7cc2ccfd2f63d",
+    "evaluator_command_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d"
+  },
+  "source_packet": {
+    "schema": "giga.source-packet.v1",
+    "packet_sha256": "be20698dff9fe65831ea3529308bd8d2253e3cc62e5796d1695e2beedab99775",
+    "serialized_sha256": "65efd5b5b8b6430e84522ba223fd1a188771cf823de559892c71a47ca62ff76a",
+    "storage": "benchmarks/fabric-structural-debt-001/source-packet.json",
+    "portable_frozen_fixture": true
+  },
+  "objective_controls": {
+    "baseline_metrics": 5,
+    "current_ast_metrics_recomputed": 5,
+    "expected_comparison": {
+      "improved": 0,
+      "regressed": 0,
+      "unchanged": 5,
+      "verdict": "NO_STRUCTURAL_CHANGE"
+    },
+    "negative_controls": [
+      "fabricated non-zero delta and regression status rejected",
+      "scope note that failed to exclude unmeasured debt rejected"
+    ],
+    "whole_system_rewrite_allowed": false
+  },
+  "queue": {
+    "work_id": "work-fabric-legacy-reaudit-001",
+    "idempotency_key": "9f6fb684136d1d436bf4e6d44e2acf3e3aedabe2af5b5d6816a25c181ffcc807",
+    "priority": 30,
+    "max_attempts": 3,
+    "status_at_admission": "QUEUED",
+    "attempts_at_admission": 0,
+    "predecessor_work_id": "work-fabric-source-packet-refactor-001"
+  },
+  "provider_calls_during_admission": 0,
+  "local_day_remote_calls_after_admission": 38,
+  "claim_boundary": "The immutable baseline-comparison mechanism and objective gate are proven; model re-audit utility and recurring portfolio scheduling remain unproven until a retained candidate passes and a later snapshot is admitted."
+}
