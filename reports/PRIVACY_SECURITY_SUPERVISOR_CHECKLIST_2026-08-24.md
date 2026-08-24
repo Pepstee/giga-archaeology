@@ -181,7 +181,7 @@ integration, runtime, deployment, Vault, identity, spending, or external-write a
 
 The binding contract is `.git/ox-contracts/portable-authority-v3.md`, byte-identical to
 `/Users/admin/Documents/ox-alpha-giga-workspace/control/giga-v2-portable-authority-v3.md`, with
-SHA-256 `194b2ea3cf2082135f468c33338c2ccededec85602024ed270f27aaa3a29076b`.
+SHA-256 `4915f03cbf43685bee098cd563f438f09cbb8e7566e06abcdfbd92f39aefd6db`.
 Independent review verified both ratified authority sources against their exact sizes and hashes:
 
 - sovereign architecture: 65,781 bytes,
@@ -189,7 +189,7 @@ Independent review verified both ratified authority sources against their exact 
 - implementation blueprint: 97,251 bytes,
   `eebb08490dcba120f793f4a5c513a71accefa0d4871c2b05f24d8d1d6a3ae6a8`.
 
-**Review state: PRE-WRITE REJECT pending one strict-parser correction.**
+**Review state: PRE-WRITE ACCEPT.**
 
 The corrected contract resolves both earlier blockers before any protected source edit:
 
@@ -200,19 +200,23 @@ The corrected contract resolves both earlier blockers before any protected sourc
    are absent, all modifications and deletions exist as mode `100644`, and there are no duplicate
    paths. `programme/architecture-index.json` remains immutable historical JSR-001 evidence.
 
-One authority-boundary defect remains. The contract calls the v3 policy and its source descriptors
-exact and closed, but it does not require rejection of duplicate raw JSON object keys. The current
-`giga_control/gate.py` loader uses ordinary `json.loads`, which silently applies last-key-wins
-semantics. A raw authority document can therefore contain an attacker-shadow key that disappears
-before the closed-key and self-hash checks. The revised contract must require deterministic
-recursive duplicate-key rejection for every JSON authority object newly introduced or consumed by
-this slice—at minimum the active stewardship v3 policy, the amendment record, and local-
-verification v2 contract—and add a negative proving that a duplicate-key document rejects even
-when its parsed last-key-wins object and every attacker-controlled hash otherwise match.
+The last authority-boundary defect is now resolved in the binding contract. It requires one
+reusable strict raw-JSON authority seam that rejects duplicate object keys recursively at every
+nesting depth before schema, semantic, or self-hash validation. The requirement explicitly covers
+at least active stewardship v3, the amendment record, and local-verification v2. Its mandatory
+negative uses a shadow duplicate whose ordinary last-key-wins parsed object and every attacker-
+controlled hash would otherwise match. This is implementable inside the existing changed-path
+boundary: the canonical gate owns the reusable parser seam and local verification already imports
+from that module; no parallel parser file or additional path is required.
 
-The candidate lane is clean at the exact base and has no protected diff, cache directory, remote,
-or live writer. No writer may start until this final parser requirement is incorporated into a new
-byte-identical, hash-bound contract revision.
+Independent final pre-write review reverified the two 65,781/97,251-byte authority sources and
+their exact hashes; the 6-add/5-modify/3-delete action set against the base tree; the immutable
+historical-index rule; the non-recursive amendment binding; and every unchanged authority limit.
+The candidate lane is clean at exact commit `396c34c92e5add3a63e41c66217613a9368e267a`, tree
+`f81261d96d328bc189d04c812f0a2b5d7befb2a9`, with no remote and no process bound to the lane.
+One sole writer may now start under this exact contract. Acceptance grants candidate preparation
+and testing only; it grants no commit, attestation, integration, runtime, deployment, Vault,
+identity, spending, external-write, or successor authority.
 
 ## Current capability/gap map
 
