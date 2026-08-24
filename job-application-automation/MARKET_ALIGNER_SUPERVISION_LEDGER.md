@@ -419,3 +419,31 @@ coverage, but do not treat it as sufficient acceptance evidence:
 - R8 must preserve every R7/R6/R4 invariant and rerun the focused matrix, three 100-race runs, full
   unmasked warning-strict suite, compile checks and diff-check before one Artiom-authored commit.
   Fresh independent assurance is mandatory. FIT-001 and canonical integration remain stopped.
+
+## INGEST-001 R8 rejection and R9 exact-contention repair
+
+- R8 candidate `2445c9b62fb18cdb7729c82ecf2d38ee5250e1bf`, tree
+  `4616a7eaa72214098c87f26f51483043f417336a`, parent rejected R7 `193cad3...`, is rejected.
+  Author and committer are exactly `Artiom Gutu <gutu.artiom444@gmail.com>` and the lane was clean.
+- R8 correctly replaces the exclusive probe with a same-inode `LOCK_SH|LOCK_NB` probe, so an
+  ordinary held shared lock no longer satisfies the intended path. It adds single-link, two-link
+  and CAS shared-lock negatives. This closes the originally reported shared-to-exclusive upgrade
+  under ordinary lock contention but does not make the authority proof total.
+- Exact executable falsifier: the shared probe catches every `OSError` as proof that an exclusive
+  holder exists. An injected non-contention `EINTR` makes that branch true; the verifier then calls
+  `LOCK_EX|LOCK_NB` on an otherwise unheld supplied descriptor, acquires it, and accepts the record.
+  The independent probe printed `R8_FALSE_ACCEPT True`. Only explicit lock-busy errnos may establish
+  contention; interruption, I/O and all other errors must become structured refusal without trying
+  or upgrading the supplied descriptor.
+- The same error-classification defect exists in non-blocking scope scanning: `_settled_record_bytes`
+  currently returns `None` for every non-blocking flock error, so `EINTR`/`EIO` can silently skip an
+  unresolved blocker. Only exact busy errors may mean a live publisher; every other error refuses.
+- R8's new regression also weakens its own no-upgrade proof: `still_shared(fd)` first requests
+  `LOCK_SH` on the supplied descriptor, which would downgrade a wrongly upgraded exclusive lock
+  before the separate shared probe runs. R9 must probe from a second descriptor before any operation
+  on the supplied fd, so the test cannot repair the state it claims to observe.
+- Preserve R8 unchanged. Resume the same sole Ox writer for one separate R9 source-and-test commit:
+  classify only `EAGAIN`/`EWOULDBLOCK` (and `EACCES` where the platform contract requires it) as
+  contention; reject every other errno; add injected `EINTR`/`EIO` authority and scope-scan tests;
+  reorder the no-upgrade assertions; then rerun the complete R7/R8 matrices, three 100-race runs,
+  full warning-strict suite and static gates. No integration or FIT-001 before fresh assurance.
