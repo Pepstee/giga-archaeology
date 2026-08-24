@@ -233,11 +233,22 @@ real Collector persistence path.
 - `boards.enabled` is not type-checked before constructing the operation scope; a scalar string is
   silently converted into a sorted list of characters. Require an exact nonempty list of unique,
   bounded, nonempty board names in the shared Collector/config seam before journal/provider access.
+- Provider-error sealing is not total: a provider exception whose rendered text exceeds the
+  record's 4,096-byte limit causes terminal verification itself to raise, emits no structured
+  refusal, and leaves the operation `in_flight`. Normalize a bounded error projection and bind the
+  complete original error SHA-256 so long or hostile provider text still produces an exact failed
+  receipt and zero-call replay.
+- The receipt is a canonical unkeyed content identity inside a same-user private directory, not a
+  signature or root-owned authentication boundary. A same-UID actor can alter a structurally valid
+  counter and recompute both hashes. R2 documentation must state this limitation explicitly rather
+  than calling the local hash cryptographic authority; a stronger admission boundary is deferred.
 - The shared free Ox provider reached its enforced daily quota after the session stopped at a safe
   dirty boundary; reset is 09:00 Korea time. No paid/weaker model substitution and no competing
   Market writer are authorized. Resume the same logical session
   `ses_fd01f0ce2ffe1qs5qKy9nTE4iv` after reset, close only the recorded falsifiers, run the full
   gates, and create one separate Artiom-authored R2 commit. Then independently rerun the original
   four R1 falsifiers plus the new same-ID, reference-count, intersecting-scope, atomic-claim,
-  preflight-order, config-coherence, scope-type, crash/CAS/path/replay matrix before deciding
-  acceptance. Do not integrate or select another slice first.
+  preflight-order, config-coherence, scope-type, long-error, crash/CAS/path/replay matrix before
+  deciding acceptance. Do not integrate or select another slice first. The preserved diff's full
+  69-test suite also passes with `DeprecationWarning` elevated to an error; this remains regression
+  evidence only, not acceptance evidence for the reproduced defects above.
