@@ -1,0 +1,13 @@
+{
+  "schema": "giga.benchmark-definition.v1",
+  "benchmark_id": "fabric-source-packet-refactor-001",
+  "project": "giga-free-inference-fabric",
+  "workload": "refactoring",
+  "objective": "Produce a restricted validation refactor that restores source-packet builder and verifier canonicalization equivalence",
+  "prompt": "Return only strict JSON using schema giga.restricted-refactor.v1 with top-level fields schema, project, source_packet_sha256 and refactor. refactor has exactly target, rationale and validation_block. target must be verify_source_packet. rationale is a bounded explanation. validation_block is an unindented Python block containing exactly one if whose body is exactly one raise ValueError; no else. It may reference only text, row, line, any and ValueError, may call only any or ValueError, and must reject CR, NUL and embedded newline characters inside individual row lines after text reconstruction. The hidden verifier AST-validates the block, inserts it into the frozen real module and runs valid canonical packets, builder-produced packets and invalid external packets. Do not return a diff, imports, Markdown or any other executable surface.",
+  "source_packet_sha256": "cbb53200fa16401afcd5f7151e1baf16764e945d747c7e3940fae33af18206d3",
+  "evaluator": [
+    "python3",
+    "verify_candidate.py"
+  ]
+}

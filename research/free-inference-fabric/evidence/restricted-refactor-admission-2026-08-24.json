@@ -1,0 +1,46 @@
+{
+  "schema": "giga.background-work-admission-evidence.v1",
+  "recorded_at": "2026-08-24",
+  "project": "giga-free-inference-fabric",
+  "benchmark": {
+    "benchmark_id": "fabric-source-packet-refactor-001",
+    "manifest_sha256": "d092e3cbd65ddf22f42145da433e3c928be1f2167afbcb05417fafc8f688172e",
+    "verifier_sha256": "72ff780a267c4f6ea01afeb77989a0a670d828580e7d6b4f3cbf3b3b8fb21cc7",
+    "fixture_sha256": "e9d5ce029334b085f99113480072dac3e2004d18f31fc56d379cdd6314451d28",
+    "evaluator_command_sha256": "fb9635c3638f57a466c23a2a920ccfcd0aa176a2def4d1459321e70a23ad622d"
+  },
+  "source_packet": {
+    "schema": "giga.source-packet.v1",
+    "packet_sha256": "cbb53200fa16401afcd5f7151e1baf16764e945d747c7e3940fae33af18206d3",
+    "serialized_sha256": "ca5dafb71d2cecbb1ecda4d6f1c0b986c2e3434e76b097eeae902d37731db87c",
+    "storage": "benchmarks/fabric-source-packet-refactor-001/source-packet.json",
+    "portable_frozen_fixture": true
+  },
+  "execution_boundary": {
+    "candidate_surface": "one unindented Python if with exactly one raise ValueError",
+    "allowed_names": ["text", "row", "line", "any", "ValueError"],
+    "allowed_calls": ["any", "ValueError"],
+    "imports_allowed": false,
+    "attributes_allowed": false,
+    "arbitrary_model_code_allowed": false
+  },
+  "objective_controls": {
+    "canonical_valid_regressions": 4,
+    "invalid_hidden_regressions": 3,
+    "negative_controls": [
+      "unsafe import call rejected by AST gate",
+      "incomplete CR-only block rejected by hidden regression"
+    ]
+  },
+  "queue": {
+    "work_id": "work-fabric-source-packet-refactor-001",
+    "idempotency_key": "b81c251718e37b206864b91e1d782d00f5911a12882fea4b889dc5c66e87d4f5",
+    "priority": 40,
+    "max_attempts": 3,
+    "status_at_admission": "QUEUED",
+    "attempts_at_admission": 0,
+    "predecessor_work_id": "work-fabric-structural-debt-001"
+  },
+  "provider_calls_during_admission": 0,
+  "claim_boundary": "The restricted execution boundary and hidden regressions are proven; model refactoring utility remains unproven until a retained candidate passes."
+}

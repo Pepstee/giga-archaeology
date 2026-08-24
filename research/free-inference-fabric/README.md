@@ -294,6 +294,13 @@ conclusion inferred, cite exact definitions and propose bounded extraction rathe
 It is queued sixth at priority 50. See
 `evidence/structural-debt-admission-2026-08-24.json`.
 
+`fabric-source-packet-refactor-001` turns the reproduced verifier defect into an executable but
+restricted refactoring task. A model may supply only one AST-limited `if`/`raise ValueError` block;
+imports, attributes, arbitrary names and calls are refused. The verifier inserts it into the frozen
+module and runs four canonical-valid and three non-canonical/control regressions. Unsafe and
+incomplete blocks are negative controls. It is queued seventh at priority 40. See
+`evidence/restricted-refactor-admission-2026-08-24.json`.
+
 ## Controlled orchestration studies
 
 The admitted future-study contracts use the strengthened disjoint-control benchmark:
@@ -475,8 +482,7 @@ completion receipt.
   `evidence/live-controlled-progress-2026-08-24-r3.json`.
 - **Implemented but not yet executed as complete studies:** remaining orchestration, ensemble/frontier
   and Pareto cells with idempotent repeat identities and study scoreboards.
-- **Callable but not yet live-proven on portfolio source:** refactoring, code/security review and
-  periodic
+- **Callable but not yet live-proven on portfolio source:** code/security review and periodic
   re-audits. Their workload contracts exist; each needs a bounded real-source packet, an external
   verifier and retained result before the corresponding utility claim advances to live-proven.
 - **Architecture mapping admitted, awaiting inference:** the first 10-module/18-edge real-source
@@ -492,6 +498,8 @@ completion receipt.
   independently reproducible and queued fifth; model bug-finding utility is not accepted yet.
 - **Structural debt admitted, awaiting inference:** five AST-derived metrics are independently
   recomputed and queued sixth; model debt-analysis utility is not accepted yet.
+- **Restricted refactoring admitted, awaiting inference:** a behavior-preserving, hidden-regression
+  task is queued seventh; no model-authored refactor is accepted yet.
 - **Real-work heartbeat activated and upgraded:** the existing six-hour heartbeat attempts at most
   one queue item before harvesting/studies. The initial one-shot activation is preserved in
   `evidence/background-worker-activation-2026-08-24.json`. The current contract uses three distinct
@@ -530,7 +538,8 @@ been activated across the project portfolio.
   hidden external gate; no model result is accepted yet.
 - [queued] Technical-debt search: five real AST-derived structural metrics are admitted with
   exact-anchor and bounded-remediation gates; no model result is accepted yet.
-- [profile] Refactoring: behaviour-preserving `refactoring` workload.
+- [queued] Refactoring: a restricted-AST fix must preserve four canonical cases and reject three
+  hidden invalid cases; no model result is accepted yet.
 - [queued] Existing-code documentation: the source-bound operational brief is admitted behind the
   architecture job; no model result is accepted yet.
 - [profile] Large-codebase research: bounded `codebase-research` workload.
