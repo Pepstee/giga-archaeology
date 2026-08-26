@@ -524,3 +524,27 @@ implemented because universal recording and consent capture are still absent.
   005. R21 names only the outcome schema and does not enumerate the intent/preflight schema IDs or
   any complete nested field sets; a separately reviewed source-authority definition must close that
   gap before semantic validation can be implemented without inventing law.
+
+## 2026-08-27 — integration-controller Slice 005 accepted and pushed
+
+- Added the separately reviewed, non-authorizing R21 evidence authority as one compound JSON Schema
+  2020-12 resource. It closes the intent, preflight and outcome document shapes; exact source,
+  review, path, repository, execution, output, artifact and terminal-state bindings; 44 explicit
+  cross-document invariants; fixed-false external effects; and canonical self/fixed-plan hashes.
+- Independent review rejected successive freezes for real false-accept gaps: float/int coercion,
+  non-zero PASS exits, unbound terminal candidate state, malformed ref rows, unbound review/path
+  links, failed terminal proofs/cleanup, contradictory governed-state hashes, missing PASS index
+  artifacts and overall-FAIL weakening of successful executions. Each rejection became a permanent
+  negative regression before the next freeze.
+- Final independent QA passed exact schema SHA-256 `96431815559beec673693ee96fdd19850e7a88f4e7e8628f3b3c3400398355b9`
+  and test SHA-256 `a0bffa17e9f4c8a0d0416719c250b23a754387ae566e2050e750a6b58f1f097d`,
+  with authority self-hash `d531e00a...` and fixed-plan hash `1a836162...`. Evidence: 21/21
+  authority tests, 90/90 full tests with one separately exercised live skip, explicit live PASS,
+  Draft 2020-12 validation, Ruff, formatting, compileall and diff hygiene.
+- Commit `3ab5e59b001241be94e9ccb05ff7df2d78a0968b`, tree `3f743738...`, parent
+  `8776ab4...`, is authored and committed as `Artiom Gutu <gutu.artiom444@gmail.com>` and pushed to
+  the private `codex/controller-inspection-kernel` branch. The public package and CLI remain
+  inspect-only. The authority cannot create/validate semantic receipts at runtime, admit R21,
+  mutate either governed repository, integrate, roll back, push, deploy, access the Vault or
+  activate Jarvis; a later independent slice must implement the consumer without changing this
+  accepted source authority.
