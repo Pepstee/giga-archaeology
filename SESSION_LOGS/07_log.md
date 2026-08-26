@@ -578,3 +578,32 @@ implemented because universal recording and consent capture are still absent.
   unless it can block, corrupt, leak or falsify the next canary. The next real seam is the already
   implemented no-submit `market.canary` route; it needs the separately protected identity/contact/
   approved-evidence authority, not another architecture subsystem.
+
+## 2026-08-27 — first selected-release Market canary and critical SQLite repair
+
+- Re-extracted the selected faceless archive SHA-256 `68aeede2...600b3`; bundle verification passed
+  with manifest SHA-256 `be77da42...f65`. Its governed `market.refresh` route then performed a real
+  public Greenhouse refresh: 111 seen/new/fetched, 111 total, zero errors, no browser, model, Vault
+  or submission authority. Runtime receipt self-hash is `e17105f2...7ac`.
+- Kept the Personal Vault disconnected. The production JAA application path correctly refused
+  synthetic/placeholder contact identity because it requires the enrolled operator Ed25519 key and
+  current signed contact registry. No identity gate was weakened or bypassed.
+- Used the separate faceless `market.discovery` route with an explicitly synthetic opaque profile
+  and synthetic opportunity score for public vacancy `greenhouse:anthropic:4610158008`. The real
+  live observation passed with one live vacancy, zero fields filled, zero files uploaded and zero
+  submit clicks. Runtime receipt self-hash is `bf160b14...6e34`; same-request replay was
+  byte-identical with raw SHA-256 `62888985...80ba`.
+- The first discovery attempt exposed a canary-critical fresh-install defect: Market created
+  `vacancies.sqlite3` and `assessments.sqlite3` as `0644`, while the JAA handoff reader correctly
+  requires owner-private databases. An operational `0600` repair allowed the canary to complete;
+  no repository or personal data was changed by that repair.
+- Fixed the two canonical SQLite owners on isolated branch
+  `codex/market-private-sqlite-canary-r2`: database creation and store-owned operations now execute
+  under the existing cooperating `owner_private_umask` boundary. Fresh-database regressions prove
+  both main files are `0600` under ambient `0022`. Relevant JAA/application tests passed 8/8 and the
+  refresh/ingest suite passed 43/43 with 100 stress races / 200 commands.
+- Commit `cf68bacc61db1c14ec991461ed9cccd5ab324c76`, tree `93c5b5e3...`, parent
+  `eefe73c...`, is authored and committed as `Artiom Gutu <gutu.artiom444@gmail.com>` and pushed to
+  `Pepstee/market-aligner`. The next full JAA package canary still requires an explicit Personal
+  Vault identity/contact/approved-evidence connection; no form interaction or submission is
+  authorized by this checkpoint.
