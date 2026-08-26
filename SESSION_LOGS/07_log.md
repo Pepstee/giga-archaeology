@@ -490,7 +490,7 @@ implemented because universal recording and consent capture are still absent.
   do not ratify or complete Jarvis autonomy, Vault/twin access, universal routing, deployment,
   observability or the complete end-state interconnection map.
 
-## 2026-08-27 — integration-controller Slices 001–003 accepted and backed up
+## 2026-08-27 — integration-controller Slices 001–004 accepted and backed up
 
 - Created the distinct private `giga-integration-controller` repository because no canonical
   repository already owned the cross-repository R21 controller lifecycle. Its public surface is
@@ -509,11 +509,18 @@ implemented because universal recording and consent capture are still absent.
   24 focused tests, 61 full tests with the opt-in live test separately exercised, 17 reliability
   regressions, Ruff, formatting, compileall and diff checks. Candidate and protected repositories
   remained byte-identical across all governed state before and after inspection.
+- Slice 004 reused the same evidence module to add a pure strict serialized-envelope validator:
+  recursive duplicate-key refusal, exact canonical ASCII bytes, exact caller-bound schema,
+  lowercase 64-hex self-hash, closed JSON number/type rules and a slotted frozen scalar result.
+  Independent assurance passed 8 envelope tests, 32 focused tests, 69 full tests, the separate live
+  boundary and no-I/O/immutability/deep-nesting probes. Commit
+  `8776ab4d508c45af46b692a1af0148bb670ffd84`, tree `12fcaef2...`, is pushed privately as Artiom.
 - The Ox endpoint returned zero tokens because the announced Stealth Ox Alpha testing period had
   ended. No model substitution was made; Codex implemented the bounded slice and a separate agent
-  performed final assurance. Slices 001–003 must not be repeated.
+  performed final assurance. Slices 001–004 must not be repeated.
 - This is storage and inspection infrastructure only. It does not validate the closed R21
   intent/preflight/outcome schemas, create evidence inside the real R21 roots, admit or execute an
   integration, move protected main, activate Jarvis, access the Vault, deploy, or authorize Slice
-  004. A separately contracted higher-level schema-validation slice is the next controller
-  increment.
+  005. R21 names only the outcome schema and does not enumerate the intent/preflight schema IDs or
+  any complete nested field sets; a separately reviewed source-authority definition must close that
+  gap before semantic validation can be implemented without inventing law.
