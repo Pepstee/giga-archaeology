@@ -62,6 +62,9 @@ outputs/*.zip.sha256
 **/*.key
 **/*.p12
 
+# Raw identity-bearing candidate payloads are preserved as private evidence, never source.
+/job-application-automation/candidate-evidence/source-extracted-identity-artifacts-*/
+
 # Life-logging runtime data. The project definition and path contract are tracked,
 # but private recordings, generated transcripts, checkpoints and runtime state are not.
 life-logging/audio-processing/recordings/

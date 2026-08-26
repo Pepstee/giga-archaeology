@@ -1,0 +1,67 @@
+{
+  "files": [
+    {
+      "bytes": 66365,
+      "mode": "0600",
+      "preserved_path": "cloudcops-rank-32/Artiom_Gutu_CV_CloudCops.pdf",
+      "sha256": "0ed48218b2637726ef2277a42aff9f0a835da6c793e679cc9f73c1352e285de3",
+      "source_path": "docs/applications/cloudcops-rank-32/artifacts/Artiom_Gutu_CV_CloudCops.pdf"
+    },
+    {
+      "bytes": 10065,
+      "mode": "0600",
+      "preserved_path": "cloudcops-rank-32/build_cloudcops_cv.py",
+      "sha256": "4340150d01defe3123eee3b96ac12a3d1fab998c7961080209e60ebc24a952c4",
+      "source_path": "docs/applications/cloudcops-rank-32/build_cloudcops_cv.py"
+    },
+    {
+      "bytes": 2299,
+      "mode": "0600",
+      "preserved_path": "cloudcops-rank-32/release_manifest.prepared.json",
+      "sha256": "74f5f2ca99135689a50a1a699475c17546f4fde89e25c283eb3921e71e74e1f9",
+      "source_path": "docs/applications/cloudcops-rank-32/release_manifest.prepared.json"
+    },
+    {
+      "bytes": 1342,
+      "mode": "0600",
+      "preserved_path": "cloudcops-rank-32/release_manifest.prepared.tombstone.json",
+      "sha256": "7640e8f5901ae70822f5dd5577d86ef1eac43f7c645cf9de98c3258bccb88235",
+      "source_path": "docs/applications/cloudcops-rank-32/release_manifest.prepared.tombstone.json"
+    },
+    {
+      "bytes": 1587,
+      "mode": "0600",
+      "preserved_path": "axiom-data-scientist/cover-letter.pdf",
+      "sha256": "18196a8042deff2eeb3aa9a684de33b5ebd9acd0104d7e6814432df785a598fb",
+      "source_path": "runtime_evidence/clean_document_canary/axiom-data-scientist/cover-letter.pdf"
+    },
+    {
+      "bytes": 1967,
+      "mode": "0600",
+      "preserved_path": "axiom-data-scientist/cv.pdf",
+      "sha256": "5010e2ab2bf06fa7b6b3b14d943be34bfe9dd08de7d3ea238ce31d4f8293b0af",
+      "source_path": "runtime_evidence/clean_document_canary/axiom-data-scientist/cv.pdf"
+    },
+    {
+      "bytes": 3138,
+      "mode": "0600",
+      "preserved_path": "axiom-data-scientist/manifest.json",
+      "sha256": "0a88ce82c27c10be40b01d8b4d25587695e859a2c4f4db3aa41c8a9afeeb1e89",
+      "source_path": "runtime_evidence/clean_document_canary/axiom-data-scientist/manifest.json"
+    },
+    {
+      "bytes": 5376,
+      "mode": "0600",
+      "preserved_path": "scripts/generate_axiom_canary_documents.py",
+      "sha256": "49273c59f1214caad52b1f6af2ab8b99f9c98bc23c6d0abc1ebd94ca217dbef1",
+      "source_path": "scripts/generate_axiom_canary_documents.py"
+    }
+  ],
+  "payload_directory": "source-extracted-identity-artifacts-0e5f289d",
+  "payload_directory_mode": "0700",
+  "preservation_reason": "Remove private candidate identity payloads from the faceless executable source while retaining exact recoverable evidence outside Git admission.",
+  "receipt_sha256": "05e47b324ccac7d56a463c414c7caa4fa619f82c863eee702c2a098fc517b424",
+  "schema": "giga.private-evidence-extraction.v1",
+  "source_commit": "0e5f289d794f6094e479c42bc97b2b52cf4f0fd9",
+  "source_tree": "8a11f7ef1ad8029b26a93107e9ee4492da1d75b1"
+}
