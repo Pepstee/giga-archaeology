@@ -455,3 +455,37 @@ implemented because universal recording and consent capture are still absent.
 - Static validation confirms seven balanced Mermaid subgraphs, all required core nodes and feedback
   edges, explicit Faceless/Twin and portable-restore paths, complete policy/evidence plane coverage
   of the official stages, and no router/model/context-to-adapter bypass edge. Diff hygiene passes.
+
+## 2026-08-26 — executable-constitution and Market walking-skeleton evidence
+
+- The governed slice registry now contains 108 architecture slices with deterministic dependency
+  and anti-repetition semantics. JSR-003 is independently VERIFIED; JSR-024 R9 has a separate
+  candidate-bound attestation that passes the official verifier. Neither fact is represented as
+  deployment or full-architecture completion.
+- The portable-authority candidate embeds both ratified architecture source documents by SHA-256,
+  advances development stewardship/local verification contracts, protects those sources and adds
+  adversarial enforcement tests. Independent assurance passed 117 Constitution tests, 132 native
+  tests, 73 registry tests and the six-check full local verifier. The candidate remains outside
+  protected main.
+- Protected-main integration drafts R1 and R2 are immutable rejection evidence. R2's candidate tree
+  and predicted Artiom-authored commit reproduced, but review found that its separate repository had
+  no object-transfer path, its foundation-output oracle was false, its receipt semantics conflicted
+  with rollback, and its post-fast-forward crash state was not resumable.
+- Draft-only R3 closed those four defects with explicit local object transfer, exact JSON proof
+  oracles, create-once intent/outcome evidence and deterministic crash recovery, but was withdrawn
+  when a fresh rollback falsifier proved its parent local-verifier PASS claim false. The parent
+  actually returned five PASS and one registry-timeout FAIL under the old aggregate's internal
+  900-second limit; R3 remains immutable at SHA-256 `4088d209...`.
+- Distinct R4 replaces that false rollback oracle with the real direct gates: parent foundation
+  PASS, native 69/69 and slice-registry 73/73 in 144.901 seconds. It records the old aggregate
+  timeout as a degraded residual rather than relabelling it green, and hardens receipts with
+  no-clobber `RENAME_EXCL` installation. R4 is draft-only under independent review; its dry-run
+  creates no ref and changes no repository, and it grants no integration authority.
+- Market Refresh R2 independently passes the official candidate-attestation verifier at commit
+  `507b54b43f049aa5024e0be825954cfaeea99320`. It supplies the bounded scheduled Market route,
+  deterministic/replay recovery, private RuntimeStore-root authority and ancestor-substitution
+  falsifiers. A runnable archive has been reproduced byte-identically, but it remains locally
+  preserved rather than deployed; no real provider, Vault, impersonation or canary evidence exists.
+- These increments improve the deterministic foundation and one real domain walking skeleton. They
+  do not ratify or complete Jarvis autonomy, Vault/twin access, universal routing, deployment,
+  observability or the complete end-state interconnection map.
