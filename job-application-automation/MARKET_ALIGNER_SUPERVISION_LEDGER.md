@@ -1,8 +1,8 @@
 # Market Aligner and JAA supervision ledger
 
-Updated: 2026-08-24  
-Supervisor: Codex  
-Implementation engine: Ox Alpha, `openrouter/stealth/ox-alpha`, reasoning variant `max`  
+Updated: 2026-08-26
+Supervisor: Codex
+Implementation engine: Ox/OpenCode, `opencode/x-preview-f-free`, reasoning variant `max`
 Purpose: durable execution state and anti-repetition authority for the Market Aligner product and its internal JAA subsystem.
 
 This is a distinct execution ledger rather than an extension of
@@ -24,10 +24,10 @@ cohort before claiming operational readiness.
 
 | Identity | Canonical copy | Independent Ox copy |
 |---|---|---|
-| Path | `/Users/admin/Projects/market-aligner` | `/Users/admin/Documents/ox-alpha-giga-workspace/projects/market-aligner` |
-| Branch | `codex/reconciliation-20260801` | `ox-alpha-work` |
-| Commit | `246e9cf55c376b6dd92bbfe394d0db73187c33d9` | `acf57e05feca284ed767754a3c0cb7320d26077d` |
-| Tree | `7596ee2be4ed01c1511cc9718d5d3fb57576b4bd` | `7596ee2be4ed01c1511cc9718d5d3fb57576b4bd` |
+| Path | `/Users/admin/Projects/market-aligner` | `/Users/admin/Documents/ox-alpha-giga-workspace/worktrees/market-aligner-ingest-001` |
+| Branch | `codex/reconciliation-20260801` | `ox/market-aligner-ingest-001` |
+| Commit | `92703084d1d844877062419173df20e3b8533c4c` | `14a4b2322fae744196eb6c6e6588780b3d463751` |
+| Tree | `1fe53c92bd8b7cf781ebfe7d7eb24edb6f029527` | `1fe53c92bd8b7cf781ebfe7d7eb24edb6f029527` |
 | Status | clean | clean |
 | Upstream | none | none |
 | Remotes | none | none |
@@ -52,8 +52,10 @@ env PYTHONPATH=src PYTHONDONTWRITEBYTECODE=1 TMPDIR=/private/tmp \
   python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-Canonical result: `Ran 51 tests in 3.540s`, `OK (skipped=2)`.  
-Ox result: `Ran 51 tests in 3.527s`, `OK (skipped=2)`.
+Current canonical FIT acceptance result: `Ran 627 tests in 29.055s`, `OK`, with
+`DeprecationWarning` elevated to an error. The identical tree passed `py_compile`, `compileall`,
+Ruff import/format checks on the touched CLI/service tests, and `git diff --check` before and after
+canonical integration.
 
 Graphify structural baseline: 119 supported source files, approximately 39,804 words, with 1,456
 AST nodes and 4,614 AST edges. No repository-owned `graphify-out/graph.json` existed at recovery.
@@ -72,10 +74,15 @@ Implemented in the recovered source tree:
 - deterministic opportunity and explicitly uncalibrated fit scoring;
 - research admission, leased workers, cited dossier contracts, and profile-scoped reports;
 - a local assessment service and a provisional versioned JAA handoff/event protocol.
+- a public provider-free `process-one` command that admits one exact operator-staged processing
+  envelope, binds raw/profile/evidence/extraction/alignment/scoring identities, atomically publishes
+  normalized-job and assessment projections with an immutable receipt, and replays byte-for-byte;
+- abandonment-safe recovery of an observed in-flight attached-SQLite COMMIT after SIGKILL, with
+  one coherent receipt/projection set and no duplicate processing event.
 
 Not operational in this lineage:
 
-- collection, normalisation, research, reporting, or handoff as supported public commands;
+- research, reporting, or handoff as supported public commands;
 - a concrete model/research provider;
 - a concrete Market Aligner-to-JAA client/consumer;
 - a generic current-vacancy JAA production authority;
@@ -89,9 +96,8 @@ first slice must not bypass that gate or claim JAA integration prematurely.
 ## Ox execution identity
 
 - Workspace: `/Users/admin/Documents/ox-alpha-giga-workspace`
-- Declared persistent session: `ses_fd069841affepp0wt0Gu32ia3k`
-- Observed active log session during recovery: `ses_fd03cf3b5ffeDcBpwqEH0pJTMu`
-- Model: `openrouter/stealth/ox-alpha`
+- Dedicated persistent Market session: `ses_fd01f0ce2ffe1qs5qKy9nTE4iv`
+- Model: `opencode/x-preview-f-free`
 - Variant: `max`
 - Ox remains the implementation engine; Codex owns scope, review, acceptance, and integration.
 - At recovery time the active Ox session was executing a different admitted GIGA portfolio slice.
@@ -135,7 +141,9 @@ Before selecting or resuming any slice, the supervisor must:
 | Slice | Objective | Reuse/absence evidence | Acceptance | Status | Next action |
 |---|---|---|---|---|---|
 | RECOVERY-001 | Safely reconcile canonical and Ox copies | Same tree hash; no remotes/upstreams; independent histories retained | Exact Git evidence plus identical cache-free baseline | accepted | Do not repeat unless either tree or remote configuration changes |
-| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI had no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing baseline remains green | repair-required | Canonical `e8f8c8f` preserves the R4 tree as an intermediate; independently accept and integrate one forward R5 repair for the live claim-publication race before starting FIT-001 |
+| INGEST-001 | Expose one official, bounded collection cycle through the canonical CLI using the existing `Collector`, config loader, and external data-home boundary | Collector, YAML loader, SQLite resume, and raw cache already exist; public CLI had no collection command | No duplicate collector; exact config/data-home; one-cycle result as canonical JSON; durable content-bound operation receipt; idempotent replay/no second fetch for same operation; fixture official-adapter positive; config/path/hash/replay substitution negatives; existing baseline remains green | accepted | Terminal Ox R10 tree integrated as canonical `231fce4`; do not repeat unless collector/config/receipt authority changes |
+| FIT-001 | Admit one evidence-bound provider-free processing operation over existing vacancy/profile/assessment stores | Existing extraction/alignment/scoring contracts and stores were present but no public atomic admission path existed | Strict processing-envelope v1; exact raw/profile/evidence/model/prompt/score bindings; immutable target CAS; attached-database atomicity; byte-identical replay; crash recovery; no provider/model/browser/JAA/release authority | accepted | Canonical `9270308`, tree `1fe53c9`; proceed to the smallest cited-research successor without weakening FIT receipts |
+| RESEARCH-001A | Admit one exact cited-research dossier derived from a passed FIT receipt, with durable attempt/failure history | Reuse `AssessmentStore`, opportunity policy, `ResearchTask`/`ResearchDossier`, queue and worker; current code has no public command, FIT binding, immutable dossier receipt, cited-object archive, exact replay or append-only failure ledger | Public provider-free staged-dossier admission; exact FIT/raw/profile/evidence/source-object bindings; deterministic opportunity gate; immutable dossier+receipt; byte-identical replay; append-only detailed technical failures; no network/model/JAA/browser/release authority | pre-write | Define and independently review the exact contract and migration before Ox source work; successor RESEARCH-001B must add a concrete public research provider without changing the admitted dossier format |
 | JAA-IMPORT-001 | Reconcile and import sealed JAA authority/contracts | Current migration report says protected upstream is not frozen or sealed | Frozen archive, commit, manifest, licence/provenance, independent certification, field-by-field compatibility matrix | blocked | Recheck only when sealed upstream evidence exists |
 
 ## First bounded Ox slice: INGEST-001
@@ -507,3 +515,126 @@ coverage, but do not treat it as sufficient acceptance evidence:
 - INGEST-001 is terminally accepted. FIT-001 may now be defined as a new bounded slice, but it must
   not weaken this abandonment-safe ingestion authority or claim calibrated fit without a sealed
   evidence/matching contract.
+
+## FIT-001 terminal acceptance and canonical integration
+
+- Accepted contract artifact:
+  `/Users/admin/Projects/market-aligner/docs/processing/FIT-001_PROCESS_ONE_CONTRACT.md`, SHA-256
+  `e964399c2ee3c3772e4e65a15324fdd552e3f44b9c9960a2494457f8a1ed8db6`. It owns the exact
+  processing-envelope, refusal precedence, projection-CAS, migration, atomicity, recovery, replay,
+  and truth-boundary rules. Later slices must consume its receipt rather than reconstructing fit.
+- Terminal Ox candidate `14a4b2322fae744196eb6c6e6588780b3d463751`, tree
+  `1fe53c92bd8b7cf781ebfe7d7eb24edb6f029527`, parent accepted INGEST R10 `629c7d9`, was authored
+  and committed exactly as `Artiom Gutu <gutu.artiom444@gmail.com>`; the Ox worktree is clean.
+- Canonical forward integration is `92703084d1d844877062419173df20e3b8533c4c`, exact same tree
+  `1fe53c92bd8b7cf781ebfe7d7eb24edb6f029527`, parent canonical INGEST integration `231fce4`.
+  The canonical worktree is clean. No amend, reset, force, stash, ref rewrite, or rejected-history
+  import was used.
+- The final host warning-strict gate passed 627 tests in 29.055 seconds, including exact envelope
+  admission/refusal precedence, profile-generation crash coherence, descriptor continuity,
+  immutable projections, byte-identical replay, attached-database faults, and public CLI/service
+  behavior. Static compile, Ruff and diff checks passed.
+- Stronger acceptance observed a real SQLite master journal during COMMIT, killed the child with
+  SIGKILL inside that window, and proved that the next invocation performs legitimate rollback
+  recovery and publishes exactly one normalized job, assessment, event, and receipt. Replay is
+  byte-identical. This test exposed and repaired the prior retained-file-size drift false refusal.
+- Scope truth: FIT-001 is provider-free and authorizes no network, model, cited research, JAA
+  document generation, browser, release token, certified click, or submission. It records the
+  independently staged model/prompt identities but does not authenticate them as a live provider.
+  Same-UID private files and unkeyed content hashes are integrity boundaries, not hostile-user
+  authentication.
+- Neither repository has a remote or upstream. Therefore no fetch, pull, or push was possible or
+  attempted. No live vacancy, application, provider, browser, model, release, or submission state
+  was touched.
+
+## Current blocker and next supervisor action (post FIT-001)
+
+- The canary loop remains paused. There is no provider-confirmed application outcome to review,
+  and no public production path yet joins FIT-001 to cited research, JAA documents/answers, ATS
+  inventory/fill, one-use release, certified click, and provider-confirmed terminal receipts.
+- The next slice must be selected by reuse inspection of the current research queue, worker,
+  dossier contracts, assessment service, CLI, and tests. Prefer the smallest public cited-research
+  successor that consumes an accepted FIT receipt and preserves exact source/profile/evidence
+  authority. Do not create a second queue/store/provider abstraction.
+- Before source edits, write and independently review one bounded contract defining: exact input
+  receipt and source identities; public research-provider trust and citation evidence; deterministic
+  versus model-owned fields; leased execution/retry/crash semantics; immutable dossier and replay;
+  failure logging suitable for the later canary quality loop; and an explicit absence of JAA,
+  browser, release, or submission authority.
+- Only after that increment is independently runnable and accepted may the supervisor advance to
+  the first JAA preparation slice. The first real canary still must use the lowest-ranked live,
+  truthfully eligible supported-ATS role, exactly one active application at a time, and provider
+  confirmation rather than click success.
+
+## RESEARCH-001A pre-write reuse and absence receipt
+
+Canonical base is `92703084d1d844877062419173df20e3b8533c4c`, tree
+`1fe53c92bd8b7cf781ebfe7d7eb24edb6f029527`, clean, with no remote or upstream. This inspection
+was read-only; no provider, model, browser, JAA or live data was used.
+
+Reuse map:
+
+- `market_aligner.processing.process_one` and its immutable `processing_receipts` row own fit
+  authority. Research must reference the exact stored FIT receipt, not trust the mutable current
+  assessment row alone.
+- `market_aligner.assessment.opportunity` owns deterministic opportunity policy and decision. Do
+  not recreate thresholds inside a research command.
+- `market_aligner.research.models` owns citation, claim, dossier and task vocabulary. Extend its
+  exact schemas rather than create a parallel dossier type.
+- `market_aligner.research.store.AssessmentStore` owns the existing assessment, event, research
+  queue and dossier tables. Schema evolution must use the canonical migration owner introduced by
+  FIT-001 and caller-owned connections; do not add a second research database.
+- `market_aligner.research.worker.ResearchWorker` owns leased one-task execution and retry control.
+  Preserve that seam for the later concrete provider rather than embedding research in the CLI.
+- `MarketAlignerService` and `market_aligner.cli` remain the public service/command owners.
+
+Executable absence and defect evidence:
+
+- The CLI exposes `ingest`, `assess`, and `process-one`, but no public research command.
+- The legacy opportunity gate and queue are keyed only by profile/job and can act on a mutable
+  assessment; they do not bind the accepted FIT operation, receipt bytes, raw snapshot, profile
+  generation, evidence ledger, extraction/alignment identities, or track.
+- `ResearchTask` carries only profile/job/title/company/url/opportunity/priority/attempts. A provider
+  cannot verify the precise FIT authority it is researching.
+- `ResearchDossier.validate()` checks citation IDs and URL shape but not exact archived source bytes,
+  source filename/hash, access method, redirects, content type, retrieval receipt, current vacancy,
+  profile/evidence generation, or FIT receipt.
+- `complete_research()` upserts and overwrites the dossier; it has no immutable create-or-exact
+  receipt, no byte-identical replay and no target-CAS conflict rule.
+- `fail_research()` retains only a truncated mutable `last_error`; it does not append an attempt,
+  complete error digest, stage, exception class, provider/transport identity, timestamps, retry
+  disposition or forensic artifact references. That violates the operator's requirement that every
+  application/research failure remain detailed and resolvable later.
+- The legacy `AssessmentStore` constructor creates schema and enables WAL. RESEARCH-001A must use a
+  lazy existing-data-home preflight and a bounded transaction, preserving FIT's no-write refusal
+  behavior and database identity checks.
+
+Bounded first contract target:
+
+1. `research-admit-one` accepts an explicit research operation ID, exact FIT operation ID, exact
+   staged research-envelope filename, profile ID, job key and existing data home. The staged
+   envelope is content-addressed, owner-private and provider-free.
+2. Admission proves an exact passed deterministic opportunity decision over the immutable FIT
+   receipt and creates or exactly reuses one queued task authority. A rejection writes no dossier
+   and records one exact deterministic decision receipt.
+3. The research envelope embeds only claims, unknowns and citation references. Every citation
+   points to an exact owner-private archived public-source object whose bytes, URL, retrieval time,
+   redirect chain, content type and SHA-256 are independently verified. Claims may cite those
+   objects only; unsupported claims refuse.
+4. Success atomically creates or exactly reuses the immutable dossier, attempt row, completion
+   event and self-validating receipt. Creation and replay emit identical stored receipt bytes.
+   Changed same-ID input or any existing projection mismatch refuses without overwrite.
+5. Every refusal/provider-independent technical failure appends a bounded canonical failure row
+   with full error SHA-256, normalized projection, stage, retryability/disposition and available
+   forensic object identities. Mutable queue convenience fields are never the sole history.
+6. No network, model, provider, browser, JAA, CV, cover letter, answer, release token, final click or
+   submission is authorized. RESEARCH-001B will implement one concrete public-source provider over
+   the same task/envelope/object/receipt contract, so 001A must not encode fixture-only assumptions.
+
+Minimum objective tests include exact happy path and byte replay; FIT receipt, current vacancy,
+profile generation, evidence, track, opportunity policy, source object, URL/redirect/content type,
+claim/citation and operation substitutions; malformed/nonprivate/symlink/hardlink/oversize inputs;
+unsupported claim; target conflict; concurrent same-ID and same-target operations; failure-history
+append/replay; caught faults and SIGKILL at every database publication boundary; SQLite recovery;
+descriptor/name-entry substitution; no-write refusal; and proof that no provider/model/browser/JAA
+adapter can be reached in this slice.
