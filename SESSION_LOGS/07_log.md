@@ -548,3 +548,33 @@ implemented because universal recording and consent capture are still absent.
   mutate either governed repository, integrate, roll back, push, deploy, access the Vault or
   activate Jarvis; a later independent slice must implement the consumer without changing this
   accepted source authority.
+
+## 2026-08-27 — integration-controller Slice 006 accepted and pushed
+
+- Implemented the first pure runtime semantic consumer for the exact accepted Slice-005 authority.
+  It accepts caller-supplied bytes only, reuses the strict envelope boundary, runs the standard
+  Draft 2020-12 schemas and enforces every applicable `INV-001`–`INV-044` semantic rule. It
+  classifies valid FAIL preflight evidence, PASS preflight evidence without outcome, and complete
+  PASS or ROLLED_BACK evidence; its immutable result always carries `authorizes=()`.
+- The consumer performs no filesystem, Git, process, network or evidence-publication I/O and is not
+  exported by the package root or CLI. Schema validity therefore cannot admit R21, mutate protected
+  state, integrate, deploy, access the Vault or authorize external representation.
+- Independent QA found one canary-critical false-pass: malformed initial ref rows were rejected only
+  after an outcome existed. The intent boundary now validates complete sorted unique ref grammar,
+  the exact branch row and initial transfer-ref absence before either PASS or FAIL preflight evidence
+  can be classified. Exact FAIL-without-outcome and live PASS-without-outcome regressions prove the
+  repair.
+- Final independent QA passed 10/10 live semantic tests, 100/100 full tests with four expected
+  opt-in skips, the existing live inspection smoke, Ruff, formatting, compileall and diff hygiene.
+  Commit `332a7fee0dab99ef840a43e3a4f1b3cf6ffcc71c`, tree `036c7fe5...`, parent
+  `3ab5e59...`, is authored and committed as `Artiom Gutu <gutu.artiom444@gmail.com>` and pushed to
+  the private `codex/controller-inspection-kernel` branch.
+- Both configured Ox Alpha free endpoints failed at startup with provider-side server errors and
+  produced no usable tokens (`ses_fc0afbc65ffe46DOsoA0Y5HVmU`,
+  `ses_fc0af9449ffeEqvicowtP57h3Q`). No retry spiral, paid/weaker substitution or duplicate writer
+  was used.
+- Operator sequencing is now explicitly MVP/canary-first: working MVP, only critical obvious fixes,
+  canary, evidence-derived next critical fixes, then another canary. Theoretical hardening is deferred
+  unless it can block, corrupt, leak or falsify the next canary. The next real seam is the already
+  implemented no-submit `market.canary` route; it needs the separately protected identity/contact/
+  approved-evidence authority, not another architecture subsystem.
