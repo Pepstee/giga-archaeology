@@ -489,3 +489,31 @@ implemented because universal recording and consent capture are still absent.
 - These increments improve the deterministic foundation and one real domain walking skeleton. They
   do not ratify or complete Jarvis autonomy, Vault/twin access, universal routing, deployment,
   observability or the complete end-state interconnection map.
+
+## 2026-08-27 — integration-controller Slices 001–003 accepted and backed up
+
+- Created the distinct private `giga-integration-controller` repository because no canonical
+  repository already owned the cross-repository R21 controller lifecycle. Its public surface is
+  deliberately non-authorizing: package exports and CLI expose only `inspect`.
+- Slice 001 committed the exact-R21 read-only inspection kernel; Slice 002 committed durable
+  create-once canonical evidence sealing; Slice 003 committed byte-exact validation and recovery of
+  one crash-complete temporary using descriptor-relative no-clobber installation. Current branch
+  commit is `a3eeb7a81038b2f65d36d4c7f052dcb23e58d7b9`, tree
+  `62d45071b9d64fab8f7da5e37e4873fe911337d2`, parent `ae8dd1c...`, authored and committed as
+  `Artiom Gutu <gutu.artiom444@gmail.com>` and pushed to the private GitHub branch.
+- The first final live validation correctly refused because two `push -u` convenience sections had
+  changed protected `.git/config` after the R21 snapshot. Removing only those two branch-tracking
+  sections restored the exact raw hash `2e1a2725...d5583` and closed semantic hash
+  `8bd02c43...7bc`; both local and remote feature refs remained exact.
+- Fresh independent assurance on the frozen Slice-003 bytes passed the explicit live boundary,
+  24 focused tests, 61 full tests with the opt-in live test separately exercised, 17 reliability
+  regressions, Ruff, formatting, compileall and diff checks. Candidate and protected repositories
+  remained byte-identical across all governed state before and after inspection.
+- The Ox endpoint returned zero tokens because the announced Stealth Ox Alpha testing period had
+  ended. No model substitution was made; Codex implemented the bounded slice and a separate agent
+  performed final assurance. Slices 001–003 must not be repeated.
+- This is storage and inspection infrastructure only. It does not validate the closed R21
+  intent/preflight/outcome schemas, create evidence inside the real R21 roots, admit or execute an
+  integration, move protected main, activate Jarvis, access the Vault, deploy, or authorize Slice
+  004. A separately contracted higher-level schema-validation slice is the next controller
+  increment.
