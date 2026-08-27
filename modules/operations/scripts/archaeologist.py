@@ -19,6 +19,7 @@ from modules.operations.archaeologist.counterevidence import (
     write_counterevidence,
 )
 from modules.operations.archaeologist.judge import JudgeError, write_judgement
+from modules.operations.archaeologist.quarantine import QuarantineError, write_quarantine_canary
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -55,6 +56,17 @@ def _parser() -> argparse.ArgumentParser:
     judge.add_argument("--counterevidence", type=Path, required=True)
     judge.add_argument("--history", type=Path, required=True)
     judge.add_argument("--output", type=Path, required=True)
+    quarantine = subcommands.add_parser(
+        "quarantine-canary", help="quarantine one verified candidate in a disposable fixture"
+    )
+    quarantine.add_argument("--repository", type=Path, required=True)
+    quarantine.add_argument("--inventory", type=Path, required=True)
+    quarantine.add_argument("--hypotheses", type=Path, required=True)
+    quarantine.add_argument("--counterevidence", type=Path, required=True)
+    quarantine.add_argument("--history", type=Path, required=True)
+    quarantine.add_argument("--judge", type=Path, required=True)
+    quarantine.add_argument("--hypothesis-id", required=True)
+    quarantine.add_argument("--output", type=Path, required=True)
     return parser
 
 
@@ -141,7 +153,36 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             return 0
-    except (CounterevidenceError, HistoryError, HypothesisError, InventoryError, JudgeError) as exc:
+        if arguments.command == "quarantine-canary":
+            payload = write_quarantine_canary(
+                arguments.repository,
+                arguments.inventory,
+                arguments.hypotheses,
+                arguments.counterevidence,
+                arguments.history,
+                arguments.judge,
+                arguments.hypothesis_id,
+                arguments.output,
+            )
+            print(
+                json.dumps(
+                    {
+                        "status": payload["status"],
+                        "receipt_sha256": payload["receipt_sha256"],
+                        "restored": payload["restored"],
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0 if payload["status"] == "PASS" else 1
+    except (
+        CounterevidenceError,
+        HistoryError,
+        HypothesisError,
+        InventoryError,
+        JudgeError,
+        QuarantineError,
+    ) as exc:
         print(
             json.dumps({"status": "REFUSED", "reason": str(exc)}, sort_keys=True), file=sys.stderr
         )

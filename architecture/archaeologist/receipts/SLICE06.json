@@ -1,0 +1,65 @@
+{
+  "authority": "disposable-quarantine-canary-only",
+  "authority_granted": false,
+  "base_commit": "2e4b68aca9ca1867b823d2feb0f4924cb1a9b801",
+  "base_tree": "75d062bf2381852beabebfe841f0a8c80006638b",
+  "changed_paths": [
+    {"bytes": 2145, "path": "architecture/archaeologist/PROGRAMME.md", "sha256": "43e92723f491c2d3d674d0caa7fcb8037bd36aaf31e0682866b49f5f7ba98a23"},
+    {"bytes": 3187, "path": "architecture/archaeologist/reports/SLICE06.md", "sha256": "599dadc21b9444173675fbacf38b7f6a7e2980af7d789eba5e29c9aed97b8ed4"},
+    {"bytes": 3481, "path": "modules/operations/README.md", "sha256": "d8e3a300db6bff64f7ae766c1ecf24dd30dabb4959028dad5b734e2ac9e41350"},
+    {"bytes": 1181, "path": "modules/operations/archaeologist/__init__.py", "sha256": "a39a56590b8d025439cfd030d6af465d0ca9047022d802b170dd6343f190d8fd"},
+    {"bytes": 15675, "path": "modules/operations/archaeologist/quarantine.py", "sha256": "cb26d012136a2ea53f16e3bef685c71d030bf181258e2d4e7d7677bdafde7d07"},
+    {"bytes": 7808, "path": "modules/operations/scripts/archaeologist.py", "sha256": "57b022082e8900d20b030ac9cff8a5f99dc7662483f21ee8c1329e5b6e1119d7"},
+    {"bytes": 10552, "path": "modules/operations/tests/test_archaeologist_judge.py", "sha256": "44740112142b948a70ad14006d967458106ad368fb6a9f1387b59d0a4861bf9e"},
+    {"bytes": 6356, "path": "modules/operations/tests/test_archaeologist_quarantine.py", "sha256": "50b318e07fde1a106047e7e36936d93a64afb6e5e030b1091af015e33fd064d9"}
+  ],
+  "claims": [
+    "one deterministic Judge candidate was quarantined only in a disposable fixture",
+    "the fixed sandboxed probe passed without network, personal-home-read or repository-write authority",
+    "the exact source file and clean Git state were automatically restored"
+  ],
+  "cleanup_permitted": false,
+  "deletion_permitted": false,
+  "nonclaims": [
+    "any live GIGA file was quarantined, cleaned, removed or proved obsolete",
+    "production capability, protected integration or deployment"
+  ],
+  "proofs": [
+    {"id": "focused-judge-quarantine", "command": ["python3", "-m", "pytest", "-q", "modules/operations/tests/test_archaeologist_judge.py", "modules/operations/tests/test_archaeologist_quarantine.py"], "result": "12 passed", "status": "PASS"},
+    {"id": "operations-regression", "command": ["python3", "-m", "pytest", "-q", "modules/operations/tests"], "result": "67 passed", "status": "PASS"},
+    {"id": "foundation", "command": ["python3", "modules/platform/validate_foundations.py"], "result": "gate.passed=true", "status": "PASS"},
+    {"id": "ruff", "command": ["ruff", "check", "modules/operations/archaeologist", "modules/operations/scripts/archaeologist.py", "modules/operations/tests/test_archaeologist_judge.py", "modules/operations/tests/test_archaeologist_quarantine.py"], "result": "all checks passed", "status": "PASS"},
+    {"id": "format", "command": ["ruff", "format", "--check", "modules/operations/archaeologist", "modules/operations/scripts/archaeologist.py", "modules/operations/tests/test_archaeologist_judge.py", "modules/operations/tests/test_archaeologist_quarantine.py"], "result": "12 files formatted", "status": "PASS"},
+    {"id": "compile", "command": ["python3", "-m", "compileall", "-q", "modules/operations/archaeologist", "modules/operations/scripts/archaeologist.py"], "result": "exit 0", "status": "PASS"},
+    {"id": "diff-check", "command": ["git", "diff", "--check"], "result": "exit 0", "status": "PASS"}
+  ],
+  "receipt_sha256": "e74dfa32743579c313c23db12f705fc013167e063c0e543ba0846eb3b1adda64",
+  "report_path": "architecture/archaeologist/reports/SLICE06.md",
+  "runtime_evidence": {
+    "directory": "/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice06-2e4b68ac-r2",
+    "fixture_repository": "/private/tmp/giga-archaeologist-slice06-fixture-r2-2e4b68ac/repository",
+    "fixture_head": "b2998b3ed664494e382ecc8569fb9fe27fb6bd53",
+    "fixture_tree": "38651ff22f2792a3b5b087ed12e716f6154f3451",
+    "fixture_final_status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "hypothesis_id": "33033ce41cddc7cf333dae4177e4462f7f79202de3d9797450eae09791e9ecce",
+    "target_sha256": "a33e651174683bc63d935533afa2574859a2692f029f5d8a1a27bd635ecdaa44",
+    "inventory_file_sha256": "124d5a2da38d821d61646e6d61732d823f490adef6021544d7e7f722783471a5",
+    "hypotheses_file_sha256": "bdb453bb514232407e56b60ecc8913c8a862c44b4d075fd948da686b1860acb2",
+    "counterevidence_file_sha256": "046fe75820db00cdaa95870f30bc5a2043a51de42899282fce6a6e83c641beff",
+    "history_file_sha256": "f5872656cd68e55e2fc2e3c1635b881a970130345496661dcd007fd461b0bc2d",
+    "judge_file_sha256": "5400f6751246e3f99ab794f8cb0ec60fd4c2bf35817398afe412afde27c8877c",
+    "judge_receipt_sha256": "8e697caa390c5b77823afac6d76c4842cb4e16c353f90859aa4159e6b30f68f2",
+    "canary_file_sha256": "e17bf9aa82343b4a20b82d6d2a85fdacfa86225915e68e3939bc6c622262af55",
+    "canary_report_sha256": "d892976538aadba6b39a1067354df35fddc299e18670a3c621696e34de5a5917",
+    "canary_receipt_sha256": "f6b41a90c63edf054f27b48c53fee677058b72ef40a0555d88fa73e7e849e4b2",
+    "probe_exit_code": 0,
+    "probe_network_authorized": false,
+    "probe_repository_write_authorized": false,
+    "restored": true,
+    "evidence_mode": "0600",
+    "owner_uid": 501
+  },
+  "schema": "giga.archaeologist.slice-receipt.v1",
+  "slice_id": "SLICE06",
+  "status": "PASS"
+}

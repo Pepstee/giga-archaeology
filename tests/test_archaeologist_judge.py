@@ -40,8 +40,12 @@ def _finding(tool: str, kind: str, detail: dict[str, object]) -> dict[str, objec
     }
 
 
-@pytest.fixture()
-def evidence(tmp_path: Path) -> dict[str, Path]:
+def _candidate_evidence(
+    tmp_path: Path,
+    *,
+    probe_argv: list[str] | None = None,
+    probe_should_pass: bool = True,
+) -> dict[str, Path]:
     repository = tmp_path / "repository"
     repository.mkdir()
     _git(repository, "init", "-q")
@@ -49,6 +53,26 @@ def evidence(tmp_path: Path) -> dict[str, Path]:
     _git(repository, "config", "user.email", "fixture@example.invalid")
     (repository / "src").mkdir()
     (repository / "src/candidate.py").write_text("def candidate():\n    return 1\n")
+    if probe_argv is not None:
+        (repository / "src/app.py").write_text("def answer():\n    return 42\n")
+        (repository / "tests").mkdir()
+        (repository / "tests/test_app.py").write_text(
+            "import unittest\nfrom src.app import answer\n\n"
+            "class AppTests(unittest.TestCase):\n"
+            "    def test_answer(self):\n"
+            f"        self.assertEqual(answer(), {42 if probe_should_pass else 41})\n"
+        )
+        marker = seal_document(
+            {
+                "schema": "giga.archaeologist.disposable-fixture.v1",
+                "disposable": True,
+                "target_path": "src/candidate.py",
+                "probe_argv": probe_argv,
+                "cleanup_permitted": False,
+                "deletion_permitted": False,
+            }
+        )
+        (repository / ".giga-archaeologist-disposable.json").write_bytes(canonical_bytes(marker))
     _git(repository, "add", ".")
     _git(repository, "commit", "-qm", "fixture")
 
@@ -156,11 +180,17 @@ def evidence(tmp_path: Path) -> dict[str, Path]:
     )
     history_path = _write(tmp_path / "history.json", history)
     return {
+        "repository": repository,
         "inventory": inventory_path,
         "hypotheses": hypotheses_path,
         "counter": counter_path,
         "history": history_path,
     }
+
+
+@pytest.fixture()
+def evidence(tmp_path: Path) -> dict[str, Path]:
+    return _candidate_evidence(tmp_path)
 
 
 def _reseal(path: Path, mutate) -> None:

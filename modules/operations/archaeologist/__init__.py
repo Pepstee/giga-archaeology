@@ -13,6 +13,7 @@ from .counterevidence import (
     write_counterevidence,
 )
 from .judge import JudgeError, build_judgement, write_judgement
+from .quarantine import QuarantineError, run_quarantine_canary, write_quarantine_canary
 
 __all__ = [
     "HypothesisError",
@@ -21,15 +22,18 @@ __all__ = [
     "InventoryError",
     "InventoryPolicy",
     "JudgeError",
+    "QuarantineError",
     "ScannerPaths",
     "build_hypotheses",
     "build_history",
     "build_counterevidence",
     "build_inventory",
     "build_judgement",
+    "run_quarantine_canary",
     "write_hypotheses",
     "write_history",
     "write_counterevidence",
     "write_inventory",
     "write_judgement",
+    "write_quarantine_canary",
 ]
