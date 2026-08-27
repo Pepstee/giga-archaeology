@@ -13,6 +13,7 @@ from modules.operations.archaeologist.inventory import (
     write_inventory,
 )
 from modules.operations.archaeologist.hypotheses import HypothesisError, write_hypotheses
+from modules.operations.archaeologist.history import HistoryError, write_history
 from modules.operations.archaeologist.counterevidence import (
     CounterevidenceError,
     write_counterevidence,
@@ -37,6 +38,14 @@ def _parser() -> argparse.ArgumentParser:
     counterevidence.add_argument("--inventory", type=Path, required=True)
     counterevidence.add_argument("--hypotheses", type=Path, required=True)
     counterevidence.add_argument("--output", type=Path, required=True)
+    history = subcommands.add_parser(
+        "history", help="compare Git history and a second repository without executing code"
+    )
+    history.add_argument("--inventory", type=Path, required=True)
+    history.add_argument("--hypotheses", type=Path, required=True)
+    history.add_argument("--counterevidence", type=Path, required=True)
+    history.add_argument("--comparison-repository", type=Path, required=True)
+    history.add_argument("--output", type=Path, required=True)
     return parser
 
 
@@ -84,7 +93,27 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             return 0
-    except (CounterevidenceError, HypothesisError, InventoryError) as exc:
+        if arguments.command == "history":
+            payload = write_history(
+                arguments.inventory,
+                arguments.hypotheses,
+                arguments.counterevidence,
+                arguments.comparison_repository,
+                arguments.output,
+            )
+            print(
+                json.dumps(
+                    {
+                        "status": "PASS",
+                        "receipt_sha256": payload["receipt_sha256"],
+                        "related_variant_observed": payload["summary"]["related_variant_observed"],
+                        "unknown": payload["summary"]["unknown"],
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0
+    except (CounterevidenceError, HistoryError, HypothesisError, InventoryError) as exc:
         print(
             json.dumps({"status": "REFUSED", "reason": str(exc)}, sort_keys=True), file=sys.stderr
         )
