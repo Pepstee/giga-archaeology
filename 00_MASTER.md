@@ -11,11 +11,11 @@ No output is trusted until it survives contact with reality. Every session must 
 integration. Insight that lives only in chat produced no leverage. Claims about the operator's
 behaviour are hypotheses until his own data or explicit confirmation backs them.
 
-## Operator context — read `CONTEXT.md` (canonical), not this block
+## Engineering doctrine — read `CONTEXT.md` (canonical), not this file
 
-Operator identity, situation, active state, and **the standing-decision registry** live in
-`CONTEXT.md` — the single home of settled doctrine since the 18 Jul entropy merge. This
-file no longer restates any of it.
+Settled engineering decisions live in `CONTEXT.md`. Operator identity, relationship data, travel
+state, and other personal context are deliberately not part of the programme's live instructions.
+This file records workstream sequencing and status only.
 
 **Existing assets to reuse, not reinvent** (programme mechanics, so kept here): the
 risk-register methodology + status lifecycle
@@ -27,8 +27,8 @@ authority contains 532,274 observations across both Discord accounts, Telegram, 
 Instagram, Claude and both ChatGPT accounts, with 28 evidence-linked Tier-3 hypotheses).
 
 **On characterisation:** any behavioural claim about the operator must be corpus-derived or
-explicitly confirmed — never asserted from chat impressions. `CONTEXT.md` and `memory/` are
-the sanctioned, evidence-backed homes of who he is; the digital twin derives from the corpus
+explicitly confirmed — never asserted from chat impressions. `memory/` and the governed private
+corpus are the evidence-backed homes for such claims; the digital twin derives from the corpus
 per its five-stage roadmap (memory entry `2026-07-18-bot-maturation-roadmap`).
 
 ## The programme workstreams — one session each, in this order
@@ -71,5 +71,5 @@ events through adapters; it does not physically absorb or interrupt Market Align
 - Durable artefact or it didn't happen.
 - Anything touching the orchestrator repos is READ-ONLY from these sessions (applies the
   v2-freeze registry decision).
-- Doctrine (secrets, untrusted input, scope, quality) lives in `CONTEXT.md`'s standing
+- Doctrine (secrets, untrusted input, authority, quality) lives in `CONTEXT.md`'s engineering
   registry — this list holds session mechanics only.

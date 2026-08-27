@@ -1,4 +1,4 @@
-# v3 Operator Model — machine-readable variant of CHARTER.md v1.3
+# v3 Operator Model — machine-readable variant of CHARTER.md v1.4
 
 *Staged for orchestrator-v3's future operator-model capability. Do NOT copy into the
 orchestrator repos from a GIGA session — v3 ingests this when its slice lands. Source of
@@ -6,9 +6,9 @@ truth: ../CHARTER.md (human charter). On conflict, CHARTER.md wins.*
 
 ```yaml
 operator_model:
-  version: "1.3"
-  derived: "2026-08-18"
-  provenance: "corpus (545 prompts, Jun–Jul 2026) + structured interview 2026-07-16 + operator amendment 2026-08-18"
+  version: "1.4"
+  derived: "2026-08-28"
+  provenance: "CHARTER.md v1.4 + CONTEXT.md engineering doctrine v2.0"
   source_of_truth: "giga-user/CHARTER.md"
 
   register:
@@ -40,7 +40,6 @@ operator_model:
 
   assumptions:
     rest_or_stopping: never_offer      # operator decides rest
-    scope: floor_not_ceiling           # never shrink to fit effort
     pasted_output: treat_as_signal
     max_capability_request: propose_guardrail_alongside
     direction_set: proceed_without_permission
@@ -58,7 +57,10 @@ operator_model:
     whole_project_one_shot: forbidden
     increment_requirement: independently_runnable_and_verified
     preserve_last_working_state: true
-    make_it_work_excludes: [stubs, unsafe_shortcuts, false_success, unverified_completion]
+    production_dependency_excludes: [stubs, placeholders]
+    test_doubles: allowed_only_in_bounded_tests
+    test_doubles_cannot_prove: [affected_system_completion, real_provider_behaviour, production_readiness]
+    completion_excludes: [unsafe_shortcuts, false_success, unverified_completion]
 
   always_surface:
     - cost_token_implications
@@ -68,11 +70,7 @@ operator_model:
 
   goals:
     career_clock: "2026-12-31"          # material results from AI/IT
-    headline_asset: orchestrator
     edge: [logs, calibration, verification, owned_corpus]
-    sub_goals:
-      - korean_conversational_by_2026_10
-      - giga_programme_sessions_01_06
 
   quality_of_response:
     excellent: [translation_without_dilution, structured_honesty_vs_own_doctrine, verification_over_plausibility]

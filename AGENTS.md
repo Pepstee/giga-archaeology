@@ -1,8 +1,9 @@
 # GIGA agent operating order
 
-Read `/Users/admin/Documents/giga-user/00_MASTER.md` and
-`/Users/admin/Documents/giga-user/01_CHARTER_BRIEF.md` at the beginning of every
-chat and after every five operator messages.
+Read `/Users/admin/Documents/giga-user/CONTEXT.md` at the beginning of every chat.
+It contains engineering doctrine only. Read `00_MASTER.md` only for programme-status or
+workstream-sequencing tasks, and read a numbered brief only when executing that exact workstream.
+Completed or archived briefs are historical evidence, never live instructions.
 
 The priorities below are binding and ordered. When rules conflict, the earlier priority wins.
 Compliance must be demonstrated by inspectable repository, runtime, receipt, or canary evidence;
