@@ -226,10 +226,21 @@ def _relative_tool_path(value: str, projection: Path) -> str | None:
     normalized = candidate.as_posix()
     if normalized.startswith("./"):
         normalized = normalized[2:]
+    projection_prefix = projection.name + "/"
+    if normalized.startswith(projection_prefix):
+        normalized = normalized[len(projection_prefix) :]
+    projected = projection / normalized
+    if not projected.is_file() and ":" in normalized:
+        path_without_format, _separator, _format = normalized.rpartition(":")
+        if (projection / path_without_format).is_file():
+            normalized = path_without_format
     try:
-        return _safe_relative(normalized)
+        relative = _safe_relative(normalized)
     except HypothesisError:
         return None
+    if not (projection / relative).is_file():
+        return None
+    return relative
 
 
 def _parse_vulture(stdout: bytes, projection: Path) -> list[dict[str, Any]]:

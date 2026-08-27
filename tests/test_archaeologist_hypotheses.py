@@ -56,7 +56,7 @@ def _executable(path: Path, body: str) -> Path:
 def _scanners(tmp_path: Path, *, cgc_exit: int = 0) -> ScannerPaths:
     vulture = _executable(
         tmp_path / "vulture",
-        "#!/bin/sh\nprintf '%s/src/app.py:1: unused function '\"'\"'unused'\"'\"' (60%% confidence)\\n' \"$1\"\nexit 3\n",
+        "#!/bin/sh\nprintf 'projection/src/app.py:1: unused function '\"'\"'unused'\"'\"' (60%% confidence)\\n'\nexit 3\n",
     )
     jscpd = _executable(
         tmp_path / "jscpd",
@@ -65,8 +65,8 @@ import json, pathlib, sys
 args = sys.argv
 out = pathlib.Path(args[args.index('--output') + 1])
 out.mkdir(parents=True)
-payload = {'duplicates': [{'firstFile': {'name': 'src/a.js', 'start': 1, 'end': 1},
- 'secondFile': {'name': 'src/b.js', 'start': 1, 'end': 1}, 'format': 'javascript',
+payload = {'duplicates': [{'firstFile': {'name': 'src/a.js:javascript', 'start': 1, 'end': 1},
+ 'secondFile': {'name': 'src/b.js:javascript', 'start': 1, 'end': 1}, 'format': 'javascript',
  'lines': 1, 'tokens': 8}], 'statistics': {}}
 (out / 'jscpd-report.json').write_text(json.dumps(payload))
 """,
@@ -120,6 +120,11 @@ def test_scanners_only_mint_observed_hypotheses_and_preserve_source(
     assert all(item["state"] == "OBSERVED" for item in payload["findings"])
     assert all(item["authority_granted"] is False for item in payload["findings"])
     assert all(item["cleanup_permitted"] is False for item in payload["findings"])
+    assert {path for item in payload["findings"] for path in item["paths"]} <= {
+        "src/app.py",
+        "src/a.js",
+        "src/b.js",
+    }
     assert payload["authority_granted"] is False
     assert payload["cleanup_permitted"] is False
     assert _git(repository, "status", "--porcelain=v1", "--untracked-files=all") == before

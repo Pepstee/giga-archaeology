@@ -7,19 +7,19 @@ a Slice 1 inventory, copies only its admitted regular source files into an
 external private projection, and runs three pinned scanners without giving any
 scanner the original repository path.
 
-The accepted live run recorded:
+The current accepted live run recorded:
 
-- 877 total observations, all exactly `OBSERVED`;
-- 81 Vulture Python unused-symbol observations;
-- 796 jscpd syntactic duplicate-region observations;
+- 880 total observations, all exactly `OBSERVED`;
+- 80 Vulture Python unused-symbol observations;
+- 800 jscpd syntactic duplicate-region observations;
 - zero CodeGraphContext unreferenced-function observations;
 - three completed scanners and zero failed scanners;
 - no source-repository mutation and no global CodeGraphContext state.
 
-The hypothesis receipt is
-`e2746bc21bd0bc11e84073da4cf78165839c9a4f2bac37f38b1fb56b07a7cc06`.
+The current hypothesis receipt is
+`8f3afa2873563ac97316f8082631c0db1265cb060d03beb430342e949fb58d33`.
 Complete raw scanner evidence is private and external at
-`/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice02-88bdf960-r2`.
+`/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice02-c9f2dbe8-path-repair`.
 
 ## Safety and false-positive boundary
 
@@ -50,6 +50,20 @@ The repair added an explicit final write denial for that global path, made the
 bridge assert its isolated configuration root, disabled project environment
 loading, and added a before/after global-path identity check. The second live
 run completed with the global path absent.
+
+## Source-location repair
+
+The first Slice 3 inspection found that the initially accepted Slice 2 parser
+retained Vulture's synthetic `projection/` prefix and jscpd's virtual
+`:format` suffix on some relative paths. Findings still carried no authority,
+but those source locations were not reliably openable. That evidence is now
+superseded rather than silently relabelled.
+
+The parser now strips only a projection-root prefix and only a format suffix
+whose exact unsuffixed file exists in the verified projection. It rejects every
+result path that does not resolve to an inventoried projected file. The fresh
+run proved all 880 observation paths are exact members of its input inventory,
+with zero missing source paths and no global configuration side effect.
 
 ## Reuse and ownership
 

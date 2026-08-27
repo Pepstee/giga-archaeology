@@ -1,0 +1,125 @@
+{
+  "authority": "read-only-development-evidence",
+  "authority_granted": false,
+  "base_commit": "c9f2dbe84afe08e0f22ddbc19cf9a1d16c9d62b3",
+  "base_tree": "0be590cf554735cb569b6ba8f1cfffc608ccb12c",
+  "changed_paths": [
+    {
+      "bytes": 2157,
+      "path": "architecture/archaeologist/PROGRAMME.md",
+      "sha256": "e32e1a86fe86dafb4656515dbfd60c6e654e4f1025e0984c18cdf3057217a260"
+    },
+    {
+      "bytes": 4652,
+      "path": "architecture/archaeologist/reports/SLICE02.md",
+      "sha256": "72507b398542cd59bf0976f81e3e60aff76bb1562ada28a6991c51498c1bdde0"
+    },
+    {
+      "bytes": 19966,
+      "path": "modules/operations/archaeologist/hypotheses.py",
+      "sha256": "14d90797366b8664ef0ace3924c968dd8bdbfa5fff42731bc3cd4ef0aa400cdd"
+    },
+    {
+      "bytes": 6728,
+      "path": "modules/operations/tests/test_archaeologist_hypotheses.py",
+      "sha256": "0388247e588e117786377b8965194cbaebfb2a46a9455fd83b8b741d07366fbe"
+    }
+  ],
+  "claims": [
+    "every scanner observation path resolves to an exact inventoried file",
+    "synthetic projection prefixes and jscpd format suffixes are removed conservatively",
+    "fresh three-tool run remains observation-only and side-effect-free"
+  ],
+  "cleanup_permitted": false,
+  "nonclaims": [
+    "corroboration, dead-code acceptance, quarantine or removal",
+    "protected integration or deployment"
+  ],
+  "proofs": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "modules/operations/tests/test_archaeologist_hypotheses.py"
+      ],
+      "id": "focused-hypotheses",
+      "result": "4 passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "modules/operations/tests"
+      ],
+      "id": "operations-regression",
+      "result": "49 passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "modules/platform/validate_foundations.py"
+      ],
+      "id": "foundation",
+      "result": "gate.passed=true",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/ruff",
+        "check",
+        "modules/operations/archaeologist/hypotheses.py",
+        "modules/operations/tests/test_archaeologist_hypotheses.py"
+      ],
+      "id": "ruff",
+      "result": "all checks passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/ruff",
+        "format",
+        "--check",
+        "modules/operations/archaeologist/hypotheses.py",
+        "modules/operations/tests/test_archaeologist_hypotheses.py"
+      ],
+      "id": "format",
+      "result": "2 files formatted",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "id": "diff-check",
+      "result": "exit 0",
+      "status": "PASS"
+    }
+  ],
+  "receipt_sha256": "14b8be415b0e95ae86d0aadc80ad66cc9f13cb0a7696cedfaec28d4f1ea3d791",
+  "report_path": "architecture/archaeologist/reports/SLICE02.md",
+  "runtime_evidence": {
+    "codegraphcontext_observations": 0,
+    "directory": "/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice02-c9f2dbe8-path-repair",
+    "global_config_absent_after": true,
+    "hypotheses_file_sha256": "3cc788964476d249c8ad399403caf27b49e165668a74e8201a556fa79a9d09c3",
+    "hypotheses_receipt_sha256": "8f3afa2873563ac97316f8082631c0db1265cb060d03beb430342e949fb58d33",
+    "inventory_file_sha256": "0f35080fc3012ab73351fea649ac8f6738fe25d20cf6b4f77f6dc6e51d7c2991",
+    "inventory_receipt_sha256": "81a80b3c5c74edb6b71ab227ecbd165ee6d859ff1de99c184e2561b3cac2f622",
+    "jscpd_observations": 800,
+    "missing_source_paths": 0,
+    "observations": 880,
+    "vulture_observations": 80
+  },
+  "schema": "giga.archaeologist.slice-receipt.v1",
+  "slice_id": "SLICE02_REPAIR01",
+  "status": "PASS",
+  "supersedes_runtime_evidence": "/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice02-88bdf960-r2"
+}
