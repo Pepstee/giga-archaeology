@@ -1,0 +1,157 @@
+{
+  "authority": "read-only-development-evidence",
+  "authority_granted": false,
+  "base_commit": "e361d7fc025c11b1b21c0fc33bc14a58c9a1de44",
+  "base_tree": "0b132408bc2ae8648920c5b3215595d6af256579",
+  "changed_paths": [
+    {
+      "bytes": 1636,
+      "path": "architecture/archaeologist/PROGRAMME.md",
+      "sha256": "fe9590585285d52a00d437ff6b035bbf6d0cb218dcf5e1d91a8ddd0880305e05"
+    },
+    {
+      "bytes": 2908,
+      "path": "architecture/archaeologist/reports/SLICE01.md",
+      "sha256": "12b9b5e6b7be9db6e997347c979fa11cde6a585e1f85a548ab247796fb88dbcb"
+    },
+    {
+      "bytes": 1013,
+      "path": "modules/operations/README.md",
+      "sha256": "98201b9abaf4337efce32333a2b108e0a9b6125f5546e2f8606b9d8bb15d827f"
+    },
+    {
+      "bytes": 357,
+      "path": "modules/operations/archaeologist/__init__.py",
+      "sha256": "c31a69ce6e2571812aaa4bd6c53862fc7052df86a17ac597e37dc254659eb294"
+    },
+    {
+      "bytes": 3015,
+      "path": "modules/operations/archaeologist/evidence.py",
+      "sha256": "c7647ebbc62ce5ae940b173c9f0713479a468633a86600dda9301fbf27a701ef"
+    },
+    {
+      "bytes": 18986,
+      "path": "modules/operations/archaeologist/inventory.py",
+      "sha256": "a8323520ab9c59353570386c07e8e5d11e16257a3bb9e1d84c9d5c368bed694a"
+    },
+    {
+      "bytes": 1309,
+      "path": "modules/operations/registry.v1.json",
+      "sha256": "febea64e82b113a7d8ca6d98cf0ec4a72d63fec7d2c56b0cff74c0c3c5b1b154"
+    },
+    {
+      "bytes": 1612,
+      "path": "modules/operations/scripts/archaeologist.py",
+      "sha256": "9288a2a038122f67a8b6da58851407931f2fd86574426cc572b44b9cc0627466"
+    },
+    {
+      "bytes": 4965,
+      "path": "modules/operations/tests/test_archaeologist_inventory.py",
+      "sha256": "bf62f280e73b209d2425c303317583c0ada0b39001923e1db583d86b3d2d6853"
+    },
+    {
+      "bytes": 703,
+      "path": "pyproject.toml",
+      "sha256": "5f69c365b7afa7dc49f1af081545aa801d317cd08f48e855e3c4501622daaa6f"
+    }
+  ],
+  "claims": [
+    "immutable privacy-filtered inventory is runnable",
+    "target repository is not mutated",
+    "output is external create-once evidence"
+  ],
+  "cleanup_permitted": false,
+  "nonclaims": [
+    "scanner hypotheses generated",
+    "dead or redundant code established",
+    "quarantine or deletion authorized",
+    "protected integration or deployment"
+  ],
+  "proofs": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "modules/operations/tests/test_archaeologist_inventory.py"
+      ],
+      "id": "focused-inventory",
+      "result": "6 passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "modules/operations/tests"
+      ],
+      "id": "operations-regression",
+      "result": "45 passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "modules/platform/validate_foundations.py"
+      ],
+      "id": "foundation",
+      "result": "gate.passed=true",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/ruff",
+        "check",
+        "modules/operations/archaeologist",
+        "modules/operations/scripts/archaeologist.py",
+        "modules/operations/tests/test_archaeologist_inventory.py"
+      ],
+      "id": "ruff",
+      "result": "all checks passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "compileall",
+        "-q",
+        "modules/operations/archaeologist",
+        "modules/operations/scripts/archaeologist.py"
+      ],
+      "id": "compile",
+      "result": "exit 0",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "id": "diff-check",
+      "result": "exit 0",
+      "status": "PASS"
+    }
+  ],
+  "receipt_sha256": "6e1907e1f8963e9bfac410760e75a0ebd4f314f5598ec34d714ead2d1fd29be0",
+  "report_path": "architecture/archaeologist/reports/SLICE01.md",
+  "runtime_evidence": {
+    "declared_entrypoints": 40,
+    "directory": "/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice01-e361d7fc",
+    "exact_duplicate_groups": 69,
+    "included_files": 1073,
+    "inventory_file_sha256": "c47ec46452731e6bae0c0a8f8459d464f47ff8a131a080764edbdbbbdfdb5664",
+    "inventory_receipt_sha256": "49d11d0681b7cc8a833afc88fb3a81ac6529e28ca439d18de565555c8c87e471",
+    "parse_errors": 0,
+    "report_file_sha256": "141f314f05e2d872de83de87c8a61a8f331aa6435484b07c5b2e2c49680a1ead",
+    "symbols": 1970
+  },
+  "schema": "giga.archaeologist.slice-receipt.v1",
+  "slice_id": "SLICE01",
+  "status": "PASS"
+}
