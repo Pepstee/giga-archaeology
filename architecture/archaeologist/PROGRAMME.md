@@ -8,7 +8,7 @@ on its own and is committed only after its receipt and report are verified.
 | --- | --- | --- | --- | --- |
 | 01 | Immutable repository/symbol/entrypoint/ref/duplicate inventory | VERIFIED | `receipts/SLICE01.json` | `reports/SLICE01.md` |
 | 02 | Read-only scanner observations | VERIFIED + PATH REPAIR | `receipts/SLICE02.json`, `receipts/SLICE02_REPAIR01.json` | `reports/SLICE02.md` |
-| 03 | Entrypoint and dynamic-use counterevidence model | NOT STARTED | `receipts/SLICE03.json` | `reports/SLICE03.md` |
+| 03 | Entrypoint and dynamic-use counterevidence model | VERIFIED | `receipts/SLICE03.json` | `reports/SLICE03.md` |
 | 04 | Git and cross-repository historical capability comparison | NOT STARTED | `receipts/SLICE04.json` | `reports/SLICE04.md` |
 | 05 | Deterministic fail-closed Judge and lifecycle | NOT STARTED | `receipts/SLICE05.json` | `reports/SLICE05.md` |
 | 06 | Reversible quarantine canary with automatic restoration | NOT STARTED | `receipts/SLICE06.json` | `reports/SLICE06.md` |

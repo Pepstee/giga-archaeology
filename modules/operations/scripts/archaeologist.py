@@ -13,6 +13,10 @@ from modules.operations.archaeologist.inventory import (
     write_inventory,
 )
 from modules.operations.archaeologist.hypotheses import HypothesisError, write_hypotheses
+from modules.operations.archaeologist.counterevidence import (
+    CounterevidenceError,
+    write_counterevidence,
+)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -27,6 +31,12 @@ def _parser() -> argparse.ArgumentParser:
     )
     hypotheses.add_argument("--inventory", type=Path, required=True)
     hypotheses.add_argument("--output", type=Path, required=True)
+    counterevidence = subcommands.add_parser(
+        "counterevidence", help="model entrypoint and dynamic-use counterevidence"
+    )
+    counterevidence.add_argument("--inventory", type=Path, required=True)
+    counterevidence.add_argument("--hypotheses", type=Path, required=True)
+    counterevidence.add_argument("--output", type=Path, required=True)
     return parser
 
 
@@ -58,7 +68,23 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             return 0
-    except (HypothesisError, InventoryError) as exc:
+        if arguments.command == "counterevidence":
+            payload = write_counterevidence(
+                arguments.inventory, arguments.hypotheses, arguments.output
+            )
+            print(
+                json.dumps(
+                    {
+                        "status": "PASS",
+                        "receipt_sha256": payload["receipt_sha256"],
+                        "counterevidence_present": payload["summary"]["counterevidence_present"],
+                        "counterevidence_unknown": payload["summary"]["counterevidence_unknown"],
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0
+    except (CounterevidenceError, HypothesisError, InventoryError) as exc:
         print(
             json.dumps({"status": "REFUSED", "reason": str(exc)}, sort_keys=True), file=sys.stderr
         )

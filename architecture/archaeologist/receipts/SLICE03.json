@@ -1,0 +1,161 @@
+{
+  "authority": "read-only-development-evidence",
+  "authority_granted": false,
+  "base_commit": "da262776dec3d73309061f1b2e62064e60052137",
+  "base_tree": "6371805092e1a489b3e0d146202d3626f9b1b9ff",
+  "changed_paths": [
+    {
+      "bytes": 2154,
+      "path": "architecture/archaeologist/PROGRAMME.md",
+      "sha256": "28549a86cbfe6296799d0b4370727fd715084ac53efa6245cd78c8d220131f82"
+    },
+    {
+      "bytes": 2975,
+      "path": "architecture/archaeologist/reports/SLICE03.md",
+      "sha256": "cbfb412de5be6228bca64863b7b08b17908be414dc8bdd80e5f1636475972064"
+    },
+    {
+      "bytes": 1778,
+      "path": "modules/operations/README.md",
+      "sha256": "59babfc7a2fda3955fee31bf3abc23b75c6bc4f45e79b3a4941f379f554fb2e4"
+    },
+    {
+      "bytes": 756,
+      "path": "modules/operations/archaeologist/__init__.py",
+      "sha256": "c41c6a1dc4ebcdb68561e98dfbe36214fcc0322322f841b77e2974fb6bf8c665"
+    },
+    {
+      "bytes": 16052,
+      "path": "modules/operations/archaeologist/counterevidence.py",
+      "sha256": "5bb2044c4134e0d430d43202ce8671a603a723513c7daa72b8df84e479fb950a"
+    },
+    {
+      "bytes": 3648,
+      "path": "modules/operations/scripts/archaeologist.py",
+      "sha256": "a824b5adcf17baa944a6dd99567bb2680396adb86ed6f6963891b3738e33205b"
+    },
+    {
+      "bytes": 6122,
+      "path": "modules/operations/tests/test_archaeologist_counterevidence.py",
+      "sha256": "4fad7e4f6ec1f16bf382730157bbe1476c0647595366a6ca2335a21a3d3a0054"
+    }
+  ],
+  "claims": [
+    "entrypoint and dynamic-use counterevidence model is runnable",
+    "positive counterevidence blocks cleanup assumptions",
+    "missing runtime evidence remains UNKNOWN"
+  ],
+  "cleanup_permitted": false,
+  "nonclaims": [
+    "runtime use or absence established",
+    "historical comparison or Judge lifecycle decision",
+    "quarantine, removal, protected integration or deployment"
+  ],
+  "proofs": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "modules/operations/tests/test_archaeologist_inventory.py",
+        "modules/operations/tests/test_archaeologist_hypotheses.py",
+        "modules/operations/tests/test_archaeologist_counterevidence.py"
+      ],
+      "id": "focused-archaeologist",
+      "result": "13 passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "modules/operations/tests"
+      ],
+      "id": "operations-regression",
+      "result": "52 passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "modules/platform/validate_foundations.py"
+      ],
+      "id": "foundation",
+      "result": "gate.passed=true",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/ruff",
+        "check",
+        "modules/operations/archaeologist",
+        "modules/operations/scripts/archaeologist.py",
+        "modules/operations/tests/test_archaeologist_counterevidence.py"
+      ],
+      "id": "ruff",
+      "result": "all checks passed",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/ruff",
+        "format",
+        "--check",
+        "modules/operations/archaeologist",
+        "modules/operations/scripts/archaeologist.py",
+        "modules/operations/tests/test_archaeologist_counterevidence.py"
+      ],
+      "id": "format",
+      "result": "8 files formatted",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "compileall",
+        "-q",
+        "modules/operations/archaeologist",
+        "modules/operations/scripts/archaeologist.py"
+      ],
+      "id": "compile",
+      "result": "exit 0",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "id": "diff-check",
+      "result": "exit 0",
+      "status": "PASS"
+    }
+  ],
+  "receipt_sha256": "8f675a75e877ca82692c47ea392c6da492ebf4d335822ede0280bb2f37981f4b",
+  "report_path": "architecture/archaeologist/reports/SLICE03.md",
+  "runtime_evidence": {
+    "counterevidence_file_sha256": "f40bfc4752ab2e474a8c6ef49856b2ab219338fefeeda9288f9c0b941b6021b5",
+    "counterevidence_present": 148,
+    "counterevidence_receipt_sha256": "71ef389b6a56f07d1d80e04a1fe7b1d969cbc2ad78ab34338df1fb8dd80c478d",
+    "counterevidence_unknown": 733,
+    "declared_entrypoints": 40,
+    "decorated_symbols": 78,
+    "directory": "/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice03-da262776",
+    "dynamic_calls": 535,
+    "hypotheses": 881,
+    "hypotheses_file_sha256": "c33ee6e0ae253dbeaecdb74b85246b8716039f7d5d55e41391605b8c80aa1f75",
+    "hypotheses_receipt_sha256": "8efdceaad664e737177a032c4940515a4a6792085c8e82b56f64ce9bdb306946",
+    "imports": 2675,
+    "inventory_file_sha256": "7a7881bfaebe6cfa49d762684782cd64b4fa272f5ba96040c5bc690d5033c2f1",
+    "inventory_receipt_sha256": "34eee3d009eb92fccbb6a1c6eb62c5229340b30c780081a42af93f3faa1bd8ac",
+    "module_main_guards": 163
+  },
+  "schema": "giga.archaeologist.slice-receipt.v1",
+  "slice_id": "SLICE03",
+  "status": "PASS"
+}
