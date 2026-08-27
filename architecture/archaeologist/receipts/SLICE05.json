@@ -1,0 +1,52 @@
+{
+  "authority": "deterministic-candidate-classification-only",
+  "authority_granted": false,
+  "base_commit": "7d2cb9124acfe722653019a9531e66853885cc7a",
+  "base_tree": "ef8d6f9f1ae340c4a0899a88a1ef43ac0a88b5ad",
+  "changed_paths": [
+    {"bytes": 2148, "path": "architecture/archaeologist/PROGRAMME.md", "sha256": "7f83b243ef342ccc436a58e4fe4c91e2124c0bb831aba6fc727135a29fade0ee"},
+    {"bytes": 2695, "path": "architecture/archaeologist/reports/SLICE05.md", "sha256": "86ccf83263df0287b136fd5c3283245496be0e8e1e048d17287286b3ccaff74c"},
+    {"bytes": 2744, "path": "modules/operations/README.md", "sha256": "cf57693a76622537f1cbe473e241bb840b00429f1e1e68e495904b02c78b0894"},
+    {"bytes": 1010, "path": "modules/operations/archaeologist/__init__.py", "sha256": "58b8806225e74e89b8abf75e1705efaf383aba289e77ca4e25ae6c06f0629514"},
+    {"bytes": 14514, "path": "modules/operations/archaeologist/judge.py", "sha256": "a55057670607c977ad61db3487dcb2f0caf34d021287b10ad3d7f088f7018c9a"},
+    {"bytes": 6143, "path": "modules/operations/scripts/archaeologist.py", "sha256": "1f4ed82c0e88b97adc06b912c164ceea8336d8cd98f1889f787b25c7ee19a365"},
+    {"bytes": 9409, "path": "modules/operations/tests/test_archaeologist_judge.py", "sha256": "da137b3137241bdc7569ed6a7a366654baaf4ac227ce78a6cb83dda3015203cb"}
+  ],
+  "claims": [
+    "the deterministic Judge is runnable and fail closed",
+    "only fully corroborated and negatively cleared subjects become quarantine candidates",
+    "the live GIGA evidence produced zero cleanup or deletion candidates"
+  ],
+  "cleanup_permitted": false,
+  "deletion_permitted": false,
+  "nonclaims": [
+    "any live GIGA file is dead, redundant, obsolete, safe to quarantine or safe to remove",
+    "quarantine canary, cleanup, deletion, protected integration or deployment"
+  ],
+  "proofs": [
+    {"id": "focused-judge", "command": ["python3", "-m", "pytest", "-q", "modules/operations/tests/test_archaeologist_judge.py"], "result": "6 passed", "status": "PASS"},
+    {"id": "operations-regression", "command": ["python3", "-m", "pytest", "-q", "modules/operations/tests"], "result": "61 passed", "status": "PASS"},
+    {"id": "foundation", "command": ["python3", "modules/platform/validate_foundations.py"], "result": "gate.passed=true", "status": "PASS"},
+    {"id": "ruff", "command": ["ruff", "check", "modules/operations/archaeologist", "modules/operations/scripts/archaeologist.py", "modules/operations/tests/test_archaeologist_judge.py"], "result": "all checks passed", "status": "PASS"},
+    {"id": "format", "command": ["ruff", "format", "--check", "modules/operations/archaeologist", "modules/operations/scripts/archaeologist.py", "modules/operations/tests/test_archaeologist_judge.py"], "result": "10 files formatted", "status": "PASS"},
+    {"id": "compile", "command": ["python3", "-m", "compileall", "-q", "modules/operations/archaeologist", "modules/operations/scripts/archaeologist.py"], "result": "exit 0", "status": "PASS"},
+    {"id": "diff-check", "command": ["git", "diff", "--check"], "result": "exit 0", "status": "PASS"}
+  ],
+  "receipt_sha256": "9a53cb41a8eaf467c3f2fa819213189c3d80ca25de473777a5e99d9f969cbd37",
+  "report_path": "architecture/archaeologist/reports/SLICE05.md",
+  "runtime_evidence": {
+    "directory": "/Users/admin/Documents/developer-tools/giga-archaeologist-evidence/slice05-7d2cb912/judge",
+    "hypotheses": 881,
+    "conflict": 878,
+    "unknown": 3,
+    "verified_candidate": 0,
+    "judge_file_sha256": "cdfc87363996968969626c425e6416f293c93810b761423136406608c1a99633",
+    "judge_report_sha256": "c1f276edee4210d27c5130c94284a6b3851439d936ba62cc022197de4fd93584",
+    "judge_receipt_sha256": "0fb11ce5fdf83d8a4c452f41f7b1b1a64bc746a78d55ac5098ce2694e87fbbf6",
+    "file_mode": "0600",
+    "owner_uid": 501
+  },
+  "schema": "giga.archaeologist.slice-receipt.v1",
+  "slice_id": "SLICE05",
+  "status": "PASS"
+}

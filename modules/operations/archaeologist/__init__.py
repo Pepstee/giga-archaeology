@@ -12,6 +12,7 @@ from .counterevidence import (
     build_counterevidence,
     write_counterevidence,
 )
+from .judge import JudgeError, build_judgement, write_judgement
 
 __all__ = [
     "HypothesisError",
@@ -19,13 +20,16 @@ __all__ = [
     "CounterevidenceError",
     "InventoryError",
     "InventoryPolicy",
+    "JudgeError",
     "ScannerPaths",
     "build_hypotheses",
     "build_history",
     "build_counterevidence",
     "build_inventory",
+    "build_judgement",
     "write_hypotheses",
     "write_history",
     "write_counterevidence",
     "write_inventory",
+    "write_judgement",
 ]
