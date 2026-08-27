@@ -12,6 +12,7 @@ from modules.operations.archaeologist.inventory import (
     InventoryPolicy,
     write_inventory,
 )
+from modules.operations.archaeologist.hypotheses import HypothesisError, write_hypotheses
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -21,6 +22,11 @@ def _parser() -> argparse.ArgumentParser:
     inventory.add_argument("--repository", type=Path, required=True)
     inventory.add_argument("--output", type=Path, required=True)
     inventory.add_argument("--admit-untracked", action="append", default=[])
+    hypotheses = subcommands.add_parser(
+        "hypotheses", help="run isolated scanners and preserve OBSERVED hypotheses"
+    )
+    hypotheses.add_argument("--inventory", type=Path, required=True)
+    hypotheses.add_argument("--output", type=Path, required=True)
     return parser
 
 
@@ -39,7 +45,20 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             return 0
-    except InventoryError as exc:
+        if arguments.command == "hypotheses":
+            payload = write_hypotheses(arguments.inventory, arguments.output)
+            print(
+                json.dumps(
+                    {
+                        "status": "PASS",
+                        "receipt_sha256": payload["receipt_sha256"],
+                        "observations": payload["summary"]["observations"],
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0
+    except (HypothesisError, InventoryError) as exc:
         print(
             json.dumps({"status": "REFUSED", "reason": str(exc)}, sort_keys=True), file=sys.stderr
         )
