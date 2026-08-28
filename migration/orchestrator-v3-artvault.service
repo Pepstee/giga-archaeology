@@ -22,7 +22,10 @@ Environment=AGENTIC_BUILDER_EFFORT=medium
 Environment=AGENTIC_TESTER_EFFORT=medium
 Environment=AGENTIC_JUDGE_EFFORT=medium
 Environment=AGENTIC_OVERSEER_EFFORT=medium
-Environment=AGENTIC_TASK_MANAGER_MAX_TOOL_CALLS=0
+# TransitVPN planning is read-only and must traverse the committed archaeology map before proposing
+# an increment. Thirty-two calls bound one complete inspection instead of repeatedly killing and
+# replaying partial inspections at progressively higher ceilings.
+Environment=AGENTIC_TASK_MANAGER_MAX_TOOL_CALLS=32
 Environment=AGENTIC_BUILDER_MAX_TOOL_CALLS=16
 Environment=AGENTIC_TESTER_MAX_TOOL_CALLS=12
 Environment=AGENTIC_JUDGE_MAX_TOOL_CALLS=18
