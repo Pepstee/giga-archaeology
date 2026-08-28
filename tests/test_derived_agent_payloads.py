@@ -74,7 +74,18 @@ class DerivedAgentPayloadTests(unittest.TestCase):
         self.assertIn(
             "sequence: [make_smallest_real_path_work, improve_quality]", machine_body
         )
-        self.assertNotIn("v2_freeze", machine_body)
+        for legacy_doctrine in (
+            "v2_freeze",
+            "fork_clean",
+            "blind_ab_test_win_on_real_prompts",
+            "session_04_retrospectives",
+        ):
+            with self.subTest(legacy_doctrine=legacy_doctrine):
+                self.assertNotIn(legacy_doctrine, machine_body)
+        self.assertIn(
+            "assistant_proposed_amendment: evidence_and_explicit_operator_acceptance",
+            machine_body,
+        )
 
     def test_write_regenerates_only_drifted_payload(self) -> None:
         with tempfile.TemporaryDirectory() as folder:

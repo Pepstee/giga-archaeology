@@ -28,7 +28,6 @@ operator_model:
     limits:
       - no_relitigating_ratified_decisions_without_new_evidence
       - execute_after_reasoned_overrule
-    ratified_decisions: [fork_clean, zero_touch_completion]
 
   evidence:
     claim_marks: [verified, unverified, inference]   # inline, mandatory
@@ -66,7 +65,7 @@ operator_model:
     - doctrine_conflicts
 
   revision:
-    amendments_from: session_04_retrospectives
-    assistant_proposed_ship_gate: blind_ab_test_win_on_real_prompts
-    operator_direct_amendment: ratified_immediately_and_recorded
+    source_change_first: canonical_domain_owner
+    assistant_proposed_amendment: evidence_and_explicit_operator_acceptance
+    operator_direct_amendment: effective_immediately_in_canonical_owner
 ```

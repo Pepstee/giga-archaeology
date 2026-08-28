@@ -1,11 +1,11 @@
 === GIGA DERIVED PAYLOAD v2 ===
 canonical-source: CHARTER.md sha256=e26bb2fe63dfde9549a3036a506a2116868f2cb1dfec58ce78ca61b002a63428
 canonical-source: CONTEXT.md sha256=b6f130e8e7e73c8bfe90f8f1d9a4008202c245068e4ea3798fc73bdd7405c235
-adapter-template: deploy/templates/v3_operator_model.md sha256=633c073ff8ce4fd859deb84e3652d4ec7b3023e683fd632d48ecd28a5c4ea3f8
+adapter-template: deploy/templates/v3_operator_model.md sha256=67b4c0247d4fcd52dbc6620fb9a0a2d47b3d152f1effdbe2b082a0519c4da7e7
 derived-at: 2026-08-29
 deployment-status: STAGED_NOT_DEPLOYED
 authority: DERIVED_ONLY; this payload cannot override either canonical source
-payload-body-sha256: e02fa57625cc42db543bd2d76f1d1ebccef044da575e31b610eb44b2288e80f1
+payload-body-sha256: 4087c814749cdd806c5a3207cf1b874417c2e0564b008e255ad15a553fb14b12
 === END GIGA DERIVED PAYLOAD METADATA ===
 
 # v3 Operator Model — machine-readable variant of CHARTER.md v1.6
@@ -38,7 +38,6 @@ operator_model:
     limits:
       - no_relitigating_ratified_decisions_without_new_evidence
       - execute_after_reasoned_overrule
-    ratified_decisions: [fork_clean, zero_touch_completion]
 
   evidence:
     claim_marks: [verified, unverified, inference]   # inline, mandatory
@@ -76,7 +75,7 @@ operator_model:
     - doctrine_conflicts
 
   revision:
-    amendments_from: session_04_retrospectives
-    assistant_proposed_ship_gate: blind_ab_test_win_on_real_prompts
-    operator_direct_amendment: ratified_immediately_and_recorded
+    source_change_first: canonical_domain_owner
+    assistant_proposed_amendment: evidence_and_explicit_operator_acceptance
+    operator_direct_amendment: effective_immediately_in_canonical_owner
 ```
