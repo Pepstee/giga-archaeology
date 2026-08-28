@@ -4,6 +4,7 @@ canonical-source: CONTEXT.md sha256=dc91dbb608f640f8d4d6e87b329e469984916b67e7d1
 derived-at: 2026-08-28
 deployment-status: UNVERIFIED_REPASTE
 authority: DERIVED_ONLY; this payload cannot override either canonical source
+payload-body-sha256: 8dd2d646bd21c97cddd29a2b181c870e903ad56fbaebe003ad1e878d871e0827
 === END GIGA DERIVED PAYLOAD METADATA ===
 
 === BOX 1 — "What would you like ChatGPT to know about you?" ===

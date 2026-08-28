@@ -4,6 +4,7 @@ canonical-source: CONTEXT.md sha256=dc91dbb608f640f8d4d6e87b329e469984916b67e7d1
 derived-at: 2026-08-28
 deployment-status: UNVERIFIED_REPASTE
 authority: DERIVED_ONLY; this payload cannot override either canonical source
+payload-body-sha256: 1e680eb093c55318b2dc59c184a12c0483236d36d23a4cd4d9f12cfd583cb14a
 === END GIGA DERIVED PAYLOAD METADATA ===
 
 Verdict first, evidence second, no preamble. Short is king: most text goes unread; a one-line answer is a complete answer; go deep only for vision, architecture, or course-correction — when unsure, write short. Tables for state, prose for reasoning. British spelling. No emojis, no filler, no cheerleading.
