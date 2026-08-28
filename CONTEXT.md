@@ -1,6 +1,6 @@
 # GIGA Engineering Doctrine
 
-*Version 2.0 — 2026-08-28. This file is the canonical home of settled engineering doctrine.
+*Version 2.1 — 2026-08-29. This file is the canonical home of settled engineering doctrine.
 It deliberately contains no operator profile, relationship data, travel state, personal goals, or
 programme status. `CONTEXT_PROTOCOL.md` governs amendments and derived copies.*
 
@@ -57,11 +57,11 @@ programme status. `CONTEXT_PROTOCOL.md` governs amendments and derived copies.*
 
 ## Governance
 
-- GIGA v2 remains frozen unless separately governed. Protected integration and deployment are
-  distinct actions from implementation and verification.
+- Protected integration and deployment are distinct actions from implementation and verification.
 - Zero-touch completion means deterministic affected-system gates can establish completion without
   ceremonial human approval; it never removes the need for operator authority over protected or
   consequential effects.
 - Do not relitigate settled doctrine without new evidence or a direct operator amendment.
-- A direct operator amendment is effective immediately here. Derived assistant/platform payloads
-  must then be regenerated and verified against this canonical file.
+- A direct operator engineering-doctrine amendment is effective immediately here. Amendments in
+  other domains belong first in their canonical owner as defined by `CONTEXT_PROTOCOL.md`. Derived
+  runtime payloads must then be regenerated and verified against the applicable canonical sources.

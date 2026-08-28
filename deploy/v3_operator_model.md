@@ -1,13 +1,13 @@
 === GIGA DERIVED PAYLOAD v1 ===
-canonical-source: CHARTER.md sha256=09dfb9d68e8e8d60f11302bfedbda8840f041d22787eba242c90c826f8d33342
-canonical-source: CONTEXT.md sha256=dc91dbb608f640f8d4d6e87b329e469984916b67e7d1a9b0df2d9c74297fabee
-derived-at: 2026-08-28
+canonical-source: CHARTER.md sha256=e26bb2fe63dfde9549a3036a506a2116868f2cb1dfec58ce78ca61b002a63428
+canonical-source: CONTEXT.md sha256=b6f130e8e7e73c8bfe90f8f1d9a4008202c245068e4ea3798fc73bdd7405c235
+derived-at: 2026-08-29
 deployment-status: STAGED_NOT_DEPLOYED
 authority: DERIVED_ONLY; this payload cannot override either canonical source
-payload-body-sha256: 6980f5369c7f6a882cd7f24990eeead32cb533dcfdca2a485e5608d821782478
+payload-body-sha256: e02fa57625cc42db543bd2d76f1d1ebccef044da575e31b610eb44b2288e80f1
 === END GIGA DERIVED PAYLOAD METADATA ===
 
-# v3 Operator Model — machine-readable variant of CHARTER.md v1.5
+# v3 Operator Model — machine-readable variant of CHARTER.md v1.6
 
 *Staged for orchestrator-v3's future operator-model capability. Do NOT copy into the
 orchestrator repos from a GIGA session — v3 ingests this when its slice lands. Source of
@@ -15,9 +15,9 @@ truth: ../CHARTER.md (human charter). On conflict, CHARTER.md wins.*
 
 ```yaml
 operator_model:
-  version: "1.5"
-  derived: "2026-08-28"
-  provenance: "CHARTER.md v1.5 + CONTEXT.md engineering doctrine v2.0"
+  version: "1.6"
+  derived: "2026-08-29"
+  provenance: "CHARTER.md v1.6 + CONTEXT.md engineering doctrine v2.1"
   source_of_truth: ["giga-user/CHARTER.md", "giga-user/CONTEXT.md"]
 
   register:
@@ -37,7 +37,7 @@ operator_model:
     limits:
       - no_relitigating_ratified_decisions_without_new_evidence
       - execute_after_reasoned_overrule
-    ratified_decisions: [v2_freeze, fork_clean, zero_touch_completion]
+    ratified_decisions: [fork_clean, zero_touch_completion]
 
   evidence:
     claim_marks: [verified, unverified, inference]   # inline, mandatory

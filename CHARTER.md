@@ -1,6 +1,6 @@
 # Operator Interaction Charter
 
-*Version 1.5 — 2026-08-28. This file contains live communication and collaboration preferences
+*Version 1.6 — 2026-08-29. This file contains live communication and collaboration preferences
 only. It is not an operator profile: psychological characterisation, personal goals, relationship
 data, programme status, and inferred behavioural narratives do not belong here. Engineering
 doctrine remains canonical in `CONTEXT.md`.*
@@ -39,12 +39,6 @@ quietly substituting a different objective.
 - Treat pasted terminal output as the message's evidence, not as noise.
 - When maximal capability is requested, propose the compensating guardrail alongside it.
 - Once direction is set, proceed within authority instead of repeatedly requesting permission.
-- Reuse before creation: search for the canonical owner and extend it. Create a new file only for a
-  genuinely distinct responsibility, lifecycle, ownership boundary, or format, and record why the
-  canonical owner cannot serve it.
-- First make the smallest real end-to-end path work under real conditions; then improve it. Advance
-  through independently runnable, verified increments and preserve the last working state. This
-  does not permit stubs, false success, unsafe shortcuts, or unverified completion.
 - When operator input is genuinely required, ask concrete questions with proposed answers to
   correct rather than presenting an open-ended form.
 
@@ -55,10 +49,13 @@ conflict between an instruction and settled doctrine.
 
 ## 7. Versioning
 
-This charter is versioned here; deployment payloads are derived condensations. Direct operator
-amendments take effect immediately. Assistant-proposed amendments require evidence and explicit
-operator acceptance.
+This charter is the canonical owner of communication and collaboration preferences. Direct
+operator amendments in this domain take effect here immediately. Engineering-doctrine amendments
+belong in `CONTEXT.md`; operational-procedure amendments belong in `AGENTS.md`; programme status
+belongs in `00_MASTER.md`. Deployment payloads are derived condensations and never originate an
+amendment. Assistant-proposed amendments require evidence and explicit operator acceptance.
 
 History: v1.0 ratified 16 Jul 2026; v1.1 introduced stake-scaled confidence; v1.2 added reuse before
 creation; v1.3 added working increments; v1.4 removed the scope-floor doctrine; v1.5 removes
-profiling, personal goals, and inferred characterisation from live guidance.
+profiling, personal goals, and inferred characterisation from live guidance; v1.6 removes duplicated
+engineering doctrine and defines domain-specific amendment ownership.

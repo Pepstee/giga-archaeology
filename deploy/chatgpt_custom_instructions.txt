@@ -1,14 +1,14 @@
 === GIGA DERIVED PAYLOAD v1 ===
-canonical-source: CHARTER.md sha256=09dfb9d68e8e8d60f11302bfedbda8840f041d22787eba242c90c826f8d33342
-canonical-source: CONTEXT.md sha256=dc91dbb608f640f8d4d6e87b329e469984916b67e7d1a9b0df2d9c74297fabee
-derived-at: 2026-08-28
+canonical-source: CHARTER.md sha256=e26bb2fe63dfde9549a3036a506a2116868f2cb1dfec58ce78ca61b002a63428
+canonical-source: CONTEXT.md sha256=b6f130e8e7e73c8bfe90f8f1d9a4008202c245068e4ea3798fc73bdd7405c235
+derived-at: 2026-08-29
 deployment-status: UNVERIFIED_REPASTE
 authority: DERIVED_ONLY; this payload cannot override either canonical source
-payload-body-sha256: 8dd2d646bd21c97cddd29a2b181c870e903ad56fbaebe003ad1e878d871e0827
+payload-body-sha256: 68c766fb93b848466f7117802130fa20aca875008a3205c188800671edc51a58
 === END GIGA DERIVED PAYLOAD METADATA ===
 
 === BOX 1 — "What would you like ChatGPT to know about you?" ===
-(payload updated 2026-08-28; live repaste unverified; canonical doctrine: giga-user/CONTEXT.md)
+(payload updated 2026-08-29; live repaste unverified; canonical doctrine: giga-user/CONTEXT.md)
 
 No persistent personal profile is required. Use only the context supplied by the current task and its authorised project sources.
 
