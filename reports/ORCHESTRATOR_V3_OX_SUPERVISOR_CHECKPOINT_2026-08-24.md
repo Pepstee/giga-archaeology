@@ -313,3 +313,59 @@ preserves the operator's earlier explicit idle/limit instruction. Source restora
 provisioning and target certification are complete; live activation remains one separate deliberate
 operator decision because starting the v2-equivalent outer lifecycle also starts the v3 supervisor
 and factory rather than a harmless notification-only process.
+
+## 28 August live restoration — persistent Overseer operational
+
+The operator explicitly requested restoration. Subsequent independent review and repair advanced
+the certified source from `f6e8abc` to exact commit
+`db14c9261e29aaa81831f0a5fe8674a5519a34eb`. The final independent reviewer returned `PASS` with no
+P0/P1/P2 findings. The complete exact-candidate suite passed `3,761`, skipped `5`, and deliberately
+deselected the one pre-existing scoped-assurance test whose nested JAA fixture is absent from the
+Orchestrator checkout. The widened independent review passed `383` checks and the focused review
+passed `306` checks. Canonical Mac v3 was fast-forwarded only to `db14c92`, and
+`origin/efficiency/e2-shadow-cache` now resolves to that same commit.
+
+macOS prevents a background LaunchAgent from traversing the canonical repository under
+`Documents`; a direct deployment there was observed hanging in the kernel before Python could
+enter application code. A distinct, hash-bound runtime checkout was therefore created at
+`/Users/admin/.local/share/orchestrator-v3-runtime`. It is an 84 MB operational deployment of the
+same exact commit, with current durable Overseer/event state and project source but without the
+12 GB isolation scratch, historical runtime clones, virtual environments or private canary
+evidence. The reviewed source of truth remains the canonical repository. The canonical `STOP`
+remains armed; only the deployed runtime STOP was recoverably archived as
+`state/operator-stops/STOP-before-overseer-activation-20260828T142001Z`.
+
+The persistent user service is
+`/Users/admin/Library/LaunchAgents/com.pepstee.orchestrator-v3.overseer.plist`. It pins the reviewed
+runtime, Homebrew Python and child-process PATH, starts at login, maintains one outer singleton,
+and relaunches a failed child supervisor. Deployment validation produced:
+
+- runtime source commit: `db14c9261e29aaa81831f0a5fe8674a5519a34eb`;
+- runtime isolation receipt:
+  `cb3af5754a8333421be15adea40aec8ddcc3968dccd67ddb653d8796908b2802`;
+- dry run: `238` law-linked checks passed, isolation ready, durable session valid, bounded
+  rehydration present, no pending stale cycle;
+- live canary task: `overseer-pulse-live-canary-20260828T142400Z`, events `2848` through `2854`;
+- canary result: accepted `true`, provider `codex`, model `gpt-5.6-terra`, zero tool calls,
+  `13,789` observed tokens;
+- DV-2 projection: `settle_dv2`, exact knowledge entry
+  `dv2-fc83700b5a668599050d65ffad3dab5b5d2bf688e54cbd47a04b340d14e40c70`;
+- authority result: one advisory directive recorded, zero executable tasks admitted;
+- duplicate-service drill: second owner refused with exit `3`;
+- crash-recovery drill: outer PID `9574` replaced terminated supervisor PID `9577` with PID `9923`
+  within six seconds while retaining the same durable session;
+- dedicated Overseer Telegram delivery: passed; sender/chat configuration remains private with
+  mode `0600`, and the durable cursor is identity-bound and `ready`;
+- failed historical pulse `overseer-pulse-3cf9291e2bda17dc1de3` remains immutable and was not
+  requeued.
+
+The final canonical graph refresh covers the exact source commit: `7,298` nodes, `23,092` edges and
+`297` communities. Graph SHA-256 is
+`6899ba75494e247476793f155ce061e582999c79087633d3a6751e74c1ad3950`; manifest SHA-256 is
+`257ff5d85c39259b654142c0974f50b8d5c8db58cb87ec3855298a0479624ace`.
+
+Operational verdict: the v2-style persistent Overseer is restored and running. It has durable
+memory, periodic observation, health/recovery, private Telegram dialogue and governed advisory
+intervention. Unlike v2, model text cannot directly mutate projects: consequential work still
+requires the signed bounded work-order path. The canonical development checkout remains safely
+STOP-protected while the dedicated runtime performs the persistent service role.
