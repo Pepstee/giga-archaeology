@@ -40,7 +40,8 @@ prose, plans, test names, and worker self-report are not proof.
   listing curated/GitHub skills. `find-skills` is mandatory when discovering an installable
   capability.
 - After any skill or plugin inventory change, run:
-  `python3 /Users/admin/.codex/skills/skill-router/scripts/audit_skills.py --write /Users/admin/.codex/skills/skill-router/references/installed-skills.json --check --agents /Users/admin/.codex/AGENTS.md`
+  the active environment's deterministic `skill-router` inventory audit in write-and-check mode,
+  binding the result to that environment's applicable global agent instructions.
 - Career-pipeline routing is mandatory: use `scrapling-official` for scraping/crawling,
   `playwright` for deterministic application flows, and `browser-use` for unsupported interactive
   forms. Use `account-research` only after opportunity assessment passes. Route UK CV and cover
@@ -59,10 +60,10 @@ prose, plans, test names, and worker self-report are not proof.
   dependencies, create isolated branches/worktrees, commit verified increments as Artiom Gutu,
   push verified milestone branches, and perform read-only synchronization. Continue without asking
   repeatedly for approval.
-- Use available Ox compute extensively for bounded inspection, implementation, debugging,
-  documentation, and test work. Codex owns scope, product outcome, independent verification,
-  integration decisions, and truthful reporting. Maintain one writer per branch and never duplicate
-  an already-owned responsibility.
+- Use available delegated implementation and reasoning compute extensively for bounded inspection,
+  implementation, debugging, documentation, and test work. The supervising agent owns scope,
+  product outcome, independent verification, integration decisions, and truthful reporting.
+  Maintain one writer per branch and never duplicate an already-owned responsibility.
 - When a recoverable provider/runtime failure occurs, resume the same logical lane when safe; do not
   create a duplicate lane or wait silently. Record quota, provider, and runtime blockers exactly.
 - Existing operator-authorized canary and application action classes remain authorized within their
