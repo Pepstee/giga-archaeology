@@ -20,6 +20,12 @@ from modules.operations.archaeologist.counterevidence import (
 )
 from modules.operations.archaeologist.judge import JudgeError, write_judgement
 from modules.operations.archaeologist.quarantine import QuarantineError, write_quarantine_canary
+from modules.operations.archaeologist.navigation_inventory import (
+    NavigationInventoryError,
+    current_navigation_run,
+    refresh_navigation_inventory,
+    search_navigation_inventory,
+)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -67,6 +73,23 @@ def _parser() -> argparse.ArgumentParser:
     quarantine.add_argument("--judge", type=Path, required=True)
     quarantine.add_argument("--hypothesis-id", required=True)
     quarantine.add_argument("--output", type=Path, required=True)
+    navigation = subcommands.add_parser(
+        "navigation-refresh",
+        help="atomically refresh the complete local working-tree navigation inventory",
+    )
+    navigation.add_argument("--root", type=Path, required=True)
+    navigation.add_argument("--store", type=Path, required=True)
+    navigation_status = subcommands.add_parser(
+        "navigation-status", help="verify and report the current navigation inventory"
+    )
+    navigation_status.add_argument("--store", type=Path, required=True)
+    navigation_search = subcommands.add_parser(
+        "navigation-search", help="search the current authenticated navigation inventory"
+    )
+    navigation_search.add_argument("query")
+    navigation_search.add_argument("--store", type=Path, required=True)
+    navigation_search.add_argument("--limit", type=int, default=50)
+    navigation_search.add_argument("--semantic-only", action="store_true")
     return parser
 
 
@@ -175,11 +198,39 @@ def main(argv: list[str] | None = None) -> int:
                 )
             )
             return 0 if payload["status"] == "PASS" else 1
+        if arguments.command == "navigation-refresh":
+            run = refresh_navigation_inventory(arguments.root, arguments.store)
+            print(
+                json.dumps(
+                    {
+                        "status": run.manifest["status"],
+                        "run_id": run.manifest["run_id"],
+                        "files": run.manifest["counts"]["files"],
+                        "receipt_sha256": run.manifest["receipt_sha256"],
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0 if run.manifest["status"] == "CURRENT" else 1
+        if arguments.command == "navigation-status":
+            run = current_navigation_run(arguments.store)
+            print(json.dumps(run.manifest, sort_keys=True))
+            return 0 if run.manifest["status"] == "CURRENT" else 1
+        if arguments.command == "navigation-search":
+            rows = search_navigation_inventory(
+                arguments.store,
+                arguments.query,
+                limit=arguments.limit,
+                semantic_only=arguments.semantic_only,
+            )
+            print(json.dumps({"status": "PASS", "results": rows}, sort_keys=True))
+            return 0
     except (
         CounterevidenceError,
         HistoryError,
         HypothesisError,
         InventoryError,
+        NavigationInventoryError,
         JudgeError,
         QuarantineError,
     ) as exc:

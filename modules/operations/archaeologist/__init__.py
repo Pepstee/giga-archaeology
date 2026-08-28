@@ -14,6 +14,14 @@ from .counterevidence import (
 )
 from .judge import JudgeError, build_judgement, write_judgement
 from .quarantine import QuarantineError, run_quarantine_canary, write_quarantine_canary
+from .navigation_inventory import (
+    NavigationInventoryError,
+    NavigationPolicy,
+    NavigationRun,
+    current_navigation_run,
+    refresh_navigation_inventory,
+    search_navigation_inventory,
+)
 
 __all__ = [
     "HypothesisError",
@@ -23,6 +31,9 @@ __all__ = [
     "InventoryPolicy",
     "JudgeError",
     "QuarantineError",
+    "NavigationInventoryError",
+    "NavigationPolicy",
+    "NavigationRun",
     "ScannerPaths",
     "build_hypotheses",
     "build_history",
@@ -30,6 +41,9 @@ __all__ = [
     "build_inventory",
     "build_judgement",
     "run_quarantine_canary",
+    "current_navigation_run",
+    "refresh_navigation_inventory",
+    "search_navigation_inventory",
     "write_hypotheses",
     "write_history",
     "write_counterevidence",
