@@ -6,7 +6,12 @@ quarantine, deletion, or migration authority.
 
 from .inventory import InventoryError, InventoryPolicy, build_inventory, write_inventory
 from .history import HistoryError, build_history, write_history
-from .hypotheses import HypothesisError, ScannerPaths, build_hypotheses, write_hypotheses
+from .hypotheses import (
+    HypothesisError,
+    ScannerPaths,
+    build_hypotheses,
+    write_hypotheses,
+)
 from .counterevidence import (
     CounterevidenceError,
     build_counterevidence,
@@ -19,6 +24,7 @@ from .navigation_inventory import (
     NavigationPolicy,
     NavigationRun,
     current_navigation_run,
+    locate_navigation_inventory,
     refresh_navigation_inventory,
     search_navigation_inventory,
 )
@@ -28,10 +34,14 @@ from .semantic_graph import (
     SemanticRun,
     archive_legacy_graph,
     current_semantic_run,
+    locate_semantic_graph,
     query_semantic_graph,
     refresh_semantic_graph,
 )
-from .navigation_maintenance import NavigationMaintenanceError, run_navigation_maintenance
+from .navigation_maintenance import (
+    NavigationMaintenanceError,
+    run_navigation_maintenance,
+)
 
 __all__ = [
     "HypothesisError",
@@ -57,10 +67,12 @@ __all__ = [
     "build_judgement",
     "run_quarantine_canary",
     "current_navigation_run",
+    "locate_navigation_inventory",
     "refresh_navigation_inventory",
     "run_navigation_maintenance",
     "search_navigation_inventory",
     "current_semantic_run",
+    "locate_semantic_graph",
     "query_semantic_graph",
     "refresh_semantic_graph",
     "write_hypotheses",

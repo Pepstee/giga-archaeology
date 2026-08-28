@@ -38,6 +38,7 @@ from .navigation_inventory import NavigationRun, _replace_atomic, current_naviga
 
 SEMANTIC_SCHEMA = "giga.navigation.semantic-graph-manifest.v1"
 SEMANTIC_POINTER_SCHEMA = "giga.navigation.semantic-current-pointer.v1"
+SEMANTIC_LOCATE_SCHEMA = "giga.navigation.semantic-locate-result.v1"
 LEGACY_ARCHIVE_SCHEMA = "giga.navigation.legacy-graph-archive.v1"
 GRAPHIFY_CODE_SUFFIXES = frozenset(
     {
@@ -68,7 +69,9 @@ GRAPHIFY_CODE_SUFFIXES = frozenset(
         ".zsh",
     }
 )
-GRAPHIFY_DOCUMENT_SUFFIXES = frozenset({".html", ".md", ".rst", ".txt", ".yaml", ".yml"})
+GRAPHIFY_DOCUMENT_SUFFIXES = frozenset(
+    {".html", ".md", ".rst", ".txt", ".yaml", ".yml"}
+)
 GRAPHIFY_SUPPORTED_SUFFIXES = GRAPHIFY_CODE_SUFFIXES | GRAPHIFY_DOCUMENT_SUFFIXES
 CONFIDENCE_VALUES = frozenset({"EXTRACTED", "INFERRED"})
 LOCATION_RE = re.compile(r"^L?(?P<start>[1-9][0-9]*)(?:-L?(?P<end>[1-9][0-9]*))?$")
@@ -98,7 +101,11 @@ def _tree_entries(root: Path) -> list[dict[str, Any]]:
             raise SemanticGraphError(f"legacy graph contains a symlink: {relative}")
         if stat.S_ISDIR(metadata.st_mode):
             entries.append(
-                {"path": relative, "kind": "directory", "mode": stat.S_IMODE(metadata.st_mode)}
+                {
+                    "path": relative,
+                    "kind": "directory",
+                    "mode": stat.S_IMODE(metadata.st_mode),
+                }
             )
         elif stat.S_ISREG(metadata.st_mode):
             digest, size = _file_sha256(path)
@@ -112,13 +119,17 @@ def _tree_entries(root: Path) -> list[dict[str, Any]]:
                 }
             )
         else:
-            raise SemanticGraphError(f"legacy graph contains an unsupported file: {relative}")
+            raise SemanticGraphError(
+                f"legacy graph contains an unsupported file: {relative}"
+            )
     return entries
 
 
 @dataclass(frozen=True)
 class GraphifyConfig:
-    python: Path = Path.home() / "Documents/developer-tools/giga-graphify-local/.venv/bin/python"
+    python: Path = (
+        Path.home() / "Documents/developer-tools/giga-graphify-local/.venv/bin/python"
+    )
     endpoint: str = "http://127.0.0.1:1235/v1"
     model: str = "mlx-community/Qwen2.5-3B-Instruct-4bit"
     token_budget: int = 6000
@@ -188,7 +199,9 @@ def _local_endpoint(value: str) -> urllib.parse.ParseResult:
         or parsed.fragment
         or parsed.path.rstrip("/") != "/v1"
     ):
-        raise SemanticGraphError("Graphify endpoint must be exact loopback HTTP with a /v1 path")
+        raise SemanticGraphError(
+            "Graphify endpoint must be exact loopback HTTP with a /v1 path"
+        )
     try:
         _ = parsed.port
     except ValueError as exc:
@@ -218,7 +231,9 @@ def _verify_local_model(config: GraphifyConfig) -> dict[str, Any]:
     except (OSError, urllib.error.URLError) as exc:
         raise SemanticGraphError(f"local model endpoint is unavailable: {exc}") from exc
     if status != 200 or len(raw) > 1024 * 1024:
-        raise SemanticGraphError("local model endpoint returned an invalid model response")
+        raise SemanticGraphError(
+            "local model endpoint returned an invalid model response"
+        )
     try:
         payload = json.loads(raw.decode("utf-8", "strict"))
         identifiers = sorted(
@@ -227,9 +242,13 @@ def _verify_local_model(config: GraphifyConfig) -> dict[str, Any]:
             if isinstance(item, dict) and isinstance(item.get("id"), str)
         )
     except (KeyError, TypeError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise SemanticGraphError("local model endpoint returned malformed JSON") from exc
+        raise SemanticGraphError(
+            "local model endpoint returned malformed JSON"
+        ) from exc
     if config.model not in identifiers:
-        raise SemanticGraphError(f"configured local model is not loaded: {config.model}")
+        raise SemanticGraphError(
+            f"configured local model is not loaded: {config.model}"
+        )
     return {
         "endpoint": config.endpoint,
         "model": config.model,
@@ -339,7 +358,9 @@ def archive_legacy_graph(legacy_path: Path, semantic_store: Path) -> dict[str, A
         old_edges = len(old_graph.get("edges", old_graph.get("links", [])))
     except (OSError, UnicodeDecodeError, json.JSONDecodeError, TypeError) as exc:
         raise SemanticGraphError("legacy graph.json is not readable JSON") from exc
-    archive_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')}-{uuid.uuid4().hex[:12]}"
+    archive_id = (
+        f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')}-{uuid.uuid4().hex[:12]}"
+    )
     archive = semantic_store / "legacy" / archive_id
     archive.parent.mkdir(exist_ok=True, mode=0o700)
     archive.mkdir(mode=0o700)
@@ -410,8 +431,14 @@ def _select_files(
             for item in previous.manifest["coverage"]["selected_files"]
             if isinstance(item, dict) and isinstance(item.get("path"), str)
         }
-    structural = {path for path, item in files.items() if item.suffix in GRAPHIFY_CODE_SUFFIXES}
-    documents = {path for path, item in files.items() if item.suffix in GRAPHIFY_DOCUMENT_SUFFIXES}
+    structural = {
+        path for path, item in files.items() if item.suffix in GRAPHIFY_CODE_SUFFIXES
+    }
+    documents = {
+        path
+        for path, item in files.items()
+        if item.suffix in GRAPHIFY_DOCUMENT_SUFFIXES
+    }
     retained_documents = documents & previous_paths
     new_documents = sorted(
         documents - previous_paths,
@@ -441,7 +468,9 @@ def _stable_copy(root: Path, record: _File, destination: Path) -> int:
         stat.S_IMODE(before.st_mode),
     )
     if source.is_symlink() or not stat.S_ISREG(before.st_mode) or observed != expected:
-        raise SemanticGraphError(f"inventory source drifted before projection: {record.path}")
+        raise SemanticGraphError(
+            f"inventory source drifted before projection: {record.path}"
+        )
     descriptor = os.open(source, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
     try:
         opened = os.fstat(descriptor)
@@ -535,9 +564,12 @@ def _delta_files(
     if previous is None:
         return dict(selected), set()
     previous_files = {
-        item["path"]: item["sha256"] for item in previous.manifest["coverage"]["selected_files"]
+        item["path"]: item["sha256"]
+        for item in previous.manifest["coverage"]["selected_files"]
     }
-    force_structural = previous.manifest["graph"].get("structural_files_sourced", 0) == 0
+    force_structural = (
+        previous.manifest["graph"].get("structural_files_sourced", 0) == 0
+    )
     delta = {
         path: record
         for path, record in selected.items()
@@ -564,14 +596,19 @@ def _merge_raw_graph(
     retained_output_tokens = 0
     if previous is not None and retained_paths:
         previous_path = previous.run_directory / previous.manifest["graph"]["raw_path"]
-        retained_source = json.loads(previous_path.read_text(encoding="utf-8", errors="strict"))
+        retained_source = json.loads(
+            previous_path.read_text(encoding="utf-8", errors="strict")
+        )
         retained["nodes"] = [
             item
             for item in retained_source["nodes"]
-            if item.get("source_file") in retained_paths or item.get("source_file") in (None, "")
+            if item.get("source_file") in retained_paths
+            or item.get("source_file") in (None, "")
         ]
         retained["edges"] = [
-            item for item in retained_source["edges"] if item.get("source_file") in retained_paths
+            item
+            for item in retained_source["edges"]
+            if item.get("source_file") in retained_paths
         ]
         retained["hyperedges"] = [
             item
@@ -585,7 +622,8 @@ def _merge_raw_graph(
         "edges": retained["edges"] + delta["edges"],
         "hyperedges": retained["hyperedges"] + delta["hyperedges"],
         "input_tokens": retained_input_tokens + int(delta.get("input_tokens", 0) or 0),
-        "output_tokens": retained_output_tokens + int(delta.get("output_tokens", 0) or 0),
+        "output_tokens": retained_output_tokens
+        + int(delta.get("output_tokens", 0) or 0),
     }
     destination.write_bytes(canonical_bytes(combined))
     return {
@@ -679,7 +717,9 @@ def _invoke_graphify(
     os.chmod(stderr_path, 0o600)
     if result.returncode != 0:
         detail = result.stderr.decode("utf-8", "replace")[-4000:]
-        raise SemanticGraphError(f"Graphify extraction failed ({result.returncode}): {detail}")
+        raise SemanticGraphError(
+            f"Graphify extraction failed ({result.returncode}): {detail}"
+        )
     return {
         "argv": argv,
         "stdout_sha256": sha256_bytes(result.stdout),
@@ -695,11 +735,15 @@ def _invoke_graphify(
 def _location(value: str, lines: int) -> None:
     match = LOCATION_RE.fullmatch(value)
     if match is None:
-        raise SemanticGraphError(f"Graphify emitted a malformed source location: {value!r}")
+        raise SemanticGraphError(
+            f"Graphify emitted a malformed source location: {value!r}"
+        )
     start = int(match.group("start"))
     end = int(match.group("end") or start)
     if start > end or end > lines:
-        raise SemanticGraphError(f"Graphify source location is outside the source: {value!r}")
+        raise SemanticGraphError(
+            f"Graphify source location is outside the source: {value!r}"
+        )
 
 
 def _unique_label_location(projection: Path, source: str, label: Any) -> str | None:
@@ -707,7 +751,11 @@ def _unique_label_location(projection: Path, source: str, label: Any) -> str | N
     if not isinstance(label, str) or not label.strip():
         return None
     try:
-        lines = (projection / source).read_text(encoding="utf-8", errors="strict").splitlines()
+        lines = (
+            (projection / source)
+            .read_text(encoding="utf-8", errors="strict")
+            .splitlines()
+        )
     except (OSError, UnicodeDecodeError):
         return None
     matches = [index for index, line in enumerate(lines, 1) if label in line]
@@ -761,7 +809,9 @@ def _normalize_graph(
                     "source_location": node.get("source_location"),
                     "file_type": node.get("file_type"),
                 }
-                normalized["id"] = f"{identifier}__{sha256_bytes(canonical_bytes(identity))[:16]}"
+                normalized["id"] = (
+                    f"{identifier}__{sha256_bytes(canonical_bytes(identity))[:16]}"
+                )
             node["normalized_id"] = normalized["id"]
             normalized_nodes.append(normalized)
 
@@ -771,7 +821,9 @@ def _normalize_graph(
         candidates = by_original.get(identifier, [])
         if len(candidates) == 1:
             return candidates[0]["normalized_id"]
-        same_source = [item for item in candidates if item.get("source_file") == source_file]
+        same_source = [
+            item for item in candidates if item.get("source_file") == source_file
+        ]
         if len(same_source) == 1:
             return same_source[0]["normalized_id"]
         return None
@@ -783,7 +835,9 @@ def _normalize_graph(
             unresolved_edges += 1
             continue
         edge = dict(value)
-        if edge.get("source_file") not in (None, "") and edge.get("source_location") in (
+        if edge.get("source_file") not in (None, "") and edge.get(
+            "source_location"
+        ) in (
             None,
             "",
         ):
@@ -805,7 +859,9 @@ def _normalize_graph(
             unresolved_hyperedges += 1
             continue
         item = dict(value)
-        resolved = [resolve(identifier, item.get("source_file")) for identifier in item["nodes"]]
+        resolved = [
+            resolve(identifier, item.get("source_file")) for identifier in item["nodes"]
+        ]
         if any(identifier is None for identifier in resolved):
             unresolved_hyperedges += 1
             continue
@@ -813,7 +869,11 @@ def _normalize_graph(
         normalized_hyperedges.setdefault(canonical_bytes(item), item)
 
     graph = {
-        **{key: value for key, value in raw.items() if key not in {"nodes", "edges", "hyperedges"}},
+        **{
+            key: value
+            for key, value in raw.items()
+            if key not in {"nodes", "edges", "hyperedges"}
+        },
         "nodes": normalized_nodes,
         "edges": list(normalized_edges.values()),
         "hyperedges": list(normalized_hyperedges.values()),
@@ -855,7 +915,11 @@ def _validate_graph(
     sourced_paths: set[str] = set()
     selected_paths = set(selected)
     for node in graph["nodes"]:
-        if not isinstance(node, dict) or not isinstance(node.get("id"), str) or not node["id"]:
+        if (
+            not isinstance(node, dict)
+            or not isinstance(node.get("id"), str)
+            or not node["id"]
+        ):
             raise SemanticGraphError("Graphify node has no stable id")
         if node["id"] in node_ids:
             raise SemanticGraphError(f"Graphify node id is duplicated: {node['id']}")
@@ -864,11 +928,15 @@ def _validate_graph(
         location = node.get("source_location")
         if source in (None, ""):
             if location not in (None, ""):
-                raise SemanticGraphError("Graphify unsourced node has a source location")
+                raise SemanticGraphError(
+                    "Graphify unsourced node has a source location"
+                )
             unsourced_nodes += 1
         else:
             if source not in selected_paths:
-                raise SemanticGraphError(f"Graphify node cites an unadmitted source: {source}")
+                raise SemanticGraphError(
+                    f"Graphify node cites an unadmitted source: {source}"
+                )
             if not isinstance(location, str):
                 raise SemanticGraphError("Graphify sourced node has no source location")
             _location(location, line_counts[source])
@@ -883,14 +951,18 @@ def _validate_graph(
             raise SemanticGraphError("Graphify edge is malformed")
         confidence = edge.get("confidence")
         if confidence not in CONFIDENCE_VALUES:
-            raise SemanticGraphError(f"Graphify edge has invalid confidence: {confidence!r}")
+            raise SemanticGraphError(
+                f"Graphify edge has invalid confidence: {confidence!r}"
+            )
         if edge["source"] not in node_ids or edge["target"] not in node_ids:
             raise SemanticGraphError("Graphify edge cites an unknown node")
         source = edge.get("source_file")
         location = edge.get("source_location")
         if source is not None:
             if source not in selected_paths:
-                raise SemanticGraphError(f"Graphify edge cites an unadmitted source: {source}")
+                raise SemanticGraphError(
+                    f"Graphify edge cites an unadmitted source: {source}"
+                )
             if not isinstance(location, str):
                 raise SemanticGraphError("Graphify sourced edge has no source location")
             _location(location, line_counts[source])
@@ -909,9 +981,13 @@ def _validate_graph(
         location = hyperedge.get("source_location")
         if source not in (None, ""):
             if source not in selected_paths:
-                raise SemanticGraphError(f"Graphify hyperedge cites an unadmitted source: {source}")
+                raise SemanticGraphError(
+                    f"Graphify hyperedge cites an unadmitted source: {source}"
+                )
             if not isinstance(location, str):
-                raise SemanticGraphError("Graphify sourced hyperedge has no source location")
+                raise SemanticGraphError(
+                    "Graphify sourced hyperedge has no source location"
+                )
             _location(location, line_counts[source])
             sourced_paths.add(source)
     uncovered_documents = sorted(
@@ -924,11 +1000,15 @@ def _validate_graph(
             "Graphify returned no source-linked content for selected documents: "
             + ", ".join(uncovered_documents[:10])
         )
-    if any(record.suffix in GRAPHIFY_CODE_SUFFIXES for record in selected.values()) and not any(
+    if any(
+        record.suffix in GRAPHIFY_CODE_SUFFIXES for record in selected.values()
+    ) and not any(
         path in sourced_paths and record.suffix in GRAPHIFY_CODE_SUFFIXES
         for path, record in selected.items()
     ):
-        raise SemanticGraphError("Graphify returned no source-linked structural content")
+        raise SemanticGraphError(
+            "Graphify returned no source-linked structural content"
+        )
     return graph, {
         "nodes": len(graph["nodes"]),
         "edges": len(graph["edges"]),
@@ -996,7 +1076,9 @@ def _recover_staging(store: Path) -> None:
         run_id = staging.name.removeprefix(".staging-")
         destination = failures / run_id
         if destination.exists():
-            raise SemanticGraphError(f"semantic failure destination already exists: {destination}")
+            raise SemanticGraphError(
+                f"semantic failure destination already exists: {destination}"
+            )
         os.rename(staging, destination)
         receipt = seal_document(
             {
@@ -1064,7 +1146,9 @@ def refresh_semantic_graph(
     projection, line_counts = _prepare_projection(workspace, root, selected)
     delta, retained_paths = _delta_files(selected, previous)
     delta_projection = _prepare_delta_projection(workspace, projection, delta)
-    run_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')}-{uuid.uuid4().hex[:12]}"
+    run_id = (
+        f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')}-{uuid.uuid4().hex[:12]}"
+    )
     output = semantic_store / f".staging-{run_id}"
     shutil.rmtree(output, ignore_errors=True)
     output.mkdir(mode=0o700)
@@ -1073,11 +1157,15 @@ def refresh_semantic_graph(
     try:
         graphify_output = output / "graphify-out"
         if delta:
-            execution = _invoke_graphify(delta_projection, output, config, workspace / "home")
+            execution = _invoke_graphify(
+                delta_projection, output, config, workspace / "home"
+            )
             delta_raw_path = graphify_output / "graph.json"
         else:
             if previous is None:
-                raise SemanticGraphError("semantic extraction has no delta and no prior graph")
+                raise SemanticGraphError(
+                    "semantic extraction has no delta and no prior graph"
+                )
             graphify_output.mkdir(parents=True, mode=0o700)
             shutil.copy2(
                 previous.run_directory / "graphify-out/manifest.json",
@@ -1104,7 +1192,9 @@ def refresh_semantic_graph(
             delta_raw_path = renamed_delta
         graph_path = graphify_output / "graph.json"
         raw_graph_path = output / "graphify-out" / "graph.raw.json"
-        merge_counts = _merge_raw_graph(previous, delta_raw_path, retained_paths, raw_graph_path)
+        merge_counts = _merge_raw_graph(
+            previous, delta_raw_path, retained_paths, raw_graph_path
+        )
         normalization = _normalize_graph(raw_graph_path, graph_path, projection)
         graph, graph_counts = _validate_graph(
             graph_path,
@@ -1124,7 +1214,9 @@ def refresh_semantic_graph(
         graph_sha, graph_bytes = _file_sha256(graph_path)
         raw_graph_sha, raw_graph_bytes = _file_sha256(raw_graph_path)
         graphify_manifest_path = output / "graphify-out" / "manifest.json"
-        graphify_manifest_sha, graphify_manifest_bytes = _file_sha256(graphify_manifest_path)
+        graphify_manifest_sha, graphify_manifest_bytes = _file_sha256(
+            graphify_manifest_path
+        )
         graphify_python = config.python.expanduser().absolute()
         python_sha, _ = _file_sha256(graphify_python)
         selected_files = [
@@ -1162,7 +1254,9 @@ def refresh_semantic_graph(
                     "run_id": inventory.manifest["run_id"],
                     "manifest_receipt_sha256": inventory.manifest["receipt_sha256"],
                     "database_sha256": inventory.manifest["database"]["sha256"],
-                    "row_digest_sha256": inventory.manifest["database"]["row_digest_sha256"],
+                    "row_digest_sha256": inventory.manifest["database"][
+                        "row_digest_sha256"
+                    ],
                 },
                 "coverage": {
                     "inventory_semantic_eligible": inventory.manifest["counts"][
@@ -1177,12 +1271,16 @@ def refresh_semantic_graph(
                     "new_documents": new_documents,
                     "delta_files": len(delta),
                     "retained_files": len(retained_paths),
-                    "selected_files_sha256": sha256_bytes(canonical_bytes(selected_files)),
+                    "selected_files_sha256": sha256_bytes(
+                        canonical_bytes(selected_files)
+                    ),
                     "selected_files": selected_files,
                 },
                 "local_model": {
                     **local_model,
-                    "external_provider_environment_removed": list(EXTERNAL_PROVIDER_ENV),
+                    "external_provider_environment_removed": list(
+                        EXTERNAL_PROVIDER_ENV
+                    ),
                     "max_concurrency": 1,
                 },
                 "graphify": {
@@ -1256,7 +1354,9 @@ def query_semantic_graph(
         raise SemanticGraphError("budget must be between 100 and 20000")
     current = current_semantic_run(semantic_store)
     graph = current.run_directory / current.manifest["graph"]["path"]
-    executable = (python or Path(current.manifest["graphify"]["python"])).expanduser().absolute()
+    executable = (
+        (python or Path(current.manifest["graphify"]["python"])).expanduser().absolute()
+    )
     if not executable.is_file() or not os.access(executable, os.X_OK):
         raise SemanticGraphError("Graphify Python must be an executable file")
     result = subprocess.run(
@@ -1272,7 +1372,9 @@ def query_semantic_graph(
             str(graph),
         ],
         env={
-            "HOME": str(Path(semantic_store).resolve(strict=True) / "workspace" / "home"),
+            "HOME": str(
+                Path(semantic_store).resolve(strict=True) / "workspace" / "home"
+            ),
             "LC_ALL": "C",
             "PATH": "/usr/bin:/bin:/opt/homebrew/bin",
             "PYTHONDONTWRITEBYTECODE": "1",
@@ -1289,3 +1391,108 @@ def query_semantic_graph(
             f"Graphify query failed: {result.stderr.decode('utf-8', 'replace')[-2000:]}"
         )
     return result.stdout.decode("utf-8", "strict")
+
+
+def locate_semantic_graph(
+    semantic_store: Path, query: str, *, limit: int = 100
+) -> dict[str, Any]:
+    """Deterministically locate graph nodes without parsing Graphify's prose output."""
+    if not query or "\x00" in query:
+        raise SemanticGraphError("query must be non-empty and contain no NUL")
+    if isinstance(limit, bool) or not 1 <= limit <= 500:
+        raise SemanticGraphError("limit must be between 1 and 500")
+    terms = sorted(
+        {
+            value.casefold()
+            for value in re.findall(r"[A-Za-z0-9_.-]+", query)
+            if len(value) >= 2
+        }
+    )
+    if not terms:
+        raise SemanticGraphError("query contains no searchable terms")
+    current = current_semantic_run(semantic_store)
+    graph_path = current.run_directory / current.manifest["graph"]["path"]
+    try:
+        graph = json.loads(graph_path.read_text(encoding="utf-8", errors="strict"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise SemanticGraphError("current graph is not strict UTF-8 JSON") from exc
+    selected: list[dict[str, Any]] = []
+    for node in graph["nodes"]:
+        fields = {
+            "id": node.get("id"),
+            "label": node.get("label"),
+            "source_file": node.get("source_file"),
+            "source_location": node.get("source_location"),
+            "file_type": node.get("file_type"),
+        }
+        searchable = "\n".join(
+            str(value).casefold() for value in fields.values() if value
+        )
+        matched = [term for term in terms if term in searchable]
+        if not matched:
+            continue
+        label = str(fields["label"] or "").casefold()
+        source = str(fields["source_file"] or "").casefold()
+        score = sum(
+            10 if label == term else 4 if term in label else 2 if term in source else 1
+            for term in matched
+        )
+        selected.append(
+            {
+                **fields,
+                "score": score,
+                "matched_terms": matched,
+            }
+        )
+    selected.sort(
+        key=lambda item: (
+            -item["score"],
+            str(item["source_file"] or ""),
+            str(item["source_location"] or ""),
+            str(item["id"]),
+        )
+    )
+    selected = selected[:limit]
+    identifiers = {item["id"] for item in selected}
+    edges = [
+        {
+            "source": edge.get("source"),
+            "target": edge.get("target"),
+            "relation": edge.get("relation"),
+            "confidence": edge.get("confidence"),
+            "source_file": edge.get("source_file"),
+            "source_location": edge.get("source_location"),
+        }
+        for edge in graph["edges"]
+        if edge.get("source") in identifiers and edge.get("target") in identifiers
+    ]
+    edges.sort(
+        key=lambda item: (
+            str(item["source"]),
+            str(item["relation"]),
+            str(item["target"]),
+            str(item["source_file"] or ""),
+        )
+    )
+    return seal_document(
+        {
+            "schema": SEMANTIC_LOCATE_SCHEMA,
+            "status": "PASS",
+            "authority": "non-authoritative-semantic-navigation-result",
+            "authority_granted": False,
+            "query": query,
+            "terms": terms,
+            "limit": limit,
+            "graph": {
+                "run_id": current.manifest["run_id"],
+                "manifest_receipt_sha256": current.manifest["receipt_sha256"],
+                "sha256": current.manifest["graph"]["sha256"],
+                "inventory_run_id": current.manifest["inventory"]["run_id"],
+                "inventory_manifest_receipt_sha256": current.manifest["inventory"][
+                    "manifest_receipt_sha256"
+                ],
+            },
+            "nodes": selected,
+            "edges": edges,
+        }
+    )

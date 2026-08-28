@@ -13,6 +13,7 @@ from modules.operations.archaeologist.evidence import validate_self_hash
 from modules.operations.archaeologist.navigation_inventory import (
     NavigationInventoryError,
     current_navigation_run,
+    locate_navigation_inventory,
     refresh_navigation_inventory,
     search_navigation_inventory,
 )
@@ -104,7 +105,9 @@ def test_symlink_is_hashed_without_following_and_special_file_is_recorded(
     assert "outside secret" not in json.dumps(run.manifest)
 
 
-def test_incremental_refresh_reuses_only_unchanged_hashes(repository: Path, tmp_path: Path) -> None:
+def test_incremental_refresh_reuses_only_unchanged_hashes(
+    repository: Path, tmp_path: Path
+) -> None:
     store = tmp_path / "store"
     first = refresh_navigation_inventory(repository, store)
     (repository / "notes.md").write_text("changed\n", encoding="utf-8")
@@ -129,7 +132,9 @@ def test_logical_row_digest_is_stable_across_full_and_incremental_refresh(
     assert second.manifest["counts"]["reused"] == first.manifest["counts"]["files"]
 
 
-def test_duplicate_groups_and_path_search_are_queryable(repository: Path, tmp_path: Path) -> None:
+def test_duplicate_groups_and_path_search_are_queryable(
+    repository: Path, tmp_path: Path
+) -> None:
     store = tmp_path / "store"
     run = refresh_navigation_inventory(repository, store)
     groups = _rows(run, "SELECT * FROM duplicate_groups")
@@ -137,6 +142,62 @@ def test_duplicate_groups_and_path_search_are_queryable(repository: Path, tmp_pa
     results = search_navigation_inventory(store, "main.py")
     assert results[0]["path"] == "src/main.py"
     assert search_navigation_inventory(store, "memory", semantic_only=True) == []
+
+
+def test_inventory_publishes_exact_ordered_git_status_entries(
+    repository: Path, tmp_path: Path
+) -> None:
+    _git(repository, "mv", "src/main.py", "src/renamed.py")
+    run = refresh_navigation_inventory(repository, tmp_path / "store")
+    rows = _rows(
+        run,
+        """SELECT phase,ordinal,code,path,secondary_path
+           FROM git_status_entries ORDER BY phase,ordinal""",
+    )
+    before = [item for item in rows if item["phase"] == "before"]
+    after = [item for item in rows if item["phase"] == "after"]
+    assert before == [dict(item, phase="before") for item in after]
+    rename = next(item for item in before if "R" in item["code"])
+    assert {rename["path"], rename["secondary_path"]} == {
+        "src/main.py",
+        "src/renamed.py",
+    }
+    assert run.manifest["git"]["before"]["entries"] == len(before)
+    assert run.manifest["git"]["before"]["entries_sha256"]
+    assert run.manifest["database"]["git_status_row_digest_sha256"]
+
+
+def test_locator_distinguishes_tracked_source_from_history_and_binds_repository(
+    repository: Path, tmp_path: Path
+) -> None:
+    nested = repository / "jaa-runtime"
+    nested.mkdir()
+    _git(nested, "init", "-q")
+    _git(nested, "config", "user.name", "Fixture")
+    _git(nested, "config", "user.email", "fixture@example.invalid")
+    (nested / "src").mkdir()
+    (nested / "src/application_compiler.py").write_text(
+        "class ApplicationCompiler:\n    pass\n", encoding="utf-8"
+    )
+    _git(nested, "add", ".")
+    _git(nested, "commit", "-qm", "nested fixture")
+    archive = repository / "archive"
+    archive.mkdir()
+    (archive / "application_compiler.py").write_text("old = True\n", encoding="utf-8")
+    store = tmp_path / "store"
+    refresh_navigation_inventory(repository, store)
+    result = locate_navigation_inventory(store, "application_compiler.py")
+    validate_self_hash(result)
+    by_path = {item["path"]: item for item in result["results"]}
+    active = by_path["jaa-runtime/src/application_compiler.py"]
+    assert active["role"] == "CANONICAL_SOURCE_CANDIDATE"
+    assert active["canonicality_claimed"] is False
+    assert active["repository"]["root"] == "jaa-runtime"
+    assert active["repository"]["tracked"] is True
+    assert active["source"]["live_matches_inventory"] is True
+    assert by_path["archive/application_compiler.py"]["role"] == (
+        "HISTORICAL_OR_ARCHIVED_COPY"
+    )
 
 
 def test_publication_is_external_private_atomic_and_current_is_authenticated(
@@ -147,8 +208,12 @@ def test_publication_is_external_private_atomic_and_current_is_authenticated(
     run = refresh_navigation_inventory(repository, store)
     assert stat.S_IMODE(store.stat().st_mode) == 0o700
     assert stat.S_IMODE((store / "CURRENT.json").stat().st_mode) == 0o600
-    assert stat.S_IMODE((run.run_directory / "inventory.sqlite3").stat().st_mode) == 0o600
-    assert _git(repository, "status", "--porcelain=v1", "--untracked-files=all") == before
+    assert (
+        stat.S_IMODE((run.run_directory / "inventory.sqlite3").stat().st_mode) == 0o600
+    )
+    assert (
+        _git(repository, "status", "--porcelain=v1", "--untracked-files=all") == before
+    )
     pointer = json.loads((store / "CURRENT.json").read_text(encoding="utf-8"))
     validate_self_hash(pointer)
     assert current_navigation_run(store).manifest == run.manifest
@@ -177,7 +242,9 @@ def test_failed_refresh_preserves_previous_current(
     assert not list(store.glob(".staging-*"))
 
 
-def test_store_inside_root_and_unsafe_store_refuse(repository: Path, tmp_path: Path) -> None:
+def test_store_inside_root_and_unsafe_store_refuse(
+    repository: Path, tmp_path: Path
+) -> None:
     with pytest.raises(NavigationInventoryError, match="outside"):
         refresh_navigation_inventory(repository, repository / "generated")
     unsafe = tmp_path / "unsafe"

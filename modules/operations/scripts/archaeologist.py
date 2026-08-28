@@ -12,17 +12,24 @@ from modules.operations.archaeologist.inventory import (
     InventoryPolicy,
     write_inventory,
 )
-from modules.operations.archaeologist.hypotheses import HypothesisError, write_hypotheses
+from modules.operations.archaeologist.hypotheses import (
+    HypothesisError,
+    write_hypotheses,
+)
 from modules.operations.archaeologist.history import HistoryError, write_history
 from modules.operations.archaeologist.counterevidence import (
     CounterevidenceError,
     write_counterevidence,
 )
 from modules.operations.archaeologist.judge import JudgeError, write_judgement
-from modules.operations.archaeologist.quarantine import QuarantineError, write_quarantine_canary
+from modules.operations.archaeologist.quarantine import (
+    QuarantineError,
+    write_quarantine_canary,
+)
 from modules.operations.archaeologist.navigation_inventory import (
     NavigationInventoryError,
     current_navigation_run,
+    locate_navigation_inventory,
     refresh_navigation_inventory,
     search_navigation_inventory,
 )
@@ -31,6 +38,7 @@ from modules.operations.archaeologist.semantic_graph import (
     SemanticGraphError,
     archive_legacy_graph,
     current_semantic_run,
+    locate_semantic_graph,
     query_semantic_graph,
     refresh_semantic_graph,
 )
@@ -43,7 +51,9 @@ from modules.operations.archaeologist.navigation_maintenance import (
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="giga-archaeologist")
     subcommands = parser.add_subparsers(dest="command", required=True)
-    inventory = subcommands.add_parser("inventory", help="produce a read-only immutable inventory")
+    inventory = subcommands.add_parser(
+        "inventory", help="produce a read-only immutable inventory"
+    )
     inventory.add_argument("--repository", type=Path, required=True)
     inventory.add_argument("--output", type=Path, required=True)
     inventory.add_argument("--admit-untracked", action="append", default=[])
@@ -59,7 +69,8 @@ def _parser() -> argparse.ArgumentParser:
     counterevidence.add_argument("--hypotheses", type=Path, required=True)
     counterevidence.add_argument("--output", type=Path, required=True)
     history = subcommands.add_parser(
-        "history", help="compare Git history and a second repository without executing code"
+        "history",
+        help="compare Git history and a second repository without executing code",
     )
     history.add_argument("--inventory", type=Path, required=True)
     history.add_argument("--hypotheses", type=Path, required=True)
@@ -67,7 +78,8 @@ def _parser() -> argparse.ArgumentParser:
     history.add_argument("--comparison-repository", type=Path, required=True)
     history.add_argument("--output", type=Path, required=True)
     judge = subcommands.add_parser(
-        "judge", help="classify hypotheses with deterministic fail-closed evidence gates"
+        "judge",
+        help="classify hypotheses with deterministic fail-closed evidence gates",
     )
     judge.add_argument("--inventory", type=Path, required=True)
     judge.add_argument("--hypotheses", type=Path, required=True)
@@ -75,7 +87,8 @@ def _parser() -> argparse.ArgumentParser:
     judge.add_argument("--history", type=Path, required=True)
     judge.add_argument("--output", type=Path, required=True)
     quarantine = subcommands.add_parser(
-        "quarantine-canary", help="quarantine one verified candidate in a disposable fixture"
+        "quarantine-canary",
+        help="quarantine one verified candidate in a disposable fixture",
     )
     quarantine.add_argument("--repository", type=Path, required=True)
     quarantine.add_argument("--inventory", type=Path, required=True)
@@ -96,12 +109,21 @@ def _parser() -> argparse.ArgumentParser:
     )
     navigation_status.add_argument("--store", type=Path, required=True)
     navigation_search = subcommands.add_parser(
-        "navigation-search", help="search the current authenticated navigation inventory"
+        "navigation-search",
+        help="search the current authenticated navigation inventory",
     )
     navigation_search.add_argument("query")
     navigation_search.add_argument("--store", type=Path, required=True)
     navigation_search.add_argument("--limit", type=int, default=50)
     navigation_search.add_argument("--semantic-only", action="store_true")
+    navigation_locate = subcommands.add_parser(
+        "navigation-locate",
+        help="return a closed path-role result from the authenticated inventory",
+    )
+    navigation_locate.add_argument("query")
+    navigation_locate.add_argument("--store", type=Path, required=True)
+    navigation_locate.add_argument("--limit", type=int, default=50)
+    navigation_locate.add_argument("--semantic-only", action="store_true")
     semantic = subcommands.add_parser(
         "semantic-refresh",
         help="incrementally refresh the privacy-gated local Graphify navigation layer",
@@ -117,11 +139,19 @@ def _parser() -> argparse.ArgumentParser:
     )
     semantic_status.add_argument("--semantic-store", type=Path, required=True)
     semantic_query = subcommands.add_parser(
-        "semantic-query", help="run a scoped query against the authenticated semantic graph"
+        "semantic-query",
+        help="run a scoped query against the authenticated semantic graph",
     )
     semantic_query.add_argument("question")
     semantic_query.add_argument("--semantic-store", type=Path, required=True)
     semantic_query.add_argument("--budget", type=int, default=2000)
+    semantic_locate = subcommands.add_parser(
+        "semantic-locate",
+        help="return closed source locations from the authenticated semantic graph",
+    )
+    semantic_locate.add_argument("query")
+    semantic_locate.add_argument("--semantic-store", type=Path, required=True)
+    semantic_locate.add_argument("--limit", type=int, default=100)
     semantic_archive = subcommands.add_parser(
         "semantic-archive-legacy",
         help="archive an obsolete ignored graph and link its path to the current local store",
@@ -136,12 +166,16 @@ def _parser() -> argparse.ArgumentParser:
     maintenance.add_argument("--inventory-store", type=Path, required=True)
     maintenance.add_argument("--semantic-store", type=Path, required=True)
     maintenance.add_argument("--reason", required=True)
-    maintenance.add_argument("--graphify-python", type=Path, default=GraphifyConfig.python)
+    maintenance.add_argument(
+        "--graphify-python", type=Path, default=GraphifyConfig.python
+    )
     maintenance.add_argument("--endpoint", default=GraphifyConfig.endpoint)
     maintenance.add_argument("--model", default=GraphifyConfig.model)
     maintenance.add_argument("--max-new-documents", type=int, default=1)
     maintenance.add_argument(
-        "--model-server-executable", type=Path, default=Path("/opt/homebrew/bin/mlx_lm.server")
+        "--model-server-executable",
+        type=Path,
+        default=Path("/opt/homebrew/bin/mlx_lm.server"),
     )
     maintenance.add_argument("--model-path", type=Path, required=True)
     maintenance.add_argument("--strict", action="store_true")
@@ -155,11 +189,14 @@ def main(argv: list[str] | None = None) -> int:
             payload = write_inventory(
                 arguments.repository,
                 arguments.output,
-                InventoryPolicy(admitted_untracked=tuple(sorted(arguments.admit_untracked))),
+                InventoryPolicy(
+                    admitted_untracked=tuple(sorted(arguments.admit_untracked))
+                ),
             )
             print(
                 json.dumps(
-                    {"status": "PASS", "receipt_sha256": payload["receipt_sha256"]}, sort_keys=True
+                    {"status": "PASS", "receipt_sha256": payload["receipt_sha256"]},
+                    sort_keys=True,
                 )
             )
             return 0
@@ -185,8 +222,12 @@ def main(argv: list[str] | None = None) -> int:
                     {
                         "status": "PASS",
                         "receipt_sha256": payload["receipt_sha256"],
-                        "counterevidence_present": payload["summary"]["counterevidence_present"],
-                        "counterevidence_unknown": payload["summary"]["counterevidence_unknown"],
+                        "counterevidence_present": payload["summary"][
+                            "counterevidence_present"
+                        ],
+                        "counterevidence_unknown": payload["summary"][
+                            "counterevidence_unknown"
+                        ],
                     },
                     sort_keys=True,
                 )
@@ -205,7 +246,9 @@ def main(argv: list[str] | None = None) -> int:
                     {
                         "status": "PASS",
                         "receipt_sha256": payload["receipt_sha256"],
-                        "related_variant_observed": payload["summary"]["related_variant_observed"],
+                        "related_variant_observed": payload["summary"][
+                            "related_variant_observed"
+                        ],
                         "unknown": payload["summary"]["unknown"],
                     },
                     sort_keys=True,
@@ -280,6 +323,19 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps({"status": "PASS", "results": rows}, sort_keys=True))
             return 0
+        if arguments.command == "navigation-locate":
+            print(
+                json.dumps(
+                    locate_navigation_inventory(
+                        arguments.store,
+                        arguments.query,
+                        limit=arguments.limit,
+                        semantic_only=arguments.semantic_only,
+                    ),
+                    sort_keys=True,
+                )
+            )
+            return 0
         if arguments.command == "semantic-refresh":
             run = refresh_semantic_graph(
                 arguments.inventory_store,
@@ -317,7 +373,9 @@ def main(argv: list[str] | None = None) -> int:
                         "finished_at": run.manifest["scan"]["finished_at"],
                         "selected": run.manifest["coverage"]["selected"],
                         "supported": run.manifest["coverage"]["supported"],
-                        "documents_selected": run.manifest["coverage"]["documents_selected"],
+                        "documents_selected": run.manifest["coverage"][
+                            "documents_selected"
+                        ],
                         "documents_total": run.manifest["coverage"]["documents_total"],
                         "nodes": run.manifest["graph"]["nodes"],
                         "edges": run.manifest["graph"]["edges"],
@@ -330,13 +388,27 @@ def main(argv: list[str] | None = None) -> int:
         if arguments.command == "semantic-query":
             print(
                 query_semantic_graph(
-                    arguments.semantic_store, arguments.question, budget=arguments.budget
+                    arguments.semantic_store,
+                    arguments.question,
+                    budget=arguments.budget,
                 ),
                 end="",
             )
             return 0
+        if arguments.command == "semantic-locate":
+            print(
+                json.dumps(
+                    locate_semantic_graph(
+                        arguments.semantic_store, arguments.query, limit=arguments.limit
+                    ),
+                    sort_keys=True,
+                )
+            )
+            return 0
         if arguments.command == "semantic-archive-legacy":
-            manifest = archive_legacy_graph(arguments.legacy_path, arguments.semantic_store)
+            manifest = archive_legacy_graph(
+                arguments.legacy_path, arguments.semantic_store
+            )
             print(json.dumps(manifest, sort_keys=True))
             return 0
         if arguments.command == "navigation-maintenance":
@@ -373,7 +445,8 @@ def main(argv: list[str] | None = None) -> int:
         QuarantineError,
     ) as exc:
         print(
-            json.dumps({"status": "REFUSED", "reason": str(exc)}, sort_keys=True), file=sys.stderr
+            json.dumps({"status": "REFUSED", "reason": str(exc)}, sort_keys=True),
+            file=sys.stderr,
         )
         return 2
     return 2

@@ -32,3 +32,24 @@ deterministic file inventory plus a semantic Graphify layer for supported
 content. Until that replacement is current, the old narrow retrospective graph
 and the modularisation graph are both reported as `STALE/PARTIAL`; neither may
 authorize or block an Archaeologist lifecycle transition.
+
+## Navigation producer interface
+
+The existing Archaeologist owner exposes the data needed by a separate
+governance consumer; it does not become that consumer.
+
+- Inventory manifest `giga.navigation.inventory-manifest.v2` and database
+  schema 2 preserve both complete ordered `git status --porcelain=v1 -z`
+  snapshots in `git_status_entries`, including rename/copy secondary paths.
+- `navigation-locate` returns a sealed
+  `giga.navigation.locate-result.v1` document with inventory hashes, live source
+  identities, closest Git repository identities, and conservative roles. A
+  tracked source is only a `CANONICAL_SOURCE_CANDIDATE`; the inventory never
+  grants canonical ownership by itself.
+- `semantic-locate` returns a sealed
+  `giga.navigation.semantic-locate-result.v1` document with exact graph,
+  inventory, node, edge, file, and line-location bindings. It reads the
+  authenticated graph directly and does not parse Graphify prose.
+- These outputs are navigation evidence, not authority. The executable GIGA
+  Constitution remains the sole owner of consultation, freshness, candidate
+  coverage, and milestone-claim decisions.

@@ -10,8 +10,13 @@ from types import SimpleNamespace
 
 import pytest
 
-from modules.operations.archaeologist.evidence import canonical_bytes, validate_self_hash
-from modules.operations.archaeologist.navigation_inventory import refresh_navigation_inventory
+from modules.operations.archaeologist.evidence import (
+    canonical_bytes,
+    validate_self_hash,
+)
+from modules.operations.archaeologist.navigation_inventory import (
+    refresh_navigation_inventory,
+)
 from modules.operations.archaeologist.semantic_graph import (
     GraphifyConfig,
     SemanticGraphError,
@@ -20,6 +25,7 @@ from modules.operations.archaeologist.semantic_graph import (
     archive_legacy_graph,
     _validate_graph,
     current_semantic_run,
+    locate_semantic_graph,
     refresh_semantic_graph,
 )
 
@@ -50,7 +56,9 @@ def stores(tmp_path: Path, monkeypatch):
         "# Overview\n\nArchitecture.\n", encoding="utf-8"
     )
     (root / "modules").mkdir()
-    (root / "modules/MODULE.md").write_text("# Module\n\nModule notes.\n", encoding="utf-8")
+    (root / "modules/MODULE.md").write_text(
+        "# Module\n\nModule notes.\n", encoding="utf-8"
+    )
     (root / "NOTES.md").write_text("# Notes\n\nGeneral notes.\n", encoding="utf-8")
     (root / "memory").mkdir()
     (root / "memory/private.md").write_text("private detail\n", encoding="utf-8")
@@ -105,7 +113,8 @@ def stores(tmp_path: Path, monkeypatch):
         }
 
     monkeypatch.setattr(
-        "modules.operations.archaeologist.semantic_graph._verify_local_model", local_model
+        "modules.operations.archaeologist.semantic_graph._verify_local_model",
+        local_model,
     )
     monkeypatch.setattr(
         "modules.operations.archaeologist.semantic_graph._invoke_graphify", graphify
@@ -122,7 +131,9 @@ def _config(documents: int) -> GraphifyConfig:
     )
 
 
-def test_structural_files_are_immediate_and_documents_expand_incrementally(stores) -> None:
+def test_structural_files_are_immediate_and_documents_expand_incrementally(
+    stores,
+) -> None:
     _root, inventory_store, semantic_store = stores
     first = refresh_semantic_graph(inventory_store, semantic_store, _config(1))
     validate_self_hash(first.manifest)
@@ -139,7 +150,10 @@ def test_structural_files_are_immediate_and_documents_expand_incrementally(store
     assert second.manifest["scan"]["incremental_from"] == first.manifest["run_id"]
     third = refresh_semantic_graph(inventory_store, semantic_store, _config(10))
     assert third.manifest["status"] == "CURRENT"
-    assert third.manifest["coverage"]["selected"] == third.manifest["coverage"]["supported"]
+    assert (
+        third.manifest["coverage"]["selected"]
+        == third.manifest["coverage"]["supported"]
+    )
 
 
 def test_projection_never_contains_inventory_excluded_private_content(stores) -> None:
@@ -162,7 +176,9 @@ def test_no_change_increment_preserves_exact_graph_bytes(stores) -> None:
         "SKIPPED_NO_CHANGED_SUPPORTED_FILES"
     )
     assert second.manifest["graph"]["sha256"] == first.manifest["graph"]["sha256"]
-    assert second.manifest["graph"]["raw_sha256"] == first.manifest["graph"]["raw_sha256"]
+    assert (
+        second.manifest["graph"]["raw_sha256"] == first.manifest["graph"]["raw_sha256"]
+    )
 
 
 def test_current_graph_is_content_authenticated(stores) -> None:
@@ -175,6 +191,27 @@ def test_current_graph_is_content_authenticated(stores) -> None:
         current_semantic_run(semantic_store)
 
 
+def test_machine_locator_returns_closed_exact_source_locations(stores) -> None:
+    _root, inventory_store, semantic_store = stores
+    run = refresh_semantic_graph(inventory_store, semantic_store, _config(10))
+    result = locate_semantic_graph(semantic_store, "app application")
+    validate_self_hash(result)
+    assert result["schema"] == "giga.navigation.semantic-locate-result.v1"
+    assert result["graph"]["run_id"] == run.manifest["run_id"]
+    app = next(item for item in result["nodes"] if item["source_file"] == "src/app.py")
+    assert app["source_location"] == "L1"
+    assert app["matched_terms"] == ["app"]
+    assert set(app) == {
+        "id",
+        "label",
+        "source_file",
+        "source_location",
+        "file_type",
+        "score",
+        "matched_terms",
+    }
+
+
 def test_failed_refresh_preserves_previous_current(stores, monkeypatch) -> None:
     _root, inventory_store, semantic_store = stores
     first = refresh_semantic_graph(inventory_store, semantic_store, _config(1))
@@ -182,17 +219,24 @@ def test_failed_refresh_preserves_previous_current(stores, monkeypatch) -> None:
     def fail(*_args, **_kwargs):
         raise SemanticGraphError("injected Graphify failure")
 
-    monkeypatch.setattr("modules.operations.archaeologist.semantic_graph._invoke_graphify", fail)
+    monkeypatch.setattr(
+        "modules.operations.archaeologist.semantic_graph._invoke_graphify", fail
+    )
     with pytest.raises(SemanticGraphError, match="injected"):
         refresh_semantic_graph(inventory_store, semantic_store, _config(1))
-    assert current_semantic_run(semantic_store).manifest["run_id"] == first.manifest["run_id"]
+    assert (
+        current_semantic_run(semantic_store).manifest["run_id"]
+        == first.manifest["run_id"]
+    )
     assert not list(semantic_store.glob(".staging-*"))
     failure_receipts = list((semantic_store / "failures").glob("*/failure.json"))
     assert len(failure_receipts) == 1
     validate_self_hash(json.loads(failure_receipts[0].read_text(encoding="utf-8")))
 
 
-def test_graph_validation_rejects_unadmitted_and_impossible_sources(tmp_path: Path) -> None:
+def test_graph_validation_rejects_unadmitted_and_impossible_sources(
+    tmp_path: Path,
+) -> None:
     graph = tmp_path / "graph.json"
     selected = {"safe.md": object()}
     graph.write_bytes(
@@ -220,7 +264,9 @@ def test_graph_validation_rejects_unadmitted_and_impossible_sources(tmp_path: Pa
         _validate_graph(graph, selected, {"safe.md": 2})
 
 
-def test_graph_validation_allows_only_completely_unsourced_external_nodes(tmp_path: Path) -> None:
+def test_graph_validation_allows_only_completely_unsourced_external_nodes(
+    tmp_path: Path,
+) -> None:
     graph = tmp_path / "graph.json"
     graph.write_bytes(
         canonical_bytes(
@@ -246,7 +292,9 @@ def test_graph_validation_allows_only_completely_unsourced_external_nodes(tmp_pa
         _validate_graph(graph, {}, {})
 
 
-def test_selected_document_must_contribute_source_linked_graph_content(tmp_path: Path) -> None:
+def test_selected_document_must_contribute_source_linked_graph_content(
+    tmp_path: Path,
+) -> None:
     graph = tmp_path / "graph.json"
     graph.write_bytes(
         canonical_bytes(
@@ -317,7 +365,10 @@ def test_unextractable_document_is_recorded_without_blocking_next_document(
             "retry": "ON_CONTENT_CHANGE",
         }
     ]
-    assert current_semantic_run(semantic_store).manifest["run_id"] == first.manifest["run_id"]
+    assert (
+        current_semantic_run(semantic_store).manifest["run_id"]
+        == first.manifest["run_id"]
+    )
 
     second = refresh_semantic_graph(inventory_store, semantic_store, _config(1))
     assert second.manifest["coverage"]["documents_selected"] == 2
@@ -327,7 +378,9 @@ def test_unextractable_document_is_recorded_without_blocking_next_document(
     ]
 
 
-def test_duplicate_symbol_ids_are_source_scoped_without_guessing_edges(tmp_path: Path) -> None:
+def test_duplicate_symbol_ids_are_source_scoped_without_guessing_edges(
+    tmp_path: Path,
+) -> None:
     projection = tmp_path / "input"
     projection.mkdir()
     (projection / "a.py").write_text("ValueError\n", encoding="utf-8")

@@ -32,9 +32,10 @@ from typing import Any, Iterable, Iterator, Mapping, Sequence
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
 
 
-NAVIGATION_SCHEMA = "giga.navigation.inventory-manifest.v1"
+NAVIGATION_SCHEMA = "giga.navigation.inventory-manifest.v2"
 POINTER_SCHEMA = "giga.navigation.current-pointer.v1"
-DATABASE_SCHEMA = 1
+LOCATE_SCHEMA = "giga.navigation.locate-result.v1"
+DATABASE_SCHEMA = 2
 CONTROL_EXCLUSIONS = (".git",)
 
 SEMANTIC_SUFFIXES = frozenset(
@@ -139,6 +140,20 @@ SENSITIVE_NAME_TOKENS = (
     "secret",
     "seed-phrase",
 )
+HISTORICAL_COMPONENTS = frozenset(
+    {
+        "archive",
+        "archived",
+        "history",
+        "historical",
+        "quarantine",
+        "rejected",
+        "snapshots",
+    }
+)
+EVIDENCE_COMPONENTS = frozenset(
+    {"canary", "canaries", "evidence", "receipts", "reports", "work_orders"}
+)
 
 
 class NavigationInventoryError(ValueError):
@@ -154,7 +169,9 @@ class NavigationPolicy:
 
     def __post_init__(self) -> None:
         if isinstance(self.semantic_max_bytes, bool) or self.semantic_max_bytes <= 0:
-            raise NavigationInventoryError("semantic_max_bytes must be a positive integer")
+            raise NavigationInventoryError(
+                "semantic_max_bytes must be a positive integer"
+            )
         if self.control_exclusions != CONTROL_EXCLUSIONS:
             raise NavigationInventoryError("the .git control exclusion is fixed")
 
@@ -194,13 +211,17 @@ def _private_store(path: Path, root: Path) -> Path:
     except ValueError:
         pass
     else:
-        raise NavigationInventoryError("inventory store must be outside the scanned root")
+        raise NavigationInventoryError(
+            "inventory store must be outside the scanned root"
+        )
     resolved.mkdir(parents=True, exist_ok=True, mode=0o700)
     metadata = resolved.lstat()
     if resolved.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
         raise NavigationInventoryError("inventory store must be a real directory")
     if metadata.st_uid != os.getuid():
-        raise NavigationInventoryError("inventory store must belong to the current user")
+        raise NavigationInventoryError(
+            "inventory store must belong to the current user"
+        )
     if stat.S_IMODE(metadata.st_mode) != 0o700:
         raise NavigationInventoryError("inventory store must have mode 0700")
     return resolved
@@ -227,7 +248,9 @@ def _git(root: Path, arguments: Sequence[str], *, timeout: int = 600) -> bytes:
     )
     if result.returncode != 0:
         detail = result.stderr.decode("utf-8", "replace").strip()
-        raise NavigationInventoryError(f"Git read failed ({' '.join(arguments)}): {detail}")
+        raise NavigationInventoryError(
+            f"Git read failed ({' '.join(arguments)}): {detail}"
+        )
     return result.stdout
 
 
@@ -255,9 +278,12 @@ def _tracked_files(root: Path) -> dict[str, str]:
     return result
 
 
-def _status_snapshot(root: Path) -> tuple[dict[str, str], dict[str, Any]]:
+def _status_snapshot(
+    root: Path,
+) -> tuple[dict[str, str], list[dict[str, Any]], dict[str, Any]]:
     raw = _git(root, ["status", "--porcelain=v1", "-z", "--untracked-files=all"])
     result: dict[str, str] = {}
+    entries: list[dict[str, Any]] = []
     records = raw.split(b"\0")
     index = 0
     while index < len(records):
@@ -272,27 +298,50 @@ def _status_snapshot(root: Path) -> tuple[dict[str, str], dict[str, Any]]:
             path = record[3:].decode("utf-8", "strict")
         except UnicodeDecodeError as exc:
             raise NavigationInventoryError("Git status path is not UTF-8") from exc
-        result[path] = code
+        secondary_path: str | None = None
         if "R" in code or "C" in code:
             if index >= len(records) or not records[index]:
                 raise NavigationInventoryError("malformed Git rename/copy record")
+            try:
+                secondary_path = records[index].decode("utf-8", "strict")
+            except UnicodeDecodeError as exc:
+                raise NavigationInventoryError("Git status path is not UTF-8") from exc
             index += 1
-    return result, {
-        "sha256": sha256_bytes(raw),
-        "bytes": len(raw),
-        "entries": len(result),
-        "clean": not result,
-    }
+        result[path] = code
+        entries.append(
+            {
+                "ordinal": len(entries),
+                "code": code,
+                "path": path,
+                "secondary_path": secondary_path,
+            }
+        )
+    entries_sha256 = sha256_bytes(canonical_bytes(entries))
+    return (
+        result,
+        entries,
+        {
+            "sha256": sha256_bytes(raw),
+            "bytes": len(raw),
+            "entries": len(entries),
+            "entries_sha256": entries_sha256,
+            "clean": not entries,
+        },
+    )
 
 
-def _ignored_paths(root: Path, paths: Iterable[str], *, batch_size: int = 10_000) -> set[str]:
+def _ignored_paths(
+    root: Path, paths: Iterable[str], *, batch_size: int = 10_000
+) -> set[str]:
     ignored: set[str] = set()
     batch: list[str] = []
 
     def submit(values: list[str]) -> None:
         if not values:
             return
-        payload = b"\0".join(value.encode("utf-8", "strict") for value in values) + b"\0"
+        payload = (
+            b"\0".join(value.encode("utf-8", "strict") for value in values) + b"\0"
+        )
         result = subprocess.run(
             ["/usr/bin/git", "check-ignore", "--no-index", "-z", "--stdin"],
             cwd=root,
@@ -311,10 +360,14 @@ def _ignored_paths(root: Path, paths: Iterable[str], *, batch_size: int = 10_000
         )
         if result.returncode not in (0, 1):
             detail = result.stderr.decode("utf-8", "replace").strip()
-            raise NavigationInventoryError(f"Git ignore classification failed: {detail}")
+            raise NavigationInventoryError(
+                f"Git ignore classification failed: {detail}"
+            )
         try:
             ignored.update(
-                value.decode("utf-8", "strict") for value in result.stdout.split(b"\0") if value
+                value.decode("utf-8", "strict")
+                for value in result.stdout.split(b"\0")
+                if value
             )
         except UnicodeDecodeError as exc:
             raise NavigationInventoryError("Git ignored path is not UTF-8") from exc
@@ -328,7 +381,9 @@ def _ignored_paths(root: Path, paths: Iterable[str], *, batch_size: int = 10_000
     return ignored
 
 
-def _walk_files(root: Path, exclusions: tuple[str, ...]) -> Iterator[tuple[str, os.DirEntry[str]]]:
+def _walk_files(
+    root: Path, exclusions: tuple[str, ...]
+) -> Iterator[tuple[str, os.DirEntry[str]]]:
     def visit(
         directory: Path, relative_directory: PurePosixPath | None
     ) -> Iterator[tuple[str, os.DirEntry[str]]]:
@@ -336,7 +391,9 @@ def _walk_files(root: Path, exclusions: tuple[str, ...]) -> Iterator[tuple[str, 
             entries = sorted(os.scandir(directory), key=lambda item: item.name)
         except OSError as exc:
             synthetic = f"{relative_directory.as_posix() if relative_directory else '.'}/<scan-error:{exc.errno}>"
-            raise NavigationInventoryError(f"cannot enumerate {synthetic}: {exc}") from exc
+            raise NavigationInventoryError(
+                f"cannot enumerate {synthetic}: {exc}"
+            ) from exc
         for entry in entries:
             relative = (
                 PurePosixPath(entry.name)
@@ -469,8 +526,46 @@ def _configure_database(connection: sqlite3.Connection) -> None:
             copies INTEGER NOT NULL,
             total_bytes INTEGER NOT NULL
         ) WITHOUT ROWID;
+        CREATE TABLE git_status_entries (
+            phase TEXT NOT NULL CHECK(phase IN ('before','after')),
+            ordinal INTEGER NOT NULL,
+            code TEXT NOT NULL,
+            path TEXT NOT NULL,
+            secondary_path TEXT,
+            PRIMARY KEY (phase, ordinal)
+        ) WITHOUT ROWID;
+        CREATE INDEX git_status_entries_path_idx ON git_status_entries(path);
         """
     )
+
+
+def _write_status_entries(
+    connection: sqlite3.Connection, phase: str, entries: Sequence[Mapping[str, Any]]
+) -> None:
+    connection.executemany(
+        """INSERT INTO git_status_entries(phase,ordinal,code,path,secondary_path)
+           VALUES (?,?,?,?,?)""",
+        (
+            (
+                phase,
+                entry["ordinal"],
+                entry["code"],
+                entry["path"],
+                entry["secondary_path"],
+            )
+            for entry in entries
+        ),
+    )
+
+
+def _status_row_digest(connection: sqlite3.Connection) -> str:
+    digest = hashlib.sha256()
+    for row in connection.execute(
+        """SELECT phase,ordinal,code,path,secondary_path
+           FROM git_status_entries ORDER BY phase,ordinal"""
+    ):
+        digest.update(canonical_bytes(list(row)))
+    return digest.hexdigest()
 
 
 def _load_previous(
@@ -498,11 +593,20 @@ def _load_previous(
             raise NavigationInventoryError("current database hash mismatch")
         connection = sqlite3.connect(f"file:{database_path}?mode=ro", uri=True)
         return connection, manifest, None
-    except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError, sqlite3.Error) as exc:
+    except (
+        OSError,
+        KeyError,
+        TypeError,
+        ValueError,
+        json.JSONDecodeError,
+        sqlite3.Error,
+    ) as exc:
         return None, None, f"previous-run-unusable:{type(exc).__name__}:{exc}"
 
 
-def _previous_records(connection: sqlite3.Connection | None) -> dict[str, tuple[Any, ...]]:
+def _previous_records(
+    connection: sqlite3.Connection | None,
+) -> dict[str, tuple[Any, ...]]:
     if connection is None:
         return {}
     return {
@@ -516,7 +620,10 @@ def _previous_records(connection: sqlite3.Connection | None) -> dict[str, tuple[
 
 
 def _previous_hash(
-    records: Mapping[str, tuple[Any, ...]], path: str, metadata: os.stat_result, kind: str
+    records: Mapping[str, tuple[Any, ...]],
+    path: str,
+    metadata: os.stat_result,
+    kind: str,
 ) -> tuple[str | None, str | None]:
     row = records.get(path)
     if row is None or row[1] not in ("hashed", "reused"):
@@ -612,7 +719,9 @@ def refresh_navigation_inventory(
     store = _private_store(store, root)
     started_at = _utc_now()
     monotonic_start = time.monotonic()
-    run_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')}-{uuid.uuid4().hex[:12]}"
+    run_id = (
+        f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')}-{uuid.uuid4().hex[:12]}"
+    )
     staging = store / f".staging-{run_id}"
     runs = store / "runs"
     runs.mkdir(exist_ok=True, mode=0o700)
@@ -627,10 +736,11 @@ def refresh_navigation_inventory(
     connection: sqlite3.Connection | None = None
     try:
         tracked = _tracked_files(root)
-        status_map, git_before = _status_snapshot(root)
+        status_map, status_before, git_before = _status_snapshot(root)
         previous_records = _previous_records(previous)
         connection = sqlite3.connect(database_path)
         _configure_database(connection)
+        _write_status_entries(connection, "before", status_before)
         pending_git: list[str] = []
         counters = {
             "files": 0,
@@ -646,7 +756,9 @@ def refresh_navigation_inventory(
             try:
                 metadata = entry.stat(follow_symlinks=False)
                 kind = _kind(metadata.st_mode)
-                eligible, reason = _semantic_disposition(relative, kind, metadata.st_size, policy)
+                eligible, reason = _semantic_disposition(
+                    relative, kind, metadata.st_size, policy
+                )
                 counters["semantic_eligible"] += eligible
                 reused, previous_git_status = _previous_hash(
                     previous_records, relative, metadata, kind
@@ -756,12 +868,16 @@ def refresh_navigation_inventory(
                WHERE content_sha256 IS NOT NULL AND size_bytes > 0
                GROUP BY content_sha256 HAVING COUNT(*) > 1"""
         )
-        duplicate_groups = connection.execute("SELECT COUNT(*) FROM duplicate_groups").fetchone()[0]
+        duplicate_groups = connection.execute(
+            "SELECT COUNT(*) FROM duplicate_groups"
+        ).fetchone()[0]
         row_digest = _row_digest(connection)
         git_head = _git_text(root, ["rev-parse", "HEAD"])
         git_tree = _git_text(root, ["rev-parse", "HEAD^{tree}"])
         git_branch = _git_text(root, ["branch", "--show-current"])
-        _status_after_map, git_after = _status_snapshot(root)
+        _status_after_map, status_after, git_after = _status_snapshot(root)
+        _write_status_entries(connection, "after", status_after)
+        status_row_digest = _status_row_digest(connection)
         root_after = root.lstat()
         root_stable = (root_before.st_dev, root_before.st_ino) == (
             root_after.st_dev,
@@ -776,6 +892,7 @@ def refresh_navigation_inventory(
             "schema_version": str(DATABASE_SCHEMA),
             "root": str(root),
             "row_digest_sha256": row_digest,
+            "git_status_row_digest_sha256": status_row_digest,
         }.items():
             connection.execute("INSERT INTO meta(key,value) VALUES (?,?)", (key, value))
         connection.commit()
@@ -825,6 +942,7 @@ def refresh_navigation_inventory(
                     "sha256": database_sha,
                     "bytes": database_bytes,
                     "row_digest_sha256": row_digest,
+                    "git_status_row_digest_sha256": status_row_digest,
                     "sqlite_version": sqlite3.sqlite_version,
                 },
                 "policy": {
@@ -938,3 +1056,158 @@ def search_navigation_inventory(
         return [dict(row) for row in rows]
     finally:
         connection.close()
+
+
+def _closest_repository(root: Path, path: Path) -> dict[str, Any] | None:
+    """Return a live, read-only identity for the closest containing Git repository."""
+    current = path.parent
+    while True:
+        if (current / ".git").exists():
+            try:
+                top = Path(
+                    _git_text(current, ["rev-parse", "--show-toplevel"])
+                ).resolve(strict=True)
+            except (NavigationInventoryError, OSError):
+                top = None
+            if top == current:
+                relative = path.relative_to(current).as_posix()
+                try:
+                    _git(current, ["ls-files", "--error-unmatch", "--", relative])
+                    tracked = True
+                except NavigationInventoryError:
+                    tracked = False
+                return {
+                    "root": current.relative_to(root).as_posix()
+                    if current != root
+                    else ".",
+                    "head": _git_text(current, ["rev-parse", "HEAD"]),
+                    "tree": _git_text(current, ["rev-parse", "HEAD^{tree}"]),
+                    "branch": _git_text(current, ["branch", "--show-current"]),
+                    "path": relative,
+                    "tracked": tracked,
+                }
+        if current == root:
+            return None
+        try:
+            current.relative_to(root)
+        except ValueError:
+            return None
+        current = current.parent
+
+
+def _navigation_role(
+    path: str, repository: Mapping[str, Any] | None
+) -> tuple[str, str]:
+    pure = PurePosixPath(path)
+    components = {part.casefold() for part in pure.parts}
+    name = pure.name.casefold()
+    if components & (DEPENDENCY_COMPONENTS | GENERATED_COMPONENTS):
+        return "GENERATED_OR_CACHE_COPY", "generated-or-dependency-path-component"
+    if components & HISTORICAL_COMPONENTS:
+        return "HISTORICAL_OR_ARCHIVED_COPY", "history-or-archive-path-component"
+    if components & EVIDENCE_COMPONENTS:
+        return "EVIDENCE_OR_RECEIPT", "evidence-path-component"
+    if "tests" in components or name.startswith(("test_", "test-")):
+        return "TEST_OR_TEST_FIXTURE", "test-path-or-name"
+    if repository is not None and repository["tracked"]:
+        if pure.suffix.casefold() in GRAPH_SOURCE_SUFFIXES:
+            return "CANONICAL_SOURCE_CANDIDATE", "tracked-source-in-closest-repository"
+        return "TRACKED_PROJECT_FILE", "tracked-file-in-closest-repository"
+    if repository is not None:
+        return "UNTRACKED_WORKING_COPY", "untracked-file-in-closest-repository"
+    return "UNOWNED_OR_STALE_PATH", "no-live-containing-repository"
+
+
+GRAPH_SOURCE_SUFFIXES = frozenset(
+    {
+        ".c",
+        ".cc",
+        ".cpp",
+        ".go",
+        ".h",
+        ".hpp",
+        ".java",
+        ".js",
+        ".jsx",
+        ".kt",
+        ".kts",
+        ".lua",
+        ".mjs",
+        ".php",
+        ".py",
+        ".pyi",
+        ".rb",
+        ".rs",
+        ".sh",
+        ".sql",
+        ".swift",
+        ".ts",
+        ".tsx",
+        ".zsh",
+    }
+)
+
+
+def locate_navigation_inventory(
+    store: Path, query: str, *, limit: int = 50, semantic_only: bool = False
+) -> dict[str, Any]:
+    """Return a closed, hash-bound navigation result with conservative path roles."""
+    current = current_navigation_run(store)
+    root = Path(current.manifest["root"]["path"]).resolve(strict=True)
+    located: list[dict[str, Any]] = []
+    for row in search_navigation_inventory(
+        store, query, limit=limit, semantic_only=semantic_only
+    ):
+        pure = PurePosixPath(row["path"])
+        if pure.is_absolute() or ".." in pure.parts:
+            raise NavigationInventoryError("inventory contains an unsafe path")
+        live_path = root.joinpath(*pure.parts)
+        repository = (
+            _closest_repository(root, live_path) if live_path.exists() else None
+        )
+        role, basis = _navigation_role(row["path"], repository)
+        live_sha256: str | None = None
+        live_matches_inventory = False
+        try:
+            metadata = live_path.lstat()
+            if stat.S_ISREG(metadata.st_mode):
+                live_sha256, _ = _file_sha256(live_path)
+                live_matches_inventory = live_sha256 == row["content_sha256"]
+        except OSError:
+            pass
+        located.append(
+            {
+                **row,
+                "role": role,
+                "role_basis": basis,
+                "canonicality_claimed": False,
+                "repository": repository,
+                "source": {
+                    "absolute_path": str(live_path),
+                    "inventory_sha256": row["content_sha256"],
+                    "live_sha256": live_sha256,
+                    "live_matches_inventory": live_matches_inventory,
+                },
+            }
+        )
+    return seal_document(
+        {
+            "schema": LOCATE_SCHEMA,
+            "status": "PASS",
+            "authority": "non-authoritative-navigation-result",
+            "authority_granted": False,
+            "query": query,
+            "limit": limit,
+            "semantic_only": semantic_only,
+            "inventory": {
+                "run_id": current.manifest["run_id"],
+                "manifest_receipt_sha256": current.manifest["receipt_sha256"],
+                "database_sha256": current.manifest["database"]["sha256"],
+                "row_digest_sha256": current.manifest["database"]["row_digest_sha256"],
+                "git_status_row_digest_sha256": current.manifest["database"][
+                    "git_status_row_digest_sha256"
+                ],
+            },
+            "results": located,
+        }
+    )
