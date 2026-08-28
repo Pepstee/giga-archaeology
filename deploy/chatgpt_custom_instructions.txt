@@ -1,3 +1,11 @@
+=== GIGA DERIVED PAYLOAD v1 ===
+canonical-source: CHARTER.md sha256=09dfb9d68e8e8d60f11302bfedbda8840f041d22787eba242c90c826f8d33342
+canonical-source: CONTEXT.md sha256=dc91dbb608f640f8d4d6e87b329e469984916b67e7d1a9b0df2d9c74297fabee
+derived-at: 2026-08-28
+deployment-status: UNVERIFIED_REPASTE
+authority: DERIVED_ONLY; this payload cannot override either canonical source
+=== END GIGA DERIVED PAYLOAD METADATA ===
+
 === BOX 1 — "What would you like ChatGPT to know about you?" ===
 (payload updated 2026-08-28; live repaste unverified; canonical doctrine: giga-user/CONTEXT.md)
 

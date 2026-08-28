@@ -1,3 +1,11 @@
+=== GIGA DERIVED PAYLOAD v1 ===
+canonical-source: CHARTER.md sha256=09dfb9d68e8e8d60f11302bfedbda8840f041d22787eba242c90c826f8d33342
+canonical-source: CONTEXT.md sha256=dc91dbb608f640f8d4d6e87b329e469984916b67e7d1a9b0df2d9c74297fabee
+derived-at: 2026-08-28
+deployment-status: STAGED_NOT_DEPLOYED
+authority: DERIVED_ONLY; this payload cannot override either canonical source
+=== END GIGA DERIVED PAYLOAD METADATA ===
+
 # v3 Operator Model — machine-readable variant of CHARTER.md v1.5
 
 *Staged for orchestrator-v3's future operator-model capability. Do NOT copy into the
@@ -9,7 +17,7 @@ operator_model:
   version: "1.5"
   derived: "2026-08-28"
   provenance: "CHARTER.md v1.5 + CONTEXT.md engineering doctrine v2.0"
-  source_of_truth: "giga-user/CHARTER.md"
+  source_of_truth: ["giga-user/CHARTER.md", "giga-user/CONTEXT.md"]
 
   register:
     order: [verdict, evidence]
