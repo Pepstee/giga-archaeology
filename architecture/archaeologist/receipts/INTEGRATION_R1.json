@@ -1,0 +1,101 @@
+{
+  "authority": "non-authoritative-local-navigation-integration-evidence",
+  "authority_granted": false,
+  "baseline_limitations": [
+    "The repository-wide pytest collector has pre-existing import and duplicate-test-name failures outside the Archaeologist scope.",
+    "The canonical unittest suite ran 90 tests with one pre-existing missing ignored corpus fixture: corpus/derived/tier3_memory_claims_20260726.json.",
+    "The semantic graph remains PARTIAL because prose expansion is intentionally bounded."
+  ],
+  "canary": {
+    "inventory": {
+      "database_sha256": "ea9446394380d7e92cae66e9d67f3d51eea7c0d51b4ffeaa257af68cc02195c2",
+      "files": 599751,
+      "git_head": "eb3757ad151867798b0767d0805411f2800b1499",
+      "git_status_entries": 4457,
+      "git_status_sha256": "07c26834accca89b1df72b61ed15c4b86e31b43d43ef571941bee06cb58289e1",
+      "git_tree": "12bf3ec1b79d62805e9f93cd4c8db588a4ec0659",
+      "receipt_sha256": "f9136a9c731a14bc8683185736ad1682c024fa129a56ccd281bd2b6824466886",
+      "row_digest_sha256": "69739f5622ec705bc4593c87038ccf96d1b0db9ff55262bb519d3759ce142b5d",
+      "run_id": "20260828T180743.334670Z-78fd9987f49d",
+      "status": "CURRENT"
+    },
+    "maintenance": {
+      "duration_seconds": 80.679744,
+      "finished_at": "2026-08-28T18:09:04.016599Z",
+      "reason": "manual-integration-canary",
+      "receipt_sha256": "03c9abc78b8cdd04771c783c90974b7f2fa24f568490902e23388382c1f3de99",
+      "run_id": "20260828T180743.333784Z-b33831903432",
+      "status": "PASS"
+    },
+    "navigation_query": {
+      "canonical_path": "job-application-automation/jaa-runtime/career_automation/application_compiler.py",
+      "copies_and_history_returned": true,
+      "query": "application_compiler",
+      "status": "PASS"
+    },
+    "semantic": {
+      "edges": 239089,
+      "nodes": 187160,
+      "query": "JAA application preparation",
+      "query_returned_exact_source_locations": true,
+      "receipt_sha256": "845a415faa049f278d0e1a3225aac9c8d079f51774c2b52fbd18d2c9035d62b3",
+      "run_id": "20260828T180850.547324Z-4005fce05632",
+      "status": "PARTIAL"
+    }
+  },
+  "canonical_repository": "/Users/admin/Documents/giga-user",
+  "implementation": {
+    "base_commit": "cbd585390a115c5bded005f0fa31bfdbaddbd06d",
+    "integrated_commit": "eb3757ad151867798b0767d0805411f2800b1499",
+    "integrated_tree": "12bf3ec1b79d62805e9f93cd4c8db588a4ec0659",
+    "original_producer_commit": "db7cd1377a016300364781527171707d2f0aeb70",
+    "source_branch": "codex/giga-navigation-integration-r1",
+    "source_branch_pushed": true
+  },
+  "installed": {
+    "daily_launch_agent": {
+      "loaded": true,
+      "mode": "0600",
+      "path": "/Users/admin/Library/LaunchAgents/com.artiom.giga-navigation-maintenance.plist",
+      "sha256": "a4dc373a9e8d3ded79a956082a8dda17991e6cf2c24f391ab60423ecc05027bd"
+    },
+    "post_commit_hook": {
+      "canonical_checkout_only": true,
+      "mode": "0755",
+      "path": "/Users/admin/Documents/giga-user/.git/hooks/post-commit",
+      "sha256": "4ed12c58b881900e46322e22d81724ee164557bb8ccdfe934a9a2ae74fad2ed1"
+    }
+  },
+  "privacy": {
+    "external_semantic_provider_used": false,
+    "private_values_recorded": false,
+    "semantic_processing": "local-only"
+  },
+  "receipt_sha256": "20d7dea8e92142bc153d6dc3001e96792d76b5a53e87ef8fe9cf2017f95abc66",
+  "recorded_at": "2026-08-28T18:09:04.016599Z",
+  "schema": "giga.archaeologist.integration-receipt.v1",
+  "slices_integrated": [
+    "inventory",
+    "hypotheses",
+    "counterevidence",
+    "history",
+    "judge",
+    "quarantine-canary",
+    "navigation-inventory",
+    "local-semantic-graph",
+    "maintenance-controller",
+    "daily-trigger",
+    "post-commit-trigger"
+  ],
+  "tests": {
+    "focused": {
+      "passed": 59,
+      "status": "PASS"
+    },
+    "launchers": {
+      "passed": 2,
+      "status": "PASS"
+    },
+    "plist_lint": "PASS"
+  }
+}
