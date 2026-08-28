@@ -1,6 +1,7 @@
-=== GIGA DERIVED PAYLOAD v1 ===
+=== GIGA DERIVED PAYLOAD v2 ===
 canonical-source: CHARTER.md sha256=e26bb2fe63dfde9549a3036a506a2116868f2cb1dfec58ce78ca61b002a63428
 canonical-source: CONTEXT.md sha256=b6f130e8e7e73c8bfe90f8f1d9a4008202c245068e4ea3798fc73bdd7405c235
+adapter-template: deploy/templates/v3_operator_model.md sha256=633c073ff8ce4fd859deb84e3652d4ec7b3023e683fd632d48ecd28a5c4ea3f8
 derived-at: 2026-08-29
 deployment-status: STAGED_NOT_DEPLOYED
 authority: DERIVED_ONLY; this payload cannot override either canonical source
