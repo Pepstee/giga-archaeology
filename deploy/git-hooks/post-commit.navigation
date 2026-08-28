@@ -1,5 +1,7 @@
 #!/bin/sh
 # Non-blocking GIGA navigation refresh after a committed milestone.
+GIGA_NAV_ROOT=$(/usr/bin/git rev-parse --show-toplevel 2>/dev/null) || exit 0
+[ "$GIGA_NAV_ROOT" = "/Users/admin/Documents/giga-user" ] || exit 0
 mkdir -p /Users/admin/.jarvis/navigation
 nohup /usr/bin/env \
   PYTHONPATH=/Users/admin/Documents/giga-user \
