@@ -5,11 +5,11 @@ import stat
 from pathlib import Path
 
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_daily_launcher_targets_canonical_non_worktree_owner() -> None:
-    path = ROOT / "modules/deployment/launchd/com.artiom.giga-navigation-maintenance.plist"
+    path = ROOT / "deploy/launchd/com.artiom.giga-navigation-maintenance.plist"
     payload = plistlib.loads(path.read_bytes())
     arguments = payload["ProgramArguments"]
     assert payload["Label"] == "com.artiom.giga-navigation-maintenance"
@@ -22,10 +22,11 @@ def test_daily_launcher_targets_canonical_non_worktree_owner() -> None:
 
 
 def test_post_commit_launcher_is_background_non_blocking_and_structural_only() -> None:
-    path = ROOT / "modules/deployment/git-hooks/post-commit.navigation"
+    path = ROOT / "deploy/git-hooks/post-commit.navigation"
     text = path.read_text(encoding="utf-8")
     assert stat.S_IMODE(path.stat().st_mode) == 0o755
     assert "nohup " in text
+    assert "PYTHONPATH=/Users/admin/Documents/giga-user" in text
     assert "--reason post-commit" in text
     assert "--max-new-documents 0" in text
     assert "worktrees" not in text

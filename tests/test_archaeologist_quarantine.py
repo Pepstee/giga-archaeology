@@ -19,7 +19,7 @@ from modules.operations.archaeologist.quarantine import (
     _sandbox_profile,
     write_quarantine_canary,
 )
-from modules.operations.tests.test_archaeologist_judge import _candidate_evidence
+from test_archaeologist_judge import _candidate_evidence
 
 
 def _git(root: Path, *arguments: str) -> str:

@@ -1,7 +1,9 @@
 #!/bin/sh
 # Non-blocking GIGA navigation refresh after a committed milestone.
 mkdir -p /Users/admin/.jarvis/navigation
-nohup /opt/homebrew/bin/python3 \
+nohup /usr/bin/env \
+  PYTHONPATH=/Users/admin/Documents/giga-user \
+  /opt/homebrew/bin/python3 \
   /Users/admin/Documents/giga-user/modules/operations/scripts/archaeologist.py \
   navigation-maintenance \
   --root /Users/admin/Documents/giga-user \
