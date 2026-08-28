@@ -200,6 +200,23 @@ def test_locator_distinguishes_tracked_source_from_history_and_binds_repository(
     )
 
 
+def test_locator_ignores_unborn_nested_repository_candidate(
+    repository: Path, tmp_path: Path
+) -> None:
+    abandoned = repository / "abandoned"
+    abandoned.mkdir()
+    _git(abandoned, "init", "-q")
+    (abandoned / "application_notes.md").write_text("notes\n", encoding="utf-8")
+    store = tmp_path / "store"
+    refresh_navigation_inventory(repository, store)
+    result = locate_navigation_inventory(store, "application")
+    row = next(
+        item for item in result["results"] if item["path"].startswith("abandoned/")
+    )
+    assert row["repository"]["root"] == "."
+    assert row["role"] == "UNTRACKED_WORKING_COPY"
+
+
 def test_publication_is_external_private_atomic_and_current_is_authenticated(
     repository: Path, tmp_path: Path
 ) -> None:

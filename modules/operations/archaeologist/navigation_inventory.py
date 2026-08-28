@@ -1072,20 +1072,27 @@ def _closest_repository(root: Path, path: Path) -> dict[str, Any] | None:
             if top == current:
                 relative = path.relative_to(current).as_posix()
                 try:
-                    _git(current, ["ls-files", "--error-unmatch", "--", relative])
-                    tracked = True
+                    head = _git_text(current, ["rev-parse", "HEAD"])
+                    tree = _git_text(current, ["rev-parse", "HEAD^{tree}"])
+                    branch = _git_text(current, ["branch", "--show-current"])
                 except NavigationInventoryError:
-                    tracked = False
-                return {
-                    "root": current.relative_to(root).as_posix()
-                    if current != root
-                    else ".",
-                    "head": _git_text(current, ["rev-parse", "HEAD"]),
-                    "tree": _git_text(current, ["rev-parse", "HEAD^{tree}"]),
-                    "branch": _git_text(current, ["branch", "--show-current"]),
-                    "path": relative,
-                    "tracked": tracked,
-                }
+                    pass
+                else:
+                    try:
+                        _git(current, ["ls-files", "--error-unmatch", "--", relative])
+                        tracked = True
+                    except NavigationInventoryError:
+                        tracked = False
+                    return {
+                        "root": current.relative_to(root).as_posix()
+                        if current != root
+                        else ".",
+                        "head": head,
+                        "tree": tree,
+                        "branch": branch,
+                        "path": relative,
+                        "tracked": tracked,
+                    }
         if current == root:
             return None
         try:
