@@ -33,6 +33,10 @@ from modules.operations.archaeologist.semantic_graph import (
     query_semantic_graph,
     refresh_semantic_graph,
 )
+from modules.operations.archaeologist.navigation_maintenance import (
+    NavigationMaintenanceError,
+    run_navigation_maintenance,
+)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -117,6 +121,23 @@ def _parser() -> argparse.ArgumentParser:
     semantic_query.add_argument("question")
     semantic_query.add_argument("--semantic-store", type=Path, required=True)
     semantic_query.add_argument("--budget", type=int, default=2000)
+    maintenance = subcommands.add_parser(
+        "navigation-maintenance",
+        help="non-blocking inventory and local semantic refresh for daily or milestone use",
+    )
+    maintenance.add_argument("--root", type=Path, required=True)
+    maintenance.add_argument("--inventory-store", type=Path, required=True)
+    maintenance.add_argument("--semantic-store", type=Path, required=True)
+    maintenance.add_argument("--reason", required=True)
+    maintenance.add_argument("--graphify-python", type=Path, default=GraphifyConfig.python)
+    maintenance.add_argument("--endpoint", default=GraphifyConfig.endpoint)
+    maintenance.add_argument("--model", default=GraphifyConfig.model)
+    maintenance.add_argument("--max-new-documents", type=int, default=1)
+    maintenance.add_argument(
+        "--model-server-executable", type=Path, default=Path("/opt/homebrew/bin/mlx_lm.server")
+    )
+    maintenance.add_argument("--model-path", type=Path, required=True)
+    maintenance.add_argument("--strict", action="store_true")
     return parser
 
 
@@ -307,12 +328,35 @@ def main(argv: list[str] | None = None) -> int:
                 end="",
             )
             return 0
+        if arguments.command == "navigation-maintenance":
+            receipt = run_navigation_maintenance(
+                arguments.root,
+                arguments.inventory_store,
+                arguments.semantic_store,
+                reason=arguments.reason,
+                graphify=GraphifyConfig(
+                    python=arguments.graphify_python,
+                    endpoint=arguments.endpoint,
+                    model=arguments.model,
+                    max_new_documents=arguments.max_new_documents,
+                ),
+                model_server_executable=arguments.model_server_executable,
+                model_path=arguments.model_path,
+            )
+            print(json.dumps(receipt, sort_keys=True))
+            if arguments.strict and receipt["status"] not in {
+                "PASS",
+                "SKIPPED_ALREADY_RUNNING",
+            }:
+                return 2
+            return 0
     except (
         CounterevidenceError,
         HistoryError,
         HypothesisError,
         InventoryError,
         NavigationInventoryError,
+        NavigationMaintenanceError,
         SemanticGraphError,
         JudgeError,
         QuarantineError,

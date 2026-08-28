@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.artiom.giga-navigation-maintenance</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/python3</string>
+    <string>/Users/admin/Documents/giga-user/modules/operations/scripts/archaeologist.py</string>
+    <string>navigation-maintenance</string>
+    <string>--root</string>
+    <string>/Users/admin/Documents/giga-user</string>
+    <string>--inventory-store</string>
+    <string>/Users/admin/Documents/ox-alpha-giga-workspace/runtime/navigation/giga-user</string>
+    <string>--semantic-store</string>
+    <string>/Users/admin/Documents/ox-alpha-giga-workspace/runtime/navigation/giga-user-semantic</string>
+    <string>--reason</string>
+    <string>daily-launchd</string>
+    <string>--max-new-documents</string>
+    <string>1</string>
+    <string>--model-path</string>
+    <string>/Users/admin/.cache/huggingface/hub/models--mlx-community--Qwen2.5-3B-Instruct-4bit/snapshots/4f83f8f146fdf28b512a06562b671d7af4fab457</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>4</integer>
+    <key>Minute</key>
+    <integer>17</integer>
+  </dict>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/admin/.jarvis/navigation/daily.out</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/admin/.jarvis/navigation/daily.err</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>PYTHONPATH</key>
+    <string>/Users/admin/Documents/giga-user</string>
+  </dict>
+</dict>
+</plist>

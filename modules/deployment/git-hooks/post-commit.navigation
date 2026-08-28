@@ -1,0 +1,16 @@
+#!/bin/sh
+# Non-blocking GIGA navigation refresh after a committed milestone.
+mkdir -p /Users/admin/.jarvis/navigation
+nohup /opt/homebrew/bin/python3 \
+  /Users/admin/Documents/giga-user/modules/operations/scripts/archaeologist.py \
+  navigation-maintenance \
+  --root /Users/admin/Documents/giga-user \
+  --inventory-store /Users/admin/Documents/ox-alpha-giga-workspace/runtime/navigation/giga-user \
+  --semantic-store /Users/admin/Documents/ox-alpha-giga-workspace/runtime/navigation/giga-user-semantic \
+  --reason post-commit \
+  --max-new-documents 0 \
+  --model-path /Users/admin/.cache/huggingface/hub/models--mlx-community--Qwen2.5-3B-Instruct-4bit/snapshots/4f83f8f146fdf28b512a06562b671d7af4fab457 \
+  >>/Users/admin/.jarvis/navigation/post-commit.out \
+  2>>/Users/admin/.jarvis/navigation/post-commit.err \
+  </dev/null &
+exit 0

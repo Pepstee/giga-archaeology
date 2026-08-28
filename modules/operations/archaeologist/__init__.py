@@ -30,6 +30,7 @@ from .semantic_graph import (
     query_semantic_graph,
     refresh_semantic_graph,
 )
+from .navigation_maintenance import NavigationMaintenanceError, run_navigation_maintenance
 
 __all__ = [
     "HypothesisError",
@@ -40,6 +41,7 @@ __all__ = [
     "JudgeError",
     "QuarantineError",
     "NavigationInventoryError",
+    "NavigationMaintenanceError",
     "NavigationPolicy",
     "NavigationRun",
     "GraphifyConfig",
@@ -54,6 +56,7 @@ __all__ = [
     "run_quarantine_canary",
     "current_navigation_run",
     "refresh_navigation_inventory",
+    "run_navigation_maintenance",
     "search_navigation_inventory",
     "current_semantic_run",
     "query_semantic_graph",
