@@ -1,38 +1,43 @@
-# Context Protocol — maintenance rules for CONTEXT.md
+# Engineering Doctrine Protocol
 
-*Session 02 deliverable. One canonical file, many dated copies, zero platform lock-in.*
+*Version 2.1 — 2026-08-29. Canonical domain owners, derived runtime copies, no personal profile.*
 
-## Single-source discipline
+## Canonical domain owners
 
-`CONTEXT.md` in this folder is canonical. Every deployment (Claude preferences block,
-ChatGPT box 1, the Telegram bot's startup read, any future surface — GPT, Kimi, local
-models) is a **copy or condensation** of it, never an independent edit. If a surface's copy
-is wrong, the fix happens here first, then re-deploys. The file is plain markdown with no
-platform features — portability is a design law, not an aspiration.
+- `CONTEXT.md` owns settled engineering doctrine.
+- `CHARTER.md` owns communication and collaboration preferences.
+- `AGENTS.md` owns operational priorities and agent procedure.
+- `00_MASTER.md` owns programme sequencing and status.
+- An active numbered brief owns only the admitted scope of its exact workstream.
 
-## Tiers and cadence
+Personal or relationship context, travel state, project status, memories, and evidence do not
+belong in engineering doctrine.
 
-| Tier | Changes | Update trigger |
-|---|---|---|
-| IDENTITY | rarely | on real life changes only |
-| SITUATION | monthly | monthly sweep + any standing-decision change |
-| ACTIVE | weekly | the Monday memory sweep may propose ACTIVE-tier edits in its report |
+## Amendment rule
 
-## Size law
+- A direct operator amendment changes the canonical owner for its domain first and is effective
+  immediately there.
+- An assistant-proposed amendment requires evidence and explicit operator ratification.
+- Settled doctrine is not copied into unrelated planning or status files. Those files link here.
+- Historical doctrine remains recoverable through Git history; obsolete clauses are removed from
+  live guidance rather than kept active for sentiment or provenance.
+- A derived runtime or deployment payload never originates an amendment. Change the canonical owner
+  and regenerate the payload instead of editing its derived body.
 
-One screen, forever. CONTEXT.md is the identity tier of the memory architecture — the hot
-layer. Memories go to `memory/entries/`; evidence goes to `corpus/`. If this file wants to
-grow, something is being filed in the wrong tier.
+## Derived copies
 
-## Staleness rule
+Runtime-specific and deployment-specific payloads are generated condensations, never independent
+sources. After an applicable canonical amendment:
 
-Every deployed copy carries its deploy date in its header line. A copy older than one month
-is presumed stale — recheck against canonical before trusting it. The deployed-copies table
-in CONTEXT.md records where copies live and when they were pasted.
+1. update the correct canonical domain owner;
+2. update or regenerate each tracked deployment payload;
+3. verify that no removed doctrine remains and no new doctrine was introduced;
+4. record which live surfaces were actually redeployed.
 
-## Verification (the recitation test)
+An unverified or stale deployment copy must say so. It cannot overrule any canonical owner.
 
-After any deployment: ask that surface cold, "What do you know about my situation and
-current priorities?" Deployment passes only if the recitation is faithful to this file —
-no inventions, no omissions of the career clock, Korean deadline, or standing decisions.
-Record pass/fail + date in the deployed-copies table.
+## Verification
+
+A doctrine deployment passes only when it preserves the canonical decisions, omits private context,
+contains no superseded clause, and does not broaden authority. Hash or semantic comparison should be
+automated where the destination permits it; a prose claim of alignment is insufficient.

@@ -6,12 +6,48 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from scripts.verify_derived_agent_payloads import DerivedPayloadError
 from twin_core.integrity import sha256_file
-from twin_core.lineage import LineageReconciliationError, reconcile_lineage
+from twin_core.lineage import (
+    LineageReconciliationError,
+    _run_canonical_tests,
+    reconcile_lineage,
+)
 from twin_core.store import TwinStore
 
 
 class LineageReconciliationTests(unittest.TestCase):
+    def test_canonical_gate_requires_current_derived_payloads(self) -> None:
+        repository_root = Path(__file__).resolve().parents[1]
+        with patch("twin_core.lineage.subprocess.run") as run:
+            run.return_value.returncode = 0
+            run.return_value.stdout = "102 passed"
+            run.return_value.stderr = ""
+            result = _run_canonical_tests(repository_root)
+
+        self.assertTrue(result["ok"])
+        self.assertEqual(result["derived_payloads"]["status"], "PASS")
+        self.assertEqual(
+            result["command"][0],
+            ["python3", "scripts/verify_derived_agent_payloads.py"],
+        )
+
+    def test_canonical_gate_stops_before_tests_when_payloads_drift(self) -> None:
+        repository_root = Path(__file__).resolve().parents[1]
+        with (
+            patch(
+                "twin_core.lineage.verify_derived_payloads",
+                side_effect=DerivedPayloadError("manual payload drift"),
+            ),
+            patch("twin_core.lineage.subprocess.run") as run,
+        ):
+            result = _run_canonical_tests(repository_root)
+
+        self.assertFalse(result["ok"])
+        self.assertEqual(result["derived_payloads"]["status"], "FAIL")
+        self.assertIn("manual payload drift", result["summary"])
+        run.assert_not_called()
+
     def fixture(self, folder: str) -> tuple[Path, TwinStore, Path]:
         root = Path(folder)
         (root / "architecture").mkdir()
@@ -54,7 +90,9 @@ class LineageReconciliationTests(unittest.TestCase):
         return root, store, manifest
 
     @patch("twin_core.lineage.validate_memory", return_value={"ok": True, "errors": []})
-    @patch("twin_core.lineage.verify_hash_baseline", return_value={"ok": True, "files": []})
+    @patch(
+        "twin_core.lineage.verify_hash_baseline", return_value={"ok": True, "files": []}
+    )
     @patch(
         "twin_core.lineage._run_canonical_tests",
         return_value={
@@ -63,9 +101,12 @@ class LineageReconciliationTests(unittest.TestCase):
             "returncode": 0,
             "output_sha256": "a" * 64,
             "summary": "50 passed",
+            "derived_payloads": {"status": "PASS"},
         },
     )
-    def test_adopts_current_state_and_retains_previous_revision(self, *_: object) -> None:
+    def test_adopts_current_state_and_retains_previous_revision(
+        self, *_: object
+    ) -> None:
         with tempfile.TemporaryDirectory() as folder:
             root, store, manifest = self.fixture(folder)
             report = reconcile_lineage(
@@ -76,20 +117,33 @@ class LineageReconciliationTests(unittest.TestCase):
                 report_markdown=root / "architecture" / "receipt.md",
             )
             self.assertTrue(report["ok"])
-            self.assertEqual(report["semantics"], "verified current-state adoption; not a rebuild")
+            self.assertEqual(
+                report["semantics"], "verified current-state adoption; not a rebuild"
+            )
             history = store.artifact_history("architecture/map.md")
             self.assertEqual(len(history), 2)
             self.assertEqual(history[0]["provenance_mode"], "reconciled")
             self.assertEqual(history[1]["status"], "superseded")
             self.assertTrue(store.audit_artifacts(root)["ok"])
             self.assertTrue((root / "architecture" / "receipt.json").is_file())
-            self.assertIn("not a claim", (root / "architecture" / "receipt.md").read_text())
+            self.assertIn(
+                "not a claim", (root / "architecture" / "receipt.md").read_text()
+            )
             receipt_count = store.counts()["receipts"]
-            receipt = store.latest_receipt(report["authority_event_id"], "lineage.reconcile")
+            receipt = store.latest_receipt(
+                report["authority_event_id"], "lineage.reconcile"
+            )
             assert receipt is not None
-            self.assertTrue(all("lineage-reconciliation/" in item["path"] for item in receipt["artifacts"]))
+            self.assertTrue(
+                all(
+                    "lineage-reconciliation/" in item["path"]
+                    for item in receipt["artifacts"]
+                )
+            )
             (root / "architecture" / "receipt.json").write_text("{}", encoding="utf-8")
-            (root / "architecture" / "receipt.md").write_text("changed", encoding="utf-8")
+            (root / "architecture" / "receipt.md").write_text(
+                "changed", encoding="utf-8"
+            )
             replay = reconcile_lineage(
                 root=root,
                 manifest=manifest,
@@ -100,13 +154,20 @@ class LineageReconciliationTests(unittest.TestCase):
             self.assertTrue(replay["replay"])
             self.assertEqual(len(store.artifact_history("architecture/map.md")), 2)
             self.assertEqual(store.counts()["receipts"], receipt_count)
-            self.assertIn("not a claim", (root / "architecture" / "receipt.md").read_text())
+            self.assertIn(
+                "not a claim", (root / "architecture" / "receipt.md").read_text()
+            )
 
     @patch("twin_core.lineage.validate_memory", return_value={"ok": True})
     @patch("twin_core.lineage.verify_hash_baseline", return_value={"ok": True})
     @patch(
         "twin_core.lineage._run_canonical_tests",
-        return_value={"ok": False, "output_sha256": "a" * 64, "summary": "failed"},
+        return_value={
+            "ok": False,
+            "output_sha256": "a" * 64,
+            "summary": "failed",
+            "derived_payloads": {"status": "FAIL"},
+        },
     )
     def test_failed_gate_cannot_promote_a_revision(self, *_: object) -> None:
         with tempfile.TemporaryDirectory() as folder:

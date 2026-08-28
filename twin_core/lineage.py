@@ -3,6 +3,7 @@
 This is deliberately distinct from a rebuild.  It preserves the old registration as a
 superseded revision and records why the present file/source combination was accepted.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -13,6 +14,11 @@ import sys
 import tempfile
 from pathlib import Path
 from typing import Any
+
+from scripts.verify_derived_agent_payloads import (
+    DerivedPayloadError,
+    verify_derived_payloads,
+)
 
 from .integrity import sha256_file, verify_hash_baseline
 from .memory_validation import validate_memory
@@ -25,7 +31,11 @@ class LineageReconciliationError(ValueError):
 
 def _canonical(value: Any) -> str:
     return json.dumps(
-        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
     )
 
 
@@ -36,7 +46,9 @@ def _inside(root: Path, relative: str, *, field: str) -> tuple[str, Path]:
     try:
         normalised = str(candidate.relative_to(root))
     except ValueError as exc:
-        raise LineageReconciliationError(f"{field} escapes the GIGA root: {relative}") from exc
+        raise LineageReconciliationError(
+            f"{field} escapes the GIGA root: {relative}"
+        ) from exc
     return normalised, candidate
 
 
@@ -67,6 +79,20 @@ def _write_immutable(path: Path, content: str) -> None:
 
 
 def _run_canonical_tests(root: Path) -> dict[str, Any]:
+    try:
+        derived_payloads = verify_derived_payloads(root)
+    except DerivedPayloadError as exc:
+        return {
+            "ok": False,
+            "command": [
+                ["python3", "scripts/verify_derived_agent_payloads.py"],
+                ["python3", "-W", "error", "-m", "pytest", "-q", "tests"],
+            ],
+            "returncode": 1,
+            "output_sha256": hashlib.sha256(str(exc).encode("utf-8")).hexdigest(),
+            "summary": f"derived-payload governance gate failed: {exc}",
+            "derived_payloads": {"status": "FAIL", "error": str(exc)},
+        }
     command = [sys.executable, "-W", "error", "-m", "pytest", "-q", "tests"]
     completed = subprocess.run(
         command,
@@ -78,11 +104,15 @@ def _run_canonical_tests(root: Path) -> dict[str, Any]:
     )
     output = (completed.stdout + completed.stderr).strip()
     return {
-        "ok": completed.returncode == 0,
-        "command": ["python3", "-W", "error", "-m", "pytest", "-q", "tests"],
+        "ok": derived_payloads["status"] == "PASS" and completed.returncode == 0,
+        "command": [
+            ["python3", "scripts/verify_derived_agent_payloads.py"],
+            ["python3", "-W", "error", "-m", "pytest", "-q", "tests"],
+        ],
         "returncode": completed.returncode,
         "output_sha256": hashlib.sha256(output.encode("utf-8")).hexdigest(),
         "summary": output[-2_000:],
+        "derived_payloads": derived_payloads,
     }
 
 
@@ -98,6 +128,7 @@ def _markdown_report(report: dict[str, Any]) -> str:
         "",
         "## Gates",
         "",
+        f"- Derived deployment payloads: {report['gates']['tests']['derived_payloads']['status']}",
         f"- Canonical tests: PASS — `{report['gates']['tests']['summary'].splitlines()[-1]}`",
         f"- Immutable exports: {'PASS' if report['gates']['exports']['ok'] else 'FAIL'}",
         f"- Memory validation: {'PASS' if report['gates']['memory']['ok'] else 'FAIL'}",
@@ -120,17 +151,20 @@ def _markdown_report(report: dict[str, Any]) -> str:
             "",
             f"- Active registrations: {report['after']['lineage']['active']}",
             f"- Stored revisions: {report['after']['lineage']['revisions']}",
-        f"- Superseded revisions retained: {report['after']['lineage']['superseded']}",
-        f"- Aggregate current-lineage audit: {'PASS' if report['after']['ok'] else 'FAIL'}",
-        f"- Authority event: `{report['authority_event_id']}`",
-        f"- Policy SHA-256: `{report['policy_sha256']}`",
-        f"- Immutable JSON receipt: `{report['immutable_reports']['json']}`",
-        f"- Immutable Markdown receipt: `{report['immutable_reports']['markdown']}`",
-        *(
-            [f"- Recovery backup: `{report['recovery']['backup']}` "
-             f"(`{report['recovery']['sha256']}`)"]
-            if report.get("recovery") else []
-        ),
+            f"- Superseded revisions retained: {report['after']['lineage']['superseded']}",
+            f"- Aggregate current-lineage audit: {'PASS' if report['after']['ok'] else 'FAIL'}",
+            f"- Authority event: `{report['authority_event_id']}`",
+            f"- Policy SHA-256: `{report['policy_sha256']}`",
+            f"- Immutable JSON receipt: `{report['immutable_reports']['json']}`",
+            f"- Immutable Markdown receipt: `{report['immutable_reports']['markdown']}`",
+            *(
+                [
+                    f"- Recovery backup: `{report['recovery']['backup']}` "
+                    f"(`{report['recovery']['sha256']}`)"
+                ]
+                if report.get("recovery")
+                else []
+            ),
             "",
         ]
     )
@@ -151,19 +185,33 @@ def reconcile_lineage(
     try:
         manifest.relative_to(root)
     except ValueError as exc:
-        raise LineageReconciliationError("manifest must be inside the GIGA root") from exc
+        raise LineageReconciliationError(
+            "manifest must be inside the GIGA root"
+        ) from exc
     raw = json.loads(manifest.read_text(encoding="utf-8"))
     if not isinstance(raw, dict) or raw.get("schema_version") != 1:
         raise LineageReconciliationError("lineage manifest schema_version must be 1")
     authority = raw.get("authority")
     artifacts = raw.get("artifacts")
-    if not isinstance(authority, dict) or not isinstance(artifacts, list) or not artifacts:
-        raise LineageReconciliationError("manifest requires authority and non-empty artifacts")
+    if (
+        not isinstance(authority, dict)
+        or not isinstance(artifacts, list)
+        or not artifacts
+    ):
+        raise LineageReconciliationError(
+            "manifest requires authority and non-empty artifacts"
+        )
     if authority.get("actor") != "operator":
-        raise LineageReconciliationError("lineage adoption authority must be the operator")
+        raise LineageReconciliationError(
+            "lineage adoption authority must be the operator"
+        )
     confirmed_at = authority.get("confirmed_at")
     basis = authority.get("basis")
-    if not isinstance(confirmed_at, str) or not isinstance(basis, str) or not basis.strip():
+    if (
+        not isinstance(confirmed_at, str)
+        or not isinstance(basis, str)
+        or not basis.strip()
+    ):
         raise LineageReconciliationError("authority requires confirmed_at and basis")
 
     recovery_result: dict[str, Any] | None = None
@@ -171,15 +219,22 @@ def reconcile_lineage(
     if recovery is not None:
         if not isinstance(recovery, dict):
             raise LineageReconciliationError("recovery must be an object")
-        backup_value, expected_backup_sha = recovery.get("backup"), recovery.get("sha256")
-        if not isinstance(backup_value, str) or not isinstance(expected_backup_sha, str):
+        backup_value, expected_backup_sha = (
+            recovery.get("backup"),
+            recovery.get("sha256"),
+        )
+        if not isinstance(backup_value, str) or not isinstance(
+            expected_backup_sha, str
+        ):
             raise LineageReconciliationError("recovery requires backup and sha256")
         backup = Path(backup_value).expanduser().resolve()
         if not backup.is_file():
             raise LineageReconciliationError(f"recovery backup is missing: {backup}")
         actual_backup_sha = sha256_file(backup)
         if actual_backup_sha != expected_backup_sha:
-            raise LineageReconciliationError("recovery backup hash does not match the policy")
+            raise LineageReconciliationError(
+                "recovery backup hash does not match the policy"
+            )
         recovery_result = {
             "backup": str(backup),
             "sha256": actual_backup_sha,
@@ -193,7 +248,9 @@ def reconcile_lineage(
         json_relative = str(report_json.resolve().relative_to(root))
         markdown_relative = str(report_markdown.resolve().relative_to(root))
     except ValueError as exc:
-        raise LineageReconciliationError("reports must be inside the GIGA root") from exc
+        raise LineageReconciliationError(
+            "reports must be inside the GIGA root"
+        ) from exc
     json_relative, report_json_path = _inside(root, json_relative, field="JSON report")
     markdown_relative, report_markdown_path = _inside(
         root, markdown_relative, field="Markdown report"
@@ -206,7 +263,9 @@ def reconcile_lineage(
     if not tests["ok"] or not exports["ok"] or not memory["ok"]:
         raise LineageReconciliationError(
             "lineage gates failed: "
-            + _canonical({"tests": tests["ok"], "exports": exports["ok"], "memory": memory["ok"]})
+            + _canonical(
+                {"tests": tests["ok"], "exports": exports["ok"], "memory": memory["ok"]}
+            )
         )
 
     prepared: list[dict[str, Any]] = []
@@ -214,7 +273,9 @@ def reconcile_lineage(
     for index, specification in enumerate(artifacts):
         if not isinstance(specification, dict):
             raise LineageReconciliationError(f"artifacts[{index}] must be an object")
-        relative, artifact_path = _inside(root, specification.get("path"), field="artifact path")
+        relative, artifact_path = _inside(
+            root, specification.get("path"), field="artifact path"
+        )
         if relative in seen:
             raise LineageReconciliationError(f"duplicate artifact path: {relative}")
         seen.add(relative)
@@ -223,8 +284,12 @@ def reconcile_lineage(
         text = artifact_path.read_text(encoding="utf-8")
         headings = specification.get("required_headings")
         if not isinstance(headings, list) or not headings:
-            raise LineageReconciliationError(f"required_headings missing for {relative}")
-        missing_headings = [heading for heading in headings if f"{heading}\n" not in f"{text}\n"]
+            raise LineageReconciliationError(
+                f"required_headings missing for {relative}"
+            )
+        missing_headings = [
+            heading for heading in headings if f"{heading}\n" not in f"{text}\n"
+        ]
         if missing_headings:
             raise LineageReconciliationError(
                 f"required headings missing from {relative}: {missing_headings}"
@@ -234,10 +299,16 @@ def reconcile_lineage(
             raise LineageReconciliationError(f"sources missing for {relative}")
         sources: list[dict[str, str]] = []
         for source in source_specs:
-            source_relative, source_path = _inside(root, source, field=f"source for {relative}")
+            source_relative, source_path = _inside(
+                root, source, field=f"source for {relative}"
+            )
             if not source_path.is_file():
-                raise LineageReconciliationError(f"source is missing: {source_relative}")
-            sources.append({"path": source_relative, "sha256": sha256_file(source_path)})
+                raise LineageReconciliationError(
+                    f"source is missing: {source_relative}"
+                )
+            sources.append(
+                {"path": source_relative, "sha256": sha256_file(source_path)}
+            )
         prepared.append(
             {
                 "path": relative,
@@ -262,13 +333,17 @@ def reconcile_lineage(
         "policy_sha256": policy_sha256,
         "recovery": recovery_result,
         "artifacts": [
-            {"path": item["path"], "artifact_sha256": item["artifact_sha256"],
-             "source_refs": item["source_refs"]}
+            {
+                "path": item["path"],
+                "artifact_sha256": item["artifact_sha256"],
+                "source_refs": item["source_refs"],
+            }
             for item in prepared
         ],
         "gates": {
             "tests_command": tests["command"],
             "tests_ok": tests["ok"],
+            "derived_payloads_ok": tests["derived_payloads"]["status"] == "PASS",
             "exports_ok": exports["ok"],
             "memory_ok": memory["ok"],
         },
@@ -300,7 +375,11 @@ def reconcile_lineage(
     )
     if not event_created:
         receipt = store.latest_receipt(event_id, "lineage.reconcile")
-        if receipt is not None and archive_json_path.is_file() and archive_markdown_path.is_file():
+        if (
+            receipt is not None
+            and archive_json_path.is_file()
+            and archive_markdown_path.is_file()
+        ):
             recorded = {item["path"]: item["sha256"] for item in receipt["artifacts"]}
             reports_match = all(
                 recorded.get(relative) == sha256_file(path)
@@ -311,8 +390,13 @@ def reconcile_lineage(
             )
             saved = json.loads(archive_json_path.read_text(encoding="utf-8"))
             if reports_match and saved.get("state_fingerprint") == fingerprint:
-                _write_atomic(report_json_path, archive_json_path.read_text(encoding="utf-8"))
-                _write_atomic(report_markdown_path, archive_markdown_path.read_text(encoding="utf-8"))
+                _write_atomic(
+                    report_json_path, archive_json_path.read_text(encoding="utf-8")
+                )
+                _write_atomic(
+                    report_markdown_path,
+                    archive_markdown_path.read_text(encoding="utf-8"),
+                )
                 return {**saved, "replay": True, "receipt_id": receipt["id"]}
 
     transitions: list[dict[str, Any]] = []
@@ -323,15 +407,22 @@ def reconcile_lineage(
         "policy_sha256": policy_sha256,
         "tests_command": tests["command"],
         "canonical_tests_ok": True,
+        "derived_payloads_ok": True,
         "exports_ok": True,
         "memory_ok": True,
     }
     for item in prepared:
         current = next(
-            (entry for entry in store.artifact_history(item["path"]) if entry["status"] == "current"),
+            (
+                entry
+                for entry in store.artifact_history(item["path"])
+                if entry["status"] == "current"
+            ),
             None,
         )
-        current_audit = next(entry for entry in before["artifacts"] if entry["path"] == item["path"])
+        current_audit = next(
+            entry for entry in before["artifacts"] if entry["path"] == item["path"]
+        )
         if current_audit["ok"] and current is not None:
             revision_id = current["id"]
             action = "retained"
@@ -348,7 +439,9 @@ def reconcile_lineage(
                 "path": item["path"],
                 "action": action,
                 "previous_revision_id": current["id"] if current else None,
-                "previous_artifact_sha256": current["artifact_sha256"] if current else None,
+                "previous_artifact_sha256": current["artifact_sha256"]
+                if current
+                else None,
                 "current_revision_id": revision_id,
                 "current_artifact_sha256": item["artifact_sha256"],
                 "source_refs": item["source_refs"],
@@ -389,7 +482,10 @@ def reconcile_lineage(
         status="committed",
         artifacts=[
             {"path": archive_json_relative, "sha256": sha256_file(archive_json_path)},
-            {"path": archive_markdown_relative, "sha256": sha256_file(archive_markdown_path)},
+            {
+                "path": archive_markdown_relative,
+                "sha256": sha256_file(archive_markdown_path),
+            },
         ],
         details={
             "state_fingerprint": fingerprint,
