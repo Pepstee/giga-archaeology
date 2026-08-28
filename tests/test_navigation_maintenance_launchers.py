@@ -21,15 +21,15 @@ def test_daily_launcher_targets_canonical_non_worktree_owner() -> None:
     assert all("worktrees" not in value for value in arguments)
 
 
-def test_post_commit_launcher_is_background_non_blocking_and_structural_only() -> None:
+def test_post_commit_launcher_hands_off_to_loaded_daily_service() -> None:
     path = ROOT / "deploy/git-hooks/post-commit.navigation"
     text = path.read_text(encoding="utf-8")
     assert stat.S_IMODE(path.stat().st_mode) == 0o755
     assert "/usr/bin/git rev-parse --show-toplevel" in text
     assert '[ "$GIGA_NAV_ROOT" = "/Users/admin/Documents/giga-user" ] || exit 0' in text
-    assert "nohup " in text
-    assert "PYTHONPATH=/Users/admin/Documents/giga-user" in text
-    assert "--reason post-commit" in text
-    assert "--max-new-documents 0" in text
+    assert "/bin/launchctl kickstart" in text
+    assert "gui/$(/usr/bin/id -u)/com.artiom.giga-navigation-maintenance" in text
+    assert "nohup " not in text
+    assert "navigation-maintenance" in text
     assert "worktrees" not in text
     assert text.rstrip().endswith("exit 0")
