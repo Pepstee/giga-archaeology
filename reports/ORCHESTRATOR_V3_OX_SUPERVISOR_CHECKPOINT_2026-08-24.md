@@ -257,3 +257,43 @@ was not changed, the protected production lineage was not integrated, and no Tel
 was copied into Git. Activation still requires the normal independent integration review, a fresh
 isolation receipt because the shipped manifest set changed, private transfer of the dedicated v2
 Overseer Telegram configuration, and then an explicit controlled launch on the intended runtime.
+
+## 28 August final independent closure — supersedes the candidate verdict above
+
+Independent Codex 5.6 Sol review initially rejected commit `244f743` for a real outer-lock
+self-deadlock, insufficient Telegram sender/authority binding, corrupt-offset data loss, conflicting
+journal acceptance, non-finite quiet-gate timestamps and unenforced secret-file privacy. Those
+findings were repaired without activating production. Successive review rounds then found and
+closed three upgrade/identity edge cases: environment-dependent singleton identity, incomplete
+multi-page first-contact draining, legacy journal timestamp recovery, and an unproven legacy
+Telegram cursor identity. The final legacy cursor path now enters a durable
+`migration_required` state and cannot use its offset until continuity is explicitly confirmed in
+the owner-only private configuration.
+
+Final behavior deliberately preserves the v3 authority boundary: the Overseer provides persistent
+observation, durable mind, health reporting and sender-bound private Telegram dialogue, but model
+directives are advisory. Consequential work still enters only through the signed, scoped and
+expiring work-order admission boundary; free-text model output cannot create executable plans.
+
+Final evidence:
+
+- branch: `codex/overseer-v2-restore-20260828`;
+- final HEAD: `f6e8abc` (`fix: require legacy cursor continuity proof`);
+- all milestone commits authored as `Artiom Gutu <gutu.artiom444@gmail.com>` and pushed to origin;
+- final independent verdict: `PASS` with no P0/P1/P2;
+- complete repository suite: 3,722 passed, 5 expected skips, 1 deliberate deselection;
+- deliberate deselection remains the pre-existing scoped-assurance test whose nested JAA
+  `IMPLEMENTATION_SLICES.yaml` fixture is absent from this isolated checkout;
+- lint and architecture gates passed;
+- final macOS isolation receipt:
+  `9b7dba2af8e78105640f2a765dacb776fd669b1284630cdc15e6d164ae1f6263`;
+- refreshed graph: 6,445 nodes / 21,525 edges;
+- graph SHA-256: `2ff376015c1ea9d3b72dc9cd64b3afb3c287b23216d1da9da7a79b683b675767`;
+- graph manifest SHA-256:
+  `a11de2eecf3e4f9c579d4f287b77349819f1ddf1d825aa38ef06e9a65abe7e41`.
+
+The certified candidate is still not the live production runtime. Canonical production and
+Gigabyte STOP remain untouched, and the dedicated v2 Overseer Telegram secret remains outside Git.
+Activation requires promoting this reviewed branch through the intended integration path, issuing
+a fresh isolation receipt on that exact target checkout, copying the private Telegram config with
+mode `0600`, and deliberately starting the outer service without silently removing STOP.
