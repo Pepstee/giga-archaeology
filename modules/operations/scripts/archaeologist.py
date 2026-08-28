@@ -29,6 +29,7 @@ from modules.operations.archaeologist.navigation_inventory import (
 from modules.operations.archaeologist.semantic_graph import (
     GraphifyConfig,
     SemanticGraphError,
+    archive_legacy_graph,
     current_semantic_run,
     query_semantic_graph,
     refresh_semantic_graph,
@@ -121,6 +122,12 @@ def _parser() -> argparse.ArgumentParser:
     semantic_query.add_argument("question")
     semantic_query.add_argument("--semantic-store", type=Path, required=True)
     semantic_query.add_argument("--budget", type=int, default=2000)
+    semantic_archive = subcommands.add_parser(
+        "semantic-archive-legacy",
+        help="archive an obsolete ignored graph and link its path to the current local store",
+    )
+    semantic_archive.add_argument("--legacy-path", type=Path, required=True)
+    semantic_archive.add_argument("--semantic-store", type=Path, required=True)
     maintenance = subcommands.add_parser(
         "navigation-maintenance",
         help="non-blocking inventory and local semantic refresh for daily or milestone use",
@@ -327,6 +334,10 @@ def main(argv: list[str] | None = None) -> int:
                 ),
                 end="",
             )
+            return 0
+        if arguments.command == "semantic-archive-legacy":
+            manifest = archive_legacy_graph(arguments.legacy_path, arguments.semantic_store)
+            print(json.dumps(manifest, sort_keys=True))
             return 0
         if arguments.command == "navigation-maintenance":
             receipt = run_navigation_maintenance(

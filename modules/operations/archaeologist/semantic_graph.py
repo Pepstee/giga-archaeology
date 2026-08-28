@@ -38,6 +38,7 @@ from .navigation_inventory import NavigationRun, _replace_atomic, current_naviga
 
 SEMANTIC_SCHEMA = "giga.navigation.semantic-graph-manifest.v1"
 SEMANTIC_POINTER_SCHEMA = "giga.navigation.semantic-current-pointer.v1"
+LEGACY_ARCHIVE_SCHEMA = "giga.navigation.legacy-graph-archive.v1"
 GRAPHIFY_CODE_SUFFIXES = frozenset(
     {
         ".c",
@@ -86,6 +87,33 @@ EXTERNAL_PROVIDER_ENV = (
 
 class SemanticGraphError(ValueError):
     """The semantic graph cannot be produced or authenticated safely."""
+
+
+def _tree_entries(root: Path) -> list[dict[str, Any]]:
+    entries: list[dict[str, Any]] = []
+    for path in sorted(root.rglob("*")):
+        relative = path.relative_to(root).as_posix()
+        metadata = path.lstat()
+        if stat.S_ISLNK(metadata.st_mode):
+            raise SemanticGraphError(f"legacy graph contains a symlink: {relative}")
+        if stat.S_ISDIR(metadata.st_mode):
+            entries.append(
+                {"path": relative, "kind": "directory", "mode": stat.S_IMODE(metadata.st_mode)}
+            )
+        elif stat.S_ISREG(metadata.st_mode):
+            digest, size = _file_sha256(path)
+            entries.append(
+                {
+                    "path": relative,
+                    "kind": "regular",
+                    "mode": stat.S_IMODE(metadata.st_mode),
+                    "size": size,
+                    "sha256": digest,
+                }
+            )
+        else:
+            raise SemanticGraphError(f"legacy graph contains an unsupported file: {relative}")
+    return entries
 
 
 @dataclass(frozen=True)
@@ -291,6 +319,66 @@ def current_semantic_run(store: Path) -> SemanticRun:
     if current is None:
         raise SemanticGraphError("no current semantic graph exists")
     return current
+
+
+def archive_legacy_graph(legacy_path: Path, semantic_store: Path) -> dict[str, Any]:
+    """Move a legacy ignored graph into private stale evidence and install a stable link."""
+    semantic_store = _private_store(semantic_store)
+    current_semantic_run(semantic_store)
+    legacy_path = legacy_path.absolute()
+    metadata = legacy_path.lstat()
+    if legacy_path.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
+        raise SemanticGraphError("legacy graph path must be a real directory")
+    if os.path.commonpath((str(legacy_path), str(semantic_store))) == str(legacy_path):
+        raise SemanticGraphError("semantic store cannot be inside the legacy graph")
+    entries = _tree_entries(legacy_path)
+    graph_path = legacy_path / "graph.json"
+    try:
+        old_graph = json.loads(graph_path.read_text(encoding="utf-8", errors="strict"))
+        old_nodes = len(old_graph.get("nodes", []))
+        old_edges = len(old_graph.get("edges", old_graph.get("links", [])))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError, TypeError) as exc:
+        raise SemanticGraphError("legacy graph.json is not readable JSON") from exc
+    archive_id = f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%S.%fZ')}-{uuid.uuid4().hex[:12]}"
+    archive = semantic_store / "legacy" / archive_id
+    archive.parent.mkdir(exist_ok=True, mode=0o700)
+    archive.mkdir(mode=0o700)
+    content = archive / "content"
+    try:
+        os.rename(legacy_path, content)
+        for directory, _subdirs, names in os.walk(content):
+            os.chmod(directory, 0o700)
+            for name in names:
+                os.chmod(Path(directory) / name, 0o600)
+        manifest = seal_document(
+            {
+                "schema": LEGACY_ARCHIVE_SCHEMA,
+                "status": "STALE_ARCHIVED",
+                "archive_id": archive_id,
+                "archived_at": _utc_now(),
+                "original_path": str(legacy_path),
+                "replacement_target": str(semantic_store),
+                "reason": "narrow retrospective graph did not represent the GIGA folder",
+                "legacy_counts": {"nodes": old_nodes, "edges": old_edges},
+                "entries": len(entries),
+                "entries_sha256": sha256_bytes(canonical_bytes(entries)),
+                "tree": entries,
+                "recoverable": True,
+            }
+        )
+        manifest_path = archive / "manifest.json"
+        manifest_path.write_bytes(canonical_bytes(manifest))
+        os.chmod(manifest_path, 0o600)
+        temporary = legacy_path.with_name(f".{legacy_path.name}.{archive_id}.tmp")
+        os.symlink(semantic_store, temporary)
+        os.replace(temporary, legacy_path)
+        return manifest
+    except BaseException:
+        if legacy_path.is_symlink():
+            legacy_path.unlink()
+        if content.exists() and not legacy_path.exists():
+            os.rename(content, legacy_path)
+        raise
 
 
 def _priority(path: str, size: int) -> tuple[int, int, int, str]:

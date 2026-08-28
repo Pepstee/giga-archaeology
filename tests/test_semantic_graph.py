@@ -17,6 +17,7 @@ from modules.operations.archaeologist.semantic_graph import (
     SemanticGraphError,
     _invoke_graphify,
     _normalize_graph,
+    archive_legacy_graph,
     _validate_graph,
     current_semantic_run,
     refresh_semantic_graph,
@@ -375,3 +376,24 @@ def test_source_drift_refuses_before_graph_publication(stores) -> None:
     with pytest.raises(SemanticGraphError, match="drifted|hash"):
         refresh_semantic_graph(inventory_store, semantic_store, _config(1))
     assert not (semantic_store / "CURRENT.json").exists()
+
+
+def test_legacy_graph_is_archived_and_replaced_recoverably(stores) -> None:
+    _root, inventory_store, semantic_store = stores
+    refresh_semantic_graph(inventory_store, semantic_store, _config(1))
+    legacy = semantic_store.parent / "legacy-graphify-out"
+    legacy.mkdir()
+    (legacy / "graph.json").write_bytes(
+        canonical_bytes({"nodes": [{"id": "old"}], "links": [{"source": "old"}]})
+    )
+    (legacy / "query.md").write_text("private historical query\n", encoding="utf-8")
+    manifest = archive_legacy_graph(legacy, semantic_store)
+    validate_self_hash(manifest)
+    assert manifest["status"] == "STALE_ARCHIVED"
+    assert manifest["legacy_counts"] == {"nodes": 1, "edges": 1}
+    assert legacy.is_symlink()
+    assert legacy.resolve() == semantic_store.resolve()
+    archive = semantic_store / "legacy" / manifest["archive_id"]
+    assert (archive / "content/query.md").read_text(encoding="utf-8") == (
+        "private historical query\n"
+    )
