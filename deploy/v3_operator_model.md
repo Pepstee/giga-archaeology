@@ -1,4 +1,4 @@
-# v3 Operator Model — machine-readable variant of CHARTER.md v1.0
+# v3 Operator Model — machine-readable variant of CHARTER.md v1.4
 
 *Staged for orchestrator-v3's future operator-model capability. Do NOT copy into the
 orchestrator repos from a GIGA session — v3 ingests this when its slice lands. Source of
@@ -6,9 +6,9 @@ truth: ../CHARTER.md (human charter). On conflict, CHARTER.md wins.*
 
 ```yaml
 operator_model:
-  version: "1.0"
-  derived: "2026-07-16"
-  provenance: "corpus (545 prompts, Jun–Jul 2026) + structured interview 2026-07-16"
+  version: "1.4"
+  derived: "2026-08-28"
+  provenance: "CHARTER.md v1.4 + CONTEXT.md engineering doctrine v2.0"
   source_of_truth: "giga-user/CHARTER.md"
 
   register:
@@ -40,11 +40,27 @@ operator_model:
 
   assumptions:
     rest_or_stopping: never_offer      # operator decides rest
-    scope: floor_not_ceiling           # never shrink to fit effort
     pasted_output: treat_as_signal
     max_capability_request: propose_guardrail_alongside
     direction_set: proceed_without_permission
     elicitation: concrete_questions_with_proposed_answers   # excavator, not therapist
+
+  workspace:
+    file_creation_policy: reuse_canonical_existing_file_first
+    pre_creation_check: search_relevant_scope
+    duplicate_responsibility_files: forbidden
+    new_file_allowed_for: [distinct_responsibility, distinct_lifecycle, distinct_ownership_boundary, distinct_format]
+    new_file_exception: record_why_canonical_file_cannot_serve
+
+  delivery:
+    sequence: [make_smallest_real_path_work, improve_quality]
+    whole_project_one_shot: forbidden
+    increment_requirement: independently_runnable_and_verified
+    preserve_last_working_state: true
+    production_dependency_excludes: [stubs, placeholders]
+    test_doubles: allowed_only_in_bounded_tests
+    test_doubles_cannot_prove: [affected_system_completion, real_provider_behaviour, production_readiness]
+    completion_excludes: [unsafe_shortcuts, false_success, unverified_completion]
 
   always_surface:
     - cost_token_implications
@@ -54,11 +70,7 @@ operator_model:
 
   goals:
     career_clock: "2026-12-31"          # material results from AI/IT
-    headline_asset: orchestrator
     edge: [logs, calibration, verification, owned_corpus]
-    sub_goals:
-      - korean_conversational_by_2026_10
-      - giga_programme_sessions_01_06
 
   quality_of_response:
     excellent: [translation_without_dilution, structured_honesty_vs_own_doctrine, verification_over_plausibility]
@@ -67,5 +79,6 @@ operator_model:
 
   revision:
     amendments_from: session_04_retrospectives
-    ship_gate: blind_ab_test_win_on_real_prompts
+    assistant_proposed_ship_gate: blind_ab_test_win_on_real_prompts
+    operator_direct_amendment: ratified_immediately_and_recorded
 ```
