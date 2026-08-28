@@ -22,6 +22,14 @@ from .navigation_inventory import (
     refresh_navigation_inventory,
     search_navigation_inventory,
 )
+from .semantic_graph import (
+    GraphifyConfig,
+    SemanticGraphError,
+    SemanticRun,
+    current_semantic_run,
+    query_semantic_graph,
+    refresh_semantic_graph,
+)
 
 __all__ = [
     "HypothesisError",
@@ -34,6 +42,9 @@ __all__ = [
     "NavigationInventoryError",
     "NavigationPolicy",
     "NavigationRun",
+    "GraphifyConfig",
+    "SemanticGraphError",
+    "SemanticRun",
     "ScannerPaths",
     "build_hypotheses",
     "build_history",
@@ -44,6 +55,9 @@ __all__ = [
     "current_navigation_run",
     "refresh_navigation_inventory",
     "search_navigation_inventory",
+    "current_semantic_run",
+    "query_semantic_graph",
+    "refresh_semantic_graph",
     "write_hypotheses",
     "write_history",
     "write_counterevidence",

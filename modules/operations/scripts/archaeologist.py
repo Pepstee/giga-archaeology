@@ -26,6 +26,13 @@ from modules.operations.archaeologist.navigation_inventory import (
     refresh_navigation_inventory,
     search_navigation_inventory,
 )
+from modules.operations.archaeologist.semantic_graph import (
+    GraphifyConfig,
+    SemanticGraphError,
+    current_semantic_run,
+    query_semantic_graph,
+    refresh_semantic_graph,
+)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -90,6 +97,26 @@ def _parser() -> argparse.ArgumentParser:
     navigation_search.add_argument("--store", type=Path, required=True)
     navigation_search.add_argument("--limit", type=int, default=50)
     navigation_search.add_argument("--semantic-only", action="store_true")
+    semantic = subcommands.add_parser(
+        "semantic-refresh",
+        help="incrementally refresh the privacy-gated local Graphify navigation layer",
+    )
+    semantic.add_argument("--inventory-store", type=Path, required=True)
+    semantic.add_argument("--semantic-store", type=Path, required=True)
+    semantic.add_argument("--graphify-python", type=Path, default=GraphifyConfig.python)
+    semantic.add_argument("--endpoint", default=GraphifyConfig.endpoint)
+    semantic.add_argument("--model", default=GraphifyConfig.model)
+    semantic.add_argument("--max-new-documents", type=int, default=1)
+    semantic_status = subcommands.add_parser(
+        "semantic-status", help="verify and report the current local semantic graph"
+    )
+    semantic_status.add_argument("--semantic-store", type=Path, required=True)
+    semantic_query = subcommands.add_parser(
+        "semantic-query", help="run a scoped query against the authenticated semantic graph"
+    )
+    semantic_query.add_argument("question")
+    semantic_query.add_argument("--semantic-store", type=Path, required=True)
+    semantic_query.add_argument("--budget", type=int, default=2000)
     return parser
 
 
@@ -225,12 +252,68 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps({"status": "PASS", "results": rows}, sort_keys=True))
             return 0
+        if arguments.command == "semantic-refresh":
+            run = refresh_semantic_graph(
+                arguments.inventory_store,
+                arguments.semantic_store,
+                GraphifyConfig(
+                    python=arguments.graphify_python,
+                    endpoint=arguments.endpoint,
+                    model=arguments.model,
+                    max_new_documents=arguments.max_new_documents,
+                ),
+            )
+            print(
+                json.dumps(
+                    {
+                        "status": run.manifest["status"],
+                        "run_id": run.manifest["run_id"],
+                        "selected": run.manifest["coverage"]["selected"],
+                        "supported": run.manifest["coverage"]["supported"],
+                        "nodes": run.manifest["graph"]["nodes"],
+                        "edges": run.manifest["graph"]["edges"],
+                        "receipt_sha256": run.manifest["receipt_sha256"],
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0
+        if arguments.command == "semantic-status":
+            run = current_semantic_run(arguments.semantic_store)
+            print(
+                json.dumps(
+                    {
+                        "status": run.manifest["status"],
+                        "run_id": run.manifest["run_id"],
+                        "inventory_run_id": run.manifest["inventory"]["run_id"],
+                        "finished_at": run.manifest["scan"]["finished_at"],
+                        "selected": run.manifest["coverage"]["selected"],
+                        "supported": run.manifest["coverage"]["supported"],
+                        "documents_selected": run.manifest["coverage"]["documents_selected"],
+                        "documents_total": run.manifest["coverage"]["documents_total"],
+                        "nodes": run.manifest["graph"]["nodes"],
+                        "edges": run.manifest["graph"]["edges"],
+                        "receipt_sha256": run.manifest["receipt_sha256"],
+                    },
+                    sort_keys=True,
+                )
+            )
+            return 0
+        if arguments.command == "semantic-query":
+            print(
+                query_semantic_graph(
+                    arguments.semantic_store, arguments.question, budget=arguments.budget
+                ),
+                end="",
+            )
+            return 0
     except (
         CounterevidenceError,
         HistoryError,
         HypothesisError,
         InventoryError,
         NavigationInventoryError,
+        SemanticGraphError,
         JudgeError,
         QuarantineError,
     ) as exc:
