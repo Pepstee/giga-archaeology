@@ -71,7 +71,7 @@
     "private_values_recorded": false,
     "semantic_processing": "local-only"
   },
-  "receipt_sha256": "20d7dea8e92142bc153d6dc3001e96792d76b5a53e87ef8fe9cf2017f95abc66",
+  "receipt_sha256": "509276639d6b9c68c76d123ee5883413fb4e07d22e9c1646884a1693d05dbccf",
   "recorded_at": "2026-08-28T18:09:04.016599Z",
   "schema": "giga.archaeologist.integration-receipt.v1",
   "slices_integrated": [
