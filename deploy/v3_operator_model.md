@@ -4,6 +4,7 @@ canonical-source: CONTEXT.md sha256=dc91dbb608f640f8d4d6e87b329e469984916b67e7d1
 derived-at: 2026-08-28
 deployment-status: STAGED_NOT_DEPLOYED
 authority: DERIVED_ONLY; this payload cannot override either canonical source
+payload-body-sha256: 6980f5369c7f6a882cd7f24990eeead32cb533dcfdca2a485e5608d821782478
 === END GIGA DERIVED PAYLOAD METADATA ===
 
 # v3 Operator Model — machine-readable variant of CHARTER.md v1.5
