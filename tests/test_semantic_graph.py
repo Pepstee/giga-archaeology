@@ -262,6 +262,71 @@ def test_selected_document_must_contribute_source_linked_graph_content(tmp_path:
         _validate_graph(graph, selected, {"architecture/OVERVIEW.md": 3})
 
 
+def test_unextractable_document_is_recorded_without_blocking_next_document(
+    stores, monkeypatch
+) -> None:
+    _root, inventory_store, semantic_store = stores
+
+    def omit_documents(projection: Path, output: Path, _config, _home):
+        nodes = []
+        for path in sorted(item for item in projection.rglob("*") if item.is_file()):
+            relative = path.relative_to(projection).as_posix()
+            if path.suffix in {".py", ".json"}:
+                nodes.append(
+                    {
+                        "id": "node_" + relative.replace("/", "_").replace(".", "_"),
+                        "label": path.name,
+                        "source_file": relative,
+                        "source_location": "L1",
+                        "file_type": "code",
+                    }
+                )
+        target = output / "graphify-out"
+        target.mkdir(parents=True, exist_ok=True)
+        (target / "graph.json").write_bytes(
+            canonical_bytes(
+                {
+                    "nodes": nodes,
+                    "edges": [],
+                    "hyperedges": [],
+                    "input_tokens": 10,
+                    "output_tokens": 20,
+                }
+            )
+        )
+        (target / "manifest.json").write_bytes(canonical_bytes({"fixture": True}))
+        return {
+            "argv": ["fixture-graphify"],
+            "stdout_sha256": "b" * 64,
+            "stdout_bytes": 0,
+            "stderr_sha256": "b" * 64,
+            "stderr_bytes": 0,
+            "exit_code": 0,
+        }
+
+    monkeypatch.setattr(
+        "modules.operations.archaeologist.semantic_graph._invoke_graphify",
+        omit_documents,
+    )
+    first = refresh_semantic_graph(inventory_store, semantic_store, _config(1))
+    assert first.manifest["status"] == "PARTIAL"
+    assert first.manifest["failures"] == [
+        {
+            "type": "NO_SOURCE_LINKED_CONTENT",
+            "path": "architecture/OVERVIEW.md",
+            "retry": "ON_CONTENT_CHANGE",
+        }
+    ]
+    assert current_semantic_run(semantic_store).manifest["run_id"] == first.manifest["run_id"]
+
+    second = refresh_semantic_graph(inventory_store, semantic_store, _config(1))
+    assert second.manifest["coverage"]["documents_selected"] == 2
+    assert [item["path"] for item in second.manifest["failures"]] == [
+        "architecture/OVERVIEW.md",
+        "modules/MODULE.md",
+    ]
+
+
 def test_duplicate_symbol_ids_are_source_scoped_without_guessing_edges(tmp_path: Path) -> None:
     projection = tmp_path / "input"
     projection.mkdir()

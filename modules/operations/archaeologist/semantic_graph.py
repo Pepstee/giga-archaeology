@@ -834,8 +834,12 @@ def _normalize_graph(
 
 
 def _validate_graph(
-    graph_path: Path, selected: Mapping[str, _File], line_counts: Mapping[str, int]
-) -> tuple[dict[str, Any], dict[str, int]]:
+    graph_path: Path,
+    selected: Mapping[str, _File],
+    line_counts: Mapping[str, int],
+    *,
+    allow_uncovered_documents: bool = False,
+) -> tuple[dict[str, Any], dict[str, Any]]:
     raw = graph_path.read_bytes()
     try:
         graph = json.loads(raw.decode("utf-8", "strict"))
@@ -915,7 +919,7 @@ def _validate_graph(
         for path, record in selected.items()
         if record.suffix in GRAPHIFY_DOCUMENT_SUFFIXES and path not in sourced_paths
     )
-    if uncovered_documents:
+    if uncovered_documents and not allow_uncovered_documents:
         raise SemanticGraphError(
             "Graphify returned no source-linked content for selected documents: "
             + ", ".join(uncovered_documents[:10])
@@ -941,6 +945,7 @@ def _validate_graph(
         "input_tokens": int(graph.get("input_tokens", 0) or 0),
         "output_tokens": int(graph.get("output_tokens", 0) or 0),
         "unsourced_external_nodes": unsourced_nodes,
+        "uncovered_documents": uncovered_documents,
     }
 
 
@@ -1101,7 +1106,21 @@ def refresh_semantic_graph(
         raw_graph_path = output / "graphify-out" / "graph.raw.json"
         merge_counts = _merge_raw_graph(previous, delta_raw_path, retained_paths, raw_graph_path)
         normalization = _normalize_graph(raw_graph_path, graph_path, projection)
-        graph, graph_counts = _validate_graph(graph_path, selected, line_counts)
+        graph, graph_counts = _validate_graph(
+            graph_path,
+            selected,
+            line_counts,
+            allow_uncovered_documents=True,
+        )
+        uncovered_documents = graph_counts.pop("uncovered_documents")
+        extraction_failures = [
+            {
+                "type": "NO_SOURCE_LINKED_CONTENT",
+                "path": path,
+                "retry": "ON_CONTENT_CHANGE",
+            }
+            for path in uncovered_documents
+        ]
         graph_sha, graph_bytes = _file_sha256(graph_path)
         raw_graph_sha, raw_graph_bytes = _file_sha256(raw_graph_path)
         graphify_manifest_path = output / "graphify-out" / "manifest.json"
@@ -1117,7 +1136,11 @@ def refresh_semantic_graph(
         )
         documents_selected = len(selected) - structural_selected
         supported = len(files)
-        status = "CURRENT" if len(selected) == supported else "PARTIAL"
+        status = (
+            "CURRENT"
+            if len(selected) == supported and not extraction_failures
+            else "PARTIAL"
+        )
         manifest = seal_document(
             {
                 "schema": SEMANTIC_SCHEMA,
@@ -1182,7 +1205,7 @@ def refresh_semantic_graph(
                     "normalization": normalization,
                     **graph_counts,
                 },
-                "failures": [],
+                "failures": extraction_failures,
                 "limits": {
                     "external_provider_used": False,
                     "sensitive_content_projected": False,
