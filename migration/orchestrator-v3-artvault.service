@@ -1,0 +1,44 @@
+[Unit]
+Description=Orchestrator-v3 persistent supervised software factory
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=art
+Group=art
+WorkingDirectory=/srv/artvault/orchestrator-v3
+Environment=HOME=/home/art
+Environment=PATH=/home/art/.local/bin:/srv/artvault/venvs/orchestrator-v3-c2026b9-r2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=PYTHONPATH=/srv/artvault/orchestrator-v3
+Environment=PYTHONUNBUFFERED=1
+Environment=AGENTIC_TASK_MANAGER=codex:gpt-5.6-sol
+Environment=AGENTIC_BUILDER=codex:gpt-5.6-sol
+Environment=AGENTIC_TESTER=codex:gpt-5.6-sol
+Environment=AGENTIC_JUDGE=codex:gpt-5.6-sol
+Environment=AGENTIC_OVERSEER=codex:gpt-5.6-sol
+Environment=AGENTIC_TASK_MANAGER_EFFORT=medium
+Environment=AGENTIC_BUILDER_EFFORT=medium
+Environment=AGENTIC_TESTER_EFFORT=medium
+Environment=AGENTIC_JUDGE_EFFORT=medium
+Environment=AGENTIC_OVERSEER_EFFORT=medium
+Environment=AGENTIC_TASK_MANAGER_MAX_TOOL_CALLS=0
+Environment=AGENTIC_BUILDER_MAX_TOOL_CALLS=16
+Environment=AGENTIC_TESTER_MAX_TOOL_CALLS=12
+Environment=AGENTIC_JUDGE_MAX_TOOL_CALLS=18
+Environment=AGENTIC_OVERSEER_MAX_TOOL_CALLS=1
+Environment=AGENTIC_FACTORY_CONTEXT_MODE=contained
+Environment=AGENTIC_DETERMINISTIC_CACHE_MODE=active
+Environment=AGENTIC_HOST_ASSURANCE_MODE=active
+Environment=AGENTIC_EXTERNAL_EVIDENCE_MODE=active
+Environment=AGENTIC_RUNNER_TIMEOUT_SECONDS=1200
+ExecStart=/srv/artvault/venvs/orchestrator-v3-c2026b9-r2/bin/python -m control.overseer_service --root /srv/artvault/orchestrator-v3 --restart-delay 5
+Restart=always
+RestartSec=10
+KillMode=control-group
+TimeoutStopSec=150
+UMask=0077
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

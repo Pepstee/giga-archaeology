@@ -1,0 +1,28 @@
+{
+  "task_id": "transitvpn-artvault-finish-20260829",
+  "title": "Finish and honestly certify TransitVPN for Artiom's Beijing travel",
+  "task_type": "plan",
+  "project": "transitvpn",
+  "depends_on": [],
+  "acceptance_criteria": [
+    "Before proposing or changing code, read PROJECT_BRIEF.md and the current maps under docs/archaeology/current; use those maps to reuse canonical owners and investigate every conflict relevant to the active increment.",
+    "Finish every requirement in PROJECT_BRIEF.md through small independently verified implementation, test-authoring and review increments; preserve the last working state and do not replace working behaviour with stubs, mocks or documentation-only claims.",
+    "Use current official Xray documentation and a pinned, hash-verified real Xray binary; validate generated server and client configurations and reject stale, malformed or unsupported shapes.",
+    "Keep credentials out of Git, prompts, logs, fixtures and evidence, proving the boundary with executable negative controls; generated runtime secrets must be ignored, permission-restricted and deterministically redacted.",
+    "Prove a real local server-to-client Xray tunnel, intended failure modes, restart behaviour, DNS and routing semantics, truthful recovery-path semantics, rollback, rotation, backup and health checks.",
+    "Produce runnable Linux deployment plus Mac and phone client-import and offline Beijing recovery artefacts, without claiming an unprovisioned recovery endpoint, public reachability or Beijing field success.",
+    "Finish and certify everything that does not require unavailable external infrastructure or authentication; report any genuine external-only blocker precisely without weakening local acceptance.",
+    "At completion, run the full clean suite, lint, config validation, credential scan and independent exact-source review; report implemented percentage, independently certified fraction, evidence identities and every remaining external or field-verification boundary."
+  ],
+  "payload": {
+    "brief": "PROJECT_BRIEF.md",
+    "archaeology_map": "docs/archaeology/current",
+    "archaeology_run": "docs/archaeology/runs/2026-08-29-86d19f2",
+    "baseline_commit": "fd7f6539a6d18e2e4cf2a230213fa014fec2fb94",
+    "operator_priority": "finish-for-beijing",
+    "external_actions": "bounded-by-PROJECT_BRIEF.md",
+    "mode": "build"
+  },
+  "priority": 100,
+  "max_retries": 5
+}
