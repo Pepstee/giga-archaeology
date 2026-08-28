@@ -297,3 +297,19 @@ Gigabyte STOP remain untouched, and the dedicated v2 Overseer Telegram secret re
 Activation requires promoting this reviewed branch through the intended integration path, issuing
 a fresh isolation receipt on that exact target checkout, copying the private Telegram config with
 mode `0600`, and deliberately starting the outer service without silently removing STOP.
+
+### Canonical promotion completed, runtime still deliberately stopped
+
+After the independent `PASS`, canonical Mac v3 at
+`/Users/admin/Documents/agentic-orchestrator/projects/orchestrator-v3` was verified clean and an
+ancestor of the certified lineage, then fast-forwarded only from `85bd10a` to `f6e8abc`. The
+dedicated v2 Overseer Telegram configuration was copied into canonical private runtime state as
+`state/telegram.json` with mode `0600`; no secret entered Git. Canonical target isolation then
+certified with receipt
+`cfa150d5669e8550736447eb94f1fb33656a9b33270d6ac0ab22049624d6934a`.
+
+The existing canonical `STOP` remains armed and no Overseer/factory process was launched. This
+preserves the operator's earlier explicit idle/limit instruction. Source restoration, private bot
+provisioning and target certification are complete; live activation remains one separate deliberate
+operator decision because starting the v2-equivalent outer lifecycle also starts the v3 supervisor
+and factory rather than a harmless notification-only process.
