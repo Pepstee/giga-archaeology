@@ -44,6 +44,38 @@ class DerivedAgentPayloadTests(unittest.TestCase):
         for relative, payload in first.items():
             self.assertEqual(payload, (REPOSITORY_ROOT / relative).read_bytes())
 
+    def test_prepared_payload_bodies_preserve_local_behavioural_contract(self) -> None:
+        delimiter = f"{END_LINE}\n\n".encode()
+        bodies = {
+            relative: (REPOSITORY_ROOT / relative)
+            .read_bytes()
+            .split(delimiter, 1)[1]
+            .decode("utf-8")
+            for relative in PAYLOAD_STATUSES
+        }
+        prose_payloads = (
+            bodies["deploy/claude_preferences.txt"],
+            bodies["deploy/chatgpt_custom_instructions.txt"],
+        )
+        for body in prose_payloads:
+            with self.subTest(payload=body[:40]):
+                self.assertIn("Verdict first", body)
+                self.assertIn("smallest real end-to-end path", body)
+                self.assertIn("reuse", body.lower())
+                self.assertNotIn("GIGA v2 remains frozen", body)
+                self.assertNotIn("v2_freeze", body)
+                self.assertNotIn("gutu.artiom444@gmail.com", body)
+
+        machine_body = bodies["deploy/v3_operator_model.md"]
+        self.assertIn("order: [verdict, evidence]", machine_body)
+        self.assertIn(
+            "file_creation_policy: reuse_canonical_existing_file_first", machine_body
+        )
+        self.assertIn(
+            "sequence: [make_smallest_real_path_work, improve_quality]", machine_body
+        )
+        self.assertNotIn("v2_freeze", machine_body)
+
     def test_write_regenerates_only_drifted_payload(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
