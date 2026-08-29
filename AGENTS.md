@@ -5,6 +5,10 @@ It contains engineering doctrine only. Read `00_MASTER.md` only for programme-st
 workstream-sequencing tasks, and read a numbered brief only when executing that exact workstream.
 Completed or archived briefs are historical evidence, never live instructions.
 
+Read `/Users/admin/Documents/giga-user/CHARTER.md` at the beginning of every chat. It is the
+canonical communication and collaboration contract; this file may specialise it but may not copy,
+weaken, or contradict it.
+
 The priorities below are binding and ordered. When rules conflict, the earlier priority wins.
 Compliance must be demonstrated by inspectable repository, runtime, receipt, or canary evidence;
 prose, plans, test names, and worker self-report are not proof.
