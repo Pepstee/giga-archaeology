@@ -16,7 +16,9 @@ from modules.operations.archaeologist.evidence import (
 from modules.operations.archaeologist.retention import (
     RetentionError,
     RetentionPolicy,
+    compact_inactive_generation,
     plan_navigation_retention,
+    restore_compacted_generation,
     run_navigation_retention,
 )
 
@@ -180,13 +182,14 @@ def test_plan_preserves_current_predecessor_recent_and_external_references(
     )
 
     validate_self_hash(plan)
-    assert plan["status"] == "CANDIDATES"
+    assert plan["status"] == "MIXED_CANDIDATES"
     inventory_plan = next(
         item for item in plan["stores"] if item["kind"] == "inventory"
     )
     by_id = {item["run_id"]: item for item in inventory_plan["generations"]}
     assert by_id[ids[0]]["disposition"] == "RETAIN"
     assert by_id[ids[0]]["external_references"] == [str(references / "receipt.json")]
+    assert by_id[ids[0]]["compaction_disposition"] == "COMPACT_CANDIDATE"
     assert by_id[ids[-1]]["reasons"] == [
         "inventory:CURRENT",
         "mapper:current.inventory",
@@ -226,7 +229,7 @@ def test_plan_quarantines_generations_outside_newest_three_before_24_hours(
     )
 
     validate_self_hash(plan)
-    assert plan["status"] == "CANDIDATES"
+    assert plan["status"] == "QUARANTINE_CANDIDATES"
     inventory_plan = next(
         item for item in plan["stores"] if item["kind"] == "inventory"
     )
@@ -490,3 +493,194 @@ def test_interrupted_intent_without_outcome_is_rolled_back_on_next_run(
     outcome = json.loads(outcomes[0].read_text())
     validate_self_hash(outcome)
     assert outcome["status"] == "ROLLED_BACK_INTERRUPTED"
+
+
+def test_referenced_stale_database_is_compacted_and_exactly_restorable(
+    tmp_path: Path,
+) -> None:
+    inventory, mapper, semantic, ids = _fixture_stores(tmp_path)
+    references = _private(tmp_path / "references")
+    _write(references / "receipt.json", ids[0].encode())
+    run = inventory / "runs" / ids[0]
+    raw_path = run / "inventory.sqlite3"
+    expected = raw_path.read_bytes()
+
+    applied = run_navigation_retention(
+        inventory,
+        mapper,
+        semantic,
+        reference_roots=(references,),
+        policy=_policy(grace=3600),
+        apply=True,
+        now=datetime(2026, 8, 30, tzinfo=UTC),
+    )
+
+    assert len(applied["compactions"]) == 1
+    assert applied["compactions"][0]["run_id"] == ids[0]
+    assert not raw_path.exists()
+    compressed = run / "inventory.sqlite3.gz"
+    assert compressed.is_file()
+    assert compressed.read_bytes()[4:8] == b"\0\0\0\0"
+    receipt = json.loads((run / "compaction.json").read_text())
+    validate_self_hash(receipt)
+    assert receipt["source"]["sha256"] == sha256_bytes(expected)
+    assert receipt["compressed"]["algorithm"] == "gzip-9-mtime-zero"
+
+    restored = restore_compacted_generation("inventory", run)
+
+    validate_self_hash(restored)
+    assert restored["status"] == "RESTORED"
+    assert raw_path.read_bytes() == expected
+    assert raw_path.stat().st_mode & 0o777 == 0o600
+    assert restore_compacted_generation("inventory", run)["status"] == (
+        "ALREADY_RESTORED"
+    )
+
+
+def test_corrupt_preexisting_gzip_refuses_without_removing_raw_database(
+    tmp_path: Path,
+) -> None:
+    inventory, mapper, semantic, ids = _fixture_stores(tmp_path)
+    references = _private(tmp_path / "references")
+    _write(references / "receipt.json", ids[0].encode())
+    run = inventory / "runs" / ids[0]
+    raw_path = run / "inventory.sqlite3"
+    expected = raw_path.read_bytes()
+    _write(run / "inventory.sqlite3.gz", b"not-the-authenticated-gzip")
+
+    with pytest.raises(RetentionError, match="pre-existing compressed map differs"):
+        run_navigation_retention(
+            inventory,
+            mapper,
+            semantic,
+            reference_roots=(references,),
+            policy=_policy(),
+            apply=True,
+            now=datetime(2026, 8, 30, tzinfo=UTC),
+        )
+
+    assert raw_path.read_bytes() == expected
+    assert not (run / "compaction.json").exists()
+
+
+def test_failure_before_compaction_receipt_preserves_raw_and_resumes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    inventory, mapper, semantic, ids = _fixture_stores(tmp_path)
+    references = _private(tmp_path / "references")
+    _write(references / "receipt.json", ids[0].encode())
+    run = inventory / "runs" / ids[0]
+    raw_path = run / "inventory.sqlite3"
+    expected = raw_path.read_bytes()
+    module = __import__(
+        "modules.operations.archaeologist.retention", fromlist=["_write_create_once"]
+    )
+    real_write = module._write_create_once
+
+    def fail_receipt(path: Path, payload) -> None:
+        if path.name == "compaction.json":
+            raise OSError("injected compaction receipt failure")
+        real_write(path, payload)
+
+    monkeypatch.setattr(
+        "modules.operations.archaeologist.retention._write_create_once", fail_receipt
+    )
+    with pytest.raises(OSError, match="injected compaction receipt failure"):
+        run_navigation_retention(
+            inventory,
+            mapper,
+            semantic,
+            reference_roots=(references,),
+            policy=_policy(),
+            apply=True,
+            now=datetime(2026, 8, 30, tzinfo=UTC),
+        )
+    assert raw_path.read_bytes() == expected
+    assert (run / "inventory.sqlite3.gz").is_file()
+    assert not (run / "compaction.json").exists()
+
+    monkeypatch.setattr(
+        "modules.operations.archaeologist.retention._write_create_once", real_write
+    )
+    resumed = run_navigation_retention(
+        inventory,
+        mapper,
+        semantic,
+        reference_roots=(references,),
+        policy=_policy(),
+        apply=True,
+        now=datetime(2026, 8, 30, 0, 1, tzinfo=UTC),
+    )
+    assert len(resumed["compactions"]) == 1
+    assert not raw_path.exists()
+
+
+def test_current_and_recent_databases_are_never_compaction_candidates(
+    tmp_path: Path,
+) -> None:
+    inventory, mapper, semantic, ids = _fixture_stores(tmp_path)
+    references = _private(tmp_path / "references")
+    _write(references / "receipt.json", "\n".join(ids[-2:]).encode())
+
+    plan = plan_navigation_retention(
+        inventory,
+        mapper,
+        semantic,
+        reference_roots=(references,),
+        policy=_policy(),
+        now=datetime(2026, 8, 30, tzinfo=UTC),
+    )
+
+    inventory_plan = next(
+        item for item in plan["stores"] if item["kind"] == "inventory"
+    )
+    by_id = {item["run_id"]: item for item in inventory_plan["generations"]}
+    assert by_id[ids[-1]]["compaction_disposition"] == "RETAIN_RAW"
+    assert by_id[ids[-2]]["compaction_disposition"] == "RETAIN_RAW"
+
+
+def test_explicit_inactive_current_generation_is_compacted_and_restorable(
+    tmp_path: Path,
+) -> None:
+    inventory, _mapper, _semantic, ids = _fixture_stores(tmp_path)
+    run = inventory / "runs" / ids[-1]
+    raw_path = run / "inventory.sqlite3"
+    expected = raw_path.read_bytes()
+    pointer_before = (inventory / "CURRENT.json").read_bytes()
+
+    result = compact_inactive_generation(
+        "inventory",
+        run,
+        inactive_reason="superseded milestone map; source and manifest retained",
+        now=datetime(2026, 8, 30, tzinfo=UTC),
+    )
+
+    validate_self_hash(result)
+    assert result["status"] == "PASS"
+    assert result["run_id"] == ids[-1]
+    assert result["source_bytes"] == len(expected)
+    assert result["logical_bytes_reclaimed"] >= 0
+    assert not raw_path.exists()
+    assert (run / "inventory.sqlite3.gz").is_file()
+    assert (inventory / "CURRENT.json").read_bytes() == pointer_before
+
+    restored = restore_compacted_generation("inventory", run)
+    assert restored["status"] == "RESTORED"
+    assert raw_path.read_bytes() == expected
+
+
+@pytest.mark.parametrize("reason", ["", "\x00unsafe"])
+def test_inactive_compaction_requires_a_bounded_truthful_reason(
+    tmp_path: Path, reason: str
+) -> None:
+    inventory, _mapper, _semantic, ids = _fixture_stores(tmp_path)
+    run = inventory / "runs" / ids[-1]
+
+    with pytest.raises(RetentionError, match="reason is invalid"):
+        compact_inactive_generation(
+            "inventory",
+            run,
+            inactive_reason=reason,
+        )
+
+    assert (run / "inventory.sqlite3").is_file()

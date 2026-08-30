@@ -5,19 +5,23 @@ small authenticated ``CURRENT.json`` pointer.  This module owns the distinct
 storage lifecycle for those generations.  It never removes repository source
 and never treats a map result as cleanup authority.
 
-Deletion is deliberately two phase:
+Storage reduction is deliberately evidence preserving:
 
-1. an authenticated plan atomically quarantines only stale, unreferenced runs;
-2. a later invocation may purge a quarantine after its grace period, while
+1. stale generations named by historical reports are deterministically compressed
+   in place and remain exactly restorable for native historical queries;
+2. stale, unreferenced generations are moved into authenticated quarantine;
+3. a later invocation may purge a quarantine after its grace period, while
    retaining the intent/outcome receipts and any semantic failure receipt.
 
-Any incomplete reference scan, malformed store, symlink, concurrent drift, or
-failed post-move authentication prevents destructive progress.
+Any incomplete reference scan, malformed store, symlink, concurrent drift,
+failed restore proof, or failed post-move authentication prevents destructive
+progress.
 """
 
 from __future__ import annotations
 
 import fcntl
+import gzip
 import hashlib
 import json
 import os
@@ -37,12 +41,13 @@ from .navigation_inventory import _replace_atomic
 from .semantic_graph import SEMANTIC_POINTER_SCHEMA
 
 
-RETENTION_PLAN_SCHEMA = "giga.archaeologist.retention-plan.v2"
+RETENTION_PLAN_SCHEMA = "giga.archaeologist.retention-plan.v3"
 RETENTION_INTENT_SCHEMA = "giga.archaeologist.retention-quarantine-intent.v1"
 RETENTION_OUTCOME_SCHEMA = "giga.archaeologist.retention-quarantine-outcome.v1"
 RETENTION_PURGE_SCHEMA = "giga.archaeologist.retention-purge-outcome.v1"
-RETENTION_RUN_SCHEMA = "giga.archaeologist.retention-run.v1"
+RETENTION_RUN_SCHEMA = "giga.archaeologist.retention-run.v2"
 RETENTION_POINTER_SCHEMA = "giga.archaeologist.retention-current.v1"
+RETENTION_COMPACTION_SCHEMA = "giga.archaeologist.retention-compaction.v1"
 _RUN_ID_FORMAT = "%Y%m%dT%H%M%S.%fZ"
 _READ_LIMIT = 16 * 1024 * 1024
 _POINTER_SCHEMAS = {
@@ -204,6 +209,122 @@ def _file_hash(path: Path) -> tuple[str, int]:
     ):
         raise RetentionError(f"retention artifact changed while hashing: {path}")
     return digest.hexdigest(), size
+
+
+def _database_binding(
+    kind: str, run: Path, manifest: Mapping[str, Any]
+) -> tuple[Path, str, int]:
+    artifact = manifest.get("database")
+    if not isinstance(artifact, Mapping):
+        raise RetentionError(f"{kind} manifest has no database binding")
+    relative = artifact.get("path")
+    digest = artifact.get("sha256")
+    size = artifact.get("bytes")
+    if (
+        not isinstance(relative, str)
+        or PurePosixPath(relative).name != relative
+        or not isinstance(digest, str)
+        or len(digest) != 64
+        or isinstance(size, bool)
+        or not isinstance(size, int)
+        or size < 0
+    ):
+        raise RetentionError(f"{kind} database binding is invalid")
+    return run / relative, digest, size
+
+
+def _validate_compaction_receipt(
+    kind: str, run: Path, manifest: Mapping[str, Any]
+) -> dict[str, Any] | None:
+    receipt_path = run / "compaction.json"
+    if not receipt_path.exists() and not receipt_path.is_symlink():
+        return None
+    receipt = _read_json(receipt_path)
+    try:
+        validate_self_hash(receipt)
+    except ValueError as exc:
+        raise RetentionError("compaction receipt self-hash mismatch") from exc
+    raw_path, raw_sha256, raw_bytes = _database_binding(kind, run, manifest)
+    compressed = receipt.get("compressed")
+    source = receipt.get("source")
+    manifest_binding = receipt.get("manifest")
+    if (
+        receipt.get("schema") != RETENTION_COMPACTION_SCHEMA
+        or receipt.get("status") != "COMPRESSED"
+        or receipt.get("kind") != kind
+        or receipt.get("run_id") != run.name
+        or not isinstance(source, Mapping)
+        or source
+        != {
+            "path": raw_path.name,
+            "sha256": raw_sha256,
+            "bytes": raw_bytes,
+            "mode": 0o600,
+        }
+        or not isinstance(compressed, Mapping)
+        or compressed.get("path") != f"{raw_path.name}.gz"
+        or compressed.get("algorithm") != "gzip-9-mtime-zero"
+        or not isinstance(compressed.get("sha256"), str)
+        or len(compressed["sha256"]) != 64
+        or isinstance(compressed.get("bytes"), bool)
+        or not isinstance(compressed.get("bytes"), int)
+        or compressed["bytes"] <= 0
+        or not isinstance(manifest_binding, Mapping)
+        or manifest_binding.get("path") != "manifest.json"
+        or manifest_binding.get("receipt_sha256") != manifest.get("receipt_sha256")
+    ):
+        raise RetentionError("compaction receipt does not bind the generation")
+    manifest_digest, manifest_size = _file_hash(run / "manifest.json")
+    if manifest_binding != {
+        "path": "manifest.json",
+        "sha256": manifest_digest,
+        "bytes": manifest_size,
+        "receipt_sha256": manifest.get("receipt_sha256"),
+    }:
+        raise RetentionError("compaction manifest binding mismatch")
+    compressed_path = run / compressed["path"]
+    digest, size = _file_hash(compressed_path)
+    if digest != compressed["sha256"] or size != compressed["bytes"]:
+        raise RetentionError("compressed database binding mismatch")
+    return receipt
+
+
+def _database_storage_state(
+    kind: str, run: Path, manifest: Mapping[str, Any]
+) -> dict[str, Any]:
+    raw_path, raw_sha256, raw_bytes = _database_binding(kind, run, manifest)
+    compressed_path = run / f"{raw_path.name}.gz"
+    raw_exists = raw_path.exists() or raw_path.is_symlink()
+    compressed_exists = compressed_path.exists() or compressed_path.is_symlink()
+    receipt = _validate_compaction_receipt(kind, run, manifest)
+    if raw_exists:
+        metadata = raw_path.lstat()
+        if (
+            raw_path.is_symlink()
+            or not stat.S_ISREG(metadata.st_mode)
+            or metadata.st_nlink != 1
+            or metadata.st_uid != os.getuid()
+            or stat.S_IMODE(metadata.st_mode) != 0o600
+        ):
+            raise RetentionError("raw map database is not a private regular file")
+        digest, size = _file_hash(raw_path)
+        if digest != raw_sha256 or size != raw_bytes:
+            raise RetentionError("raw map database binding mismatch")
+    elif receipt is None:
+        raise RetentionError("map generation has neither raw nor restorable database")
+    if compressed_exists and receipt is None and not raw_exists:
+        raise RetentionError("compressed map database has no authenticated receipt")
+    return {
+        "path": raw_path.name,
+        "raw_sha256": raw_sha256,
+        "raw_bytes": raw_bytes,
+        "raw_present": raw_exists,
+        "compressed_present": compressed_exists,
+        "compaction_receipt_sha256": None
+        if receipt is None
+        else receipt["receipt_sha256"],
+        "compressed_bytes": None if receipt is None else receipt["compressed"]["bytes"],
+    }
 
 
 def _tree_record(path: Path) -> dict[str, Any]:
@@ -402,6 +523,11 @@ def _iter_generation_records(store: _Store) -> list[dict[str, Any]]:
                 ) from exc
         elif store.kind != "semantic_failure":
             raise RetentionError(f"generation has no manifest: {path}")
+        database_storage = None
+        if store.kind in {"inventory", "mapper"}:
+            if manifest is None:
+                raise RetentionError(f"{store.kind} generation has no manifest")
+            database_storage = _database_storage_state(store.kind, path, manifest)
         total, entries = _tree_size(path)
         records.append(
             {
@@ -415,6 +541,7 @@ def _iter_generation_records(store: _Store) -> list[dict[str, Any]]:
                 "manifest_receipt_sha256": None
                 if manifest is None
                 else manifest.get("receipt_sha256"),
+                "database_storage": database_storage,
             }
         )
     return records
@@ -547,6 +674,7 @@ def plan_navigation_retention(
 
     store_plans: list[dict[str, Any]] = []
     candidate_count = candidate_bytes = 0
+    compaction_candidate_count = compaction_candidate_bytes = 0
     for store in active:
         records = records_by_store[store.kind]
         total = sum(item["bytes"] for item in records)
@@ -593,6 +721,26 @@ def plan_navigation_retention(
             ):
                 disposition = "QUARANTINE_CANDIDATE"
                 eligible.append(item)
+            database_storage = item.get("database_storage")
+            non_external_reasons = {
+                reason for reason in reasons if not reason.startswith("external:")
+            }
+            compaction_disposition = "NOT_APPLICABLE"
+            if isinstance(database_storage, Mapping):
+                if not database_storage["raw_present"]:
+                    compaction_disposition = "ALREADY_COMPACTED"
+                elif database_storage["compressed_present"]:
+                    compaction_disposition = "FINISH_INTERRUPTED_COMPACTION"
+                elif (
+                    disposition == "RETAIN"
+                    and stale_by_generation
+                    and bool(external.get(item["run_id"]))
+                    and not non_external_reasons
+                    and not reference_failures
+                ):
+                    compaction_disposition = "COMPACT_CANDIDATE"
+                else:
+                    compaction_disposition = "RETAIN_RAW"
             annotated.append(
                 {
                     **item,
@@ -603,8 +751,15 @@ def plan_navigation_retention(
                     "disposition": disposition,
                     "reasons": sorted(reasons),
                     "external_references": external.get(item["run_id"], []),
+                    "compaction_disposition": compaction_disposition,
                 }
             )
+            if compaction_disposition in {
+                "COMPACT_CANDIDATE",
+                "FINISH_INTERRUPTED_COMPACTION",
+            }:
+                compaction_candidate_count += 1
+                compaction_candidate_bytes += database_storage["raw_bytes"]
         selected = {item["run_id"] for item in eligible}
         remaining = total
         for item in sorted(
@@ -641,8 +796,12 @@ def plan_navigation_retention(
     status = (
         "PARTIAL_NO_ACTION"
         if reference_failures
-        else "CANDIDATES"
+        else "MIXED_CANDIDATES"
+        if candidate_count and compaction_candidate_count
+        else "QUARANTINE_CANDIDATES"
         if candidate_count
+        else "COMPACTION_CANDIDATES"
+        if compaction_candidate_count
         else "OVER_QUOTA_PROTECTED"
         if not quota_satisfied
         else "NO_ACTION"
@@ -669,6 +828,8 @@ def plan_navigation_retention(
             "reference_failures": reference_failures,
             "candidate_generations": candidate_count,
             "candidate_bytes": candidate_bytes,
+            "compaction_candidate_generations": compaction_candidate_count,
+            "compaction_candidate_bytes": compaction_candidate_bytes,
             "storage_quota_satisfied_after_plan": quota_satisfied,
             "stores": store_plans,
         }
@@ -706,12 +867,277 @@ def _write_create_once(path: Path, payload: Mapping[str, Any]) -> None:
         temp.unlink(missing_ok=True)
 
 
+def _fsync_directory(path: Path) -> None:
+    descriptor = os.open(path, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
+def _verify_gzip_content(path: Path, expected_sha256: str, expected_bytes: int) -> None:
+    digest = hashlib.sha256()
+    total = 0
+    try:
+        with gzip.open(path, "rb") as handle:
+            while chunk := handle.read(1024 * 1024):
+                total += len(chunk)
+                if total > expected_bytes:
+                    raise RetentionError("compressed map expands beyond its binding")
+                digest.update(chunk)
+    except (OSError, EOFError) as exc:
+        raise RetentionError("compressed map database is unreadable") from exc
+    if total != expected_bytes or digest.hexdigest() != expected_sha256:
+        raise RetentionError("compressed map database does not restore exact bytes")
+
+
+def _publish_deterministic_gzip(
+    source: Path, destination: Path, *, expected_sha256: str, expected_bytes: int
+) -> tuple[str, int]:
+    parent = _private_directory(destination.parent)
+    descriptor, temporary = tempfile.mkstemp(prefix=".compaction-", dir=parent)
+    temp = Path(temporary)
+    try:
+        os.fchmod(descriptor, 0o600)
+        with os.fdopen(descriptor, "wb") as raw_output:
+            descriptor = -1
+            with source.open("rb") as raw_input:
+                with gzip.GzipFile(
+                    filename="",
+                    mode="wb",
+                    compresslevel=9,
+                    fileobj=raw_output,
+                    mtime=0,
+                ) as compressed:
+                    shutil.copyfileobj(raw_input, compressed, length=1024 * 1024)
+            raw_output.flush()
+            os.fsync(raw_output.fileno())
+        _verify_gzip_content(temp, expected_sha256, expected_bytes)
+        digest, size = _file_hash(temp)
+        try:
+            os.link(temp, destination, follow_symlinks=False)
+        except FileExistsError:
+            existing_digest, existing_size = _file_hash(destination)
+            if existing_digest != digest or existing_size != size:
+                raise RetentionError("pre-existing compressed map differs")
+        _fsync_directory(parent)
+        return digest, size
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+        temp.unlink(missing_ok=True)
+
+
+def _compact_generation(
+    item: Mapping[str, Any], *, compacted_at: datetime
+) -> dict[str, Any]:
+    kind = item["kind"]
+    if kind not in {"inventory", "mapper"}:
+        raise RetentionError("only map databases can be compacted")
+    run = _private_directory(Path(item["path"]))
+    manifest = _read_json(run / "manifest.json")
+    try:
+        validate_self_hash(manifest)
+    except ValueError as exc:
+        raise RetentionError("compaction manifest self-hash mismatch") from exc
+    raw_path, raw_sha256, raw_bytes = _database_binding(kind, run, manifest)
+    compressed_path = run / f"{raw_path.name}.gz"
+    receipt_path = run / "compaction.json"
+    existing_receipt = _validate_compaction_receipt(kind, run, manifest)
+    if not raw_path.exists() and not raw_path.is_symlink():
+        if existing_receipt is None:
+            raise RetentionError("compaction lost the raw database before receipt")
+        return existing_receipt
+    storage = _database_storage_state(kind, run, manifest)
+    if storage["raw_sha256"] != raw_sha256 or storage["raw_bytes"] != raw_bytes:
+        raise RetentionError("compaction source changed after planning")
+    if existing_receipt is None:
+        compressed_sha256, compressed_bytes = _publish_deterministic_gzip(
+            raw_path,
+            compressed_path,
+            expected_sha256=raw_sha256,
+            expected_bytes=raw_bytes,
+        )
+        manifest_sha256, manifest_bytes = _file_hash(run / "manifest.json")
+        receipt = seal_document(
+            {
+                "schema": RETENTION_COMPACTION_SCHEMA,
+                "status": "COMPRESSED",
+                "kind": kind,
+                "run_id": run.name,
+                "compacted_at": _utc_now(compacted_at),
+                "source": {
+                    "path": raw_path.name,
+                    "sha256": raw_sha256,
+                    "bytes": raw_bytes,
+                    "mode": 0o600,
+                },
+                "compressed": {
+                    "path": compressed_path.name,
+                    "sha256": compressed_sha256,
+                    "bytes": compressed_bytes,
+                    "algorithm": "gzip-9-mtime-zero",
+                },
+                "manifest": {
+                    "path": "manifest.json",
+                    "sha256": manifest_sha256,
+                    "bytes": manifest_bytes,
+                    "receipt_sha256": manifest.get("receipt_sha256"),
+                },
+                "repository_cleanup_authority": False,
+            }
+        )
+        _write_create_once(receipt_path, receipt)
+        existing_receipt = _validate_compaction_receipt(kind, run, manifest)
+    if existing_receipt is None:
+        raise RetentionError("compaction receipt was not durably published")
+    _verify_gzip_content(compressed_path, raw_sha256, raw_bytes)
+    digest, size = _file_hash(raw_path)
+    if digest != raw_sha256 or size != raw_bytes:
+        raise RetentionError("raw map changed before compaction unlink")
+    raw_path.unlink()
+    _fsync_directory(run)
+    receipt_bytes = (run / "compaction.json").stat().st_size
+    return {
+        **existing_receipt,
+        "logical_bytes_reclaimed": max(
+            0,
+            raw_bytes - existing_receipt["compressed"]["bytes"] - receipt_bytes,
+        ),
+    }
+
+
+def restore_compacted_generation(kind: str, generation: Path) -> dict[str, Any]:
+    """Restore one compacted map database exactly for a native historical query."""
+
+    if kind not in {"inventory", "mapper"}:
+        raise RetentionError("only inventory and mapper databases are restorable")
+    run = _private_directory(Path(generation))
+    manifest = _read_json(run / "manifest.json")
+    try:
+        validate_self_hash(manifest)
+    except ValueError as exc:
+        raise RetentionError("restore manifest self-hash mismatch") from exc
+    raw_path, raw_sha256, raw_bytes = _database_binding(kind, run, manifest)
+    receipt = _validate_compaction_receipt(kind, run, manifest)
+    if receipt is None:
+        raise RetentionError("generation has no authenticated compaction receipt")
+    if raw_path.exists() or raw_path.is_symlink():
+        storage = _database_storage_state(kind, run, manifest)
+        if not storage["raw_present"]:
+            raise RetentionError("restored database state is inconsistent")
+        status = "ALREADY_RESTORED"
+    else:
+        compressed_path = run / receipt["compressed"]["path"]
+        descriptor, temporary = tempfile.mkstemp(prefix=".restore-", dir=run)
+        temp = Path(temporary)
+        try:
+            os.fchmod(descriptor, 0o600)
+            digest = hashlib.sha256()
+            total = 0
+            with os.fdopen(descriptor, "wb") as output:
+                descriptor = -1
+                with gzip.open(compressed_path, "rb") as source:
+                    while chunk := source.read(1024 * 1024):
+                        total += len(chunk)
+                        if total > raw_bytes:
+                            raise RetentionError(
+                                "compressed map expands beyond its binding"
+                            )
+                        digest.update(chunk)
+                        output.write(chunk)
+                output.flush()
+                os.fsync(output.fileno())
+            if total != raw_bytes or digest.hexdigest() != raw_sha256:
+                raise RetentionError("restored map database identity mismatch")
+            try:
+                os.link(temp, raw_path, follow_symlinks=False)
+            except FileExistsError:
+                existing_digest, existing_size = _file_hash(raw_path)
+                if existing_digest != raw_sha256 or existing_size != raw_bytes:
+                    raise RetentionError("concurrent restored database differs")
+            _fsync_directory(run)
+            status = "RESTORED"
+        finally:
+            if descriptor >= 0:
+                os.close(descriptor)
+            temp.unlink(missing_ok=True)
+    return seal_document(
+        {
+            "schema": "giga.archaeologist.retention-restore-result.v1",
+            "status": status,
+            "kind": kind,
+            "run_id": run.name,
+            "source": receipt["source"],
+            "compaction_receipt_sha256": receipt["receipt_sha256"],
+            "repository_cleanup_authority": False,
+        }
+    )
+
+
+def compact_inactive_generation(
+    kind: str,
+    generation: Path,
+    *,
+    inactive_reason: str,
+    now: datetime | None = None,
+) -> dict[str, Any]:
+    """Compact an explicitly retired map runtime while preserving exact restore.
+
+    This entrypoint does not infer liveness or retirement.  Its caller must bind
+    an exact inactive generation and a truthful reason; the function only owns
+    the lossless storage transition for that already-classified derived map.
+    """
+
+    if kind not in {"inventory", "mapper"}:
+        raise RetentionError("only inventory and mapper generations are compactable")
+    if (
+        not isinstance(inactive_reason, str)
+        or not inactive_reason.strip()
+        or len(inactive_reason.encode("utf-8")) > 1024
+        or "\x00" in inactive_reason
+    ):
+        raise RetentionError("inactive generation reason is invalid")
+    run = _private_directory(Path(generation))
+    compaction = _compact_generation(
+        {"kind": kind, "path": str(run), "run_id": run.name},
+        compacted_at=(now or datetime.now(UTC)).astimezone(UTC),
+    )
+    return seal_document(
+        {
+            "schema": "giga.archaeologist.inactive-generation-compaction.v1",
+            "status": "PASS",
+            "kind": kind,
+            "run_id": run.name,
+            "generation_path": str(run),
+            "inactive_reason": inactive_reason,
+            "compaction_receipt_sha256": compaction["receipt_sha256"],
+            "source_bytes": compaction["source"]["bytes"],
+            "compressed_bytes": compaction["compressed"]["bytes"],
+            "logical_bytes_reclaimed": compaction.get("logical_bytes_reclaimed", 0),
+            "repository_cleanup_authority": False,
+        }
+    )
+
+
 def _candidate_records(plan: Mapping[str, Any]) -> list[dict[str, Any]]:
     return [
         generation
         for store in plan["stores"]
         for generation in store["generations"]
         if generation["disposition"] == "QUARANTINE_CANDIDATE"
+    ]
+
+
+def _compaction_candidate_records(
+    plan: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    return [
+        generation
+        for store in plan["stores"]
+        for generation in store["generations"]
+        if generation["compaction_disposition"]
+        in {"COMPACT_CANDIDATE", "FINISH_INTERRUPTED_COMPACTION"}
     ]
 
 
@@ -997,7 +1423,7 @@ def run_navigation_retention(
         )
         batch_id = f"{timestamp.strftime(_RUN_ID_FORMAT)}-{uuid.uuid4().hex[:12]}"
         quarantine = None
-        if apply and plan["status"] == "CANDIDATES":
+        if apply and plan["candidate_generations"]:
             candidate_ids = [item["run_id"] for item in _candidate_records(plan)]
             late_references, late_failures = _external_references(
                 candidate_ids, reference_roots
@@ -1041,6 +1467,28 @@ def run_navigation_retention(
                     rollback,
                 )
                 raise
+        compactions = []
+        if apply and plan["compaction_candidate_generations"]:
+            compaction_ids = [
+                item["run_id"] for item in _compaction_candidate_records(plan)
+            ]
+            late_references, late_failures = _external_references(
+                compaction_ids, reference_roots
+            )
+            if late_failures or set(late_references) != set(compaction_ids):
+                raise RetentionError(
+                    "compaction references changed between planning and application"
+                )
+            for item in _compaction_candidate_records(plan):
+                compactions.append(_compact_generation(item, compacted_at=timestamp))
+            plan_navigation_retention(
+                inventory_store,
+                mapper_store,
+                semantic_store,
+                reference_roots=reference_roots,
+                policy=policy,
+                now=timestamp,
+            )
         purges = (
             _purge_ready(
                 retention_root,
@@ -1062,6 +1510,10 @@ def run_navigation_retention(
                 "plan_status": plan["status"],
                 "candidate_generations": plan["candidate_generations"],
                 "candidate_bytes": plan["candidate_bytes"],
+                "compaction_candidate_generations": plan[
+                    "compaction_candidate_generations"
+                ],
+                "compaction_candidate_bytes": plan["compaction_candidate_bytes"],
                 "storage_quota_satisfied_after_plan": plan[
                     "storage_quota_satisfied_after_plan"
                 ],
@@ -1079,6 +1531,19 @@ def run_navigation_retention(
                         "bytes_reclaimed": purge["bytes_reclaimed"],
                     }
                     for purge in purges
+                ],
+                "compactions": [
+                    {
+                        "receipt_sha256": item["receipt_sha256"],
+                        "kind": item["kind"],
+                        "run_id": item["run_id"],
+                        "source_bytes": item["source"]["bytes"],
+                        "compressed_bytes": item["compressed"]["bytes"],
+                        "logical_bytes_reclaimed": item.get(
+                            "logical_bytes_reclaimed", 0
+                        ),
+                    }
+                    for item in compactions
                 ],
                 "recovered_quarantines": [
                     item["receipt_sha256"] for item in recovered_quarantines
