@@ -14,7 +14,7 @@ from .integrity import sha256_file
 from .store import TwinStore, utc_now
 
 
-COMPILER_VERSION = "1.0.0"
+COMPILER_VERSION = "1.1.0"
 OUTPUT_NAMES = {
     "case-study.md",
     "technical-report.md",
@@ -91,7 +91,7 @@ def _relative_file(root: Path, value: str, field: str) -> tuple[Path, str]:
     return candidate, relative.as_posix()
 
 
-def _output_directory(root: Path, value: Path) -> tuple[Path, str]:
+def _output_directory(root: Path, value: Path, slug: str) -> tuple[Path, str]:
     candidate = value.resolve()
     try:
         relative = candidate.relative_to(root)
@@ -101,10 +101,14 @@ def _output_directory(root: Path, value: Path) -> tuple[Path, str]:
     if len(parts) < 3 or parts[:2] != ("outputs", "external-proof"):
         raise ProofValidationError("output directory must be under outputs/external-proof/<run>")
     if candidate.exists():
+        allowed = OUTPUT_NAMES | {
+            "deck-qa.json", f"{slug}-montage.png", f"{slug}.pptx",
+            f"{slug}.pptx.inspect.ndjson", f"{slug}.pptx.receipt.json",
+        } | {f"{slug}/slide-{index}.png" for index in range(1, 100)}
         unexpected = [
             item.relative_to(candidate).as_posix()
             for item in candidate.rglob("*")
-            if item.is_file() and item.relative_to(candidate).as_posix() not in OUTPUT_NAMES
+            if item.is_symlink() or (item.is_file() and item.relative_to(candidate).as_posix() not in allowed)
         ]
         if unexpected:
             raise ProofValidationError(f"output directory contains unexpected files: {unexpected}")
@@ -325,8 +329,8 @@ def compile_proof(
     except ValueError as exc:
         raise ProofValidationError("manifest must stay inside the giga-user root") from exc
     manifest_path, manifest_relative = _relative_file(root, manifest_value, "manifest")
-    output_path, output_relative = _output_directory(root, output)
     document, source_refs = _validate_manifest(root, manifest_path)
+    output_path, output_relative = _output_directory(root, output, document["slug"])
     manifest_digest = sha256_file(manifest_path)
     compiler_path = Path(__file__).resolve()
     compiler_digest = sha256_file(compiler_path)

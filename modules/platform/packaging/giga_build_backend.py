@@ -29,6 +29,7 @@ SOURCE_FILES = (
     'twin_core/context_compiler.py',
     'twin_core/cross_service_monitor.py',
     'twin_core/external_proof.py',
+    'twin_core/export_protection.py',
     'twin_core/health.py',
     'twin_core/integrity.py',
     'twin_core/lineage.py',

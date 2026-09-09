@@ -32,6 +32,10 @@ def parser() -> argparse.ArgumentParser:
         default=None,
         help="sha256 baseline; defaults to architecture/EXPORT_IMMUTABILITY_BASELINE.sha256",
     )
+    integrity.add_argument("--policy", type=Path, help="explicit policy path relative to --root")
+    integrity.add_argument("--evidence-root", type=Path, help="explicit authorised export directory")
+    integrity.add_argument("--full-crc", action="store_true")
+    integrity.add_argument("--require-hardened", action="store_true")
     artifact = sub.add_parser("register-artifact", help="register a derived file and its sources")
     artifact.add_argument("artifact", type=Path)
     artifact.add_argument("--source", action="append", type=Path, required=True)
@@ -84,6 +88,22 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(scorecard(args.root, args.database), ensure_ascii=False, indent=2))
         return 0
     if args.command == "verify-exports":
+        if args.policy is not None:
+            if args.evidence_root is None or args.baseline is not None:
+                raise SystemExit("--policy requires --evidence-root and excludes --baseline")
+            from .export_protection import ExportProtectionError, verify_export_set
+            try:
+                result = verify_export_set(args.root, args.evidence_root,
+                                           policy_path=args.policy, full_crc=args.full_crc)
+            except ExportProtectionError as exc:
+                print(json.dumps({"integrity_ok": False, "errors": [str(exc)]}))
+                return 1
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            if not result["integrity_ok"]:
+                return 1
+            return 2 if args.require_hardened and not result["operational_acceptance"] else 0
+        if args.evidence_root is not None or args.full_crc or args.require_hardened:
+            raise SystemExit("export-set options require --policy and --evidence-root")
         baseline = args.baseline or args.root / "architecture" / "EXPORT_IMMUTABILITY_BASELINE.sha256"
         result = verify_hash_baseline(args.root, baseline)
         print(json.dumps(result, ensure_ascii=False, indent=2))

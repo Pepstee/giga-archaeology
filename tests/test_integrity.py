@@ -31,3 +31,17 @@ class IntegrityTests(unittest.TestCase):
             result = verify_hash_baseline(root, baseline)
             self.assertFalse(result["ok"])
             self.assertIn("escapes", result["errors"][0])
+
+
+def test_parent_symlink_rejected_without_source_read(tmp_path):
+    from unittest.mock import patch
+    target = tmp_path / "real"
+    target.mkdir()
+    (target / "source").write_bytes(b"synthetic")
+    (tmp_path / "linked").symlink_to(target, target_is_directory=True)
+    baseline = tmp_path / "baseline"
+    baseline.write_text("0" * 64 + "  linked/source\n")
+    with patch("twin_core.integrity.sha256_file", side_effect=AssertionError("source read")):
+        result = verify_hash_baseline(tmp_path, baseline)
+    assert not result["ok"]
+    assert "symlink" in result["errors"][0]

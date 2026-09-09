@@ -22,6 +22,20 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def authority_path(root: Path, relative: str) -> Path:
+    """Resolve an explicit relative authority without traversing symlinks."""
+    path = Path(relative)
+    if not relative or path.is_absolute() or ".." in path.parts:
+        raise ValueError("path escapes authority root")
+    candidate = root
+    for part in path.parts:
+        candidate = candidate / part
+        if candidate.is_symlink():
+            raise ValueError("source authority must not traverse a symlink")
+    candidate.resolve().relative_to(root.resolve())
+    return candidate
+
+
 def verify_hash_baseline(root: Path, baseline: Path) -> dict[str, Any]:
     """Verify every relative path in ``baseline`` without modifying any source file."""
     root = root.resolve()
@@ -45,11 +59,10 @@ def verify_hash_baseline(root: Path, baseline: Path) -> dict[str, Any]:
             errors.append(f"line {number}: expected '<sha256>  <relative path>'")
             continue
         expected, relative = parts[0], parts[1].strip()
-        candidate = (root / relative).resolve()
         try:
-            candidate.relative_to(root)
-        except ValueError:
-            errors.append(f"line {number}: path escapes GIGA root: {relative}")
+            candidate = authority_path(root, relative)
+        except ValueError as exc:
+            errors.append(f"line {number}: {exc}: {relative}")
             continue
         if not candidate.is_file():
             results.append({

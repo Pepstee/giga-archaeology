@@ -74,6 +74,25 @@ class ExternalProofTests(unittest.TestCase):
             self.assertEqual(counts["derived_artifacts"], 6)
             self.assertTrue(store.audit_artifacts(root)["ok"])
 
+    def test_deck_sidecars_survive_replay_and_unknown_file_is_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root, manifest, output, store, _ = self.make_fixture(Path(folder))
+            self.compile(root, manifest, output, store)
+            names = ["deck-qa.json", "proof-test.pptx", "proof-test-montage.png",
+                     "proof-test.pptx.inspect.ndjson", "proof-test.pptx.receipt.json",
+                     "proof-test/slide-1.png"]
+            for name in names:
+                p = output / name
+                p.parent.mkdir(exist_ok=True)
+                p.write_bytes(b"synthetic sidecar")
+            self.assertTrue(self.compile(root, manifest, output, store)["replay"])
+            for name in names:
+                self.assertEqual((output / name).read_bytes(), b"synthetic sidecar")
+            (output / "unexpected.txt").write_text("preserve")
+            with self.assertRaises(ProofValidationError):
+                self.compile(root, manifest, output, store)
+            self.assertEqual((output / "unexpected.txt").read_text(), "preserve")
+
     def test_source_mutation_invalidates_lineage_and_creates_new_run(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
             root, manifest, output, store, _ = self.make_fixture(Path(folder))
