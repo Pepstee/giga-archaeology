@@ -125,6 +125,8 @@ from .web_acquisition import (
 )
 from .web_discovery import (
     DuckDuckGoSearchProvider,
+    WebDiscoveryError,
+    fuse_discoveries,
     OpenAlexSearchProvider,
     WikipediaSearchProvider,
 )
@@ -1066,6 +1068,51 @@ def _write_jsonl(path: Path, rows: list[Mapping[str, Any]]) -> None:
         ),
         encoding="utf-8",
     )
+
+def _acquire_web(args: argparse.Namespace) -> dict[str, object]:
+    acquirer = PublicWebAcquirer(
+        repository_root=args.repository_root,
+        archive_root=args.archive_root,
+        transport=ScraplingTransport(args.transport),
+        timeout_seconds=args.timeout,
+        maximum_bytes=args.maximum_bytes,
+        **_visual_table_options(args),
+    )
+    result = archived_source_json(acquirer.acquire(args.url))
+    if args.output:
+        _write_json(args.output.expanduser().resolve(), result)
+    return result
+
+
+def _discover_web(args: argparse.Namespace) -> dict[str, Any]:
+    acquirer = PublicWebAcquirer(
+        repository_root=args.repository_root,
+        archive_root=args.archive_root,
+        transport=ScraplingTransport(args.transport),
+        timeout_seconds=args.timeout,
+        maximum_bytes=args.maximum_bytes,
+    )
+    providers = {
+        "duckduckgo": DuckDuckGoSearchProvider(acquirer),
+        "openalex": OpenAlexSearchProvider(acquirer),
+        "wikipedia": WikipediaSearchProvider(acquirer),
+    }
+    if args.provider == "all":
+        result = fuse_discoveries(
+            [
+                provider.search(args.query, language=args.language, limit=args.limit)
+                for provider in providers.values()
+            ],
+            limit=args.limit,
+            per_domain=args.per_domain,
+        )
+    else:
+        result = providers[args.provider].search(
+            args.query, language=args.language, limit=args.limit
+        )
+    if args.output:
+        _write_json(args.output.expanduser().resolve(), result)
+    return result
 
 DEFAULT_PROVIDERS = ("europe_pmc", "pubmed")
 
@@ -2256,6 +2303,51 @@ def build_parser() -> argparse.ArgumentParser:
     )
     benchmark_admission.add_argument("--output", type=Path)
 
+    acquire_web = subparsers.add_parser(
+        "acquire-web",
+        help="safely fetch and content-address one public web source with Scrapling",
+    )
+    acquire_web.add_argument("url")
+    acquire_web.add_argument(
+        "--repository-root",
+        type=Path,
+        default=Path.cwd(),
+        help="repository boundary that the private source archive must remain outside",
+    )
+    acquire_web.add_argument("--archive-root", type=Path, default=DEFAULT_ARCHIVE)
+    acquire_web.add_argument(
+        "--transport",
+        choices=("static", "dynamic", "stealth"),
+        default="static",
+        help="static first; dynamic or stealth only when the source genuinely requires it",
+    )
+    acquire_web.add_argument("--timeout", type=int, default=30)
+    acquire_web.add_argument("--maximum-bytes", type=int, default=10 * 1024 * 1024)
+    _add_visual_table_arguments(acquire_web)
+    acquire_web.add_argument("--output", type=Path)
+
+    discover_web = subparsers.add_parser(
+        "discover-web",
+        help="discover bilingual public sources and archive the exact provider response",
+    )
+    discover_web.add_argument("query")
+    discover_web.add_argument("--language", choices=("en", "zh"), required=True)
+    discover_web.add_argument("--limit", type=int, default=10)
+    discover_web.add_argument(
+        "--provider",
+        choices=("all", "duckduckgo", "openalex", "wikipedia"),
+        default="all",
+    )
+    discover_web.add_argument("--per-domain", type=int, default=2)
+    discover_web.add_argument("--repository-root", type=Path, default=Path.cwd())
+    discover_web.add_argument("--archive-root", type=Path, default=DEFAULT_ARCHIVE)
+    discover_web.add_argument(
+        "--transport", choices=("static", "dynamic", "stealth"), default="static"
+    )
+    discover_web.add_argument("--timeout", type=int, default=30)
+    discover_web.add_argument("--maximum-bytes", type=int, default=10 * 1024 * 1024)
+    discover_web.add_argument("--output", type=Path)
+
     return parser
 
 
@@ -2263,7 +2355,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        if args.command == "acquire-local":
+        if args.command == "acquire-web":
+            result = _acquire_web(args)
+        elif args.command == "discover-web":
+            result = _discover_web(args)
+        elif args.command == "acquire-local":
             result = _acquire_local(args)
         elif args.command == "project":
             result = _project(args)
@@ -2303,7 +2399,7 @@ def main(argv: list[str] | None = None) -> int:
             result = _state(args)
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
-    except (KeyError, OSError, ScientificEvidenceError, ResearchBenchmarkError, PassageRetrievalError, ResearchProjectError, ResearchExportError, WebAcquisitionError) as exc:
+    except (KeyError, OSError, ScientificEvidenceError, ResearchBenchmarkError, PassageRetrievalError, ResearchProjectError, ResearchExportError, WebAcquisitionError, WebDiscoveryError) as exc:
         print(f"scientific-pipeline: {exc}", file=sys.stderr)
         return 2
 

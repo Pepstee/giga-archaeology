@@ -635,3 +635,41 @@ def test_local_document_rejects_symlinks_and_unsupported_payloads(
     unsupported.write_bytes(b"not a document")
     with pytest.raises(WebAcquisitionError, match="unsupported local document extension"):
         acquirer.acquire(unsupported)
+
+
+@pytest.mark.parametrize("status", [200, 503])
+def test_acquire_web_cli_uses_bounded_archive_and_reports_transport_failure(
+    tmp_path, monkeypatch, capsys, status
+):
+    from twin_core import scientific_pipeline_cli as cli
+
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    archive = tmp_path / "archive"
+    output = tmp_path / "receipt.json"
+    url = "https://example.com/synthetic-cli"
+    transport = FakeTransport({url: _response(url, b"Synthetic archived evidence", status=status)})
+    monkeypatch.setattr(cli, "ScraplingTransport", lambda mode: transport)
+    monkeypatch.setattr(
+        cli, "PublicWebAcquirer",
+        lambda **kwargs: PublicWebAcquirer(resolver=_public_resolver, **kwargs),
+    )
+    result = cli.main([
+        "acquire-web", url, "--repository-root", str(repository),
+        "--archive-root", str(archive), "--output", str(output),
+    ])
+    captured = capsys.readouterr()
+    assert transport.calls == [url]
+    if status == 200:
+        assert result == 0
+        receipt = json.loads(captured.out)
+        assert receipt == json.loads(output.read_text())
+        assert receipt["trust_class"] == "untrusted_external_source"
+        assert Path(receipt["receipt_path"]).is_file()
+    else:
+        assert result == 2
+        assert "non-empty HTTP 200 response" in captured.err
+        assert not output.exists()
+        attempts = list((archive / "attempts").rglob("*.json"))
+        assert len(attempts) == 1
+        assert json.loads(attempts[0].read_text())["status"] == status

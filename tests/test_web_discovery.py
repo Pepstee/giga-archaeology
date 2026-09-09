@@ -248,3 +248,61 @@ def test_duckduckgo_general_web_results_are_decoded_and_archived(tmp_path: Path)
         "Retrieval citations improve evidence grounding."
     )
     assert Path(result["search_receipt_path"]).is_file()
+
+
+@pytest.mark.parametrize("provider", ["wikipedia", "all"])
+def test_discover_web_cli_archives_provider_responses_with_injected_transport(
+    tmp_path, monkeypatch, capsys, provider
+):
+    from twin_core import scientific_pipeline_cli as cli
+
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    archive = tmp_path / "archive"
+    output = tmp_path / "discovery.json"
+
+    class Transport:
+        name = "fake:static"
+
+        def __init__(self):
+            self.urls = []
+
+        def fetch(self, url, *, timeout_seconds):
+            self.urls.append(url)
+            if "wikipedia.org" in url:
+                payload = {"query": {"search": [{"ns": 0, "title": "Synthetic Evidence", "pageid": 123, "snippet": "Evidence", "timestamp": "2026-08-01T00:00:00Z"}]}}
+                body, content_type = json.dumps(payload).encode(), "application/json"
+            elif "openalex.org" in url:
+                body, content_type = b'{"results": []}', "application/json"
+            else:
+                body, content_type = b'<div class="result"><a class="result__a" href="https://example.com/synthetic">Synthetic Result</a><a class="result__snippet">Synthetic evidence.</a></div>', "text/html"
+            return WebResponse(url=url, status=200, headers={"content-type": content_type}, body=body, fetched_at="2026-08-30T10:00:00+00:00")
+
+    transport = Transport()
+    monkeypatch.setattr(cli, "ScraplingTransport", lambda mode: transport)
+    monkeypatch.setattr(cli, "PublicWebAcquirer", lambda **kwargs: PublicWebAcquirer(resolver=_resolver, **kwargs))
+    assert cli.main([
+        "discover-web", "synthetic evidence", "--language", "en", "--provider", provider,
+        "--repository-root", str(repository), "--archive-root", str(archive), "--output", str(output),
+    ]) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result == json.loads(output.read_text())
+    assert result["claim_authority"] is False
+    assert len(result["results"]) == (2 if provider == "all" else 1)
+    assert len(transport.urls) == (3 if provider == "all" else 1)
+    assert list(archive.rglob("*.json"))
+
+
+def test_discover_web_cli_reports_malformed_provider_results(tmp_path, monkeypatch, capsys):
+    from twin_core import scientific_pipeline_cli as cli
+
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    transport = FakeTransport({"query": {"search": [{"title": "Missing page id"}]}})
+    monkeypatch.setattr(cli, "ScraplingTransport", lambda mode: transport)
+    monkeypatch.setattr(cli, "PublicWebAcquirer", lambda **kwargs: PublicWebAcquirer(resolver=_resolver, **kwargs))
+    assert cli.main([
+        "discover-web", "synthetic", "--language", "en", "--provider", "wikipedia",
+        "--repository-root", str(repository), "--archive-root", str(tmp_path / "archive"),
+    ]) == 2
+    assert "malformed" in capsys.readouterr().err
