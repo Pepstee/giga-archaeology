@@ -7,6 +7,7 @@ import csv
 import hashlib
 import json
 import sys
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -41,6 +42,249 @@ from .scientific_screening import (
     validate_exclusion_audit,
     write_screening,
 )
+
+
+from .research_project import (
+    DEFAULT_PROJECT_DATABASE,
+    ResearchProjectError,
+    ResearchProjectStore,
+)
+from .research_run import DEFAULT_RUN_ROOT, execute_research_run
+from .research_export import ResearchExportError, render_markdown_report, report_receipt
+from .web_acquisition import (
+    DEFAULT_ARCHIVE,
+    LocalDocumentAcquirer,
+    PublicWebAcquirer,
+    ScraplingTransport,
+    WebAcquisitionError,
+    archived_source_json,
+)
+from .web_discovery import (
+    DuckDuckGoSearchProvider,
+    OpenAlexSearchProvider,
+    WikipediaSearchProvider,
+)
+
+def _visual_table_options(args: argparse.Namespace) -> dict[str, Path | str | None]:
+    return {
+        "visual_table_model": getattr(args, "visual_table_model", None),
+        "visual_table_model_sha256": getattr(args, "visual_table_model_sha256", None),
+    }
+
+
+def _run_acquirer(args: argparse.Namespace) -> PublicWebAcquirer:
+    return PublicWebAcquirer(
+        repository_root=args.repository_root,
+        archive_root=args.archive_root,
+        transport=ScraplingTransport(args.transport),
+        timeout_seconds=args.timeout,
+        maximum_bytes=args.maximum_bytes,
+        **_visual_table_options(args),
+    )
+
+
+def _run_providers(acquirer: PublicWebAcquirer) -> dict[str, object]:
+    return {
+        "duckduckgo": DuckDuckGoSearchProvider(acquirer),
+        "openalex": OpenAlexSearchProvider(acquirer),
+        "wikipedia": WikipediaSearchProvider(acquirer),
+    }
+
+
+def _execute_project_run(
+    store: ResearchProjectStore,
+    args: argparse.Namespace,
+    project_id: str,
+    pinned_sources: Mapping[str, list[str]],
+    local_sources: Mapping[str, list[str]] | None = None,
+) -> dict[str, Any]:
+    local_receipts: dict[str, list[Path]] = {}
+    if local_sources:
+        state = store.export_state(project_id)
+        if not state["status"]["approved"]:
+            raise ResearchProjectError(
+                "project plan requires human approval before local acquisition"
+            )
+        selected_questions = state["plan"]["subquestions"][: args.maximum_subquestions]
+        selected_by_id = {str(row["id"]): row for row in selected_questions}
+        for subquestion_id, source_paths in local_sources.items():
+            selected = selected_by_id.get(subquestion_id)
+            if selected is None:
+                raise ResearchProjectError(
+                    f"local source references unselected subquestion {subquestion_id!r}"
+                )
+            if "local_document" not in selected["source_types"]:
+                raise ResearchProjectError(
+                    f"subquestion {subquestion_id!r} does not permit local_document sources"
+                )
+            if len(source_paths) > args.sources_per_subquestion:
+                raise ResearchProjectError(
+                    f"local sources for {subquestion_id} exceed sources_per_subquestion"
+                )
+        local_acquirer = LocalDocumentAcquirer(
+            repository_root=args.repository_root,
+            archive_root=args.archive_root,
+            maximum_bytes=args.maximum_bytes,
+            **_visual_table_options(args),
+        )
+        for subquestion_id, source_paths in local_sources.items():
+            local_receipts[subquestion_id] = [
+                local_acquirer.acquire(
+                    Path(source_path),
+                    archived_at=getattr(args, "local_archived_at", None),
+                ).receipt_path
+                for source_path in source_paths
+            ]
+    acquirer = _run_acquirer(args)
+    return execute_research_run(
+        store,
+        project_id,
+        acquirer=acquirer,
+        providers={} if getattr(args, "local_only", False) else _run_providers(acquirer),
+        repository_root=args.repository_root,
+        run_root=args.run_root,
+        language=args.language,
+        maximum_subquestions=args.maximum_subquestions,
+        discovery_limit=args.discovery_limit,
+        sources_per_subquestion=args.sources_per_subquestion,
+        passages_per_subquestion=args.passages_per_subquestion,
+        per_domain=args.per_domain,
+        pinned_sources=pinned_sources,
+        local_receipts=local_receipts,
+        local_only=getattr(args, "local_only", False),
+    )
+
+
+def _acquire_local(args: argparse.Namespace) -> dict[str, object]:
+    acquirer = LocalDocumentAcquirer(
+        repository_root=args.repository_root,
+        archive_root=args.archive_root,
+        maximum_bytes=args.maximum_bytes,
+        **_visual_table_options(args),
+    )
+    result = archived_source_json(
+        acquirer.acquire(args.file, archived_at=args.archived_at)
+    )
+    if args.output:
+        _write_json(args.output.expanduser().resolve(), result)
+    return result
+
+
+def _add_project_run_arguments(
+    parser: argparse.ArgumentParser,
+    *,
+    parallel: bool,
+) -> None:
+    parser.add_argument("--language", choices=("en", "zh"), default="en")
+    parser.add_argument("--maximum-subquestions", type=int, default=1)
+    parser.add_argument("--discovery-limit", type=int, default=4)
+    parser.add_argument("--sources-per-subquestion", type=int, default=2)
+    parser.add_argument("--passages-per-subquestion", type=int, default=4)
+    parser.add_argument("--per-domain", type=int, default=1)
+    parser.add_argument(
+        "--pinned-source",
+        action="append",
+        nargs=3 if parallel else 2,
+        metavar=("PROJECT_ID", "SUBQUESTION_ID", "HTTPS_URL")
+        if parallel
+        else ("SUBQUESTION_ID", "HTTPS_URL"),
+        default=[],
+        help=(
+            "acquire an approved exact source for one named project and subquestion "
+            "before ranked discoveries (repeatable)"
+            if parallel
+            else "acquire an approved exact source before ranked discoveries (repeatable)"
+        ),
+    )
+    if not parallel:
+        parser.add_argument(
+            "--local-source",
+            action="append",
+            nargs=2,
+            metavar=("SUBQUESTION_ID", "DOCUMENT"),
+            default=[],
+            type=str,
+            help=(
+                "archive and research an operator-selected local document for one "
+                "subquestion (repeatable)"
+            ),
+        )
+        parser.add_argument(
+            "--local-only",
+            action="store_true",
+            help="run entirely from --local-source documents without web discovery",
+        )
+        parser.add_argument(
+            "--local-archived-at",
+            help="fixed RFC 3339 archive time for reproducible local-source runs",
+        )
+    parser.add_argument("--repository-root", type=Path, default=Path.cwd())
+    parser.add_argument("--archive-root", type=Path, default=DEFAULT_ARCHIVE)
+    parser.add_argument("--run-root", type=Path, default=DEFAULT_RUN_ROOT)
+    parser.add_argument(
+        "--transport", choices=("static", "dynamic", "stealth"), default="static"
+    )
+    parser.add_argument("--timeout", type=int, default=30)
+    parser.add_argument("--maximum-bytes", type=int, default=10 * 1024 * 1024)
+    _add_visual_table_arguments(parser)
+
+
+def _add_visual_table_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--visual-table-model",
+        type=Path,
+        help=(
+            "explicit local RapidTable SLANet-plus ONNX model for scanned-PDF "
+            "table candidates; requires --visual-table-model-sha256 and never downloads"
+        ),
+    )
+    parser.add_argument(
+        "--visual-table-model-sha256",
+        help=(
+            "exact SHA-256 for --visual-table-model; required when the model path is set"
+        ),
+    )
+
+
+def _project(args: argparse.Namespace) -> dict[str, object]:
+    store = ResearchProjectStore(args.project_database)
+    if args.project_command == "create":
+        return store.create(_json(args.plan))
+    if args.project_command == "approve":
+        return store.approve(
+            args.project_id,
+            plan_sha256=args.plan_sha256,
+            approved_by=args.approved_by,
+            approved_at=args.approved_at,
+        )
+    if args.project_command == "attach-local-document":
+        return store.attach_local_document(
+            args.project_id,
+            args.receipt,
+            args.archive_root,
+            recorded_at=args.recorded_at,
+        )
+    if args.project_command == "report":
+        state = store.export_state(args.project_id)
+        report = render_markdown_report(state["plan"], state["status"], state["matrix"])
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(report, encoding="utf-8")
+        return {**report_receipt(report), "output": str(args.output.resolve())}
+    if args.project_command == "run":
+        pinned_sources: dict[str, list[str]] = {}
+        for subquestion_id, source_url in args.pinned_source:
+            pinned_sources.setdefault(subquestion_id, []).append(source_url)
+        local_sources: dict[str, list[str]] = {}
+        for subquestion_id, source_path in args.local_source:
+            local_sources.setdefault(subquestion_id, []).append(source_path)
+        return _execute_project_run(
+            store,
+            args,
+            args.project_id,
+            pinned_sources,
+            local_sources,
+        )
+    return store.status(args.project_id)
 
 
 DEFAULT_PROVIDERS = ("europe_pmc", "pubmed")
@@ -627,6 +871,56 @@ def build_parser() -> argparse.ArgumentParser:
     duplicate.add_argument("decided_by")
     duplicate.add_argument("evidence", type=Path)
     duplicate.add_argument("--decided-at")
+    acquire_local = subparsers.add_parser(
+        "acquire-local",
+        help="content-address one operator-selected local document without leaking its path",
+    )
+    acquire_local.add_argument("file", type=Path)
+    acquire_local.add_argument("--repository-root", type=Path, default=Path.cwd())
+    acquire_local.add_argument("--archive-root", type=Path, default=DEFAULT_ARCHIVE)
+    acquire_local.add_argument("--maximum-bytes", type=int, default=10 * 1024 * 1024)
+    _add_visual_table_arguments(acquire_local)
+    acquire_local.add_argument("--archived-at")
+    acquire_local.add_argument("--output", type=Path)
+
+    project = subparsers.add_parser(
+        "project",
+        help="create, approve and resume a reviewed personal-research project",
+    )
+    project.add_argument(
+        "--project-database",
+        type=Path,
+        default=DEFAULT_PROJECT_DATABASE,
+    )
+    project_sub = project.add_subparsers(dest="project_command", required=True)
+    project_create = project_sub.add_parser("create", help="record a plan proposal")
+    project_create.add_argument("plan", type=Path)
+    project_approve = project_sub.add_parser("approve", help="approve the exact proposed plan")
+    project_approve.add_argument("project_id")
+    project_approve.add_argument("plan_sha256")
+    project_approve.add_argument("approved_by")
+    project_approve.add_argument("--approved-at")
+    project_attach_local = project_sub.add_parser(
+        "attach-local-document",
+        help="attach and verify one archived local-document receipt",
+    )
+    project_attach_local.add_argument("project_id")
+    project_attach_local.add_argument("receipt", type=Path)
+    project_attach_local.add_argument("archive_root", type=Path)
+    project_attach_local.add_argument("--recorded-at")
+    project_report = project_sub.add_parser(
+        "report", help="export reviewed project state as traceable Markdown"
+    )
+    project_report.add_argument("project_id")
+    project_report.add_argument("output", type=Path)
+    project_run = project_sub.add_parser(
+        "run",
+        help="resume an approved discovery, acquisition and evidence-retrieval run",
+    )
+    project_run.add_argument("project_id")
+    _add_project_run_arguments(project_run, parallel=False)
+    project_status = project_sub.add_parser("status", help="audit and resume project state")
+    project_status.add_argument("project_id")
     return parser
 
 
@@ -634,7 +928,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        if args.command == "compile-search":
+        if args.command == "acquire-local":
+            result = _acquire_local(args)
+        elif args.command == "project":
+            result = _project(args)
+        elif args.command == "compile-search":
             result = _compile_search(args)
         elif args.command == "screen":
             result = _screen(args)
@@ -660,7 +958,7 @@ def main(argv: list[str] | None = None) -> int:
             result = _state(args)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
-    except (KeyError, OSError, ScientificEvidenceError) as exc:
+    except (KeyError, OSError, ScientificEvidenceError, ResearchProjectError, ResearchExportError, WebAcquisitionError) as exc:
         print(f"scientific-pipeline: {exc}", file=sys.stderr)
         return 2
 

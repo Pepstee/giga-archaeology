@@ -87,3 +87,19 @@ optional research dependencies remain outside this initial package until their
 implementations are reconciled. `tests/test_root_package.py` verifies reproducible
 archives, source-distribution rebuilds, clean installation, command loading, and
 initialisation of an empty SQLite store.
+
+The next recovered increment keeps research implementation in the existing
+`twin_core` package and extends `scientific_pipeline_cli.py`. An approved local
+project can archive an explicitly selected document, retrieve BM25 passages,
+produce an extractive report with content-addressed evidence, and resume the same
+run. Use `python -m twin_core.scientific_pipeline_cli project --help` for the
+existing CLI's new project commands. Run with `--local-only`, explicit database,
+archive and run paths to avoid web discovery or ambient input selection.
+
+The local workflow has been exercised through an installed wheel with a fresh
+synthetic document. Optional live web, dense-model and production OCR operation
+are not established by that check. Donor parallel-run, standalone retrieval,
+frontier/mind-map and claim-ledger CLI surfaces remain to be recovered, together
+with the separate benchmarking and newer screening capabilities. Source identity
+uses an explicit list of executing research files instead of hashing an empty
+legacy module path after relocation.
