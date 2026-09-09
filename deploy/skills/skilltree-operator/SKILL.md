@@ -9,8 +9,15 @@ Treat the public SkillTree export as a taxonomy and dependency graph, never as p
 
 ## Audit
 
-1. Run `scripts/audit_tree.py` from this skill with the giga-user root and export directory.
-2. Read the generated JSON registry for exact status and the Markdown report for a compact view.
+1. Run `scripts/audit_tree.py` from this skill with the giga-user source root and export
+   directory. Pass `--evidence-root` when declared repository-relative evidence resolves in a
+   separate read-only checkout (it defaults to the source root; it is never written to).
+2. Read the generated JSON registry for exact status. The canonical human surface is
+   `skilltree/IMPLEMENTATION_STATUS.md`; `skilltree/IMPLEMENTATION_REPORT.md` is a compatibility
+   symlink to it, so the older path can never hold a divergent copy. Re-run generation after any
+   evidence-map change, then run the same command with `--check --compat-report
+   skilltree/IMPLEMENTATION_REPORT.md` to refuse drift against the tracked registry, status file
+   and symlink.
 3. Report separately:
    - `implemented`: explicit durable evidence exists and all declared evidence paths resolve;
    - `partial`: some declared implementation evidence exists, but the completion contract is not met;
