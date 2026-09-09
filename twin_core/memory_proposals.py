@@ -187,9 +187,14 @@ def _validate_proposal(memory_root: Path, value: Mapping[str, Any]) -> Validated
     )
 
 
-def _commit_proposal(memory_root: Path, proposal: ValidatedProposal, *, refresh_callback: Callable[[Path], None] | None = None) -> list[dict[str, str]]:
+def _commit_proposal(memory_root: Path, proposal: ValidatedProposal, *, refresh_callback: Callable[[Path], None] | None = None, private_output: Path | None = None, graphify_runner=None) -> list[dict[str, str]]:
     """Commit one proposal transaction; restore and verify every target on any failure."""
     memory_root = _safe_directory(memory_root)
+    if private_output is not None:
+        if refresh_callback is not None:
+            raise ValueError("choose explicit private_output or refresh_callback")
+        from .knowledge_refresh import _refresh_knowledge
+        refresh_callback = lambda root: _refresh_knowledge(root, private_output=private_output, graphify_runner=graphify_runner)
     current_gate = _require_memory_gate(memory_root.parent, "pre-commit")
     current_snapshot = current_gate["input_hashes"]["snapshot_sha256"]
     already_applied = all(

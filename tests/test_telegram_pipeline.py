@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -26,6 +27,7 @@ class TelegramPipelineTests(unittest.TestCase):
     def setup(self, root: Path):
         memory = root / "memory"
         (memory / "entries").mkdir(parents=True)
+        (root / "CONTEXT_PROTOCOL.md").write_text("synthetic protocol")
         (root / "CONTEXT.md").write_text("Standing context.", encoding="utf-8")
         (memory / "MEMORY_PROTOCOL.md").write_text("Memory policy.", encoding="utf-8")
         (memory / "INDEX.md").write_text("# Memory Index\n", encoding="utf-8")
@@ -43,7 +45,7 @@ class TelegramPipelineTests(unittest.TestCase):
 
     def test_success_commits_once_and_replay_uses_receipt_without_worker(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
-            memory, store, event_id = self.setup(Path(folder).resolve())
+            memory, store, event_id = self.setup(Path(folder).resolve() / "source")
             index_hash = hashlib.sha256((memory / "INDEX.md").read_bytes()).hexdigest()
             calls = 0
 
@@ -63,11 +65,11 @@ class TelegramPipelineTests(unittest.TestCase):
                 }
 
             first = process_event(
-                store=store, memory_root=memory, event_id=event_id,
+                store=store, memory_root=memory, private_output=memory.parent.parent / "projection", graphify_runner=_synthetic_graph, event_id=event_id,
                 text="remember a test fact", worker=worker,
             )
             replay = process_event(
-                store=store, memory_root=memory, event_id=event_id,
+                store=store, memory_root=memory, private_output=memory.parent.parent / "projection", graphify_runner=_synthetic_graph, event_id=event_id,
                 text="remember a test fact", worker=worker,
             )
             self.assertTrue(first.success)
@@ -77,14 +79,14 @@ class TelegramPipelineTests(unittest.TestCase):
 
     def test_worker_or_validation_failure_remains_retryable(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
-            memory, store, event_id = self.setup(Path(folder).resolve())
+            memory, store, event_id = self.setup(Path(folder).resolve() / "source")
             failed = process_event(
-                store=store, memory_root=memory, event_id=event_id,
+                store=store, memory_root=memory, private_output=memory.parent.parent / "projection", graphify_runner=_synthetic_graph, event_id=event_id,
                 text="remember", worker=lambda _: None,
             )
             self.assertFalse(failed.success)
             recovered = process_event(
-                store=store, memory_root=memory, event_id=event_id, text="answer only",
+                store=store, memory_root=memory, private_output=memory.parent.parent / "projection", graphify_runner=_synthetic_graph, event_id=event_id, text="answer only",
                 worker=lambda _: ("fake", {
                     "schema_version": 1, "reply": "Nothing durable to file.", "operations": [],
                 }),
@@ -92,3 +94,7 @@ class TelegramPipelineTests(unittest.TestCase):
             self.assertTrue(recovered.success)
             self.assertEqual(recovered.attempt_no, 2)
             self.assertEqual(store.counts()["processing_attempts"], 2)
+
+
+def _synthetic_graph(root, generated):
+    (generated / "graph.json").write_text(json.dumps({"nodes": [{"id": "synthetic-code"}], "links": []}))

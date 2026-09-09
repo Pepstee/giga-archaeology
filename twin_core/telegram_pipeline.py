@@ -47,10 +47,12 @@ def _provider_prompt(
     *,
     task_instructions: str = "Perform FILE, COLLIDE and REMIND.",
     evidence_class: str = "authenticated operator message",
+    private_output: Path | None = None,
+    graphify_runner=None,
 ) -> str:
     proposal_gate = _require_memory_gate(memory_root.parent, "pre-proposal")
     inventory = _memory_inventory(memory_root)
-    context = _compile_context(memory_root.parent, text)
+    context = _compile_context(memory_root.parent, text, private_output=private_output, graphify_runner=graphify_runner)
     untrusted = json.dumps({"event_id": event_id, "operator_message": text}, ensure_ascii=False)
     return f"""You are Artiom's memory librarian. You have no tools and no write authority. The
 deterministic context packet below already contains the standing context, memory policy, index and
@@ -89,6 +91,8 @@ def _process_event(
     operation: str = OPERATION,
     task_instructions: str = "Perform FILE, COLLIDE and REMIND.",
     evidence_class: str = "authenticated operator message",
+    private_output: Path | None = None,
+    graphify_runner=None,
 ) -> ProcessingOutcome:
     previous = store.latest_receipt(event_id, operation)
     if previous is not None:
@@ -107,6 +111,7 @@ def _process_event(
         result = worker(_provider_prompt(
             memory_root, text, event_id,
             task_instructions=task_instructions, evidence_class=evidence_class,
+            private_output=private_output, graphify_runner=graphify_runner,
         ))
         if result is None:
             raise RuntimeError("no provider returned a proposal")
@@ -116,7 +121,7 @@ def _process_event(
         proposal = _validate_proposal(memory_root, raw_proposal)
         store.transition_attempt(attempt_id, "validated")
         current_state = "validated"
-        artifacts = _commit_proposal(memory_root, proposal)
+        artifacts = _commit_proposal(memory_root, proposal, private_output=private_output, graphify_runner=graphify_runner)
         store.record_receipt(
             event_id=event_id,
             operation=operation,

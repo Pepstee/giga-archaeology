@@ -30,10 +30,13 @@ def _document(path: str, text: str, role: str) -> dict[str, str]:
     return {"path": path, "role": role, "sha256": _sha256(text), "content": text}
 
 
-def _compile_context(giga_root: Path, query: str) -> dict[str, Any]:
+def _compile_context(giga_root: Path, query: str, *, private_output: Path | None = None, graphify_runner=None) -> dict[str, Any]:
     """Compile canon + relevant entries without exposing a filesystem tool to the model."""
     giga_root = _safe_directory(giga_root)
-    knowledge = {"result": "MISSING", "reason": "explicit private projection refresh not integrated"}
+    if private_output is None:
+        raise ValueError("internal context compilation requires explicit private_output")
+    from .knowledge_refresh import _ensure_knowledge_current
+    knowledge = _ensure_knowledge_current(giga_root, private_output=private_output, graphify_runner=graphify_runner)
     memory = giga_root / "memory"
     gate = _require_memory_gate(giga_root, "pre-context")
     active_paths = set(gate["active_entry_paths"])

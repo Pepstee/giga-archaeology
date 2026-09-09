@@ -113,6 +113,7 @@ it does not activate permissions.
 Recovered memory validation, inactive-entry filtering, snapshot checks and
 caught-error rollback have an installed synthetic internal-algorithm canary.
 Affected public corpus APIs refuse before access because host-bound permission
-activation is unavailable. Private derived-graph refresh remains missing. These
+activation is unavailable. Private derived-graph refresh now has an installed synthetic canary using real
+deterministic Graphify extraction and an explicit separate output directory. These
 API refusals are not filesystem isolation or proof of a working authorised
 private-memory workflow. The personal corpus remains outside the package.
