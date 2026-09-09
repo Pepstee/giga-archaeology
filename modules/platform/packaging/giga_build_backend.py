@@ -35,6 +35,7 @@ SOURCE_FILES = (
     'twin_core/adapter_evidence.py',
     'twin_core/cli.py',
     'twin_core/capability_adoption.py',
+    'twin_core/execution_policy.py',
     'twin_core/constitutional_authority.py',
     'twin_core/_authority_vendor.zip',
     'twin_core/context_compiler.py',
