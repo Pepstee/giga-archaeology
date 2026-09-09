@@ -717,3 +717,623 @@ def test_project_report_separates_review_states_and_escapes_source_html(
     assert "[S1](https://example.com/evidence)" in rendered
     receipt = json.loads(capsys.readouterr().out)
     assert receipt["sha256"]
+
+
+def test_project_plan_mind_map_is_hash_bound_sanitised_and_runnable(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    plan = _plan()
+    plan["question"] = "<img src=x onerror=alert(1)> How should the plan be reviewed?"
+    store = _store(tmp_path)
+    created = store.create(plan)
+
+    pending_map = store.plan_map("project-1")
+    assert pending_map == store.plan_map("project-1")
+    assert pending_map["counts"] == {
+        "nodes": 5,
+        "edges": 4,
+        "perspectives": 2,
+        "subquestions": 2,
+    }
+    assert pending_map["plan_approved"] is False
+    assert {node["type"] for node in pending_map["nodes"]} == {
+        "project",
+        "perspective",
+        "subquestion",
+    }
+    assert len(pending_map["plan_map_sha256"]) == 64
+
+    document = render_plan_mind_map(pending_map)
+    assert document == render_plan_mind_map(pending_map)
+    assert "Research plan map" in document
+    assert "Content-Security-Policy" in document
+    assert "connect-src 'none'" in document
+    assert 'id="plan-map-data"' in document
+    assert "textContent" in document
+    assert "questionsByPerspective" in document
+    assert "questionsByPerspective.get(perspective.id).has(question.id)" in document
+    assert "question.perspective_id === perspective.id" not in document
+    assert "<img src=x" not in document
+    assert r"\u003cimg src=x onerror=alert(1)\u003e" in document
+    assert "fetch(" not in document
+    assert "innerHTML" not in document
+    receipt = plan_mind_map_receipt(pending_map, document)
+    assert receipt["schema_version"] == PLAN_MIND_MAP_RECEIPT_SCHEMA
+    assert receipt["plan_map_sha256"] == pending_map["plan_map_sha256"]
+    assert receipt["plan_authority"] == "human_approval_only"
+    assert receipt["claim_authority"] == "none"
+    assert receipt["bytes"] == len(document.encode("utf-8"))
+
+    tampered = dict(pending_map)
+    tampered["plan_map_sha256"] = "0" * 64
+    with pytest.raises(ResearchExportError, match="hash mismatch"):
+        render_plan_mind_map(tampered)
+
+    store.approve(
+        "project-1", plan_sha256=created["plan_sha256"], approved_by="operator"
+    )
+    approved_map = store.plan_map("project-1")
+    assert approved_map["plan_approved"] is True
+    assert approved_map["plan_map_sha256"] != pending_map["plan_map_sha256"]
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "plan-map",
+                "project-1",
+            ]
+        )
+        == 0
+    )
+    assert json.loads(capsys.readouterr().out) == approved_map
+    map_path = tmp_path / "exports" / "project-1-plan-map.html"
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "mind-map",
+                "project-1",
+                str(map_path),
+            ]
+        )
+        == 0
+    )
+    cli_receipt = json.loads(capsys.readouterr().out)
+    assert cli_receipt["plan_map_sha256"] == approved_map["plan_map_sha256"]
+    assert cli_receipt["mind_map_sha256"] == hashlib.sha256(map_path.read_bytes()).hexdigest()
+    assert cli_receipt["output"] == str(map_path.resolve())
+
+
+def test_frontier_cli_exports_owner_only_plan_that_reenters_exact_approval_gate(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    store = _store(tmp_path)
+    created = store.create(_plan())
+    store.approve("project-1", plan_sha256=created["plan_sha256"], approved_by="operator")
+    run_path = tmp_path / "run.json"
+    run_path.write_text(json.dumps(_run_bundle()), encoding="utf-8")
+    frontier_path = tmp_path / "private" / "FRONTIER.json"
+
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "frontier",
+                "project-1",
+                "--run",
+                str(run_path),
+                "--evaluated-at",
+                FIXED_TIME,
+                "--minimum-distinct-domains",
+                "2",
+                "--output",
+                str(frontier_path),
+            ]
+        )
+        == 0
+    )
+    frontier_receipt = json.loads(capsys.readouterr().out)
+    assert frontier_receipt["execution_state"] == "follow_up_proposal_required"
+    assert frontier_path.stat().st_mode & 0o777 == 0o600
+
+    followups_path = tmp_path / "followups.json"
+    followups_path.write_text(
+        json.dumps(
+            {
+                "followups": [
+                    {
+                        "id": "Q3",
+                        "parent_subquestion_id": "Q1",
+                        "question": "Which independent domains replicate the comparative result?",
+                        "search_terms": ["independent replication comparative result"],
+                        "gap_types": ["source_diversity"],
+                        "rationale": "Only one registrable source domain is represented.",
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    extension_path = tmp_path / "private" / "EXTENSION.json"
+    plan_path = tmp_path / "private" / "PLAN.json"
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "extend-frontier",
+                "project-1",
+                str(frontier_path),
+                str(followups_path),
+                "project-1-followup-1",
+                "--created-at",
+                FIXED_TIME,
+                "--output",
+                str(extension_path),
+                "--plan-output",
+                str(plan_path),
+            ]
+        )
+        == 0
+    )
+    extension_receipt = json.loads(capsys.readouterr().out)
+    assert extension_receipt["approval_required"] is True
+    assert plan_path.stat().st_mode & 0o777 == 0o600
+
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "create",
+                str(plan_path),
+            ]
+        )
+        == 0
+    )
+    proposed = json.loads(capsys.readouterr().out)
+    assert proposed["status"] == "awaiting_human_approval"
+
+
+def test_provider_frontier_cli_preserves_provenance_and_reenters_approval_gate(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    store = _store(tmp_path)
+    created = store.create(_plan())
+    store.approve("project-1", plan_sha256=created["plan_sha256"], approved_by="operator")
+    frontier = build_research_frontier(
+        _plan(),
+        [_run_bundle()],
+        evidence_matrix={"project_id": "project-1", "claims": []},
+        evaluated_at=FIXED_TIME,
+        minimum_distinct_domains=2,
+    )
+    frontier_path = tmp_path / "frontier.json"
+    frontier_path.write_text(json.dumps(frontier), encoding="utf-8")
+    request_path = tmp_path / "private" / "REQUEST.json"
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "frontier-request",
+                "project-1",
+                str(frontier_path),
+                "--requested-at",
+                FIXED_TIME,
+                "--maximum-followups",
+                "1",
+                "--output",
+                str(request_path),
+            ]
+        )
+        == 0
+    )
+    request_summary = json.loads(capsys.readouterr().out)
+    request = json.loads(request_path.read_text(encoding="utf-8"))
+    assert request_summary["execution_state"] == "awaiting_provider_response"
+    assert request_path.stat().st_mode & 0o777 == 0o600
+
+    unsigned_response = {
+        "schema_version": FRONTIER_PROVIDER_RESPONSE_SCHEMA,
+        "request_sha256": request["request_sha256"],
+        "provider": {
+            "name": "provider-fixture",
+            "model": "model-v1",
+            "response_id": "response-cli-1",
+            "generated_at": "2026-08-30T12:01:00+00:00",
+            "input_tokens": 700,
+            "output_tokens": 100,
+            "latency_ms": 800,
+            "cost_usd": 0.01,
+        },
+        "followups": [
+            {
+                "id": "Q3",
+                "parent_subquestion_id": "Q1",
+                "question": "Which independent domains replicate the comparative result?",
+                "search_terms": ["independent replication comparative result"],
+                "gap_types": ["source_diversity"],
+                "rationale": "Only one registrable source domain is represented.",
+            }
+        ],
+    }
+    response = {
+        **unsigned_response,
+        "response_sha256": _payload_sha256(unsigned_response),
+    }
+    response_path = tmp_path / "response.json"
+    response_path.write_text(json.dumps(response), encoding="utf-8")
+    provider_output = tmp_path / "private" / "PROVIDER_EXTENSION.json"
+    plan_output = tmp_path / "private" / "PROVIDER_PLAN.json"
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "extend-frontier-provider",
+                "project-1",
+                str(frontier_path),
+                str(request_path),
+                str(response_path),
+                "project-1-provider-followup-1",
+                "--created-at",
+                "2026-08-30T12:02:00+00:00",
+                "--output",
+                str(provider_output),
+                "--plan-output",
+                str(plan_output),
+            ]
+        )
+        == 0
+    )
+    provider_summary = json.loads(capsys.readouterr().out)
+    assert provider_summary["provider"]["response_id"] == "response-cli-1"
+    assert provider_summary["provider"]["cost_usd"] == 0.01
+    assert provider_summary["approval_required"] is True
+    assert provider_output.stat().st_mode & 0o777 == 0o600
+    assert plan_output.stat().st_mode & 0o777 == 0o600
+
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "create",
+                str(plan_output),
+            ]
+        )
+        == 0
+    )
+    proposed = json.loads(capsys.readouterr().out)
+    assert proposed["status"] == "awaiting_human_approval"
+
+
+def test_exact_evidence_claims_contradictions_and_human_review_matrix(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    store = _store(tmp_path)
+    created = store.create(_plan())
+    store.approve("project-1", plan_sha256=created["plan_sha256"], approved_by="operator")
+    archive, source = _archived_source(tmp_path)
+    attached = store.attach_web_source("project-1", source.receipt_path, archive)
+    with pytest.raises(ResearchProjectError, match="not verbatim"):
+        store.add_evidence_span(
+            "project-1",
+            receipt_sha256=attached["receipt_sha256"],
+            archive_root=archive,
+            quote="Invented quote",
+            locator="page text",
+            subquestion_ids=["Q1"],
+        )
+    evidence = store.add_evidence_span(
+        "project-1",
+        receipt_sha256=attached["receipt_sha256"],
+        archive_root=archive,
+        quote="Evidence",
+        locator="page text",
+        subquestion_ids=["Q1", "Q2"],
+        recorded_at=FIXED_TIME,
+    )
+    with pytest.raises(ResearchProjectError, match="require evidence spans"):
+        store.propose_claim(
+            "project-1",
+            claim="Unsupported claim",
+            evidence_span_ids=[],
+            position="supports",
+            confidence=0.5,
+            proposed_by="model",
+        )
+    with pytest.raises(ResearchProjectError, match="not lexically supported"):
+        store.propose_claim(
+            "project-1",
+            claim="An unrelated weather forecast predicts rain.",
+            evidence_span_ids=[evidence["evidence_span_id"]],
+            position="supports",
+            confidence=0.9,
+            proposed_by="model",
+        )
+    supporting = store.propose_claim(
+        "project-1",
+        claim="The source reports evidence.",
+        evidence_span_ids=[evidence["evidence_span_id"]],
+        position="supports",
+        confidence=0.8,
+        proposed_by="model",
+        recorded_at=FIXED_TIME,
+    )
+    contradicting = store.propose_claim(
+        "project-1",
+        claim="The evidence may not generalise.",
+        evidence_span_ids=[evidence["evidence_span_id"]],
+        position="contradicts",
+        confidence=0.4,
+        proposed_by="model",
+    )
+    store.review_claim(
+        "project-1",
+        claim_id=supporting["claim_id"],
+        decision="accept",
+        reviewed_by="operator",
+        notes="Quote and interpretation checked.",
+        reviewed_at=FIXED_TIME,
+    )
+    with pytest.raises(ResearchProjectError, match="distinct claims"):
+        store.propose_claim_relation(
+            "project-1",
+            source_claim_id=supporting["claim_id"],
+            target_claim_id=supporting["claim_id"],
+            relation="contradicts",
+            rationale="A claim cannot contradict itself.",
+            proposed_by="model",
+        )
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "propose-claim-relation",
+                "project-1",
+                supporting["claim_id"],
+                contradicting["claim_id"],
+                "contradicts",
+                "model",
+                "The scope caveat limits the supporting interpretation.",
+                "--recorded-at",
+                FIXED_TIME,
+            ]
+        )
+        == 0
+    )
+    relation = json.loads(capsys.readouterr().out)
+    duplicate = store.propose_claim_relation(
+        "project-1",
+        source_claim_id=contradicting["claim_id"],
+        target_claim_id=supporting["claim_id"],
+        relation="contradicts",
+        rationale="Reversed symmetric duplicate.",
+        proposed_by="another-model",
+    )
+    assert duplicate == {
+        "project_id": "project-1",
+        "relation_id": relation["relation_id"],
+        "status": "already_proposed",
+    }
+    with pytest.raises(ResearchProjectError, match="both endpoint claims"):
+        store.review_claim_relation(
+            "project-1",
+            relation_id=relation["relation_id"],
+            decision="accept",
+            reviewed_by="operator",
+            notes="One endpoint is still pending.",
+        )
+    store.review_claim(
+        "project-1",
+        claim_id=contradicting["claim_id"],
+        decision="accept",
+        reviewed_by="operator",
+        notes="Caveat is supported and useful.",
+    )
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "review-claim-relation",
+                "project-1",
+                relation["relation_id"],
+                "accept",
+                "operator",
+                "Both claims and the limiting relationship were checked.",
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+    matrix = store.evidence_matrix("project-1")
+    assert matrix["counts"] == {"accept": 2, "reject": 0, "pending": 0}
+    assert matrix["contradiction_claim_count"] == 1
+    assert matrix["claims"][0]["evidence"][0]["quote"] == "Evidence"
+    assert matrix["claims"][0]["evidence"][0]["source"]["final_url"] == source.final_url
+    assert matrix["sources"][0]["receipt_sha256"] == attached["receipt_sha256"]
+    assert {row["authority"] for row in matrix["claims"]} == {"proposal_only"}
+    graph = store.citation_graph("project-1")
+    assert graph == store.citation_graph("project-1")
+    assert graph["counts"] == {
+        "nodes": 6,
+        "edges": 6,
+        "sources": 1,
+        "evidence_spans": 1,
+        "claims": 2,
+        "claim_relations": 1,
+        "accepted_relations": 1,
+        "rejected_relations": 0,
+        "pending_relations": 0,
+    }
+    relation_edge = next(edge for edge in graph["edges"] if edge.get("id"))
+    assert relation_edge["relation"] == "contradicts"
+    assert relation_edge["directed"] is False
+    assert relation_edge["review_status"] == "accept"
+    assert relation_edge["authority"] == "proposal_only"
+    assert relation_edge["effective_authority"] == "human_accepted"
+    assert {
+        node["effective_authority"]
+        for node in graph["nodes"]
+        if node["type"] == "claim"
+    } == {"human_accepted"}
+    assert len(graph["graph_sha256"]) == 64
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "citation-graph",
+                "project-1",
+            ]
+        )
+        == 0
+    )
+    rendered_graph = capsys.readouterr().out
+    assert json.loads(rendered_graph) == graph
+    assert rendered_graph == json.dumps(
+        graph, ensure_ascii=False, indent=2, sort_keys=True
+    ) + "\n"
+    trace_path = tmp_path / "exports" / "project-1-trace.html"
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "trace-view",
+                "project-1",
+                str(trace_path),
+            ]
+        )
+        == 0
+    )
+    trace_receipt = json.loads(capsys.readouterr().out)
+    assert trace_path.is_file()
+    assert trace_receipt["graph_sha256"] == graph["graph_sha256"]
+    assert trace_receipt["trace_view_sha256"] == hashlib.sha256(
+        trace_path.read_bytes()
+    ).hexdigest()
+    assert trace_receipt["output"] == str(trace_path.resolve())
+    assert "Claim and evidence trace" in trace_path.read_text(encoding="utf-8")
+
+
+def test_local_document_cli_archives_attaches_retrieves_and_ledgers_evidence(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    archive = tmp_path / "private-archive"
+    document = tmp_path / "operator-note.md"
+    document.write_text(
+        "Approach A improved comparative recovery by twelve percent in the pilot.",
+        encoding="utf-8",
+    )
+    plan = _plan()
+    plan["subquestions"][0]["source_types"] = ["local_document"]
+    store = _store(tmp_path)
+    created = store.create(plan)
+    store.approve(
+        "project-1", plan_sha256=created["plan_sha256"], approved_by="operator"
+    )
+
+    assert (
+        pipeline_main(
+            [
+                "acquire-local",
+                str(document),
+                "--repository-root",
+                str(repository),
+                "--archive-root",
+                str(archive),
+                "--archived-at",
+                FIXED_TIME,
+            ]
+        )
+        == 0
+    )
+    acquired = json.loads(capsys.readouterr().out)
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "attach-local-document",
+                "project-1",
+                acquired["receipt_path"],
+                str(archive),
+                "--recorded-at",
+                FIXED_TIME,
+            ]
+        )
+        == 0
+    )
+    attached = json.loads(capsys.readouterr().out)
+    assert (
+        pipeline_main(
+            [
+                "retrieve-passages",
+                str(archive),
+                "comparative recovery pilot",
+                acquired["receipt_path"],
+            ]
+        )
+        == 0
+    )
+    retrieval = json.loads(capsys.readouterr().out)
+    assert retrieval["results"][0]["text"] == document.read_text(encoding="utf-8")
+    assert retrieval["results"][0]["authority"] == "evidence_candidate_only"
+    quote = tmp_path / "quote.txt"
+    quote.write_text(retrieval["results"][0]["text"], encoding="utf-8")
+    assert (
+        pipeline_main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "add-evidence",
+                "project-1",
+                attached["receipt_sha256"],
+                str(archive),
+                str(quote),
+                "complete local document",
+                "--subquestion",
+                "Q2",
+                "--recorded-at",
+                FIXED_TIME,
+            ]
+        )
+        == 0
+    )
+    evidence = json.loads(capsys.readouterr().out)
+    matrix = store.evidence_matrix("project-1")
+    assert matrix["sources"][0]["source_kind"] == "local_document"
+    assert matrix["sources"][0]["authority_tier"] == "local_unassessed"
+    assert store.status("project-1")["source_count"] == 1
+    graph = store.citation_graph("project-1")
+    assert graph["counts"]["sources"] == 1
+    evidence_node = next(node for node in graph["nodes"] if node["type"] == "evidence")
+    assert (
+        evidence_node["trust_class"]
+        == "operator_selected_local_document_untrusted_content"
+    )
+    assert evidence["evidence_span_id"]

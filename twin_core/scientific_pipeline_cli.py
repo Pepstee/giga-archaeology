@@ -6,11 +6,19 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import sys
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from .passage_retrieval import (
+    DEFAULT_DENSE_MODEL,
+    PassageRetrievalError,
+    fastembed_dense_ranking,
+    index_archived_receipts,
+    retrieve_passages,
+)
 from .scientific_evidence import ScientificEvidenceError
 from .scientific_fulltext import (
     extract_pmc_xml,
@@ -48,9 +56,33 @@ from .research_project import (
     DEFAULT_PROJECT_DATABASE,
     ResearchProjectError,
     ResearchProjectStore,
+    build_frontier_proposal_request,
+    build_research_frontier,
+    propose_frontier_extension,
+    propose_provider_frontier_extension,
 )
-from .research_run import DEFAULT_RUN_ROOT, execute_research_run
-from .research_export import ResearchExportError, render_markdown_report, report_receipt
+from .research_run import (
+    DEFAULT_RUN_ROOT,
+    execute_parallel_research_runs,
+    execute_research_run,
+)
+from .research_export import (
+    CITATION_TRACE_VIEW_RECEIPT_SCHEMA,
+    OUTLINE_PROPOSAL_SCHEMA,
+    PLAN_MIND_MAP_RECEIPT_SCHEMA,
+    ResearchExportError,
+    apply_reviewed_outline,
+    build_synthesis_packet,
+    citation_trace_view_receipt,
+    plan_mind_map_receipt,
+    render_citation_trace_view,
+    render_markdown_report,
+    render_plan_mind_map,
+    render_synthesis_article,
+    report_receipt,
+    validate_outline_proposal,
+    validate_synthesis_proposal,
+)
 from .web_acquisition import (
     DEFAULT_ARCHIVE,
     LocalDocumentAcquirer,
@@ -257,6 +289,8 @@ def _project(args: argparse.Namespace) -> dict[str, object]:
             approved_by=args.approved_by,
             approved_at=args.approved_at,
         )
+    if args.project_command == "attach-web-source":
+        return store.attach_web_source(args.project_id, args.receipt, args.archive_root)
     if args.project_command == "attach-local-document":
         return store.attach_local_document(
             args.project_id,
@@ -264,6 +298,270 @@ def _project(args: argparse.Namespace) -> dict[str, object]:
             args.archive_root,
             recorded_at=args.recorded_at,
         )
+    if args.project_command == "add-evidence":
+        return store.add_evidence_span(
+            args.project_id,
+            receipt_sha256=args.receipt_sha256,
+            archive_root=args.archive_root,
+            quote=args.quote.read_text(encoding="utf-8"),
+            locator=args.locator,
+            subquestion_ids=args.subquestions,
+            recorded_at=args.recorded_at,
+        )
+    if args.project_command == "propose-claim":
+        return store.propose_claim(
+            args.project_id,
+            claim=args.claim.read_text(encoding="utf-8"),
+            evidence_span_ids=args.evidence_spans,
+            position=args.position,
+            confidence=args.confidence,
+            proposed_by=args.proposed_by,
+            recorded_at=args.recorded_at,
+        )
+    if args.project_command == "review-claim":
+        return store.review_claim(
+            args.project_id,
+            claim_id=args.claim_id,
+            decision=args.decision,
+            reviewed_by=args.reviewed_by,
+            notes=args.notes,
+            reviewed_at=args.reviewed_at,
+        )
+    if args.project_command == "propose-claim-relation":
+        return store.propose_claim_relation(
+            args.project_id,
+            source_claim_id=args.source_claim_id,
+            target_claim_id=args.target_claim_id,
+            relation=args.relation,
+            rationale=args.rationale,
+            proposed_by=args.proposed_by,
+            recorded_at=args.recorded_at,
+        )
+    if args.project_command == "review-claim-relation":
+        return store.review_claim_relation(
+            args.project_id,
+            relation_id=args.relation_id,
+            decision=args.decision,
+            reviewed_by=args.reviewed_by,
+            notes=args.notes,
+            reviewed_at=args.reviewed_at,
+        )
+    if args.project_command == "matrix":
+        return store.evidence_matrix(args.project_id)
+    if args.project_command == "citation-graph":
+        return store.citation_graph(args.project_id)
+    if args.project_command == "plan-map":
+        return store.plan_map(args.project_id)
+    if args.project_command == "trace-view":
+        graph = store.citation_graph(args.project_id)
+        document = render_citation_trace_view(graph)
+        output = args.output.expanduser().resolve()
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(document, encoding="utf-8")
+        return {
+            **citation_trace_view_receipt(graph, document),
+            "schema_version": CITATION_TRACE_VIEW_RECEIPT_SCHEMA,
+            "output": str(output),
+        }
+    if args.project_command == "mind-map":
+        plan_map = store.plan_map(args.project_id)
+        document = render_plan_mind_map(plan_map)
+        output = args.output.expanduser().resolve()
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(document, encoding="utf-8")
+        return {
+            **plan_mind_map_receipt(plan_map, document),
+            "schema_version": PLAN_MIND_MAP_RECEIPT_SCHEMA,
+            "output": str(output),
+        }
+    if args.project_command == "frontier":
+        state = store.export_state(args.project_id)
+        if not state["status"]["approved"]:
+            raise ResearchProjectError("project plan requires human approval before evaluation")
+        frontier = build_research_frontier(
+            state["plan"],
+            [_json(path) for path in args.run],
+            evidence_matrix=state["matrix"],
+            evaluated_at=args.evaluated_at,
+            minimum_evidence_spans=args.minimum_evidence_spans,
+            minimum_distinct_domains=args.minimum_distinct_domains,
+            maximum_age_days=args.maximum_age_days,
+        )
+        output = args.output.expanduser().resolve()
+        _write_private_json_once(output, frontier)
+        return {
+            "schema_version": frontier["schema_version"],
+            "project_id": args.project_id,
+            "frontier_sha256": frontier["frontier_sha256"],
+            "synthesis_ready": frontier["synthesis_ready"],
+            "next_subquestion_ids": frontier["next_subquestion_ids"],
+            "project_gap_types": frontier["project_gap_types"],
+            "output": str(output),
+            "execution_state": frontier["execution_state"],
+            "claim_authority": False,
+        }
+    if args.project_command == "frontier-request":
+        state = store.export_state(args.project_id)
+        if not state["status"]["approved"]:
+            raise ResearchProjectError(
+                "project plan requires human approval before provider request"
+            )
+        request = build_frontier_proposal_request(
+            state["plan"],
+            _json(args.frontier),
+            requested_at=args.requested_at,
+            maximum_followups=args.maximum_followups,
+        )
+        output = args.output.expanduser().resolve()
+        _write_private_json_once(output, request)
+        return {
+            "schema_version": request["schema_version"],
+            "project_id": args.project_id,
+            "request_sha256": request["request_sha256"],
+            "maximum_followups": request["maximum_followups"],
+            "output": str(output),
+            "execution_state": "awaiting_provider_response",
+            "claim_authority": False,
+        }
+    if args.project_command == "extend-frontier":
+        state = store.export_state(args.project_id)
+        if not state["status"]["approved"]:
+            raise ResearchProjectError("project plan requires human approval before extension")
+        followup_document = _json(args.followups)
+        followups = followup_document.get("followups")
+        extension = propose_frontier_extension(
+            state["plan"],
+            _json(args.frontier),
+            followups,
+            extension_project_id=args.extension_project_id,
+            created_at=args.created_at,
+        )
+        output = args.output.expanduser().resolve()
+        plan_output = args.plan_output.expanduser().resolve()
+        _write_private_json_once(output, extension)
+        _write_private_json_once(plan_output, extension["project_plan"])
+        return {
+            "schema_version": extension["schema_version"],
+            "base_project_id": args.project_id,
+            "extension_project_id": args.extension_project_id,
+            "extension_sha256": extension["extension_sha256"],
+            "project_plan_sha256": extension["project_plan_sha256"],
+            "output": str(output),
+            "plan_output": str(plan_output),
+            "execution_state": extension["execution_state"],
+            "approval_required": True,
+            "claim_authority": False,
+        }
+    if args.project_command == "extend-frontier-provider":
+        state = store.export_state(args.project_id)
+        if not state["status"]["approved"]:
+            raise ResearchProjectError(
+                "project plan requires human approval before provider extension"
+            )
+        provider_extension = propose_provider_frontier_extension(
+            state["plan"],
+            _json(args.frontier),
+            _json(args.request),
+            _json(args.response),
+            extension_project_id=args.extension_project_id,
+            created_at=args.created_at,
+        )
+        output = args.output.expanduser().resolve()
+        plan_output = args.plan_output.expanduser().resolve()
+        _write_private_json_once(output, provider_extension)
+        _write_private_json_once(
+            plan_output,
+            provider_extension["extension"]["project_plan"],
+        )
+        proposal = provider_extension["provider_proposal"]
+        return {
+            "schema_version": provider_extension["schema_version"],
+            "base_project_id": args.project_id,
+            "extension_project_id": args.extension_project_id,
+            "provider_extension_sha256": provider_extension[
+                "provider_extension_sha256"
+            ],
+            "project_plan_sha256": provider_extension["extension"][
+                "project_plan_sha256"
+            ],
+            "provider": proposal["provider"],
+            "output": str(output),
+            "plan_output": str(plan_output),
+            "execution_state": "awaiting_human_approval",
+            "approval_required": True,
+            "claim_authority": False,
+        }
+    if args.project_command == "propose-outline":
+        packet = _build_project_synthesis_packet(
+            store, args, include_reviewed_outline=False
+        )
+        proposal = validate_outline_proposal(packet, _json(args.proposal))
+        result = store.propose_outline(
+            args.project_id,
+            proposal=proposal,
+            proposed_by=args.proposed_by,
+            recorded_at=args.recorded_at,
+        )
+        return {
+            **result,
+            "schema_version": OUTLINE_PROPOSAL_SCHEMA,
+            "packet_sha256": packet["packet_sha256"],
+            "run_id": packet["run_id"],
+            "claim_authority": False,
+        }
+    if args.project_command == "review-outline":
+        return store.review_outline(
+            args.project_id,
+            outline_id=args.outline_id,
+            decision=args.decision,
+            reviewed_by=args.reviewed_by,
+            notes=args.notes,
+            reviewer_kind=args.reviewer_kind,
+            reviewed_at=args.reviewed_at,
+        )
+    if args.project_command == "synthesis-packet":
+        packet = _build_project_synthesis_packet(
+            store, args, include_reviewed_outline=True
+        )
+        _write_json(args.output.expanduser().resolve(), packet)
+        return {
+            "schema_version": packet["schema_version"],
+            "project_id": args.project_id,
+            "run_id": packet["run_id"],
+            "packet_sha256": packet["packet_sha256"],
+            "evidence_count": len(packet["evidence"]),
+            "component_count": len(packet["component_runs"]),
+            "outline_review_state": packet["outline_review"]["state"],
+            "output": str(args.output.expanduser().resolve()),
+            "execution_state": "synthesis_packet_ready_for_external_model",
+            "claim_authority": False,
+        }
+    if args.project_command == "render-synthesis":
+        packet = _build_project_synthesis_packet(
+            store, args, include_reviewed_outline=True
+        )
+        proposal = _json(args.proposal)
+        validated = validate_synthesis_proposal(packet, proposal)
+        article = render_synthesis_article(packet, proposal)
+        output = args.output.expanduser().resolve()
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(article, encoding="utf-8")
+        if args.validation:
+            _write_json(args.validation.expanduser().resolve(), validated)
+        return {
+            "schema_version": "giga.research-synthesis-article-receipt.v1",
+            "project_id": args.project_id,
+            "run_id": packet["run_id"],
+            "packet_sha256": packet["packet_sha256"],
+            "article_sha256": hashlib.sha256(article.encode("utf-8")).hexdigest(),
+            "paragraph_count": validated["validation"]["paragraph_count"],
+            "citation_coverage": validated["validation"]["citation_coverage"],
+            "mean_lexical_support": validated["validation"]["mean_lexical_support"],
+            "outline_review_state": packet["outline_review"]["state"],
+            "output": str(output),
+            "execution_state": "grounded_synthesis_proposal_not_human_reviewed",
+            "claim_authority": False,
+        }
     if args.project_command == "report":
         state = store.export_state(args.project_id)
         report = render_markdown_report(state["plan"], state["status"], state["matrix"])
@@ -284,8 +582,160 @@ def _project(args: argparse.Namespace) -> dict[str, object]:
             pinned_sources,
             local_sources,
         )
+    if args.project_command == "run-parallel":
+        project_pins: dict[str, dict[str, list[str]]] = {}
+        known = set(args.project_ids)
+        for project_id, subquestion_id, source_url in args.pinned_source:
+            if project_id not in known:
+                raise ResearchProjectError(
+                    f"parallel pinned source references unknown project {project_id!r}"
+                )
+            project_pins.setdefault(project_id, {}).setdefault(
+                subquestion_id, []
+            ).append(source_url)
+        batch = execute_parallel_research_runs(
+            store,
+            args.project_ids,
+            runner=lambda project_id: _execute_project_run(
+                store,
+                args,
+                project_id,
+                project_pins.get(project_id, {}),
+            ),
+            configuration=_run_configuration(args, project_pins),
+            maximum_workers=args.maximum_workers,
+        )
+        output = args.output.expanduser().resolve()
+        _write_private_json_once(output, batch)
+        if batch["failed_projects"]:
+            raise ResearchProjectError(
+                f"parallel research batch preserved {batch['failed_projects']} failure(s) at {output}"
+            )
+        return {
+            "schema_version": batch["schema_version"],
+            "batch_id": batch["batch_id"],
+            "batch_sha256": batch["batch_sha256"],
+            "completed_projects": batch["completed_projects"],
+            "failed_projects": 0,
+            "output": str(output),
+            "execution_state": batch["execution_state"],
+            "claim_authority": False,
+        }
     return store.status(args.project_id)
 
+
+def _run_configuration(
+    args: argparse.Namespace,
+    pinned_sources: Mapping[str, Mapping[str, list[str]]],
+) -> dict[str, Any]:
+    return {
+        "language": args.language,
+        "maximum_subquestions": args.maximum_subquestions,
+        "discovery_limit": args.discovery_limit,
+        "sources_per_subquestion": args.sources_per_subquestion,
+        "passages_per_subquestion": args.passages_per_subquestion,
+        "per_domain": args.per_domain,
+        "transport": args.transport,
+        "timeout": args.timeout,
+        "maximum_bytes": args.maximum_bytes,
+        "repository_root": str(args.repository_root.expanduser().resolve()),
+        "archive_root": str(args.archive_root.expanduser().resolve()),
+        "run_root": str(args.run_root.expanduser().resolve()),
+        "visual_table": {
+            "enabled": bool(getattr(args, "visual_table_model", None)),
+            "model_sha256": getattr(args, "visual_table_model_sha256", None),
+        },
+        "pinned_sources": {
+            project_id: dict(sorted(question_pins.items()))
+            for project_id, question_pins in sorted(pinned_sources.items())
+        },
+    }
+
+def _build_project_synthesis_packet(
+    store: ResearchProjectStore,
+    args: argparse.Namespace,
+    *,
+    include_reviewed_outline: bool,
+) -> dict[str, Any]:
+    state = store.export_state(args.project_id)
+    supplements = [
+        (store.export_state(project_id)["plan"], _json(Path(run_path)))
+        for project_id, run_path in args.supplement
+    ]
+    packet = build_synthesis_packet(
+        state["plan"], _json(args.run), supplements=supplements
+    )
+    if not include_reviewed_outline:
+        return packet
+    reviewed = store.accepted_outline(
+        args.project_id, packet_sha256=packet["packet_sha256"]
+    )
+    return apply_reviewed_outline(packet, reviewed) if reviewed else packet
+
+def _write_private_json_once(path: Path, value: Any) -> None:
+    payload = (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    os.chmod(path.parent, 0o700)
+    if path.exists():
+        if path.is_symlink() or not path.is_file():
+            raise ResearchProjectError(f"research artifact path is not a regular file: {path}")
+        if path.read_bytes() != payload:
+            raise ResearchProjectError(
+                f"refusing to overwrite different research artifact: {path}"
+            )
+        os.chmod(path, 0o600)
+        return
+    try:
+        with path.open("xb") as handle:
+            handle.write(payload)
+    except FileExistsError as exc:
+        raise ResearchProjectError(f"research artifact appeared concurrently: {path}") from exc
+    os.chmod(path, 0o600)
+
+def _retrieve_passages(args: argparse.Namespace) -> dict[str, Any]:
+    dense = _json(args.dense_ranking).get("passage_ids") if args.dense_ranking else None
+    metadata_scope = _json(args.metadata_scope) if args.metadata_scope else None
+    if dense is not None and (
+        not isinstance(dense, list) or not all(isinstance(item, str) for item in dense)
+    ):
+        raise PassageRetrievalError("dense ranking passage_ids must be an array of strings")
+    passages = index_archived_receipts(
+        args.archive_root,
+        args.receipts,
+        maximum_characters=args.maximum_characters,
+        overlap_characters=args.overlap_characters,
+    )
+    dense_provider = None
+    if args.dense:
+        dense_provider = fastembed_dense_ranking(
+            args.query,
+            passages,
+            model_name=args.dense_model,
+            cache_root=args.dense_cache_root,
+            batch_size=args.dense_batch_size,
+            threads=args.dense_threads,
+        )
+        dense = dense_provider["passage_ids"]
+    if dense is None and args.dense_weight != 1.0:
+        raise PassageRetrievalError("--dense-weight requires a dense ranking")
+    ranker_weights = {"bm25": args.bm25_weight}
+    if dense is not None:
+        ranker_weights["dense"] = args.dense_weight
+    result = retrieve_passages(
+        args.query,
+        passages,
+        dense_ranking=dense,
+        metadata_scope=metadata_scope,
+        ranker_weights=ranker_weights,
+        rank_constant=args.rank_constant,
+        limit=args.limit,
+        per_source=args.per_source,
+    )
+    if dense_provider is not None:
+        result["dense_provider"] = dense_provider
+    if args.output:
+        _write_json(args.output.expanduser().resolve(), result)
+    return result
 
 DEFAULT_PROVIDERS = ("europe_pmc", "pubmed")
 
@@ -900,6 +1350,13 @@ def build_parser() -> argparse.ArgumentParser:
     project_approve.add_argument("plan_sha256")
     project_approve.add_argument("approved_by")
     project_approve.add_argument("--approved-at")
+    project_attach = project_sub.add_parser(
+        "attach-web-source",
+        help="attach and verify one archived web-source receipt",
+    )
+    project_attach.add_argument("project_id")
+    project_attach.add_argument("receipt", type=Path)
+    project_attach.add_argument("archive_root", type=Path)
     project_attach_local = project_sub.add_parser(
         "attach-local-document",
         help="attach and verify one archived local-document receipt",
@@ -908,6 +1365,202 @@ def build_parser() -> argparse.ArgumentParser:
     project_attach_local.add_argument("receipt", type=Path)
     project_attach_local.add_argument("archive_root", type=Path)
     project_attach_local.add_argument("--recorded-at")
+    project_evidence = project_sub.add_parser(
+        "add-evidence",
+        help="verify and attach a verbatim evidence span from an archived source",
+    )
+    project_evidence.add_argument("project_id")
+    project_evidence.add_argument("receipt_sha256")
+    project_evidence.add_argument("archive_root", type=Path)
+    project_evidence.add_argument("quote", type=Path)
+    project_evidence.add_argument("locator")
+    project_evidence.add_argument(
+        "--subquestion", action="append", required=True, dest="subquestions"
+    )
+    project_evidence.add_argument("--recorded-at")
+    project_claim = project_sub.add_parser(
+        "propose-claim",
+        help="record a citation-bound claim proposal without accepting it",
+    )
+    project_claim.add_argument("project_id")
+    project_claim.add_argument("claim", type=Path)
+    project_claim.add_argument("position", choices=("supports", "contradicts", "context", "mixed"))
+    project_claim.add_argument("confidence", type=float)
+    project_claim.add_argument("proposed_by")
+    project_claim.add_argument(
+        "--evidence-span", action="append", required=True, dest="evidence_spans"
+    )
+    project_claim.add_argument("--recorded-at")
+    project_review = project_sub.add_parser(
+        "review-claim", help="accept or reject one exact claim proposal"
+    )
+    project_review.add_argument("project_id")
+    project_review.add_argument("claim_id")
+    project_review.add_argument("decision", choices=("accept", "reject"))
+    project_review.add_argument("reviewed_by")
+    project_review.add_argument("notes")
+    project_review.add_argument("--reviewed-at")
+    project_relation = project_sub.add_parser(
+        "propose-claim-relation",
+        help="record a claim-to-claim relationship proposal without accepting it",
+    )
+    project_relation.add_argument("project_id")
+    project_relation.add_argument("source_claim_id")
+    project_relation.add_argument("target_claim_id")
+    project_relation.add_argument(
+        "relation", choices=("supports", "contradicts", "qualifies", "duplicates")
+    )
+    project_relation.add_argument("proposed_by")
+    project_relation.add_argument("rationale")
+    project_relation.add_argument("--recorded-at")
+    project_relation_review = project_sub.add_parser(
+        "review-claim-relation",
+        help="accept or reject one exact claim relationship proposal",
+    )
+    project_relation_review.add_argument("project_id")
+    project_relation_review.add_argument("relation_id")
+    project_relation_review.add_argument("decision", choices=("accept", "reject"))
+    project_relation_review.add_argument("reviewed_by")
+    project_relation_review.add_argument("notes")
+    project_relation_review.add_argument("--reviewed-at")
+    project_matrix = project_sub.add_parser(
+        "matrix",
+        help="render claims, citations, contradiction positions and review states",
+    )
+    project_matrix.add_argument("project_id")
+    project_citation_graph = project_sub.add_parser(
+        "citation-graph",
+        help="project the append-only ledger as a deterministic claim/evidence graph",
+    )
+    project_citation_graph.add_argument("project_id")
+    project_plan_map = project_sub.add_parser(
+        "plan-map",
+        help="project the exact reviewed plan as a deterministic navigation map",
+    )
+    project_plan_map.add_argument("project_id")
+    project_trace_view = project_sub.add_parser(
+        "trace-view",
+        help="render the deterministic claim/evidence graph as offline inspectable HTML",
+    )
+    project_trace_view.add_argument("project_id")
+    project_trace_view.add_argument("output", type=Path)
+    project_mind_map = project_sub.add_parser(
+        "mind-map",
+        help="render the exact project plan as offline inspectable HTML",
+    )
+    project_mind_map.add_argument("project_id")
+    project_mind_map.add_argument("output", type=Path)
+    project_frontier = project_sub.add_parser(
+        "frontier",
+        help="cross-evaluate completed runs and export the bounded next research frontier",
+    )
+    project_frontier.add_argument("project_id")
+    project_frontier.add_argument("--run", action="append", type=Path, required=True)
+    project_frontier.add_argument("--evaluated-at", required=True)
+    project_frontier.add_argument("--minimum-evidence-spans", type=int, default=1)
+    project_frontier.add_argument("--minimum-distinct-domains", type=int, default=1)
+    project_frontier.add_argument("--maximum-age-days", type=int)
+    project_frontier.add_argument("--output", type=Path, required=True)
+    project_frontier_request = project_sub.add_parser(
+        "frontier-request",
+        help="export a minimal content-hashed request for any model provider",
+    )
+    project_frontier_request.add_argument("project_id")
+    project_frontier_request.add_argument("frontier", type=Path)
+    project_frontier_request.add_argument("--requested-at", required=True)
+    project_frontier_request.add_argument("--maximum-followups", type=int, default=3)
+    project_frontier_request.add_argument("--output", type=Path, required=True)
+    project_extension = project_sub.add_parser(
+        "extend-frontier",
+        help="validate up to three gap-filling questions as a new approval-gated project",
+    )
+    project_extension.add_argument("project_id")
+    project_extension.add_argument("frontier", type=Path)
+    project_extension.add_argument("followups", type=Path)
+    project_extension.add_argument("extension_project_id")
+    project_extension.add_argument("--created-at", required=True)
+    project_extension.add_argument("--output", type=Path, required=True)
+    project_extension.add_argument("--plan-output", type=Path, required=True)
+    project_provider_extension = project_sub.add_parser(
+        "extend-frontier-provider",
+        help=(
+            "validate an exact provider response, preserve its cost provenance and "
+            "export a separately approvable project"
+        ),
+    )
+    project_provider_extension.add_argument("project_id")
+    project_provider_extension.add_argument("frontier", type=Path)
+    project_provider_extension.add_argument("request", type=Path)
+    project_provider_extension.add_argument("response", type=Path)
+    project_provider_extension.add_argument("extension_project_id")
+    project_provider_extension.add_argument("--created-at", required=True)
+    project_provider_extension.add_argument("--output", type=Path, required=True)
+    project_provider_extension.add_argument("--plan-output", type=Path, required=True)
+    project_outline = project_sub.add_parser(
+        "propose-outline",
+        help="validate and ledger a complete outline proposal against exact run evidence",
+    )
+    project_outline.add_argument("project_id")
+    project_outline.add_argument("run", type=Path)
+    project_outline.add_argument("proposal", type=Path)
+    project_outline.add_argument("proposed_by")
+    project_outline.add_argument("--recorded-at")
+    project_outline.add_argument(
+        "--supplement",
+        action="append",
+        nargs=2,
+        metavar=("PROJECT_ID", "RUN_PATH"),
+        default=[],
+        help="bind the outline to the same composite evidence packet (repeatable)",
+    )
+    project_outline_review = project_sub.add_parser(
+        "review-outline",
+        help="accept or reject one exact packet-bound outline proposal",
+    )
+    project_outline_review.add_argument("project_id")
+    project_outline_review.add_argument("outline_id")
+    project_outline_review.add_argument("decision", choices=("accept", "reject"))
+    project_outline_review.add_argument("reviewed_by")
+    project_outline_review.add_argument("notes")
+    project_outline_review.add_argument(
+        "--reviewer-kind",
+        choices=("human", "controlled_canary"),
+        default="human",
+        help="label controlled test acceptance without claiming human review",
+    )
+    project_outline_review.add_argument("--reviewed-at")
+    project_packet = project_sub.add_parser(
+        "synthesis-packet",
+        help="export exact run evidence and a provider-neutral synthesis contract",
+    )
+    project_packet.add_argument("project_id")
+    project_packet.add_argument("run", type=Path)
+    project_packet.add_argument("output", type=Path)
+    project_packet.add_argument(
+        "--supplement",
+        action="append",
+        nargs=2,
+        metavar=("PROJECT_ID", "RUN_PATH"),
+        default=[],
+        help="merge a ledgered supplement project and run into the packet (repeatable)",
+    )
+    project_synthesis = project_sub.add_parser(
+        "render-synthesis",
+        help="validate and render a citation-bound external synthesis proposal",
+    )
+    project_synthesis.add_argument("project_id")
+    project_synthesis.add_argument("run", type=Path)
+    project_synthesis.add_argument("proposal", type=Path)
+    project_synthesis.add_argument("output", type=Path)
+    project_synthesis.add_argument("--validation", type=Path)
+    project_synthesis.add_argument(
+        "--supplement",
+        action="append",
+        nargs=2,
+        metavar=("PROJECT_ID", "RUN_PATH"),
+        default=[],
+        help="rebuild the same composite packet used by the proposal (repeatable)",
+    )
     project_report = project_sub.add_parser(
         "report", help="export reviewed project state as traceable Markdown"
     )
@@ -919,8 +1572,56 @@ def build_parser() -> argparse.ArgumentParser:
     )
     project_run.add_argument("project_id")
     _add_project_run_arguments(project_run, parallel=False)
+    project_parallel = project_sub.add_parser(
+        "run-parallel",
+        help=(
+            "run independent approved projects concurrently after an all-project "
+            "approval preflight"
+        ),
+    )
+    project_parallel.add_argument("project_ids", nargs="+")
+    project_parallel.add_argument("--maximum-workers", type=int, default=3)
+    project_parallel.add_argument("--output", type=Path, required=True)
+    _add_project_run_arguments(project_parallel, parallel=True)
     project_status = project_sub.add_parser("status", help="audit and resume project state")
     project_status.add_argument("project_id")
+
+    retrieve = subparsers.add_parser(
+        "retrieve-passages",
+        help="verify archived sources and rank exact-offset evidence passages",
+    )
+    retrieve.add_argument("archive_root", type=Path)
+    retrieve.add_argument("query")
+    retrieve.add_argument("receipts", type=Path, nargs="+")
+    dense_group = retrieve.add_mutually_exclusive_group()
+    dense_group.add_argument("--dense-ranking", type=Path)
+    dense_group.add_argument(
+        "--dense",
+        action="store_true",
+        help="generate a local FastEmbed dense ranking and fuse it with BM25",
+    )
+    retrieve.add_argument("--dense-model", default=DEFAULT_DENSE_MODEL)
+    retrieve.add_argument(
+        "--dense-cache-root",
+        type=Path,
+        default=Path("~/.giga/research-models/fastembed"),
+    )
+    retrieve.add_argument("--dense-batch-size", type=int, default=64)
+    retrieve.add_argument("--dense-threads", type=int)
+    retrieve.add_argument(
+        "--metadata-scope",
+        type=Path,
+        help="JSON receipt-bound metadata scope applied before BM25, dense ranking and fusion",
+    )
+    retrieve.add_argument("--bm25-weight", type=float, default=1.0)
+    retrieve.add_argument("--dense-weight", type=float, default=1.0)
+    retrieve.add_argument("--rank-constant", type=int, default=60)
+    retrieve.add_argument("--maximum-characters", type=int, default=1200)
+    retrieve.add_argument("--overlap-characters", type=int, default=180)
+    retrieve.add_argument("--limit", type=int, default=10)
+    retrieve.add_argument("--per-source", type=int, default=3)
+    retrieve.add_argument("--output", type=Path)
+
     return parser
 
 
@@ -932,6 +1633,8 @@ def main(argv: list[str] | None = None) -> int:
             result = _acquire_local(args)
         elif args.command == "project":
             result = _project(args)
+        elif args.command == "retrieve-passages":
+            result = _retrieve_passages(args)
         elif args.command == "compile-search":
             result = _compile_search(args)
         elif args.command == "screen":
@@ -956,9 +1659,9 @@ def main(argv: list[str] | None = None) -> int:
             result = _fetch_abstract_queue(args)
         else:
             result = _state(args)
-        print(json.dumps(result, ensure_ascii=False, indent=2))
+        print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
-    except (KeyError, OSError, ScientificEvidenceError, ResearchProjectError, ResearchExportError, WebAcquisitionError) as exc:
+    except (KeyError, OSError, ScientificEvidenceError, PassageRetrievalError, ResearchProjectError, ResearchExportError, WebAcquisitionError) as exc:
         print(f"scientific-pipeline: {exc}", file=sys.stderr)
         return 2
 

@@ -636,3 +636,319 @@ def test_implementation_identity_rejects_missing_or_symlinked_code(tmp_path, mon
     original.symlink_to(package / "research_export.py")
     with pytest.raises(ResearchProjectError, match="implementation source unavailable"):
         research_run._implementation_identity(tmp_path)
+
+
+def test_parallel_cli_writes_owner_only_batch_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    database = tmp_path / "private" / "projects.sqlite3"
+    store = ResearchProjectStore(database)
+    for project_id in ("parallel-1", "parallel-2"):
+        created = store.create(_project_plan(project_id))
+        store.approve(
+            project_id,
+            plan_sha256=created["plan_sha256"],
+            approved_by="operator",
+        )
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    barrier = threading.Barrier(2, timeout=2)
+
+    def fake_run(store: ResearchProjectStore, project_id: str, **kwargs: object) -> dict:
+        del store, kwargs
+        barrier.wait()
+        return _child_result(project_id)
+
+    monkeypatch.setattr(scientific_pipeline_cli, "execute_research_run", fake_run)
+    output = tmp_path / "private" / "parallel-receipt.json"
+    assert (
+        scientific_pipeline_cli.main(
+            [
+                "project",
+                "--project-database",
+                str(database),
+                "run-parallel",
+                "parallel-1",
+                "parallel-2",
+                "--maximum-workers",
+                "2",
+                "--repository-root",
+                str(repository),
+                "--archive-root",
+                str(tmp_path / "archive"),
+                "--run-root",
+                str(tmp_path / "runs"),
+                "--output",
+                str(output),
+            ]
+        )
+        == 0
+    )
+    summary = json.loads(capsys.readouterr().out)
+    batch = json.loads(output.read_text(encoding="utf-8"))
+    assert summary["execution_state"] == "completed"
+    assert summary["completed_projects"] == 2
+    assert batch["batch_sha256"] == summary["batch_sha256"]
+    assert batch["specification"]["maximum_workers"] == 2
+    assert output.stat().st_mode & 0o777 == 0o600
+
+
+def test_approved_project_run_is_grounded_append_only_and_resumable(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    store = ResearchProjectStore(tmp_path / "private" / "projects.sqlite3")
+    created = store.create(_plan())
+    store.approve(
+        "run-project", plan_sha256=created["plan_sha256"], approved_by="operator"
+    )
+    transport = FakeTransport()
+    acquirer = PublicWebAcquirer(
+        repository_root=repository,
+        archive_root=tmp_path / "archive",
+        transport=transport,
+        resolver=_resolver,
+    )
+    provider = FakeProvider()
+
+    result = execute_research_run(
+        store,
+        "run-project",
+        acquirer=acquirer,
+        providers={provider.name: provider},
+        repository_root=repository,
+        run_root=tmp_path / "runs",
+        sources_per_subquestion=2,
+        passages_per_subquestion=2,
+    )
+    assert result["sources_acquired"] == 2
+    assert result["evidence_spans"] == 2
+    assert result["claim_authority"] is False
+    brief = Path(result["evidence_brief_path"]).read_text(encoding="utf-8")
+    assert "machine-retrieved evidence brief" in brief
+    assert "Archived text offset" in brief
+    assert "No claim in this brief has been proposed" in brief
+    article = Path(result["extractive_article_path"]).read_text(encoding="utf-8")
+    assert "Extractive research article" in article
+    assert "https://evidence.example/primary" in article
+    assert "https://independent.example/study" in article
+    assert "Generation mode: `deterministic-extractive`" in article
+    assert result["official_evaluation_state"] == "raw_article_ready_not_judged"
+    run_bundle = json.loads(Path(result["bundle_path"]).read_text(encoding="utf-8"))
+    packet = build_synthesis_packet(_plan(), run_bundle)
+    assert packet["outline_review"] == {
+        "state": "approved_plan_projection",
+        "claim_authority": False,
+    }
+    outline_input = {
+        "schema_version": OUTLINE_PROPOSAL_SCHEMA,
+        "packet_sha256": packet["packet_sha256"],
+        "project_id": packet["project_id"],
+        "run_id": packet["run_id"],
+        "sections": [
+            {
+                "section_id": "Q1",
+                "heading": "Human-reviewed comparison",
+                "rationale": "Lead with the approved comparison question and its evidence.",
+            }
+        ],
+    }
+    validated_outline = validate_outline_proposal(packet, outline_input)
+    outline_path = tmp_path / "outline-proposal.json"
+    outline_path.write_text(json.dumps(outline_input), encoding="utf-8")
+    assert (
+        scientific_pipeline_cli.main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "propose-outline",
+                "run-project",
+                result["bundle_path"],
+                str(outline_path),
+                "model",
+                "--recorded-at",
+                "2026-08-30T12:10:00+00:00",
+            ]
+        )
+        == 0
+    )
+    outline_receipt = json.loads(capsys.readouterr().out)
+    assert outline_receipt["outline_sha256"] == validated_outline["outline_sha256"]
+    assert (
+        scientific_pipeline_cli.main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "review-outline",
+                "run-project",
+                outline_receipt["outline_id"],
+                "accept",
+                "operator",
+                "Section order and emphasis checked against the evidence.",
+                "--reviewed-at",
+                "2026-08-30T12:11:00+00:00",
+            ]
+        )
+        == 0
+    )
+    review_receipt = json.loads(capsys.readouterr().out)
+    with pytest.raises(ResearchProjectError, match="already has a human review"):
+        store.review_outline(
+            "run-project",
+            outline_id=outline_receipt["outline_id"],
+            decision="accept",
+            reviewed_by="operator",
+            notes="Duplicate decision.",
+        )
+    accepted = store.accepted_outline(
+        "run-project", packet_sha256=packet["packet_sha256"]
+    )
+    assert accepted is not None
+    reviewed_packet = apply_reviewed_outline(packet, accepted)
+    assert reviewed_packet["outline"][0]["heading"] == "Human-reviewed comparison"
+    assert reviewed_packet["outline_review"]["state"] == "human_accepted"
+    assert reviewed_packet["outline_review"]["reviewer_kind"] == "human"
+    controlled_canary_packet = apply_reviewed_outline(
+        packet, {**accepted, "reviewer_kind": "controlled_canary"}
+    )
+    assert (
+        controlled_canary_packet["outline_review"]["state"]
+        == "controlled_canary_accepted"
+    )
+    with pytest.raises(ResearchProjectError, match="reviewer kind"):
+        store.review_outline(
+            "run-project",
+            outline_id=outline_receipt["outline_id"],
+            decision="accept",
+            reviewed_by="fixture",
+            reviewer_kind="model",
+            notes="Invalid actor kind.",
+        )
+    with pytest.raises(ResearchExportError, match="invalid reviewer kind"):
+        apply_reviewed_outline(packet, {**accepted, "reviewer_kind": "model"})
+    assert reviewed_packet["outline_review"]["review_event_sha256"] == review_receipt[
+        "event_sha256"
+    ]
+    assert reviewed_packet["packet_sha256"] != packet["packet_sha256"]
+    packet_output = tmp_path / "reviewed-packet.json"
+    assert (
+        scientific_pipeline_cli.main(
+            [
+                "project",
+                "--project-database",
+                str(store.database),
+                "synthesis-packet",
+                "run-project",
+                result["bundle_path"],
+                str(packet_output),
+            ]
+        )
+        == 0
+    )
+    packet_receipt = json.loads(capsys.readouterr().out)
+    cli_packet = json.loads(packet_output.read_text(encoding="utf-8"))
+    assert packet_receipt["outline_review_state"] == "human_accepted"
+    assert cli_packet == reviewed_packet
+    bypassed_outline = {
+        "schema_version": SYNTHESIS_PROPOSAL_SCHEMA,
+        "packet_sha256": reviewed_packet["packet_sha256"],
+        "run_id": reviewed_packet["run_id"],
+        "sections": [
+            {
+                "section_id": "Q1",
+                "heading": packet["outline"][0]["heading"],
+                "paragraphs": [
+                    {
+                        "text": "Comparative outcomes for approach A and approach B are reported.",
+                        "evidence_ids": ["E1"],
+                    }
+                ],
+            }
+        ],
+    }
+    with pytest.raises(ResearchExportError, match="heading differs"):
+        validate_synthesis_proposal(reviewed_packet, bypassed_outline)
+    reviewed_synthesis = json.loads(json.dumps(bypassed_outline))
+    reviewed_synthesis["sections"][0]["heading"] = "Human-reviewed comparison"
+    assert validate_synthesis_proposal(reviewed_packet, reviewed_synthesis)["sections"][0][
+        "section_id"
+    ] == "Q1"
+    missing_section = {**outline_input, "sections": []}
+    with pytest.raises(ResearchExportError, match="non-empty array"):
+        validate_outline_proposal(packet, missing_section)
+    stale_review = {**accepted, "packet_sha256": "0" * 64}
+    with pytest.raises(ResearchExportError, match="stale"):
+        apply_reviewed_outline(packet, stale_review)
+    supplement_plan = json.loads(json.dumps(_plan()))
+    supplement_plan["project_id"] = "run-project-supplement"
+    supplement_run = json.loads(json.dumps(run_bundle))
+    supplement_run["project_id"] = "run-project-supplement"
+    supplement_run["run_id"] = "supplement-run"
+    supplement_run["specification"]["project_id"] = "run-project-supplement"
+    composite = build_synthesis_packet(
+        _plan(), run_bundle, supplements=[(supplement_plan, supplement_run)]
+    )
+    assert composite["run_id"].startswith("composite-")
+    assert len(composite["component_runs"]) == 2
+    assert len(composite["evidence"]) == len(packet["evidence"])
+    assert composite["outline"][0]["section_id"] == "run-project:Q1"
+    assert composite["outline"][1]["section_id"] == "run-project-supplement:Q1"
+    assert composite["evidence"][0]["source_project_id"] == "run-project"
+    assert composite["packet_sha256"] != packet["packet_sha256"]
+    proposal = {
+        "schema_version": SYNTHESIS_PROPOSAL_SCHEMA,
+        "packet_sha256": packet["packet_sha256"],
+        "run_id": packet["run_id"],
+        "sections": [
+            {
+                "section_id": "Q1",
+                "heading": packet["outline"][0]["heading"],
+                "paragraphs": [
+                    {
+                            "text": (
+                                "Comparative outcomes for approach A and approach B are reported. "
+                                "[Untrusted link](https://untrusted.example)"
+                            ),
+                        "evidence_ids": ["E1"],
+                    }
+                ],
+            }
+        ],
+    }
+    validated = validate_synthesis_proposal(packet, proposal)
+    synthesis = render_synthesis_article(packet, proposal)
+    assert validated["validation"]["citation_coverage"] == 1.0
+    assert "[E1](https://" in synthesis
+    assert "https://evidence.example/primary" in synthesis
+    assert "https://independent.example/study" in synthesis
+    assert "\\[Untrusted link\\]\\(https://untrusted.example\\)" in synthesis
+    assert "Semantic entailment: `not established`" in synthesis
+    broken = {**proposal, "packet_sha256": "0" * 64}
+    with pytest.raises(ResearchExportError, match="different evidence packet"):
+        validate_synthesis_proposal(packet, broken)
+    tampered_packet = {**packet, "question": "A different question"}
+    with pytest.raises(ResearchExportError, match="packet hash mismatch"):
+        validate_synthesis_proposal(tampered_packet, proposal)
+    assert store.run_state("run-project", result["run_id"])["completed"] is True
+    assert store.status("run-project")["source_count"] == 2
+
+    resumed = execute_research_run(
+        store,
+        "run-project",
+        acquirer=acquirer,
+        providers={provider.name: provider},
+        repository_root=repository,
+        run_root=tmp_path / "runs",
+        sources_per_subquestion=2,
+        passages_per_subquestion=2,
+    )
+    assert resumed["resumed"] is True
+    assert resumed["bundle_sha256"] == result["bundle_sha256"]
+    assert provider.calls == 1
+    assert len(transport.calls) == 2

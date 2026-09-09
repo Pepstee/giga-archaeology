@@ -390,3 +390,112 @@ def test_noncanonical_forged_receipt_is_rejected(tmp_path: Path) -> None:
 
 
 
+
+
+def test_existing_cli_retrieves_and_writes_result(tmp_path: Path, capsys) -> None:
+    archive, receipts = _archive(tmp_path)
+    output = tmp_path / "retrieval.json"
+    arguments = [
+        "retrieve-passages",
+        str(archive),
+        "verify citations",
+        *(str(path) for path in receipts),
+        "--output",
+        str(output),
+    ]
+    assert main(arguments) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["results"]
+    assert json.loads(output.read_text(encoding="utf-8")) == result
+
+
+def test_cli_applies_receipt_metadata_scope(tmp_path: Path, capsys) -> None:
+    archive, receipts = _archive(tmp_path)
+    scope = tmp_path / "scope.json"
+    scope.write_text(
+        json.dumps(
+            {
+                "schema_version": "giga.research-receipt-metadata-scope.v1",
+                "filters": {"source_hosts": ["example.edu"]},
+            }
+        ),
+        encoding="utf-8",
+    )
+    arguments = [
+        "retrieve-passages",
+        str(archive),
+        "验证引用 来源",
+        *(str(path) for path in receipts),
+        "--metadata-scope",
+        str(scope),
+    ]
+
+    assert main(arguments) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["metadata_scope"]["filters"] == {"source_hosts": ["example.edu"]}
+    assert result["results"][0]["receipt_metadata"]["source_host"] == "example.edu"
+
+
+def test_cli_can_generate_owned_dense_ranking(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    archive, receipts = _archive(tmp_path)
+
+    def fake_dense(query: str, passages: list[Passage], **_: object) -> dict[str, object]:
+        assert query == "verify citations"
+        passage_ids = [passage.passage_id for passage in reversed(passages)]
+        return {
+            "schema_version": "giga.research-dense-ranking.v1",
+            "engine": "controlled-test-double",
+            "passage_ids": passage_ids,
+            "claim_authority": False,
+        }
+
+    monkeypatch.setattr(
+        "twin_core.scientific_pipeline_cli.fastembed_dense_ranking",
+        fake_dense,
+    )
+    arguments = [
+        "retrieve-passages",
+        str(archive),
+        "verify citations",
+        *(str(path) for path in receipts),
+        "--dense",
+        "--dense-cache-root",
+        str(tmp_path / "models"),
+    ]
+    assert main(arguments) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["rankers"] == ["bm25", "dense"]
+    assert result["dense_provider"]["engine"] == "controlled-test-double"
+
+
+def test_bm25_cli_bytes_are_stable_across_python_hash_seeds(tmp_path: Path) -> None:
+    archive, receipts = _archive(tmp_path)
+    repository = Path(__file__).resolve().parents[1]
+    command = [
+        sys.executable,
+        "-m", "twin_core.scientific_pipeline_cli",
+        "retrieve-passages",
+        str(archive),
+        "citation evidence exact archived quote",
+        *(str(path) for path in receipts),
+    ]
+    outputs = []
+    for seed in ("1", "2", "3", "999"):
+        environment = {
+            **os.environ,
+            "PYTHONHASHSEED": seed,
+            "PYTHONPATH": str(repository),
+        }
+        completed = subprocess.run(
+            command,
+            cwd=repository,
+            env=environment,
+            check=True,
+            capture_output=True,
+            timeout=30,
+        )
+        assert completed.stderr == b""
+        outputs.append(completed.stdout)
+    assert len(set(outputs)) == 1
