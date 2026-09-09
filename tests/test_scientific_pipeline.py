@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+import warnings
 from pathlib import Path
 
 import pytest
@@ -32,6 +33,9 @@ from twin_core.scientific_review_state import (
 )
 from twin_core.scientific_saturation import evaluate_saturation
 from twin_core.scientific_screening import (
+    inspect_historical_rds_performance,
+    prepare_historical_ris_corpus,
+    write_historical_ris_corpus,
     simulate_active_learning,
     _query_lookup,
     apply_duplicate_decisions,
@@ -1068,3 +1072,332 @@ def test_active_learning_simulation_cli_writes_inspectable_receipt(
     assert json.loads(output.read_text(encoding="utf-8")) == emitted
     assert emitted["simulation_id"] == oracle["simulation_id"]
     assert emitted["authority"]["live_review_state_written"] is False
+
+
+def test_historical_ris_preparation_is_label_blind_and_runs_through_the_public_cli(
+    tmp_path: Path,
+) -> None:
+    included = tmp_path / "included.ris"
+    excluded = tmp_path / "excluded.ris"
+    included.write_text(
+        "TY  - JOUR\n"
+        "TI  - Included evidence\n"
+        "AB  - Relevant evidence begins here.\n"
+        "      It continues on this line.\n"
+        "DO  - https://doi.org/10.1000/included\n"
+        "PY  - 2024\n"
+        "A1  - Included Author\n"
+        "UR  - https://example.test/included\n"
+        "ER  -\n",
+        encoding="utf-8",
+    )
+    excluded.write_text(
+        "TY  - JOUR\n"
+        "T1  - Excluded evidence\n"
+        "N2  - Irrelevant evidence.\n"
+        "DO  - 10.1000/excluded\n"
+        "PY  - 2023\n"
+        "AU  - Excluded Author\n"
+        "ER  -\n",
+        encoding="utf-8",
+    )
+    corpus = prepare_historical_ris_corpus(
+        included,
+        excluded,
+        simulation_id="ris-fixture",
+        source_id="fixture-source",
+    )
+    assert corpus["receipt"]["source_records"] == {
+        "total": 2,
+        "included": 1,
+        "excluded": 1,
+        "with_title": 2,
+        "with_abstract": 2,
+        "with_doi": 2,
+    }
+    assert corpus["receipt"]["deduplicated_groups"]["cross_label_conflict_count"] == 0
+    assert all("label" not in group for group in corpus["groups"])
+    swapped = prepare_historical_ris_corpus(
+        excluded,
+        included,
+        simulation_id="ris-fixture",
+        source_id="fixture-source",
+    )
+    assert corpus["groups"] == swapped["groups"]
+    assert (
+        corpus["receipt"]["input_order_group_ids_sha256"]
+        == swapped["receipt"]["input_order_group_ids_sha256"]
+    )
+    labels = {item["group_id"]: item["label"] for item in corpus["oracle"]["labels"]}
+    assert set(labels.values()) == {"include", "exclude"}
+    seeds = [
+        next(group_id for group_id, label in labels.items() if label == "include"),
+        next(group_id for group_id, label in labels.items() if label == "exclude"),
+    ]
+    simulated = simulate_active_learning(
+        corpus["groups"],
+        corpus["oracle"],
+        seed_group_ids=seeds,
+    )
+    assert simulated["authority"]["live_review_state_written"] is False
+    output = tmp_path / "prepared"
+    written = write_historical_ris_corpus(corpus, output)
+    assert written["authority"]["simulation_only"] is True
+    assert (output / "DEDUP_GROUPS.jsonl").is_file()
+    assert (output / "FULLY_LABELLED_SIMULATION_ORACLE.json").is_file()
+    cli_output = tmp_path / "cli-prepared"
+    assert (
+        pipeline_main(
+            [
+                "prepare-historical-ris",
+                str(included),
+                str(excluded),
+                str(cli_output),
+                "--simulation-id",
+                "ris-fixture",
+                "--source-id",
+                "fixture-source",
+            ]
+        )
+        == 0
+    )
+    assert (cli_output / "HISTORICAL_RIS_IMPORT_RECEIPT.json").is_file()
+
+
+def test_historical_ris_preparation_fails_closed_for_cross_label_duplicates(
+    tmp_path: Path,
+) -> None:
+    included = tmp_path / "included.ris"
+    excluded = tmp_path / "excluded.ris"
+    shared = "TY  - JOUR\nTI  - Same evidence\nDO  - 10.1000/shared\nER  -\n"
+    included.write_text(shared, encoding="utf-8")
+    excluded.write_text(shared, encoding="utf-8")
+    with pytest.raises(ScientificEvidenceError, match="conflicting include/exclude"):
+        prepare_historical_ris_corpus(
+            included,
+            excluded,
+            simulation_id="ris-conflict",
+            source_id="fixture-source",
+        )
+
+
+class _HistoricalRdsFixtureTable:
+    columns = (
+        "review_authors",
+        "screener",
+        "TP",
+        "TN",
+        "FN",
+        "FP",
+        "recall",
+        "spec",
+        "bacc",
+        "review",
+    )
+    empty = False
+
+    def __init__(self, rows: list[dict[str, object]]) -> None:
+        self.rows = rows
+
+    def to_dict(self, *, orient: str) -> list[dict[str, object]]:
+        assert orient == "records"
+        return self.rows
+
+
+class _HistoricalRdsFixtureReader:
+    def __init__(self, table: _HistoricalRdsFixtureTable) -> None:
+        self.table = table
+
+    def read_rds(self, _: Path) -> _HistoricalRdsFixtureTable:
+        warnings.warn(
+            'Missing constructor for R class "tbl". The constructor for class "data.frame" will be used instead.',
+            UserWarning,
+            stacklevel=2,
+        )
+        return self.table
+
+
+def test_historical_rds_performance_inspection_is_safe_and_validates_formulas(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source = tmp_path / "performance.rds"
+    source.write_bytes(b"synthetic RDS fixture")
+    table = _HistoricalRdsFixtureTable(
+        [
+            {
+                "review_authors": "Fixture Authors",
+                "screener": "Private Person A",
+                "TP": 9,
+                "TN": 80,
+                "FN": 1,
+                "FP": 10,
+                "recall": 0.9,
+                "spec": 80 / 90,
+                "bacc": (0.9 + 80 / 90) / 2,
+                "review": "Fixture review",
+            },
+            {
+                "review_authors": "Fixture Authors",
+                "screener": "Private Person B",
+                "TP": 8,
+                "TN": 81,
+                "FN": 2,
+                "FP": 9,
+                "recall": 0.8,
+                "spec": 0.9,
+                "bacc": 0.85,
+                "review": "Fixture review",
+            },
+        ]
+    )
+    monkeypatch.setattr(
+        scientific_screening,
+        "_load_historical_rds_reader",
+        lambda: (_HistoricalRdsFixtureReader(table), "fixture-rdata"),
+    )
+    report = inspect_historical_rds_performance(
+        source,
+        expected_review="Fixture review",
+        expected_review_authors="Fixture Authors",
+    )
+    assert report["performance"]["row_count"] == 2
+    assert report["performance"]["aggregate_confusion_matrix"] == {
+        "TP": 17,
+        "TN": 161,
+        "FN": 3,
+        "FP": 19,
+    }
+    assert report["warnings"]["count"] == 1
+    assert report["warnings"]["entries"][0]["category"] == "UserWarning"
+    assert report["warnings"]["entries"][0]["code"] == "rdata_missing_constructor"
+    assert "message" not in report["warnings"]["entries"][0]
+    assert set(report["source"]) == {"kind", "sha256", "bytes"}
+    assert report["authority"]["direct_model_human_comparison_produced"] is False
+    assert "Private Person A" not in json.dumps(report)
+    output = tmp_path / "performance.json"
+    assert (
+        pipeline_main(
+            [
+                "inspect-historical-rds-performance",
+                str(source),
+                str(output),
+                "--expected-review",
+                "Fixture review",
+                "--expected-review-authors",
+                "Fixture Authors",
+            ]
+        )
+        == 0
+    )
+    assert json.loads(output.read_text(encoding="utf-8"))["report_payload_sha256"] == report[
+        "report_payload_sha256"
+    ]
+
+
+def test_historical_rds_performance_inspection_fails_closed_for_formula_mismatch(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source = tmp_path / "performance.rds"
+    source.write_bytes(b"synthetic RDS fixture")
+    table = _HistoricalRdsFixtureTable(
+        [
+            {
+                "review_authors": "Fixture Authors",
+                "screener": "Private Person A",
+                "TP": 9,
+                "TN": 80,
+                "FN": 1,
+                "FP": 10,
+                "recall": 0.1,
+                "spec": 80 / 90,
+                "bacc": 0.5,
+                "review": "Fixture review",
+            }
+        ]
+    )
+    monkeypatch.setattr(
+        scientific_screening,
+        "_load_historical_rds_reader",
+        lambda: (_HistoricalRdsFixtureReader(table), "fixture-rdata"),
+    )
+    with pytest.raises(ScientificEvidenceError, match="recall does not match"):
+        inspect_historical_rds_performance(source)
+
+
+def test_historical_rds_performance_inspection_redacts_unknown_reader_warning(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source = tmp_path / "performance.rds"
+    source.write_bytes(b"synthetic RDS fixture")
+
+    class _PrivateWarningReader(_HistoricalRdsFixtureReader):
+        def read_rds(self, _: Path) -> _HistoricalRdsFixtureTable:
+            warnings.warn("could not parse Private Person A", UserWarning, stacklevel=2)
+            return self.table
+
+    table = _HistoricalRdsFixtureTable(
+        [
+            {
+                "review_authors": "Fixture Authors",
+                "screener": "Private Person A",
+                "TP": 9,
+                "TN": 80,
+                "FN": 1,
+                "FP": 10,
+                "recall": 0.9,
+                "spec": 80 / 90,
+                "bacc": (0.9 + 80 / 90) / 2,
+                "review": "Fixture review",
+            }
+        ]
+    )
+    monkeypatch.setattr(
+        scientific_screening,
+        "_load_historical_rds_reader",
+        lambda: (_PrivateWarningReader(table), "fixture-rdata"),
+    )
+    report = inspect_historical_rds_performance(source)
+    warning = report["warnings"]["entries"][0]
+    assert warning["code"] == "redacted_reader_warning"
+    assert "message" not in warning
+    assert "Private Person A" not in json.dumps(report)
+
+
+def test_historical_rds_performance_inspection_fails_closed_if_source_changes(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    source = tmp_path / "performance.rds"
+    source.write_bytes(b"synthetic RDS fixture")
+    table = _HistoricalRdsFixtureTable(
+        [
+            {
+                "review_authors": "Fixture Authors",
+                "screener": "Private Person A",
+                "TP": 9,
+                "TN": 80,
+                "FN": 1,
+                "FP": 10,
+                "recall": 0.9,
+                "spec": 80 / 90,
+                "bacc": (0.9 + 80 / 90) / 2,
+                "review": "Fixture review",
+            }
+        ]
+    )
+
+    class _MutatingReader(_HistoricalRdsFixtureReader):
+        def read_rds(self, path: Path) -> _HistoricalRdsFixtureTable:
+            path.write_bytes(b"changed during read")
+            return self.table
+
+    monkeypatch.setattr(
+        scientific_screening,
+        "_load_historical_rds_reader",
+        lambda: (_MutatingReader(table), "fixture-rdata"),
+    )
+    with pytest.raises(ScientificEvidenceError, match="changed while it was being read"):
+        inspect_historical_rds_performance(source)

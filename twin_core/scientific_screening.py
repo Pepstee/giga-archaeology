@@ -10,11 +10,13 @@ from __future__ import annotations
 import csv
 import hashlib
 import html
+import importlib.metadata
 import json
 import math
 import re
 import sqlite3
 import unicodedata
+import warnings
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from difflib import SequenceMatcher
@@ -2238,3 +2240,580 @@ def simulate_active_learning(
     }
     result["simulation_sha256"] = payload_hash(result)
     return result
+
+
+HISTORICAL_RIS_CORPUS_SCHEMA = "giga.scientific-historical-ris-corpus.v1"
+
+
+HISTORICAL_RIS_RECEIPT_SCHEMA = "giga.scientific-historical-ris-receipt.v1"
+
+
+HISTORICAL_RIS_INPUT_ORDER_PROTOCOL = "giga.historical-ris-label-blind-order.v1"
+
+
+HISTORICAL_RDS_PERFORMANCE_SCHEMA = "giga.scientific-historical-rds-performance.v1"
+
+
+HISTORICAL_RDS_PERFORMANCE_COLUMNS = frozenset(
+    {
+        "review_authors",
+        "screener",
+        "TP",
+        "TN",
+        "FN",
+        "FP",
+        "recall",
+        "spec",
+        "bacc",
+        "review",
+    }
+)
+
+
+RIS_LINE = re.compile(r"^([A-Z0-9]{2})  - ?(.*)$")
+
+
+RDATA_MISSING_CONSTRUCTOR_WARNING = re.compile(
+    r'^Missing constructor for R class "([A-Za-z_][A-Za-z0-9_.]*)"\. '
+    r'The constructor for class "([A-Za-z_][A-Za-z0-9_.]*)" will be used instead\.$'
+)
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _parse_ris(path: Path) -> list[dict[str, list[str]]]:
+    """Read a strict, plain-text RIS export without treating it as executable input."""
+
+    if not path.is_file():
+        raise ScientificEvidenceError(f"RIS input does not exist: {path}")
+    records: list[dict[str, list[str]]] = []
+    record: dict[str, list[str]] = {}
+    last_tag: str | None = None
+    try:
+        lines = path.read_text(encoding="utf-8-sig", errors="strict").splitlines()
+    except UnicodeError as exc:
+        raise ScientificEvidenceError(f"RIS input is not valid UTF-8: {path}") from exc
+    for line_number, raw_line in enumerate(lines, start=1):
+        if raw_line.startswith("ER  -"):
+            if not record:
+                raise ScientificEvidenceError(
+                    f"RIS input has an empty record at line {line_number}: {path}"
+                )
+            records.append(record)
+            record = {}
+            last_tag = None
+            continue
+        match = RIS_LINE.match(raw_line)
+        if match:
+            last_tag = match.group(1)
+            record.setdefault(last_tag, []).append(match.group(2).strip())
+            continue
+        if raw_line.startswith(("   ", "\t")) and last_tag and record.get(last_tag):
+            continuation = raw_line.strip()
+            if continuation:
+                record[last_tag][-1] = f"{record[last_tag][-1]} {continuation}".strip()
+            continue
+        if raw_line.strip():
+            raise ScientificEvidenceError(
+                f"RIS input has an unrecognised line {line_number}: {path}"
+            )
+    if record:
+        raise ScientificEvidenceError(f"RIS input ends before an ER tag: {path}")
+    if not records:
+        raise ScientificEvidenceError(f"RIS input contains no records: {path}")
+    return records
+
+
+def _ris_values(record: Mapping[str, Sequence[str]], *tags: str) -> list[str]:
+    values: list[str] = []
+    for tag in tags:
+        for value in record.get(tag, []):
+            text = normalise_text(value)
+            if text:
+                values.append(text)
+    return list(dict.fromkeys(values))
+
+
+def _ris_first(record: Mapping[str, Sequence[str]], *tags: str) -> str | None:
+    values = _ris_values(record, *tags)
+    return values[0] if values else None
+
+
+def _canonical_ris_record(
+    fields: Mapping[str, Sequence[str]],
+    *,
+    source_id: str,
+    source_file_sha256: str,
+    source_position: int,
+) -> dict[str, Any]:
+    title = _ris_first(fields, "TI", "T1", "CT")
+    if title is None:
+        raise ScientificEvidenceError("RIS records require a non-empty TI, T1 or CT title")
+    raw_fields = {
+        tag: _ris_values(fields, tag)
+        for tag in sorted(fields)
+        if _ris_values(fields, tag)
+    }
+    if not raw_fields.get("TY"):
+        raise ScientificEvidenceError("RIS records require a TY type")
+    raw_sha256 = payload_hash(raw_fields)
+    doi = normalise_doi(_ris_first(fields, "DO", "M3"))
+    pmid = normalise_identifier(_ris_first(fields, "AN"), pattern=PMID_PATTERN)
+    urls = _urls({"urls": _ris_values(fields, "UR")})
+    publication_types = _ris_values(fields, "TY")
+    record = {
+        "schema_version": CANONICAL_RECORD_SCHEMA,
+        "source_record_id": payload_hash(
+            {
+                "source_id": source_id,
+                "source_file_sha256": source_file_sha256,
+                "source_position": source_position,
+                "raw_sha256": raw_sha256,
+            }
+        ),
+        "acquisition_id": f"historical-ris:{source_id}:{source_file_sha256}",
+        "provider": "historical_ris",
+        "endpoint": "owner_private_historical_ris",
+        "kind": "historical_screening_simulation",
+        "query_id": source_id,
+        "negative_control": False,
+        "compiled_query_retrieval": False,
+        "title": title,
+        "normalised_title": normalise_title(title),
+        "abstract": _ris_first(fields, "AB", "N2"),
+        "year": _normalise_year(_ris_first(fields, "PY", "Y1", "DA")),
+        "doi": doi,
+        "pmid": pmid,
+        "pmcid": None,
+        "nct_id": None,
+        "authors": _ris_values(fields, "A1", "AU"),
+        "venue": _ris_first(fields, "JO", "JF", "T2"),
+        "publication_types": publication_types,
+        "urls": urls,
+        "open_access_candidate": any(url.casefold().endswith(".pdf") for url in urls),
+        "retracted": _retracted({}, title, publication_types),
+        "retrieved_at": None,
+        "raw_sha256": raw_sha256,
+    }
+    record["canonical_record_sha256"] = payload_hash(record)
+    return record
+
+
+def prepare_historical_ris_corpus(
+    included_ris: Path,
+    excluded_ris: Path,
+    *,
+    simulation_id: str,
+    source_id: str,
+) -> dict[str, Any]:
+    """Prepare a label-blind canonical corpus from final, historical RIS labels.
+
+    The returned groups deliberately contain no labels. Labels remain in a
+    separate, simulation-only oracle so this helper cannot be used to grant
+    model authority over a live review.
+    """
+
+    if included_ris.resolve() == excluded_ris.resolve():
+        raise ScientificEvidenceError("included and excluded RIS paths must differ")
+    normalised_simulation_id = normalise_text(simulation_id)
+    normalised_source_id = normalise_text(source_id)
+    if normalised_simulation_id is None or normalised_source_id is None:
+        raise ScientificEvidenceError("historical RIS corpus requires simulation_id and source_id")
+    source_files = {
+        "included": {
+            "sha256": _sha256_file(included_ris),
+            "bytes": included_ris.stat().st_size,
+        },
+        "excluded": {
+            "sha256": _sha256_file(excluded_ris),
+            "bytes": excluded_ris.stat().st_size,
+        },
+    }
+    labelled_records: list[tuple[dict[str, Any], str]] = []
+    for label, path, source_key in (
+        ("include", included_ris, "included"),
+        ("exclude", excluded_ris, "excluded"),
+    ):
+        fields = _parse_ris(path)
+        for source_position, item in enumerate(fields, start=1):
+            labelled_records.append(
+                (
+                    _canonical_ris_record(
+                        item,
+                        source_id=normalised_source_id,
+                        source_file_sha256=source_files[source_key]["sha256"],
+                        source_position=source_position,
+                    ),
+                    label,
+                )
+            )
+    records = [record for record, _ in labelled_records]
+    labels_by_object_id = {id(record): label for record, label in labelled_records}
+    grouped_records = exact_deduplicate(records)
+    labelled_groups: list[tuple[dict[str, Any], str]] = []
+    for record_group in grouped_records:
+        labels = {labels_by_object_id[id(record)] for record in record_group}
+        if len(labels) != 1:
+            raise ScientificEvidenceError(
+                "historical RIS duplicate group has conflicting include/exclude labels"
+            )
+        labelled_groups.append((project_group(record_group), next(iter(labels))))
+    if not any(label == "include" for _, label in labelled_groups) or not any(
+        label == "exclude" for _, label in labelled_groups
+    ):
+        raise ScientificEvidenceError(
+            "historical RIS corpus requires at least one include and one exclude"
+        )
+    source_fingerprint = payload_hash(
+        {
+            "source_id": normalised_source_id,
+            "source_files": sorted(
+                source_files.values(),
+                key=lambda item: (str(item["sha256"]), int(item["bytes"])),
+            ),
+            "input_order_protocol": HISTORICAL_RIS_INPUT_ORDER_PROTOCOL,
+        }
+    )
+    labelled_groups.sort(
+        key=lambda item: (
+            payload_hash(
+                {
+                    "source_fingerprint": source_fingerprint,
+                    "group_id": item[0]["group_id"],
+                }
+            ),
+            item[0]["group_id"],
+        )
+    )
+    groups = [group for group, _ in labelled_groups]
+    oracle = {
+        "schema_version": ACTIVE_LEARNING_ORACLE_SCHEMA,
+        "simulation_id": normalised_simulation_id,
+        "simulation_only": True,
+        "fully_labeled": True,
+        "labels": [
+            {"group_id": group["group_id"], "label": label}
+            for group, label in sorted(labelled_groups, key=lambda item: item[0]["group_id"])
+        ],
+    }
+    label_counts = Counter(label for _, label in labelled_groups)
+    source_record_label_counts = Counter(label for _, label in labelled_records)
+    receipt = {
+        "schema_version": HISTORICAL_RIS_RECEIPT_SCHEMA,
+        "simulation_id": normalised_simulation_id,
+        "source_id": normalised_source_id,
+        "source_files": source_files,
+        "source_fingerprint_sha256": source_fingerprint,
+        "input_order_protocol": HISTORICAL_RIS_INPUT_ORDER_PROTOCOL,
+        "input_order_group_ids_sha256": payload_hash(
+            [group["group_id"] for group in groups]
+        ),
+        "source_records": {
+            "total": len(records),
+            "included": source_record_label_counts["include"],
+            "excluded": source_record_label_counts["exclude"],
+            "with_title": sum(bool(record["title"]) for record in records),
+            "with_abstract": sum(bool(record["abstract"]) for record in records),
+            "with_doi": sum(bool(record["doi"]) for record in records),
+        },
+        "deduplicated_groups": {
+            "total": len(groups),
+            "included": label_counts["include"],
+            "excluded": label_counts["exclude"],
+            "records_collapsed": len(records) - len(groups),
+            "cross_label_conflict_count": 0,
+        },
+        "authority": {
+            "simulation_only": True,
+            "live_review_state_written": False,
+            "model_may_not_decide_eligibility": True,
+        },
+    }
+    corpus = {
+        "schema_version": HISTORICAL_RIS_CORPUS_SCHEMA,
+        "groups": groups,
+        "oracle": oracle,
+        "receipt": receipt,
+    }
+    corpus["corpus_payload_sha256"] = payload_hash(corpus)
+    return corpus
+
+
+def _load_historical_rds_reader() -> tuple[Any, str]:
+    try:
+        import rdata
+    except ImportError as exc:
+        raise ScientificEvidenceError(
+            "historical RDS inspection requires the optional rdata dependency "
+            "(install rdata in the active Python environment)"
+        ) from exc
+    try:
+        version = importlib.metadata.version("rdata")
+    except importlib.metadata.PackageNotFoundError as exc:
+        raise ScientificEvidenceError("cannot identify the installed rdata version") from exc
+    return rdata, version
+
+
+def _historical_rds_number(value: Any, *, field: str) -> float:
+    if isinstance(value, bool):
+        raise ScientificEvidenceError(f"historical RDS {field} must be numeric")
+    try:
+        number = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ScientificEvidenceError(f"historical RDS {field} must be numeric") from exc
+    if not math.isfinite(number):
+        raise ScientificEvidenceError(f"historical RDS {field} must be finite")
+    return number
+
+
+def _safe_historical_rds_warning(warning: warnings.WarningMessage) -> dict[str, str | list[str]]:
+    """Return warning evidence without exposing arbitrary reader text."""
+
+    message = str(warning.message)
+    row: dict[str, str | list[str]] = {
+        "category": warning.category.__name__,
+        "message_sha256": payload_hash(message),
+    }
+    constructor_match = RDATA_MISSING_CONSTRUCTOR_WARNING.fullmatch(message)
+    if constructor_match is not None:
+        row["code"] = "rdata_missing_constructor"
+        row["classes"] = list(constructor_match.groups())
+    else:
+        row["code"] = "redacted_reader_warning"
+    return row
+
+
+def inspect_historical_rds_performance(
+    source: Path,
+    *,
+    expected_review: str | None = None,
+    expected_review_authors: str | None = None,
+) -> dict[str, Any]:
+    """Safely summarise a historical human-screener RDS performance table.
+
+    This optional reader is for source-pinned historical evidence. It validates
+    confusion-matrix formulas and emits only aggregate metrics, hashes and
+    redacted reader-warning evidence; raw rows and screener identities do not
+    leave the caller.
+    """
+
+    if not source.is_file():
+        raise ScientificEvidenceError(f"historical RDS input does not exist: {source}")
+    normalised_expected_review = normalise_text(expected_review)
+    normalised_expected_authors = normalise_text(expected_review_authors)
+    if expected_review is not None and normalised_expected_review is None:
+        raise ScientificEvidenceError("expected_review must be non-empty text when supplied")
+    if expected_review_authors is not None and normalised_expected_authors is None:
+        raise ScientificEvidenceError(
+            "expected_review_authors must be non-empty text when supplied"
+        )
+    source_before = {
+        "sha256": _sha256_file(source),
+        "bytes": source.stat().st_size,
+    }
+    reader, reader_version = _load_historical_rds_reader()
+    with warnings.catch_warnings(record=True) as captured_warnings:
+        warnings.simplefilter("always")
+        table = reader.read_rds(source)
+    source_after = {
+        "sha256": _sha256_file(source),
+        "bytes": source.stat().st_size,
+    }
+    if source_after != source_before:
+        raise ScientificEvidenceError("historical RDS input changed while it was being read")
+    columns = getattr(table, "columns", None)
+    if columns is None:
+        raise ScientificEvidenceError("historical RDS did not decode to a tabular object")
+    column_names = [str(column) for column in columns]
+    observed_columns = set(column_names)
+    if len(column_names) != len(observed_columns):
+        raise ScientificEvidenceError("historical RDS performance table has duplicate columns")
+    if observed_columns != HISTORICAL_RDS_PERFORMANCE_COLUMNS:
+        raise ScientificEvidenceError(
+            "historical RDS performance table has unexpected columns: "
+            f"{sorted(observed_columns)}"
+        )
+    if getattr(table, "empty", None) is not False:
+        raise ScientificEvidenceError("historical RDS performance table must be non-empty")
+    try:
+        raw_rows = table.to_dict(orient="records")
+    except (AttributeError, TypeError, ValueError) as exc:
+        raise ScientificEvidenceError(
+            "historical RDS performance table cannot be converted to records"
+        ) from exc
+    if not isinstance(raw_rows, list) or not raw_rows:
+        raise ScientificEvidenceError("historical RDS performance table has no records")
+    safe_rows: list[dict[str, float]] = []
+    screener_hashes: set[str] = set()
+    review_hashes: set[str] = set()
+    review_author_hashes: set[str] = set()
+    for row in raw_rows:
+        if not isinstance(row, Mapping):
+            raise ScientificEvidenceError("historical RDS performance row must be an object")
+        screener = normalise_text(row.get("screener"))
+        review = normalise_text(row.get("review"))
+        review_authors = normalise_text(row.get("review_authors"))
+        if screener is None or review is None or review_authors is None:
+            raise ScientificEvidenceError(
+                "historical RDS requires non-empty screener, review and review_authors"
+            )
+        if normalised_expected_review is not None and review != normalised_expected_review:
+            raise ScientificEvidenceError("historical RDS review does not match expected_review")
+        if (
+            normalised_expected_authors is not None
+            and review_authors != normalised_expected_authors
+        ):
+            raise ScientificEvidenceError(
+                "historical RDS review_authors does not match expected_review_authors"
+            )
+        counts = {
+            field: _historical_rds_number(row.get(field), field=field)
+            for field in ("TP", "TN", "FN", "FP")
+        }
+        if any(value < 0 or not value.is_integer() for value in counts.values()):
+            raise ScientificEvidenceError(
+                "historical RDS confusion-matrix counts must be non-negative integers"
+            )
+        if counts["TP"] + counts["FN"] == 0 or counts["TN"] + counts["FP"] == 0:
+            raise ScientificEvidenceError(
+                "historical RDS cannot calculate recall or specificity from empty totals"
+            )
+        expected_recall = counts["TP"] / (counts["TP"] + counts["FN"])
+        expected_spec = counts["TN"] / (counts["TN"] + counts["FP"])
+        expected_bacc = (expected_recall + expected_spec) / 2
+        recall = _historical_rds_number(row.get("recall"), field="recall")
+        spec = _historical_rds_number(row.get("spec"), field="spec")
+        bacc = _historical_rds_number(row.get("bacc"), field="bacc")
+        for field, observed, expected in (
+            ("recall", recall, expected_recall),
+            ("spec", spec, expected_spec),
+            ("bacc", bacc, expected_bacc),
+        ):
+            if not math.isclose(observed, expected, rel_tol=0.0, abs_tol=1e-12):
+                raise ScientificEvidenceError(
+                    f"historical RDS {field} does not match its confusion-matrix formula"
+                )
+        screener_hashes.add(payload_hash(screener))
+        review_hashes.add(payload_hash(review))
+        review_author_hashes.add(payload_hash(review_authors))
+        safe_rows.append({**counts, "recall": recall, "spec": spec, "bacc": bacc})
+    if len(review_hashes) != 1 or len(review_author_hashes) != 1:
+        raise ScientificEvidenceError(
+            "historical RDS performance table must contain one review and one review_authors value"
+        )
+    safe_rows.sort(
+        key=lambda row: (
+            row["TP"],
+            row["TN"],
+            row["FN"],
+            row["FP"],
+            row["recall"],
+            row["spec"],
+        )
+    )
+    warning_rows = sorted(
+        [_safe_historical_rds_warning(warning) for warning in captured_warnings],
+        key=lambda row: (str(row["message_sha256"]), str(row["category"])),
+    )
+    report = {
+        "schema_version": HISTORICAL_RDS_PERFORMANCE_SCHEMA,
+        "source": {"kind": "rds", **source_before},
+        "reader": {
+            "package": "rdata",
+            "version": reader_version,
+            "r_runtime_started": False,
+        },
+        "review": {
+            "review_hashes": sorted(review_hashes),
+            "review_author_hashes": sorted(review_author_hashes),
+            "expected_review_matched": normalised_expected_review is not None,
+            "expected_review_authors_matched": normalised_expected_authors is not None,
+        },
+        "performance": {
+            "row_count": len(safe_rows),
+            "unique_screener_count": len(screener_hashes),
+            "aggregate_confusion_matrix": {
+                field: int(sum(row[field] for row in safe_rows))
+                for field in ("TP", "TN", "FN", "FP")
+            },
+            "metric_summary": {
+                metric: {
+                    "minimum": min(row[metric] for row in safe_rows),
+                    "maximum": max(row[metric] for row in safe_rows),
+                    "mean": sum(row[metric] for row in safe_rows) / len(safe_rows),
+                }
+                for metric in ("recall", "spec", "bacc")
+            },
+            "safe_rows_payload_sha256": payload_hash(safe_rows),
+            "formula_validation": "pass",
+        },
+        "warnings": {"count": len(warning_rows), "entries": warning_rows},
+        "authority": {
+            "historical_evidence_only": True,
+            "live_review_state_written": False,
+            "model_may_not_decide_eligibility": True,
+            "direct_model_human_comparison_produced": False,
+        },
+    }
+    report["report_payload_sha256"] = payload_hash(report)
+    return report
+
+
+def write_historical_ris_corpus(
+    corpus: Mapping[str, Any],
+    output: Path,
+) -> dict[str, Any]:
+    """Write one prepared historical RIS corpus without exposing labels in groups."""
+
+    if corpus.get("schema_version") != HISTORICAL_RIS_CORPUS_SCHEMA:
+        raise ScientificEvidenceError("historical RIS corpus schema_version is invalid")
+    groups = corpus.get("groups")
+    oracle = corpus.get("oracle")
+    receipt = corpus.get("receipt")
+    if not isinstance(groups, list) or not isinstance(oracle, Mapping) or not isinstance(
+        receipt, Mapping
+    ):
+        raise ScientificEvidenceError("historical RIS corpus shape is invalid")
+    output.mkdir(parents=True, exist_ok=True)
+    files = {
+        "dedup_groups": output / "DEDUP_GROUPS.jsonl",
+        "oracle": output / "FULLY_LABELLED_SIMULATION_ORACLE.json",
+        "receipt": output / "HISTORICAL_RIS_IMPORT_RECEIPT.json",
+    }
+    _write_jsonl(files["dedup_groups"], groups)
+    files["oracle"].write_text(canonical_json(oracle) + "\n", encoding="utf-8")
+    artifacts = {
+        name: {
+            "path": path.name,
+            "sha256": _sha256_file(path),
+            "bytes": path.stat().st_size,
+        }
+        for name, path in files.items()
+        if name != "receipt"
+    }
+    written_receipt = {
+        **receipt,
+        "corpus_payload_sha256": corpus["corpus_payload_sha256"],
+        "artifacts": artifacts,
+    }
+    written_receipt["receipt_payload_sha256"] = payload_hash(written_receipt)
+    files["receipt"].write_text(
+        canonical_json(written_receipt) + "\n", encoding="utf-8"
+    )
+    artifacts["receipt"] = {
+        "path": files["receipt"].name,
+        "sha256": _sha256_file(files["receipt"]),
+        "bytes": files["receipt"].stat().st_size,
+    }
+    return {
+        "schema_version": HISTORICAL_RIS_RECEIPT_SCHEMA,
+        "artifacts": artifacts,
+        "receipt_payload_sha256": written_receipt["receipt_payload_sha256"],
+        "authority": written_receipt["authority"],
+    }

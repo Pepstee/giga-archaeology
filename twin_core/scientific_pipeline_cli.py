@@ -47,6 +47,9 @@ from .scientific_review_funnel import (
 from .scientific_saturation import evaluate_saturation
 from .scientific_screening import (
     compile_screening,
+    inspect_historical_rds_performance,
+    prepare_historical_ris_corpus,
+    write_historical_ris_corpus,
     simulate_active_learning,
     validate_exclusion_audit,
     write_screening,
@@ -820,6 +823,26 @@ def _simulate_active_learning(args: argparse.Namespace) -> dict[str, Any]:
         seed_group_ids=args.seed_group_id,
         maximum_labels=args.maximum_labels,
         target_recall=args.target_recall,
+    )
+    _write_json(args.output.expanduser().resolve(), result)
+    return result
+
+
+def _prepare_historical_ris(args: argparse.Namespace) -> dict[str, Any]:
+    corpus = prepare_historical_ris_corpus(
+        args.included_ris.expanduser().resolve(),
+        args.excluded_ris.expanduser().resolve(),
+        simulation_id=args.simulation_id,
+        source_id=args.source_id,
+    )
+    return write_historical_ris_corpus(corpus, args.output.expanduser().resolve())
+
+
+def _inspect_historical_rds_performance(args: argparse.Namespace) -> dict[str, Any]:
+    result = inspect_historical_rds_performance(
+        args.rds.expanduser().resolve(),
+        expected_review=args.expected_review,
+        expected_review_authors=args.expected_review_authors,
     )
     _write_json(args.output.expanduser().resolve(), result)
     return result
@@ -1676,6 +1699,31 @@ def build_parser() -> argparse.ArgumentParser:
     active_learning.add_argument("--maximum-labels", type=int)
     active_learning.add_argument("--target-recall", type=float, default=1.0)
 
+    historical_ris = subparsers.add_parser(
+        "prepare-historical-ris",
+        help=(
+            "prepare a label-blind canonical corpus and simulation-only oracle "
+            "from final historical RIS include/exclude exports"
+        ),
+    )
+    historical_ris.add_argument("included_ris", type=Path)
+    historical_ris.add_argument("excluded_ris", type=Path)
+    historical_ris.add_argument("output", type=Path)
+    historical_ris.add_argument("--simulation-id", required=True)
+    historical_ris.add_argument("--source-id", required=True)
+
+    historical_rds = subparsers.add_parser(
+        "inspect-historical-rds-performance",
+        help=(
+            "validate and safely summarise a historical human-screener RDS performance "
+            "table without emitting raw rows or writing live review state"
+        ),
+    )
+    historical_rds.add_argument("rds", type=Path)
+    historical_rds.add_argument("output", type=Path)
+    historical_rds.add_argument("--expected-review")
+    historical_rds.add_argument("--expected-review-authors")
+
     return parser
 
 
@@ -1693,6 +1741,10 @@ def main(argv: list[str] | None = None) -> int:
             result = _compile_search(args)
         elif args.command == "simulate-active-learning":
             result = _simulate_active_learning(args)
+        elif args.command == "prepare-historical-ris":
+            result = _prepare_historical_ris(args)
+        elif args.command == "inspect-historical-rds-performance":
+            result = _inspect_historical_rds_performance(args)
         elif args.command == "screen":
             result = _screen(args)
         elif args.command == "fetch-pmc":
