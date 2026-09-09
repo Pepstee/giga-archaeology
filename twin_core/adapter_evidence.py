@@ -271,6 +271,47 @@ def verify_registry_files(root: Path, payload: Mapping[str, Any]) -> None:
                     )
 
 
+def current_adapter_file_records(
+    root: Path, adapter: Mapping[str, Any]
+) -> dict[str, list[dict[str, Any]]]:
+    """Re-hash one adapter's exact bound files without following declared symlinks."""
+    if not isinstance(adapter, Mapping):
+        raise AdapterEvidenceError("compiled adapter record must be an object")
+    root = root.resolve()
+    result: dict[str, list[dict[str, Any]]] = {}
+    for field in ("supported_assets", "source_docs", "evidence"):
+        records = adapter.get(field)
+        if not isinstance(records, list) or not records:
+            raise AdapterEvidenceError(f"compiled adapter has no {field}")
+        current_records: list[dict[str, Any]] = []
+        for record in records:
+            if not isinstance(record, dict) or set(record) != {
+                "path",
+                "sha256",
+                "bytes",
+            }:
+                raise AdapterEvidenceError(f"invalid compiled file record in {field}")
+            relative = record.get("path")
+            if not isinstance(relative, str) or not relative:
+                raise AdapterEvidenceError(f"invalid compiled file path in {field}")
+            _contained(root, relative)
+            declared = root
+            try:
+                for part in Path(relative).parts:
+                    declared /= part
+                    if declared.is_symlink():
+                        raise AdapterEvidenceError(
+                            f"compiled adapter path contains a symlink: {relative}"
+                        )
+                current_records.append(_file_record(root, relative, field))
+            except OSError as exc:
+                raise AdapterEvidenceError(
+                    f"compiled adapter path became unreadable: {relative}"
+                ) from exc
+        result[field] = current_records
+    return result
+
+
 def canonical_json(payload: Mapping[str, Any]) -> str:
     validate_registry(payload)
     return json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
