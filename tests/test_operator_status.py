@@ -79,6 +79,12 @@ class OperatorStatusTests(unittest.TestCase):
         second = canonical_json(compile_status(self.root, FIXED_TIME))
         self.assertEqual(first, second)
 
+    def test_canonical_json_round_trips_through_strict_validation(self) -> None:
+        serialized = canonical_json(compile_status(self.root, FIXED_TIME))
+        restored = json.loads(serialized)
+        validate_status(restored)
+        self.assertEqual(tuple(restored["sections"]), SECTION_NAMES)
+
     def test_published_schema_matches_compiler_contract(self) -> None:
         schema_path = Path(__file__).resolve().parents[1] / "contracts/operator-status.v1.schema.json"
         schema = json.loads(schema_path.read_text(encoding="utf-8"))

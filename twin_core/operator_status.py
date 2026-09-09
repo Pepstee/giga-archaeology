@@ -328,4 +328,6 @@ def render_summary(payload: Mapping[str, Any]) -> str:
 
 def canonical_json(payload: Mapping[str, Any]) -> str:
     validate_status(payload)
-    return json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+    # Section order is part of the strict schema contract. Sorting nested keys
+    # would serialize a payload that fails validation when it is loaded again.
+    return json.dumps(payload, indent=2, sort_keys=False, ensure_ascii=False) + "\n"
