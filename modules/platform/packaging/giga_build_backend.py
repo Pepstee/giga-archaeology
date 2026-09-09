@@ -6,6 +6,7 @@ import base64
 import csv
 import hashlib
 import io
+import re
 import stat
 import tomllib
 import tarfile
@@ -87,19 +88,38 @@ def _project() -> dict[str, Any]:
     project = tomllib.loads(_read_source("pyproject.toml").decode())["project"]
     if project["name"] != DISPLAY_NAME or project["version"] != VERSION:
         raise ValueError("project identity disagrees with build backend")
-    if project.get("dependencies") or project.get("optional-dependencies") or project.get("dynamic"):
+    if project.get("dependencies") or project.get("dynamic"):
         raise ValueError("this control-plane backend supports static, dependency-free metadata only")
+    extras = project.get("optional-dependencies", {})
+    if not isinstance(extras, dict):
+        raise ValueError("optional dependencies must be named groups")
+    for name, requirements in extras.items():
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", name):
+            raise ValueError("optional dependency name must be normalised")
+        if not isinstance(requirements, list) or not requirements:
+            raise ValueError("optional dependency group must contain requirements")
+        if any(not isinstance(item, str) or not item or any(c in item for c in "\r\n;")
+               for item in requirements):
+            raise ValueError("optional requirements must be single-line and unconditional")
     return project
 
 
 def _metadata() -> bytes:
     project = _project()
+    extras = "".join(
+        f"Provides-Extra: {name}\n" + "".join(
+            f'Requires-Dist: {requirement}; extra == "{name}"\n'
+            for requirement in requirements
+        )
+        for name, requirements in sorted(project.get("optional-dependencies", {}).items())
+    )
     return (
         "Metadata-Version: 2.4\n"
         f"Name: {project['name']}\n"
         f"Version: {project['version']}\n"
         f"Summary: {project['description']}\n"
-        f"Requires-Python: {project['requires-python']}\n\n"
+        f"Requires-Python: {project['requires-python']}\n"
+        f"{extras}\n"
     ).encode()
 
 

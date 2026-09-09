@@ -4,6 +4,7 @@ from __future__ import annotations
 import base64
 import configparser
 import csv
+import email
 import hashlib
 import importlib.util
 import io
@@ -58,8 +59,16 @@ class RootPackageTests(unittest.TestCase):
                 metadata = archive.read(f"{MODULE.DIST_INFO}/METADATA").decode()
                 self.assertIn("Name: " + project["name"], metadata)
                 self.assertIn("Requires-Python: " + project["requires-python"], metadata)
-                self.assertNotIn("Requires-Dist:", metadata)
-                self.assertNotIn("Provides-Extra:", metadata)
+                parsed = email.message_from_string(metadata)
+                groups = project.get("optional-dependencies", {})
+                self.assertEqual(parsed.get_all("Provides-Extra", []), sorted(groups))
+                self.assertEqual(parsed.get_all("Requires-Dist", []), [
+                    f'{requirement}; extra == "{name}"'
+                    for name, requirements in sorted(groups.items()) for requirement in requirements
+                ])
+                # Base installation stays dependency-free; every requirement is extra-scoped.
+                self.assertTrue(all('; extra == "' in item
+                                    for item in parsed.get_all("Requires-Dist", [])))
                 config = configparser.ConfigParser()
                 config.read_string(archive.read(f"{MODULE.DIST_INFO}/entry_points.txt").decode())
                 self.assertEqual(dict(config["console_scripts"]), project["scripts"])

@@ -82,9 +82,10 @@ temporary `--database` when checking `giga-twin init`.
 
 This increment restores installation of the current code. It does not claim that
 all donor capabilities, governance assets, or the complete installable folder
-have been consolidated or migrated. The donor's daily-checkpoint command and
-optional research dependencies remain outside this initial package until their
-implementations are reconciled. `tests/test_root_package.py` verifies reproducible
+have been consolidated or migrated. The checkpoint API requires an explicit technical file set and leaves pushing off
+by default. Optional research runtimes are available as `research-web`,
+`research-visual-table`, `research-dense`, and `research-rds` installation extras.
+The base package remains dependency-free. `tests/test_root_package.py` verifies reproducible
 archives, source-distribution rebuilds, clean installation, command loading, and
 initialisation of an empty SQLite store.
 
@@ -98,8 +99,20 @@ archive and run paths to avoid web discovery or ambient input selection.
 
 The local workflow has been exercised through an installed wheel with a fresh
 synthetic document. Optional live web, dense-model and production OCR operation
-are not established by that check. Donor parallel-run, standalone retrieval,
-frontier/mind-map and claim-ledger CLI surfaces remain to be recovered, together
-with the separate benchmarking and newer screening capabilities. Source identity
+are not established by that check. Parallel-run, standalone retrieval, frontier/mind-map, claim-ledger, benchmark,
+active-learning simulation, and RIS/RDS import surfaces have been recovered.
+Their synthetic/local verification does not establish live provider performance. Source identity
 uses an explicit list of executing research files instead of hashing an empty
 legacy module path after relocation.
+
+The dormant constitutional authority candidate is retained with its exact pinned
+39-file payload. `giga-twin authority-status` verifies package integrity without
+opening activation or decision state. Candidate verification has passed on Linux;
+it does not activate permissions.
+
+Recovered memory validation, inactive-entry filtering, snapshot checks and
+caught-error rollback have an installed synthetic internal-algorithm canary.
+Affected public corpus APIs refuse before access because host-bound permission
+activation is unavailable. Private derived-graph refresh remains missing. These
+API refusals are not filesystem isolation or proof of a working authorised
+private-memory workflow. The personal corpus remains outside the package.

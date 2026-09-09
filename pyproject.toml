@@ -10,6 +10,12 @@ description = "Offline command surface for the GIGA workspace"
 requires-python = ">=3.11"
 dependencies = []
 
+[project.optional-dependencies]
+research-web = ["pdfplumber>=0.11.10,<0.12", "pypdf>=6.16.2,<7", "scrapling[fetchers]>=0.4.11,<0.5"]
+research-visual-table = ["rapid-table==3.0.2", "tqdm==4.70.0"]
+research-dense = ["fastembed>=0.8,<0.9"]
+research-rds = ["rdata>=1.1,<1.2"]
+
 [project.scripts]
 giga-twin = "twin_core.cli:main"
 giga-sovereignty = "scripts.sovereignty_index:main"
