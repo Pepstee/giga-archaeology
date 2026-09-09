@@ -802,3 +802,24 @@ class TwinStore:
         with self.connect() as connection:
             return {table: int(connection.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0])
                     for table in tables}
+
+    def latest_operation_receipt(
+        self, event_id: str, operation: str
+    ) -> dict[str, Any] | None:
+        """Return the latest receipt of any status for read-only outcome comparison."""
+        with self.connect() as connection:
+            row = connection.execute(
+                """SELECT id, status, artifacts_json, details_json, recorded_at
+                   FROM receipts WHERE event_id = ? AND operation = ?
+                   ORDER BY recorded_at DESC, rowid DESC LIMIT 1""",
+                (event_id, _text(operation, "operation", maximum=200)),
+            ).fetchone()
+        if row is None:
+            return None
+        return {
+            "id": row["id"],
+            "status": row["status"],
+            "artifacts": json.loads(row["artifacts_json"]),
+            "details": json.loads(row["details_json"]),
+            "recorded_at": row["recorded_at"],
+        }

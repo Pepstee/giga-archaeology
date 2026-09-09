@@ -13,6 +13,25 @@ from twin_core.store import TwinStore
 
 
 class TwinStoreTests(unittest.TestCase):
+    def test_latest_operation_receipt_includes_failure_and_breaks_timestamp_ties(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            store = self.make_store(Path(folder))
+            event_id, _ = store.record_event(
+                idempotency_key="synthetic:tie", kind="test", observed_at="2026-07-20T00:00:00Z",
+                source="test", actor="operator", trust_class="operator_confirmed",
+                sensitivity="internal", payload={"synthetic": True},
+            )
+            self.assertIsNone(store.latest_operation_receipt(event_id, "test.compare"))
+            committed = store.record_receipt(event_id=event_id, operation="test.compare", status="committed")
+            failed = store.record_receipt(event_id=event_id, operation="test.compare", status="failed", details={"attempt_no": 2})
+            with store.connect() as connection:
+                connection.execute("UPDATE receipts SET recorded_at = ? WHERE event_id = ?", ("2026-07-20T00:00:00Z", event_id))
+            latest = store.latest_operation_receipt(event_id, "test.compare")
+            self.assertEqual(latest["id"], failed)
+            self.assertEqual(latest["status"], "failed")
+            self.assertEqual(latest, store.latest_operation_receipt(event_id, "test.compare"))
+            self.assertEqual(store.latest_receipt(event_id, "test.compare")["id"], committed)
+
     def make_store(self, root: Path) -> TwinStore:
         return TwinStore(root / "private" / "twin.sqlite3")
 
