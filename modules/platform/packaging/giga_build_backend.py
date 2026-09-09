@@ -39,6 +39,7 @@ SOURCE_FILES = (
     'twin_core/maturity.py',
     'twin_core/memory_proposals.py',
     'twin_core/memory_validation.py',
+    'twin_core/memory_gate.py',
     'twin_core/operator_status.py',
     'twin_core/provider_adapters.py',
     'twin_core/source_quality.py',

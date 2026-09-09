@@ -6,7 +6,8 @@ import unittest
 from pathlib import Path
 
 from twin_core.store import TwinStore
-from twin_core.telegram_pipeline import process_event
+from twin_core.telegram_pipeline import _process_event as process_event
+# These are synthetic internal pipeline proofs, not production access grants.
 
 
 ENTRY = """---
@@ -28,6 +29,9 @@ class TelegramPipelineTests(unittest.TestCase):
         (root / "CONTEXT.md").write_text("Standing context.", encoding="utf-8")
         (memory / "MEMORY_PROTOCOL.md").write_text("Memory policy.", encoding="utf-8")
         (memory / "INDEX.md").write_text("# Memory Index\n", encoding="utf-8")
+        (memory / "tombstones.v1.json").write_text(
+            '{"schema":"giga.memory.legacy-tombstones.v1","append_only":true,"deletion_performed":false,"entries":[]}\n'
+        )
         store = TwinStore(root / "private" / "twin.sqlite3")
         event_id, _ = store.record_event(
             idempotency_key="telegram:update:1", kind="telegram.message.received",
@@ -39,7 +43,7 @@ class TelegramPipelineTests(unittest.TestCase):
 
     def test_success_commits_once_and_replay_uses_receipt_without_worker(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
-            memory, store, event_id = self.setup(Path(folder))
+            memory, store, event_id = self.setup(Path(folder).resolve())
             index_hash = hashlib.sha256((memory / "INDEX.md").read_bytes()).hexdigest()
             calls = 0
 
@@ -73,7 +77,7 @@ class TelegramPipelineTests(unittest.TestCase):
 
     def test_worker_or_validation_failure_remains_retryable(self) -> None:
         with tempfile.TemporaryDirectory() as folder:
-            memory, store, event_id = self.setup(Path(folder))
+            memory, store, event_id = self.setup(Path(folder).resolve())
             failed = process_event(
                 store=store, memory_root=memory, event_id=event_id,
                 text="remember", worker=lambda _: None,

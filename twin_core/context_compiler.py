@@ -8,6 +8,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from .memory_gate import _require_memory_gate, _require_corpus_access, _safe_directory
+
 
 TOKEN = re.compile(r"[a-z0-9][a-z0-9_-]{2,}", re.IGNORECASE)
 LINK = re.compile(r"\[\[([^\]]+)\]\]")
@@ -28,10 +30,13 @@ def _document(path: str, text: str, role: str) -> dict[str, str]:
     return {"path": path, "role": role, "sha256": _sha256(text), "content": text}
 
 
-def compile_context(giga_root: Path, query: str) -> dict[str, Any]:
+def _compile_context(giga_root: Path, query: str) -> dict[str, Any]:
     """Compile canon + relevant entries without exposing a filesystem tool to the model."""
-    giga_root = giga_root.resolve()
+    giga_root = _safe_directory(giga_root)
+    knowledge = {"result": "MISSING", "reason": "explicit private projection refresh not integrated"}
     memory = giga_root / "memory"
+    gate = _require_memory_gate(giga_root, "pre-context")
+    active_paths = set(gate["active_entry_paths"])
     required = [
         (giga_root / "CONTEXT.md", "CONTEXT.md", "standing-context"),
         (memory / "MEMORY_PROTOCOL.md", "memory/MEMORY_PROTOCOL.md", "memory-policy"),
@@ -41,7 +46,15 @@ def compile_context(giga_root: Path, query: str) -> dict[str, Any]:
     for path, relative, role in required:
         if not path.is_file() or path.is_symlink():
             raise ValueError(f"required context source missing or unsafe: {relative}")
-        documents.append(_document(relative, path.read_text(encoding="utf-8"), role))
+        text = path.read_text(encoding="utf-8")
+        if relative == "memory/INDEX.md":
+            text = "\n".join(
+                line
+                for line in text.splitlines()
+                if not (matches := re.findall(r"\(entries/([^)]+\.md)\)", line))
+                or all(f"memory/entries/{match}" in active_paths for match in matches)
+            ) + "\n"
+        documents.append(_document(relative, text, role))
 
     query_tokens = _tokens(query)
     candidates: dict[str, tuple[Path, str, int]] = {}
@@ -49,6 +62,9 @@ def compile_context(giga_root: Path, query: str) -> dict[str, Any]:
     for path in sorted((memory / "entries").glob("*.md")):
         if path.is_symlink():
             raise ValueError(f"memory entry is a symlink: {path.name}")
+        relative = f"memory/entries/{path.name}"
+        if relative not in active_paths:
+            continue
         text = path.read_text(encoding="utf-8")
         searchable = f"{path.stem} {text}".casefold()
         overlap = sum(1 for token in query_tokens if token in searchable)
@@ -67,7 +83,13 @@ def compile_context(giga_root: Path, query: str) -> dict[str, Any]:
     for _, (_, text, _) in selected:
         for slug in LINK.findall(text):
             path = memory / "entries" / f"{slug}.md"
-            if slug not in included and path.is_file() and not path.is_symlink():
+            relative = f"memory/entries/{path.name}"
+            if (
+                slug not in included
+                and relative in active_paths
+                and path.is_file()
+                and not path.is_symlink()
+            ):
                 linked.append((slug, path, path.read_text(encoding="utf-8")))
                 included.add(slug)
                 if len(linked) >= MAX_LINKED_ENTRIES:
@@ -86,6 +108,11 @@ def compile_context(giga_root: Path, query: str) -> dict[str, Any]:
         documents.pop()
     return {
         "schema_version": 1,
+        "memory_gate": {
+            "receipt_sha256": gate["receipt_sha256"],
+            **gate["input_hashes"],
+        },
+        "knowledge_refresh": knowledge,
         "query_sha256": _sha256(query),
         "selection": {
             "algorithm": "lexical-overlap+dated-reminder+one-hop-v1",
@@ -95,3 +122,8 @@ def compile_context(giga_root: Path, query: str) -> dict[str, Any]:
         },
         "documents": documents,
     }
+
+
+def compile_context(giga_root: Path, query: str) -> dict[str, Any]:
+    _require_corpus_access()
+    return _compile_context(giga_root, query)

@@ -88,9 +88,15 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({"database": str(store.database), "counts": store.counts()}, indent=2))
         return 0
     if args.command == "validate-memory":
-        result = validate_memory(args.root / "memory")
-        print(json.dumps(result, ensure_ascii=False, indent=2) if args.as_json else render_report(result))
-        return 0 if result["ok"] else 1
+        from .memory_gate import require_memory_gate
+        from .constitutional_authority import AuthorityRefused
+        try:
+            result = require_memory_gate(args.root, "pre-context")
+        except AuthorityRefused as exc:
+            print(json.dumps({"result": "REFUSE", "error": str(exc)}))
+            return 1
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
     if args.command == "health":
         print(json.dumps(snapshot(args.root, args.database), ensure_ascii=False, indent=2))
         return 0
