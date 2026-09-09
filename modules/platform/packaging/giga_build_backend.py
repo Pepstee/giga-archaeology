@@ -70,6 +70,7 @@ SOURCE_FILES = (
     'twin_core/telegram_pipeline.py',
     'twin_core/transcript_actions.py',
     'scripts/operator_status.py',
+    'scripts/staged_privacy_admission.py',
     'scripts/sovereignty_index.py',
 )
 

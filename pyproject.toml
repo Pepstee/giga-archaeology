@@ -20,3 +20,4 @@ research-rds = ["rdata>=1.1,<1.2"]
 giga-twin = "twin_core.cli:main"
 giga-sovereignty = "scripts.sovereignty_index:main"
 giga-operator-status = "scripts.operator_status:main"
+giga-privacy-audit = "scripts.staged_privacy_admission:main"
