@@ -64,3 +64,26 @@ not the precedent for new files. The audit reports them separately.
 Direct project paths such as `life-logging/` and
 `job-application-automation/` remain stable. `projects/registry.v1.json`
 provides one canonical catalogue without forcing breaking moves.
+
+## Recovered control package
+
+The root `pyproject.toml` reuses the PEP 517 backend from the
+`research-module-web-acquisition` worktree at `3f40755b4bb8ce990f5e84f8030a7d5c147fa897`.
+`modules/platform/packaging/giga_build_backend.py` adapts that owner to the current
+layout without moving the source tree. It packages an explicit list of Python
+source files and rejects symlinks. It does not traverse or package the personal
+corpus, runtime data, credentials, or historical reports.
+
+Build with `python -m pip wheel --no-deps --no-build-isolation . --wheel-dir DIST`.
+Install the resulting wheel into a virtual environment. The package exposes
+`giga-twin`, `giga-sovereignty`, and `giga-operator-status`; operational commands
+still need their explicit input files and workspace paths. Use an explicit
+temporary `--database` when checking `giga-twin init`.
+
+This increment restores installation of the current code. It does not claim that
+all donor capabilities, governance assets, or the complete installable folder
+have been consolidated or migrated. The donor's daily-checkpoint command and
+optional research dependencies remain outside this initial package until their
+implementations are reconciled. `tests/test_root_package.py` verifies reproducible
+archives, source-distribution rebuilds, clean installation, command loading, and
+initialisation of an empty SQLite store.
