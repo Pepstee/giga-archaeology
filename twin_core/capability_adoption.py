@@ -362,10 +362,14 @@ def _recovery(value: object) -> dict[str, Any]:
     }
 
 
-def _manifest(root: Path, path: str) -> tuple[dict[str, Any], bytes]:
+def _manifest(
+    root: Path, path: str, *, declaration_only: bool = False
+) -> tuple[dict[str, Any], bytes]:
     raw = _read_file(root, path, f"capability manifest {path}")
     value = _strict_json(raw, f"capability manifest {path}")
-    if set(value) != MANIFEST_FIELDS or value.get("schema") != MANIFEST_SCHEMA:
+    legacy = declaration_only and value.get("schema") == "giga.capability-adoption-manifest.v1"
+    fields = MANIFEST_FIELDS - {"consumer", "runtime", "affected_evidence"} if legacy else MANIFEST_FIELDS
+    if set(value) != fields or (not legacy and value.get("schema") != MANIFEST_SCHEMA):
         raise CapabilityAdoptionError(
             f"capability manifest {path} has the wrong schema"
         )
@@ -401,20 +405,44 @@ def _manifest(root: Path, path: str) -> tuple[dict[str, Any], bytes]:
         raise CapabilityAdoptionError(
             f"capability {capability_id} reuses a path across binding classes"
         )
+    versioned = {} if legacy else {
+        "consumer": _consumer(value["consumer"]),
+        "runtime": _runtime(value["runtime"]),
+        "affected_evidence": _affected_evidence(value["affected_evidence"], proofs),
+    }
     return {
         **value,
+        **versioned,
         "implementation_paths": implementation,
         "configuration_paths": configuration,
         "proof_paths": proofs,
         "entrypoint": _entrypoint(value["entrypoint"]),
-        "consumer": _consumer(value["consumer"]),
-        "runtime": _runtime(value["runtime"]),
-        "affected_evidence": _affected_evidence(value["affected_evidence"], proofs),
         "trigger": _trigger(value["trigger"]),
         "authority": _authority(value["authority"]),
         "recovery": _recovery(value["recovery"]),
         "liveness_receipt": _relative(value["liveness_receipt"], "liveness receipt"),
     }, raw
+
+
+def inspect_capability_manifest(root: Path, path: str) -> dict[str, Any]:
+    """Return one strictly validated declaration without evaluating liveness.
+
+    This is the read-only metadata boundary for consumers such as Archaeology.
+    Successful inspection proves what the manifest declares; it grants no runtime,
+    execution, ownership-promotion, or activation authority.
+    """
+
+    root = _root(root)
+    canonical_path = _relative(path, "capability manifest path")
+    manifest, raw = _manifest(root, canonical_path, declaration_only=True)
+    return {
+        **manifest,
+        "manifest_path": canonical_path,
+        "manifest_sha256": _sha256(raw),
+        "declaration_only": True,
+        "canonicality_claimed": False,
+        "execution_authority_granted": False,
+    }
 
 
 def _record_list(value: object, label: str) -> list[dict[str, Any]]:

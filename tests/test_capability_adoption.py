@@ -16,6 +16,7 @@ from twin_core.capability_adoption import (
     LEGACY_CANDIDATE_FEED_SCHEMA,
     CapabilityAdoptionError,
     compile_adoption_registry,
+    inspect_capability_manifest,
     observe_liveness,
     require_active,
     require_declared_active,
@@ -1000,3 +1001,50 @@ def test_shipped_contracts_match_synthetic_documents(tmp_path):
             schema = json.loads((root / f'contracts/{family}.v{version}.schema.json').read_text())
             assert schema['$schema'] == 'https://json-schema.org/draft/2020-12/schema'
             assert schema['additionalProperties'] is False
+
+
+@pytest.mark.parametrize("version", [1, 2])
+def test_manifest_inspection_is_strict_and_non_authorizing(tmp_path: Path, version: int) -> None:
+    _fixture(tmp_path)
+    relative = "capabilities/manifests/fixture-capability.json"
+    path = tmp_path / relative
+    manifest = json.loads(path.read_text())
+    if version == 1:
+        manifest["schema"] = "giga.capability-adoption-manifest.v1"
+        for field in ("consumer", "runtime", "affected_evidence"):
+            del manifest[field]
+        _write_json(path, manifest)
+    inspected = inspect_capability_manifest(tmp_path, relative)
+    assert inspected["id"] == "fixture-capability"
+    assert inspected["owner"] == "fixture/owner"
+    assert inspected["implementation_paths"] == ["src/owner.py"]
+    assert inspected["manifest_sha256"] == _sha(path.read_bytes())
+    assert inspected["declaration_only"] is True
+    assert inspected["canonicality_claimed"] is False
+    assert inspected["execution_authority_granted"] is False
+    if version == 1:
+        with pytest.raises(CapabilityAdoptionError, match="wrong schema"):
+            _registry(tmp_path)
+    manifest["unexpected"] = True
+    _write_json(path, manifest)
+    with pytest.raises(CapabilityAdoptionError, match="wrong schema"):
+        inspect_capability_manifest(tmp_path, relative)
+
+
+def test_manifest_inspection_rejects_invalid_legacy_authority_and_paths(tmp_path: Path) -> None:
+    _fixture(tmp_path)
+    relative = "capabilities/manifests/fixture-capability.json"
+    path = tmp_path / relative
+    manifest = json.loads(path.read_text())
+    manifest["schema"] = "giga.capability-adoption-manifest.v1"
+    for field in ("consumer", "runtime", "affected_evidence"):
+        del manifest[field]
+    manifest["implementation_paths"] = ["../outside.py"]
+    _write_json(path, manifest)
+    with pytest.raises(CapabilityAdoptionError):
+        inspect_capability_manifest(tmp_path, relative)
+    manifest["implementation_paths"] = ["src/owner.py"]
+    manifest["authority"]["unexpected"] = True
+    _write_json(path, manifest)
+    with pytest.raises(CapabilityAdoptionError):
+        inspect_capability_manifest(tmp_path, relative)
