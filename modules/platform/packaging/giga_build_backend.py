@@ -27,6 +27,7 @@ SOURCE_FILES = (
     'twin_core/adapter_evidence.py',
     'twin_core/cli.py',
     'twin_core/context_compiler.py',
+    'twin_core/daily_checkpoint.py',
     'twin_core/cross_service_monitor.py',
     'twin_core/external_proof.py',
     'twin_core/export_protection.py',
