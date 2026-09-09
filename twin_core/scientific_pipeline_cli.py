@@ -19,6 +19,34 @@ from .passage_retrieval import (
     index_archived_receipts,
     retrieve_passages,
 )
+from .research_benchmark import (
+    ResearchBenchmarkError,
+    admit_deepresearch_bench_campaign,
+    assemble_deepresearch_bench_cohort,
+    build_deepresearch_bench_fact_benchmark_run,
+    build_extractive_benchmark_run,
+    build_synthesis_benchmark_run,
+    compare_scores,
+    import_deepresearch_bench_cases,
+    import_deepresearch_bench_competitor_cohort,
+    import_deepresearch_bench_fact_results,
+    import_deepresearch_bench_race_results,
+    import_pdrbench_cases,
+    import_pdrbench_results,
+    import_reportbench_cases,
+    import_reportbench_results,
+    plan_deepresearch_bench_campaign,
+    prepare_deepresearch_bench_run_record,
+    prepare_deepresearch_bench_submission,
+    prepare_deepresearch_bench_synthesis_record,
+    score_benchmark_run,
+    score_deepsynth_static,
+    score_retrieval_ablation,
+    score_retrieval_cohort,
+)
+from .research_benchmark import (
+    load_json as load_benchmark_json,
+)
 from .scientific_evidence import ScientificEvidenceError
 from .scientific_fulltext import (
     extract_pmc_xml,
@@ -740,6 +768,304 @@ def _retrieve_passages(args: argparse.Namespace) -> dict[str, Any]:
     if args.output:
         _write_json(args.output.expanduser().resolve(), result)
     return result
+
+def _benchmark(args: argparse.Namespace) -> dict[str, Any]:
+    if args.benchmark_command == "score":
+        result = score_benchmark_run(load_benchmark_json(args.run))
+    elif args.benchmark_command == "score-synthesis":
+        run = build_synthesis_benchmark_run(
+            load_benchmark_json(args.packet),
+            load_benchmark_json(args.proposal),
+            load_benchmark_json(args.measurement),
+        )
+        run_output = args.run_output.expanduser().resolve()
+        _write_json(run_output, run)
+        result = {
+            **score_benchmark_run(run),
+            "benchmark_run": str(run_output),
+            "benchmark_run_sha256": hashlib.sha256(run_output.read_bytes()).hexdigest(),
+        }
+    elif args.benchmark_command == "score-extractive":
+        run = build_extractive_benchmark_run(
+            load_benchmark_json(args.plan),
+            load_benchmark_json(args.run),
+            load_benchmark_json(args.measurement),
+        )
+        run_output = args.run_output.expanduser().resolve()
+        _write_json(run_output, run)
+        result = {
+            **score_benchmark_run(run),
+            "benchmark_run": str(run_output),
+            "benchmark_run_sha256": hashlib.sha256(run_output.read_bytes()).hexdigest(),
+        }
+    elif args.benchmark_command == "score-retrieval":
+        result = score_retrieval_ablation(
+            load_benchmark_json(args.specification),
+            load_benchmark_json(args.bm25),
+            load_benchmark_json(args.hybrid),
+        )
+    elif args.benchmark_command == "score-retrieval-cohort":
+        result = score_retrieval_cohort(
+            load_benchmark_json(args.manifest),
+            [load_benchmark_json(path) for path in args.scores],
+        )
+    elif args.benchmark_command == "import-drb":
+        result = import_deepresearch_bench_cases(args.query_jsonl)
+    elif args.benchmark_command == "import-drb-race":
+        result = import_deepresearch_bench_race_results(args.result_jsonl)
+    elif args.benchmark_command == "import-drb-fact":
+        result = import_deepresearch_bench_fact_results(args.result_jsonl)
+    elif args.benchmark_command == "import-drb-competitor-cohort":
+        result = import_deepresearch_bench_competitor_cohort(
+            args.race_jsonl,
+            args.fact_jsonl,
+            system=args.system,
+            case_ids=args.case_ids,
+        )
+    elif args.benchmark_command == "import-reportbench":
+        result = import_reportbench_cases(args.case_jsonl)
+    elif args.benchmark_command == "import-reportbench-results":
+        result = import_reportbench_results(
+            args.case_jsonl,
+            args.related_work_csv,
+            args.statement_metrics_csv,
+            system=args.system,
+        )
+    elif args.benchmark_command == "import-pdrbench":
+        result = import_pdrbench_cases(args.case_jsonl)
+    elif args.benchmark_command == "import-pdrbench-results":
+        result = import_pdrbench_results(
+            args.case_jsonl,
+            args.personalization_jsonl,
+            args.quality_jsonl,
+            args.reliability_jsonl,
+            system=args.system,
+        )
+    elif args.benchmark_command == "score-deepsynth":
+        result = score_deepsynth_static(
+            args.gold_json,
+            args.predictions_json,
+            system=args.system,
+        )
+    elif args.benchmark_command == "adapt-drb-fact-run":
+        run = build_deepresearch_bench_fact_benchmark_run(
+            args.result_jsonl,
+            case_id=args.case_id,
+            measurement=load_benchmark_json(args.measurement),
+        )
+        run_output = args.run_output.expanduser().resolve()
+        _write_json(run_output, run)
+        result = {
+            **score_benchmark_run(run),
+            "benchmark_run": str(run_output),
+            "benchmark_run_sha256": hashlib.sha256(run_output.read_bytes()).hexdigest(),
+        }
+    elif args.benchmark_command == "prepare-drb":
+        prepared = prepare_deepresearch_bench_submission(
+            load_benchmark_json(args.cases), load_benchmark_json(args.articles)
+        )
+        submission = args.jsonl.expanduser().resolve()
+        _write_jsonl(submission, prepared["records"])
+        result = {
+            **{key: value for key, value in prepared.items() if key != "records"},
+            "submission_jsonl": str(submission),
+            "submission_sha256": hashlib.sha256(submission.read_bytes()).hexdigest(),
+        }
+    elif args.benchmark_command == "prepare-drb-run":
+        prepared = prepare_deepresearch_bench_run_record(
+            load_benchmark_json(args.cases),
+            case_id=args.case_id,
+            plan=load_benchmark_json(args.plan),
+            run=load_benchmark_json(args.run),
+            system=args.system,
+        )
+        submission = args.jsonl.expanduser().resolve()
+        _write_jsonl(submission, [prepared["record"]])
+        result = {
+            **{key: value for key, value in prepared.items() if key != "record"},
+            "submission_jsonl": str(submission),
+            "submission_sha256": hashlib.sha256(submission.read_bytes()).hexdigest(),
+        }
+    elif args.benchmark_command == "prepare-drb-synthesis":
+        prepared = prepare_deepresearch_bench_synthesis_record(
+            load_benchmark_json(args.cases),
+            case_id=args.case_id,
+            packet=load_benchmark_json(args.packet),
+            proposal=load_benchmark_json(args.proposal),
+            system=args.system,
+        )
+        submission = args.jsonl.expanduser().resolve()
+        _write_jsonl(submission, [prepared["record"]])
+        result = {
+            **{key: value for key, value in prepared.items() if key != "record"},
+            "submission_jsonl": str(submission),
+            "submission_sha256": hashlib.sha256(submission.read_bytes()).hexdigest(),
+        }
+    elif args.benchmark_command == "cohort-drb":
+        prepared = assemble_deepresearch_bench_cohort(
+            load_benchmark_json(args.cases),
+            system=args.system,
+            record_sets=_benchmark_record_sets(args.record),
+        )
+        submission = args.jsonl.expanduser().resolve()
+        _write_jsonl(submission, prepared["records"])
+        result = {
+            **{key: value for key, value in prepared.items() if key != "records"},
+            "submission_jsonl": str(submission),
+            "submission_sha256": hashlib.sha256(submission.read_bytes()).hexdigest(),
+        }
+    elif args.benchmark_command == "plan-drb-campaign":
+        planned = plan_deepresearch_bench_campaign(
+            load_benchmark_json(args.cases),
+            system=args.system,
+            record_sets=_benchmark_record_sets(args.record),
+            limit=args.limit,
+            created_at=args.created_at,
+        )
+        campaign_directory = args.campaign_directory.expanduser().resolve()
+        job_exports = []
+        for job in planned["jobs"]:
+            plan_path = campaign_directory / str(job["case_id"]) / "PLAN.json"
+            _write_private_json_once(plan_path, job["plan"])
+            job_exports.append(
+                {
+                    "case_id": job["case_id"],
+                    "plan": str(plan_path),
+                    "plan_sha256": hashlib.sha256(plan_path.read_bytes()).hexdigest(),
+                    "execution_state": job["execution_state"],
+                }
+            )
+        campaign_path = campaign_directory / "CAMPAIGN.json"
+        _write_private_json_once(campaign_path, planned)
+        result = {
+            **{key: value for key, value in planned.items() if key != "jobs"},
+            "campaign_plan": str(campaign_path),
+            "campaign_plan_sha256": hashlib.sha256(campaign_path.read_bytes()).hexdigest(),
+            "job_exports": job_exports,
+        }
+    elif args.benchmark_command == "admit-drb-campaign":
+        campaign_path = args.campaign.expanduser().resolve()
+        campaign_bytes = campaign_path.read_bytes()
+        actual_campaign_sha256 = hashlib.sha256(campaign_bytes).hexdigest()
+        if actual_campaign_sha256 != args.campaign_plan_sha256:
+            raise ResearchBenchmarkError(
+                "campaign_plan_sha256 differs from the exact campaign artifact"
+            )
+        admission = admit_deepresearch_bench_campaign(
+            load_benchmark_json(campaign_path),
+            campaign_plan_sha256=actual_campaign_sha256,
+            authorized_by=args.authorized_by,
+            authority_reference=args.authority_reference,
+            authorized_at=args.authorized_at,
+            maximum_network_requests=args.maximum_network_requests,
+            maximum_runtime_seconds=args.maximum_runtime_seconds,
+        )
+        store = ResearchProjectStore(args.project_database)
+        preflight: dict[str, Mapping[str, Any] | None] = {}
+        for job in admission["jobs"]:
+            project_id = str(job["project_id"])
+            try:
+                state = store.status(project_id)
+            except ResearchProjectError as exc:
+                if str(exc) != "unknown project_id":
+                    raise
+                state = None
+            if state is not None and state["plan_sha256"] != job["plan_sha256"]:
+                raise ResearchBenchmarkError(
+                    f"existing project {project_id} differs from the admitted campaign plan"
+                )
+            preflight[project_id] = state
+        approval_context = {
+            key: admission[key]
+            for key in (
+                "schema_version",
+                "admission_id",
+                "admission_sha256",
+                "campaign_id",
+                "campaign_plan_sha256",
+                "authority_reference",
+                "resource_envelope",
+            )
+        }
+        admitted_jobs = []
+        for job in admission["jobs"]:
+            project_id = str(job["project_id"])
+            state = preflight[project_id]
+            if state is None:
+                created = store.create(job["plan"])
+                state = store.status(project_id)
+                transition = "created_and_admitted"
+            else:
+                created = None
+                transition = "existing_plan_admitted"
+            approved = None
+            if not state["approved"]:
+                approved = store.approve(
+                    project_id,
+                    plan_sha256=str(job["plan_sha256"]),
+                    approved_by=args.authorized_by,
+                    approved_at=args.authorized_at,
+                    approval_context=approval_context,
+                )
+            else:
+                transition = "already_approved_exact_plan"
+            final_state = store.status(project_id)
+            admitted_jobs.append(
+                {
+                    "case_id": job["case_id"],
+                    "project_id": project_id,
+                    "plan_sha256": job["plan_sha256"],
+                    "transition": transition,
+                    "create_event_sha256": created["event_sha256"] if created else None,
+                    "approval_event_sha256": approved["event_sha256"] if approved else None,
+                    "status": final_state["status"],
+                }
+            )
+        result = {
+            **{key: value for key, value in admission.items() if key != "jobs"},
+            "project_database": str(store.database.resolve()),
+            "jobs": admitted_jobs,
+        }
+    else:
+        result = compare_scores(
+            [load_benchmark_json(path) for path in args.scores],
+            system_aliases=dict(args.system_alias),
+        )
+    if args.output:
+        output = args.output.expanduser().resolve()
+        if args.benchmark_command in {"plan-drb-campaign", "admit-drb-campaign"}:
+            _write_private_json_once(output, result)
+        else:
+            _write_json(output, result)
+    return result
+
+
+def _benchmark_record_sets(
+    values: list[list[str]],
+) -> list[tuple[str, list[Mapping[str, Any]]]]:
+    record_sets = []
+    for producer, path_text in values:
+        path = Path(path_text).expanduser().resolve()
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+            rows = [json.loads(line) for line in lines]
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ResearchBenchmarkError(f"cannot read cohort JSONL from {path}") from exc
+        if not all(isinstance(row, Mapping) for row in rows):
+            raise ResearchBenchmarkError(f"cohort JSONL from {path} must contain objects")
+        record_sets.append((producer, rows))
+    return record_sets
+
+
+def _write_jsonl(path: Path, rows: list[Mapping[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        "".join(
+            json.dumps(row, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
+            for row in rows
+        ),
+        encoding="utf-8",
+    )
 
 DEFAULT_PROVIDERS = ("europe_pmc", "pubmed")
 
@@ -1724,6 +2050,212 @@ def build_parser() -> argparse.ArgumentParser:
     historical_rds.add_argument("--expected-review")
     historical_rds.add_argument("--expected-review-authors")
 
+    benchmark = subparsers.add_parser(
+        "benchmark",
+        help="score and compare research runs with deterministic bilingual metrics",
+    )
+    benchmark_sub = benchmark.add_subparsers(dest="benchmark_command", required=True)
+    benchmark_score = benchmark_sub.add_parser("score", help="score one benchmark run")
+    benchmark_score.add_argument("run", type=Path)
+    benchmark_score.add_argument("--output", type=Path)
+    benchmark_score_synthesis = benchmark_sub.add_parser(
+        "score-synthesis",
+        help="convert and score one validated synthesis with an explicit measurement envelope",
+    )
+    benchmark_score_synthesis.add_argument("packet", type=Path)
+    benchmark_score_synthesis.add_argument("proposal", type=Path)
+    benchmark_score_synthesis.add_argument("measurement", type=Path)
+    benchmark_score_synthesis.add_argument("--run-output", type=Path, required=True)
+    benchmark_score_synthesis.add_argument("--output", type=Path)
+    benchmark_score_extractive = benchmark_sub.add_parser(
+        "score-extractive",
+        help="convert and score one verified extractive research run",
+    )
+    benchmark_score_extractive.add_argument("plan", type=Path)
+    benchmark_score_extractive.add_argument("run", type=Path)
+    benchmark_score_extractive.add_argument("measurement", type=Path)
+    benchmark_score_extractive.add_argument("--run-output", type=Path, required=True)
+    benchmark_score_extractive.add_argument("--output", type=Path)
+    benchmark_score_retrieval = benchmark_sub.add_parser(
+        "score-retrieval",
+        help="score BM25, owned dense and hybrid rankings on one exact gold corpus",
+    )
+    benchmark_score_retrieval.add_argument("specification", type=Path)
+    benchmark_score_retrieval.add_argument("bm25", type=Path)
+    benchmark_score_retrieval.add_argument("hybrid", type=Path)
+    benchmark_score_retrieval.add_argument("--output", type=Path)
+    benchmark_score_retrieval_cohort = benchmark_sub.add_parser(
+        "score-retrieval-cohort",
+        help="aggregate a provenance-bound external multilingual retrieval cohort",
+    )
+    benchmark_score_retrieval_cohort.add_argument("manifest", type=Path)
+    benchmark_score_retrieval_cohort.add_argument("scores", type=Path, nargs="+")
+    benchmark_score_retrieval_cohort.add_argument("--output", type=Path)
+    benchmark_compare = benchmark_sub.add_parser(
+        "compare", help="compare score documents over identical case sets"
+    )
+    benchmark_compare.add_argument("scores", type=Path, nargs="+")
+    benchmark_compare.add_argument(
+        "--system-alias",
+        action="append",
+        nargs=2,
+        metavar=("PRODUCER", "COHORT_SYSTEM"),
+        default=[],
+        help="group versioned producer names without mutating source scores (repeatable)",
+    )
+    benchmark_compare.add_argument("--output", type=Path)
+    benchmark_import = benchmark_sub.add_parser(
+        "import-drb", help="validate and import the official bilingual DeepResearch Bench cases"
+    )
+    benchmark_import.add_argument("query_jsonl", type=Path)
+    benchmark_import.add_argument("--output", type=Path, required=True)
+    benchmark_race = benchmark_sub.add_parser(
+        "import-drb-race", help="validate and aggregate official 100-case RACE results"
+    )
+    benchmark_race.add_argument("result_jsonl", type=Path)
+    benchmark_race.add_argument("--output", type=Path, required=True)
+    benchmark_fact = benchmark_sub.add_parser(
+        "import-drb-fact", help="validate and aggregate official 100-case FACT results"
+    )
+    benchmark_fact.add_argument("result_jsonl", type=Path)
+    benchmark_fact.add_argument("--output", type=Path, required=True)
+    benchmark_competitor_cohort = benchmark_sub.add_parser(
+        "import-drb-competitor-cohort",
+        help="import published RACE and FACT results for one predeclared case cohort",
+    )
+    benchmark_competitor_cohort.add_argument("system")
+    benchmark_competitor_cohort.add_argument("race_jsonl", type=Path)
+    benchmark_competitor_cohort.add_argument("fact_jsonl", type=Path)
+    benchmark_competitor_cohort.add_argument("case_ids", nargs="+")
+    benchmark_competitor_cohort.add_argument("--output", type=Path, required=True)
+    benchmark_reportbench = benchmark_sub.add_parser(
+        "import-reportbench",
+        help="validate and import the official 100-case ReportBench v1.1 manifest",
+    )
+    benchmark_reportbench.add_argument("case_jsonl", type=Path)
+    benchmark_reportbench.add_argument("--output", type=Path, required=True)
+    benchmark_reportbench_results = benchmark_sub.add_parser(
+        "import-reportbench-results",
+        help="reproduce ReportBench aggregates from official-shape result CSVs",
+    )
+    benchmark_reportbench_results.add_argument("system")
+    benchmark_reportbench_results.add_argument("case_jsonl", type=Path)
+    benchmark_reportbench_results.add_argument("related_work_csv", type=Path)
+    benchmark_reportbench_results.add_argument("statement_metrics_csv", type=Path)
+    benchmark_reportbench_results.add_argument("--output", type=Path, required=True)
+    benchmark_pdrbench = benchmark_sub.add_parser(
+        "import-pdrbench",
+        help="validate and import a pinned PDR-Bench query cohort",
+    )
+    benchmark_pdrbench.add_argument("case_jsonl", type=Path)
+    benchmark_pdrbench.add_argument("--output", type=Path, required=True)
+    benchmark_pdrbench_results = benchmark_sub.add_parser(
+        "import-pdrbench-results",
+        help="reproduce PDR-Bench P/Q/R aggregates from complete result artifacts",
+    )
+    benchmark_pdrbench_results.add_argument("system")
+    benchmark_pdrbench_results.add_argument("case_jsonl", type=Path)
+    benchmark_pdrbench_results.add_argument("personalization_jsonl", type=Path)
+    benchmark_pdrbench_results.add_argument("quality_jsonl", type=Path)
+    benchmark_pdrbench_results.add_argument("reliability_jsonl", type=Path)
+    benchmark_pdrbench_results.add_argument("--output", type=Path, required=True)
+    benchmark_deepsynth = benchmark_sub.add_parser(
+        "score-deepsynth",
+        help="score a complete DeepSynth-shaped structured-answer cohort",
+    )
+    benchmark_deepsynth.add_argument("system")
+    benchmark_deepsynth.add_argument("gold_json", type=Path)
+    benchmark_deepsynth.add_argument("predictions_json", type=Path)
+    benchmark_deepsynth.add_argument("--output", type=Path, required=True)
+    benchmark_fact_run = benchmark_sub.add_parser(
+        "adapt-drb-fact-run",
+        help=(
+            "adapt one official FACT artifact into the deterministic run contract "
+            "without inventing fetch provenance or latency"
+        ),
+    )
+    benchmark_fact_run.add_argument("result_jsonl", type=Path)
+    benchmark_fact_run.add_argument("case_id")
+    benchmark_fact_run.add_argument("measurement", type=Path)
+    benchmark_fact_run.add_argument("--run-output", type=Path, required=True)
+    benchmark_fact_run.add_argument("--output", type=Path)
+    benchmark_prepare = benchmark_sub.add_parser(
+        "prepare-drb", help="write the exact official raw-article JSONL contract"
+    )
+    benchmark_prepare.add_argument("cases", type=Path)
+    benchmark_prepare.add_argument("articles", type=Path)
+    benchmark_prepare.add_argument("--jsonl", type=Path, required=True)
+    benchmark_prepare.add_argument("--output", type=Path)
+    benchmark_run = benchmark_sub.add_parser(
+        "prepare-drb-run",
+        help="render one verified GIGA run as an official-shape raw article record",
+    )
+    benchmark_run.add_argument("cases", type=Path)
+    benchmark_run.add_argument("case_id")
+    benchmark_run.add_argument("plan", type=Path)
+    benchmark_run.add_argument("run", type=Path)
+    benchmark_run.add_argument("system")
+    benchmark_run.add_argument("--jsonl", type=Path, required=True)
+    benchmark_run.add_argument("--output", type=Path)
+    benchmark_synthesis = benchmark_sub.add_parser(
+        "prepare-drb-synthesis",
+        help="render one validated synthesis proposal as an official-shape raw article record",
+    )
+    benchmark_synthesis.add_argument("cases", type=Path)
+    benchmark_synthesis.add_argument("case_id")
+    benchmark_synthesis.add_argument("packet", type=Path)
+    benchmark_synthesis.add_argument("proposal", type=Path)
+    benchmark_synthesis.add_argument("system")
+    benchmark_synthesis.add_argument("--jsonl", type=Path, required=True)
+    benchmark_synthesis.add_argument("--output", type=Path)
+    benchmark_cohort = benchmark_sub.add_parser(
+        "cohort-drb",
+        help="assemble verified records and report exact official-cohort coverage",
+    )
+    benchmark_cohort.add_argument("cases", type=Path)
+    benchmark_cohort.add_argument("system")
+    benchmark_cohort.add_argument(
+        "--record",
+        nargs=2,
+        action="append",
+        required=True,
+        metavar=("PRODUCER", "JSONL"),
+    )
+    benchmark_cohort.add_argument("--jsonl", type=Path, required=True)
+    benchmark_cohort.add_argument("--output", type=Path)
+    benchmark_campaign = benchmark_sub.add_parser(
+        "plan-drb-campaign",
+        help="plan a resumable, coverage-balancing batch of missing official cases",
+    )
+    benchmark_campaign.add_argument("cases", type=Path)
+    benchmark_campaign.add_argument("system")
+    benchmark_campaign.add_argument(
+        "--record",
+        nargs=2,
+        action="append",
+        default=[],
+        metavar=("PRODUCER", "JSONL"),
+    )
+    benchmark_campaign.add_argument("--limit", type=int, default=10)
+    benchmark_campaign.add_argument("--created-at", required=True)
+    benchmark_campaign.add_argument("--campaign-directory", type=Path, required=True)
+    benchmark_campaign.add_argument("--output", type=Path)
+    benchmark_admission = benchmark_sub.add_parser(
+        "admit-drb-campaign",
+        help="admit one exact DRB campaign under a zero-spend public-research envelope",
+    )
+    benchmark_admission.add_argument("campaign", type=Path)
+    benchmark_admission.add_argument("campaign_plan_sha256")
+    benchmark_admission.add_argument("authorized_by")
+    benchmark_admission.add_argument("authority_reference")
+    benchmark_admission.add_argument("--authorized-at", required=True)
+    benchmark_admission.add_argument("--maximum-network-requests", type=int, required=True)
+    benchmark_admission.add_argument("--maximum-runtime-seconds", type=int, required=True)
+    benchmark_admission.add_argument(
+        "--project-database", type=Path, default=DEFAULT_PROJECT_DATABASE
+    )
+    benchmark_admission.add_argument("--output", type=Path)
+
     return parser
 
 
@@ -1735,6 +2267,8 @@ def main(argv: list[str] | None = None) -> int:
             result = _acquire_local(args)
         elif args.command == "project":
             result = _project(args)
+        elif args.command == "benchmark":
+            result = _benchmark(args)
         elif args.command == "retrieve-passages":
             result = _retrieve_passages(args)
         elif args.command == "compile-search":
@@ -1769,7 +2303,7 @@ def main(argv: list[str] | None = None) -> int:
             result = _state(args)
         print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
         return 0
-    except (KeyError, OSError, ScientificEvidenceError, PassageRetrievalError, ResearchProjectError, ResearchExportError, WebAcquisitionError) as exc:
+    except (KeyError, OSError, ScientificEvidenceError, ResearchBenchmarkError, PassageRetrievalError, ResearchProjectError, ResearchExportError, WebAcquisitionError) as exc:
         print(f"scientific-pipeline: {exc}", file=sys.stderr)
         return 2
 

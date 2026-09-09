@@ -40,6 +40,7 @@ SOURCE_FILES = (
     'twin_core/source_quality.py',
     'twin_core/web_acquisition.py',
     'twin_core/research_export.py',
+    'twin_core/research_benchmark.py',
     'twin_core/research_project.py',
     'twin_core/passage_retrieval.py',
     'twin_core/web_discovery.py',
