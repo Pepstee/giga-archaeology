@@ -20,6 +20,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
     result.add_argument("--root", type=Path, default=Path(__file__).resolve().parent.parent)
     sub = result.add_subparsers(dest="command", required=True)
+    sub.add_parser("authority-status", help="verify the dormant packaged authority candidate")
     sub.add_parser("init", help="initialise the secure local trust-kernel store")
     validate = sub.add_parser("validate-memory", help="validate Markdown memory and index")
     validate.add_argument("--json", action="store_true", dest="as_json")
@@ -73,6 +74,15 @@ def parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = parser().parse_args(argv)
+    if args.command == "authority-status":
+        from .constitutional_authority import AuthorityRefused, candidate_status
+        try:
+            result = candidate_status()
+        except AuthorityRefused as exc:
+            print(json.dumps({"candidate_verified": False, "decision": "REFUSE", "error": str(exc)}))
+            return 1
+        print(json.dumps(result, indent=2))
+        return 0
     if args.command == "init":
         store = TwinStore(args.database)
         print(json.dumps({"database": str(store.database), "counts": store.counts()}, indent=2))

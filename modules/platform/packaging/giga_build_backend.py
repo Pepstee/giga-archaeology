@@ -26,6 +26,8 @@ SOURCE_FILES = (
     'twin_core/__main__.py',
     'twin_core/adapter_evidence.py',
     'twin_core/cli.py',
+    'twin_core/constitutional_authority.py',
+    'twin_core/_authority_vendor.zip',
     'twin_core/context_compiler.py',
     'twin_core/daily_checkpoint.py',
     'twin_core/cross_service_monitor.py',
