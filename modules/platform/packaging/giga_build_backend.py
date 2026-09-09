@@ -23,10 +23,18 @@ ROOT = Path(__file__).resolve().parents[3]
 # Reused from the modularisation donor. Keep an explicit code-only allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
 SOURCE_FILES = (
+    'contracts/capability-adoption-manifest.v1.schema.json',
+    'contracts/capability-adoption-manifest.v2.schema.json',
+    'contracts/capability-liveness-receipt.v1.schema.json',
+    'contracts/capability-liveness-receipt.v2.schema.json',
+    'contracts/retrospective-capability-candidates.v1.schema.json',
+    'contracts/retrospective-capability-candidates.v2.schema.json',
+
     'twin_core/__init__.py',
     'twin_core/__main__.py',
     'twin_core/adapter_evidence.py',
     'twin_core/cli.py',
+    'twin_core/capability_adoption.py',
     'twin_core/constitutional_authority.py',
     'twin_core/_authority_vendor.zip',
     'twin_core/context_compiler.py',
@@ -70,6 +78,7 @@ SOURCE_FILES = (
     'twin_core/telegram_pipeline.py',
     'twin_core/transcript_actions.py',
     'scripts/operator_status.py',
+    'scripts/capability_adoption_gate.py',
     'scripts/staged_privacy_admission.py',
     'scripts/sovereignty_index.py',
 )

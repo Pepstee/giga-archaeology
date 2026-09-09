@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga.local/contracts/capability-adoption-manifest.v1.schema.json",
+  "title": "GIGA capability adoption manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "owner", "responsibility", "claim", "implementation_paths", "configuration_paths", "proof_paths", "entrypoint", "trigger", "authority", "recovery", "liveness_receipt"],
+  "properties": {
+    "schema": {"const": "giga.capability-adoption-manifest.v1"},
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"},
+    "owner": {"type": "string", "minLength": 1},
+    "responsibility": {"type": "string", "minLength": 1},
+    "claim": {"enum": ["ACTIVE", "ADOPTED"]},
+    "implementation_paths": {"$ref": "#/$defs/paths"},
+    "configuration_paths": {"$ref": "#/$defs/pathsMaybeEmpty"},
+    "proof_paths": {"$ref": "#/$defs/paths"},
+    "liveness_receipt": {"$ref": "#/$defs/path"},
+    "entrypoint": {"$ref": "#/$defs/entrypoint"},
+    "trigger": {"$ref": "#/$defs/trigger"},
+    "authority": {"$ref": "#/$defs/authority"},
+    "recovery": {"$ref": "#/$defs/recovery"}
+  },
+  "$defs": {
+    "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(/|$)).+$"},
+    "paths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/path"}},
+    "pathsMaybeEmpty": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/path"}},
+    "argv": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "argvMaybeEmpty": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "entrypoint": {"type": "object", "additionalProperties": false, "required": ["argv", "working_directory"], "properties": {"argv": {"$ref": "#/$defs/argv"}, "working_directory": {"anyOf": [{"const": "."}, {"$ref": "#/$defs/path"}]}}},
+    "trigger": {"type": "object", "additionalProperties": false, "required": ["kind", "identity"], "properties": {"kind": {"enum": ["manual", "schedule", "event", "service"]}, "identity": {"type": "string", "minLength": 1}}},
+    "authority": {"type": "object", "additionalProperties": false, "required": ["capabilities", "privacy", "external_effects", "vault_required"], "properties": {"capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "privacy": {"type": "string", "minLength": 1}, "external_effects": {"type": "boolean"}, "vault_required": {"type": "boolean"}}},
+    "recovery": {"type": "object", "additionalProperties": false, "required": ["status_argv", "reconcile_argv", "disable_argv"], "properties": {"status_argv": {"$ref": "#/$defs/argv"}, "reconcile_argv": {"$ref": "#/$defs/argvMaybeEmpty"}, "disable_argv": {"$ref": "#/$defs/argvMaybeEmpty"}}}
+  }
+}

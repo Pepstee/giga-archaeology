@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga.local/contracts/capability-liveness-receipt.v1.schema.json",
+  "title": "GIGA capability liveness receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "capability_id", "manifest_sha256", "observed_at", "status", "implementation", "configuration", "proofs", "entrypoint", "trigger", "authority", "recovery", "last_success_at", "last_failure_at", "next_check_at", "verification", "self_sha256"],
+  "properties": {
+    "schema": {"const": "giga.capability-liveness-receipt.v1"},
+    "capability_id": {"type": "string"},
+    "manifest_sha256": {"$ref": "#/$defs/sha"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "implementation": {"$ref": "#/$defs/files"},
+    "configuration": {"$ref": "#/$defs/filesMaybeEmpty"},
+    "proofs": {"$ref": "#/$defs/files"},
+    "entrypoint": {"$ref": "#/$defs/entrypoint"},
+    "trigger": {"$ref": "#/$defs/trigger"},
+    "authority": {"$ref": "#/$defs/authority"},
+    "recovery": {"$ref": "#/$defs/recovery"},
+    "last_success_at": {"type": ["string", "null"], "format": "date-time"},
+    "last_failure_at": {"type": ["string", "null"], "format": "date-time"},
+    "next_check_at": {"type": "string", "format": "date-time"},
+    "verification": {"type": "object", "additionalProperties": false, "required": ["argv", "exit_code", "stdout_sha256", "stdout_bytes"], "properties": {"argv": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "exit_code": {"type": "integer", "minimum": 0, "maximum": 2}, "stdout_sha256": {"$ref": "#/$defs/sha"}, "stdout_bytes": {"type": "integer", "minimum": 0}}},
+    "self_sha256": {"$ref": "#/$defs/sha"}
+  },
+  "$defs": {
+    "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(/|$)).+$"},
+    "argv": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "argvMaybeEmpty": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "file": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "bytes"], "properties": {"path": {"$ref": "#/$defs/path"}, "sha256": {"$ref": "#/$defs/sha"}, "bytes": {"type": "integer", "minimum": 0}}},
+    "files": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/file"}},
+    "filesMaybeEmpty": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+    "entrypoint": {"type": "object", "additionalProperties": false, "required": ["argv", "working_directory"], "properties": {"argv": {"$ref": "#/$defs/argv"}, "working_directory": {"anyOf": [{"const": "."}, {"$ref": "#/$defs/path"}]}}},
+    "trigger": {"type": "object", "additionalProperties": false, "required": ["kind", "identity"], "properties": {"kind": {"enum": ["manual", "schedule", "event", "service"]}, "identity": {"type": "string", "minLength": 1}}},
+    "authority": {"type": "object", "additionalProperties": false, "required": ["capabilities", "privacy", "external_effects", "vault_required"], "properties": {"capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "privacy": {"type": "string", "minLength": 1}, "external_effects": {"type": "boolean"}, "vault_required": {"type": "boolean"}}},
+    "recovery": {"type": "object", "additionalProperties": false, "required": ["status_argv", "reconcile_argv", "disable_argv"], "properties": {"status_argv": {"$ref": "#/$defs/argv"}, "reconcile_argv": {"$ref": "#/$defs/argvMaybeEmpty"}, "disable_argv": {"$ref": "#/$defs/argvMaybeEmpty"}}}
+  }
+}

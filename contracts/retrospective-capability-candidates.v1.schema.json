@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://giga.local/contracts/retrospective-capability-candidates.v1.schema.json",
+  "title": "GIGA retrospective capability candidate feed v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "producer", "inventory_manifest_sha256", "generated_at", "candidates", "self_sha256"],
+  "properties": {
+    "schema": {"const": "giga.retrospective-capability-candidates.v1"},
+    "producer": {"type": "string", "minLength": 1},
+    "inventory_manifest_sha256": {"$ref": "#/$defs/sha"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "candidates": {"type": "array", "items": {"$ref": "#/$defs/candidate"}},
+    "self_sha256": {"$ref": "#/$defs/sha"}
+  },
+  "$defs": {
+    "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(/|$)).+$"},
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"},
+    "file": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "bytes"], "properties": {"path": {"$ref": "#/$defs/path"}, "sha256": {"$ref": "#/$defs/sha"}, "bytes": {"type": "integer", "minimum": 0}}},
+    "candidate": {"type": "object", "additionalProperties": false, "required": ["candidate_id", "capability_id", "disposition", "owner_hint", "source_refs", "entrypoint_hints", "reason"], "properties": {"candidate_id": {"$ref": "#/$defs/id"}, "capability_id": {"$ref": "#/$defs/id"}, "disposition": {"enum": ["DORMANT_ADOPTABLE", "DISCONNECTED", "DUPLICATED", "BROKEN", "OBSOLETE"]}, "owner_hint": {"type": "string", "minLength": 1}, "source_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/file"}}, "entrypoint_hints": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "reason": {"type": "string", "minLength": 1}}}
+  }
+}
