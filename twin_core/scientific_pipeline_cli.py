@@ -47,6 +47,7 @@ from .scientific_review_funnel import (
 from .scientific_saturation import evaluate_saturation
 from .scientific_screening import (
     compile_screening,
+    simulate_active_learning,
     validate_exclusion_audit,
     write_screening,
 )
@@ -796,6 +797,32 @@ def _negative_control_campaign(
             "any failure blocks search promotion."
         ),
     }
+
+
+def _simulate_active_learning(args: argparse.Namespace) -> dict[str, Any]:
+    try:
+        rows = [
+            json.loads(line)
+            for line in args.groups.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ScientificEvidenceError(
+            f"cannot read active-learning group JSONL from {args.groups}"
+        ) from exc
+    if not all(isinstance(row, Mapping) for row in rows):
+        raise ScientificEvidenceError(
+            "active-learning group JSONL must contain only JSON objects"
+        )
+    result = simulate_active_learning(
+        rows,
+        _json(args.oracle),
+        seed_group_ids=args.seed_group_id,
+        maximum_labels=args.maximum_labels,
+        target_recall=args.target_recall,
+    )
+    _write_json(args.output.expanduser().resolve(), result)
+    return result
 
 
 def _compile_search(args: argparse.Namespace) -> dict[str, Any]:
@@ -1622,6 +1649,33 @@ def build_parser() -> argparse.ArgumentParser:
     retrieve.add_argument("--per-source", type=int, default=3)
     retrieve.add_argument("--output", type=Path)
 
+    active_learning = subparsers.add_parser(
+        "simulate-active-learning",
+        help=(
+            "measure deterministic human-oracle queue prioritisation on a fully "
+            "labelled, deduplicated historical corpus without writing live review state"
+        ),
+    )
+    active_learning.add_argument(
+        "groups",
+        type=Path,
+        help="canonical DEDUP_GROUPS.jsonl-style records",
+    )
+    active_learning.add_argument(
+        "oracle",
+        type=Path,
+        help="fully labelled simulation-only oracle JSON",
+    )
+    active_learning.add_argument("output", type=Path)
+    active_learning.add_argument(
+        "--seed-group-id",
+        action="append",
+        required=True,
+        help="historical human label used to seed the simulation (repeatable)",
+    )
+    active_learning.add_argument("--maximum-labels", type=int)
+    active_learning.add_argument("--target-recall", type=float, default=1.0)
+
     return parser
 
 
@@ -1637,6 +1691,8 @@ def main(argv: list[str] | None = None) -> int:
             result = _retrieve_passages(args)
         elif args.command == "compile-search":
             result = _compile_search(args)
+        elif args.command == "simulate-active-learning":
+            result = _simulate_active_learning(args)
         elif args.command == "screen":
             result = _screen(args)
         elif args.command == "fetch-pmc":

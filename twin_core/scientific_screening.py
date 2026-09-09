@@ -11,6 +11,7 @@ import csv
 import hashlib
 import html
 import json
+import math
 import re
 import sqlite3
 import unicodedata
@@ -21,6 +22,7 @@ from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
 from .scientific_evidence import ScientificEvidenceError, canonical_json, payload_hash
+from .source_quality import search_tokens
 
 
 SCREENING_SCHEMA = "giga.scientific-screening-snapshot.v1"
@@ -1635,3 +1637,604 @@ def write_screening(build: ScreeningBuild, output: Path) -> dict[str, Any]:
         encoding="utf-8",
     )
     return summary
+
+
+ACTIVE_LEARNING_ORACLE_SCHEMA = "giga.scientific-active-learning-oracle.v1"
+
+
+ACTIVE_LEARNING_SIMULATION_SCHEMA = "giga.scientific-active-learning-simulation.v1"
+
+
+def _active_learning_groups(
+    groups: Sequence[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    if isinstance(groups, (str, bytes)) or not isinstance(groups, Sequence):
+        raise ScientificEvidenceError("active-learning groups must be an array")
+    result: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for position, group in enumerate(groups):
+        if not isinstance(group, Mapping):
+            raise ScientificEvidenceError(
+                f"active-learning group at position {position} must be an object"
+            )
+        group_id = normalise_text(group.get("group_id"))
+        title = normalise_text(group.get("title"))
+        if group_id is None or title is None:
+            raise ScientificEvidenceError(
+                "active-learning groups require non-empty group_id and title"
+            )
+        if group_id in seen:
+            raise ScientificEvidenceError(
+                f"active-learning groups are not deduplicated: {group_id} repeats"
+            )
+        seen.add(group_id)
+        abstract = normalise_text(group.get("abstract")) or ""
+        result.append(
+            {
+                "group_id": group_id,
+                "input_position": position + 1,
+                "tokens": Counter(search_tokens(f"{title}\n{abstract}")),
+            }
+        )
+    if len(result) < 2:
+        raise ScientificEvidenceError(
+            "active-learning simulation requires at least two deduplicated groups"
+        )
+    return result
+
+
+def validate_active_learning_oracle(
+    oracle: Mapping[str, Any],
+    *,
+    group_ids: Sequence[str],
+) -> dict[str, Any]:
+    """Validate fully labelled historical data used only by a simulation.
+
+    The oracle supplies labels after a record is selected.  It is deliberately
+    separate from the append-only live-review ledger, so simulation labels cannot
+    be mistaken for human eligibility decisions on a current review.
+    """
+
+    if not isinstance(oracle, Mapping):
+        raise ScientificEvidenceError("active-learning oracle must be an object")
+    if oracle.get("schema_version") != ACTIVE_LEARNING_ORACLE_SCHEMA:
+        raise ScientificEvidenceError("active-learning oracle schema_version is invalid")
+    simulation_id = normalise_text(oracle.get("simulation_id"))
+    if simulation_id is None:
+        raise ScientificEvidenceError("active-learning oracle requires simulation_id")
+    if oracle.get("simulation_only") is not True:
+        raise ScientificEvidenceError(
+            "active-learning oracle must declare simulation_only=true"
+        )
+    if oracle.get("fully_labeled") is not True:
+        raise ScientificEvidenceError(
+            "active-learning oracle must declare fully_labeled=true"
+        )
+    raw_labels = oracle.get("labels")
+    if not isinstance(raw_labels, list):
+        raise ScientificEvidenceError("active-learning oracle labels must be an array")
+    labels: dict[str, str] = {}
+    for position, item in enumerate(raw_labels):
+        if not isinstance(item, Mapping):
+            raise ScientificEvidenceError(
+                f"active-learning oracle label at position {position} must be an object"
+            )
+        group_id = normalise_text(item.get("group_id"))
+        label = item.get("label")
+        if group_id is None or label not in {"include", "exclude"}:
+            raise ScientificEvidenceError(
+                "active-learning oracle labels require group_id and include/exclude label"
+            )
+        if group_id in labels:
+            raise ScientificEvidenceError(
+                f"active-learning oracle labels repeat group_id {group_id}"
+            )
+        labels[group_id] = label
+    expected = set(group_ids)
+    if set(labels) != expected:
+        missing = sorted(expected - set(labels))
+        unexpected = sorted(set(labels) - expected)
+        raise ScientificEvidenceError(
+            "active-learning oracle must fully label exactly the canonical groups "
+            f"(missing={missing}, unexpected={unexpected})"
+        )
+    return {
+        "simulation_id": simulation_id,
+        "labels": labels,
+        "oracle_payload_sha256": payload_hash(oracle),
+    }
+
+
+@dataclass
+class _ActiveLearningModelState:
+    """Label-derived state shared by every candidate in one queue round."""
+
+    model_vocabulary: set[str]
+    positive_tokens: Counter[str]
+    negative_tokens: Counter[str]
+    positive_documents: int
+    negative_documents: int
+    positive_total: int
+    negative_total: int
+    log_prior_odds: float
+    token_log_likelihood_ratios: dict[str, float]
+    token_ids_by_token: Mapping[str, int] | None
+    indexed_token_log_likelihood_ratios: list[float | None] | None
+
+
+def _refresh_active_learning_token_weights(
+    model_state: _ActiveLearningModelState,
+) -> None:
+    """Cache one exact likelihood ratio per revealed token for a queue round."""
+
+    model_state.token_log_likelihood_ratios = {
+        token: math.log(
+            (model_state.positive_tokens[token] + 1) / model_state.positive_total
+        )
+        - math.log(
+            (model_state.negative_tokens[token] + 1) / model_state.negative_total
+        )
+        for token in model_state.model_vocabulary
+    }
+    if model_state.token_ids_by_token is None:
+        model_state.indexed_token_log_likelihood_ratios = None
+        return
+    indexed_weights: list[float | None] = [
+        None
+    ] * len(model_state.token_ids_by_token)
+    for token, likelihood_ratio in model_state.token_log_likelihood_ratios.items():
+        indexed_weights[model_state.token_ids_by_token[token]] = likelihood_ratio
+    model_state.indexed_token_log_likelihood_ratios = indexed_weights
+
+
+def _active_learning_model_state(
+    *,
+    labelled_ids: Sequence[str],
+    labels: Mapping[str, str],
+    tokens_by_group: Mapping[str, Mapping[str, int]],
+    previous_model_state: _ActiveLearningModelState | None = None,
+    newly_labelled_id: str | None = None,
+    token_ids_by_token: Mapping[str, int] | None = None,
+) -> _ActiveLearningModelState:
+    """Build or extend the revealed-label model before one queue round.
+
+    Extension is permitted only for the newest already-revealed label.  That
+    preserves the simulation boundary while avoiding a full token recount for
+    every selection on realistic historical cohorts.
+    """
+
+    if previous_model_state is not None:
+        if previous_model_state.token_ids_by_token is not token_ids_by_token:
+            raise ScientificEvidenceError(
+                "active-learning model extension must preserve token indexing"
+            )
+        if (
+            newly_labelled_id is None
+            or not labelled_ids
+            or labelled_ids[-1] != newly_labelled_id
+            or newly_labelled_id not in labels
+            or newly_labelled_id not in tokens_by_group
+        ):
+            raise ScientificEvidenceError(
+                "active-learning model extension requires the newest revealed group"
+            )
+        if (
+            previous_model_state.positive_documents
+            + previous_model_state.negative_documents
+            != len(labelled_ids) - 1
+        ):
+            raise ScientificEvidenceError(
+                "active-learning model extension does not match revealed labels"
+            )
+        target = (
+            previous_model_state.positive_tokens
+            if labels[newly_labelled_id] == "include"
+            else previous_model_state.negative_tokens
+        )
+        newly_revealed_tokens = tokens_by_group[newly_labelled_id]
+        old_vocabulary_size = len(previous_model_state.model_vocabulary)
+        target.update(newly_revealed_tokens)
+        previous_model_state.model_vocabulary.update(newly_revealed_tokens)
+        vocabulary_growth = (
+            len(previous_model_state.model_vocabulary) - old_vocabulary_size
+        )
+        token_count = sum(newly_revealed_tokens.values())
+        if labels[newly_labelled_id] == "include":
+            previous_model_state.positive_documents += 1
+            previous_model_state.positive_total += token_count + vocabulary_growth
+            previous_model_state.negative_total += vocabulary_growth
+        else:
+            previous_model_state.negative_documents += 1
+            previous_model_state.negative_total += token_count + vocabulary_growth
+            previous_model_state.positive_total += vocabulary_growth
+        previous_model_state.log_prior_odds = math.log(
+            (previous_model_state.positive_documents + 1)
+            / (previous_model_state.negative_documents + 1)
+        )
+        _refresh_active_learning_token_weights(previous_model_state)
+        return previous_model_state
+
+    if newly_labelled_id is not None:
+        raise ScientificEvidenceError(
+            "active-learning model cannot extend without an existing revealed state"
+        )
+    if token_ids_by_token is not None:
+        all_candidate_tokens = {
+            token for group_tokens in tokens_by_group.values() for token in group_tokens
+        }
+        if (
+            set(token_ids_by_token) != all_candidate_tokens
+            or set(token_ids_by_token.values())
+            != set(range(len(token_ids_by_token)))
+        ):
+            raise ScientificEvidenceError(
+                "active-learning token index must cover the canonical candidates"
+            )
+
+    positive_documents = sum(labels[group_id] == "include" for group_id in labelled_ids)
+    negative_documents = len(labelled_ids) - positive_documents
+    if not positive_documents or not negative_documents:
+        raise ScientificEvidenceError(
+            "active-learning seeds must contain at least one include and one exclude"
+        )
+    positive_tokens: Counter[str] = Counter()
+    negative_tokens: Counter[str] = Counter()
+    for group_id in labelled_ids:
+        target = positive_tokens if labels[group_id] == "include" else negative_tokens
+        target.update(tokens_by_group[group_id])
+    model_vocabulary = set(positive_tokens) | set(negative_tokens)
+    vocabulary_size = max(len(model_vocabulary), 1)
+    model_state = _ActiveLearningModelState(
+        model_vocabulary=model_vocabulary,
+        positive_tokens=positive_tokens,
+        negative_tokens=negative_tokens,
+        positive_documents=positive_documents,
+        negative_documents=negative_documents,
+        positive_total=sum(positive_tokens.values()) + vocabulary_size,
+        negative_total=sum(negative_tokens.values()) + vocabulary_size,
+        log_prior_odds=math.log(
+            (positive_documents + 1) / (negative_documents + 1)
+        ),
+        token_log_likelihood_ratios={},
+        token_ids_by_token=token_ids_by_token,
+        indexed_token_log_likelihood_ratios=None,
+    )
+    _refresh_active_learning_token_weights(model_state)
+    return model_state
+
+
+def _active_learning_probability(
+    candidate_tokens: Mapping[str, int],
+    *,
+    model_state: _ActiveLearningModelState,
+) -> float:
+    """Score one candidate against only the labels already revealed this round."""
+
+    log_odds = model_state.log_prior_odds
+    for token, count in candidate_tokens.items():
+        likelihood_ratio = model_state.token_log_likelihood_ratios.get(token)
+        if likelihood_ratio is None:
+            continue
+        log_odds += count * likelihood_ratio
+    if log_odds >= 0:
+        return 1 / (1 + math.exp(-log_odds))
+    exponent = math.exp(log_odds)
+    return exponent / (1 + exponent)
+
+
+def _indexed_active_learning_probability(
+    candidate_token_occurrences: Sequence[tuple[int, int]],
+    *,
+    model_state: _ActiveLearningModelState,
+) -> float:
+    """Score stable token IDs without repeated string-dictionary lookups.
+
+    The token ID map is constructed only from this invocation's canonical
+    candidate corpus.  ``None`` retains the legacy behaviour for a token that
+    has not yet appeared in a revealed label.
+    """
+
+    indexed_weights = model_state.indexed_token_log_likelihood_ratios
+    if indexed_weights is None:
+        raise ScientificEvidenceError(
+            "indexed active-learning scoring requires a stable token index"
+        )
+    log_odds = model_state.log_prior_odds
+    for token_id, count in candidate_token_occurrences:
+        likelihood_ratio = indexed_weights[token_id]
+        if likelihood_ratio is None:
+            continue
+        log_odds += count * likelihood_ratio
+    if log_odds >= 0:
+        return 1 / (1 + math.exp(-log_odds))
+    exponent = math.exp(log_odds)
+    return exponent / (1 + exponent)
+
+
+def _active_learning_metrics(
+    order: Sequence[str],
+    *,
+    labels: Mapping[str, str],
+    total_relevant: int,
+    target_relevant: int,
+    target_recall: float,
+    maximum_labels: int,
+) -> dict[str, Any]:
+    relevant_positions: list[int] = []
+    labelled = 0
+    for group_id in order:
+        if labelled >= maximum_labels:
+            break
+        labelled += 1
+        if labels[group_id] == "include":
+            relevant_positions.append(labelled)
+        if len(relevant_positions) >= target_relevant:
+            break
+    relevant_found = len(relevant_positions)
+    reached = relevant_found >= target_relevant
+    recall = relevant_found / total_relevant
+    screen_fraction = labelled / len(labels)
+    return {
+        "records_labelled": labelled,
+        "records_unlabelled": len(labels) - labelled,
+        "relevant_total": total_relevant,
+        "relevant_found": relevant_found,
+        "recall": recall,
+        "target_recall": target_recall,
+        "target_relevant_records": target_relevant,
+        "target_recall_reached": reached,
+        "labels_to_target_recall": labelled if reached else None,
+        "screening_fraction": screen_fraction,
+        "work_saved_over_sampling_at_target_recall": (
+            target_recall - screen_fraction if reached else None
+        ),
+        "average_relevant_label_index": (
+            sum(relevant_positions) / len(relevant_positions)
+            if relevant_positions
+            else None
+        ),
+        "last_relevant_label_index": relevant_positions[-1] if relevant_positions else None,
+    }
+
+
+def simulate_active_learning(
+    groups: Sequence[Mapping[str, Any]],
+    oracle: Mapping[str, Any],
+    *,
+    seed_group_ids: Sequence[str],
+    maximum_labels: int | None = None,
+    target_recall: float = 1.0,
+) -> dict[str, Any]:
+    """Run a deterministic, human-oracle active-learning simulation.
+
+    This is a measured prioritisation experiment over a previously, fully
+    labelled and deduplicated corpus.  The model ranks a simulated queue only;
+    it writes no live review state and never decides eligibility.
+    """
+
+    rows = _active_learning_groups(groups)
+    group_ids = [row["group_id"] for row in rows]
+    validated_oracle = validate_active_learning_oracle(oracle, group_ids=group_ids)
+    labels = validated_oracle["labels"]
+    if isinstance(seed_group_ids, (str, bytes)) or not isinstance(
+        seed_group_ids, Sequence
+    ):
+        raise ScientificEvidenceError("active-learning seed_group_ids must be an array")
+    seeds = [normalise_text(value) for value in seed_group_ids]
+    if any(value is None for value in seeds) or len(seeds) != len(set(seeds)):
+        raise ScientificEvidenceError(
+            "active-learning seed_group_ids must be unique non-empty group IDs"
+        )
+    seed_ids = [value for value in seeds if value is not None]
+    if not seed_ids or not set(seed_ids) <= set(group_ids):
+        raise ScientificEvidenceError(
+            "active-learning seed_group_ids must belong to the canonical groups"
+        )
+    if {labels[group_id] for group_id in seed_ids} != {"include", "exclude"}:
+        raise ScientificEvidenceError(
+            "active-learning seeds must contain at least one include and one exclude"
+        )
+    if maximum_labels is None:
+        maximum_labels = len(rows)
+    if (
+        isinstance(maximum_labels, bool)
+        or not isinstance(maximum_labels, int)
+        or not len(seed_ids) <= maximum_labels <= len(rows)
+    ):
+        raise ScientificEvidenceError(
+            "active-learning maximum_labels must be within seed and corpus size"
+        )
+    if (
+        isinstance(target_recall, bool)
+        or not isinstance(target_recall, (int, float))
+        or not 0 < float(target_recall) <= 1
+    ):
+        raise ScientificEvidenceError(
+            "active-learning target_recall must be greater than 0 and at most 1"
+        )
+    target_recall = float(target_recall)
+    total_relevant = sum(label == "include" for label in labels.values())
+    if not total_relevant:
+        raise ScientificEvidenceError(
+            "active-learning simulation requires at least one included group"
+        )
+    target_relevant = math.ceil(total_relevant * target_recall)
+    tokens_by_group = {row["group_id"]: row["tokens"] for row in rows}
+    vocabulary = {
+        token for tokens in tokens_by_group.values() for token in tokens
+    }
+    token_ids_by_token = {
+        token: index for index, token in enumerate(sorted(vocabulary))
+    }
+    indexed_tokens_by_group = {
+        group_id: tuple(
+            (token_ids_by_token[token], count) for token, count in tokens.items()
+        )
+        for group_id, tokens in tokens_by_group.items()
+    }
+    labelled_ids: list[str] = []
+    labelled_set: set[str] = set()
+    relevant_found = 0
+    events: list[dict[str, Any]] = []
+
+    def append_event(
+        group_id: str,
+        *,
+        selection: str,
+        probability: float | None,
+        training_labels: int,
+    ) -> None:
+        events.append(
+            {
+                "label_index": len(events) + 1,
+                "group_id": group_id,
+                "selection": selection,
+                "model_training_labels": training_labels,
+                "predicted_include_probability": (
+                    round(probability, 12) if probability is not None else None
+                ),
+                "oracle_label": labels[group_id],
+                "relevant_found": relevant_found,
+                "recall_after_label": relevant_found / total_relevant,
+            }
+        )
+
+    for group_id in seed_ids:
+        labelled_ids.append(group_id)
+        labelled_set.add(group_id)
+        if labels[group_id] == "include":
+            relevant_found += 1
+        append_event(
+            group_id,
+            selection="seed_historical_human_label",
+            probability=None,
+            training_labels=0,
+        )
+    stop_reason: str | None = None
+    model_state: _ActiveLearningModelState | None = None
+    while len(labelled_ids) < maximum_labels:
+        if relevant_found >= target_relevant:
+            stop_reason = "target_recall_reached"
+            break
+        model_state = _active_learning_model_state(
+            labelled_ids=labelled_ids,
+            labels=labels,
+            tokens_by_group=tokens_by_group,
+            previous_model_state=model_state,
+            newly_labelled_id=(labelled_ids[-1] if model_state is not None else None),
+            token_ids_by_token=token_ids_by_token,
+        )
+        scored = [
+            (
+                _indexed_active_learning_probability(
+                    indexed_tokens_by_group[group_id],
+                    model_state=model_state,
+                ),
+                group_id,
+            )
+            for group_id in group_ids
+            if group_id not in labelled_set
+        ]
+        if not scored:
+            stop_reason = "deduplicated_pool_exhausted"
+            break
+        probability, group_id = min(scored, key=lambda item: (-item[0], item[1]))
+        training_labels = len(labelled_ids)
+        labelled_ids.append(group_id)
+        labelled_set.add(group_id)
+        if labels[group_id] == "include":
+            relevant_found += 1
+        append_event(
+            group_id,
+            selection="model_max_relevance",
+            probability=probability,
+            training_labels=training_labels,
+        )
+    if stop_reason is None:
+        stop_reason = (
+            "target_recall_reached"
+            if relevant_found >= target_relevant
+            else "maximum_labels_reached"
+        )
+    active_metrics = _active_learning_metrics(
+        labelled_ids,
+        labels=labels,
+        total_relevant=total_relevant,
+        target_relevant=target_relevant,
+        target_recall=target_recall,
+        maximum_labels=maximum_labels,
+    )
+    baseline_metrics = _active_learning_metrics(
+        group_ids,
+        labels=labels,
+        total_relevant=total_relevant,
+        target_relevant=target_relevant,
+        target_recall=target_recall,
+        maximum_labels=maximum_labels,
+    )
+    active_labels = active_metrics["labels_to_target_recall"]
+    baseline_labels = baseline_metrics["labels_to_target_recall"]
+    active_wss = active_metrics["work_saved_over_sampling_at_target_recall"]
+    baseline_wss = baseline_metrics["work_saved_over_sampling_at_target_recall"]
+    result = {
+        "schema_version": ACTIVE_LEARNING_SIMULATION_SCHEMA,
+        "simulation_id": validated_oracle["simulation_id"],
+        "algorithm": {
+            "name": "deterministic_multinomial_naive_bayes_max_relevance_r1",
+            "tokenizer": "source_quality.search_tokens.v1",
+            "query_strategy": "max_predicted_include_probability",
+            "randomness": "none; ties resolve by canonical group_id",
+        },
+        "corpus": {
+            "candidate_groups": len(rows),
+            "deduplicated_group_id_validation": "pass",
+            "input_order_group_ids": group_ids,
+            "input_groups_payload_sha256": payload_hash(list(groups)),
+            "vocabulary_terms": len(vocabulary),
+        },
+        "oracle": {
+            "fully_labeled": True,
+            "simulation_only": True,
+            "oracle_payload_sha256": validated_oracle["oracle_payload_sha256"],
+            "included_groups": total_relevant,
+            "excluded_groups": len(rows) - total_relevant,
+            "labels_visible_to_ranker_before_selection": False,
+        },
+        "configuration": {
+            "seed_group_ids": seed_ids,
+            "maximum_labels": maximum_labels,
+            "target_recall": target_recall,
+            "target_relevant_records": target_relevant,
+        },
+        "active_learning": {
+            "stop_reason": stop_reason,
+            "label_trace": events,
+            "label_trace_sha256": payload_hash(events),
+            "metrics": active_metrics,
+        },
+        "input_order_baseline": {
+            "ordering": "supplied_deduplicated_group_order",
+            "metrics": baseline_metrics,
+        },
+        "effect_vs_input_order": {
+            "labels_saved_to_target_recall": (
+                baseline_labels - active_labels
+                if active_labels is not None and baseline_labels is not None
+                else None
+            ),
+            "work_saved_over_sampling_delta": (
+                active_wss - baseline_wss
+                if active_wss is not None and baseline_wss is not None
+                else None
+            ),
+        },
+        "authority": {
+            "simulation_only": True,
+            "model_may_prioritise_only": True,
+            "model_may_not_decide_eligibility": True,
+            "live_review_state_written": False,
+            "effectiveness_ranking_authorised": False,
+        },
+    }
+    result["simulation_sha256"] = payload_hash(result)
+    return result

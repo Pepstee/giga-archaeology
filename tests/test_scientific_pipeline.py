@@ -7,6 +7,9 @@ from pathlib import Path
 
 import pytest
 
+from twin_core import scientific_screening
+from twin_core.scientific_pipeline_cli import main as pipeline_main
+
 from twin_core.scientific_campaign import provider_campaign_jobs, validate_campaign
 from twin_core.scientific_evidence import ScientificEvidenceError, payload_hash
 from twin_core.scientific_fulltext import (
@@ -29,6 +32,7 @@ from twin_core.scientific_review_state import (
 )
 from twin_core.scientific_saturation import evaluate_saturation
 from twin_core.scientific_screening import (
+    simulate_active_learning,
     _query_lookup,
     apply_duplicate_decisions,
     deterministic_exclusion_sample,
@@ -886,3 +890,181 @@ def test_control_only_ontology_concepts_do_not_pollute_main_features() -> None:
     group["negative_control"] = True
     control_features = extract_features(group, _ontology(), _spec())
     assert "low_back_pain" in control_features["concepts"]["conditions"]
+
+
+def _active_learning_fixture() -> tuple[list[dict], dict, list[str]]:
+    ids = {letter: letter * 64 for letter in "abcdefg"}
+    groups = [
+        {"group_id": ids["a"], "title": "Unrelated endocrine review"},
+        {"group_id": ids["c"], "title": "股票金融市场预测"},
+        {"group_id": ids["f"], "title": "Unrelated computational model"},
+        {"group_id": ids["b"], "title": "视黄醇临床改善光老化皱纹"},
+        {"group_id": ids["g"], "title": "股票金融市场走势"},
+        {"group_id": ids["d"], "title": "视黄醇临床治疗光老化"},
+        {
+            "group_id": ids["e"],
+            "title": "视黄醇光老化临床研究 Retinoid clinical trial",
+        },
+    ]
+    oracle = {
+        "schema_version": "giga.scientific-active-learning-oracle.v1",
+        "simulation_id": "screening-canary-fixture-r1",
+        "simulation_only": True,
+        "fully_labeled": True,
+        "labels": [
+            {"group_id": ids["a"], "label": "exclude"},
+            {"group_id": ids["b"], "label": "include"},
+            {"group_id": ids["c"], "label": "exclude"},
+            {"group_id": ids["d"], "label": "include"},
+            {"group_id": ids["e"], "label": "include"},
+            {"group_id": ids["f"], "label": "exclude"},
+            {"group_id": ids["g"], "label": "exclude"},
+        ],
+    }
+    return groups, oracle, [ids["b"], ids["c"]]
+
+
+def test_active_learning_simulation_is_multilingual_deterministic_and_non_authoritative() -> None:
+    groups, oracle, seed_ids = _active_learning_fixture()
+    result = simulate_active_learning(
+        groups,
+        oracle,
+        seed_group_ids=seed_ids,
+        maximum_labels=len(groups),
+    )
+    repeated = simulate_active_learning(
+        groups,
+        oracle,
+        seed_group_ids=seed_ids,
+        maximum_labels=len(groups),
+    )
+    assert result == repeated
+    trace = result["active_learning"]["label_trace"]
+    assert [entry["group_id"] for entry in trace] == [
+        seed_ids[0],
+        seed_ids[1],
+        "d" * 64,
+        "e" * 64,
+    ]
+    assert trace[2]["predicted_include_probability"] > 0.5
+    assert result["active_learning"]["metrics"]["recall"] == 1.0
+    assert result["active_learning"]["metrics"]["labels_to_target_recall"] == 4
+    assert result["input_order_baseline"]["metrics"]["labels_to_target_recall"] == 7
+    assert result["effect_vs_input_order"]["labels_saved_to_target_recall"] == 3
+    assert result["oracle"]["labels_visible_to_ranker_before_selection"] is False
+    assert result["authority"] == {
+        "simulation_only": True,
+        "model_may_prioritise_only": True,
+        "model_may_not_decide_eligibility": True,
+        "live_review_state_written": False,
+        "effectiveness_ranking_authorised": False,
+    }
+
+
+def test_indexed_active_learning_score_matches_legacy_token_lookup() -> None:
+    groups, oracle, seed_ids = _active_learning_fixture()
+    rows = scientific_screening._active_learning_groups(groups)
+    group_ids = [row["group_id"] for row in rows]
+    labels = scientific_screening.validate_active_learning_oracle(
+        oracle,
+        group_ids=group_ids,
+    )["labels"]
+    tokens_by_group = {row["group_id"]: row["tokens"] for row in rows}
+    token_ids_by_token = {
+        token: index
+        for index, token in enumerate(
+            sorted({token for tokens in tokens_by_group.values() for token in tokens})
+        )
+    }
+    model_state = scientific_screening._active_learning_model_state(
+        labelled_ids=seed_ids,
+        labels=labels,
+        tokens_by_group=tokens_by_group,
+        token_ids_by_token=token_ids_by_token,
+    )
+    for group_id, tokens in tokens_by_group.items():
+        legacy_score = scientific_screening._active_learning_probability(
+            tokens,
+            model_state=model_state,
+        )
+        indexed_score = scientific_screening._indexed_active_learning_probability(
+            tuple((token_ids_by_token[token], count) for token, count in tokens.items()),
+            model_state=model_state,
+        )
+        assert indexed_score == legacy_score, group_id
+
+
+def test_active_learning_builds_revealed_model_once_per_queue_round(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    groups, oracle, seed_ids = _active_learning_fixture()
+    observed_calls: list[tuple[tuple[str, ...], bool, str | None]] = []
+    original = scientific_screening._active_learning_model_state
+
+    def observe_state(**kwargs: object) -> object:
+        labelled_ids = kwargs["labelled_ids"]
+        assert isinstance(labelled_ids, list)
+        previous = kwargs["previous_model_state"]
+        newly_labelled_id = kwargs["newly_labelled_id"]
+        assert newly_labelled_id is None or isinstance(newly_labelled_id, str)
+        observed_calls.append(
+            (tuple(labelled_ids), previous is not None, newly_labelled_id)
+        )
+        return original(**kwargs)  # type: ignore[arg-type]
+
+    monkeypatch.setattr(scientific_screening, "_active_learning_model_state", observe_state)
+    result = simulate_active_learning(
+        groups,
+        oracle,
+        seed_group_ids=seed_ids,
+        maximum_labels=len(groups),
+    )
+    trace = result["active_learning"]["label_trace"]
+    assert len(observed_calls) == len(trace) - len(seed_ids)
+    assert observed_calls == [
+        (tuple(seed_ids), False, None),
+        ((*seed_ids, "d" * 64), True, "d" * 64),
+    ]
+
+
+def test_active_learning_simulation_fails_closed_for_incomplete_or_unbalanced_inputs() -> None:
+    groups, oracle, seed_ids = _active_learning_fixture()
+    incomplete = {**oracle, "labels": oracle["labels"][:-1]}
+    with pytest.raises(ScientificEvidenceError, match="fully label exactly"):
+        simulate_active_learning(groups, incomplete, seed_group_ids=seed_ids)
+    with pytest.raises(ScientificEvidenceError, match="at least one include and one exclude"):
+        simulate_active_learning(groups, oracle, seed_group_ids=[seed_ids[0]])
+
+
+def test_active_learning_simulation_cli_writes_inspectable_receipt(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    groups, oracle, seed_ids = _active_learning_fixture()
+    groups_path = tmp_path / "DEDUP_GROUPS.jsonl"
+    groups_path.write_text(
+        "".join(json.dumps(group, ensure_ascii=False) + "\n" for group in groups),
+        encoding="utf-8",
+    )
+    oracle_path = tmp_path / "ORACLE.json"
+    oracle_path.write_text(json.dumps(oracle, ensure_ascii=False), encoding="utf-8")
+    output = tmp_path / "SIMULATION.json"
+    assert (
+        pipeline_main(
+            [
+                "simulate-active-learning",
+                str(groups_path),
+                str(oracle_path),
+                str(output),
+                "--seed-group-id",
+                seed_ids[0],
+                "--seed-group-id",
+                seed_ids[1],
+            ]
+        )
+        == 0
+    )
+    emitted = json.loads(capsys.readouterr().out)
+    assert json.loads(output.read_text(encoding="utf-8")) == emitted
+    assert emitted["simulation_id"] == oracle["simulation_id"]
+    assert emitted["authority"]["live_review_state_written"] is False
