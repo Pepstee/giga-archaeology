@@ -139,3 +139,24 @@ def test_historical_mode_requires_evidence_and_never_writes(tmp_path):
     with pytest.raises(module.DerivedPayloadError, match='missing required file'):
         module.verify_derived_payloads(tmp_path, mode='historical-activation')
     assert before == {p: (tmp_path / p).read_bytes() for p in module.PAYLOAD_STATUSES}
+
+
+def test_historical_json_rejects_ambiguous_values():
+    import pytest
+    from scripts.verify_derived_agent_payloads import _strict_json
+    for raw in (b'{"actor":"a","actor":"b"}', b'{"value":NaN}', b'[]'):
+        with pytest.raises(DerivedPayloadError):
+            _strict_json(raw)
+
+
+def test_historical_source_pin_cannot_be_relabelled(tmp_path):
+    import json
+    import pytest
+    from scripts import verify_derived_agent_payloads as module
+    _staged_fixture(tmp_path)
+    raw = {"schema": "giga.agent-payload-activation.v2", "actor": "Artiom Gutu",
+           "recorded_at_utc": "2026-09-10T00:00:00Z", "source_commit": "0" * 40,
+           "self_sha256": "0" * 64, "platforms": {}}
+    (tmp_path / module.ACTIVATION_EVIDENCE_PATH).write_text(json.dumps(raw))
+    with pytest.raises(DerivedPayloadError, match='source commit differs'):
+        module.verify_derived_payloads(tmp_path, mode='historical-activation')

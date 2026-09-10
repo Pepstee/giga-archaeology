@@ -63,6 +63,7 @@ class LineageReconciliationTests(unittest.TestCase):
             "returncode": 0,
             "output_sha256": "a" * 64,
             "summary": "50 passed",
+            "derived_payloads": {"status": "PASS", "schema": "synthetic", "canonical_sources": {}, "payloads": []},
         },
     )
     def test_adopts_current_state_and_retains_previous_revision(self, *_: object) -> None:
@@ -124,3 +125,31 @@ class LineageReconciliationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_payload_failure_prevents_test_launch(tmp_path):
+    from twin_core.lineage import _run_canonical_tests
+    with patch("twin_core.lineage.subprocess.run") as launched:
+        result = _run_canonical_tests(tmp_path, payload_mode="staged-v2")
+    assert result["ok"] is False
+    launched.assert_not_called()
+
+
+def test_actual_staged_gate_runs_tiny_test_suite(tmp_path):
+    from test_derived_agent_payloads import _staged_fixture
+    from scripts.verify_derived_agent_payloads import write_derived_payloads
+    from twin_core.lineage import _run_canonical_tests
+    _staged_fixture(tmp_path)
+    write_derived_payloads(tmp_path)
+    (tmp_path / "tests").mkdir()
+    (tmp_path / "tests/test_canary.py").write_text("def test_canary(): assert 2 + 2 == 4\n")
+    result = _run_canonical_tests(tmp_path, payload_mode="staged-v2")
+    assert result["ok"] is True
+    assert result["derived_payloads"]["verification_mode"] == "staged-v2"
+
+
+def test_lineage_rejects_historical_activation_mode(tmp_path):
+    import pytest
+    from twin_core.lineage import _run_canonical_tests
+    with pytest.raises(LineageReconciliationError, match="staged payload integrity"):
+        _run_canonical_tests(tmp_path, payload_mode="historical-activation")

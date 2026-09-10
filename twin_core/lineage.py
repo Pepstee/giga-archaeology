@@ -14,6 +14,8 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from scripts.verify_derived_agent_payloads import DerivedPayloadError, verify_derived_payloads
+
 from .integrity import sha256_file, verify_hash_baseline
 from .memory_validation import validate_memory
 from .store import TwinStore
@@ -66,7 +68,23 @@ def _write_immutable(path: Path, content: str) -> None:
     _write_atomic(path, content)
 
 
-def _run_canonical_tests(root: Path) -> dict[str, Any]:
+def _run_canonical_tests(root: Path, payload_mode: str = "v1") -> dict[str, Any]:
+    if payload_mode not in {"v1", "staged-v2"}:
+        raise LineageReconciliationError("lineage requires staged payload integrity")
+    try:
+        derived_payloads = verify_derived_payloads(root, mode=payload_mode)
+    except DerivedPayloadError as exc:
+        return {
+            "ok": False,
+            "command": [
+                ["python3", "scripts/verify_derived_agent_payloads.py", "--mode", payload_mode],
+                ["python3", "-W", "error", "-m", "pytest", "-q", "tests"],
+            ],
+            "returncode": 1,
+            "output_sha256": hashlib.sha256(str(exc).encode("utf-8")).hexdigest(),
+            "summary": f"derived-payload governance gate failed: {exc}",
+            "derived_payloads": {"status": "FAIL", "error": str(exc)},
+        }
     command = [sys.executable, "-W", "error", "-m", "pytest", "-q", "tests"]
     completed = subprocess.run(
         command,
@@ -78,11 +96,15 @@ def _run_canonical_tests(root: Path) -> dict[str, Any]:
     )
     output = (completed.stdout + completed.stderr).strip()
     return {
-        "ok": completed.returncode == 0,
-        "command": ["python3", "-W", "error", "-m", "pytest", "-q", "tests"],
+        "ok": derived_payloads["status"] == "PASS" and completed.returncode == 0,
+        "command": [
+            ["python3", "scripts/verify_derived_agent_payloads.py", "--mode", payload_mode],
+            ["python3", "-W", "error", "-m", "pytest", "-q", "tests"],
+        ],
         "returncode": completed.returncode,
         "output_sha256": hashlib.sha256(output.encode("utf-8")).hexdigest(),
         "summary": output[-2_000:],
+        "derived_payloads": derived_payloads,
     }
 
 
@@ -144,6 +166,7 @@ def reconcile_lineage(
     store: TwinStore,
     report_json: Path,
     report_markdown: Path,
+    payload_mode: str = "v1",
 ) -> dict[str, Any]:
     """Validate, adopt and receipt a bounded set of current artefact/source states."""
     root = root.resolve()
@@ -198,7 +221,7 @@ def reconcile_lineage(
     markdown_relative, report_markdown_path = _inside(
         root, markdown_relative, field="Markdown report"
     )
-    tests = _run_canonical_tests(root)
+    tests = _run_canonical_tests(root, payload_mode=payload_mode)
     exports = verify_hash_baseline(
         root, root / "architecture" / "EXPORT_IMMUTABILITY_BASELINE.sha256"
     )
@@ -269,6 +292,12 @@ def reconcile_lineage(
         "gates": {
             "tests_command": tests["command"],
             "tests_ok": tests["ok"],
+            "derived_payload_integrity": {
+                "mode": payload_mode,
+                "schema": tests["derived_payloads"]["schema"],
+                "canonical_sources": tests["derived_payloads"]["canonical_sources"],
+                "payloads": tests["derived_payloads"]["payloads"],
+            },
             "exports_ok": exports["ok"],
             "memory_ok": memory["ok"],
         },
@@ -323,6 +352,7 @@ def reconcile_lineage(
         "policy_sha256": policy_sha256,
         "tests_command": tests["command"],
         "canonical_tests_ok": True,
+        "derived_payload_integrity_mode": payload_mode,
         "exports_ok": True,
         "memory_ok": True,
     }

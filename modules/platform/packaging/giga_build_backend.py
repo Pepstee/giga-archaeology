@@ -81,6 +81,7 @@ SOURCE_FILES = (
     'scripts/operator_status.py',
     'scripts/jarvis_telegram.py',
     'scripts/audit_execution_policy.py',
+    'scripts/verify_derived_agent_payloads.py',
     'scripts/capability_adoption_gate.py',
     'scripts/staged_privacy_admission.py',
     'scripts/sovereignty_index.py',
