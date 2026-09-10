@@ -615,7 +615,8 @@ def verify_derived_payloads(root: Path = REPOSITORY_ROOT, *, mode: str = "v1") -
 
 def _write_atomic(root: Path, relative: str, content: bytes) -> None:
     destination = root / relative
-    _read_regular_file(root, relative)
+    if destination.exists() or destination.is_symlink():
+        _read_regular_file(root, relative)
     parent = destination.parent
     parent_metadata = parent.lstat()
     if not stat.S_ISDIR(parent_metadata.st_mode) or parent.is_symlink():
@@ -642,7 +643,9 @@ def _write_atomic(root: Path, relative: str, content: bytes) -> None:
 def write_derived_payloads(root: Path = REPOSITORY_ROOT) -> list[str]:
     root = root.absolute()
     rendered = render_derived_payloads(root, UNVERIFIED_STATUSES)
-    current = {relative: _read_regular_file(root, relative) for relative in rendered}
+    current = {relative: (_read_regular_file(root, relative)
+                          if (root / relative).exists() or (root / relative).is_symlink()
+                          else None) for relative in rendered}
     changed = [
         relative
         for relative, content in rendered.items()

@@ -160,3 +160,24 @@ def test_historical_source_pin_cannot_be_relabelled(tmp_path):
     (tmp_path / module.ACTIVATION_EVIDENCE_PATH).write_text(json.dumps(raw))
     with pytest.raises(DerivedPayloadError, match='source commit differs'):
         module.verify_derived_payloads(tmp_path, mode='historical-activation')
+
+
+def test_staged_first_install_creates_outputs_without_activation(tmp_path):
+    from scripts import verify_derived_agent_payloads as module
+    _staged_fixture(tmp_path)
+    for relative in module.PAYLOAD_STATUSES:
+        (tmp_path / relative).unlink()
+    assert len(module.write_derived_payloads(tmp_path)) == 3
+    assert module.verify_derived_payloads(tmp_path, mode='staged-v2')['status'] == 'PASS'
+
+
+def test_first_install_refuses_dangling_output_symlink(tmp_path):
+    import pytest
+    from scripts import verify_derived_agent_payloads as module
+    _staged_fixture(tmp_path)
+    path = tmp_path / next(iter(module.PAYLOAD_STATUSES))
+    path.unlink()
+    path.symlink_to(tmp_path / 'absent')
+    with pytest.raises(module.DerivedPayloadError, match='regular non-symlink'):
+        module.write_derived_payloads(tmp_path)
+    assert not (tmp_path / 'absent').exists()

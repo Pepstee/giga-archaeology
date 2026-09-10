@@ -20,9 +20,16 @@ DISPLAY_NAME = "giga-user-control-plane"
 VERSION = "0.1.0"
 DIST_INFO = f"{NAME}-{VERSION}.dist-info"
 ROOT = Path(__file__).resolve().parents[3]
-# Reused from the modularisation donor. Keep an explicit code-only allowlist:
+# Reused from the modularisation donor. Keep an explicit portable-source allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
 SOURCE_FILES = (
+    "CHARTER.md",
+    "CONTEXT.md",
+    "CONTEXT_PROTOCOL.md",
+    "INSTALL.md",
+    "deploy/templates/claude_preferences.txt",
+    "deploy/templates/chatgpt_custom_instructions.txt",
+    "deploy/templates/v3_operator_model.md",
     'contracts/capability-adoption-manifest.v1.schema.json',
     'contracts/capability-adoption-manifest.v2.schema.json',
     'contracts/capability-liveness-receipt.v1.schema.json',

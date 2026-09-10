@@ -18,6 +18,7 @@ research-dense = ["fastembed>=0.8,<0.9"]
 research-rds = ["rdata>=1.1,<1.2"]
 
 [project.scripts]
+giga-derived-payloads = "scripts.verify_derived_agent_payloads:main"
 giga-twin = "twin_core.cli:main"
 giga-sovereignty = "scripts.sovereignty_index:main"
 giga-operator-status = "scripts.operator_status:main"
