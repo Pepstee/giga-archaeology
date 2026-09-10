@@ -20,6 +20,7 @@ receipt remain local and retryable if providers fail. Treat the bot token like a
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import subprocess
@@ -41,14 +42,16 @@ GIGA = Path(__file__).resolve().parent.parent      # the giga-user folder
 if str(GIGA) not in sys.path:
     sys.path.insert(0, str(GIGA))
 
-from twin_core.store import TwinStore
-from twin_core.telegram_pipeline import ProcessingOutcome, process_event
-from twin_core.provider_adapters import run_proposal
+from twin_core.execution_policy import REQUEST_SCHEMA, decide_route  # noqa: E402
+from twin_core.provider_adapters import run_proposal  # noqa: E402
+from twin_core.store import TwinStore  # noqa: E402
+from twin_core.telegram_pipeline import ProcessingOutcome, process_event  # noqa: E402
 
 LONG_POLL_S = 50
 CLAUDE_TIMEOUT_S = 180
 RETRY_S = 15 * 60
 MODEL = "sonnet"                                    # filing doesn't need a frontier model
+ROUTE_CALLER = "scripts.jarvis_telegram:_process_update"
 DAILY = GIGA / "scripts" / "daily_personal_knowledge.py"
 DAILY_STATE = HOME / ".jarvis" / "daily_knowledge_state.json"
 DAILY_LOG = HOME / ".jarvis" / "daily_personal_knowledge.bot-launch.log"
@@ -65,6 +68,27 @@ def _api(token: str, method: str, **params):
 
 def _worker(instructions: str) -> tuple[str, Mapping[str, Any]] | None:
     return run_proposal(instructions, cwd=GIGA, timeout=CLAUDE_TIMEOUT_S, model=MODEL)
+
+
+def _shadow_route(event_id: str, instructions: str) -> Mapping[str, Any]:
+    """Observe the deterministic route without granting authority or changing execution."""
+    request = {
+        "schema_version": REQUEST_SCHEMA,
+        "registry_version": 1,
+        "capability_id": "telegram-memory-proposal",
+        "operation_id": "telegram.memory.proposal",
+        "caller_id": ROUTE_CALLER,
+        "idempotency_key": event_id,
+        "input_sha256": hashlib.sha256(instructions.encode("utf-8")).hexdigest(),
+        "requested_authority": "A0",
+        "target": "memory-proposal",
+        "max_cost_usd": 1.0,
+        "max_tokens": 4096,
+        "timeout_seconds": CLAUDE_TIMEOUT_S,
+        "reversibility": "not-applicable-proposal-only",
+        "expected_receipt_type": "telegram.memory.commit",
+    }
+    return decide_route(GIGA, request)
 
 
 def _save_offset(path: Path, offset: int) -> None:
@@ -114,7 +138,12 @@ def _capture_update(store: TwinStore, update: Mapping[str, Any]) -> tuple[str, b
 def _process_update(store: TwinStore, update: Mapping[str, Any]) -> ProcessingOutcome:
     event_id, _, text = _capture_update(store, update)
     return process_event(
-        store=store, memory_root=GIGA / "memory", event_id=event_id, text=text, worker=_worker
+        store=store,
+        memory_root=GIGA / "memory",
+        event_id=event_id,
+        text=text,
+        worker=_worker,
+        route_observer=lambda instructions: _shadow_route(event_id, instructions),
     )
 
 
