@@ -105,7 +105,9 @@ class RootPackageTests(unittest.TestCase):
             self.assertEqual(wheel.read_bytes(), direct.read_bytes())
             subprocess.run([str(python), "-m", "pip", "install", "--no-deps", str(wheel)],
                            cwd=directory, env=env, capture_output=True, text=True, check=True)
-            for command in ("giga-twin", "giga-sovereignty", "giga-operator-status"):
+            for command in ("giga-twin", "giga-sovereignty", "giga-operator-status",
+                            "giga-scientific-evidence", "giga-scientific-pipeline",
+                            "giga-elicit-campaign", "giga-scientific-campaign", "giga-skin-evidence"):
                 result = subprocess.run([str(environment / "bin" / command), "--help"],
                                         cwd=directory, env=env, capture_output=True, text=True, check=True)
                 self.assertIn("usage:", result.stdout.lower())

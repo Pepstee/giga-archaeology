@@ -23,6 +23,13 @@ ROOT = Path(__file__).resolve().parents[3]
 # Reused from the modularisation donor. Keep an explicit portable-source allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
 SOURCE_FILES = (
+    "scripts/analyze_skin_evidence.py",
+    "scripts/elicit_evidence.py",
+    "scripts/run_elicit_campaign.py",
+    "scripts/run_scientific_campaign.py",
+    "scripts/scientific_evidence.py",
+    "scripts/scientific_pipeline.py",
+
     "AGENTS.md",
     "CHARTER.md",
     "CONTEXT.md",

@@ -18,6 +18,11 @@ research-dense = ["fastembed>=0.8,<0.9"]
 research-rds = ["rdata>=1.1,<1.2"]
 
 [project.scripts]
+giga-scientific-evidence = "twin_core.scientific_evidence_cli:main"
+giga-scientific-pipeline = "twin_core.scientific_pipeline_cli:main"
+giga-elicit-campaign = "scripts.run_elicit_campaign:main"
+giga-scientific-campaign = "scripts.run_scientific_campaign:main"
+giga-skin-evidence = "scripts.analyze_skin_evidence:main"
 giga-derived-payloads = "scripts.verify_derived_agent_payloads:main"
 giga-twin = "twin_core.cli:main"
 giga-sovereignty = "scripts.sovereignty_index:main"
