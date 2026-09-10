@@ -1382,47 +1382,82 @@ def _run_read_only_status(
     env: Mapping[str, str],
     capability_id: str,
 ) -> tuple[int, bytes]:
-    if sys.platform != "darwin":
-        raise CapabilityAdoptionError(
-            "capability owner status requires the admitted macOS read-only sandbox"
-        )
-    sandbox = Path("/usr/bin/sandbox-exec")
-    metadata = sandbox.lstat()
+    linux_builder = None
+    if sys.platform == "linux":
+        try:
+            from modules.operations.archaeology.sandbox import linux_sandbox_command
+        except ImportError as exc:
+            raise CapabilityAdoptionError(
+                "Linux owner status requires the optional giga-archaeology package"
+            ) from exc
+        linux_builder = linux_sandbox_command
+        sandbox = Path("/usr/bin/bwrap")
+    elif sys.platform == "darwin":
+        sandbox = Path("/usr/bin/sandbox-exec")
+    else:
+        raise CapabilityAdoptionError("capability owner status sandbox is unsupported")
+    try:
+        metadata = sandbox.lstat()
+    except OSError as exc:
+        raise CapabilityAdoptionError("capability owner status sandbox is unavailable") from exc
     if (
         not stat.S_ISREG(metadata.st_mode)
         or stat.S_ISLNK(metadata.st_mode)
         or metadata.st_uid != 0
         or metadata.st_mode & 0o022
+        or not metadata.st_mode & 0o111
     ):
-        raise CapabilityAdoptionError("macOS read-only sandbox authority is unsafe")
+        raise CapabilityAdoptionError("capability owner status sandbox authority is unsafe")
     with tempfile.TemporaryDirectory(prefix="giga-capability-status-") as scratch:
         scratch_path = Path(scratch)
         scratch_path.chmod(0o700)
         runtime_paths = _status_runtime_read_paths(argv, env)
-        profile_lines = [
-            "(version 1)",
-            "(deny default)",
-            "(allow process*)",
-            "(allow file-read*)",
-            f"(deny file-read* (subpath {json.dumps(str(Path.home()))}))",
-            f"(allow file-read* (subpath {json.dumps(str(root))}))",
-        ]
-        profile_lines.extend(
-            f"(allow file-read* (subpath {json.dumps(str(path))}))"
-            if path.is_dir()
-            else f"(allow file-read* (literal {json.dumps(str(path))}))"
-            for path in runtime_paths
-        )
-        profile_lines.extend(
-            (
-                f"(allow file-write* (subpath {json.dumps(str(scratch_path))}))",
-                "(deny network*)",
-            )
-        )
-        profile = "\n".join(profile_lines)
         sandbox_env = dict(env)
         sandbox_env.update({"HOME": scratch, "TMPDIR": scratch})
-        command = [str(sandbox), "-p", profile, *argv]
+        if linux_builder is not None:
+            sandbox_env = {
+                key: value for key, value in env.items()
+                if key in {"PATH", "LANG", "LC_ALL", "LC_CTYPE"}
+            }
+            sandbox_env.update({
+                "HOME": scratch, "TMPDIR": scratch,
+                "GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_NOSYSTEM": "1",
+                "PYTHONDONTWRITEBYTECODE": "1", "PYTHONHASHSEED": "0",
+                "PYTHONNOUSERSITE": "1",
+            })
+            command = linux_builder(
+                scratch_path, argv, read_only=(root, *runtime_paths), cwd=directory
+            )
+            # The shared owner clears the environment. Add only this caller's
+            # deterministic settings before the payload separator.
+            separator = command.index("--")
+            settings = []
+            for key, value in sorted(sandbox_env.items()):
+                settings.extend(["--setenv", key, value])
+            command[separator:separator] = settings
+        else:
+            profile_lines = [
+                "(version 1)",
+                "(deny default)",
+                "(allow process*)",
+                "(allow file-read*)",
+                f"(deny file-read* (subpath {json.dumps(str(Path.home()))}))",
+                f"(allow file-read* (subpath {json.dumps(str(root))}))",
+            ]
+            profile_lines.extend(
+                f"(allow file-read* (subpath {json.dumps(str(path))}))"
+                if path.is_dir()
+                else f"(allow file-read* (literal {json.dumps(str(path))}))"
+                for path in runtime_paths
+            )
+            profile_lines.extend(
+                (
+                    f"(allow file-write* (subpath {json.dumps(str(scratch_path))}))",
+                    "(deny network*)",
+                )
+            )
+            profile = "\n".join(profile_lines)
+            command = [str(sandbox), "-p", profile, *argv]
         try:
             process = subprocess.Popen(
                 command,

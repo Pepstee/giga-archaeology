@@ -975,13 +975,39 @@ def test_cli_only_reads_explicit_feeds(tmp_path, capsys):
     assert capability_gate_main(explicit) == 2
 
 
-def test_linux_owner_execution_refuses_before_launch(tmp_path, monkeypatch):
+def test_linux_owner_execution_refuses_missing_dependency_before_launch(tmp_path, monkeypatch):
+    import builtins
     import twin_core.capability_adoption as module
     monkeypatch.setattr(module.sys, "platform", "linux")
-    def forbidden(*args, **kwargs):
-        raise AssertionError("unrestricted launch")
-    monkeypatch.setattr(module.subprocess, "Popen", forbidden)
-    with pytest.raises(CapabilityAdoptionError, match="macOS read-only sandbox"):
+    original_import = builtins.__import__
+    def missing(name, *args, **kwargs):
+        if name == "modules.operations.archaeology.sandbox":
+            raise ImportError("synthetic missing dependency")
+        return original_import(name, *args, **kwargs)
+    monkeypatch.setattr(builtins, "__import__", missing)
+    monkeypatch.setattr(module.subprocess, "Popen", lambda *a, **kw: pytest.fail("unrestricted launch"))
+    with pytest.raises(CapabilityAdoptionError, match="optional giga-archaeology"):
+        module._run_read_only_status(tmp_path, tmp_path, ["true"], {}, "fixture")
+
+
+@pytest.mark.parametrize("unsafe", [False, True])
+def test_linux_owner_execution_refuses_missing_or_unsafe_bwrap(tmp_path, monkeypatch, unsafe):
+    import types
+    import twin_core.capability_adoption as module
+    monkeypatch.setattr(module.sys, "platform", "linux")
+    helper = types.ModuleType("modules.operations.archaeology.sandbox")
+    helper.linux_sandbox_command = lambda *a, **kw: pytest.fail("unsafe sandbox construction")
+    monkeypatch.setitem(sys.modules, helper.__name__, helper)
+    original = Path.lstat
+    def metadata(path, *args, **kwargs):
+        if str(path) == "/usr/bin/bwrap":
+            if not unsafe:
+                raise FileNotFoundError("synthetic missing bwrap")
+            return types.SimpleNamespace(st_mode=0o100777, st_uid=0)
+        return original(path, *args, **kwargs)
+    monkeypatch.setattr(Path, "lstat", metadata)
+    monkeypatch.setattr(module.subprocess, "Popen", lambda *a, **kw: pytest.fail("unrestricted launch"))
+    with pytest.raises(CapabilityAdoptionError, match="sandbox (is unavailable|authority is unsafe)"):
         module._run_read_only_status(tmp_path, tmp_path, ["true"], {}, "fixture")
 
 
