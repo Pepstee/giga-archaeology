@@ -1,11 +1,11 @@
 # GIGA agent operating order
 
-Read `/Users/admin/Documents/giga-user/CONTEXT.md` at the beginning of every chat.
+Read `CONTEXT.md` beside this file at the beginning of every chat.
 It contains engineering doctrine only. Read `00_MASTER.md` only for programme-status or
 workstream-sequencing tasks, and read a numbered brief only when executing that exact workstream.
 Completed or archived briefs are historical evidence, never live instructions.
 
-Read `/Users/admin/Documents/giga-user/CHARTER.md` at the beginning of every chat. It is the
+Read `CHARTER.md` beside this file at the beginning of every chat. It is the
 canonical communication and collaboration contract; this file may specialise it but may not copy,
 weaken, or contradict it.
 

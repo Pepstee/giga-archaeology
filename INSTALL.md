@@ -17,3 +17,5 @@ Linux capability-owner status uses the separately delivered `giga-archaeology` w
 The source distribution uses an explicit allowlist. It excludes the personal corpus, memory contents, live registries, credentials, activation receipts, private runtime state and unrelated projects. Host-bound corpus commands refuse access until an independently authorised activation mechanism exists.
 
 This file owns portable installation instructions. Existing ArtVault bootstrap and project-specific deployment scripts configure different systems and are not a GIGA package installer.
+
+AGENTS.md ships with the folder and resolves CHARTER.md and CONTEXT.md locally. Host-specific external workspace authority remains limited to the named host path. Programme status, numbered workstream briefs and personal project state are not installation assets; provide the exact authorised workstream separately when needed. Host-installed skills are dependencies of the agent environment, not silently bundled or activated by this package.
