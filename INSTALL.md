@@ -12,7 +12,7 @@ python3 -m venv .venv
 
 The build has no build dependencies and the base package has no runtime dependencies. Generation creates local derived settings from the included templates and binds them to CHARTER.md and CONTEXT.md. These files remain unverified or staged. Installation does not change any account settings or activate providers, daemons or corpus access. Read the canonical governance files before using derived settings.
 
-Linux capability-owner status uses the separately delivered `giga-archaeology` wheel, version `0.1.0+7d652482`, and system bubblewrap. Install that wheel into the same environment before using the optional status capability. Research extras listed in pyproject.toml are optional. Inference Fabric remains its separately migrated project, not a bundled duplicate.
+Linux capability-owner status uses the separately delivered `giga-archaeology` wheel, version `0.1.1`, and system bubblewrap. Install that wheel into the same environment before using the optional status capability. Research extras listed in pyproject.toml are optional. Inference Fabric remains its separately migrated project, not a bundled duplicate.
 
 The source distribution uses an explicit allowlist. It excludes the personal corpus, memory contents, live registries, credentials, activation receipts, private runtime state and unrelated projects. Host-bound corpus commands refuse access until an independently authorised activation mechanism exists.
 

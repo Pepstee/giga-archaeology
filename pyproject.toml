@@ -11,7 +11,7 @@ requires-python = ">=3.11"
 dependencies = []
 
 [project.optional-dependencies]
-linux-owner-status = ["giga-archaeology==0.1.0+7d652482"]
+linux-owner-status = ["giga-archaeology==0.1.1"]
 research-web = ["pdfplumber>=0.11.10,<0.12", "pypdf>=6.16.2,<7", "scrapling[fetchers]>=0.4.11,<0.5"]
 research-visual-table = ["rapid-table==3.0.2", "tqdm==4.70.0"]
 research-dense = ["fastembed>=0.8,<0.9"]
