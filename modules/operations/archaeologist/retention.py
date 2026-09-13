@@ -35,7 +35,13 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Iterable, Mapping, Sequence
 
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
-from .mapper import MAPPER_POINTER_SCHEMA
+# Mapper support is optional in the modularised installation.  Retention can
+# still safely manage the inventory and semantic stores when no mapper store is
+# configured; this schema is consulted only when one is supplied.
+try:
+    from .mapper import MAPPER_POINTER_SCHEMA
+except ModuleNotFoundError:
+    MAPPER_POINTER_SCHEMA = "giga.archaeologist.mapper-current-pointer.v1"
 from .navigation_inventory import POINTER_SCHEMA as INVENTORY_POINTER_SCHEMA
 from .navigation_inventory import _replace_atomic
 from .semantic_graph import SEMANTIC_POINTER_SCHEMA

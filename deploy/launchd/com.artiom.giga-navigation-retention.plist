@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.artiom.giga-navigation-retention</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/python3</string>
+    <string>/Users/admin/Documents/giga-user/modules/operations/scripts/archaeologist.py</string>
+    <string>navigation-retention</string>
+    <string>--inventory-store</string>
+    <string>/Users/admin/Documents/ox-alpha-giga-workspace/runtime/navigation/giga-user</string>
+    <string>--semantic-store</string>
+    <string>/Users/admin/Documents/ox-alpha-giga-workspace/runtime/navigation/giga-user-semantic</string>
+    <string>--apply</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>4</integer>
+    <key>Minute</key>
+    <integer>45</integer>
+  </dict>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/admin/.jarvis/navigation/retention.out</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/admin/.jarvis/navigation/retention.err</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>PYTHONPATH</key>
+    <string>/Users/admin/Documents/giga-user</string>
+  </dict>
+</dict>
+</plist>

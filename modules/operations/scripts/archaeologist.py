@@ -46,6 +46,11 @@ from modules.operations.archaeologist.navigation_maintenance import (
     NavigationMaintenanceError,
     run_navigation_maintenance,
 )
+from modules.operations.archaeologist.retention import (
+    RetentionError,
+    RetentionPolicy,
+    run_navigation_retention,
+)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -179,6 +184,21 @@ def _parser() -> argparse.ArgumentParser:
     )
     maintenance.add_argument("--model-path", type=Path, required=True)
     maintenance.add_argument("--strict", action="store_true")
+    retention = subcommands.add_parser(
+        "navigation-retention",
+        help="plan or safely apply retention to stale navigation-map generations",
+    )
+    retention.add_argument("--inventory-store", type=Path, required=True)
+    retention.add_argument("--semantic-store", type=Path, required=True)
+    retention.add_argument("--mapper-store", type=Path)
+    retention.add_argument("--reference-root", type=Path, action="append", default=[])
+    retention.add_argument("--apply", action="store_true")
+    retention.add_argument("--keep-successes", type=int, default=3)
+    retention.add_argument("--keep-failures", type=int, default=2)
+    retention.add_argument("--min-age-seconds", type=int, default=24 * 60 * 60)
+    retention.add_argument(
+        "--quarantine-grace-seconds", type=int, default=7 * 24 * 60 * 60
+    )
     return parser
 
 
@@ -433,6 +453,22 @@ def main(argv: list[str] | None = None) -> int:
             }:
                 return 2
             return 0
+        if arguments.command == "navigation-retention":
+            receipt = run_navigation_retention(
+                arguments.inventory_store,
+                arguments.mapper_store,
+                arguments.semantic_store,
+                reference_roots=tuple(arguments.reference_root),
+                policy=RetentionPolicy(
+                    keep_successes=arguments.keep_successes,
+                    keep_failures=arguments.keep_failures,
+                    min_age_seconds=arguments.min_age_seconds,
+                    quarantine_grace_seconds=arguments.quarantine_grace_seconds,
+                ),
+                apply=arguments.apply,
+            )
+            print(json.dumps(receipt, sort_keys=True))
+            return 0
     except (
         CounterevidenceError,
         HistoryError,
@@ -440,6 +476,7 @@ def main(argv: list[str] | None = None) -> int:
         InventoryError,
         NavigationInventoryError,
         NavigationMaintenanceError,
+        RetentionError,
         SemanticGraphError,
         JudgeError,
         QuarantineError,
