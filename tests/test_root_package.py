@@ -114,6 +114,46 @@ class RootPackageTests(unittest.TestCase):
             result = subprocess.run([str(python), "-I", "-c", "import twin_core; print(twin_core.__file__)"],
                                     cwd=directory, env=env, capture_output=True, text=True, check=True)
             self.assertTrue(Path(result.stdout.strip()).resolve().is_relative_to(environment.resolve()))
+            # Audit tools must survive source export and a real wheel install.
+            site = Path(subprocess.check_output(
+                [str(python), "-c", "import sysconfig; print(sysconfig.get_path('purelib'))"],
+                cwd=directory, env=env, text=True).strip())
+            for relative in ("ecc-integration/scripts/validate_extraction.py",
+                             "ecc-integration/scripts/check_upstream.py",
+                             "ecc-integration/scripts/audit_ecc.py",
+                             "deploy/skills/skilltree-operator/scripts/audit_tree.py"):
+                result = subprocess.run([str(python), str(site / relative), "--help"],
+                                        cwd=directory, env=env, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn("usage:", result.stdout.lower())
+            # Use the packaged taxonomy with explicit synthetic evidence declarations.
+            # Never consult the Mac corpus or mistake its saved status for this install.
+            evidence = extracted / "synthetic-evidence.json"
+            evidence.write_text(json.dumps({"schema_version": 1,
+                "hub": {"status": "implemented", "evidence": ["CONTEXT.md"]},
+                "jobs": {}}))
+            audit = [str(python), str(site / "deploy/skills/skilltree-operator/scripts/audit_tree.py"),
+                     "--root", str(extracted), "--export",
+                     str(extracted / "outputs/skilltree-export-2026-07-22"),
+                     "--evidence-map", str(evidence), "--output",
+                     str(extracted / "skilltree/implementation-registry.json"), "--report",
+                     str(extracted / "skilltree/IMPLEMENTATION_STATUS.md")]
+            result = subprocess.run(audit, cwd=directory, env=env, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            registry = json.loads((extracted / "skilltree/implementation-registry.json").read_text())
+            self.assertEqual(registry["jobs_total"], 137)
+            (extracted / "skilltree/IMPLEMENTATION_REPORT.md").symlink_to("IMPLEMENTATION_STATUS.md")
+            result = subprocess.run(audit + ["--check", "--compat-report",
+                str(extracted / "skilltree/IMPLEMENTATION_REPORT.md")],
+                cwd=directory, env=env, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            # Extraction must refuse an absent upstream rather than report success.
+            result = subprocess.run([str(python), str(site / "ecc-integration/scripts/validate_extraction.py"),
+                "--root", str(extracted), "--upstream", str(directory / "absent-upstream"),
+                "--findings", str(extracted / "ecc-integration/PORTABLE_FINDINGS.json")],
+                cwd=directory, env=env, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 2, result.stderr)
+            self.assertEqual(json.loads(result.stdout)["status"], "fail")
             database = directory / "synthetic-state" / "kernel.sqlite3"
             result = subprocess.run([str(environment / "bin/giga-twin"), "--database", str(database), "init"],
                                     cwd=directory, env=env, capture_output=True, text=True, check=True)

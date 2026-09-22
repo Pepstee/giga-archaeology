@@ -23,6 +23,37 @@ ROOT = Path(__file__).resolve().parents[3]
 # Reused from the modularisation donor. Keep an explicit portable-source allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
 SOURCE_FILES = (
+    # Retained deterministic audit tools and their public source inputs.
+    # Generated registries and private evidence remain host-local, never bundled.
+    'contracts/adapter-evidence.v1.schema.json',
+    'contracts/operator-status.v1.schema.json',
+    'deploy/skills/skilltree-operator/references/evidence-map.json',
+    'deploy/skills/skilltree-operator/scripts/audit_tree.py',
+    'ecc-integration/COMPONENT_INVENTORY.json',
+    'ecc-integration/FUTURE_WORK.md',
+    'ecc-integration/IMPORT_LEDGER.json',
+    'ecc-integration/PORTABLE_FINDINGS.json',
+    'ecc-integration/SKILL_CLASSIFICATION.json',
+    'ecc-integration/UPSTREAM.json',
+    'ecc-integration/candidate-imports/CAPABILITY_SURFACE_POLICY.md',
+    'ecc-integration/candidate-imports/DEPLOYMENT_CONTRACT.md',
+    'ecc-integration/candidate-imports/EVALUATION_COMPLIANCE_CONTRACT.md',
+    'ecc-integration/candidate-imports/HUMAN_APPROVAL_PROTOCOL.md',
+    'ecc-integration/candidate-imports/OPERATIONAL_ASSURANCE_CONTRACT.md',
+    'ecc-integration/candidate-imports/PRODUCT_INTEGRATION_BOUNDARY.md',
+    'ecc-integration/candidate-imports/RECURSIVE_DECISION_LEDGER.md',
+    'ecc-integration/candidate-imports/SECURITY_NEGATIVE_TESTS.md',
+    'ecc-integration/candidate-imports/SESSION_AND_COLLISION_CONTRACT.md',
+    'ecc-integration/candidate-imports/governance-kit/schemas/adapter-evidence.schema.json',
+    'ecc-integration/candidate-imports/governance-kit/schemas/evaluator-run.schema.json',
+    'ecc-integration/candidate-imports/governance-kit/schemas/import-provenance.schema.json',
+    'ecc-integration/candidate-imports/governance-kit/validate_contracts.py',
+    'ecc-integration/scripts/audit_ecc.py',
+    'ecc-integration/scripts/check_upstream.py',
+    'ecc-integration/scripts/validate_extraction.py',
+    'outputs/skilltree-export-2026-07-22/data/playbook.json',
+    'outputs/skilltree-export-2026-07-22/data/tree.json',
+
     "scripts/analyze_skin_evidence.py",
     "scripts/elicit_evidence.py",
     "scripts/run_elicit_campaign.py",
