@@ -1,0 +1,14 @@
+[build-system]
+requires = []
+build-backend = "archaeology_build_backend"
+backend-path = ["modules/platform/packaging"]
+
+[project]
+name = "giga-archaeology"
+version = "0.1.1"
+description = "Canonical GIGA Archaeology library and deterministic mapper CLI"
+requires-python = ">=3.11"
+dependencies = ["giga-user-control-plane==0.1.0"]
+
+[project.scripts]
+giga-archaeology = "modules.operations.scripts.archaeology:main"
