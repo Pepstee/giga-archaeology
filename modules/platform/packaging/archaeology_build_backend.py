@@ -17,8 +17,16 @@ from typing import Any
 
 NAME = "giga_archaeology"
 DISPLAY_NAME = "giga-archaeology"
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 DIST_INFO = f"{NAME}-{VERSION}.dist-info"
+# Required eagerly by mapper compiler identity, including Python-only scans.
+REQUIRED_DEPENDENCIES = [
+    "giga-user-control-plane==0.1.0",
+    "tree-sitter==0.26.0",
+    "tree-sitter-bash==0.25.1",
+    "tree-sitter-javascript==0.25.0",
+    "tree-sitter-typescript==0.23.2",
+]
 ROOT = Path(__file__).resolve().parents[3]
 # Reused from the modularisation donor. Keep an explicit code-only allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
@@ -75,8 +83,8 @@ def _project() -> dict[str, Any]:
     project = tomllib.loads(_read_source("pyproject.toml").decode())["project"]
     if project["name"] != DISPLAY_NAME or project["version"] != VERSION:
         raise ValueError("project identity disagrees with build backend")
-    if project.get("dependencies") != ["giga-user-control-plane==0.1.0"] or project.get("dynamic"):
-        raise ValueError("Archaeology requires the pinned GIGA capability adoption library")
+    if project.get("dependencies") != REQUIRED_DEPENDENCIES or project.get("dynamic"):
+        raise ValueError("Archaeology requires the pinned GIGA library and parser backends")
     extras = project.get("optional-dependencies", {})
     if not isinstance(extras, dict):
         raise ValueError("optional dependencies must be named groups")
@@ -93,6 +101,9 @@ def _project() -> dict[str, Any]:
 
 def _metadata() -> bytes:
     project = _project()
+    dependencies = "".join(
+        f"Requires-Dist: {requirement}\n" for requirement in project["dependencies"]
+    )
     extras = "".join(
         f"Provides-Extra: {name}\n" + "".join(
             f'Requires-Dist: {requirement}; extra == "{name}"\n'
@@ -106,7 +117,7 @@ def _metadata() -> bytes:
         f"Version: {project['version']}\n"
         f"Summary: {project['description']}\n"
         f"Requires-Python: {project['requires-python']}\n"
-        "Requires-Dist: giga-user-control-plane==0.1.0\n"
+        f"{dependencies}"
         f"{extras}\n"
     ).encode()
 
