@@ -17,11 +17,10 @@ from typing import Any
 
 NAME = "giga_archaeology"
 DISPLAY_NAME = "giga-archaeology"
-VERSION = "0.1.2"
+VERSION = "0.1.3b1"
 DIST_INFO = f"{NAME}-{VERSION}.dist-info"
 # Required eagerly by mapper compiler identity, including Python-only scans.
 REQUIRED_DEPENDENCIES = [
-    "giga-user-control-plane==0.1.0",
     "tree-sitter==0.26.0",
     "tree-sitter-bash==0.25.1",
     "tree-sitter-javascript==0.25.0",
@@ -31,6 +30,10 @@ ROOT = Path(__file__).resolve().parents[3]
 # Reused from the modularisation donor. Keep an explicit code-only allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
 SOURCE_FILES = (
+    "README.md",
+    "CHANGELOG.md",
+    "THIRD_PARTY_NOTICES.md",
+    "architecture/archaeology/BETA_VALIDATION.md",
     'modules/operations/archaeologist/__init__.py',
     'modules/operations/archaeology/__init__.py',
     'modules/operations/archaeology/benchmark.py',
@@ -84,7 +87,7 @@ def _project() -> dict[str, Any]:
     if project["name"] != DISPLAY_NAME or project["version"] != VERSION:
         raise ValueError("project identity disagrees with build backend")
     if project.get("dependencies") != REQUIRED_DEPENDENCIES or project.get("dynamic"):
-        raise ValueError("Archaeology requires the pinned GIGA library and parser backends")
+        raise ValueError("Archaeology requires the pinned parser backends")
     extras = project.get("optional-dependencies", {})
     if not isinstance(extras, dict):
         raise ValueError("optional dependencies must be named groups")
@@ -118,7 +121,9 @@ def _metadata() -> bytes:
         f"Summary: {project['description']}\n"
         f"Requires-Python: {project['requires-python']}\n"
         f"{dependencies}"
-        f"{extras}\n"
+        f"{extras}"
+        "Description-Content-Type: text/markdown\n\n"
+        + _read_source("README.md").decode("utf-8")
     ).encode()
 
 

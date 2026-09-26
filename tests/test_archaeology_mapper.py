@@ -1083,3 +1083,49 @@ def test_store_is_private_external_and_cli_runs(
     )
     assert not (repository / "mapper-store").exists()
     assert os.getuid() == mapper_store.stat().st_uid
+
+
+def test_optional_giga_backend_absence_does_not_block_plain_mapping(
+    repository: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from modules.operations.archaeology import mapper
+
+    monkeypatch.setattr(mapper, "_capability_backend", lambda: None)
+    refresh_navigation_inventory(repository, tmp_path / "inventory")
+    run = refresh_mapper(tmp_path / "inventory", tmp_path / "mapper")
+    assert run.manifest["compiler"]["capability_backend"] == "UNAVAILABLE_OPTIONAL_GIGA_INTEGRATION"
+    assert query_mapper(tmp_path / "mapper", "main")["result_count"] > 0
+
+
+def test_optional_giga_backend_absence_refuses_capability_manifests(
+    repository: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from modules.operations.archaeology import mapper
+
+    manifests = repository / "capabilities/manifests"
+    manifests.mkdir(parents=True)
+    (manifests / "example.json").write_text("{}\n", encoding="utf-8")
+    _git(repository, "add", ".")
+    _git(repository, "commit", "-qm", "add capability fixture")
+    monkeypatch.setattr(mapper, "_capability_backend", lambda: None)
+    refresh_navigation_inventory(repository, tmp_path / "inventory")
+    with pytest.raises(MapperError, match="require the optional giga integration"):
+        refresh_mapper(tmp_path / "inventory", tmp_path / "mapper")
+
+
+def test_optional_giga_backend_does_not_hide_broken_installed_dependency(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import builtins
+    from modules.operations.archaeology.mapper import _capability_backend
+
+    original = builtins.__import__
+
+    def broken_import(name, *args, **kwargs):
+        if name == "twin_core.capability_adoption":
+            raise ModuleNotFoundError("missing transitive dependency", name="broken_dependency")
+        return original(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", broken_import)
+    with pytest.raises(ModuleNotFoundError, match="missing transitive dependency"):
+        _capability_backend()
