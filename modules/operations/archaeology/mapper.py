@@ -18,11 +18,6 @@ from datetime import UTC, datetime
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable, Mapping, Sequence
 
-from twin_core.capability_adoption import (
-    CapabilityAdoptionError,
-    inspect_capability_manifest,
-)
-
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
 from .cleanup_map import (
     CLEANUP_POLICY_SHA256,
@@ -646,6 +641,20 @@ def _producer_hash() -> str:
     return _file_sha256(Path(__file__).resolve())[0]
 
 
+def _capability_backend() -> tuple[type[Exception], Any] | None:
+    """Load optional GIGA integration without hiding a broken installed backend."""
+    try:
+        from twin_core.capability_adoption import (
+            CapabilityAdoptionError,
+            inspect_capability_manifest,
+        )
+    except ModuleNotFoundError as exc:
+        if exc.name not in {"twin_core", "twin_core.capability_adoption"}:
+            raise
+        return None
+    return CapabilityAdoptionError, inspect_capability_manifest
+
+
 def _compiler_identity() -> dict[str, Any]:
     files = [
         Path(__file__).resolve(),
@@ -656,7 +665,6 @@ def _compiler_identity() -> dict[str, Any]:
         Path(safe_exact_duplicate_groups.__code__.co_filename).resolve(),
         Path(build_counterevidence.__code__.co_filename).resolve(),
         Path(collect_recent_lineage.__code__.co_filename).resolve(),
-        Path(inspect_capability_manifest.__code__.co_filename).resolve(),
         Path(strict_json_object.__code__.co_filename).resolve(),
         Path(load_runtime_registry.__code__.co_filename).resolve(),
         Path(current_semantic_run.__code__.co_filename).resolve(),
@@ -664,9 +672,13 @@ def _compiler_identity() -> dict[str, Any]:
         Path(extract_javascript_file_fragment.__code__.co_filename).resolve(),
         Path(load_scip_index.__code__.co_filename).resolve(),
     ]
+    capability_backend = _capability_backend()
+    if capability_backend is not None:
+        files.insert(8, Path(capability_backend[1].__code__.co_filename).resolve())
     entries = [{"path": path.name, "sha256": _file_sha256(path)[0]} for path in files]
     return {
         "files": entries,
+        "capability_backend": "AVAILABLE" if capability_backend is not None else "UNAVAILABLE_OPTIONAL_GIGA_INTEGRATION",
         "flow_policy": FLOW_POLICY_VERSION,
         "flow_policy_sha256": POLICY_SHA256,
         "operational_policy": OPERATIONAL_POLICY_VERSION,
@@ -5672,13 +5684,21 @@ def _build_lineage_ownership_maps(
         if record["path"].startswith("capabilities/manifests/")
         and PurePosixPath(record["path"]).suffix.casefold() == ".json"
     ]
+    capability_backend = _capability_backend()
+    if contract_records and capability_backend is None:
+        raise MapperError(
+            "GIGA capability manifests require the optional giga integration: "
+            "install giga-archaeology[giga] with access to giga-user-control-plane"
+        )
     owner_contracts: list[dict[str, Any]] = []
     owner_contract_failures: list[dict[str, str]] = []
     declared_paths: set[str] = set()
     for record in contract_records:
+        assert capability_backend is not None
+        adoption_error, inspect_manifest = capability_backend
         try:
-            contract = inspect_capability_manifest(root, record["path"])
-        except CapabilityAdoptionError as exc:
+            contract = inspect_manifest(root, record["path"])
+        except adoption_error as exc:
             owner_contract_failures.append({"path": record["path"], "reason": str(exc)})
             continue
         if contract["manifest_sha256"] != record["content_sha256"]:
@@ -9194,15 +9214,18 @@ def _build_database(
     cleanup_implementation_hash = _file_sha256(
         Path(safe_exact_duplicate_groups.__code__.co_filename).resolve()
     )[0]
+    capability_backend = _capability_backend()
     lineage_implementation_hash = sha256_bytes(
         canonical_bytes(
             [
                 _file_sha256(
                     Path(collect_recent_lineage.__code__.co_filename).resolve()
                 )[0],
-                _file_sha256(
-                    Path(inspect_capability_manifest.__code__.co_filename).resolve()
-                )[0],
+                (
+                    _file_sha256(Path(capability_backend[1].__code__.co_filename).resolve())[0]
+                    if capability_backend is not None
+                    else None
+                ),
             ]
         )
     )
