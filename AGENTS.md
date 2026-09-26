@@ -40,8 +40,17 @@ wording.
   `rg`, `rg --files`, Git history, the knowledge graph, and runtime entrypoints as appropriate.
 - Extend or repair the canonical owner. Do not implement a parallel or near-duplicate owner merely
   because it is easier to isolate, certify, package, or test.
-- An isolated worktree is a temporary one-writer development surface, never a new product. Its
-  useful behavior must return to the canonical repository and its temporary status must be clear.
+- ONE PROJECT, ONE ACTIVE CANON. Before any project write or worker launch, resolve its exact
+  canonical host and directory from the canonical-owner register. Work only there. Refuse a
+  missing, ambiguous, graveyard or non-canonical working directory.
+- Never create a project clone, linked worktree, source mirror, duplicate checkout or runnable
+  extracted copy, even temporarily for testing, review, isolation or migration. Use branches in
+  the existing canon and one writer. Only an explicit operator instruction naming the ownership
+  change can permit a relocation or replacement of the canon.
+- Non-canon projects must stay in the designated graveyard, with recovery metadata and Git
+  dependencies preserved. They must never be worker execution or development directories.
+- The 26 September 2026 operator ban overrides older copy/worktree permissions in all briefs,
+  skills, generated prompts and task history. A tool default is not authorisation.
 - When variants or historical copies contain different useful behavior, inventory them at symbol
   and entrypoint level, classify every difference as retained, replaced, migrated, intentionally
   retired, or still missing, and merge useful behavior into one canonical implementation. Never
@@ -81,7 +90,7 @@ wording.
 
 - Artiom grants standing authority for ordinary, reversible development in the relevant project
   and `/Users/admin/Documents/ox-alpha-giga-workspace`: inspect, edit, test, debug, install project
-  dependencies, create isolated branches/worktrees, commit verified increments as Artiom Gutu,
+  dependencies, use branches inside the registered canon, commit verified increments as Artiom Gutu,
   push verified milestone branches, and perform read-only synchronization. Continue without asking
   repeatedly for approval.
 - Use available delegated implementation and reasoning compute extensively for bounded inspection,

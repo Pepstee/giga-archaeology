@@ -1,6 +1,6 @@
 # GIGA Engineering Doctrine
 
-*Version 2.0 — 2026-08-28. This file is the canonical home of settled engineering doctrine.
+*Version 2.1 — 2026-09-26. This file is the canonical home of settled engineering doctrine.
 It deliberately contains no operator profile, relationship data, travel state, personal goals, or
 programme status. `CONTEXT_PROTOCOL.md` governs amendments and derived copies.*
 
@@ -23,7 +23,21 @@ programme status. `CONTEXT_PROTOCOL.md` governs amendments and derived copies.*
 - Reuse and repair the canonical owner. Create another file, module, repository, adapter, schema, or
   workflow only for a genuinely distinct responsibility, lifecycle, ownership boundary, or format,
   and record why the canonical owner cannot serve it.
-- A worktree is a temporary one-writer development surface, not a product or a second owner.
+- ONE PROJECT, ONE ACTIVE CANON. The canonical-owner register fixes the sole writable project
+  directory and host. Development, fixes, tests and agent execution use that directory, with one
+  writer at a time. Branches may be used in place; they do not authorise another checkout.
+- Do not create project copies, clones, linked worktrees, replacement checkouts, source mirrors or
+  extracted runnable snapshots, including for isolation, review, tests, canaries or migrations.
+  Workers must fail closed when the requested directory is not the registered canon. Explicit
+  operator authorisation for a named move or change of canon is required to change ownership.
+- Historical copies belong only in the designated graveyard and are not development surfaces.
+  Preserve their files, uncommitted work and Git dependencies; moving is not deletion or proof of
+  consolidation. Never recreate an old pathname with a working copy after relocation.
+- Git object bundles used solely for transport or recovery are not runnable checkouts. They must
+  not become another working project or carry private corpus data. Ordinary build outputs and
+  small synthetic test fixtures do not authorise copying the project itself.
+- This operator amendment supersedes every older permission to create isolated worktrees or
+  temporary project copies, including derived instructions and historical task prompts.
 - When copies contain different useful behaviour, consolidate functionality at symbol, entrypoint,
   state, evidence, and affected-system level. A Git merge alone is not functional consolidation.
 - Keep implementation provider- and model-agnostic at every layer where the product contract does
