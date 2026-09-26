@@ -72,3 +72,5 @@ life-logging/audio-processing/processing/
 life-logging/audio-processing/outputs/
 life-logging/audio-processing/outbox/
 life-logging/audio-processing/state/
+/memory/
+/exports/
