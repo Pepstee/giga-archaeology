@@ -22,6 +22,7 @@ from .evidence import (
 )
 from .hypotheses import HYPOTHESES_SCHEMA
 from .inventory import DEFAULT_EXCLUDED_PREFIXES, INVENTORY_SCHEMA
+from .os_support import git_environment, git_executable
 
 
 HISTORY_SCHEMA = "giga.archaeologist.history.v1"
@@ -59,18 +60,13 @@ def _load(path: Path, schema: str) -> tuple[dict[str, Any], bytes]:
 def _git(
     root: Path, arguments: Sequence[str], *, ceiling: int = 16 * 1024 * 1024
 ) -> bytes:
+    executable = git_executable()
+    if executable is None:
+        raise HistoryError("Git executable is unavailable")
     result = subprocess.run(
-        ["/usr/bin/git", *arguments],
+        [executable, *arguments],
         cwd=root,
-        env={
-            "GIT_CONFIG_GLOBAL": "/dev/null",
-            "GIT_CONFIG_NOSYSTEM": "1",
-            "GIT_OPTIONAL_LOCKS": "0",
-            "GIT_TERMINAL_PROMPT": "0",
-            "LC_ALL": "C",
-            "PATH": "/usr/bin:/bin",
-            "TZ": "UTC",
-        },
+        env=git_environment(executable),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -163,17 +159,14 @@ def _versions(root: Path, path: str) -> list[dict[str, str]]:
                 break
     versions: list[dict[str, str]] = []
     seen_blobs: set[str] = set()
+    executable = git_executable()
+    if executable is None:
+        raise HistoryError("Git executable is unavailable")
     for commit in commits:
         result = subprocess.run(
-            ["/usr/bin/git", "rev-parse", f"{commit}:{path}"],
+            [executable, "rev-parse", f"{commit}:{path}"],
             cwd=root,
-            env={
-                "GIT_CONFIG_GLOBAL": "/dev/null",
-                "GIT_CONFIG_NOSYSTEM": "1",
-                "GIT_OPTIONAL_LOCKS": "0",
-                "LC_ALL": "C",
-                "PATH": "/usr/bin:/bin",
-            },
+            env=git_environment(executable),
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,

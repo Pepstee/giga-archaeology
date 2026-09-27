@@ -25,6 +25,7 @@ from .evidence import (
     sha256_bytes,
     write_atomic,
 )
+from .os_support import git_environment, git_executable
 
 
 INVENTORY_SCHEMA = "giga.archaeologist.inventory.v1"
@@ -128,19 +129,13 @@ def _root_identity(root: Path) -> dict[str, int]:
 
 
 def _git(root: Path, arguments: Sequence[str]) -> bytes:
-    environment = {
-        "GIT_CONFIG_GLOBAL": "/dev/null",
-        "GIT_CONFIG_NOSYSTEM": "1",
-        "GIT_OPTIONAL_LOCKS": "0",
-        "GIT_TERMINAL_PROMPT": "0",
-        "LC_ALL": "C",
-        "PATH": "/usr/bin:/bin:/opt/homebrew/bin",
-        "TZ": "UTC",
-    }
+    executable = git_executable()
+    if executable is None:
+        raise InventoryError("Git executable is unavailable")
     result = subprocess.run(
-        ["/usr/bin/git", *arguments],
+        [executable, *arguments],
         cwd=root,
-        env=environment,
+        env=git_environment(executable),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

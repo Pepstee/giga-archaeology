@@ -20,7 +20,6 @@ progress.
 
 from __future__ import annotations
 
-import fcntl
 import gzip
 import hashlib
 import json
@@ -43,6 +42,7 @@ from .evidence import (
     validate_self_hash,
     write_atomic,
 )
+from .os_support import lock_file, unlock_file
 from .mapper import MAPPER_POINTER_SCHEMA
 from .navigation_inventory import POINTER_SCHEMA as INVENTORY_POINTER_SCHEMA
 from .navigation_inventory import _replace_atomic
@@ -1135,7 +1135,7 @@ def recover_current_compacted_mapper(
     lock = lock_path.open("a+b")
     os.chmod(lock_path, 0o600)
     try:
-        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        lock_file(lock)
         pointer = _read_json(root / "CURRENT.json")
         pointer_raw = (root / "CURRENT.json").read_bytes()
         if pointer_raw != canonical_bytes(pointer):
@@ -2667,8 +2667,8 @@ def _lock_status(store_root: Path, run: Path) -> dict[str, Any]:
                 return {"status": "UNKNOWN", "reason": "UNSAFE_LOCK_ARTIFACT"}
             with lock_path.open("a+b") as handle:
                 try:
-                    fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-                    fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+                    lock_file(handle, blocking=False)
+                    unlock_file(handle)
                 except BlockingIOError:
                     return {"status": "ACTIVE", "reason": "LOCK_HELD"}
         except OSError:
@@ -6732,7 +6732,7 @@ def compact_inactive_semantic_generation(
     os.chmod(lock_path, 0o600)
     try:
         try:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            lock_file(lock, blocking=False)
         except BlockingIOError as exc:
             raise RetentionError("retention maintenance is already running") from exc
         store, run, rank = _semantic_generation_rank(root, run_id)
@@ -7219,7 +7219,7 @@ def compact_inactive_scip_generation(
     os.chmod(lock_path, 0o600)
     try:
         try:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            lock_file(lock, blocking=False)
         except BlockingIOError as exc:
             raise RetentionError("retention maintenance is already running") from exc
         store, run, rank = _scip_generation_rank(root, run_id)
@@ -7997,7 +7997,7 @@ def run_navigation_retention(
     os.chmod(lock_path, 0o600)
     try:
         try:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            lock_file(lock, blocking=False)
         except BlockingIOError as exc:
             raise RetentionError("retention maintenance is already running") from exc
         recovered_quarantines = _recover_incomplete_quarantines(retention_root)

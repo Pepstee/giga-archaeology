@@ -6,7 +6,6 @@ Archaeology fact store and its observations never grant authority.
 
 from __future__ import annotations
 
-import fcntl
 import hashlib
 import json
 import os
@@ -23,6 +22,7 @@ from typing import Any, Iterable, Mapping, Sequence
 
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
 from .navigation_inventory import NavigationRun, current_navigation_run
+from .os_support import lock_file, unlock_file
 
 
 SCIP_MANIFEST_SCHEMA = "giga.archaeologist.scip-index-manifest.v1"
@@ -923,10 +923,13 @@ def refresh_scip_store(
     runs = store / "runs"
     runs.mkdir(mode=0o700, exist_ok=True)
     lock_path = store / "refresh.lock"
-    lock_descriptor = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o600)
+    lock_handle = lock_path.open("a+b")
+    os.chmod(lock_path, 0o600)
     staging: Path | None = None
+    locked = False
     try:
-        fcntl.flock(lock_descriptor, fcntl.LOCK_EX)
+        lock_file(lock_handle)
+        locked = True
         previous = None
         if (store / "CURRENT.json").is_file():
             previous = current_scip_store(store)
@@ -1088,8 +1091,9 @@ def refresh_scip_store(
             shutil.rmtree(staging, ignore_errors=True)
         raise
     finally:
-        fcntl.flock(lock_descriptor, fcntl.LOCK_UN)
-        os.close(lock_descriptor)
+        if locked:
+            unlock_file(lock_handle)
+        lock_handle.close()
 
 
 def _prefix_index_documents(index: ScipIndex, project_root: str) -> ScipIndex:
