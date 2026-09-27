@@ -1,4 +1,7 @@
-# Developer beta validation — 0.1.3b1
+# Developer beta validation — 0.1.3b2
+
+The mapping canary and regression results below were established on 0.1.3b1.
+Version 0.1.3b2 changes licensing and packaging only; mapper source is unchanged.
 
 This is the release-specific evidence summary. Installation and supported scope are in README.md;
 historical ownership/identity evidence remains in IDENTITY_MIGRATION.md.
@@ -34,17 +37,20 @@ not established by this canary. No model-token savings claim is made.
 ## Structural source graph
 
 The existing source graph was rebuilt with Graphify's deterministic Python AST extractor from
-canonical Git blobs and the reviewed candidate patch, without another project checkout.
-It covers 42 Python source files, 1274 nodes and 5360 edges, including the
+the registered canonical source directory, without another project checkout.
+It covers 42 Python source files, 1274 nodes and 5362 edges, including the
 packaging backend. Paths are repository-relative and every input has a SHA-256 in manifest.json.
-Graph SHA-256: `032616e4cd027370a85a94c55eaa540218e3d40327ebd0fab1de4ad430bc59a5`.
-Manifest SHA-256: `8561dd23a0e08efe08a7286fbefe9cbc88d907375597a697e5bf93871ed67398`.
+Graph SHA-256: `7f57155d04e5f9ddd61fd19f65d8d6d0edd7d0b1c6e6ada39ce8e6dac48bd68d`.
+Manifest SHA-256: `c6ac4fc2e3e01ee139fb41c1a7205e54922b82701531e413e5da9934112e1c31`.
 The previously mismatched source files are included with their current hashes.
 Markdown prose, runtime behaviour and semantic extraction remain outside this structural graph.
 No model calls were used for graph generation.
 
 ## Release boundary
 
-The narrow Python mapping beta is technically verified within the scope above. Licence selection
-is awaiting the operator and public distribution has not been performed. Runtime installation on
+The narrow Python mapping beta is technically verified within the scope above. The operator selected MIT, supplied in LICENSE; public distribution has not been performed. Runtime installation on
 ArtVault is a separate action; source synchronisation does not imply services were upgraded.
+
+## MIT packaging verification
+
+Version 0.1.3b2 includes identical MIT text in the source archive, wheel and prepared metadata. Licence-Expression and Licence-File metadata, wheel RECORD hashes and repeat-build identity were checked. Mapper source is unchanged from the verified 0.1.3b1 canary.

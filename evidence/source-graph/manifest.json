@@ -33,7 +33,7 @@
   "modules/operations/archaeology/shell_map.py": "4559efbd9f2217276b0c43da9fa7fb6d3c0a56babdbb0594fabce631b103f323",
   "modules/operations/scripts/archaeologist.py": "970e76383807fb8d9f539ff5c31d78e7020a384059709e8a2335b4575768d234",
   "modules/operations/scripts/archaeology.py": "976ec5521dd8c97c801fd3603e15016bd94f91b781f8522d77e8506333471708",
-  "modules/platform/packaging/archaeology_build_backend.py": "adf1fcc6deab662f6a8c8e846901664ca8ac861efcf0efe4048606888a917de0",
+  "modules/platform/packaging/archaeology_build_backend.py": "8b5d747dc2d0e8cacd41f0b42f4f2a21d1bc5d6aab75be7f93a10ca700e758c4",
   "scripts/graphify_codex_backend.py": "13fe31541a9d85024caccd7ff3c7fd721ecbf9e16fa5e682bbc6610ecae0fa4e",
   "twin_core/__init__.py": "dba29c9ef16c5f49e57a764f2b97235d5682e2571bc145ad983a552ee85b3319",
   "twin_core/capability_adoption.py": "f13f841d6cb12ee9f117409f153b9f64d9e2bdf703aff9d92043e8f464372243",

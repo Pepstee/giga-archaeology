@@ -5,9 +5,11 @@ backend-path = ["modules/platform/packaging"]
 
 [project]
 name = "giga-archaeology"
-version = "0.1.3b1"
+version = "0.1.3b2"
 description = "Deterministic Python repository maps and source-linked context"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
     "tree-sitter==0.26.0",
