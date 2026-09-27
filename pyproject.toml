@@ -23,3 +23,4 @@ giga = ["giga-user-control-plane==0.1.0"]
 
 [project.scripts]
 giga-archaeology = "modules.operations.scripts.archaeology:main"
+giga-archaeologist = "modules.operations.scripts.archaeologist:main"
