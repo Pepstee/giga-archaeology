@@ -19,6 +19,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Mapping, Sequence
 
 from .evidence import EvidenceError, canonical_bytes, seal_document, sha256_bytes, write_atomic
+from .os_support import git_environment, git_executable
 
 
 INVENTORY_SCHEMA = "giga.archaeologist.inventory.v1"
@@ -113,6 +114,8 @@ def _root_identity(root: Path) -> dict[str, int]:
     metadata = root.lstat()
     if root.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
         raise InventoryError("repository root must be a real directory")
+    if not hasattr(metadata, "st_uid"):
+        raise InventoryError("repository ownership cannot be verified on this platform")
     return {
         "device": metadata.st_dev,
         "inode": metadata.st_ino,
@@ -122,19 +125,13 @@ def _root_identity(root: Path) -> dict[str, int]:
 
 
 def _git(root: Path, arguments: Sequence[str]) -> bytes:
-    environment = {
-        "GIT_CONFIG_GLOBAL": "/dev/null",
-        "GIT_CONFIG_NOSYSTEM": "1",
-        "GIT_OPTIONAL_LOCKS": "0",
-        "GIT_TERMINAL_PROMPT": "0",
-        "LC_ALL": "C",
-        "PATH": "/usr/bin:/bin:/opt/homebrew/bin",
-        "TZ": "UTC",
-    }
+    executable = git_executable()
+    if executable is None:
+        raise InventoryError("Git is unavailable on PATH")
     result = subprocess.run(
-        ["/usr/bin/git", *arguments],
+        [executable, *arguments],
         cwd=root,
-        env=environment,
+        env=git_environment(executable),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

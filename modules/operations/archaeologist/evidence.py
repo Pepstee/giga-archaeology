@@ -52,6 +52,10 @@ def validate_self_hash(payload: Mapping[str, Any]) -> None:
 
 def write_atomic(path: Path, payload: bytes, *, mode: int = 0o600) -> None:
     """Atomically publish bytes without overwriting an existing evidence file."""
+    if os.name == "nt":
+        raise EvidenceError(
+            "Windows evidence publication is disabled until a private DACL can be verified"
+        )
     path = path.resolve(strict=False)
     path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     if path.exists() or path.is_symlink():

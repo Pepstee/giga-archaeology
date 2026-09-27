@@ -131,6 +131,23 @@ SOURCE_FILES = (
     'scripts/capability_adoption_gate.py',
     'scripts/staged_privacy_admission.py',
     'scripts/sovereignty_index.py',
+
+    # Portable Archaeologist CLI and its dependency-free observation pipeline.
+    'modules/operations/scripts/archaeologist.py',
+    'modules/operations/archaeologist/__init__.py',
+    'modules/operations/archaeologist/cgc_bridge.py',
+    'modules/operations/archaeologist/counterevidence.py',
+    'modules/operations/archaeologist/evidence.py',
+    'modules/operations/archaeologist/history.py',
+    'modules/operations/archaeologist/hypotheses.py',
+    'modules/operations/archaeologist/inventory.py',
+    'modules/operations/archaeologist/judge.py',
+    'modules/operations/archaeologist/navigation_inventory.py',
+    'modules/operations/archaeologist/navigation_maintenance.py',
+    'modules/operations/archaeologist/os_support.py',
+    'modules/operations/archaeologist/quarantine.py',
+    'modules/operations/archaeologist/retention.py',
+    'modules/operations/archaeologist/semantic_graph.py',
 )
 
 

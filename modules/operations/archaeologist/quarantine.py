@@ -22,6 +22,7 @@ from .evidence import (
 )
 from .inventory import INVENTORY_SCHEMA
 from .judge import JUDGE_SCHEMA, build_judgement
+from .os_support import git_environment, git_executable
 
 
 QUARANTINE_SCHEMA = "giga.archaeologist.quarantine-canary.v1"
@@ -57,17 +58,13 @@ def _load(path: Path, schema: str) -> tuple[dict[str, Any], bytes]:
 
 
 def _git(root: Path, *arguments: str) -> bytes:
+    executable = git_executable()
+    if executable is None:
+        raise QuarantineError("Git is unavailable on PATH")
     process = subprocess.run(
-        ["/usr/bin/git", *arguments],
+        [executable, *arguments],
         cwd=root,
-        env={
-            "LC_ALL": "C",
-            "TZ": "UTC",
-            "GIT_CONFIG_NOSYSTEM": "1",
-            "GIT_CONFIG_GLOBAL": "/dev/null",
-            "GIT_OPTIONAL_LOCKS": "0",
-            "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
-        },
+        env=git_environment(executable),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

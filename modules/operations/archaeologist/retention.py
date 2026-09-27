@@ -20,7 +20,6 @@ progress.
 
 from __future__ import annotations
 
-import fcntl
 import gzip
 import hashlib
 import json
@@ -35,6 +34,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Iterable, Mapping, Sequence
 
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
+from .os_support import lock_file
 # Mapper support is optional in the modularised installation.  Retention can
 # still safely manage the inventory and semantic stores when no mapper store is
 # configured; this schema is consulted only when one is supplied.
@@ -1417,7 +1417,7 @@ def run_navigation_retention(
     lock = lock_path.open("a+b")
     os.chmod(lock_path, 0o600)
     try:
-        fcntl.flock(lock.fileno(), fcntl.LOCK_EX)
+        lock_file(lock)
         recovered_quarantines = _recover_incomplete_quarantines(retention_root)
         plan = plan_navigation_retention(
             inventory_store,

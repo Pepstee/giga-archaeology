@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import fcntl
 import os
 import signal
 import subprocess
@@ -14,6 +13,7 @@ from typing import Any
 
 from .evidence import canonical_bytes, seal_document, sha256_bytes
 from .navigation_inventory import _replace_atomic, refresh_navigation_inventory
+from .os_support import lock_file
 from .semantic_graph import (
     GraphifyConfig,
     SemanticGraphError,
@@ -168,7 +168,7 @@ def run_navigation_maintenance(
     os.chmod(lock_path, 0o600)
     try:
         try:
-            fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            lock_file(lock, blocking=False)
         except BlockingIOError:
             return {
                 "schema": MAINTENANCE_SCHEMA,
