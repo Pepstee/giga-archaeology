@@ -17,7 +17,7 @@ from typing import Any
 
 NAME = "giga_archaeology"
 DISPLAY_NAME = "giga-archaeology"
-VERSION = "0.1.3b1"
+VERSION = "0.1.3b2"
 DIST_INFO = f"{NAME}-{VERSION}.dist-info"
 # Required eagerly by mapper compiler identity, including Python-only scans.
 REQUIRED_DEPENDENCIES = [
@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parents[3]
 # Reused from the modularisation donor. Keep an explicit code-only allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
 SOURCE_FILES = (
+    "LICENSE",
     "README.md",
     "CHANGELOG.md",
     "THIRD_PARTY_NOTICES.md",
@@ -88,6 +89,8 @@ def _project() -> dict[str, Any]:
         raise ValueError("project identity disagrees with build backend")
     if project.get("dependencies") != REQUIRED_DEPENDENCIES or project.get("dynamic"):
         raise ValueError("Archaeology requires the pinned parser backends")
+    if project.get("license") != "MIT" or project.get("license-files") != ["LICENSE"]:
+        raise ValueError("Archaeology licence metadata must match the MIT release")
     extras = project.get("optional-dependencies", {})
     if not isinstance(extras, dict):
         raise ValueError("optional dependencies must be named groups")
@@ -116,6 +119,8 @@ def _metadata() -> bytes:
     )
     return (
         "Metadata-Version: 2.4\n"
+        "License-Expression: MIT\n"
+        "License-File: LICENSE\n"
         f"Name: {project['name']}\n"
         f"Version: {project['version']}\n"
         f"Summary: {project['description']}\n"
@@ -158,6 +163,7 @@ def _zip_info(path: str) -> zipfile.ZipInfo:
 def _wheel_members() -> list[tuple[str, bytes]]:
     members = list(_sources())
     members.extend((
+        (f"{DIST_INFO}/licenses/LICENSE", _read_source("LICENSE")),
         (f"{DIST_INFO}/METADATA", _metadata()),
         (f"{DIST_INFO}/WHEEL", _wheel()),
         (f"{DIST_INFO}/entry_points.txt", _entry_points()),
@@ -175,6 +181,8 @@ def prepare_metadata_for_build_wheel(
 ) -> str:
     destination = Path(metadata_directory) / DIST_INFO
     destination.mkdir(parents=True, exist_ok=False)
+    (destination / "licenses").mkdir()
+    (destination / "licenses" / "LICENSE").write_bytes(_read_source("LICENSE"))
     (destination / "METADATA").write_bytes(_metadata())
     (destination / "WHEEL").write_bytes(_wheel())
     (destination / "entry_points.txt").write_bytes(_entry_points())

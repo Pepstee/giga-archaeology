@@ -16,7 +16,7 @@ Create an environment outside the repository you intend to scan, then install th
 ```sh
 python3 -m venv "$HOME/.venvs/giga-archaeology"
 . "$HOME/.venvs/giga-archaeology/bin/activate"
-python -m pip install ./giga_archaeology-0.1.3b1-py3-none-any.whl
+python -m pip install ./giga_archaeology-0.1.3b2-py3-none-any.whl
 python -m pip check
 giga-archaeology --help
 ```
@@ -109,5 +109,5 @@ this as certification of every optional external tool or a complete secret-detec
 ## Distribution status
 
 This is a release candidate prepared for operator review, not a published public release.
-Licence selection is awaiting the operator; do not redistribute the candidate until terms are supplied.
+Archaeology is licensed under the MIT License. See LICENSE for the full terms.
 Third-party dependencies retain their own licences. This package is not affiliated with Pallets.
