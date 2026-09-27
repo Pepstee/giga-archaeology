@@ -9,6 +9,8 @@ It does not certify that a feature is complete, identify every runtime call, or 
 
 Python 3.11+ and Git are required. The release canary was run on macOS arm64 with Python 3.14.
 Other Python versions and operating systems have not been certified by this beta canary.
+The shared Git and file-lock primitives now adapt to Windows and POSIX hosts, but that portability
+work does not certify the full beta on Linux or Windows.
 
 Obtain the wheel from the operator-provided beta bundle. This version is not claimed to be on PyPI.
 Create an environment outside the repository you intend to scan, then install the wheel:

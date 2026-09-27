@@ -31,6 +31,7 @@ from types import SimpleNamespace
 from typing import Any, Iterable, Iterator, Mapping, Sequence
 
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
+from .os_support import git_environment, git_executable
 
 
 NAVIGATION_SCHEMA = "giga.navigation.inventory-manifest.v2"
@@ -237,18 +238,13 @@ def _private_store(path: Path, root: Path) -> Path:
 
 
 def _git(root: Path, arguments: Sequence[str], *, timeout: int = 600) -> bytes:
+    executable = git_executable()
+    if executable is None:
+        raise NavigationInventoryError("Git executable is unavailable")
     result = subprocess.run(
-        ["/usr/bin/git", *arguments],
+        [executable, *arguments],
         cwd=root,
-        env={
-            "GIT_CONFIG_GLOBAL": "/dev/null",
-            "GIT_CONFIG_NOSYSTEM": "1",
-            "GIT_OPTIONAL_LOCKS": "0",
-            "GIT_TERMINAL_PROMPT": "0",
-            "LC_ALL": "C",
-            "PATH": "/usr/bin:/bin:/opt/homebrew/bin",
-            "TZ": "UTC",
-        },
+        env=git_environment(executable),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -348,19 +344,16 @@ def _ignored_paths(
     def submit(values: list[str]) -> None:
         if not values:
             return
+        executable = git_executable()
+        if executable is None:
+            raise NavigationInventoryError("Git executable is unavailable")
         payload = (
             b"\0".join(value.encode("utf-8", "strict") for value in values) + b"\0"
         )
         result = subprocess.run(
-            ["/usr/bin/git", "check-ignore", "--no-index", "-z", "--stdin"],
+            [executable, "check-ignore", "--no-index", "-z", "--stdin"],
             cwd=root,
-            env={
-                "GIT_CONFIG_GLOBAL": "/dev/null",
-                "GIT_CONFIG_NOSYSTEM": "1",
-                "GIT_OPTIONAL_LOCKS": "0",
-                "LC_ALL": "C",
-                "PATH": "/usr/bin:/bin:/opt/homebrew/bin",
-            },
+            env=git_environment(executable),
             input=payload,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -735,17 +728,13 @@ def _commit_delta_paths(root: Path, before: str, after: str) -> set[str]:
     """Return both sides of every path changed between two exact commits."""
     if not before or not after:
         raise NavigationInventoryError("delta refresh requires two commit identities")
+    executable = git_executable()
+    if executable is None:
+        raise NavigationInventoryError("Git executable is unavailable")
     ancestry = subprocess.run(
-        ["/usr/bin/git", "merge-base", "--is-ancestor", before, after],
+        [executable, "merge-base", "--is-ancestor", before, after],
         cwd=root,
-        env={
-            "GIT_CONFIG_GLOBAL": "/dev/null",
-            "GIT_CONFIG_NOSYSTEM": "1",
-            "GIT_OPTIONAL_LOCKS": "0",
-            "LC_ALL": "C",
-            "PATH": "/usr/bin:/bin:/opt/homebrew/bin",
-            "TZ": "UTC",
-        },
+        env=git_environment(executable),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.PIPE,

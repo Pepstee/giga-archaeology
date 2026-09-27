@@ -57,6 +57,7 @@ SOURCE_FILES = (
     'modules/operations/archaeology/mapper.py',
     'modules/operations/archaeology/navigation_inventory.py',
     'modules/operations/archaeology/navigation_maintenance.py',
+    'modules/operations/archaeology/os_support.py',
     'modules/operations/archaeology/operational_map.py',
     'modules/operations/archaeology/python_map.py',
     'modules/operations/archaeology/quality_map.py',
