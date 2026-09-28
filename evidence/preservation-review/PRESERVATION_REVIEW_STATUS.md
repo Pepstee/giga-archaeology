@@ -73,6 +73,8 @@ evidence only. It is not the named donor ref and does not establish donor covera
 - Extraction: none
 - In-memory stream comparison with current canonical source: `65` exact matches, `13` different, `0` missing
 - Archive-to-canon line delta: `+209/-87`
+- In-memory provenance scan: `0` named-ref hits, `0` named-commit hits, and `0` `.git`
+  metadata members among the `78` regular files
 - Observed differences: current-canon portability, optional Giga integration, explicit sandbox opt-out, code-only Graphify metadata, and related tests
 
 The comparison-only differing paths are:
