@@ -223,6 +223,8 @@ proof. Until then this review remains `PARTIAL_BLOCKED`.
 - Preservation-ledger revision: `8844a39008b98a38aba357b5eb28c2eae704db65`
 - Comparison-disposition revision: `433d2e4c41085207273805896bb1e2441c16b781`
 - Metadata-reconciliation revision: `4faabae800573dd2d145890957c91ccee1b363be`
+- Combined canonical-test revision: `c46e06b53178307a058fd9208ab60dfc42e5da9a`
+- First-parent scope-reconciliation revision: `f6471dac5d70d0f1d46068d1bfe129d3f11f295f`
 - The preservation-ledger revision was pushed to
   `origin/codex/artvault-portable-giga-archaeology` and fetched back; the exact check
   was `0 ahead, 0 behind`.
