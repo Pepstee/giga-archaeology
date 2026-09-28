@@ -198,6 +198,8 @@ validation of the unproven archive or the named donor.
 - Affected verification: `101 passed`.
 - Latest affected-suite rerun: `101 passed in 5.41s` with
   `PYTHONDONTWRITEBYTECODE=1`.
+- Latest combined affected/comparison-suite rerun: `152 passed, 2 subtests passed in
+  24.59s` with `PYTHONDONTWRITEBYTECODE=1`.
 - Repair commit: `cddc30e165928e83316e3116b129a9183a3dceb0`.
 - Repair commit pushed and fetched; local HEAD and upstream equal that exact revision.
 
