@@ -32,7 +32,8 @@ was read only and was not modified.
 - Expected scope: 62 Python files and 33,497 additions
 - Verified files: `0/62`
 - Verified additions: `0/33,497`
-- Verified dispositions: `0`
+- Verified donor dispositions: `0`
+- Comparison-only archive dispositions: `13` (not donor-verified)
 - Verified canonical integrations: `0`
 
 ## Exact blocker
@@ -112,6 +113,33 @@ unverified`, pending proof of the named donor ref:
 
 These facts do not change donor coverage, which remains `0/62` files and `0/33,497`
 additions until the named donor commit is proven.
+
+## Comparison-only semantic dispositions
+
+The following are dispositions of the archive-to-canon deltas only. They identify the
+current canonical target and the observed safe disposition; they do not verify the
+named donor and do not increase donor coverage.
+
+| Path | Observed archive delta | Comparison disposition and canonical target |
+| --- | --- | --- |
+| `modules/operations/archaeology/history.py` | Replaces `os_support` Git discovery/environment policy with `/usr/bin/git` and a reduced environment | Retain current portable helper behavior; no archive integration; target remains the canonical `history.py` |
+| `modules/operations/archaeology/hypotheses.py` | Removes `/usr/local/bin` from the scanner `PATH` | Retain current canonical PATH policy; no archive integration; target remains the canonical `hypotheses.py` |
+| `modules/operations/archaeology/inventory.py` | Replaces portable Git discovery/environment policy with `/usr/bin/git` | Retain current portable helper behavior; no archive integration; target remains the canonical `inventory.py` |
+| `modules/operations/archaeology/mapper.py` | Makes `twin_core` capability adoption unconditional and removes absent-optional-backend handling | Retain optional Giga integration and its explicit absence behavior; no archive integration; target remains the canonical `mapper.py` |
+| `modules/operations/archaeology/navigation_inventory.py` | Replaces portable Git discovery and ignore/ancestry helpers with `/usr/bin/git` | Retain current portable helper behavior; no archive integration; target remains the canonical `navigation_inventory.py` |
+| `modules/operations/archaeology/navigation_maintenance.py` | Replaces shared locking helper with POSIX-only `fcntl.flock` | Retain shared cross-platform locking; no archive integration; target remains the canonical `navigation_maintenance.py` |
+| `modules/operations/archaeology/retention.py` | Replaces shared locking helpers with POSIX-only `fcntl.flock` | Retain shared cross-platform locking; no archive integration; target remains the canonical `retention.py` |
+| `modules/operations/archaeology/scip_map.py` | Replaces shared locking helpers with POSIX-only `fcntl.flock`/descriptors | Retain shared cross-platform locking; no archive integration; target remains the canonical `scip_map.py` |
+| `modules/operations/scripts/archaeology.py` | Removes the explicit `--no-sandbox` opt-out and its plumbing | Retain the current documented CLI contract; no archive integration; target remains the canonical `archaeology.py` |
+| `scripts/graphify_codex_backend.py` | Always records a Codex backend and queries Codex version, including code-only extraction | Retain code-only Graphify metadata that does not require Codex; no archive integration; target remains the canonical `graphify_codex_backend.py` |
+| `tests/test_archaeology_hypotheses.py` | Deletes sandbox opt-out CLI tests | Retain current regression coverage; no archive test deletion; target remains the canonical test file |
+| `tests/test_archaeology_mapper.py` | Deletes optional-backend and broken-dependency tests | Retain current optional-integration regression coverage; no archive test deletion; target remains the canonical test file |
+| `tests/test_graphify_codex_backend.py` | Deletes the code-only/no-Codex assertion | Retain current code-only regression coverage; no archive test deletion; target remains the canonical test file |
+
+Current-canon verification for these comparison targets: `51 passed, 2 subtests passed`
+in `tests/test_archaeology_hypotheses.py`, `tests/test_archaeology_mapper.py`, and
+`tests/test_graphify_codex_backend.py`. This validates current behavior only; it is not
+validation of the unproven archive or the named donor.
 
 ## Delegation and graph boundary
 
