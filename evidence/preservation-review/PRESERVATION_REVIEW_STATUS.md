@@ -78,6 +78,13 @@ Prefix aggregation found no subtree matching exactly `62` files and `33,497` add
 for either base or either file scope. The claimed donor scope therefore remains
 unreconciled; verified donor coverage remains `0/62` and `0/33,497`.
 
+An additional read-only reconciliation covered all `143` first-parent snapshots,
+including `d29d209e9094302937c60d28aeab7a54f78ede27`, against both `origin/main` and
+`ab4b6111`. No snapshot had exactly `62` numeric-text paths plus `33,497` additions;
+Python-only checks also found no match. No checkout, source-code read, execution, or
+write occurred in the inactive Mac object store. This further leaves the claimed donor
+scope unreconciled and does not change verified coverage.
+
 ## Scoped tarball comparison evidence
 
 `/srv/artvault/incoming/archaeology-scoped-candidate.tar.gz` is retained as comparison
