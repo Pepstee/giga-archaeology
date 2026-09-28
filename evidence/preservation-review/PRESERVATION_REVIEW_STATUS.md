@@ -152,6 +152,9 @@ validation of the unproven archive or the named donor.
 - Graph status: `STALE`. The existing source-graph manifest predates the current repair and
   does not include `modules/operations/archaeology/os_support.py` or
   `tests/test_os_support.py`.
+- Existing graph manifest evidence: `4,879` bytes, SHA-256
+  `c6ac4fc2e3e01ee139fb41c1a7205e54922b82701531e413e5da9934112e1c31`; exact membership
+  checks for both repaired paths returned `False`.
 - Whole-donor, no-feature-loss, retirement, and cleanup claims: not made.
 
 ## Unaffected verified work
