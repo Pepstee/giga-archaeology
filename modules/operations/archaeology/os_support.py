@@ -2,9 +2,32 @@
 
 from __future__ import annotations
 
+import errno
 import os
 import shutil
 from typing import BinaryIO
+
+
+_WINDOWS_LOCK_CONTENTION_ERRNOS = frozenset(
+    code
+    for code in (
+        errno.EACCES,
+        errno.EAGAIN,
+        getattr(errno, "EDEADLK", None),
+        getattr(errno, "EWOULDBLOCK", None),
+    )
+    if code is not None
+)
+_WINDOWS_LOCK_CONTENTION_WINERRORS = frozenset({32, 33})
+
+
+def _is_windows_lock_contention(error: OSError) -> bool:
+    """Return whether a Windows lock failure means that another process owns it."""
+    return (
+        isinstance(error, BlockingIOError)
+        or error.errno in _WINDOWS_LOCK_CONTENTION_ERRNOS
+        or getattr(error, "winerror", None) in _WINDOWS_LOCK_CONTENTION_WINERRORS
+    )
 
 
 def git_executable() -> str | None:
@@ -47,7 +70,7 @@ def lock_file(handle: BinaryIO, *, blocking: bool = True) -> None:
                 handle.fileno(), msvcrt.LK_LOCK if blocking else msvcrt.LK_NBLCK, 1
             )
         except OSError as exc:
-            if not blocking:
+            if not blocking and _is_windows_lock_contention(exc):
                 raise BlockingIOError("lock is already held") from exc
             raise
         return
