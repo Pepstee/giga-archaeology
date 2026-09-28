@@ -60,6 +60,24 @@ Latest exact-ref recheck was unchanged: normal runtime again failed with the rec
 DNS error, and the approved network route again failed with the recorded GitHub
 authentication error. No source route became available.
 
+## Historical Mac metadata reconciliation
+
+The following results were supplied from a completed read-only metadata reconciliation
+against the inactive Mac historical Git object store. No checkout, source-code read, code
+execution, or write was performed there; these results are evidence only and do not
+establish donor coverage:
+
+| Comparison | Scope | Files | Additions |
+| --- | --- | ---: | ---: |
+| `d29d209e9094302937c60d28aeab7a54f78ede27` vs `origin/main` | all-text numstat | `696` | `2,217,709` |
+| `d29d209e9094302937c60d28aeab7a54f78ede27` vs `origin/main` | Python-only | `210` | `74,974` |
+| `d29d209e9094302937c60d28aeab7a54f78ede27` vs `ab4b6111` | all-text numstat | `352` | `71,795` |
+| `d29d209e9094302937c60d28aeab7a54f78ede27` vs `ab4b6111` | Python-only | `136` | `52,991` |
+
+Prefix aggregation found no subtree matching exactly `62` files and `33,497` additions
+for either base or either file scope. The claimed donor scope therefore remains
+unreconciled; verified donor coverage remains `0/62` and `0/33,497`.
+
 ## Scoped tarball comparison evidence
 
 `/srv/artvault/incoming/archaeology-scoped-candidate.tar.gz` is retained as comparison
