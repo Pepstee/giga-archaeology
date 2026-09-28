@@ -9,9 +9,10 @@ Goal: preserve and adjudicate the scoped donor modularisation history
 - Host: ArtVault
 - Workspace: `/srv/artvault/projects/giga-archaeologist/workspace`
 - Branch: `codex/artvault-portable-giga-archaeology`
-- HEAD: `cddc30e165928e83316e3116b129a9183a3dceb0`
+- Baseline HEAD before the preservation-ledger increment: `cddc30e165928e83316e3116b129a9183a3dceb0`
 - Upstream: `origin/codex/artvault-portable-giga-archaeology`
-- HEAD/upstream equality: `0 ahead, 0 behind`
+- Baseline HEAD/upstream equality: `0 ahead, 0 behind`
+- Preservation-ledger revision subsequently pushed and fetched: `8844a39008b98a38aba357b5eb28c2eae704db65`
 - Existing untracked `__pycache__` directories: preserved
 - Authority-register ArtVault entry head: `2f9f5a3b576b7558274d9a22cae43410d160ef6e`
 - Authority-register worker state: `launch_pending`
@@ -130,3 +131,11 @@ Reopen this status only when a scoped, code-only source for the named donor ref 
 available. Then produce the complete per-file/per-feature coverage ledger, canonical
 mapping, disposition, independent validation, integration result, and remote revision
 proof. Until then this review remains `PARTIAL_BLOCKED`.
+
+## Remote revision proof
+
+- Repair revision: `cddc30e165928e83316e3116b129a9183a3dceb0`
+- Preservation-ledger revision: `8844a39008b98a38aba357b5eb28c2eae704db65`
+- The preservation-ledger revision was pushed to
+  `origin/codex/artvault-portable-giga-archaeology` and fetched back; the exact check
+  was `0 ahead, 0 behind`.
