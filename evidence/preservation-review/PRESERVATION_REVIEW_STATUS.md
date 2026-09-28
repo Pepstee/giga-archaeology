@@ -56,6 +56,10 @@ The configured named remote URL is `https://github.com/Pepstee/giga-user.git`, a
 exact donor commit object check also returned `fatal: Not a valid object name`; no donor
 object was imported.
 
+Latest exact-ref recheck was unchanged: normal runtime again failed with the recorded
+DNS error, and the approved network route again failed with the recorded GitHub
+authentication error. No source route became available.
+
 ## Scoped tarball comparison evidence
 
 `/srv/artvault/incoming/archaeology-scoped-candidate.tar.gz` is retained as comparison
@@ -170,6 +174,7 @@ proof. Until then this review remains `PARTIAL_BLOCKED`.
 
 - Repair revision: `cddc30e165928e83316e3116b129a9183a3dceb0`
 - Preservation-ledger revision: `8844a39008b98a38aba357b5eb28c2eae704db65`
+- Comparison-disposition revision: `433d2e4c41085207273805896bb1e2441c16b781`
 - The preservation-ledger revision was pushed to
   `origin/codex/artvault-portable-giga-archaeology` and fetched back; the exact check
   was `0 ahead, 0 behind`.
