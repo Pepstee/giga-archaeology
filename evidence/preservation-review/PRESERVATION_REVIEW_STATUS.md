@@ -16,6 +16,8 @@ Goal: preserve and adjudicate the scoped donor modularisation history
 - Existing untracked `__pycache__` directories: preserved
 - Authority-register ArtVault entry head: `2f9f5a3b576b7558274d9a22cae43410d160ef6e`
 - Authority-register worker state: `launch_pending`
+- Exact register ownership state: ArtVault `canonical_development_owner`; legacy Mac
+  entry `inactive_after_artvault_handoff`
 - Register head/worker fields: stale relative to current HEAD and this same-session goal; register not modified
 
 The registered authority is `/srv/artvault/control/machine-authority.v1.json`. Its
@@ -48,6 +50,10 @@ The same exact-ref query through the approved network route failed with:
 No full donor-history fetch, clone, worktree, mirror, project snapshot, or private-corpus
 transfer was attempted. A scoped code-only donor export or an accessible read-only ref is
 required before file-level review can begin.
+
+The configured named remote URL is `https://github.com/Pepstee/giga-user.git`, and the
+exact donor commit object check also returned `fatal: Not a valid object name`; no donor
+object was imported.
 
 ## Scoped tarball comparison evidence
 
