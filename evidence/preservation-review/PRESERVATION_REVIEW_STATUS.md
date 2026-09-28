@@ -196,6 +196,8 @@ validation of the unproven archive or the named donor.
   `modules/operations/archaeology/os_support.py`.
 - Focused repair tests added in `tests/test_os_support.py`.
 - Affected verification: `101 passed`.
+- Latest affected-suite rerun: `101 passed in 5.41s` with
+  `PYTHONDONTWRITEBYTECODE=1`.
 - Repair commit: `cddc30e165928e83316e3116b129a9183a3dceb0`.
 - Repair commit pushed and fetched; local HEAD and upstream equal that exact revision.
 
@@ -211,6 +213,7 @@ proof. Until then this review remains `PARTIAL_BLOCKED`.
 - Repair revision: `cddc30e165928e83316e3116b129a9183a3dceb0`
 - Preservation-ledger revision: `8844a39008b98a38aba357b5eb28c2eae704db65`
 - Comparison-disposition revision: `433d2e4c41085207273805896bb1e2441c16b781`
+- Metadata-reconciliation revision: `4faabae800573dd2d145890957c91ccee1b363be`
 - The preservation-ledger revision was pushed to
   `origin/codex/artvault-portable-giga-archaeology` and fetched back; the exact check
   was `0 ahead, 0 behind`.
