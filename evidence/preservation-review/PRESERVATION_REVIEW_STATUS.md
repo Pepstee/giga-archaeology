@@ -709,3 +709,15 @@ Archaeology's tracked source contains no `operator_status.py` or `adapter_eviden
 The ArtVault Archaeology Git store does not contain the pinned donor commit. The approved Control Tower read route verified the exact pinned blob from the existing Mac Git object store; no source copy or credential change was made. No personal corpus or donor source was sent to GLM.
 
 Verified donor source-read coverage is now 39/62 files and 9,605/33,497 additions. The next manifest path is pending metadata verification.
+
+## 2026-09-29 — donor file review 40 of 62
+
+Reviewed all 847 additions to new donor file `twin_core/passage_retrieval.py` at pinned donor `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Donor blob `553ef0f155b4f83d72220f8ecf03d029547b7b32`, 34,133 bytes, SHA-256 `efb27845d4070722cad381d3b96d311ce94b90a8102057df81a66b1729c45c87`. Read the complete module, all 501 lines of its focused tests, and the research-run, scientific CLI, benchmark and packaging callsites. No tests, model, network or source command was executed.
+
+The module provides stable passage chunking over verified archived-web receipts, multilingual BM25, source-diverse reciprocal-rank fusion, receipt-metadata filters, and optional local FastEmbed dense ranking with model-cache and ranking receipts. Its production callers acquire and retrieve public research sources, and FastEmbed is an optional `research-dense` dependency. Archaeology's existing mapper-context uses source-linked map facts, graph ranking and exact/lexical matching; bounded current-canon searches found no passage-retrieval or dense-ranking implementation. BM25 and local dense ranking are possible ideas for a future source-document context benchmark, but this research-specific implementation does not directly serve Archaeology's current mapped-code contract. No transplant is justified without a demonstrated mapper-context improvement and a portability/dependency decision. The donor feature's canonical owner is unresolved.
+
+[P2] `validate_dense_ranking` can accept a dense ranking whose query is missing or has been relabelled. At lines 517-524, the expected-query check runs only when `result["query"]` is not `None`; `_dense_ranking_sha256` also omits the query. The benchmark callsite passes `expected_query` at `twin_core/research_benchmark.py:256-258`, so a queryless or relabelled provider with a matching ranking hash can be accepted as the benchmark query. Require and bind the query when an expected query is supplied. The focused tests do not cover this case. Static review only; the defect was not executed.
+
+Disposition: `REVIEWED_DONOR_INCREMENT / RESEARCH_ARCHIVE_RETRIEVAL_CANDIDATE_NOT_PROVEN_FOR_ARCHAEOLOGY / QUERY_BINDING_DEFECT / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 40/62 files and 10,452/33,497 additions. No source copy was created and no donor source or personal corpus was sent to GLM. Next manifest path: `twin_core/research_benchmark.py` (+3,196 additions).
