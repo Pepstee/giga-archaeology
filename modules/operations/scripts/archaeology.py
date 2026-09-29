@@ -17,6 +17,13 @@ from modules.operations.archaeology.inventory import (
     InventoryPolicy,
     write_inventory,
 )
+from modules.operations.archaeology.location_inventory import (
+    LocationInventoryError,
+    inspect_locations,
+    load_location_roots,
+    query_locations,
+    refresh_locations,
+)
 from modules.operations.archaeology.hypotheses import (
     HypothesisError,
     ScannerPaths,
@@ -145,6 +152,22 @@ def _parse_generated_at(value: str | None) -> datetime | None:
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="giga-archaeology")
     subcommands = parser.add_subparsers(dest="command", required=True)
+    for command in ("locations-inspect", "locations-refresh"):
+        locations = subcommands.add_parser(command, help="observe explicit project roots and direct Git metadata")
+        inputs = locations.add_mutually_exclusive_group(required=True)
+        inputs.add_argument("--roots-file", "--authority-register", dest="roots_file", type=Path)
+        inputs.add_argument("--root", type=Path, action="append")
+        locations.add_argument("--local-host", required=True, help="registered identity of the host running this command")
+        locations.add_argument("--project-id", action="append", default=[], help="select exact declared project IDs")
+        locations.add_argument("--exclude-root", action="append", default=[])
+        locations.add_argument("--observed-at", help="explicit ISO 8601 observation timestamp")
+        if command == "locations-refresh":
+            locations.add_argument("--output", type=Path, required=True, help="new immutable receipt outside inspected roots")
+    location_query = subcommands.add_parser("locations-query", help="query a sealed location receipt without rescanning")
+    location_query.add_argument("query", nargs="?", default="")
+    location_query.add_argument("--receipt", type=Path, required=True)
+    location_query.add_argument("--as-of")
+    location_query.add_argument("--max-age-seconds", type=int, default=86400)
     inventory = subcommands.add_parser(
         "inventory", help="produce a read-only immutable inventory"
     )
@@ -682,6 +705,25 @@ def _parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     arguments = _parser().parse_args(argv)
     try:
+        if arguments.command in {"locations-inspect", "locations-refresh"}:
+            if arguments.roots_file:
+                roots, source = load_location_roots(arguments.roots_file)
+            else:
+                roots = [{"project_id": root.name, "host": arguments.local_host,
+                          "path": str(root), "authority_source": "explicit-cli-root"}
+                         for root in arguments.root]
+                source = {"kind": "explicit-cli-roots"}
+            options = dict(local_host=arguments.local_host, observed_at=arguments.observed_at,
+                           project_ids=arguments.project_id, excluded_roots=arguments.exclude_root,
+                           evidence_source=source)
+            payload = (refresh_locations(roots, arguments.output, **options)
+                       if arguments.command == "locations-refresh" else inspect_locations(roots, **options))
+            print(json.dumps(payload, sort_keys=True))
+            return 0
+        if arguments.command == "locations-query":
+            print(json.dumps(query_locations(arguments.receipt, arguments.query,
+                             as_of=arguments.as_of, max_age_seconds=arguments.max_age_seconds), sort_keys=True))
+            return 0
         if arguments.command == "inventory":
             payload = write_inventory(
                 arguments.repository,
@@ -1541,6 +1583,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(audit, sort_keys=True))
             return 0 if audit["status"] == "PASS" else 1
     except (
+        LocationInventoryError,
         CounterevidenceError,
         DossierError,
         HistoryError,

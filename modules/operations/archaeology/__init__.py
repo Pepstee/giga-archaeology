@@ -5,6 +5,13 @@ quarantine, deletion, or migration authority.
 """
 
 from .inventory import InventoryError, InventoryPolicy, build_inventory, write_inventory
+from .location_inventory import (
+    LocationInventoryError,
+    inspect_locations,
+    load_location_roots,
+    query_locations,
+    refresh_locations,
+)
 from .history import HistoryError, build_history, write_history
 from .hypotheses import (
     HypothesisError,
@@ -120,6 +127,11 @@ from .scip_map import (
 )
 
 __all__ = [
+    "LocationInventoryError",
+    "inspect_locations",
+    "load_location_roots",
+    "query_locations",
+    "refresh_locations",
     "HypothesisError",
     "HistoryError",
     "CounterevidenceError",

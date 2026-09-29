@@ -98,6 +98,15 @@ cleanup are not part of the supported beta promise. Their presence in `--help` i
 Dynamic Python dispatch, monkey patching, generated code and namespace-package resolution can remain
 partial or unresolved. Static non-reachability is never proof that deletion is safe.
 
+## Project location inventory (Issue #2)
+
+The source checkout also provides `locations-inspect`, `locations-refresh`, and
+`locations-query` for explicit registered project roots. They record declared
+ownership/canon levels separately from local Git metadata, preserve unknowns and
+conflicts, and report the exact inspected scope. See the
+[location inventory contract](architecture/archaeology/LOCATION_INVENTORY.md) for
+inputs, examples, privacy boundaries and the metadata-only dirty-state limitation.
+
 ## Optional Giga integration
 
 Repositories with JSON capability manifests under `capabilities/manifests/` need the existing Giga

@@ -1,0 +1,9 @@
+{
+  "schema": "giga.archaeology.location-roots.v1",
+  "roots": [
+    {"project_id": "example", "host": "build-host", "path": "/example/projects/source", "declared_owner": "team-example", "authority_level": "project", "canon_level": "canonical_source", "role": "development", "authority_source": "sanitized-operator-fixture", "declared_at": "2026-09-01T00:00:00Z"},
+    {"project_id": "example", "host": "build-host", "path": "/example/projects/runtime", "declared_owner": "team-example", "authority_level": "deployment", "canon_level": "canonical_runtime", "role": "runtime", "authority_source": "sanitized-operator-fixture"},
+    {"project_id": "example", "host": "history-host", "path": "/example/history/source", "declared_owner": "team-example", "authority_level": "historical", "canon_level": "inactive", "role": "historical_copy", "authority_source": "sanitized-operator-fixture"},
+    {"project_id": "example", "host": "build-host", "path": "/example/excluded/source", "role": "candidate", "canon_level": "noncanonical", "excluded": true}
+  ]
+}

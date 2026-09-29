@@ -29,6 +29,7 @@ _SUBMODULES = (
     "inventory",
     "javascript_map",
     "judge",
+    "location_inventory",
     "map_catalog",
     "mapper",
     "navigation_inventory",
