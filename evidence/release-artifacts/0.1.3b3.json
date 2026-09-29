@@ -1,0 +1,71 @@
+{
+  "schema": "giga-archaeology-release-artifacts-v1",
+  "product": "GIGA Archaeology",
+  "version": "0.1.3b3",
+  "source": {
+    "repository": "Pepstee/giga-archaeology",
+    "host": "ArtVault",
+    "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+    "branch": "codex/artvault-portable-giga-archaeology",
+    "commit": "12f5c36304deec8d8caeb39bb351e5e72fa54eb9"
+  },
+  "build": {
+    "date": "2026-09-29",
+    "platform": "Linux x86_64 (ArtVault)",
+    "python": "3.12.3",
+    "wheel_frontend": "pip wheel --no-deps --no-build-isolation",
+    "sdist_frontend": "build 1.6.1 --sdist --no-isolation",
+    "backend": "modules/platform/packaging/archaeology_build_backend.py",
+    "repeat_build_sha256_match": true,
+    "source_archive_extracted": false
+  },
+  "artifacts": [
+    {
+      "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
+      "format": "wheel",
+      "size_bytes": 362273,
+      "sha256": "9071153e0043c91a059470fbe8f2d121ad79a2c5bf19c98ae31d292a3a51ad63",
+      "archive_members": 45,
+      "license_file_present": true
+    },
+    {
+      "filename": "giga_archaeology-0.1.3b3.tar.gz",
+      "format": "sdist",
+      "size_bytes": 331720,
+      "sha256": "424033509a021559e8daac1b4e5f17d363b905585967e819f082e76f9a82581c",
+      "archive_members": 43,
+      "license_file_present": true
+    }
+  ],
+  "verification": {
+    "wheel_install": "success",
+    "pip_check": "No broken requirements found",
+    "console_entrypoint_help": "success",
+    "test_matrix": {
+      "platform": "ArtVault Linux",
+      "interpreters": [
+        "3.11.16",
+        "3.12.3",
+        "3.13.15",
+        "3.14.7"
+      ],
+      "result_per_interpreter": {
+        "passed": 375,
+        "skipped": 1,
+        "subtests_passed": 2
+      },
+      "note": "Python 3.11-3.13 exercised the same code before the b3 version-only metadata bump; Python 3.14 exercised the b3 version."
+    },
+    "source_graph": {
+      "commit": "f83ef0ab922ed461efdfcdce7d6b7992c012aa3b",
+      "inputs": 42,
+      "nodes": 1222,
+      "edges": 3824,
+      "graph_sha256": "b87cac9f54031dcc29fcce7157232bed46e571ef78232d36007771bdeeb9cbf3",
+      "manifest_sha256": "7950a68ae7abcdf1eba6bba8a760a2301bf3677673cf8237e44a95ba26c1a607"
+    },
+    "macos_verified_for_this_candidate": false,
+    "windows_verified_for_this_candidate": false,
+    "publicly_published": false
+  }
+}
