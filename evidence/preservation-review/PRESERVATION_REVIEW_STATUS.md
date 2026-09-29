@@ -228,3 +228,28 @@ proof. Until then this review remains `PARTIAL_BLOCKED`.
 - The preservation-ledger revision was pushed to
   `origin/codex/artvault-portable-giga-archaeology` and fetched back; the exact check
   was `0 ahead, 0 behind`.
+
+## 2026-09-29 — authentication and GitHub publication access update
+
+This addendum supersedes the earlier statement that commit
+`d29d209e9094302937c60d28aeab7a54f78ede27` could not be retrieved at all. A read-only authenticated
+GitHub API route can retrieve that commit from `Pepstee/giga-user`; ArtVault's own HTTPS remote to
+that repository still fails because GitHub credentials are not configured there.
+
+- Control Tower confirmed the named branch `codex/preserve-giga-modularisation-history-20260928`
+  exists in the historical Mac object store but is not published as a GitHub branch. The exact branch
+  lookup returns 404.
+- The GitHub API returns commit `d29d209e9094302937c60d28aeab7a54f78ede27`, parent
+  `5e6aa8bc13a8ae228f741f08c4ab3ff7e7f50039`, with 10 changed files, 127 additions and 60 deletions.
+  GitHub reports its signature status as unsigned. This is a single commit, not the requested
+  62-file / 33,497-addition scope.
+- Therefore the commit object is now API-retrievable, but its relationship to the missing named ref,
+  the requested donor scope, and the full addition set remains unproven. Donor coverage stays
+  `0/62` files and `0/33,497` additions. No donor code was integrated from this observation.
+- GitHub repository metadata identifies `Pepstee/giga-archaeology` as private; its releases endpoint
+  currently returns an empty list. Public discoverability and stars require a later operator-directed
+  publication decision. No visibility, credential, key, or release setting was changed.
+
+The authentication failure is thus narrowed to missing GitHub credentials for the archive repository
+on ArtVault. The connected GitHub API is sufficient for bounded read-only commit inspection, but it
+does not provide a verified ref or an authenticated Git transport for the full donor scope.
