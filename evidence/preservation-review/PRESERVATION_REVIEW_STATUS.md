@@ -633,3 +633,17 @@ The version 1.1.0 change allows a limited set of pre-existing deck/QA companion 
 The full file is byte-identical in the registered Mac `agent-memory` canon at HEAD `222596bf40401dfb04556c15e4486831bdf3a413`. Artifacts are agent-memory draft/compiler evidence, not Archaeology package/release artifacts. Bounded searches found no matching path or exact symbols in Archaeology. Disposition: `REVIEWED_DONOR_INCREMENT / BYTE_IDENTICAL_IN_REGISTERED_AGENT_MEMORY / DRAFT_COMPANION_COMPATIBILITY_RETAINED`; no preservation merge is needed.
 
 Verified donor source-read coverage is now 33/62 files and 8,552/33,497 additions. No tests or private data were accessed, and nothing was sent to GLM. Next stable path: `twin_core/integrity.py` (+17/-4).
+
+## 2026-09-29 — correction to donor file review 32
+
+Correction to `twin_core/export_protection.py` review 32: the earlier wording that an empty policy/ledger set could be accepted as integrity success was too broad. The linked hash-baseline helper requires at least one result, so an empty baseline leads to `hashes.ok == false` and the complete `verify_export_set` path does not report `integrity_ok == true`. Empty policy/ledger sets may pass early count/set consistency checks only. No other finding in review 32 changes.
+
+## 2026-09-29 — donor file review 34 of 62
+
+Reviewed the complete 89-line `twin_core/integrity.py` and full diff from base `f4d8e694289d035991c6d3c0b33b35c15a05c53c` to donor `d29d209e9094302937c60d28aeab7a54f78ede27`. The change is +17/-4; base blob `1c3fbaae31fc80981b399b1230199380acff2d98`, SHA-256 `da4c31008395699653fbb0e53d4b9a45173ffaafa9fd6e297634c8b939b25685`; donor blob `749ace225e6ba44a49d19e7f1977b22856f8e762`, SHA-256 `509a9608e26dcc72feafc0a51158f79b3f88eb423bd5c7160b9dc215560b2296`. No baseline, private evidence or test was opened or executed.
+
+The change adds `authority_path` to reject declared relative-path traversal, observed symlink components and resolved paths outside a root. Hash-baseline verification now uses it. The helper streams SHA-256 and reports per-file missing/nonregular/hash mismatches; success requires a nonempty result set with all hashes matching. This is general source/evidence integrity tooling retained in the registered Mac `agent-memory` canon at HEAD `222596bf40401dfb04556c15e4486831bdf3a413`, byte-identical at the same path. It is not Archaeology-specific package-release verification, so no merge is needed.
+
+Limits include unpinned/untrusted baseline origin, no complete-file enumeration or authenticity/freshness proof, and checks that are not bound to an atomic file descriptor. Root/ancestor symlinks and filesystem races remain possible; baseline reads have no size/count bound. Some parse/read errors can escape structured reporting, and the accepted syntax is not full GNU `sha256sum` compatibility. Static review only; no runtime claim. Disposition: `REVIEWED_DONOR_INCREMENT / BYTE_IDENTICAL_IN_REGISTERED_AGENT_MEMORY / GENERAL_SOURCE_INTEGRITY_HELPER_RETAINED`.
+
+Verified donor source-read coverage is now 34/62 files and 8,569/33,497 additions. No private material was accessed or sent to GLM. Next stable path: `twin_core/knowledge_refresh.py` (+334 additions).
