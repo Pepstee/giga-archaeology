@@ -379,3 +379,15 @@ The HTTP adapter sends configured prompts to OpenAI-compatible endpoints with op
 The live Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has a 533-line version; the complete 373-line diff was reviewed. It preserves donor transports and discovery while adding tighter admission, subscription support and telemetry. No donor-only capability gap was identified; replacing the candidate would discard its additions. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_CANDIDATE_RETAINS_DONOR_WITH_ADDITIONS / OWNER_REGISTRATION_MISSING. No Archaeology merge or runtime verification is warranted.
 
 Verified donor source-read coverage is now 9/62 files and 2,827/33,497 additions. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/source_packets.py (+208 additions).
+
+## 2026-09-29 — donor file review 10 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/source_packets.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 208 additions and 0 deletions; blob c37936bf6f1f31675a954ccb66602d4db07dd2cd; content SHA-256 6abcab4db74c432195291692523960b9fc4e1633f3bd2a47087fb72020f4d788. All lines were read in ranges 1–104 and 105–208.
+
+The module builds and verifies bounded, versioned source packets with normalized relative paths, per-file and total size caps, line/newline representation, content hashes and a canonical packet hash. It rejects selected secret names, suffixes, paths and credential patterns, and checks descendant symlinks and resolved containment. This is a denylist plus selected-pattern check, not general secret or personal-data detection. Source files are fully read before size rejection; ancestor symlinks, check/read races and hard links are not excluded. Hashes establish internal consistency, not authorship, authorization or source-commit freshness.
+
+The verifier has weaker normalization/content checks than the builder, including acceptance of some hash-consistent representations the builder would not emit. The packet path loader checks the final path component but does not eliminate ancestor-symlink or stat/read races. Packets remain mutable data; this module does not enforce a prompt-injection boundary or authorize export. No source packet was created or loaded during this review.
+
+The existing ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical 208-line file with the same blob/hash. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology merge is warranted.
+
+Verified donor source-read coverage is now 10/62 files and 3,035/33,497 additions. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/store.py (+482 additions).
