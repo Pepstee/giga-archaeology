@@ -1,0 +1,616 @@
+{
+  "access": {
+    "authenticated_account": "Pepstee",
+    "donor_ref": "codex/preserve-giga-modularisation-history-20260928",
+    "donor_ref_state": "absent_or_unadvertised",
+    "method": "Authenticated GitHub REST API at explicit base/head commit SHAs; directory enumeration stayed within the six listed path prefixes; blob content decoded in memory for per-file Git numstat calculation.",
+    "source_code_sent_to_glm": false,
+    "verified_at_utc": "2026-09-29T19:18:23.615926+00:00"
+  },
+  "comparison": {
+    "base_commit": "f4d8e694289d035991c6d3c0b33b35c15a05c53c",
+    "base_tree": "e80a60fea5bbbe2f0419c4e313d7e8b965dfc966",
+    "head_commit": "d29d209e9094302937c60d28aeab7a54f78ede27",
+    "head_parent_commits": [
+      "5e6aa8bc13a8ae228f741f08c4ab3ff7e7f50039"
+    ],
+    "head_tree": "9a6d4c3c1f251fb4d0ecbb93a7a502e4d5df33d3",
+    "note": "The comparison base is an explicit historical anchor and is not the direct parent of the donor commit."
+  },
+  "files": [
+    {
+      "additions": 493,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "044aaa152e08d097f5e91bca485ca1e5fdc1f815",
+      "head_content_sha256": "33e57f7975d36472ceb3fa1a3a55c762f3f5b3015e3e805458373eb57a220d2c",
+      "path": "modules/operations/scripts/archaeologist.py"
+    },
+    {
+      "additions": 8,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "8bbc8a6d593e7e56730e341c5f314365127bc21f",
+      "head_content_sha256": "fb0d6c31f821bcfb9fd34ac240135153bb1f9e8c2e2f52c5ab4fddce3811cd6d",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/__init__.py"
+    },
+    {
+      "additions": 82,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "1146af7b6bb11eb4183610638d2dbd9e6e681e89",
+      "head_content_sha256": "9a6daf4a6c63e97ed29dcff3b566f1b839171c1436f2d3a9e533c6fe32e78480",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/benchmarks.py"
+    },
+    {
+      "additions": 78,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "4fba558550480d2bddb1ce61dea0132328bde8e8",
+      "head_content_sha256": "d42280cd30e0a3b6a89edcdce406dd28f05c5cd518d02873a4bfb6465f6ea86d",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/catalogue.py"
+    },
+    {
+      "additions": 1116,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "3da5b92f9914e162bf760a920da7617bd65bbc76",
+      "head_content_sha256": "3748407c8c52c25de3f3161093378348e32be6831d326a1b4499e57bbce60219",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/cli.py"
+    },
+    {
+      "additions": 388,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "68bda498b3f04c27e439f7a6b723548215a13076",
+      "head_content_sha256": "b58e731e7c4b40c26a347644b740d74c76f34cfb068636ea5cade08034d433c5",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/engine.py"
+    },
+    {
+      "additions": 154,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "bd0f14062b69959fbd366ce163ee445eb16f6f46",
+      "head_content_sha256": "ad868592ce7e21a3da56a547008d16a380211b0dfbfbf0cb72e74904a955ec27",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/evaluators.py"
+    },
+    {
+      "additions": 136,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "4f2284be0ff81982140c4ea2d57e256bd3f30bc2",
+      "head_content_sha256": "4a932423ba04f5a6c5bc308673acf13956f8728ae8b627dbcd71fe82acd04982",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/models.py"
+    },
+    {
+      "additions": 372,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "fe29eab987c416300950740cfd6a746ec6ab01ee",
+      "head_content_sha256": "d5a49525db692dabcd62634b4c72657563ad36944b15a10f34432ca573e58915",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/providers.py"
+    },
+    {
+      "additions": 208,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "c37936bf6f1f31675a954ccb66602d4db07dd2cd",
+      "head_content_sha256": "6abcab4db74c432195291692523960b9fc4e1633f3bd2a47087fb72020f4d788",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/source_packets.py"
+    },
+    {
+      "additions": 482,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "a227a7e408dc31ed2d21ef613c2fd3d687cea14b",
+      "head_content_sha256": "6be85a91e01c74a0b107ba7dced81fed390115fecbcf6f4bf5ae278081903911",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/store.py"
+    },
+    {
+      "additions": 166,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "9afb76272fca8cf8749642c4155dba9ce4f211a8",
+      "head_content_sha256": "79719def1faac301f5ad0d2177b0722da8e8fb7e34a935b40f945dff60190016",
+      "path": "research/free-inference-fabric/src/giga_inference_fabric/studies.py"
+    },
+    {
+      "additions": 112,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "165b95a90bb86c438fbccea6ac9ffe8ac7f23bea",
+      "head_content_sha256": "f45e8c21db1dd902edb137bd0876443eb8f1597f94a84bbb785b19b1cce0606a",
+      "path": "research/free-inference-fabric/tests/test_architecture_benchmark.py"
+    },
+    {
+      "additions": 104,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "8b1c7755d787a118d70fa693061df64d7e2269c8",
+      "head_content_sha256": "05457be9829d38bb084f512045c9d5d3ea90d5799b9dcb613110ae6712cf0171",
+      "path": "research/free-inference-fabric/tests/test_config_audit_benchmark.py"
+    },
+    {
+      "additions": 135,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "11e467307c318094bd9f046176758b3ac488e8a7",
+      "head_content_sha256": "2d4f689ba2fba5d283019d1ffbb7cca911fa2a02fdea97717c335246287c9eea",
+      "path": "research/free-inference-fabric/tests/test_coverage_feeder.py"
+    },
+    {
+      "additions": 424,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "cdf76e0fd61c2cacd5df82bf7ada9d7244d21bed",
+      "head_content_sha256": "59a7621cc2c1c587fdd0d7668195da79d6236ce67b55ae0dddb2478d13e728cd",
+      "path": "research/free-inference-fabric/tests/test_engine.py"
+    },
+    {
+      "additions": 118,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "01a9e0cd0bd939e72f08ddf633a382538b0c0daa",
+      "head_content_sha256": "bf80b73851c42f2c248a1b1b1ac47c0cebfad47d5cf8e2fdbd25aa386f3ed273",
+      "path": "research/free-inference-fabric/tests/test_operational_brief_benchmark.py"
+    },
+    {
+      "additions": 63,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "2b2abf93415d56b085b8597b862fc2126666553e",
+      "head_content_sha256": "f427bda67517719e6bb75379786a8ee4bd5ea2e891f912cf1c487d57b2da2094",
+      "path": "research/free-inference-fabric/tests/test_restricted_refactor_benchmark.py"
+    },
+    {
+      "additions": 75,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "04b3af8ab5efa42fb2ab0e68e362c194f6f40548",
+      "head_content_sha256": "07b6c899e52aa756d7e5cd964a7c171395876634ab5c49452fe06fdfa2295eaa",
+      "path": "research/free-inference-fabric/tests/test_source_packet_bug_hunt_benchmark.py"
+    },
+    {
+      "additions": 131,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "08ab809fbc8f1a73d37d735bb449c7b21b163010",
+      "head_content_sha256": "b81669491d4d3fec340f4029e4454bc342435c6dbe6496136758d97604b70046",
+      "path": "research/free-inference-fabric/tests/test_source_packet_generation_benchmark.py"
+    },
+    {
+      "additions": 263,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "19bf4db6ea454f0595dbc48a1a67c7d918f2fd5b",
+      "head_content_sha256": "04640aa1dbb353dae04df5450f0abae9e2c3e71fc6266b642f2885392d15682d",
+      "path": "research/free-inference-fabric/tests/test_source_packets.py"
+    },
+    {
+      "additions": 1006,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "5aab9d41aadbe3ce29f88b29a7a1bea7e6a5acdd",
+      "head_content_sha256": "1a5e3f5b934d2e39edce5dac4b1084084d0a67d3b9f3291009b73fe18c1176bc",
+      "path": "research/free-inference-fabric/tests/test_store_and_catalogue.py"
+    },
+    {
+      "additions": 83,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "6d6888e5c06c97ac2eabf760dea9eec1d596d6f9",
+      "head_content_sha256": "27dbdf5a727af608cc47ff67db95b00b0903a004ec88a61033cdcc531cb73f3b",
+      "path": "research/free-inference-fabric/tests/test_structural_debt_benchmark.py"
+    },
+    {
+      "additions": 103,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "f0713e4e683469fe0a45e5faaacb64ca07060536",
+      "head_content_sha256": "e55a07026c78498eaa7b786d22ee689bf7543a3eba4ad26df949b69de0b15d04",
+      "path": "research/free-inference-fabric/tests/test_test_topology_benchmark.py"
+    },
+    {
+      "additions": 41,
+      "base_blob_sha": "dd87604f3a552ba65cdb1207b5b9f760ef7408df",
+      "base_content_sha256": "67ee2a91d842dd174e6c0cc2b5faf1644d321fb9576b21175b4f84df75818801",
+      "deletions": 0,
+      "head_blob_sha": "85c4af90654b51a7fa1e027c2119f0f73810484f",
+      "head_content_sha256": "9e2bf2952db51cb8f8230bd8dd6cec909526d812341d9a0dc5fc7d830b5a2ef2",
+      "path": "twin_core/adapter_evidence.py"
+    },
+    {
+      "additions": 447,
+      "base_blob_sha": "d8368cdf9e9f6e7b201e4acd6e8501e34a8dfbb6",
+      "base_content_sha256": "4d677e385160fb2eb9bb52a8be18e2b7eae83a8751f7b1130e2e459eb4142925",
+      "deletions": 57,
+      "head_blob_sha": "5971c562ded0b2d61867dc01454d5e6b24d20863",
+      "head_content_sha256": "914d10866546b8981a636d62b4b1880f895cbafe5dfc72bb42f103e5ac9f0527",
+      "path": "twin_core/capability_adoption.py"
+    },
+    {
+      "additions": 39,
+      "base_blob_sha": "c1dcc4c74fcb4e8b3aea78a789202b3130fc1689",
+      "base_content_sha256": "c60b9ad85ac39d529f0d14823b87e7c92597b21345d1148bf212baf9e5f133e3",
+      "deletions": 3,
+      "head_blob_sha": "507f55763ce0a13ef988ec18dac7beba477f96d4",
+      "head_content_sha256": "62be2c1f4e97baffa819eebc5799a8bc76613fcca6c8b67231e660349709d306",
+      "path": "twin_core/cli.py"
+    },
+    {
+      "additions": 595,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "984dc1bdfe31e284bd45935d60afbb7645efd77c",
+      "head_content_sha256": "e7639339a9ed2cc32684fb73bdbea3fca20643a96048694aaed486e608243e4d",
+      "path": "twin_core/constitutional_authority.py"
+    },
+    {
+      "additions": 39,
+      "base_blob_sha": "abffb0e139f6dfd98289ee9c053172245c482c34",
+      "base_content_sha256": "9c518c5af3ea7c4070eb3d31833a5f4fc5125b938ec1bd221e636c7bb62629f3",
+      "deletions": 4,
+      "head_blob_sha": "e0974b811c6e0b3650a0e350bfab42e9c18f82f7",
+      "head_content_sha256": "fc74cb75aab977bbcc13cd00d98291ae814006b4262513f6ea25298281c08cd5",
+      "path": "twin_core/context_compiler.py"
+    },
+    {
+      "additions": 333,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "04cfd6b4725a2a2ca3d857147d051c75ef6b276d",
+      "head_content_sha256": "8045efc37ff698cd4958c6652156d954cb0fa1b4930910f5eb688ae230620bce",
+      "path": "twin_core/daily_checkpoint.py"
+    },
+    {
+      "additions": 599,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "e06391421db92b1fe6ad914aaeef01fd880bb4a0",
+      "head_content_sha256": "f386892c7a499f8929b20631635dd9bcf4319630585946e9d5e921dda5a5eb5b",
+      "path": "twin_core/execution_policy.py"
+    },
+    {
+      "additions": 151,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "2b91d7877cfe623768d830dd59458e651202d91b",
+      "head_content_sha256": "5d613bee9eae8c49ddfc69b5402fa85b5eb13b5211801a5c3bd6b76b0cfb6fb1",
+      "path": "twin_core/export_protection.py"
+    },
+    {
+      "additions": 8,
+      "base_blob_sha": "1d1b281bbfa0e42f21357ee88599d62baeb90940",
+      "base_content_sha256": "073ff37bcb263a573833e1526aa1f7b34e21ffcf46040d3029e419715b7ab3c7",
+      "deletions": 4,
+      "head_blob_sha": "d489483f037f3ddeeab9c69ceac46f7d5344eb6c",
+      "head_content_sha256": "24d6a3af5a1fd094fbd4c0d73915e3c499fc697175afab5e0f8a4d22067800c4",
+      "path": "twin_core/external_proof.py"
+    },
+    {
+      "additions": 17,
+      "base_blob_sha": "1c3fbaae31fc80981b399b1230199380acff2d98",
+      "base_content_sha256": "da4c31008395699653fbb0e53d4b9a45173ffaafa9fd6e297634c8b939b25685",
+      "deletions": 4,
+      "head_blob_sha": "749ace225e6ba44a49d19e7f1977b22856f8e762",
+      "head_content_sha256": "509a9608e26dcc72feafc0a51158f79b3f88eb423bd5c7160b9dc215560b2296",
+      "path": "twin_core/integrity.py"
+    },
+    {
+      "additions": 334,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "64bebd1d633fde7eced11669b6fda622f731c9a8",
+      "head_content_sha256": "a6ec8193974fa334b4ad8a46b92347ec0e1f6944bf230444b97ea929d2ea94a8",
+      "path": "twin_core/knowledge_refresh.py"
+    },
+    {
+      "additions": 54,
+      "base_blob_sha": "2218b157aba9fa414e0a6b25c4560a89de52bada",
+      "base_content_sha256": "1dced5f19b966bc6935d0fd1711326a09e463e6dd5869e0e2cfe21e71e9adda9",
+      "deletions": 120,
+      "head_blob_sha": "000500c3af47e55f8a05b93b508ba2fdcb42c5f1",
+      "head_content_sha256": "46545c185e7ef7b26d4cde419158877e6f5245e054da2098a774dfb09ddfbcaf",
+      "path": "twin_core/lineage.py"
+    },
+    {
+      "additions": 283,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "a21953c6ebe2fdf7e49ef5d1e573e50d9a1adbee",
+      "head_content_sha256": "539a878c9326fbf425b3789325f4f84c78bbbbaee138ad22985dba2081fee581",
+      "path": "twin_core/memory_gate.py"
+    },
+    {
+      "additions": 134,
+      "base_blob_sha": "3249e4a111b257e848987309754e30e30b36e298",
+      "base_content_sha256": "853369d89c6ee7d845ff6032997d5ca202733d3ec24c296dbdede3afb4535d62",
+      "deletions": 41,
+      "head_blob_sha": "3d199f55d65bb8ea79912564f287a472a8317638",
+      "head_content_sha256": "f8e75628c31f99b7fbbf282c910964551e7b81048284030ea61cd4c9afa8302f",
+      "path": "twin_core/memory_proposals.py"
+    },
+    {
+      "additions": 285,
+      "base_blob_sha": "245a04aeac5b01517d4b907791b1aad37dc446e3",
+      "base_content_sha256": "66adde6b2deb9865025f7af50fd986b863f2f9d5e89b63d0b4968528bdddd7f4",
+      "deletions": 11,
+      "head_blob_sha": "1b4134cf1150ae334ff9c124788c9009efe4c175",
+      "head_content_sha256": "4f3aa4f236d1c2daa4cb06c3d3b877e85461e21d19fac4dec9590cdceadb0e73",
+      "path": "twin_core/operator_status.py"
+    },
+    {
+      "additions": 847,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "553ef0f155b4f83d72220f8ecf03d029547b7b32",
+      "head_content_sha256": "efb27845d4070722cad381d3b96d311ce94b90a8102057df81a66b1729c45c87",
+      "path": "twin_core/passage_retrieval.py"
+    },
+    {
+      "additions": 3196,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "2b503ff4c977720c72bb2b3b6b83336d60ca039f",
+      "head_content_sha256": "ffc3ad93d1caeb46f69337de790464464cedabac84b92755f3e792a5a154ebd0",
+      "path": "twin_core/research_benchmark.py"
+    },
+    {
+      "additions": 1104,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "ffcd89a8aa724bcddab5df40a0d949b0e969d6e9",
+      "head_content_sha256": "392ced50e935d8462a7d264d688819d30a9b03d36a2c6908b6da6a961a22c182",
+      "path": "twin_core/research_export.py"
+    },
+    {
+      "additions": 2103,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "1f8b5f4c43c3bd0d8dae37b19ffd36843ae1e9a3",
+      "head_content_sha256": "43cefe02255f55c1bd6f00d680bebd709493ed052827f4904a439989ab5e9748",
+      "path": "twin_core/research_project.py"
+    },
+    {
+      "additions": 862,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "6c9c01fea6449c886ccccd6bd0d4a0e496cf75d6",
+      "head_content_sha256": "e5fd790ae45d547b7069c5db1243797b962dca17d71f26eb9e4cd44c5a343a6a",
+      "path": "twin_core/research_run.py"
+    },
+    {
+      "additions": 508,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "eed377bf8736daf7da457096afdc35e79f942251",
+      "head_content_sha256": "0cdf0a5406ad895cbdf7117f31030532dd96c4c189628a77e3fd817c3fc4cea2",
+      "path": "twin_core/scientific_campaign.py"
+    },
+    {
+      "additions": 1471,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "ac5eb0f759bc0111073a3f570184cca7dd2aa74e",
+      "head_content_sha256": "5e2f8e47db4d64d8c941d8cfc24698bce784c0c7c073793f491eaf7bf67f2f37",
+      "path": "twin_core/scientific_evidence.py"
+    },
+    {
+      "additions": 439,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "ea024bc80972f9b1c599bcb2d18fb3fd3883721f",
+      "head_content_sha256": "dd710e8485cd1dac89cbd5b044a1f6299cb01e44adc51545d983f59c745b1e37",
+      "path": "twin_core/scientific_evidence_cli.py"
+    },
+    {
+      "additions": 321,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "bb4eacb022d12fa9e426e6ef53a0431d8d33e37d",
+      "head_content_sha256": "adc4eace2b1969fd95655019e8c37a789ae8c899ec530963de030a276572b0b1",
+      "path": "twin_core/scientific_fulltext.py"
+    },
+    {
+      "additions": 2408,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "a898fb31356cbdeac641632111c6ccd6da3e2d48",
+      "head_content_sha256": "5b72d606f8d7bbfc89e9ed3f905eae77f94dba8e6c3c77d9ad48a41c66021295",
+      "path": "twin_core/scientific_pipeline_cli.py"
+    },
+    {
+      "additions": 1165,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "7cc3d475ed149a7a7b63335c1a4362ca33246520",
+      "head_content_sha256": "9b46b7480656388632a3ac057436d4fc22319a8e098fc1b486b62e8a5ef59630",
+      "path": "twin_core/scientific_providers.py"
+    },
+    {
+      "additions": 511,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "2bbde1f36492ee9f66ed3935aa6bb7f4fba54caa",
+      "head_content_sha256": "236d8cf29f5c8265e5833637b0da85e4cee0278cda3477b618e513a114664c48",
+      "path": "twin_core/scientific_query_compiler.py"
+    },
+    {
+      "additions": 109,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "87d3547f03cc56a7151bd5abe66a9343ee4950ac",
+      "head_content_sha256": "59b34d80e4c65c93cc53b649600621bfdf153c2eb45768af9eee6d14504d7e45",
+      "path": "twin_core/scientific_readiness.py"
+    },
+    {
+      "additions": 1000,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "745369059d3782df3b2943a312a35197a9de5f20",
+      "head_content_sha256": "55800723466b28049a3b89ab7b2f2934c25a6ae9044a22120297b135270c7b67",
+      "path": "twin_core/scientific_review_funnel.py"
+    },
+    {
+      "additions": 796,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "f9aa54d3b230d2e6ca9590dc99f59cdee875ae94",
+      "head_content_sha256": "62b79c899c63cf6d8aebb442ea17755fd4e7534e2209cce170914f48052d9d18",
+      "path": "twin_core/scientific_review_state.py"
+    },
+    {
+      "additions": 162,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "ea7d20b8ac8bc0db387b116d01117242f40ee964",
+      "head_content_sha256": "779b4d3f229a69ea9e78b75239739b7966b45f98208a6f2b7980d2946ea50f62",
+      "path": "twin_core/scientific_saturation.py"
+    },
+    {
+      "additions": 2819,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "9de780cca84720e5a5505d9e8907335380b365db",
+      "head_content_sha256": "dd09d9b2ec0af8df44ecad7a96e5546b956cb73527b650ed3e24be88a31e5d9b",
+      "path": "twin_core/scientific_screening.py"
+    },
+    {
+      "additions": 262,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "89d3b27aeb7afbaa7a2c8722e55c5e4896b8b44d",
+      "head_content_sha256": "0ec564683a4d93846e7aef5d744435afafd53c45ec275a3a2bae3836341a9291",
+      "path": "twin_core/source_quality.py"
+    },
+    {
+      "additions": 1312,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "42a6ff9c343e4b6c0baaf25909b35519f1d7cec9",
+      "head_content_sha256": "9c601a38d4f8497177864cdd2f0f3a851c8e8bd73006af18446c904570fdae3a",
+      "path": "twin_core/sovereignty.py"
+    },
+    {
+      "additions": 21,
+      "base_blob_sha": "14a394631ee87cd6c10d246eee62137398bd2fa4",
+      "base_content_sha256": "0a0502ab06282689556489e77a47b457bbdaf11d27eb38630d1ce447e4924cae",
+      "deletions": 0,
+      "head_blob_sha": "434d10cc1f5c9365a5e1d764ca7425466513607a",
+      "head_content_sha256": "b65f972dc7627c2aeeea5ee8ac8f28a4d0acbe86da681be06a0d515d696e6c1d",
+      "path": "twin_core/store.py"
+    },
+    {
+      "additions": 314,
+      "base_blob_sha": "066edd45c69c14e328b86c1936b1c930a700f11a",
+      "base_content_sha256": "97f0f16d64c367167022339befb6e302064db0c8af44698ed8e754e9960a2ac0",
+      "deletions": 11,
+      "head_blob_sha": "09ad20ff20348e1a319d5f9f6ad4fbfe92505161",
+      "head_content_sha256": "a938e5927c87fc7c7238e400e27270394620ba5d1e32acfe11e1934a72b50914",
+      "path": "twin_core/telegram_pipeline.py"
+    },
+    {
+      "additions": 1584,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "df0cea89144005a66ff2239b80d98ca7efc128b4",
+      "head_content_sha256": "746748aeadc99f37c908e18afaf2b0375bd11444eb411454d9452cd81ebf9fd7",
+      "path": "twin_core/web_acquisition.py"
+    },
+    {
+      "additions": 524,
+      "base_blob_sha": null,
+      "base_content_sha256": null,
+      "deletions": 0,
+      "head_blob_sha": "4957e98af052347ad86bb02694c308abd061bd22",
+      "head_content_sha256": "dc28172932994c06ff15781cf7f557e29a2b9ecbd517b566ea19fd95a82070f9",
+      "path": "twin_core/web_discovery.py"
+    }
+  ],
+  "line_count_method": "Per-file git diff --no-index --no-ext-diff --no-textconv --numstat over exact base/head blob bytes; only metadata was written to this manifest.",
+  "manifest_sha256": "a27e1bd71dd06a1cd2d24b7c2a176d65cf136d166a6a55e8a3ec592712a5d8d1",
+  "persisted_review_log_crosswalk": {
+    "explicit_review_paragraph_paths": 54,
+    "last_claimed_additions": 26611,
+    "last_claimed_files": 55,
+    "mapped_additions_for_explicit_paths": 26168,
+    "method": "Count distinct changed-scope Python paths named in lines beginning Reviewed in the existing Markdown review ledger, then sum this manifest additions value. This crosswalk measures persisted records, not independent proof that each historical review was complete.",
+    "not_explicitly_logged_additions": 7329,
+    "not_explicitly_logged_files": 8,
+    "not_explicitly_logged_paths": [
+      "modules/operations/scripts/archaeologist.py",
+      "twin_core/scientific_screening.py",
+      "twin_core/source_quality.py",
+      "twin_core/sovereignty.py",
+      "twin_core/store.py",
+      "twin_core/telegram_pipeline.py",
+      "twin_core/web_acquisition.py",
+      "twin_core/web_discovery.py"
+    ]
+  },
+  "repository": "Pepstee/giga-user",
+  "schema_version": "1.0",
+  "scopes": [
+    "research/free-inference-fabric/src",
+    "research/free-inference-fabric/tests",
+    "twin_core",
+    "modules/operations/archaeology",
+    "modules/operations/scripts",
+    "modules/research"
+  ],
+  "totals": {
+    "additions": 33497,
+    "changed_python_files": 62,
+    "deletions": 255
+  }
+}

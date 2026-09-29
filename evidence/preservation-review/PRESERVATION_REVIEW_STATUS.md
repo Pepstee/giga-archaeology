@@ -883,3 +883,14 @@ Reviewed all 162 additions to `twin_core/scientific_saturation.py` at donor comm
 A bounded tracked-source search found no matching saturation evaluator, schema, or callsite in the registered Archaeology canon. Search-yield accounting for literature review is outside Archaeology's repository-mapping contract; no transplant is warranted. The graph was queried only for navigation because its provenance is absent and its results were broad. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SEARCH_SATURATION_OUTSIDE_ARCHAEOLOGY_SCOPE / SNAPSHOT_HASH_NOT_BOUND / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 55/62 files and 26,611/33,497 additions, counting the prior verified ledger total plus this complete 162-line addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — authenticated donor scope and access verified
+
+At 2026-09-29T19:18:31.709565+00:00, authenticated GitHub REST access through account `Pepstee` resolved the prior access blocker. The exact donor commit is `d29d209e9094302937c60d28aeab7a54f78ede27`, tree `9a6d4c3c1f251fb4d0ecbb93a7a502e4d5df33d3`; its parent is `5e6aa8bc13a8ae228f741f08c4ab3ff7e7f50039`, so the comparison base `f4d8e694289d035991c6d3c0b33b35c15a05c53c` is an explicit anchor, not the direct parent. The named donor branch `codex/preserve-giga-modularisation-history-20260928` remains `absent_or_unadvertised`; exact commit content is accessible by SHA.
+
+The authenticated Contents and Git Blob APIs enumerated only the six approved scopes and verified **62 changed Python files, 33,497 additions, and 255 deletions**. Per-file Git blob IDs, SHA-256 digests and numstat results are recorded in `donor-scope-d29d209e.json` (manifest SHA-256 `a27e1bd71dd06a1cd2d24b7c2a176d65cf136d166a6a55e8a3ec592712a5d8d1`). No donor source text was copied into the canon or sent to GLM.
+
+A crosswalk against persisted review paragraphs found **54 explicit paths / 26,168 mapped additions**, while the prior cumulative ledger claims 55/62 and 26,611 additions. **8 paths / 7,329 additions have no explicit completed review paragraph in the persisted file.** Preserve the earlier entries; treat the cumulative source-read figure as unreconciled until the missing and historical entries are verified against this manifest. This corrects the persisted-record crosswalk, not a claim that historical reviews did not occur.
+
+The current runtime exposes no approved GLM worker route, and the donor code remains private and unadvertised. No source was sent to GLM and no other model was substituted for a GLM worker. Feature dispositions remain separate from this scope verification.
