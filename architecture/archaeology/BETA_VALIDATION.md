@@ -62,3 +62,14 @@ ArtVault is a separate action; source synchronisation does not imply services we
 ## MIT packaging verification
 
 Version 0.1.3b2 includes identical MIT text in the source archive, wheel and prepared metadata. Licence-Expression and Licence-File metadata, wheel RECORD hashes and repeat-build identity were checked. Mapper source is unchanged from the verified 0.1.3b1 canary.
+
+## 2026-09-29 — retention CLI and source graph refresh
+
+The navigation-retention CLI integration was committed and pushed in aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7 (Restore navigation retention CLI command). The retention regression file passed all 83 tests on ArtVault Linux, and direct CLI help confirmed the command and options. The existing 0.1.3b3 wheel and source archive predate this revision and do not contain it; they are not release artifacts for this source state.
+
+The structural source graph now reflects commit aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7. Graphify 0.7.10 processed 42 Python inputs with zero source-hash mismatches. It contains 1,222 nodes, 3,826 edges and 36 communities. The graph query confirms the path from archaeology.py through main() to run_navigation_retention().
+
+Graph SHA-256: 60026e2f5e31c579c369a6b22979171b400a5e0b90817b09d44af1c49e0d52ec.
+Manifest SHA-256: a0131c3c2abe40cd021e04b96a36b1b494d5965b4f7844820248444e9c0be9e2.
+
+A first graph merge was rejected because it would have removed 147 unrelated nodes and 754 edges. The corrected source-scoped update preserved every prior node and edge and added two call edges for the CLI integration. This graph evidence establishes structural linkage only; it does not establish product completeness or cross-platform readiness.

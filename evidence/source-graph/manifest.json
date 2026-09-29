@@ -32,7 +32,7 @@
   "modules/operations/archaeology/semantic_graph.py": "28fc41a468d29876c375ec7f9dbde4fb4141b67549f4e7d5720f7097ac27d06f",
   "modules/operations/archaeology/shell_map.py": "4559efbd9f2217276b0c43da9fa7fb6d3c0a56babdbb0594fabce631b103f323",
   "modules/operations/scripts/archaeologist.py": "970e76383807fb8d9f539ff5c31d78e7020a384059709e8a2335b4575768d234",
-  "modules/operations/scripts/archaeology.py": "976ec5521dd8c97c801fd3603e15016bd94f91b781f8522d77e8506333471708",
+  "modules/operations/scripts/archaeology.py": "15ac0d1a6bb6cd370745ee3aef9fab0fd53c1d91a2f3358f20c3c82533bbb798",
   "modules/platform/packaging/archaeology_build_backend.py": "36bc2a590d7c411011c30187c111b7d2aeb71a7fb9d13cd7e48536fc97213d11",
   "scripts/graphify_codex_backend.py": "13fe31541a9d85024caccd7ff3c7fd721ecbf9e16fa5e682bbc6610ecae0fa4e",
   "twin_core/__init__.py": "dba29c9ef16c5f49e57a764f2b97235d5682e2571bc145ad983a552ee85b3319",

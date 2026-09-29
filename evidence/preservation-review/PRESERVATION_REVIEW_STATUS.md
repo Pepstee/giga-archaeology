@@ -263,3 +263,21 @@ One file has been fully reviewed in bounded source ranges: `modules/operations/s
 The canonical `modules/operations/scripts/archaeology.py` now exposes the donor’s retention command and options, with mutation remaining opt-in through `--apply`. A CLI regression test verifies the serialized policy and sealed `DRY_RUN` receipt. Verification on ArtVault Linux: the focused test passed; the full retention test file passed 83 tests; direct CLI help lists the new command. The code and test change is not yet committed at the time of this note.
 
 Coverage is 1/62 files and 493/33,497 additions. The other 61 files have not been reviewed or integrated. No donor source was sent to GLM. ArtVault has repo-scoped SSH access to Archaeology but no verified route to `Pepstee/giga-user`; bounded source inspection used the authenticated Mac Git object store. Public visibility and release remain separate operator-directed actions and have not occurred.
+
+## 2026-09-29 — CLI commit and graph provenance follow-up
+
+The Archaeology CLI integration and regression test were committed as aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7 and pushed to origin/codex/artvault-portable-giga-archaeology; the upstream comparison is 0 ahead and 0 behind. This supersedes the earlier note that the code and test were not yet committed.
+
+The source graph was refreshed in a source-scoped update at that commit. All 1,222 prior nodes and 3,824 prior edges were preserved; two call edges were added. The resulting graph has 1,222 nodes, 3,826 edges and 36 communities. Graph SHA-256: 60026e2f5e31c579c369a6b22979171b400a5e0b90817b09d44af1c49e0d52ec. Manifest SHA-256: a0131c3c2abe40cd021e04b96a36b1b494d5965b4f7844820248444e9c0be9e2. The Graphify path query reaches run_navigation_retention() from the CLI entrypoint. The corrected refresh has no unrelated node or edge removals.
+
+## 2026-09-29 — Control Tower auth-route resolution
+
+Control Tower rechecked the live routes. The registered ArtVault Archaeology origin and its repo-scoped key are healthy: branch lookup returns the same commit as the canon, and GitHub identifies the key as read/write for Pepstee/giga-archaeology. GitHub's SSH exit code 1 with its standard no-shell message is expected and is not an authentication failure.
+
+The donor failure is specific to ArtVault Git transport for Pepstee/giga-user: its unauthenticated HTTPS request cannot prompt for credentials. ArtVault does not have the donor repo alias or gh CLI. The authenticated Mac GitHub API can read bounded donor commit metadata; it does not prove access to the requested named branch or whole scope. No canon push route was broken. Operator-authorized remediation is now in progress: a dedicated read-only deploy key on ArtVault for that exact donor repository, without reusing the Archaeology key or transferring Mac account tokens. No visibility or ref changes are part of this work.
+
+## 2026-09-29 — donor read-auth remediation completed
+
+Control Tower provisioned a dedicated Ed25519 deploy key on ArtVault and registered it only as a verified read-only key on Pepstee/giga-user. ArtVault retains the private key; no token or private key was transferred. A strict-host-checking SSH alias now targets only this repository. Fresh ls-remote succeeds and reports HEAD f4d8e694289d035991c6d3c0b33b35c15a05c53c. The Archaeology key and origin are unchanged.
+
+Authentication is resolved for bounded donor reads. The previously requested historical branch is still unpublished as a ref, so its absence remains a provenance/ref limitation; the pinned donor commit and exact manifest remain the verified scope. No clone, archive copy, checkout, visibility/ref change, or source export was performed.
