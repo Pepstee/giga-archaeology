@@ -98,6 +98,19 @@ def _project() -> dict[str, Any]:
         raise ValueError("Archaeology requires the pinned parser backends")
     if project.get("license") != "MIT" or project.get("license-files") != ["LICENSE"]:
         raise ValueError("Archaeology licence metadata must match the MIT release")
+    keywords = project.get("keywords", [])
+    if not isinstance(keywords, list) or any(
+        not isinstance(item, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", item)
+        for item in keywords
+    ):
+        raise ValueError("project keywords must be normalised single-line terms")
+    urls = project.get("urls", {})
+    if not isinstance(urls, dict) or any(
+        not isinstance(label, str) or not label or "," in label or any(c in label for c in "\r\n")
+        or not isinstance(url, str) or not url.startswith("https://") or any(c in url for c in "\r\n")
+        for label, url in urls.items()
+    ):
+        raise ValueError("project URLs must be labelled HTTPS links")
     extras = project.get("optional-dependencies", {})
     if not isinstance(extras, dict):
         raise ValueError("optional dependencies must be named groups")
@@ -124,6 +137,11 @@ def _metadata() -> bytes:
         )
         for name, requirements in sorted(project.get("optional-dependencies", {}).items())
     )
+    keywords = project.get("keywords", [])
+    keyword_header = f"Keywords: {', '.join(keywords)}\n" if keywords else ""
+    project_urls = "".join(
+        f"Project-URL: {label}, {url}\n" for label, url in sorted(project.get("urls", {}).items())
+    )
     return (
         "Metadata-Version: 2.4\n"
         "License-Expression: MIT\n"
@@ -132,6 +150,8 @@ def _metadata() -> bytes:
         f"Version: {project['version']}\n"
         f"Summary: {project['description']}\n"
         f"Requires-Python: {project['requires-python']}\n"
+        f"{keyword_header}"
+        f"{project_urls}"
         f"{dependencies}"
         f"{extras}"
         "Description-Content-Type: text/markdown\n\n"

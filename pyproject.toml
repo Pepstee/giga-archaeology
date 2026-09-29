@@ -11,12 +11,17 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
+keywords = ["repository-analysis", "source-mapping", "static-analysis", "coding-agents"]
 dependencies = [
     "tree-sitter==0.26.0",
     "tree-sitter-bash==0.25.1",
     "tree-sitter-javascript==0.25.0",
     "tree-sitter-typescript==0.23.2",
 ]
+
+[project.urls]
+Repository = "https://github.com/Pepstee/giga-archaeology"
+Issues = "https://github.com/Pepstee/giga-archaeology/issues"
 
 [project.optional-dependencies]
 giga = ["giga-user-control-plane==0.1.0"]

@@ -2,6 +2,7 @@
 
 ## 0.1.3b3 — portability and clean test setup
 
+- Added Python package keywords and repository/issue URLs to the built metadata.
 - Added a Python quickstart walkthrough to the source archive with safeguards for output paths and existing data.
 - Fixed SQLite URI attachment for Python 3.11 and added a dedicated test extra for repeatable contributor setup.
 - Corrected the pinned Tree-sitter version assertion and documented the Linux sandbox prerequisite.

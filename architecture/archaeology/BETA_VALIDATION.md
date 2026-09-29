@@ -144,3 +144,13 @@ installed-wheel demo and does not certify macOS or Windows.
 The full current-source suite passed on ArtVault Linux/Python 3.12.3: **421 passed, 1 skipped, and 2
 subtests passed** in 75.44 seconds. The skip is the Darwin sandbox-profile test, which is not
 applicable on Linux. Other interpreters and operating systems remain unverified for this source.
+
+
+## Package discovery metadata
+
+The PEP 621 project metadata now declares focused repository-analysis keywords and canonical
+Repository/Issues URLs. The custom backend validates and emits them as Core Metadata fields. A
+packaging regression checks the exact wheel metadata. No operating-system classifier is emitted while macOS and Windows remain unverified. The focused
+packaging tests passed (4 passed), and the full current-source suite passed on ArtVault
+Linux/Python 3.12.3: **422 passed, 1 skipped, and 2 subtests passed** in 74.96 seconds. The
+skip remains the Darwin sandbox-profile test.
