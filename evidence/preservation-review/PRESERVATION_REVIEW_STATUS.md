@@ -697,3 +697,15 @@ The new donor behavior is byte-identical in registered Mac `agent-memory`. Archa
 Disposition: `REVIEWED_DONOR_INCREMENT / BYTE_IDENTICAL_NEW_BEHAVIOR_IN_AGENT_MEMORY / ARCHAEOLOGY_RETAINS_EXACT_OLDER_BASE / PERSONAL_MEMORY_OWNER_BOUNDARY_REQUIRES_CALLSITE_REVIEW`. Before deciding on the Archaeology copy, check only tracked source/package/test callsites and preserve the host-bound refusal. No corpus or runtime path was touched.
 
 Verified donor source-read coverage is now 38/62 files and 9,320/33,497 additions. No private material was sent to GLM. Next stable path: `twin_core/operator_status.py` (+285/-11).
+
+## 2026-09-29 — donor file review 39 of 62
+
+Reviewed the complete base-to-donor diff for `twin_core/operator_status.py` at pinned donor `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. The diff is +285/-11. Base blob `245a04aeac5b01517d4b907791b1aad37dc446e3`, 15,274 bytes, SHA-256 `66adde6b2deb9865025f7af50fd986b863f2f9d5e89b63d0b4968528bdddd7f4`; donor blob `1b4134cf1150ae334ff9c124788c9009efe4c175`, 25,132 bytes, SHA-256 `4f3aa4f236d1c2daa4cb06c3d3b877e85461e21d19fac4dec9590cdceadb0e73`. Read the complete changed module, the adapter-evidence helper, the CLI entry point, relevant tests and the operator-status JSON schema. No tests or source commands were executed.
+
+The addition admits one exact `operator-status-local` record for the read-only `--no-write` onramp, binds its registry and evidence hashes, rechecks evidence for drift, and embeds a deterministic admission receipt in compiled operator status. The associated tests cover refusal cases, registry/evidence changes, deterministic output and the CLI no-write path. Static review found no actionable defect in this increment; runtime behavior was not tested.
+
+Archaeology's tracked source contains no `operator_status.py` or `adapter_evidence.py`, and bounded searches found no admission callsites. Its product scope is local repository maps and source-linked developer context; this increment compiles GIGA operator, SkillTree and adapter status. No Archaeology behavior is missing or improved by transplanting this code. The canonical owner of the operator-status feature is not established by this review. Disposition: `REVIEWED_DONOR_INCREMENT / OPERATOR_STATUS_ADMISSION_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
+
+The ArtVault Archaeology Git store does not contain the pinned donor commit. The approved Control Tower read route verified the exact pinned blob from the existing Mac Git object store; no source copy or credential change was made. No personal corpus or donor source was sent to GLM.
+
+Verified donor source-read coverage is now 39/62 files and 9,605/33,497 additions. The next manifest path is pending metadata verification.
