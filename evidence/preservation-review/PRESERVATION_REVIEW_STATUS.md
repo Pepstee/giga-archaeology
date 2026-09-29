@@ -918,3 +918,16 @@ Reviewed all 21 additions to `twin_core/store.py` and all 314 additions / 11 del
 This shadow-memory audit is distinct from Archaeology's documented repository-mapping product. The explicit wheel source allowlist includes the `modules/operations` implementation and excludes `twin_core/`; no transplant into the public Archaeology package is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / UNIQUE_TWINCORE_SHADOW_COMPARISON / OUTSIDE_DOCUMENTED_ARCHAEOLOGY_PRODUCT / RESULT_STATUS_AMBIGUITY / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 57/62 files and 26,946/33,497 additions. Five paths / 6,501 additions remain without explicit review paragraphs. No source was sent to GLM, no tests were run, and no project copy was created.
+
+
+## 2026-09-30 - source review 58 of 62
+
+Reviewed all 262 additions in new donor file `twin_core/source_quality.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27`. The base tree has no file at this path. Donor blob `89d3b27aeb7afbaa7a2c8722e55c5e4896b8b44d`; SHA-256 `0ec564683a4d93846e7aef5d744435afafd53c45ec275a3a2bae3836341a9291`.
+
+The module implements deterministic domain-authority tiers, registrable-domain caps, CJK-aware tokenization and shingles, Jaccard near-duplicate scoring, lexical claim support, and source-count/citation-support confidence levels. The docstrings correctly say these signals do not prove truth. A hash-verified search of all 12 changed donor test files found no references to these functions; tests were not run.
+
+[P2] `_DOCUMENTATION_PREFIXES` is applied with a raw hostname `startswith` check. Any unrelated host beginning `docs.`, `developer.`, or `developers.` receives the `primary` tier, although the module describes that tier as official documentation. This can overstate source authority. `registrable_domain()` is also explicitly an approximation rather than a public-suffix-list implementation, so its diversity grouping has known suffix-boundary limits. Static observations only.
+
+This is literature-source evaluation rather than repository mapping; it is absent from Archaeology's explicit wheel source allowlist and outside its documented product contract. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SOURCE_QUALITY_OUTSIDE_ARCHAEOLOGY_SCOPE / DOMAIN_PREFIX_OVERCLASSIFICATION / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 58/62 files and 27,208/33,497 additions. Four paths / 6,239 additions remain without explicit review paragraphs. No source was sent to GLM, no tests were run, and no project copy was created.
