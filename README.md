@@ -8,10 +8,13 @@ The supported path makes no model/API calls and does not execute scanned code. Q
 
 ## Install
 
-Python 3.11+ and Git are required. The release canary was run on macOS arm64 with Python 3.14.
-Other Python versions and operating systems have not been certified by this beta canary.
-The shared Git and file-lock primitives now adapt to Windows and POSIX hosts, but that portability
-work does not certify the full beta on Linux or Windows.
+Python 3.11+ and Git are required. The current canonical source test suite last passed on
+ArtVault Linux with Python 3.11–3.14; a clean wheel install and CLI smoke passed on Python 3.12.3.
+The earlier macOS arm64 Python 3.14 canary covers 0.1.3b1/b2, not this candidate. Windows has not
+been verified. The configured OS matrix is described in the validation record, but recent GitHub
+[provider-specific account diagnostic removed]
+limit blocker. Do not
+treat the current beta as cross-platform certified.
 
 Obtain the wheel from the operator-provided beta bundle. This version is not claimed to be on PyPI.
 Create an environment outside the repository you intend to scan, then install the wheel:
@@ -22,6 +25,16 @@ python3 -m venv "$HOME/.venvs/giga-archaeology"
 python -m pip install ./giga_archaeology-0.1.3b3-py3-none-any.whl
 python -m pip check
 giga-archaeology --help
+```
+
+On Windows, use PowerShell and the venv's executable paths directly:
+
+```powershell
+py -3.12 -m venv "$env:USERPROFILE/.venvs/giga-archaeology"
+$python = "$env:USERPROFILE/.venvs/giga-archaeology/Scripts/python.exe"
+& $python -m pip install "$PWD/giga_archaeology-0.1.3b3-py3-none-any.whl"
+& $python -m pip check
+& "$env:USERPROFILE/.venvs/giga-archaeology/Scripts/giga-archaeology.exe" --help
 ```
 
 Pip installs the four pinned public Tree-sitter parser packages automatically. The core installation

@@ -54,3 +54,28 @@ jobs:
         run: python -m pip install ".[test]"
       - name: Run test suite
         run: python -m pytest -q
+      - name: Build wheel and source archive (Python 3.12)
+        if: matrix.python-version == '3.12'
+        run: |
+          python -m pip install build==1.6.1
+          python -m build --no-isolation --wheel --sdist --outdir dist
+      - name: Install and smoke-test built wheel (Python 3.12)
+        if: matrix.python-version == '3.12'
+        run: >-
+          python -c 'import os, pathlib, subprocess, sys; env=pathlib.Path(".wheel-smoke");
+          subprocess.run([sys.executable,"-m","venv",str(env)],check=True);
+          py=env/("Scripts/python.exe" if os.name=="nt" else "bin/python");
+          cli=env/("Scripts/giga-archaeology.exe" if os.name=="nt" else "bin/giga-archaeology");
+          wheel=next(pathlib.Path("dist").glob("*.whl"));
+          subprocess.run([str(py),"-m","pip","install",str(wheel)],check=True);
+          subprocess.run([str(cli),"--help"],check=True)'
+      - name: Install and smoke-test built source archive (Python 3.12)
+        if: matrix.python-version == '3.12'
+        run: >-
+          python -c 'import os, pathlib, subprocess, sys; env=pathlib.Path(".sdist-smoke");
+          subprocess.run([sys.executable,"-m","venv",str(env)],check=True);
+          py=env/("Scripts/python.exe" if os.name=="nt" else "bin/python");
+          cli=env/("Scripts/giga-archaeology.exe" if os.name=="nt" else "bin/giga-archaeology");
+          archive=next(pathlib.Path("dist").glob("*.tar.gz"));
+          subprocess.run([str(py),"-m","pip","install",str(archive)],check=True);
+          subprocess.run([str(cli),"--help"],check=True)'
