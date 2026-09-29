@@ -7,38 +7,39 @@
     "host": "ArtVault",
     "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
     "branch": "codex/artvault-portable-giga-archaeology",
-    "commit": "12f5c36304deec8d8caeb39bb351e5e72fa54eb9"
+    "commit": "44334c8a428df6c739bacfbeb4ac6221990bd458"
   },
   "build": {
     "date": "2026-09-29",
     "platform": "Linux x86_64 (ArtVault)",
     "python": "3.12.3",
-    "wheel_frontend": "pip wheel --no-deps --no-build-isolation",
-    "sdist_frontend": "build 1.6.1 --sdist --no-isolation",
+    "wheel_frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
+    "sdist_frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
     "backend": "modules/platform/packaging/archaeology_build_backend.py",
     "repeat_build_sha256_match": true,
-    "source_archive_extracted": false
+    "source_archive_extracted": false,
+    "artifact_path": "/tmp/giga-archaeology-release-current-20260930/first on ArtVault; not published"
   },
   "artifacts": [
     {
       "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
       "format": "wheel",
-      "size_bytes": 362273,
-      "sha256": "9071153e0043c91a059470fbe8f2d121ad79a2c5bf19c98ae31d292a3a51ad63",
+      "size_bytes": 364872,
+      "sha256": "28daf11ffff83fbfa3f81d8b708ccda4c1d1a5c9d271eced04d76a4eb02a8d57",
       "archive_members": 45,
       "license_file_present": true
     },
     {
       "filename": "giga_archaeology-0.1.3b3.tar.gz",
       "format": "sdist",
-      "size_bytes": 331720,
-      "sha256": "424033509a021559e8daac1b4e5f17d363b905585967e819f082e76f9a82581c",
+      "size_bytes": 334154,
+      "sha256": "5783c035ef7b08bbae7ee610c797ecd0011ac1701f90ccc63f1c2ff3ee4f19e3",
       "archive_members": 43,
       "license_file_present": true
     }
   ],
   "verification": {
-    "wheel_install": "success",
+    "wheel_install": "success_from_fresh_wheel_in_isolated_python_3.12_environment",
     "pip_check": "No broken requirements found",
     "console_entrypoint_help": "success",
     "test_matrix": {
@@ -57,15 +58,37 @@
       "note": "Python 3.11-3.13 exercised the same code before the b3 version-only metadata bump; Python 3.14 exercised the b3 version."
     },
     "source_graph": {
-      "commit": "f83ef0ab922ed461efdfcdce7d6b7992c012aa3b",
+      "state": "STALE_AND_NOT_PRESENT_IN_CURRENT_CANON",
+      "current_canon_graph_present": false,
+      "latest_documented_graph_commit": "aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7",
       "inputs": 42,
       "nodes": 1222,
-      "edges": 3824,
-      "graph_sha256": "b87cac9f54031dcc29fcce7157232bed46e571ef78232d36007771bdeeb9cbf3",
-      "manifest_sha256": "7950a68ae7abcdf1eba6bba8a760a2301bf3677673cf8237e44a95ba26c1a607"
+      "edges": 3826,
+      "communities": 36,
+      "graph_sha256": "60026e2f5e31c579c369a6b22979171b400a5e0b90817b09d44af1c49e0d52ec",
+      "manifest_sha256": "a0131c3c2abe40cd021e04b96a36b1b494d5965b4f7844820248444e9c0be9e2",
+      "note": "Historical graph evidence is recorded in BETA_VALIDATION.md; graphify-out/graph.json is absent from the current canonical workspace."
     },
     "macos_verified_for_this_candidate": false,
     "windows_verified_for_this_candidate": false,
-    "publicly_published": false
+    "publicly_published": false,
+    "current_source_test_evidence": {
+      "source_commit": "a0d53cc87a1d013e1d32286d073b762185e455b3",
+      "result": "376 passed, 1 skipped, 2 subtests passed",
+      "current_product_source_equivalence": "No diff in modules/, tests/ or pyproject.toml from the recorded test commit to the artifact source commit.",
+      "platform": "ArtVault Linux x86_64 / Python 3.12.3"
+    },
+    "installed_wheel_cli_smoke": {
+      "source": "canonical ArtVault Archaeology repository",
+      "inventory_files": 180,
+      "inventory_status": "CURRENT",
+      "mapper_entities": 38458,
+      "mapper_relations": 86021,
+      "symbol_query": "PASS",
+      "context": "PASS",
+      "context_entries": 11,
+      "context_characters": 2546,
+      "output_location": "outside repository under ArtVault /tmp"
+    }
   }
 }
