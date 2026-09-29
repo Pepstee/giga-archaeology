@@ -733,3 +733,14 @@ The module adds research-system benchmark scoring/comparison, pinned imports for
 Disposition: `REVIEWED_DONOR_INCREMENT / RESEARCH_BENCHMARKING_OUTSIDE_ARCHAEOLOGY_SCOPE / NONFINITE_MEASUREMENT_VALIDATION_DEFECT / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 41/62 files and 13,648/33,497 additions. No donor source copy or personal corpus was created or sent to GLM. Next manifest item requires metadata verification before review.
+
+
+## 2026-09-30 — donor file review 42 of 62
+
+Reviewed the complete 1,105-line donor file `twin_core/research_export.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Donor blob `ffcd89a8aa724bcddab5df40a0d949b0e969d6e9`; the exact path is absent from the base tree, so all 1,105 lines are additions. The donor commit metadata identifies parent `5e6aa8bc13a8ae228f741f08c4ab3ff7e7f50039` and an unsigned commit. The GitHub compare from the recorded base to this donor head reports a diverged history (142 ahead, 28 behind); this comparison is not a signed or linearly based patch series. Recursive tree metadata independently reproduces 62 changed Python paths within the six recorded scope prefixes, plus the separately excluded binary `twin_core/_authority_vendor.zip`. The prior ledger's path-manifest digest was not independently reproduced because its serialization recipe is not recorded.
+
+Read the entire module. It renders research reports, offline citation-trace and plan maps with receipts, evidence briefs and extractive articles; it also builds evidence-bound synthesis packets and validates reordered outlines and model-proposed paragraphs using citation existence and lexical support. Its outputs explicitly preserve human-review authority and state that lexical support does not establish entailment. No tests, project data, database, model, external research source, or provider call was executed.
+
+Bounded tracked-source searches in the registered Archaeology canon found no `research_export.py`, citation-trace view, plan-map renderer, or synthesis-packet callsite. These exports consume the donor's general research-project ledger and citation/evidence graph; they do not serve Archaeology's code-map or source-linked developer-context contract. The new module is not a proven Archaeology feature and should not be transplanted. Disposition: `REVIEWED_DONOR_INCREMENT / GENERAL_RESEARCH_EXPORTS_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 42/62 files and 14,753/33,497 additions, counting the prior verified 41-file ledger total plus this complete 1,105-line new-file addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
