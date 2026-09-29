@@ -127,3 +127,7 @@ suite. Tests for optional commands do not expand the supported release scope lis
 This is a release candidate prepared for operator review, not a published public release.
 Archaeology is licensed under the MIT License. See LICENSE for the full terms.
 Third-party dependencies retain their own licences. This package is not affiliated with Pallets.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the development setup, test expectations and pull request guidance.
