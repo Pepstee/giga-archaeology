@@ -863,3 +863,13 @@ Reviewed all 1,000 additions to `twin_core/scientific_review_funnel.py` at donor
 A bounded tracked-source search found no matching review-funnel workflow or callsite in the registered Archaeology canon. This is scientific literature-review functionality, not a unique Archaeology feature; no transplant is warranted. The graph was queried for navigation but has no provenance and returned broad matches, so it is not source evidence. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_REVIEW_FUNNEL_OUTSIDE_ARCHAEOLOGY_SCOPE / DTD_SCAN_PREFIX_LIMIT / RETRIEVAL_HASH_NOT_VERIFIED / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 53/62 files and 25,653/33,497 additions, counting the prior verified ledger total plus this complete 1,000-line addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
+
+## 2026-09-30 — source review 54 of 62
+
+Reviewed all 796 additions to `twin_core/scientific_review_state.py` at donor commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Donor blob `f9aa54d3b230d2e6ca9590dc99f59cdee875ae94`; the path is absent from the base tree. The module implements a permission-restricted SQLite review ledger with append-only triggers, hashed event chains, review-state transitions, human duplicate decisions, and non-authoritative LLM proposals. The caller and adjacent audit tests were read but not run. No database, provider, credential, network request, or test execution occurred.
+
+[P2] `ScientificReviewStore.__init__()` creates and initializes a missing database before the pipeline CLI's `_state()` dispatches the `audit` command. Consequently, auditing a nonexistent path can create a fresh empty ledger and return `ok: true` for that new schema rather than establishing the integrity of a pre-existing review ledger. This is a static call-chain finding; the CLI was not executed.
+
+A bounded tracked-source search found no matching scientific review ledger or callsite in the registered Archaeology canon. Its literature-review state workflow is outside Archaeology's repository-mapping contract; no transplant is warranted. The graph query was used only for navigation because the graph lacks provenance and returned broad results. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_REVIEW_STATE_OUTSIDE_ARCHAEOLOGY_SCOPE / AUDIT_CREATES_MISSING_DATABASE / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 54/62 files and 26,449/33,497 additions, counting the prior verified ledger total plus this complete 796-line addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
