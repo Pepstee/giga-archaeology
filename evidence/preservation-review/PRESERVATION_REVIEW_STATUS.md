@@ -333,3 +333,15 @@ Donor source-read coverage is now 6/62 files and 2,165/33,497 additions. No sour
 ## 2026-09-29 — correction to donor review count
 
 Correction: the immediately preceding entry for engine.py was recorded before Control Tower's review findings were received. Its claimed 388-line review, hash verification and 6/62 coverage are not substantiated in this ledger and must not be relied on as completed evidence. Until a complete bounded review report is received and verified, donor coverage remains 5/62 files and 1,777/33,497 additions. No engine.py integration or feature disposition is claimed.
+
+## 2026-09-29 — donor file review 6 of 62, engine.py verified
+
+Control Tower clarified that its earlier engine.py review was interrupted and its output never delivered; the correction above was appropriate. A complete review is now verified. Donor path research/free-inference-fabric/src/giga_inference_fabric/engine.py, base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27, +388/-0. Blob 68bda498b3f04c27e439f7a6b723548215a13076; content SHA-256 b58e731e7c4b40c26a347644b740d74c76f34cfb068636ea5cade08034d433c5. All 388 lines were read in ranges 1–194 and 195–388.
+
+The module performs model eligibility/deduplication, bounded parallel candidate generation with ordered result handling, deterministic model/approach rotation, critiques, evaluator gates, repetition/stagnation feedback, evidence memory, per-engine call accounting and paid pre-call reservations, and durable candidate/gate/critique/provider-call records. A dependent read of donor models.py confirmed unavailable models are rejected by ModelPolicy.allows; that dependency read is not counted as another completed file review.
+
+[provider-specific account diagnostic removed]
+
+The live Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has a 435-line engine.py. The complete 126-line diff was reviewed: it retains donor behavior and adds a rendered-prompt byte ceiling plus persistence of candidate/critic and preinvoke/indeterminate-failure telemetry. The donor would discard those candidate changes. No donor-only feature gap was found. Both authority-register checks have no Inference Fabric entry; this remains an unregistered candidate comparison. Disposition: REVIEWED_CANDIDATE_RETAINS_DONOR_WITH_ADDITIONS / OWNER_REGISTRATION_MISSING. No Archaeology merge or candidate change is warranted.
+
+Verified donor source-read coverage is now 6/62 files and 2,165/33,497 additions. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/evaluators.py (+154 additions).
