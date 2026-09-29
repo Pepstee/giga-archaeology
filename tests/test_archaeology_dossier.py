@@ -22,7 +22,7 @@ from modules.operations.archaeology.navigation_inventory import (
 
 def _git(root: Path, *arguments: str) -> None:
     subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

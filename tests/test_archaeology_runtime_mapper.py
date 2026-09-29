@@ -20,7 +20,7 @@ from modules.operations.archaeology.runtime_map import parse_capability_registry
 
 def _git(root: Path, *arguments: str) -> str:
     return subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         check=True,
         text=True,

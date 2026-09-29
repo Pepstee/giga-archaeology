@@ -320,28 +320,28 @@ def _policy(*, grace: int = 1000) -> RetentionPolicy:
 
 def _git_command(repository: Path, *args: str) -> str:
     return subprocess.check_output(
-        ["/usr/bin/git", "-C", str(repository), *args],
+        ["git", "-C", str(repository), *args],
         text=True,
     ).strip()
 
 
 def _source_repository(path: Path) -> Path:
     repository = _private(path)
-    subprocess.run(["/usr/bin/git", "init", "-q"], cwd=repository, check=True)
+    subprocess.run(["git", "init", "-q"], cwd=repository, check=True)
     subprocess.run(
-        ["/usr/bin/git", "config", "user.name", "Fixture"],
+        ["git", "config", "user.name", "Fixture"],
         cwd=repository,
         check=True,
     )
     subprocess.run(
-        ["/usr/bin/git", "config", "user.email", "<redacted-email>"],
+        ["git", "config", "user.email", "<redacted-email>"],
         cwd=repository,
         check=True,
     )
     _write(repository / "source.txt", b"stable source\n")
-    subprocess.run(["/usr/bin/git", "add", "source.txt"], cwd=repository, check=True)
+    subprocess.run(["git", "add", "source.txt"], cwd=repository, check=True)
     subprocess.run(
-        ["/usr/bin/git", "commit", "-q", "-m", "stable source"],
+        ["git", "commit", "-q", "-m", "stable source"],
         cwd=repository,
         check=True,
         env={
@@ -2857,7 +2857,7 @@ def test_cross_store_lineage_public_outputs_are_layout_independent_and_private(
     first_source = _source_repository(first_layout / "source")
     second_source = _private(second_layout / "source")
     subprocess.run(
-        ["/usr/bin/git", "clone", "-q", str(first_source), str(second_source)],
+        ["git", "clone", "-q", str(first_source), str(second_source)],
         check=True,
     )
     first_runtime_a = _private(first_layout / "runtime-a")

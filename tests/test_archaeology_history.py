@@ -25,7 +25,7 @@ from modules.operations.archaeology.inventory import write_inventory
 
 def _git(root: Path, *arguments: str) -> str:
     return subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         text=True,
         capture_output=True,

@@ -133,7 +133,7 @@ def test_cli_preserves_explicit_scanner_override(tmp_path: Path) -> None:
 
 def _git(root: Path, *arguments: str) -> str:
     return subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         text=True,
         stdout=subprocess.PIPE,

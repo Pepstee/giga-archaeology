@@ -260,12 +260,12 @@ def _index(
 def repository(tmp_path: Path) -> Path:
     root = tmp_path / "repository"
     root.mkdir()
-    subprocess.run(["/usr/bin/git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(
-        ["/usr/bin/git", "config", "user.name", "Fixture"], cwd=root, check=True
+        ["git", "config", "user.name", "Fixture"], cwd=root, check=True
     )
     subprocess.run(
-        ["/usr/bin/git", "config", "user.email", "<redacted-email>"],
+        ["git", "config", "user.email", "<redacted-email>"],
         cwd=root,
         check=True,
     )
@@ -309,8 +309,8 @@ def repository(tmp_path: Path) -> Path:
         'import { buildService } from "./core";\nbuildService();\n',
         encoding="utf-8",
     )
-    subprocess.run(["/usr/bin/git", "add", "."], cwd=root, check=True)
-    subprocess.run(["/usr/bin/git", "commit", "-qm", "fixture"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(["git", "commit", "-qm", "fixture"], cwd=root, check=True)
     return root
 
 
@@ -759,9 +759,9 @@ def test_scip_index_reuses_exact_python_closure_across_non_python_change(
     assert exact.inventory_binding_status == "EXACT_INVENTORY_RECEIPT"
 
     (repository / "README.md").write_text("documentation only\n", encoding="utf-8")
-    subprocess.run(["/usr/bin/git", "add", "README.md"], cwd=repository, check=True)
+    subprocess.run(["git", "add", "README.md"], cwd=repository, check=True)
     subprocess.run(
-        ["/usr/bin/git", "commit", "-qm", "documentation"],
+        ["git", "commit", "-qm", "documentation"],
         cwd=repository,
         check=True,
     )
@@ -779,9 +779,9 @@ def test_scip_index_reuses_exact_python_closure_across_non_python_change(
     (repository / "pkg/cli.py").write_text(
         "def changed():\n    return 1\n", encoding="utf-8"
     )
-    subprocess.run(["/usr/bin/git", "add", "pkg/cli.py"], cwd=repository, check=True)
+    subprocess.run(["git", "add", "pkg/cli.py"], cwd=repository, check=True)
     subprocess.run(
-        ["/usr/bin/git", "commit", "-qm", "python change"],
+        ["git", "commit", "-qm", "python change"],
         cwd=repository,
         check=True,
     )

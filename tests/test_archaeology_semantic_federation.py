@@ -29,7 +29,7 @@ from modules.operations.archaeology.semantic_graph import (
 
 def _git(root: Path, *arguments: str) -> None:
     subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

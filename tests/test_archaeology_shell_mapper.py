@@ -19,7 +19,7 @@ from modules.operations.archaeology.shell_map import (
 
 def _git(root: Path, *arguments: str) -> str:
     return subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         check=True,
         text=True,

@@ -26,7 +26,7 @@ from modules.operations.archaeology.navigation_inventory import (
 
 def _git(root: Path, *arguments: str) -> None:
     subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -37,7 +37,7 @@ def _git(root: Path, *arguments: str) -> None:
 def _git_value(root: Path, *arguments: str) -> str:
     return (
         subprocess.run(
-            ["/usr/bin/git", *arguments],
+            ["git", *arguments],
             cwd=root,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -55,7 +55,7 @@ def _sha(raw: bytes) -> str:
 def _git_blob_record(root: Path, relative: str) -> dict:
     blob = _git_value(root, "rev-parse", f"HEAD:{relative}")
     raw = subprocess.run(
-        ["/usr/bin/git", "cat-file", "blob", blob],
+        ["git", "cat-file", "blob", blob],
         cwd=root,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

@@ -31,7 +31,7 @@ from modules.operations.archaeology.evidence import (
 
 def _git(root: Path, *arguments: str) -> str:
     return subprocess.run(
-        ["/usr/bin/git", *arguments],
+        ["git", *arguments],
         cwd=root,
         text=True,
         capture_output=True,
@@ -54,7 +54,7 @@ def _commit(root: Path, message: str) -> None:
 
 def _clone_repository(source: Path, target: Path) -> Path:
     subprocess.run(
-        ["/usr/bin/git", "clone", "-q", str(source), str(target)], check=True
+        ["git", "clone", "-q", str(source), str(target)], check=True
     )
     _git(target, "config", "user.name", "Fixture")
     _git(target, "config", "user.email", "<redacted-email>")
@@ -71,7 +71,7 @@ def _related_repositories(tmp_path: Path) -> tuple[Path, Path, Path]:
     _commit(canonical, "base")
     donor = tmp_path / "donor"
     subprocess.run(
-        ["/usr/bin/git", "clone", "-q", str(canonical), str(donor)], check=True
+        ["git", "clone", "-q", str(canonical), str(donor)], check=True
     )
     _git(donor, "config", "user.name", "Fixture")
     _git(donor, "config", "user.email", "<redacted-email>")
@@ -559,7 +559,7 @@ def _payload_lineage_repositories(
 
     donor_v1 = tmp_path / "donor_v1"
     subprocess.run(
-        ["/usr/bin/git", "clone", "-q", str(canonical), str(donor_v1)], check=True
+        ["git", "clone", "-q", str(canonical), str(donor_v1)], check=True
     )
     _git(donor_v1, "config", "user.name", "Fixture")
     _git(donor_v1, "config", "user.email", "<redacted-email>")
@@ -592,7 +592,7 @@ def _payload_lineage_repositories(
 
     donor_current = tmp_path / "donor_current"
     subprocess.run(
-        ["/usr/bin/git", "clone", "-q", str(canonical), str(donor_current)],
+        ["git", "clone", "-q", str(canonical), str(donor_current)],
         check=True,
     )
     _git(donor_current, "config", "user.name", "Fixture")
@@ -600,7 +600,7 @@ def _payload_lineage_repositories(
 
     donor_absent = tmp_path / "donor_absent"
     subprocess.run(
-        ["/usr/bin/git", "clone", "-q", str(canonical), str(donor_absent)],
+        ["git", "clone", "-q", str(canonical), str(donor_absent)],
         check=True,
     )
     _git(donor_absent, "config", "user.name", "Fixture")

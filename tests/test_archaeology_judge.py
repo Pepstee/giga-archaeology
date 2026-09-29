@@ -26,7 +26,7 @@ from modules.operations.archaeology.judge import (
 
 def _git(root: Path, *arguments: str) -> None:
     subprocess.run(
-        ["/usr/bin/git", *arguments], cwd=root, check=True, capture_output=True
+        ["git", *arguments], cwd=root, check=True, capture_output=True
     )
 
 
