@@ -790,3 +790,14 @@ Reviewed the complete 1,471-line source file `twin_core/scientific_evidence.py` 
 The module is a general scientific-evidence workflow rather than code archaeology. Bounded tracked-source searches in the registered Archaeology canon found no matching store, acquisition, appraisal, or readiness entry point. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_EVIDENCE_WORKFLOW_OUTSIDE_ARCHAEOLOGY_SCOPE / MALFORMED_INPUT_ERROR_TYPE / NO_TRANSPLANT`.
 
 Verified source-read coverage is now 46/62 files and 19,700/33,497 additions, counting the prior verified ledger total plus this complete 1,471-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — source review 47 of 62
+
+Reviewed the complete 439-line source file `twin_core/scientific_evidence_cli.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Source blob `ea024bc80972f9b1c599bcb2d18fb3fd3883721f`; the exact path is absent from the base tree, so all 439 lines are additions. It exposes the scientific evidence store through provider search, DOI lookup, Elicit report/review creation, offline imports, appraisals, candidate readiness, and ledger inspection commands. No CLI command, database, credential, network request or test was run.
+
+[P2] `main()` constructs `ScientificEvidenceStore` before dispatching `audit`. The store constructor creates the database and schema when the requested path is missing, so `giga-scientific-evidence audit --database <missing-path>` can report `ok: true` after creating a new empty ledger rather than proving that a pre-existing ledger was audited. This is a static finding; it was not executed.
+
+The CLI is an interface for scientific literature review, not source-code archaeology. A bounded tracked-source search found no matching command, class, or callsite in the registered Archaeology canon. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_EVIDENCE_CLI_OUTSIDE_ARCHAEOLOGY_SCOPE / AUDIT_CREATES_MISSING_DATABASE / NO_TRANSPLANT`.
+
+Verified source-read coverage is now 47/62 files and 20,139/33,497 additions, counting the prior verified ledger total plus this complete 439-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
