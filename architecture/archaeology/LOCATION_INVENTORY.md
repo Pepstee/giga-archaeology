@@ -165,3 +165,17 @@ The authority-summary follow-up passed the same suite with 51 tests. Regression
 coverage confirms unrelated handoff/authority records never enter receipt output,
 the complete input hash remains intact, and overlong or non-scalar summary values
 are omitted without truncation.
+
+The publication-gate follow-up passed 52 focused tests. Its distinctive handoff
+sentinel is absent from inspect/refresh/query API and CLI results and both saved
+receipts. The real wheel builder was exercised twice entirely in memory: bytes
+matched, current inventory source/documentation and the CLI entry point were
+present, and every wheel RECORD hash and size validated. No package was extracted
+or installed into a second execution surface.
+
+The live ArtVault inspect/refresh/query smoke was repeated at
+`fba2069af2514c183d52a8bf4aba986be9c21f67`. Only the canonical workspace was
+inspected; fixed-time inspect and refresh results matched, query verified the
+receipt without rescanning, and source context contained only the five allowlisted
+authority fields plus input identity/hash/schema. The 22 unselected/remote register
+entries remained explicit gaps, not claims of global coverage.

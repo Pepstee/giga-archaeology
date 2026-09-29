@@ -200,7 +200,7 @@ def test_machine_register_keeps_global_host_and_project_authority_distinct(tmp_p
     assert not payload["conflicts"]
 
 
-def test_register_receipt_omits_unrelated_operational_context(tmp_path):
+def test_register_receipt_omits_unrelated_operational_context(tmp_path, capsys):
     register = tmp_path / "register.json"
     unrelated = "UNRELATED-OPERATIONAL-RECORD" * 10000
     raw = canonical_bytes({
@@ -223,6 +223,70 @@ def test_register_receipt_omits_unrelated_operational_context(tmp_path):
     assert "handoff" not in source
     assert b"UNRELATED-OPERATIONAL-RECORD" not in canonical_bytes(payload)
     assert len(canonical_bytes(source)) < 1024
+    receipt = tmp_path / "api-receipt.json"
+    refreshed = locations.refresh_locations(roots, receipt, local_host="fixture-other-host",
+                                            observed_at=NOW, evidence_source=source)
+    queried = locations.query_locations(receipt, as_of=NOW)
+    outputs = [canonical_bytes(source), canonical_bytes(payload), canonical_bytes(refreshed),
+               receipt.read_bytes(), canonical_bytes(queried)]
+    cli_receipt = tmp_path / "cli-receipt.json"
+    common = ["--authority-register", str(register), "--local-host", "fixture-other-host",
+              "--observed-at", NOW]
+    for args in (["locations-inspect", *common],
+                 ["locations-refresh", *common, "--output", str(cli_receipt)],
+                 ["locations-query", "--receipt", str(cli_receipt), "--as-of", NOW]):
+        assert main(args) == 0
+        captured = capsys.readouterr()
+        assert not captured.err
+        outputs.append(captured.out.encode())
+    outputs.append(cli_receipt.read_bytes())
+    for output in outputs:
+        assert b"UNRELATED-OPERATIONAL-RECORD" not in output
+    assert refreshed == payload
+    assert queried["source_receipt_sha256"] == payload["receipt_sha256"]
+
+
+def test_real_wheel_build_contains_inventory_and_valid_records_in_memory(monkeypatch, tmp_path):
+    # Exercise the real builder without an extracted, installed or on-disk source copy.
+    import base64
+    import csv
+    import hashlib
+    import io
+    import zipfile
+    from modules.platform.packaging import archaeology_build_backend as backend
+
+    archive_type = zipfile.ZipFile
+    buffers = []
+
+    def in_memory_archive(destination, *args, **kwargs):
+        assert destination == tmp_path / f"{backend.NAME}-{backend.VERSION}-py3-none-any.whl"
+        buffer = io.BytesIO()
+        buffers.append(buffer)
+        return archive_type(buffer, *args, **kwargs)
+
+    monkeypatch.setattr(backend.zipfile, "ZipFile", in_memory_archive)
+    filename = backend.build_wheel(str(tmp_path))
+    assert backend.build_wheel(str(tmp_path)) == filename
+    assert not (tmp_path / filename).exists()
+    assert buffers[0].getvalue() == buffers[1].getvalue()
+    with archive_type(buffers[0]) as archive:
+        module = "modules/operations/archaeology/location_inventory.py"
+        document = "architecture/archaeology/LOCATION_INVENTORY.md"
+        assert archive.read(module) == (backend.ROOT / module).read_bytes()
+        assert archive.read(document) == (backend.ROOT / document).read_bytes()
+        assert b"giga-archaeology = modules.operations.scripts.archaeology:main" in archive.read(
+            f"{backend.DIST_INFO}/entry_points.txt")
+        record_name = f"{backend.DIST_INFO}/RECORD"
+        records = list(csv.reader(io.StringIO(archive.read(record_name).decode())))
+        assert {row[0] for row in records} == set(archive.namelist())
+        for name, digest, size in records:
+            if name == record_name:
+                assert (digest, size) == ("", "")
+                continue
+            content = archive.read(name)
+            expected = base64.urlsafe_b64encode(hashlib.sha256(content).digest()).rstrip(b"=").decode()
+            assert digest == "sha256=" + expected
+            assert int(size) == len(content)
 
 
 @pytest.mark.parametrize("invalid", ["x" * 129, {"nested": "record"},
