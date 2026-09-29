@@ -768,3 +768,14 @@ Static review found two integrity issues. [P2] `_private_run_root()` resolves th
 A bounded tracked-source search found no general-research run orchestrator, web acquisition, or passage-retrieval callsite in the registered Archaeology canon. This source file does not improve the code-map contract and should not be transplanted. Disposition: `REVIEWED_SOURCE_INCREMENT / GENERAL_RESEARCH_RUNNER_OUTSIDE_ARCHAEOLOGY_SCOPE / TWO_STATIC_FINDINGS / NO_TRANSPLANT`.
 
 Verified source-read coverage is now 44/62 files and 17,720/33,497 additions, counting the previous verified ledger total plus this complete 863-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — source review 45 of 62
+
+Reviewed the complete 509-line source file `twin_core/scientific_campaign.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Source blob `eed377bf8736daf7da457096afdc35e79f942251`; the exact path is absent from the base tree, so all 509 lines are additions. It validates scientific-search campaign definitions, selects phased queries, plans resumable acquisitions, and executes Elicit/ClinicalTrials or provider-expanded paper-search campaigns into the scientific evidence store. No tests, database, research corpus, provider or network search was executed.
+
+[P3] `validate_campaign()` detects a non-mapping input, but then calls `set(payload)` while building its error message; `None` or another non-iterable therefore escapes as `TypeError` instead of the documented `ScientificEvidenceError`. This is a static finding; it was not executed.
+
+The module is a scholarly-search campaign workflow, not a source-code archaeology capability. Bounded tracked-source searches found no campaign execution counterpart or callsite in the registered Archaeology canon. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SEARCH_CAMPAIGNS_OUTSIDE_ARCHAEOLOGY_SCOPE / MALFORMED_INPUT_ERROR_TYPE / NO_TRANSPLANT`.
+
+Verified source-read coverage is now 45/62 files and 18,229/33,497 additions, counting the prior verified ledger total plus this complete 509-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
