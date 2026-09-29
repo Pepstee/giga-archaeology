@@ -960,3 +960,18 @@ The module defines evidence-weighted, freshness-adjusted dimensions and guardrai
 This is personal-life measurement and research-export functionality, not repository-source archaeology. Its `twin_core/` source is excluded from the explicit Archaeology wheel allowlist and documented product contract. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / PERSONAL_SOVEREIGNTY_OUTSIDE_ARCHAEOLOGY_SCOPE / MALFORMED_INPUT_EXCEPTION_TYPE / NO_TRANSPLANT`.
 
 Corrected cumulative source-read coverage is 60/62 paths and 29,094/33,497 additions. Two paths / 4,403 additions remain without explicit review paragraphs. No source was sent to GLM, no tests were run, and no project copy was created.
+
+
+## 2026-09-30 - source review 61 of 62
+
+Reviewed all 1,584 additions in new donor file `twin_core/web_acquisition.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27`. The base tree has no file at this path. Donor blob `df0cea89144005a66ff2239b80d98ca7efc128b4`; SHA-256 `746748aeadc99f37c908e18afaf2b0375bd11444eb411454d9452cd81ebf9fd7`.
+
+The module archives untrusted web/local source content and immutable receipts; enforces byte, redirect, PDF/OCR and table-output limits; projects text and table geometry; and labels prompt-injection signals without granting authority. A hash-verified search of all 12 changed donor test files found no references to the acquisition APIs or safety checks. No network, OCR, browser, or provider operation was run, and tests were not run.
+
+[P1] Host safety is checked by resolving DNS in `_assert_public_host()`, then `ScraplingTransport.fetch()` receives the hostname URL and performs its own connection. The validated address is not pinned to the transport connection, leaving a DNS-rebinding/TOCTOU path to a private address. Static source-flow finding; no request was sent.
+
+[P2] `_private_archive()` resolves the caller-supplied path before checking `archive.is_symlink()`; after `resolve()`, that check examines the target, so an input symlink to a directory outside the repository is not rejected and the target can be chmodded to 0700. Static path-flow finding; no archive was created or changed.
+
+This research-source acquisition system is distinct from Archaeology's repository-mapping product and its `twin_core/` source is excluded from the explicit public wheel allowlist. Disposition: `REVIEWED_SOURCE_INCREMENT / RESEARCH_WEB_ACQUISITION_OUTSIDE_ARCHAEOLOGY_SCOPE / DNS_REBINDING_RISK / ARCHIVE_SYMLINK_CHECK_ORDER / NO_TRANSPLANT`.
+
+Corrected cumulative source-read coverage is 61/62 paths and 30,678/33,497 additions. One path / 2,819 additions remains without an explicit review paragraph. No source was sent to GLM and no project copy was created.
