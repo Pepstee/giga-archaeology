@@ -391,3 +391,15 @@ The verifier has weaker normalization/content checks than the builder, including
 The existing ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical 208-line file with the same blob/hash. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology merge is warranted.
 
 Verified donor source-read coverage is now 10/62 files and 3,035/33,497 additions. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/store.py (+482 additions).
+
+## 2026-09-29 — donor file review 11 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/store.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 482 additions and 0 deletions; blob a227a7e408dc31ed2d21ef613c2fd3d687cea14b; content SHA-256 6be85a91e01c74a0b107ba7dced81fed390115fecbcf6f4bf5ae278081903911. All lines were read in ranges 1–161, 162–322 and 323–482.
+
+The store uses SQLite constraints, parameterized statements and BEGIN IMMEDIATE for lease selection/update. That supports an atomic claim update, not exactly-once processing. Transactions commit per method, so provider dispatch/accounting and experiment completion are not atomic; crashes can leave partial evidence or lose a call record. finish_work does not enforce lease generation/ownership/expiry, so a stale worker can overwrite later state. The donor retry cap is incomplete; the existing candidate fixes max-attempt enforcement across queued, failed and expired leases, which must be preserved.
+
+The candidate's 122-line diff adds hashed provider telemetry, schema migrations and preinvoke accounting exclusions, and includes the lease retry fix. No donor-only feature gap was identified. Both versions retain limits: there is no lease fencing/heartbeat, no atomic global budget reservation, provider receipts are consistency hashes rather than authenticated proof, and error/prompt/output/critique content persists in plaintext without retention or erasure policy. Study scoreboards omit provider-call critic costs/tokens, and several model-observation flags do not round-trip. These are static source findings, not observed runtime failures.
+
+The live candidate is at /srv/artvault/projects/inference-fabric/workspace. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_CANDIDATE_RETAINS_DONOR_WITH_ADDITIONS / OWNER_REGISTRATION_MISSING. No Archaeology merge or runtime verification is warranted.
+
+Verified donor source-read coverage is now 11/62 files and 3,517/33,497 additions. No source or database was executed/opened, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/studies.py (+166 additions).
