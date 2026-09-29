@@ -289,3 +289,13 @@ Reviewed the complete added content of research/free-inference-fabric/src/giga_i
 The file is a package facade re-exporting ExperimentEngine, ExperimentRequest, ModelPolicy, ModelSpec and ExperimentStore. It does not implement Archaeology functionality. The existing ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace contains an identical blob at the same path. No Archaeology integration or copy is warranted. The machine-authority register has no Inference Fabric owner entry, so that candidate is not promoted to canon by this review. Disposition: REVIEWED_IDENTICAL_IN_EXISTING_CANDIDATE / OWNER_REGISTRATION_MISSING.
 
 Donor review coverage is now 2/62 files and 501/33,497 additions; integrations remain limited to the separately recorded retention CLI wiring. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/benchmarks.py.
+
+## 2026-09-29 — donor file review 3 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/benchmarks.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 82 additions and 0 deletions; blob 1146af7b6bb11eb4183610638d2dbd9e6e681e89; content SHA-256 9a6daf4a6c63e97ed29dcff3b566f1b839171c1436f2d3a9e533c6fe32e78480. The full 82-line file was read in ranges 1–50 and 51–82, with matching line counts.
+
+The module canonicalizes JSON, hashes fixture file names and contents while rejecting encountered descendant symlinks, and builds/verifies a benchmark contract binding the fixture hash and evaluator argument-vector hash. It tokenizes evaluator text with shlex and returns a structured command, fixture working directory and timeout; it does not execute the command. The evaluator hash covers argv only, not executable or dependency bytes, so it does not establish evaluator identity or sandboxing.
+
+The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has an identical blob and content hash at the same path. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_IN_EXISTING_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology merge or copy is warranted.
+
+Donor source-read coverage is now 3/62 files and 583/33,497 additions; canonical integration credit remains limited to the separately recorded Archaeology retention CLI wiring. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/catalogue.py.
