@@ -894,3 +894,14 @@ The authenticated Contents and Git Blob APIs enumerated only the six approved sc
 A crosswalk against persisted review paragraphs found **54 explicit paths / 26,168 mapped additions**, while the prior cumulative ledger claims 55/62 and 26,611 additions. **8 paths / 7,329 additions have no explicit completed review paragraph in the persisted file.** Preserve the earlier entries; treat the cumulative source-read figure as unreconciled until the missing and historical entries are verified against this manifest. This corrects the persisted-record crosswalk, not a claim that historical reviews did not occur.
 
 The current runtime exposes no approved GLM worker route, and the donor code remains private and unadvertised. No source was sent to GLM and no other model was substituted for a GLM worker. Feature dispositions remain separate from this scope verification.
+
+
+## 2026-09-30 — donor review: modules/operations/scripts/archaeologist.py
+
+Reviewed the complete 493-line addition at donor `d29d209e9094302937c60d28aeab7a54f78ede27`; blob `044aaa152e08d097f5e91bca485ca1e5fdc1f815`; SHA-256 `33e57f7975d36472ceb3fa1a3a55c762f3f5b3015e3e805458373eb57a220d2c`. The wrapper exposes 17 inventory, hypothesis, counterevidence, history, judge, quarantine, navigation, semantic-graph and retention commands.
+
+A live AST comparison against the canonical `modules/operations/scripts/archaeology.py` found no donor-only command. All 17 donor commands already exist in the canonical CLI, which additionally exposes 35 mapper, SCIP, divergence, dossier, consultation and retention commands. The donor wrapper imports `modules.operations.archaeologist.*`; that canon package contains only `__init__.py`, while the implementations live under `modules.operations.archaeology.*`. The donor's hypotheses and navigation-refresh argument sets are also narrower than the canonical CLI. No unique behavior warrants transplant. Disposition: `REVIEWED / CLI_SUBSET_OF_CANON / IMPORTS_NONCANONICAL_PACKAGE / NO_TRANSPLANT`.
+
+The donor and canonical navigation-maintenance CLIs both default the model server executable to the macOS-specific `/opt/homebrew/bin/mlx_lm.server`. This is not donor-unique and was not changed in this review; assess it against the product's optional platform-support contract before release.
+
+After mapping the explicit review paragraphs to the exact scope manifest, persisted records cover **55/62 paths and 26,661/33,497 additions**. This corrects the prior cumulative 26,611 figure by 50 additions. **Seven paths and 6,836 additions remain without explicit review paragraphs**; source-read completion is not claimed. No source code was sent to GLM, and no tests were run.
