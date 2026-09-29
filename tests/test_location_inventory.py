@@ -201,7 +201,7 @@ def test_machine_register_keeps_global_host_and_project_authority_distinct(tmp_p
 
 
 def test_register_receipt_omits_unrelated_operational_context(tmp_path, capsys):
-    register = tmp_path / "register.json"
+    register = tmp_path / "REGISTER-PATH-MUST-NOT-APPEAR.json"
     unrelated = "UNRELATED-OPERATIONAL-RECORD" * 10000
     raw = canonical_bytes({
         "schema": "giga.machine-authority.v1",
@@ -217,6 +217,7 @@ def test_register_receipt_omits_unrelated_operational_context(tmp_path, capsys):
                                           observed_at=NOW, evidence_source=source)
     assert source["sha256"] == locations.sha256_bytes(raw)
     assert source["schema"] == "giga.machine-authority.v1"
+    assert set(source) == {"kind", "schema", "sha256", "global_authority", "handoff_summary"}
     assert source["global_authority"] == {"canonical_host": "old-host",
         "promotion_host": "build-host", "automatic_remote_promotion": False}
     assert source["handoff_summary"] == {"status": "active", "target_host": "build-host"}
@@ -242,6 +243,9 @@ def test_register_receipt_omits_unrelated_operational_context(tmp_path, capsys):
     outputs.append(cli_receipt.read_bytes())
     for output in outputs:
         assert b"UNRELATED-OPERATIONAL-RECORD" not in output
+        assert str(register).encode() not in output
+        # Also catch JSON-escaped paths (e.g. Windows backslashes).
+        assert register.name.encode() not in output
     assert refreshed == payload
     assert queried["source_receipt_sha256"] == payload["receipt_sha256"]
 

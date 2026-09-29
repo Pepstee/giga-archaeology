@@ -60,7 +60,9 @@ or runnable source copies.
 `giga.machine-authority.v1`, with `hosts.<host>.roots[]` entries. It retains root
 `id`, `path`, `owner`, `status`, `purpose`, `verified_head`, `verified_at`, and host
 `role`. Project status becomes the declared canon level, purpose the declared role;
-missing fields stay unknown. Input context retains the file hash and schema plus
+missing fields stay unknown. Input context retains only source kind, full-file
+hash and schema, plus the bounded authority summaries below. The input register's
+path and filename are not recorded in receipts. These summaries contain
 only these allowlisted summary fields: global `canonical_host`, `promotion_host`,
 and boolean `automatic_remote_promotion`; handoff `status` and `target_host` under
 `handoff_summary`. Text values must be nonempty, control-free strings of at most
@@ -179,3 +181,10 @@ inspected; fixed-time inspect and refresh results matched, query verified the
 receipt without rescanning, and source context contained only the five allowlisted
 authority fields plus input identity/hash/schema. The 22 unselected/remote register
 entries remained explicit gaps, not claims of global coverage.
+
+The register-path privacy correction passed the same 52-test suite, including
+the in-memory wheel build. Its regression first failed on the former `path` field;
+it now enforces the exact source-metadata field set and proves the distinctive
+register filename and absolute path are absent from all inspect/refresh/query
+API results, CLI results and saved receipts. Existing immutable receipts are not
+rewritten by this source correction.

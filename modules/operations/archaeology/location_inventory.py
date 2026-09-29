@@ -149,7 +149,7 @@ def load_location_roots(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any
         raise LocationInventoryError("unsupported location roots schema")
     if not isinstance(roots, list) or not roots or len(roots) > 1000:
         raise LocationInventoryError("roots must contain between 1 and 1000 declarations")
-    return roots, {"kind": "registered-input", "path": str(path.absolute()),
+    return roots, {"kind": "registered-input",
                    "sha256": digest, "schema": payload["schema"],
                    "global_authority": _bounded_authority_summary(
                        payload.get("authority"), ("canonical_host", "promotion_host"),
