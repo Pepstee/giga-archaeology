@@ -367,3 +367,15 @@ The module declares model, policy, workload, request, completion, candidate, gat
 The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace contains a 142-line version. The complete 29-line diff was reviewed: the candidate adds a SUBSCRIPTION cost tier, restricts subscriptions to PUBLIC privacy, and adds max_prompt_bytes. The donor does not fill a candidate-only capability gap; replacing it would remove those changes. The machine-authority register still has no Inference Fabric owner entry. Disposition: REVIEWED_CANDIDATE_RETAINS_DONOR_WITH_ADDITIONS / OWNER_REGISTRATION_MISSING. Static review only; no Archaeology merge or runtime claim.
 
 Verified donor source-read coverage is now 8/62 files and 2,455/33,497 additions. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/providers.py (+372 additions).
+
+## 2026-09-29 — donor file review 9 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/providers.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 372 additions and 0 deletions; blob fe29eab987c416300950740cfd6a746ec6ab01ee; content SHA-256 d5a49525db692dabcd62634b4c72657563ad36944b15a10f34432ca573e58915. All lines were read in ranges 1–186 and 187–372.
+
+The HTTP adapter sends configured prompts to OpenAI-compatible endpoints with optional bearer credentials and extra headers. The local adapter accepts a caller-supplied URL despite its local label. This module does not enforce URL locality or privacy policy. It reads full responses without an explicit size limit, includes HTTP error-body text in errors, trusts or defaults missing usage/cost values, and does not implement an explicit retry/fallback loop. Provider-reported model/cost/usage values are not independently verified.
+
+[provider-specific account diagnostic removed]
+
+The live Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has a 533-line version; the complete 373-line diff was reviewed. It preserves donor transports and discovery while adding tighter admission, subscription support and telemetry. No donor-only capability gap was identified; replacing the candidate would discard its additions. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_CANDIDATE_RETAINS_DONOR_WITH_ADDITIONS / OWNER_REGISTRATION_MISSING. No Archaeology merge or runtime verification is warranted.
+
+Verified donor source-read coverage is now 9/62 files and 2,827/33,497 additions. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/source_packets.py (+208 additions).
