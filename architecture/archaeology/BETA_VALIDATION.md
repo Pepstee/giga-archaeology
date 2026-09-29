@@ -97,3 +97,13 @@ A separate pre-existing shared ArtVault venv produced a `pip check` conflict bec
 At source commit `b01521f6f6e9336a0e481b45c37ed7c0a470b9f9`, the clean installed Linux CLI ran the README's supported inventory-to-context path against the canonical Archaeology Git repository itself. Navigation inventory admitted 179 files and returned `CURRENT`; mapper refresh returned 38,439 entities and 86,002 relations with `CURRENT`; a symbol query for `run_navigation_retention` returned `PASS` with 10 results; implementation context returned `PASS` with 11 entries from 52 candidates (21 projectable), 582 `giga.lexical-token.v1` units used of 1,200, and 10 explicit omissions. The context field was 2,546 characters, reinforcing that the declared lexical-token budget is not a byte or JSON-envelope limit.
 
 The inventory/map/query/context outputs were written under `/tmp`, outside the repository. The scan read source without executing it. This is a useful end-to-end smoke of the supported CLI workflow, not an independent accuracy benchmark; it does not establish completeness, precision/recall or portability beyond the tested ArtVault Linux/Python 3.12 environment.
+
+## 2026-09-30 — release artifact install path and CI
+
+The README now includes a PowerShell install path and distinguishes current Linux evidence from the older macOS canary. It does not claim that this candidate is cross-platform certified.
+
+Commits 31c51a0698e070c818a9b1792ea744dfec776712 and 3205bf295d37644ab44e72762d187a2bea85419a extend the existing GitHub Actions matrix. On Python 3.12, each Ubuntu, macOS and Windows lane now builds the wheel and source archive, installs each artifact in a separate clean virtual environment, runs pip check, and invokes giga-archaeology --help. The matrix remains capped at three concurrent jobs. These hosted steps have not yet produced an accessible result for this increment.
+
+On ArtVault Linux with Python 3.12.3, build 1.6.1 produced both artifacts from the candidate source. Each artifact installed into its own fresh virtual environment, pip check reported no broken requirements, and the CLI help command passed. The workflow YAML parsed successfully. This is Linux evidence only; the PowerShell recipe and macOS/Windows hosted artifact checks remain unverified.
+
+[provider-specific account diagnostic removed]
