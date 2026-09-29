@@ -137,6 +137,11 @@ reproducible inspections. The caller must supply it truthfully. Ordering, identi
 and sealed output are deterministic for identical inputs, metadata and timestamp;
 live invocations naturally differ when observation time or Git state changes.
 
+The public `evidence_source` argument accepts only the documented explicit-input
+kinds or the exact bounded registered-input shape. Unsupported fields, kinds,
+schemas and malformed digests are rejected before any root is probed; registered
+summaries are re-filtered through the same allowlists before receipt sealing.
+
 The canonical Python API exports `load_location_roots`, `inspect_locations`,
 `refresh_locations`, `query_locations`, and `LocationInventoryError` from
 `modules.operations.archaeology`. Existing `archaeologist` compatibility imports
@@ -188,3 +193,7 @@ it now enforces the exact source-metadata field set and proves the distinctive
 register filename and absolute path are absent from all inspect/refresh/query
 API results, CLI results and saved receipts. Existing immutable receipts are not
 rewritten by this source correction.
+The public API evidence-source boundary follow-up passed the focused suite on
+Python 3.11, 3.13 and 3.14 (55 tests per interpreter) on ArtVault. Regression
+coverage rejects unsupported kinds/fields before any root observation. Hosted
+macOS and Windows CI results remain unverified.

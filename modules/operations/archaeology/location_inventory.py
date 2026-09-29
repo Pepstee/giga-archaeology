@@ -315,6 +315,37 @@ def _observe(root: Path) -> dict[str, Any]:
     return result
 
 
+def _safe_evidence_source(value: Mapping[str, Any] | None) -> dict[str, Any]:
+    """Validate the small public evidence-source vocabulary before sealing it."""
+    if value is None:
+        return {"kind": "explicit-roots-api"}
+    if not isinstance(value, Mapping):
+        raise LocationInventoryError("evidence_source must be a supported mapping")
+    kind = value.get("kind")
+    if not isinstance(kind, str):
+        raise LocationInventoryError("evidence_source kind must be a string")
+    if kind in {"explicit-roots-api", "explicit-cli-roots"}:
+        if set(value) != {"kind"}:
+            raise LocationInventoryError("explicit evidence_source accepts only kind")
+        return {"kind": kind}
+    fields = {"kind", "sha256", "schema", "global_authority", "handoff_summary"}
+    if kind != "registered-input" or set(value) != fields:
+        raise LocationInventoryError("unsupported evidence_source kind or fields")
+    digest = value.get("sha256")
+    schema = value.get("schema")
+    if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+        raise LocationInventoryError("registered evidence_source requires a SHA-256 digest")
+    if not isinstance(schema, str) or schema not in {ROOTS_SCHEMA, "giga.machine-authority.v1"}:
+        raise LocationInventoryError("registered evidence_source schema is unsupported")
+    global_authority = _bounded_authority_summary(
+        value.get("global_authority"), ("canonical_host", "promotion_host"),
+        ("automatic_remote_promotion",))
+    handoff_summary = _bounded_authority_summary(
+        value.get("handoff_summary"), ("status", "target_host"))
+    return {"kind": kind, "sha256": digest, "schema": schema,
+            "global_authority": global_authority, "handoff_summary": handoff_summary}
+
+
 def inspect_locations(
     roots: Sequence[Mapping[str, Any]], *, local_host: str,
     observed_at: str | None = None, excluded_roots: Sequence[str] = (),
@@ -332,6 +363,7 @@ def inspect_locations(
     selected = set(project_ids)
     if selected - {d["project_id"] for d in declarations}:
         raise LocationInventoryError("selected project ID is absent from the register")
+    safe_source = _safe_evidence_source(evidence_source)
     rows = []
     for declaration in declarations:
         path = Path(declaration["path"])
@@ -382,7 +414,7 @@ def inspect_locations(
         "schema": LOCATION_SCHEMA, "authority": "read-only-location-observation",
         "authority_granted": False, "cleanup_permitted": False, "safe_to_delete": False,
         "observed_at": now, "local_host": local_host, "locations": rows, "conflicts": conflicts,
-        "evidence_source": dict(evidence_source or {"kind": "explicit-roots-api"}),
+        "evidence_source": safe_source,
         "coverage": {"global_completeness": False,
             "requested_roots": [{"host": d["host"], "path": d["path"]} for d in declarations],
             "attempted_roots": [r["declared"]["path"] for r in rows if r["observed_at"]],

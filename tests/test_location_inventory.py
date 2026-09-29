@@ -185,6 +185,21 @@ def test_unselected_registered_root_never_probed(metadata_root, monkeypatch):
     assert all(path == root for path, _ in calls)
 
 
+@pytest.mark.parametrize("source", [
+    {"kind": "explicit-roots-api", "private_path": "/private/register.json"},
+    {"kind": "registered-input", "sha256": "a" * 64,
+     "schema": locations.ROOTS_SCHEMA, "global_authority": {}, "handoff_summary": {},
+     "credential": "must-not-appear"},
+    {"kind": "unknown", "secret": "must-not-appear"},
+])
+def test_public_api_rejects_unbounded_evidence_source_before_root_probe(metadata_root, monkeypatch, source):
+    monkeypatch.setattr(locations, "_observe", lambda *_: pytest.fail("root probed"))
+    root, _, _ = metadata_root
+    with pytest.raises(locations.LocationInventoryError, match="evidence_source"):
+        locations.inspect_locations([declaration(root)], local_host="build-host",
+                                    observed_at=NOW, evidence_source=source)
+
+
 def test_machine_register_keeps_global_host_and_project_authority_distinct(tmp_path):
     register = tmp_path / "register.json"
     register.write_text(json.dumps({"schema": "giga.machine-authority.v1", "authority": {"canonical_host": "old-host"},
