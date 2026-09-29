@@ -801,3 +801,14 @@ Reviewed the complete 439-line source file `twin_core/scientific_evidence_cli.py
 The CLI is an interface for scientific literature review, not source-code archaeology. A bounded tracked-source search found no matching command, class, or callsite in the registered Archaeology canon. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_EVIDENCE_CLI_OUTSIDE_ARCHAEOLOGY_SCOPE / AUDIT_CREATES_MISSING_DATABASE / NO_TRANSPLANT`.
 
 Verified source-read coverage is now 47/62 files and 20,139/33,497 additions, counting the prior verified ledger total plus this complete 439-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — source review 48 of 62
+
+Reviewed the complete 321-line source file `twin_core/scientific_fulltext.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Source blob `bb4eacb022d12fa9e426e6ef53a0431d8d33e37d`; the exact path is absent from the base tree, so all 321 lines are additions. It plans lawful full-text routes, retrieves official Europe PMC XML, extracts reviewable sections, and writes content-hashed receipts. No network request, XML input, file write, or test was performed.
+
+[P2] `extract_pmc_xml()` resolves the requested path before checking `is_symlink()`, so a symlink is replaced by its target path and the explicit non-symlink refusal is ineffective. [P2] The DTD/entity rejection scans only the first 2,000 bytes before parsing the entire remote XML document; a declaration after that prefix passes the guard despite the stated prohibition. Both are static findings and were not executed.
+
+The workflow concerns scientific literature acquisition and appraisal rather than code archaeology. A bounded tracked-source search found no full-text planner, PMC retrieval, or extraction callsite in the registered Archaeology canon. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_FULLTEXT_OUTSIDE_ARCHAEOLOGY_SCOPE / PATH_AND_XML_GUARD_GAPS / NO_TRANSPLANT`.
+
+Verified source-read coverage is now 48/62 files and 20,460/33,497 additions, counting the prior verified ledger total plus this complete 321-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
