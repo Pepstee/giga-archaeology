@@ -9,7 +9,7 @@ historical ownership/identity evidence remains in IDENTITY_MIGRATION.md.
 
 - On the registered ArtVault Linux host, the full suite passed on Python 3.11, 3.12, 3.13 and 3.14: 375 passed, 1 skipped, 2 subtests passed on each interpreter.
 - The Python 3.11 run covers the SQLite URI compatibility fix.
-- The 0.1.3b3 wheel built with pip and the source archive built with the PEP 517 frontend from the registered canonical source. The wheel installed, `pip check` was clean, and `giga-archaeology --help` succeeded. Wheel SHA-256: `4accc4bc028e76ad86e1627b57f91d88a74ceab5c4fac25bf0c3a2a78c784b54`; source archive SHA-256: `502ed029eae0c302c403d93894febd8189d73b63ddf39b2997c51ed8593a2cd4`. The source archive was not extracted into another project tree.
+- The 0.1.3b3 wheel built with pip and the source archive built with the PEP 517 frontend from the registered canonical source. The wheel installed, `pip check` was clean, and `giga-archaeology --help` succeeded. Final artifact digests are recorded outside the package in `evidence/release-artifacts/0.1.3b3.json`; embedding a wheel's own digest in a document included in that wheel would make the digest self-referential. The source archive was not extracted into another project tree.
 - macOS and Windows were not run for this candidate. The earlier macOS arm64 evidence below applies to the 0.1.3b1/b2 code state and does not certify the 0.1.3b3 changes.
 
 ## Verified on macOS arm64 / Python 3.14
@@ -42,16 +42,18 @@ not established by this canary. No model-token savings claim is made.
 
 ## Structural source graph
 
-The existing source graph was rebuilt with Graphify's deterministic Python AST extractor from
-the registered canonical source directory, without another project checkout.
-It covers 42 Python source files, 1274 nodes and 5362 edges, including the
-packaging backend. Paths are repository-relative and every input has a SHA-256 in manifest.json.
-Graph SHA-256: `7f57155d04e5f9ddd61fd19f65d8d6d0edd7d0b1c6e6ada39ce8e6dac48bd68d`.
-Manifest SHA-256: `c6ac4fc2e3e01ee139fb41c1a7205e54922b82701531e413e5da9934112e1c31`.
-The previously mismatched source files are included with their current hashes.
-Markdown prose, runtime behaviour and semantic extraction remain outside this structural graph.
-No model calls were used for graph generation.
+The graph was refreshed from the same 42 Python source files in the registered canonical
+workspace with Graphify 0.7.10's deterministic AST extractor at commit
+`f83ef0ab922ed461efdfcdce7d6b7992c012aa3b`. It contains 1,222 nodes, 3,824 edges and
+37 communities. All 42 repository-relative input hashes match the manifest.
 
+Graph SHA-256: `b87cac9f54031dcc29fcce7157232bed46e571ef78232d36007771bdeeb9cbf3`.
+Manifest SHA-256: `7950a68ae7abcdf1eba6bba8a760a2301bf3677673cf8237e44a95ba26c1a607`.
+
+Compared with the prior graph, 84 prior node IDs are absent and 32 IDs are new. This
+records current structural extraction, not feature completeness or a node-by-node
+equivalence proof. Markdown prose, runtime behaviour and semantic extraction remain
+outside this code graph. No model calls were used for graph generation.
 ## Release boundary
 
 The narrow Python mapping beta is technically verified within the scope above. The operator selected MIT, supplied in LICENSE; public distribution has not been performed. Runtime installation on
