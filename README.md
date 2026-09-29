@@ -1,9 +1,10 @@
-# GIGA Archaeology — developer beta
+# GIGA Archaeology
 
-Deterministic Python repository maps and source-linked context for developers and coding agents.
-The supported beta path inventories a local Git repository, extracts structural facts, and answers
-bounded navigation queries. This path makes no model/API calls and does not execute the scanned code.
-It does not certify that a feature is complete, identify every runtime call, or authorise deleting code.
+Developer beta.
+
+GIGA Archaeology maps a local Python Git repository into source-linked symbols and relationships, then builds bounded context for developers and coding agents.
+
+The supported path makes no model/API calls and does not execute scanned code. Queries use structural and lexical matching. They do not certify feature completeness, capture every runtime call or show that code is safe to delete.
 
 ## Install
 
