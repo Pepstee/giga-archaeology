@@ -744,3 +744,16 @@ Read the entire module. It renders research reports, offline citation-trace and 
 Bounded tracked-source searches in the registered Archaeology canon found no `research_export.py`, citation-trace view, plan-map renderer, or synthesis-packet callsite. These exports consume the donor's general research-project ledger and citation/evidence graph; they do not serve Archaeology's code-map or source-linked developer-context contract. The new module is not a proven Archaeology feature and should not be transplanted. Disposition: `REVIEWED_DONOR_INCREMENT / GENERAL_RESEARCH_EXPORTS_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 42/62 files and 14,753/33,497 additions, counting the prior verified 41-file ledger total plus this complete 1,105-line new-file addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — donor file review 43 of 62
+
+Reviewed the complete 2,104-line donor file `twin_core/research_project.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Donor blob `1f8b5f4c43c3bd0d8dae37b19ffd36843ae1e9a3`; the exact path is absent from the base tree, so all 2,104 lines are additions. Read the full file; no tests, project databases or research corpus were opened or executed.
+
+The module provides validated multi-perspective research plans, append-only project events, plan approval, archived-source attachment, verbatim evidence spans, proposed and reviewed claims and relations, citation graphs, evidence matrices, research-frontier gap analysis, and approval-gated follow-up plans. Hashes bind supplied content, but they do not authenticate the person recorded in `approved_by` or make the SQLite ledger externally immutable.
+
+Static review found two issues in the research feature. [P2] `citation_graph()` projects rows from `_events()` without first calling `status()`, unlike the path that audits stored payload hashes and the event-chain links. A modified SQLite row can therefore feed a newly self-hashed graph without the ledger-integrity check. [P2] `_attach_archived_source()` resolves the receipt path before checking `is_symlink()`; that check sees the resolved target and does not reject a symlink whose target remains inside the archive, despite the stated regular-file requirement. Neither finding was executed.
+
+Bounded tracked-source searches found no matching general-research plan/event ledger, frontier, claim/evidence graph, or callsite in the registered Archaeology canon. This module belongs to a separate research workflow and does not improve the Archaeology code-map contract. Disposition: `REVIEWED_DONOR_INCREMENT / GENERAL_RESEARCH_PROJECT_LEDGER_OUTSIDE_ARCHAEOLOGY_SCOPE / TWO_STATIC_FINDINGS / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 43/62 files and 16,857/33,497 additions, counting the prior verified ledger total plus this complete 2,104-line new-file addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
