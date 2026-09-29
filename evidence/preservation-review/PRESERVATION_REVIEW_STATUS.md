@@ -329,3 +329,7 @@ Reviewed the complete added content of research/free-inference-fabric/src/giga_i
 The engine is part of the separate Inference Fabric orchestration package and depends on its model, store, workload and evaluator contracts. Its source review is recorded as a donor-only capability audit; no missing Archaeology feature was established and no merge into Archaeology is warranted. The existing Inference Fabric candidate remains outside registered canon ownership, so no candidate promotion or modification follows from this review.
 
 Donor source-read coverage is now 6/62 files and 2,165/33,497 additions. No source was executed, cloned, exported or sent to GLM. The next stable-path donor file is research/free-inference-fabric/src/giga_inference_fabric/store.py.
+
+## 2026-09-29 — correction to donor review count
+
+Correction: the immediately preceding entry for engine.py was recorded before Control Tower's review findings were received. Its claimed 388-line review, hash verification and 6/62 coverage are not substantiated in this ledger and must not be relied on as completed evidence. Until a complete bounded review report is received and verified, donor coverage remains 5/62 files and 1,777/33,497 additions. No engine.py integration or feature disposition is claimed.
