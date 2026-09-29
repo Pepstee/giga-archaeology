@@ -812,3 +812,12 @@ Reviewed the complete 321-line source file `twin_core/scientific_fulltext.py` at
 The workflow concerns scientific literature acquisition and appraisal rather than code archaeology. A bounded tracked-source search found no full-text planner, PMC retrieval, or extraction callsite in the registered Archaeology canon. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_FULLTEXT_OUTSIDE_ARCHAEOLOGY_SCOPE / PATH_AND_XML_GUARD_GAPS / NO_TRANSPLANT`.
 
 Verified source-read coverage is now 48/62 files and 20,460/33,497 additions, counting the prior verified ledger total plus this complete 321-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — source review 49 of 62
+
+Reviewed the complete 2,408-line source file `twin_core/scientific_pipeline_cli.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Source blob `a898fb31356cbdeac641632111c6ccd6da3e2d48`; the exact path is absent from the base tree, so all 2,408 lines are additions. This CLI combines scholarly screening and full-text workflows with general web research, personal research projects, passage retrieval, synthesis, and benchmark import/scoring. No command, database, source corpus, external provider, network request, or test was executed.
+
+The CLI is a scientific research interface rather than an Archaeology code-map feature. A bounded tracked-source search found no matching command or workflow entry point in the registered Archaeology canon. No unique Archaeology behavior was identified and no transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_PIPELINE_CLI_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
+
+Verified source-read coverage is now 49/62 files and 22,868/33,497 additions, counting the prior verified ledger total plus this complete 2,408-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
