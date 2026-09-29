@@ -975,3 +975,18 @@ The module archives untrusted web/local source content and immutable receipts; e
 This research-source acquisition system is distinct from Archaeology's repository-mapping product and its `twin_core/` source is excluded from the explicit public wheel allowlist. Disposition: `REVIEWED_SOURCE_INCREMENT / RESEARCH_WEB_ACQUISITION_OUTSIDE_ARCHAEOLOGY_SCOPE / DNS_REBINDING_RISK / ARCHIVE_SYMLINK_CHECK_ORDER / NO_TRANSPLANT`.
 
 Corrected cumulative source-read coverage is 61/62 paths and 30,678/33,497 additions. One path / 2,819 additions remains without an explicit review paragraph. No source was sent to GLM and no project copy was created.
+
+
+## 2026-09-30 - source review 62 of 62
+
+Reviewed all 2,819 additions in new donor file `twin_core/scientific_screening.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27`. The base tree has no file at this path. Donor blob `9de780cca84720e5a5505d9e8907335380b365db`; SHA-256 `dd09d9b2ec0af8df44ecad7a96e5546b956cb73527b650ed3e24be88a31e5d9b`.
+
+The module canonicalizes provider records, deduplicates and groups studies, extracts ontology-bound screening features, emits non-authoritative eligibility proposals, audits exclusions and negative controls, accounts for PRISMA flow, runs a fully labelled historical active-learning simulation with labels revealed only after queue selection, and imports historical RIS/RDS evidence while hashing/redacting screener identity. Outputs explicitly state that live eligibility, synthesis and effectiveness ranking are not complete or authorized. A hash-verified search of all 12 changed donor test files found no references to this module; tests were not run.
+
+[P1] `exact_deduplicate()` unions records on any shared DOI, PMID, PMCID, NCT ID, or normalized-title/year token. Title/year and trial-registration tokens can merge different publication records before the human duplicate-decision stage, even when their publication identifiers differ. Study-level grouping may be intended for an NCT, but title/year collisions can also represent distinct reports; the current path does not preserve a manual review decision for those merges. Static evidence-processing risk.
+
+[P2] `write_screening()` rewrites many artifact files sequentially and writes the summary last, without an atomic snapshot swap. An interruption can leave a mixture of old and new artifacts beside a stale summary. Static failure-mode observation.
+
+This scientific literature-screening system is outside Archaeology's repository-mapping product contract, and its `twin_core/` path is excluded from the explicit public wheel allowlist. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SCREENING_OUTSIDE_ARCHAEOLOGY_SCOPE / EXACT_DEDUP_COLLISION_RISK / NONATOMIC_ARTIFACT_SET / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 62/62 files and 33,497/33,497 additions. No scoped donor Python additions remain without an explicit review paragraph. No source was sent to GLM, no tests were run, and no project copy was created.
