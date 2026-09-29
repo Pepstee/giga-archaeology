@@ -2,7 +2,26 @@ name: CI
 
 on:
   push:
+    paths:
+      - ".github/workflows/**"
+      - "modules/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "README.md"
+      - "LICENSE"
+      - "CHANGELOG.md"
+      - "THIRD_PARTY_NOTICES.md"
   pull_request:
+    paths:
+      - ".github/workflows/**"
+      - "modules/**"
+      - "tests/**"
+      - "pyproject.toml"
+      - "README.md"
+      - "LICENSE"
+      - "CHANGELOG.md"
+      - "THIRD_PARTY_NOTICES.md"
+  workflow_dispatch:
 
 permissions:
   contents: read
