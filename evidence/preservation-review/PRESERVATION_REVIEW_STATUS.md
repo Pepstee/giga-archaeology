@@ -931,3 +931,8 @@ The module implements deterministic domain-authority tiers, registrable-domain c
 This is literature-source evaluation rather than repository mapping; it is absent from Archaeology's explicit wheel source allowlist and outside its documented product contract. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SOURCE_QUALITY_OUTSIDE_ARCHAEOLOGY_SCOPE / DOMAIN_PREFIX_OVERCLASSIFICATION / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 58/62 files and 27,208/33,497 additions. Four paths / 6,239 additions remain without explicit review paragraphs. No source was sent to GLM, no tests were run, and no project copy was created.
+
+
+## 2026-09-30 - cumulative source-review count correction
+
+The two preceding source-review entries used an incorrect baseline of 26,611 additions. The prior authenticated crosswalk records 55 reviewed paths / 26,661 additions. The newly reviewed paths add 21 + 314 + 262 = 597 additions. Correct cumulative coverage is therefore 58/62 paths and 27,258/33,497 additions; the four remaining paths contain 6,239 additions. This arithmetic correction supersedes the cumulative totals stated in the source-review 56-57 and source-review 58 paragraphs; their per-file review evidence and dispositions are unchanged.
