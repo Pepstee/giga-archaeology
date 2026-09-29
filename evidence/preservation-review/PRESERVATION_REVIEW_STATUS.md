@@ -905,3 +905,16 @@ A live AST comparison against the canonical `modules/operations/scripts/archaeol
 The donor and canonical navigation-maintenance CLIs both default the model server executable to the macOS-specific `/opt/homebrew/bin/mlx_lm.server`. This is not donor-unique and was not changed in this review; assess it against the product's optional platform-support contract before release.
 
 After mapping the explicit review paragraphs to the exact scope manifest, persisted records cover **55/62 paths and 26,661/33,497 additions**. This corrects the prior cumulative 26,611 figure by 50 additions. **Seven paths and 6,836 additions remain without explicit review paragraphs**; source-read completion is not claimed. No source code was sent to GLM, and no tests were run.
+
+
+## 2026-09-30 - source review 56-57 of 62
+
+Reviewed all 21 additions to `twin_core/store.py` and all 314 additions / 11 deletions to `twin_core/telegram_pipeline.py` at donor commit `d29d209e9094302937c60d28aeab7a54f78ede27`. Store blobs: base `14a394631ee87cd6c10d246eee62137398bd2fa4`, SHA-256 `0a0502ab06282689556489e77a47b457bbdaf11d27eb38630d1ce447e4924cae`; donor `434d10cc1f5c9365a5e1d764ca7425466513607a`, SHA-256 `b65f972dc7627c2aeeea5ee8ac8f28a4d0acbe86da681be06a0d515d696e6c1d`. Pipeline blobs: base `066edd45c69c14e328b86c1936b1c930a700f11a`, SHA-256 `97f0f16d64c367167022339befb6e302064db0c8af44698ed8e754e9960a2ac0`; donor `09ad20ff20348e1a319d5f9f6ad4fbfe92505161`, SHA-256 `a938e5927c87fc7c7238e400e27270394620ba5d1e32acfe11e1934a72b50914`.
+
+`TwinStore.latest_operation_receipt()` returns the latest receipt for an event and operation regardless of status. Its donor caller `_compare_shadow_execution()` uses that to observe non-committed legacy completion, alongside committed shadow-route and provider-boundary receipts. The comparison binds decision hashes and attempt numbers, checks for telemetry changes during comparison, and labels the mode observe-only with authority, execution and enforcement all false. A hash-verified search of all 12 changed donor test files found no reference to this comparator or the new store method; tests were not run.
+
+[P2] A present but non-committed completion adds `LEGACY_COMPLETION_NOT_COMMITTED`, while the result can still report `status: complete` and `alignment: match`: completeness is based on the three projections being present, and mismatch is assigned only to a refused shadow decision whose provider boundary was reached. This may be intentional evidence-completeness semantics, but callers must inspect `reason_codes`; the current field names can otherwise read as a successful aligned execution. Static observation only.
+
+This shadow-memory audit is distinct from Archaeology's documented repository-mapping product. The explicit wheel source allowlist includes the `modules/operations` implementation and excludes `twin_core/`; no transplant into the public Archaeology package is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / UNIQUE_TWINCORE_SHADOW_COMPARISON / OUTSIDE_DOCUMENTED_ARCHAEOLOGY_PRODUCT / RESULT_STATUS_AMBIGUITY / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 57/62 files and 26,946/33,497 additions. Five paths / 6,501 additions remain without explicit review paragraphs. No source was sent to GLM, no tests were run, and no project copy was created.
