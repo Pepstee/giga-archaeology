@@ -821,3 +821,13 @@ Reviewed the complete 2,408-line source file `twin_core/scientific_pipeline_cli.
 The CLI is a scientific research interface rather than an Archaeology code-map feature. A bounded tracked-source search found no matching command or workflow entry point in the registered Archaeology canon. No unique Archaeology behavior was identified and no transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_PIPELINE_CLI_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
 
 Verified source-read coverage is now 49/62 files and 22,868/33,497 additions, counting the prior verified ledger total plus this complete 2,408-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
+
+## 2026-09-30 — source review 50 of 62
+
+Reviewed the complete 1,165-line donor file `twin_core/scientific_providers.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Source blob `7cc3d475ed149a7a7b63335c1a4362ca33246520`; the exact path is absent from the base tree, so all 1,165 lines are additions. The module adapts Europe PMC, PubMed, Semantic Scholar, OpenAlex, ClinicalTrials.gov, Crossref and Unpaywall into shared scientific search and record projection interfaces. No provider/API request, test, database, credential, or network call was used.
+
+[P2] The shared provider filter set is not consistently enforced or reported. Europe PMC applies retraction filtering but silently ignores most other filters; PubMed handles retraction, type tags and year bounds while ignoring PDF, quartile, PubMed-only, include-keyword and exclude-keyword filters; Semantic Scholar applies none of the shared filters; OpenAlex applies only retraction filtering. A caller can therefore receive results that violate requested criteria without any indication that a provider ignored them. Static review only; no provider was called.
+
+A bounded tracked-source search in the registered Archaeology canon found no provider client or matching callsite. These adapters serve scholarly literature search rather than Archaeology's local repository mapping and source-linked developer-context contract. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_PROVIDER_FILTERS_OUTSIDE_ARCHAEOLOGY_SCOPE / CROSS_PROVIDER_FILTER_SEMANTICS_DIVERGE / NO_TRANSPLANT`.
+
+Verified source-read coverage is now 50/62 files and 24,033/33,497 additions, counting the prior verified ledger total plus this complete 1,165-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.\n
