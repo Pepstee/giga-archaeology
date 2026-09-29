@@ -647,3 +647,19 @@ The change adds `authority_path` to reject declared relative-path traversal, obs
 Limits include unpinned/untrusted baseline origin, no complete-file enumeration or authenticity/freshness proof, and checks that are not bound to an atomic file descriptor. Root/ancestor symlinks and filesystem races remain possible; baseline reads have no size/count bound. Some parse/read errors can escape structured reporting, and the accepted syntax is not full GNU `sha256sum` compatibility. Static review only; no runtime claim. Disposition: `REVIEWED_DONOR_INCREMENT / BYTE_IDENTICAL_IN_REGISTERED_AGENT_MEMORY / GENERAL_SOURCE_INTEGRITY_HELPER_RETAINED`.
 
 Verified donor source-read coverage is now 34/62 files and 8,569/33,497 additions. No private material was accessed or sent to GLM. Next stable path: `twin_core/knowledge_refresh.py` (+334 additions).
+
+## 2026-09-29 — correction to donor file review 29
+
+Correction to `twin_core/context_compiler.py` review 29: the prior note said the private helper refreshes knowledge before its memory gate. The reviewed `knowledge_refresh.py` shows that `_ensure_knowledge_current` calls validation/refresh paths that apply the pre-context memory gate before graph/projection work. Do not treat refresh as ungated solely because the compiler calls it before its own explicit gate. Direct calls to internal helpers still need caller/authorization review. The separately noted missing `private_output` argument in the public compiler wrapper remains unchanged.
+
+## 2026-09-29 — donor file review 35 of 62
+
+Reviewed all 334 additions to the new donor file `twin_core/knowledge_refresh.py` at donor `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Blob `64bebd1d633fde7eced11669b6fda622f731c9a8`; SHA-256 `a6ec8193974fa334b4ad8a46b92347ec0e1f6944bf230444b97ea929d2ea94a8`. All additions were read. No memory text, graphs, DBs, tests or provider calls were opened or executed.
+
+The registered Mac `agent-memory` canon has a 330-line counterpart. The complete donor-to-counterpart diff shows one material adaptation: it removes a loop that temporarily copied source files and calls Graphify extraction directly from the nine-file closure with a disposable cache. The registered counterpart retains the donor's gated active-memory slug/hash/wiki-link overlay and validation behavior, with the no-source-copy change. Do not overwrite it with the donor. Its graph includes personal paths, slugs, hashes and relationships, so it remains private-memory evidence. No Archaeology path/symbol counterpart was found in bounded tracked-source searches.
+
+Archaeology's `semantic_graphify` map and source-linked mapper context serve a different purpose: codebase navigation over admitted mapped facts. They do not index personal-memory entries. Disposition: `REVIEWED_DONOR_INCREMENT / RETAINED_WITH_NO_COPY_ADAPTATION_IN_REGISTERED_AGENT_MEMORY / PERSONAL_MEMORY_INDEXING_NOT_ARCHAEOLOGY_SEMANTIC_NAVIGATION`; no donor transplant is warranted.
+
+The public refresh/validate/ensure wrappers require the pre-context corpus gate; `_ensure_knowledge_current` reaches validation/refresh functions that also gate before graph/projection work. Internal helper authorization still depends on its callsites. Static privacy and runtime limits remain: full active memory text is read; imported Graphify/injected runners are trusted and not sandboxed here; no transmission proof is established; graph/source reads are not atomic, capped or transactionally written; hashes/self-hashes do not prove graph truth, authenticated provenance or complete coverage. These are review limits, not execution results.
+
+Verified donor source-read coverage is now 35/62 files and 8,903/33,497 additions. No personal data or donor source was sent to GLM. Next stable path: `twin_core/lineage.py` (+54/-120).
