@@ -299,3 +299,13 @@ The module canonicalizes JSON, hashes fixture file names and contents while reje
 The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has an identical blob and content hash at the same path. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_IN_EXISTING_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology merge or copy is warranted.
 
 Donor source-read coverage is now 3/62 files and 583/33,497 additions; canonical integration credit remains limited to the separately recorded Archaeology retention CLI wiring. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/catalogue.py.
+
+## 2026-09-29 — donor file review 4 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/catalogue.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 78 additions and 0 deletions; blob 4fba558550480d2bddb1ce61dea0132328bde8e8; content SHA-256 d42280cd30e0a3b6a89edcdce406dd28f05c5cd518d02873a4bfb6465f6ea86d. The full 78-line file was read in ranges 1–40 and 41–78 with matching line counts.
+
+The module defines workload-profile and harvest-target records, loads JSON profiles, reports deterministic free-model and preview-window set differences, creates deterministic experiment IDs, and selects available free text models while excluding claimed experiment IDs. It does not query providers, verify availability or pricing, invoke models/evaluators, or durably claim experiments; callers own those controls. The routine relies on caller-supplied metadata and does not itself provide atomic duplicate prevention.
+
+The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical blob and content hash at the same path. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_IN_EXISTING_CANDIDATE / OWNER_REGISTRATION_MISSING. This is Inference Fabric model-window and experiment selection, not an Archaeology feature gap; no merge or copy is warranted.
+
+Donor source-read coverage is now 4/62 files and 661/33,497 additions. Canonical integration credit remains unchanged. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/cli.py (+1,116 additions), which requires a larger bounded review.
