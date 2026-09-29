@@ -24,6 +24,10 @@ from modules.operations.archaeology.quarantine import (
 )
 from test_archaeology_judge import _candidate_evidence
 
+pytestmark = pytest.mark.skipif(
+    sys.platform == "win32", reason="quarantine probe sandbox is not supported on Windows"
+)
+
 
 def _git(root: Path, *arguments: str) -> str:
     return subprocess.run(
@@ -57,7 +61,29 @@ def _run(paths: dict[str, Path], judge: Path, hypothesis: str, output: Path):
     )
 
 
+def _require_linux_namespace_runtime(tmp_path: Path) -> None:
+    if sys.platform != "linux":
+        return
+    repository = tmp_path / "sandbox-preflight-repository"
+    scratch = tmp_path / "sandbox-preflight-scratch"
+    repository.mkdir()
+    scratch.mkdir()
+    process = subprocess.run(
+        _sandbox_command(repository, scratch, [PROBE_ARGV[0], "-c", "pass"]),
+        capture_output=True,
+        timeout=10,
+    )
+    if process.returncode:
+        detail = process.stderr.decode("utf-8", "replace").lower()
+        if "operation not permitted" in detail or "permission denied" in detail:
+            pytest.skip(
+                "Linux runner lacks the user/network namespace capability required by bubblewrap"
+            )
+        pytest.fail(f"bubblewrap sandbox preflight failed: {detail}")
+
+
 def test_candidate_is_quarantined_probed_and_restored(tmp_path: Path) -> None:
+    _require_linux_namespace_runtime(tmp_path)
     paths = _candidate_evidence(
         tmp_path,
         probe_argv=list(PROBE_ARGV),
@@ -208,6 +234,7 @@ def test_probe_sandbox_blocks_personal_reads_and_repository_writes(
 
 @pytest.mark.skipif(sys.platform != "linux", reason="Linux sandbox runtime")
 def test_linux_probe_denies_host_reads_writes_and_network(tmp_path: Path) -> None:
+    _require_linux_namespace_runtime(tmp_path)
     repository = tmp_path / "repository"
     scratch = tmp_path / "scratch"
     repository.mkdir()

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import fcntl
 import gzip
 import json
 import os
@@ -12,6 +11,7 @@ from pathlib import Path
 
 import pytest
 
+from modules.operations.archaeology.os_support import lock_file
 from modules.operations.archaeology.evidence import (
     canonical_bytes,
     seal_document,
@@ -1573,7 +1573,7 @@ def test_running_retention_lock_fails_closed_without_mutation(tmp_path: Path) ->
     lock_path = retention / "retention.lock"
     with lock_path.open("a+b") as lock:
         os.chmod(lock_path, 0o600)
-        fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        lock_file(lock, blocking=False)
         with pytest.raises(RetentionError, match="already running"):
             run_navigation_retention(
                 inventory,
