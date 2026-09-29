@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.3b3 — portability and clean test setup
+
+- Fixed SQLite URI attachment for Python 3.11 and added a dedicated test extra for repeatable contributor setup.
+- Corrected the pinned Tree-sitter version assertion and documented the Linux sandbox prerequisite.
+- Verified the full suite on ArtVault Linux with Python 3.11, 3.12, 3.13 and 3.14; macOS and Windows remain unverified for this candidate.
+- Public publication remains separate from preparation.
+
 ## 0.1.3b2 — MIT-licensed developer beta
 
 - Applied the operator-selected MIT licence to Archaeology. Added LICENSE because no existing licence file served this distribution.

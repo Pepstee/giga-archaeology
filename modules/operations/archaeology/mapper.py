@@ -9265,7 +9265,7 @@ def _build_database(
     manifest_source = (
         f"source:inventory-manifest:{inventory.manifest['receipt_sha256']}"
     )
-    database = sqlite3.connect(destination)
+    database = sqlite3.connect(destination, uri=True)
     database.row_factory = sqlite3.Row
     try:
         _configure_database(database)

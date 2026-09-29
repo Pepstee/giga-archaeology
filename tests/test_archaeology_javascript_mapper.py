@@ -98,7 +98,7 @@ const fake = "function invented() { missing(); }";
     fragment = extract_javascript_file_fragment("scripts/main.mjs", content)
     backend = javascript_backend_identity()
 
-    assert backend["tree_sitter_version"] == "0.25.2"
+    assert backend["tree_sitter_version"] == "0.26.0"
     assert backend["javascript"]["grammar_version"] == "0.25.0"
     assert backend["typescript"]["grammar_version"] == "0.23.2"
     assert fragment["tree_root_type"] == "program"

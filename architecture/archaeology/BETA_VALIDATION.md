@@ -1,10 +1,16 @@
-# Developer beta validation — 0.1.3b2
+# Developer beta validation — 0.1.3b3
 
-The mapping canary and regression results below were established on 0.1.3b1.
-Version 0.1.3b2 changes licensing and packaging only; mapper source is unchanged.
+The mapping canary and regression results below were established on 0.1.3b1. Version 0.1.3b2 added the operator-selected MIT licence and packaging metadata. Version 0.1.3b3 fixes a SQLite URI compatibility issue and makes the contributor test setup explicit.
 
 This is the release-specific evidence summary. Installation and supported scope are in README.md;
 historical ownership/identity evidence remains in IDENTITY_MIGRATION.md.
+
+## Additional verification for 0.1.3b3
+
+- On the registered ArtVault Linux host, the full suite passed on Python 3.11, 3.12, 3.13 and 3.14: 375 passed, 1 skipped, 2 subtests passed on each interpreter.
+- The Python 3.11 run covers the SQLite URI compatibility fix.
+- The 0.1.3b3 wheel built with pip and the source archive built with the PEP 517 frontend from the registered canonical source. The wheel installed, `pip check` was clean, and `giga-archaeology --help` succeeded. Wheel SHA-256: `4accc4bc028e76ad86e1627b57f91d88a74ceab5c4fac25bf0c3a2a78c784b54`; source archive SHA-256: `502ed029eae0c302c403d93894febd8189d73b63ddf39b2997c51ed8593a2cd4`. The source archive was not extracted into another project tree.
+- macOS and Windows were not run for this candidate. The earlier macOS arm64 evidence below applies to the 0.1.3b1/b2 code state and does not certify the 0.1.3b3 changes.
 
 ## Verified on macOS arm64 / Python 3.14
 

@@ -18,7 +18,7 @@ Create an environment outside the repository you intend to scan, then install th
 ```sh
 python3 -m venv "$HOME/.venvs/giga-archaeology"
 . "$HOME/.venvs/giga-archaeology/bin/activate"
-python -m pip install ./giga_archaeology-0.1.3b2-py3-none-any.whl
+python -m pip install ./giga_archaeology-0.1.3b3-py3-none-any.whl
 python -m pip check
 giga-archaeology --help
 ```
@@ -107,6 +107,20 @@ See `architecture/archaeology/BETA_VALIDATION.md` for this release's verificatio
 Mapping results and full evidence can contain source code and absolute paths. Treat output as private
 unless you have reviewed it for sharing. The deterministic supported path stays local; do not interpret
 this as certification of every optional external tool or a complete secret-detection guarantee.
+
+## Run the test suite
+
+The `test` extra installs pytest and Graphify for the optional Graphify-adapter tests; neither is a
+runtime dependency of the standalone core package.
+
+```sh
+python -m pip install ".[test]"
+python -m pytest -q
+```
+
+Linux runs that exercise the quarantine sandbox also require `bubblewrap` and working unprivileged
+user namespaces. Install `bubblewrap` with the operating system package manager before running the full
+suite. Tests for optional commands do not expand the supported release scope listed above.
 
 ## Distribution status
 

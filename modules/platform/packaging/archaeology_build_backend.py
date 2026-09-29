@@ -17,7 +17,7 @@ from typing import Any
 
 NAME = "giga_archaeology"
 DISPLAY_NAME = "giga-archaeology"
-VERSION = "0.1.3b2"
+VERSION = "0.1.3b3"
 DIST_INFO = f"{NAME}-{VERSION}.dist-info"
 # Required eagerly by mapper compiler identity, including Python-only scans.
 REQUIRED_DEPENDENCIES = [

@@ -5,7 +5,7 @@ backend-path = ["modules/platform/packaging"]
 
 [project]
 name = "giga-archaeology"
-version = "0.1.3b2"
+version = "0.1.3b3"
 description = "Deterministic Python repository maps and source-linked context"
 readme = "README.md"
 license = "MIT"
@@ -20,6 +20,10 @@ dependencies = [
 
 [project.optional-dependencies]
 giga = ["giga-user-control-plane==0.1.0"]
+test = [
+    "pytest==9.1.1",
+    "graphifyy==0.7.10",
+]
 
 [project.scripts]
 giga-archaeology = "modules.operations.scripts.archaeology:main"
