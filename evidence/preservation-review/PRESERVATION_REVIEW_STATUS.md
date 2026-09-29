@@ -403,3 +403,13 @@ The candidate's 122-line diff adds hashed provider telemetry, schema migrations 
 The live candidate is at /srv/artvault/projects/inference-fabric/workspace. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_CANDIDATE_RETAINS_DONOR_WITH_ADDITIONS / OWNER_REGISTRATION_MISSING. No Archaeology merge or runtime verification is warranted.
 
 Verified donor source-read coverage is now 11/62 files and 3,517/33,497 additions. No source or database was executed/opened, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/studies.py (+166 additions).
+
+## 2026-09-29 — donor file review 12 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/studies.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 166 additions and 0 deletions; blob 9afb76272fca8cf8749642c4155dba9ce4f211a8; content SHA-256 79719def1faac301f5ad0d2177b0722da8e8fb7e34a935b40f945dff60190016. All lines were read in ranges 1–83 and 84–166.
+
+The module loads a schema-checked study catalogue with a lowercase SHA-256 sidecar, expands arm/repeat cells into deterministic experiment IDs, estimates per-cell remote calls, selects the first unlisted ID, and identifies cells whose individual estimate exceeds a daily limit. It has no durable claim, lease, transaction, lock or provider-quota reservation; concurrent callers may select the same cell. Its sidecar hash is self-consistency, not signed approval. Catalogue reads and hashing occur multiple times without a snapshot/lock, allowing concurrent change between checks. Validation omits several type/emptiness/upper-bound checks; caller metadata and benchmark IDs are trusted, and large repeat expansion is unbounded. No catalogue was read or executed.
+
+The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical 166-line file with the same blob and content hash. The candidate's models.py adds SUBSCRIPTION to the enum used here, while the donor enum does not; no donor-only gap exists. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology merge or runtime validation is warranted.
+
+Verified donor source-read coverage is now 12/62 files and 3,683/33,497 additions. No source or study catalogue was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/tests/test_architecture_benchmark.py (+112 additions).
