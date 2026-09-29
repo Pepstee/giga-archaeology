@@ -83,3 +83,11 @@ Run 36557068700 on commit 781243c completed Linux and macOS across all four Pyth
 [provider-specific account diagnostic removed]
 
 The project is still not ready for publication: the latest source is not represented by the existing 0.1.3b3 distribution artifacts, and public visibility/release has not been requested.
+
+## 2026-09-29 — current-source clean-environment validation
+
+The current canonical source was installed into a new isolated ArtVault virtual environment from the registered workspace with the declared `.[test]` extra. On Python 3.12.3, installation completed, `pip check` reported no broken requirements, and `giga-archaeology --help` succeeded. The full suite then passed: 376 passed, 1 skipped, and 2 subtests passed in 74.60 seconds. The skip is `tests/test_archaeology_quarantine.py:182`, which exercises a Darwin sandbox profile and does not apply on Linux.
+
+The tested source was commit `a0d53cc87a1d013e1d32286d073b762185e455b3`; the following `a0d53cc`-range ledger updates contain preservation notes only, not product-code changes. This validates a clean Linux install and test run on Python 3.12, not the full OS/interpreter matrix. It does not certify macOS or Windows. The built metadata still identifies itself as `0.1.3b3`; these install-time checks do not make the older retained 0.1.3b3 release artifacts current or suitable for publication. No package was published.
+
+A separate pre-existing shared ArtVault venv produced a `pip check` conflict because its installed `codegraphcontext 0.6.8` requires Tree-sitter below 0.26 while Archaeology pins 0.26.0. The isolated environment had no such conflict; the shared-environment warning is not evidence of a clean co-install with `codegraphcontext`.
