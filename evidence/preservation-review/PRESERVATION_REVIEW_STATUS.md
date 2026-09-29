@@ -757,3 +757,14 @@ Static review found two issues in the research feature. [P2] `citation_graph()` 
 Bounded tracked-source searches found no matching general-research plan/event ledger, frontier, claim/evidence graph, or callsite in the registered Archaeology canon. This module belongs to a separate research workflow and does not improve the Archaeology code-map contract. Disposition: `REVIEWED_DONOR_INCREMENT / GENERAL_RESEARCH_PROJECT_LEDGER_OUTSIDE_ARCHAEOLOGY_SCOPE / TWO_STATIC_FINDINGS / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 43/62 files and 16,857/33,497 additions, counting the prior verified ledger total plus this complete 2,104-line new-file addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — source review 44 of 62
+
+Reviewed the complete 863-line source file `twin_core/research_run.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Source blob `6c9c01fea6449c886ccccd6bd0d4a0e496cf75d6`; the exact path is absent from the base tree, so all 863 lines are additions. The module orchestrates approved general-research projects through source discovery, web/local acquisition, passage retrieval, evidence recording, resumable run artifacts, and bounded parallel execution. No tests, research corpus, database, provider or external research source was executed.
+
+Static review found two integrity issues. [P2] `_private_run_root()` resolves the requested path before checking `is_symlink()`, making the symlink refusal ineffective; a symlink to an external directory can be accepted and the target's permissions changed to 0700. [P2] When `run_state()` reports a completed run, `execute_research_run()` returns its recorded paths and hashes without verifying that the bundle, brief and article still exist or match those hashes. Neither finding was executed.
+
+A bounded tracked-source search found no general-research run orchestrator, web acquisition, or passage-retrieval callsite in the registered Archaeology canon. This source file does not improve the code-map contract and should not be transplanted. Disposition: `REVIEWED_SOURCE_INCREMENT / GENERAL_RESEARCH_RUNNER_OUTSIDE_ARCHAEOLOGY_SCOPE / TWO_STATIC_FINDINGS / NO_TRANSPLANT`.
+
+Verified source-read coverage is now 44/62 files and 17,720/33,497 additions, counting the previous verified ledger total plus this complete 863-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
