@@ -107,3 +107,20 @@ Commits 31c51a0698e070c818a9b1792ea744dfec776712 and 3205bf295d37644ab44e72762d1
 On ArtVault Linux with Python 3.12.3, build 1.6.1 produced both artifacts from the candidate source. Each artifact installed into its own fresh virtual environment, pip check reported no broken requirements, and the CLI help command passed. The workflow YAML parsed successfully. This is Linux evidence only; the PowerShell recipe and macOS/Windows hosted artifact checks remain unverified.
 
 [provider-specific account diagnostic removed]
+
+
+## 2026-09-30 — current-source verification after location inventory
+
+The canonical source now includes the location inventory implementation and its regression tests;
+this code was added after the earlier 376-test run recorded above. On ArtVault Linux x86_64 with
+Python 3.12.3, the full suite ran from the registered canonical workspace using the exact pinned
+test dependencies in a disposable dependency-only environment: **418 passed, 1 skipped, and 2
+subtests passed** in 75.33 seconds. The skip is specific to a platform-inapplicable sandbox case.
+This run validates the current Python 3.12 source on Linux; it does not update the earlier Python
+3.11–3.14, macOS, or Windows evidence.
+
+Using Python build 1.6.1 and the custom PEP 517 backend, both the wheel and source archive built
+successfully from the canonical source. Static archive inspection confirmed the project name and
+version, Python floor, CLI entry point, Archaeology modules, README and license files, and that
+TwinCore is excluded. The artifacts were not installed in this run. macOS and Windows remain
+unverified, and no public release was created.
