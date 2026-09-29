@@ -253,3 +253,13 @@ that repository still fails because GitHub credentials are not configured there.
 The authentication failure is thus narrowed to missing GitHub credentials for the archive repository
 on ArtVault. The connected GitHub API is sufficient for bounded read-only commit inspection, but it
 does not provide a verified ref or an authenticated Git transport for the full donor scope.
+
+## 2026-09-29 — exact donor-scope and Archaeology CLI review
+
+Control Tower reproduced the requested scope from base `f4d8e694289d035991c6d3c0b33b35c15a05c53c` to donor `d29d209e9094302937c60d28aeab7a54f78ede27`. Exact pathspecs were `research/free-inference-fabric/src`, `research/free-inference-fabric/tests`, `twin_core`, `modules/operations/archaeology`, `modules/operations/scripts`, and `modules/research`. The result is 62 Python paths, 33,497 additions and 255 deletions; the sorted manifest digest is `f07e4dbd4711b5ede7f6ac5ee08ef981ea9348ab5f9e3bbf3a03527a1169ac7f`. Compared with Archaeology canon commit `0fb589b6fc21312bd357770def3e363772a9c3de`, 4 paths differ and 58 are absent at the same path. This path-only result does not establish capability loss or ownership.
+
+One file has been fully reviewed in bounded source ranges: `modules/operations/scripts/archaeologist.py`, 493 added lines, donor blob `044aaa152e08d097f5e91bca485ca1e5fdc1f815`, content SHA-256 `33e57f7975d36472ceb3fa1a3a55c762f3f5b3015e3e805458373eb57a220d2c`. The verified ranges were 1–180, 181–360 and 361–493. The only CLI feature missing from the current Archaeology command surface was `navigation-retention`. The canonical `modules/operations/archaeology/retention.py` already defines `RetentionPolicy` and `run_navigation_retention`, with direct behavior tests in `tests/test_archaeology_retention.py`. The donor’s 15 retention tests cover implementation behavior but contain no dedicated CLI wiring test.
+
+The canonical `modules/operations/scripts/archaeology.py` now exposes the donor’s retention command and options, with mutation remaining opt-in through `--apply`. A CLI regression test verifies the serialized policy and sealed `DRY_RUN` receipt. Verification on ArtVault Linux: the focused test passed; the full retention test file passed 83 tests; direct CLI help lists the new command. The code and test change is not yet committed at the time of this note.
+
+Coverage is 1/62 files and 493/33,497 additions. The other 61 files have not been reviewed or integrated. No donor source was sent to GLM. ArtVault has repo-scoped SSH access to Archaeology but no verified route to `Pepstee/giga-user`; bounded source inspection used the authenticated Mac Git object store. Public visibility and release remain separate operator-directed actions and have not occurred.

@@ -97,6 +97,7 @@ from modules.operations.archaeology.scip_map import (
 )
 from modules.operations.archaeology.retention import (
     RetentionError,
+    RetentionPolicy,
     assess_derived_family_retention,
     assess_cross_store_derived_map_lineage,
     compact_inactive_scip_generation,
@@ -104,6 +105,7 @@ from modules.operations.archaeology.retention import (
     inspect_retention_receipt,
     read_active_consumer_registry,
     recover_current_compacted_mapper,
+    run_navigation_retention,
     render_cross_store_derived_map_lineage_report,
     render_retention_receipt_inspection,
     restore_compacted_scip_generation,
@@ -447,6 +449,25 @@ def _parser() -> argparse.ArgumentParser:
         help="restore an exactly authenticated externally-compacted CURRENT mapper DB",
     )
     mapper_recover.add_argument("--mapper-store", type=Path, required=True)
+    navigation_retention = subcommands.add_parser(
+        "navigation-retention",
+        help="plan or safely apply retention to stale navigation-map generations",
+    )
+    navigation_retention.add_argument("--inventory-store", type=Path, required=True)
+    navigation_retention.add_argument("--semantic-store", type=Path, required=True)
+    navigation_retention.add_argument("--mapper-store", type=Path)
+    navigation_retention.add_argument(
+        "--reference-root", type=Path, action="append", default=[]
+    )
+    navigation_retention.add_argument("--apply", action="store_true")
+    navigation_retention.add_argument("--keep-successes", type=int, default=3)
+    navigation_retention.add_argument("--keep-failures", type=int, default=2)
+    navigation_retention.add_argument(
+        "--min-age-seconds", type=int, default=24 * 60 * 60
+    )
+    navigation_retention.add_argument(
+        "--quarantine-grace-seconds", type=int, default=7 * 24 * 60 * 60
+    )
     retention_assess = subcommands.add_parser(
         "retention-assess-derived",
         help=(
@@ -1236,6 +1257,22 @@ def main(argv: list[str] | None = None) -> int:
                     sort_keys=True,
                 )
             )
+            return 0
+        if arguments.command == "navigation-retention":
+            receipt = run_navigation_retention(
+                arguments.inventory_store,
+                arguments.mapper_store,
+                arguments.semantic_store,
+                reference_roots=tuple(arguments.reference_root),
+                policy=RetentionPolicy(
+                    keep_successes=arguments.keep_successes,
+                    keep_failures=arguments.keep_failures,
+                    min_age_seconds=arguments.min_age_seconds,
+                    quarantine_grace_seconds=arguments.quarantine_grace_seconds,
+                ),
+                apply=arguments.apply,
+            )
+            print(json.dumps(receipt, sort_keys=True))
             return 0
         if arguments.command == "retention-assess-derived":
             assessment = (

@@ -2567,6 +2567,55 @@ def test_derived_family_assessment_cli_emits_the_closed_dry_run_contract(
     assert (tmp_path / "assessment.json").stat().st_mode & 0o777 == 0o600
 
 
+def test_navigation_retention_cli_defaults_to_a_sealed_dry_run(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    inventory, mapper, semantic, _ids = _fixture_stores(tmp_path)
+    references = _private(tmp_path / "references")
+
+    result = archaeology_main(
+        [
+            "navigation-retention",
+            "--inventory-store",
+            str(inventory),
+            "--semantic-store",
+            str(semantic),
+            "--mapper-store",
+            str(mapper),
+            "--reference-root",
+            str(references),
+            "--keep-successes",
+            "5",
+            "--keep-failures",
+            "2",
+            "--min-age-seconds",
+            "0",
+            "--quarantine-grace-seconds",
+            "0",
+        ]
+    )
+
+    assert result == 0
+    payload = json.loads(capsys.readouterr().out)
+    validate_self_hash(payload)
+    assert payload["mode"] == "DRY_RUN"
+    plan = json.loads(
+        (
+            semantic
+            / "retention"
+            / "runs"
+            / payload["run_id"]
+            / "plan.json"
+        ).read_text()
+    )
+    assert plan["policy"]["keep_successes"] == 5
+    assert plan["policy"]["keep_failures"] == 2
+    assert plan["policy"]["min_age_seconds"] == 0
+    assert plan["policy"]["quarantine_grace_seconds"] == 0
+    assert payload["quarantine"] is None
+    assert payload["purges"] == []
+
+
 def test_cross_store_lineage_closes_per_store_newest_three_loophole(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
