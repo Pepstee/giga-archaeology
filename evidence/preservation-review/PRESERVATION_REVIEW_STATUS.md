@@ -321,3 +321,11 @@ Paid escalation has explicit model/budget/tier gates. The CLI's escalation priva
 The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace contains a different, 1,173-line version. A complete 123-line diff was reviewed: the candidate preserves the donor command surface and adds Z.AI Coding Plan subscription wiring with explicit single-model, transport, public-input, one-candidate, one-round, one-call, subscription-tier and prompt-size restrictions. Replacing it with the donor would discard those changes; no donor-only capability gap was identified. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_CANDIDATE_RETAINS_DONOR_AND_ADDS_SUBSCRIPTION / OWNER_REGISTRATION_MISSING. No Archaeology merge is appropriate.
 
 Donor source-read coverage is now 5/62 files and 1,777/33,497 additions. Canonical integration credit remains unchanged. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/engine.py (+388 additions).
+
+## 2026-09-29 — donor file review 6 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/engine.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 388 additions and 0 deletions; blob and SHA-256 verification were completed by Control Tower. The full file was read in bounded ranges with line counts checked; no source was executed or exported.
+
+The engine is part of the separate Inference Fabric orchestration package and depends on its model, store, workload and evaluator contracts. Its source review is recorded as a donor-only capability audit; no missing Archaeology feature was established and no merge into Archaeology is warranted. The existing Inference Fabric candidate remains outside registered canon ownership, so no candidate promotion or modification follows from this review.
+
+Donor source-read coverage is now 6/62 files and 2,165/33,497 additions. No source was executed, cloned, exported or sent to GLM. The next stable-path donor file is research/free-inference-fabric/src/giga_inference_fabric/store.py.
