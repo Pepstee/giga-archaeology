@@ -281,3 +281,11 @@ The donor failure is specific to ArtVault Git transport for Pepstee/giga-user: i
 Control Tower provisioned a dedicated Ed25519 deploy key on ArtVault and registered it only as a verified read-only key on Pepstee/giga-user. ArtVault retains the private key; no token or private key was transferred. A strict-host-checking SSH alias now targets only this repository. Fresh ls-remote succeeds and reports HEAD f4d8e694289d035991c6d3c0b33b35c15a05c53c. The Archaeology key and origin are unchanged.
 
 Authentication is resolved for bounded donor reads. The previously requested historical branch is still unpublished as a ref, so its absence remains a provenance/ref limitation; the pinned donor commit and exact manifest remain the verified scope. No clone, archive copy, checkout, visibility/ref change, or source export was performed.
+
+## 2026-09-29 — donor file review 2 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/src/giga_inference_fabric/__init__.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 8 additions and 0 deletions; blob 8bbc8a6d593e7e56730e341c5f314365127bc21f; content SHA-256 fb0d6c31f821bcfb9fd34ac240135153bb1f9e8c2e2f52c5ab4fddce3811cd6d. The full 8-line file was read in one bounded range with matching line counts.
+
+The file is a package facade re-exporting ExperimentEngine, ExperimentRequest, ModelPolicy, ModelSpec and ExperimentStore. It does not implement Archaeology functionality. The existing ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace contains an identical blob at the same path. No Archaeology integration or copy is warranted. The machine-authority register has no Inference Fabric owner entry, so that candidate is not promoted to canon by this review. Disposition: REVIEWED_IDENTICAL_IN_EXISTING_CANDIDATE / OWNER_REGISTRATION_MISSING.
+
+Donor review coverage is now 2/62 files and 501/33,497 additions; integrations remain limited to the separately recorded retention CLI wiring. No source was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/src/giga_inference_fabric/benchmarks.py.
