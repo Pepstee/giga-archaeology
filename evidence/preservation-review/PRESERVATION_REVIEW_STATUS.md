@@ -851,3 +851,15 @@ Static review found no defect I can substantiate in the validated readiness flow
 The existing graph was queried for navigation, but it lacks source provenance and returned broad unrelated matches. It is not used as evidence. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SCREENING_READINESS_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 52/62 files and 24,653/33,497 additions, counting the prior verified ledger total plus this complete 109-line addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
+
+## 2026-09-30 — source review 53 of 62
+
+Reviewed all 1,000 additions to `twin_core/scientific_review_funnel.py` at donor commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Donor blob `745369059d3782df3b2943a312a35197a9de5f20`; the path is absent from the base tree. The module builds staged scientific screening and full-text review artifacts, imports PubMed abstracts, validates human eligibility/extraction/sign-off data, and produces a hash-bound comparison matrix. Call sites and related tests were read but not executed. No provider request, database, credential, network call, or test execution occurred.
+
+[P2] `_strip_official_pubmed_doctype()` checks for entity declarations and unexpected DTDs only within the first 10,000 bytes, then passes the complete response to ElementTree. A declaration placed after a sufficiently long XML prolog/comment can bypass the stated DTD/entity prohibition. The existing test covers an entity declaration at the start of the document, not after the scanned prefix. Static finding; no XML payload was executed.
+
+[P2] `apply_abstract_enrichments()` checks the retrieval schema and PMID but does not validate the supplied `retrieval_sha256` or `abstract_sha256` against the record and abstract before using the abstract to recompute eligibility proposals. The adjacent test fixture supplies an arbitrary 64-character retrieval hash, illustrating that this binding is not enforced. A corrupted or mismatched retrieval record can therefore be applied while its unverified hash is retained as provenance. Static finding; test not run.
+
+A bounded tracked-source search found no matching review-funnel workflow or callsite in the registered Archaeology canon. This is scientific literature-review functionality, not a unique Archaeology feature; no transplant is warranted. The graph was queried for navigation but has no provenance and returned broad matches, so it is not source evidence. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_REVIEW_FUNNEL_OUTSIDE_ARCHAEOLOGY_SCOPE / DTD_SCAN_PREFIX_LIMIT / RETRIEVAL_HASH_NOT_VERIFIED / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 53/62 files and 25,653/33,497 additions, counting the prior verified ledger total plus this complete 1,000-line addition. No donor source or personal corpus was sent to GLM, and no project copy was created.
