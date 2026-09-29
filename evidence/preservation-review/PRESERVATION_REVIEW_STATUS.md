@@ -487,3 +487,27 @@ The helper runs an external verifier without timeout/output limits, sandbox or i
 The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical 75-line test file with the same blob/hash. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING. This is a source-level validation issue in a separate product, not an Archaeology merge; no code change or runtime validation is claimed.
 
 Verified donor source-read coverage is now 19/62 files and 4,714/33,497 additions. No tests, verifier or source were executed or sent to GLM. The next stable-path file is research/free-inference-fabric/tests/test_source_packet_generation_benchmark.py (+131 additions).
+
+## 2026-09-29 — donor file review 20 of 62
+
+Reviewed the complete added content of `research/free-inference-fabric/tests/test_source_packet_generation_benchmark.py` from base `f4d8e694289d035991c6d3c0b33b35c15a05c53c` to donor `d29d209e9094302937c60d28aeab7a54f78ede27`. The file has 131 additions and 0 deletions; blob `08ab809fbc8f1a73d37d735bb449c7b21b163010`; content SHA-256 `b81669491d4d3fec340f4029e4454bc342435c6dbe6496136758d97604b70046`. All 131 lines were read in ranges 1–66 and 67–131. No test, builder, verifier or source was executed.
+
+The test describes nine fixed source-packet builder cases: valid one-file and reverse-requested two-file inputs; empty-project, traversal, symlink, per-file size, CR, private-key marker and duplicate-path rejection. It also specifies expected verifier output for the nine reference cases and seven mutants, then two intended mutation-sensitivity failures. These are assertions in a benchmark test; the verifier and mutant implementations were not inspected or run. In particular the reverse-order case asserts file count and total bytes, not all output ordering/hash/line metadata. The test does not cover aggregate-size boundary, UTF-8 edge cases, ancestor/root symlinks, race resistance, all secret formats, forged packets or JSON transport bounds. It does not cover the externally constructed packet CR verifier gap previously identified.
+
+The current ArtVault Inference Fabric candidate at `/srv/artvault/projects/inference-fabric/workspace` has an identical 131-line file with the same blob/hash and no diff. The candidate owner remains absent from the machine-authority register. Disposition: `REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING`; no Archaeology integration is warranted.
+
+## 2026-09-29 — donor file review 21 of 62
+
+Reviewed the complete added content of `research/free-inference-fabric/tests/test_source_packets.py` from base `f4d8e694289d035991c6d3c0b33b35c15a05c53c` to donor `d29d209e9094302937c60d28aeab7a54f78ede27`. The file has 263 additions and 0 deletions; blob `19bf4db6ea454f0595dbc48a1a67c7d918f2fd5b`; content SHA-256 `04640aa1dbb353dae04df5450f0abae9e2c3e71fc6266b642f2885392d15682d`. All 263 lines were read in ranges 1–132 and 133–263. No tests, CLI, verifier, provider or source were executed.
+
+The tests specify direct library/CLI assertions for deterministic ordering, exact source-line preservation, packet hash round-trip and tamper rejection; traversal, symlink and secret-marker rejection; selected malformed/cap inputs; sequential CLI idempotency and refusing overwrite; queue identity/project binding; verifier-byte drift rejection before lease; and two budget-admission cases. The verifier-change case expects a queued job to remain unleased. These are test specifications, not passing runs. They do not prove simultaneous budget reservation, stale-lease fencing, crash recovery, filesystem race resistance, successful provider application, full evaluator binding (the evaluator stays `report` in these calls), exhaustive malformed-input behavior or arbitrary-code isolation. Newline/CR/NUL verifier cases and other previously identified verifier gaps are not exercised.
+
+The current ArtVault Inference Fabric candidate at `/srv/artvault/projects/inference-fabric/workspace` has an identical 263-line file with the same blob/hash and no diff. The candidate owner remains absent from the machine-authority register. Disposition: `REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING`; no Archaeology integration is warranted.
+
+## 2026-09-29 — ArtVault Git authentication recheck
+
+Control Tower's live recheck found both configured ArtVault SSH read routes working. The Archaeology `origin` route resolves the published `codex/artvault-portable-giga-archaeology` ref to `0acec0dc5886592175557f1bc9e0ac7e4329d42d`, matching the ArtVault canonical checkout. The donor `Pepstee/giga-user` route can read donor HEAD `f4d8e694289d035991c6d3c0b33b35c15a05c53c`; its dedicated key is read-only. No credentials were rotated, exposed or copied. No donor history was fetched and no ref was changed.
+
+[provider-specific account diagnostic removed]
+
+Verified donor source-read coverage is now 21/62 files and 5,108/33,497 additions. No tests, verifiers or donor sources were executed or sent to GLM. The next stable manifest path is `research/free-inference-fabric/tests/test_store_and_catalogue.py` (+1,006 additions).
