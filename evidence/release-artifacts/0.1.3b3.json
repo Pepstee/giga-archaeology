@@ -7,10 +7,10 @@
     "host": "ArtVault",
     "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
     "branch": "codex/artvault-portable-giga-archaeology",
-    "commit": "44334c8a428df6c739bacfbeb4ac6221990bd458"
+    "commit": "d1daf0c587c28a409d91631844f2568642d38e48"
   },
   "build": {
-    "date": "2026-09-29",
+    "date": "2026-09-30",
     "platform": "Linux x86_64 (ArtVault)",
     "python": "3.12.3",
     "wheel_frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
@@ -18,30 +18,30 @@
     "backend": "modules/platform/packaging/archaeology_build_backend.py",
     "repeat_build_sha256_match": true,
     "source_archive_extracted": false,
-    "artifact_path": "/tmp/giga-archaeology-release-current-20260930/first on ArtVault; not published"
+    "artifact_path": "/tmp/archaeology-release-final-20260930/first on ArtVault; not published"
   },
   "artifacts": [
     {
       "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
       "format": "wheel",
-      "size_bytes": 364872,
-      "sha256": "28daf11ffff83fbfa3f81d8b708ccda4c1d1a5c9d271eced04d76a4eb02a8d57",
+      "size_bytes": 365807,
+      "sha256": "044cef3758b152dedc5d9334f18696a63716546068bdb98ba887cd90e110df33",
       "archive_members": 45,
       "license_file_present": true
     },
     {
       "filename": "giga_archaeology-0.1.3b3.tar.gz",
       "format": "sdist",
-      "size_bytes": 334154,
-      "sha256": "5783c035ef7b08bbae7ee610c797ecd0011ac1701f90ccc63f1c2ff3ee4f19e3",
+      "size_bytes": 334756,
+      "sha256": "80de13cc01314f8f73894f4c4dbf5785d86795211f7228624c943126595db431",
       "archive_members": 43,
       "license_file_present": true
     }
   ],
   "verification": {
-    "wheel_install": "success_from_fresh_wheel_in_isolated_python_3.12_environment",
-    "pip_check": "No broken requirements found",
-    "console_entrypoint_help": "success",
+    "wheel_install": "success_from_fresh_python_3.12_environment",
+    "pip_check": "No broken requirements found for both wheel and source archive",
+    "console_entrypoint_help": "success for both wheel and source archive",
     "test_matrix": {
       "platform": "ArtVault Linux",
       "interpreters": [
@@ -58,16 +58,21 @@
       "note": "Python 3.11-3.13 exercised the same code before the b3 version-only metadata bump; Python 3.14 exercised the b3 version."
     },
     "source_graph": {
-      "state": "STALE_AND_NOT_PRESENT_IN_CURRENT_CANON",
-      "current_canon_graph_present": false,
+      "state": "PRESENT_BUT_SCOPE_INCOMPLETE",
+      "current_canon_graph_present": true,
+      "canonical_graph_path": "evidence/source-graph/graph.json",
       "latest_documented_graph_commit": "aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7",
       "inputs": 42,
+      "all_manifest_input_hashes_match": true,
+      "missing_tracked_mapper_source": [
+        "modules/operations/archaeology/os_support.py"
+      ],
       "nodes": 1222,
       "edges": 3826,
       "communities": 36,
       "graph_sha256": "60026e2f5e31c579c369a6b22979171b400a5e0b90817b09d44af1c49e0d52ec",
       "manifest_sha256": "a0131c3c2abe40cd021e04b96a36b1b494d5965b4f7844820248444e9c0be9e2",
-      "note": "Historical graph evidence is recorded in BETA_VALIDATION.md; graphify-out/graph.json is absent from the current canonical workspace."
+      "note": "The canonical graph exists at evidence/source-graph, and graphify-out/graph.json is absent. The tracked mapper portability module os_support.py is missing from the 42-input graph scope."
     },
     "macos_verified_for_this_candidate": false,
     "windows_verified_for_this_candidate": false,
@@ -75,7 +80,7 @@
     "current_source_test_evidence": {
       "source_commit": "a0d53cc87a1d013e1d32286d073b762185e455b3",
       "result": "376 passed, 1 skipped, 2 subtests passed",
-      "current_product_source_equivalence": "No diff in modules/, tests/ or pyproject.toml from the recorded test commit to the artifact source commit.",
+      "current_product_source_equivalence": "No diff in modules/, tests/ or pyproject.toml from the recorded test commit through d1daf0c; subsequent changes are README, CI, validation and evidence only.",
       "platform": "ArtVault Linux x86_64 / Python 3.12.3"
     },
     "installed_wheel_cli_smoke": {
@@ -89,6 +94,18 @@
       "context_entries": 11,
       "context_characters": 2546,
       "output_location": "outside repository under ArtVault /tmp"
+    },
+    "sdist_install": "success_from_fresh_python_3.12_environment",
+    "repeat_build_sha256_match": true,
+    "build_smoke": {
+      "source_commit": "d1daf0c587c28a409d91631844f2568642d38e48",
+      "build_frontend": "build 1.6.1",
+      "platform": "ArtVault Linux x86_64",
+      "python": "3.12.3",
+      "wheel_and_sdist_fresh_environment_installs": true,
+      "pip_check": "No broken requirements found",
+      "console_entrypoint_help": "success",
+      "hosted_matrix_result": "not accessible; no hosted pass claimed"
     }
   }
 }
