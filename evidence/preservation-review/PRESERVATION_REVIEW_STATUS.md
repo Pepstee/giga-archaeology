@@ -947,3 +947,16 @@ The module exposes archived Wikipedia, OpenAlex, and DuckDuckGo discovery, parse
 This is scientific literature/public-web discovery, not repository-source archaeology, and its `twin_core/` path is excluded by the explicit Archaeology wheel source allowlist. Disposition: `REVIEWED_SOURCE_INCREMENT / RESEARCH_WEB_DISCOVERY_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
 
 Corrected cumulative source-read coverage is 59/62 paths and 27,782/33,497 additions. Three paths / 5,715 additions remain without explicit review paragraphs. No source was sent to GLM and no project copy was created.
+
+
+## 2026-09-30 - source review 60 of 62
+
+Reviewed all 1,312 additions in new donor file `twin_core/sovereignty.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27`. The base tree has no file at this path. Donor blob `42a6ff9c343e4b6c0baaf25909b35519f1d7cec9`; SHA-256 `9c601a38d4f8497177864cdd2f0f3a851c8e8bd73006af18446c904570fdae3a`.
+
+The module defines evidence-weighted, freshness-adjusted dimensions and guardrails for a personal sovereignty score, with minimum coverage/reliability thresholds, withheld/provisional states, counterfactual choice diagnostics, trend comparisons, and Markdown output. Its methodology explicitly rejects worth, productivity, happiness, mental-health and truth claims. Hash-verified scans found callers in `twin_core/research_export.py` and `twin_core/scientific_pipeline_cli.py`, and no references in the 12 changed donor test files; tests were not run.
+
+[P2] Malformed JSON values such as an array/object in `indicator` or `evidence_class` reach dictionary membership checks and can raise raw `TypeError` instead of the module's `SovereigntyError`. Static input-validation observation only.
+
+This is personal-life measurement and research-export functionality, not repository-source archaeology. Its `twin_core/` source is excluded from the explicit Archaeology wheel allowlist and documented product contract. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / PERSONAL_SOVEREIGNTY_OUTSIDE_ARCHAEOLOGY_SCOPE / MALFORMED_INPUT_EXCEPTION_TYPE / NO_TRANSPLANT`.
+
+Corrected cumulative source-read coverage is 60/62 paths and 29,094/33,497 additions. Two paths / 4,403 additions remain without explicit review paragraphs. No source was sent to GLM, no tests were run, and no project copy was created.
