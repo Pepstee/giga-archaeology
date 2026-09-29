@@ -413,3 +413,13 @@ The module loads a schema-checked study catalogue with a lowercase SHA-256 sidec
 The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical 166-line file with the same blob and content hash. The candidate's models.py adds SUBSCRIPTION to the enum used here, while the donor enum does not; no donor-only gap exists. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology merge or runtime validation is warranted.
 
 Verified donor source-read coverage is now 12/62 files and 3,683/33,497 additions. No source or study catalogue was executed, exported, cloned or sent to GLM. The next stable-path file is research/free-inference-fabric/tests/test_architecture_benchmark.py (+112 additions).
+
+## 2026-09-29 — donor file review 13 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/tests/test_architecture_benchmark.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 112 additions and 0 deletions; blob 165b95a90bb86c438fbccea6ac9ffe8ac7f23bea; content SHA-256 f45e8c21db1dd902edb137bd0876443eb8f1597f94a84bbb785b19b1cce0606a. All lines were read in ranges 1–56 and 57–112. The test itself was not run.
+
+The file has two test functions: one expects a hardcoded candidate architecture map to pass an external verifier, and two mutations (removing one import edge and overstating risk confidence) to fail. The existing candidate retains these assertions but updates the fixture packet digest and source anchors. This verifies changed constants only, not that the new fixture is valid or that any test passes. Coverage does not measure architecture extraction accuracy, full source coverage, real model-generated maps, or broader malformed/adversarial cases. The subprocess helper has no timeout/output bound, executable pin or sandbox; its environment minimization is not filesystem/network isolation.
+
+The ArtVault Inference Fabric candidate's test file is a different 112-line version with the same test structure and updated fixture references. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_CANDIDATE_RETAINS_TESTS_WITH_UPDATED_FIXTURE_REFERENCES / OWNER_REGISTRATION_MISSING. No Archaeology integration is warranted.
+
+Verified donor source-read coverage is now 13/62 files and 3,795/33,497 additions. No test, verifier or source was executed or sent to GLM. The next stable-path file is research/free-inference-fabric/tests/test_config_audit_benchmark.py (+104 additions).
