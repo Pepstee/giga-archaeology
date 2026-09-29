@@ -687,3 +687,13 @@ The file is byte-identical in the registered Mac `agent-memory` canon at HEAD `2
 Static limits include non-atomic path/file checks, no owner/mode/hardlink guarantees, manifest fields that are assertions rather than authenticated authority/history, permissive JSON/type handling, unbounded repeated tree hashing, and unsigned self-consistent receipts. No corpus read or execution occurred. Disposition: `REVIEWED_DONOR_INCREMENT / BYTE_IDENTICAL_IN_REGISTERED_AGENT_MEMORY / PUBLIC_CORPUS_ACCESS_DELIBERATELY_UNAVAILABLE`; this is not an Archaeology feature, permission to unlock memory, or proof every external callsite enforces the gate.
 
 Verified donor source-read coverage is now 37/62 files and 9,186/33,497 additions. No private material was sent to GLM. Next stable path: `twin_core/memory_proposals.py` (+134/-41).
+
+## 2026-09-29 — donor file review 38 of 62
+
+Reviewed the complete 337-line donor `twin_core/memory_proposals.py` and full base-to-donor diff at donor `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. The diff is +134/-41; base blob `3249e4a111b257e848987309754e30e30b36e298`, SHA-256 `853369d89c6ee7d845ff6032997d5ca202733d3ec24c296dbdede3afb4535d62`; donor blob `3d199f55d65bb8ea79912564f287a472a8317638`, SHA-256 `f8e75628c31f99b7fbbf282c910964551e7b81048284030ea61cd4c9afa8302f`. No memory corpus, DB, credential or test was accessed or executed.
+
+The new donor behavior is byte-identical in registered Mac `agent-memory`. Archaeology also has the exact base blob at this path, so this is an older existing copy, not a missing file. The donor adds public fail-closed corpus refusal, snapshot-bound proposal validation/commit and rollback attempts; however, the public access boundary is deliberately unconditionally refusing. The broader flow copies a memory tree, validates against gates, writes entry/index files and can refresh knowledge. It is personal-memory functionality, not automatically a safe Archaeology upgrade. The internal proposal object is constructible and the rollback is not crash-atomic; whole-tree copying and concurrent-writer races remain. No merge, activation or deletion decision is made from filename or donor presence alone.
+
+Disposition: `REVIEWED_DONOR_INCREMENT / BYTE_IDENTICAL_NEW_BEHAVIOR_IN_AGENT_MEMORY / ARCHAEOLOGY_RETAINS_EXACT_OLDER_BASE / PERSONAL_MEMORY_OWNER_BOUNDARY_REQUIRES_CALLSITE_REVIEW`. Before deciding on the Archaeology copy, check only tracked source/package/test callsites and preserve the host-bound refusal. No corpus or runtime path was touched.
+
+Verified donor source-read coverage is now 38/62 files and 9,320/33,497 additions. No private material was sent to GLM. Next stable path: `twin_core/operator_status.py` (+285/-11).
