@@ -433,3 +433,13 @@ The file contains a hardcoded configuration-audit report and three verifier invo
 The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical 104-line test file with the same blob/hash. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology integration is warranted.
 
 Verified donor source-read coverage is now 14/62 files and 3,899/33,497 additions. No tests, verifiers or source were executed or sent to GLM. The next stable-path file is research/free-inference-fabric/tests/test_coverage_feeder.py (+135 additions).
+
+## 2026-09-29 — donor file review 15 of 62
+
+Reviewed the complete added content of research/free-inference-fabric/tests/test_coverage_feeder.py from base f4d8e694289d035991c6d3c0b33b35c15a05c53c to donor d29d209e9094302937c60d28aeab7a54f78ede27. The file has 135 additions and 0 deletions; blob 11e467307c318094bd9f046176758b3ac488e8a7; content SHA-256 2d4f689ba2fba5d283019d1ffbb7cca911fa2a02fdea97717c335246287c9eea. All lines were read in ranges 1–68 and 69–135. The tests were not run.
+
+The eight tests assert focused examples for coverage observation order/deduplication, missing/ambiguous report rejection, fail-closed subprocess errors, one matching and one stale benchmark digest, a v1-to-v2 state-read shape, and three status/binding decisions. They do not independently verify digest calculations, durable on-disk migration, real coverage-tool execution, end-to-end admission, queue/lease behavior, idempotency, concurrency, fencing, budgeting or crash recovery. The test dynamically imports scripts/coverage_feeder.py, which is outside the declared donor pathspec and was not reviewed as part of this file.
+
+The ArtVault Inference Fabric candidate at /srv/artvault/projects/inference-fabric/workspace has the identical 135-line test file with the same blob/hash. The machine-authority register still lacks an Inference Fabric owner entry. Disposition: REVIEWED_IDENTICAL_CANDIDATE / OWNER_REGISTRATION_MISSING. No Archaeology integration is warranted.
+
+Verified donor source-read coverage is now 15/62 files and 4,034/33,497 additions. No test, feeder or source was executed or sent to GLM. The next stable-path file is research/free-inference-fabric/tests/test_engine.py (+424 additions).
