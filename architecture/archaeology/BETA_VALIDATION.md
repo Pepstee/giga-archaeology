@@ -124,3 +124,23 @@ successfully from the canonical source. Static archive inspection confirmed the 
 version, Python floor, CLI entry point, Archaeology modules, README and license files, and that
 TwinCore is excluded. The artifacts were not installed in this run. macOS and Windows remain
 unverified, and no public release was created.
+
+
+## 2026-09-30 — executable source-archive quickstart
+
+The new `examples/quickstart.py` performs inventory, map refresh, symbol query, and bounded-context
+rendering. It rejects an output store inside the scanned repository and refuses to write into a
+non-empty external store. Full JSON receipts are saved locally; the terminal shows concise stage
+summaries and bounded context. The custom PEP 517 backend includes the script in the source archive
+and omits it from the runtime wheel; a regression test builds both formats and checks that boundary.
+
+The walkthrough completed on ArtVault Linux/Python 3.12.3 against a temporary one-file synthetic
+Git repository: inventory `CURRENT` (1 file), map `CURRENT` (21 entities and 21 relations), symbol
+query `PASS` (8 results), and source-linked context for `Serializer.dumps` and related symbols. The
+synthetic input and output stores were removed after the run. This exercised the canonical source
+through a dependency-only environment with the source root on `PYTHONPATH`; it is not a clean
+installed-wheel demo and does not certify macOS or Windows.
+
+The full current-source suite passed on ArtVault Linux/Python 3.12.3: **421 passed, 1 skipped, and 2
+subtests passed** in 75.44 seconds. The skip is the Darwin sandbox-profile test, which is not
+applicable on Linux. Other interpreters and operating systems remain unverified for this source.

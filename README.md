@@ -47,6 +47,20 @@ platform-specific. Do not assume one downloaded on macOS will install on Linux o
 
 ## First scan and query
 
+For a runnable Python walkthrough, see [`examples/quickstart.py`](examples/quickstart.py).
+After installing Archaeology, run the script from a GIGA Archaeology source checkout or source
+archive and pass a separate committed Git repository to scan:
+
+```sh
+python examples/quickstart.py /absolute/path/to/repository /absolute/path/to/new-output Serializer dumps
+```
+
+The first term drives the symbol query; every term is used for bounded context. The script refuses
+output directories inside the repository or non-empty stores, then runs the inventory,
+map, symbol-query, and bounded-context steps below. The resulting maps and context may contain source
+code and absolute paths. Keep the output private. The script is included in the source archive, not
+the runtime wheel.
+
 Use a local Git repository with a commit. An extracted source archive alone is not a Git repository.
 Keep all output stores outside the repository. Use an absolute path for both variables:
 

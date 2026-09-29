@@ -73,6 +73,10 @@ SOURCE_FILES = (
     'modules/operations/scripts/archaeologist.py',
     'modules/operations/scripts/archaeology.py',
 )
+# Runnable contributor/user demo belongs in the source archive, not the runtime wheel.
+SDIST_FILES = (
+    "examples/quickstart.py",
+)
 
 
 def _read_source(relative: str) -> bytes:
@@ -225,6 +229,8 @@ def build_sdist(
     destination = Path(sdist_directory) / filename
     prefix = f"{NAME}-{VERSION}"
     sources = list(_sources()) + [
+        (relative, _read_source(relative)) for relative in sorted(SDIST_FILES)
+    ] + [
         ("pyproject.toml", _read_source("pyproject.toml")),
         ("PKG-INFO", _metadata()),
         (

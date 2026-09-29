@@ -2,6 +2,7 @@
 
 ## 0.1.3b3 — portability and clean test setup
 
+- Added a Python quickstart walkthrough to the source archive with safeguards for output paths and existing data.
 - Fixed SQLite URI attachment for Python 3.11 and added a dedicated test extra for repeatable contributor setup.
 - Corrected the pinned Tree-sitter version assertion and documented the Linux sandbox prerequisite.
 - Verified the full suite on ArtVault Linux with Python 3.11, 3.12, 3.13 and 3.14; macOS and Windows remain unverified for this candidate.
