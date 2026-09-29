@@ -108,7 +108,7 @@
       "platform": "ArtVault Linux x86_64 / Python 3.12.3"
     }
   },
-  "latest_candidate_validation": {
+  "candidate_validation_history_4806eb5": {
     "status": "UNPUBLISHED_REVALIDATION_SAME_PACKAGE_VERSION",
     "release_warning": "These hashes are from current source but retain version 0.1.3b3, the same filename/version as older historical artifacts below. Do not distribute these as a replacement b3 release; assign a new version after all release gates pass.",
     "source": {
@@ -173,6 +173,107 @@
       "hosted_ci": {
         "run_id": 36625111076,
         "head_sha": "4806eb514188513168cd31d35e3ca026a0373ae6",
+        "jobs": 12,
+        "steps_started": 0,
+        "result": "failed before runner start",
+        "annotation": "[provider-specific diagnostic removed]",
+        "authentication": "GitHub auth succeeded with repo and workflow scopes"
+      },
+      "publicly_published": false
+    }
+  },
+  "latest_candidate_validation": {
+    "status": "UNPUBLISHED_REVALIDATION_SAME_PACKAGE_VERSION",
+    "release_warning": "This build is from current source but retains version 0.1.3b3, the same filename/version as older historical artifacts. Do not distribute as a replacement b3 release; assign a new version only after all release gates pass.",
+    "source": {
+      "repository": "Pepstee/giga-archaeology",
+      "host": "ArtVault",
+      "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "commit": "603dcd08f1ddc224c8a7d846ab11056c05726e2b"
+    },
+    "build": {
+      "date": "2026-09-30",
+      "platform": "Linux x86_64 (ArtVault)",
+      "python": "3.12.3",
+      "frontend": "python -m build 1.6.1 --no-isolation --wheel --sdist",
+      "backend": "modules/platform/packaging/archaeology_build_backend.py",
+      "environment": "Dependency-only virtual environment; project package not installed in this run"
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
+        "format": "wheel",
+        "size_bytes": 381099,
+        "sha256": "c402cfce91ea42f9a19fa42cdf341fcf4268034572b6bb88322714a607f1830a",
+        "archive_members": 47
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b3.tar.gz",
+        "format": "sdist",
+        "size_bytes": 349359,
+        "sha256": "1855ef6112fbab2604640eb689668d48929c05223c7f3c4286d07e182ee1d1f8",
+        "archive_members": 46
+      }
+    ],
+    "verification": {
+      "full_test_suite": {
+        "python": "3.12.3",
+        "platform": "ArtVault Linux x86_64",
+        "passed": 421,
+        "skipped": 1,
+        "subtests_passed": 2,
+        "duration_seconds": 75.44,
+        "skip": "Darwin sandbox profile; not applicable on Linux"
+      },
+      "quickstart_demo": {
+        "target": "temporary synthetic one-file committed Git repository",
+        "inventory": {
+          "status": "CURRENT",
+          "files": 1
+        },
+        "mapper": {
+          "status": "CURRENT",
+          "entities": 21,
+          "relations": 21
+        },
+        "symbol_query": {
+          "status": "PASS",
+          "results": 8
+        },
+        "context": "source-linked Serializer.dumps and related symbols rendered",
+        "temp_fixture_and_output_removed": true
+      },
+      "packaging_regression_tests": {
+        "passed": 3,
+        "checks": [
+          "quickstart included in sdist and excluded from wheel",
+          "store inside repository refused",
+          "non-empty external store preserved"
+        ]
+      },
+      "static_archive_inspection": {
+        "metadata_name": true,
+        "version": true,
+        "python_floor": true,
+        "pinned_runtime_dependencies": true,
+        "CLI_entrypoint": true,
+        "quickstart_in_sdist": true,
+        "quickstart_excluded_from_wheel": true,
+        "quickstart_matches_canonical_source": true,
+        "license_in_wheel": true,
+        "location_inventory_in_wheel": true,
+        "TwinCore_excluded_from_wheel": true
+      },
+      "artifact_install_smoke": "not performed for this build",
+      "cross_platform": {
+        "macOS": false,
+        "Windows": false,
+        "other_python_versions": false
+      },
+      "hosted_ci": {
+        "run_id": 36629008705,
+        "head_sha": "603dcd08f1ddc224c8a7d846ab11056c05726e2b",
         "jobs": 12,
         "steps_started": 0,
         "result": "failed before runner start",
