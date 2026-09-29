@@ -368,5 +368,43 @@
       },
       "publicly_published": false
     }
+  },
+  "latest_candidate_install_acceptance_48c7d41": {
+    "status": "PASS_UNPUBLISHED_REVALIDATION",
+    "source_commit": "48c7d41f6daa7d02b322507b4973492dec87680c",
+    "platform": "ArtVault Linux x86_64 / Python 3.12.3",
+    "artifacts": {
+      "wheel_sha256": "460d4e170e6ddda9f658fee19cf6971306ed0fe447b512d2a4ece8a9ddf3d25a",
+      "sdist_sha256": "bad4a1a13541092c1b24b8ec36603dc0e9d7ea7142049b584c93cc0f48afeecc",
+      "reproduced_exact_recorded_hashes": true,
+      "version_warning": "Artifacts retain version 0.1.3b3; do not distribute as a replacement b3 release."
+    },
+    "install_acceptance": {
+      "wheel_installed_in_fresh_venv": true,
+      "sdist_installed_in_fresh_venv": true,
+      "pip_check_both": "No broken requirements found",
+      "giga_archaeology_help_both": "success",
+      "giga_archaeologist_help_both": "success"
+    },
+    "quickstart": {
+      "source": "quickstart.py extracted alone from sdist; no source archive tree extracted",
+      "fixture": "synthetic committed one-file Git repository",
+      "inventory": {
+        "status": "CURRENT",
+        "files": 1
+      },
+      "mapper": {
+        "status": "CURRENT",
+        "entities": 14,
+        "relations": 12
+      },
+      "symbol_query": {
+        "status": "PASS",
+        "results": 5
+      },
+      "context": "PASS",
+      "evidence_store_outside_repository": true
+    },
+    "scope_note": "HEAD differs from the recorded cb54 candidate only in this release evidence file; product sources and tests are unchanged."
   }
 }
