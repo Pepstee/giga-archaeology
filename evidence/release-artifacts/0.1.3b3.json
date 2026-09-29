@@ -77,12 +77,6 @@
     "macos_verified_for_this_candidate": false,
     "windows_verified_for_this_candidate": false,
     "publicly_published": false,
-    "current_source_test_evidence": {
-      "source_commit": "a0d53cc87a1d013e1d32286d073b762185e455b3",
-      "result": "376 passed, 1 skipped, 2 subtests passed",
-      "current_product_source_equivalence": "No diff in modules/, tests/ or pyproject.toml from the recorded test commit through d1daf0c; subsequent changes are README, CI, validation and evidence only.",
-      "platform": "ArtVault Linux x86_64 / Python 3.12.3"
-    },
     "installed_wheel_cli_smoke": {
       "source": "canonical ArtVault Archaeology repository",
       "inventory_files": 180,
@@ -106,6 +100,86 @@
       "pip_check": "No broken requirements found",
       "console_entrypoint_help": "success",
       "hosted_matrix_result": "not accessible; no hosted pass claimed"
+    },
+    "previous_source_test_evidence_pre_location_inventory": {
+      "source_commit": "a0d53cc87a1d013e1d32286d073b762185e455b3",
+      "result": "376 passed, 1 skipped, 2 subtests passed",
+      "current_product_source_equivalence": "No diff in modules/, tests/ or pyproject.toml from the recorded test commit through d1daf0c; subsequent changes are README, CI, validation and evidence only.",
+      "platform": "ArtVault Linux x86_64 / Python 3.12.3"
+    }
+  },
+  "latest_candidate_validation": {
+    "status": "UNPUBLISHED_REVALIDATION_SAME_PACKAGE_VERSION",
+    "release_warning": "These hashes are from current source but retain version 0.1.3b3, the same filename/version as older historical artifacts below. Do not distribute these as a replacement b3 release; assign a new version after all release gates pass.",
+    "source": {
+      "repository": "Pepstee/giga-archaeology",
+      "host": "ArtVault",
+      "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "commit": "4806eb514188513168cd31d35e3ca026a0373ae6"
+    },
+    "build": {
+      "date": "2026-09-30",
+      "platform": "Linux x86_64 (ArtVault)",
+      "python": "3.12.3",
+      "frontend": "python -m build 1.6.1 --no-isolation --wheel --sdist",
+      "backend": "modules/platform/packaging/archaeology_build_backend.py",
+      "environment": "Disposable dependency-only environment; project package not installed in this run"
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
+        "format": "wheel",
+        "size_bytes": 380108,
+        "sha256": "eefc525c704673c177ef5f30b04eab83a8bb19e0a56bb828680a117f5d1fbaf8",
+        "archive_members": 47
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b3.tar.gz",
+        "format": "sdist",
+        "size_bytes": 347032,
+        "sha256": "4dff35130697d2735af388aad5810d13697da4bd33267e3874c6e1110b519045",
+        "archive_members": 45
+      }
+    ],
+    "verification": {
+      "full_test_suite": {
+        "python": "3.12.3",
+        "platform": "ArtVault Linux x86_64",
+        "passed": 418,
+        "skipped": 1,
+        "subtests_passed": 2,
+        "duration_seconds": 75.33,
+        "skip": "Darwin sandbox profile; not applicable on Linux"
+      },
+      "build": "wheel and sdist built successfully",
+      "static_archive_inspection": {
+        "metadata_name": true,
+        "version": true,
+        "python_floor": true,
+        "pinned_runtime_dependencies": true,
+        "CLI_entrypoint": true,
+        "location_inventory_in_wheel_and_sdist": true,
+        "license_in_artifacts": true,
+        "README_in_sdist": true,
+        "custom_backend_in_sdist": true,
+        "TwinCore_excluded_from_both": true
+      },
+      "artifact_install_smoke": "not performed in this run",
+      "cross_platform": {
+        "macOS": false,
+        "Windows": false
+      },
+      "hosted_ci": {
+        "run_id": 36625111076,
+        "head_sha": "4806eb514188513168cd31d35e3ca026a0373ae6",
+        "jobs": 12,
+        "steps_started": 0,
+        "result": "failed before runner start",
+        "annotation": "[provider-specific diagnostic removed]",
+        "authentication": "GitHub auth succeeded with repo and workflow scopes"
+      },
+      "publicly_published": false
     }
   }
 }
