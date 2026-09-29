@@ -721,3 +721,15 @@ The module provides stable passage chunking over verified archived-web receipts,
 Disposition: `REVIEWED_DONOR_INCREMENT / RESEARCH_ARCHIVE_RETRIEVAL_CANDIDATE_NOT_PROVEN_FOR_ARCHAEOLOGY / QUERY_BINDING_DEFECT / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 40/62 files and 10,452/33,497 additions. No source copy was created and no donor source or personal corpus was sent to GLM. Next manifest path: `twin_core/research_benchmark.py` (+3,196 additions).
+
+## 2026-09-29 — donor file review 41 of 62
+
+Reviewed all 3,196 additions to new donor file `twin_core/research_benchmark.py` at pinned donor `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Donor blob `2b503ff4c977720c72bb2b3b6b83336d60ca039f`, 141,022 bytes, SHA-256 `ffc3ad93d1caeb46f69337de790464464cedabac84b92755f3e792a5a154ebd0`. Read the complete changed module, targeted benchmark validation/import tests, CLI callsites and the related retrieval/research callers. No tests or model/network commands were run.
+
+The module adds research-system benchmark scoring/comparison, pinned imports for ReportBench, PDR-Bench, DeepResearch Bench and DeepSynth, cohort/submission preparation, and gated campaign planning/admission. Its consumers are research acquisition and scientific benchmark commands. The Archaeology canon has no corresponding module, benchmark import flow, or callsites; its supported product remains local Python repository mapping and bounded source-linked developer context. Benchmark functionality does not improve that supported contract, so no transplant is justified.
+
+[P2] `_validated_run` at lines 858-945 checks that latency and cost are numeric and non-negative but does not require finite values. `NaN` passes the negative-value comparison; `latency_ms` then raises an uncaught `ValueError` during `int()` conversion, while infinite latency raises `OverflowError`. Non-finite `cost_usd` can be emitted in score output and propagate into comparisons. The nearby tests cover unknown values and scope requirements, but not non-finite measurements. Reject non-finite latency and cost with `ResearchBenchmarkError` before coercion or scoring. Static review only; the defect was not executed.
+
+Disposition: `REVIEWED_DONOR_INCREMENT / RESEARCH_BENCHMARKING_OUTSIDE_ARCHAEOLOGY_SCOPE / NONFINITE_MEASUREMENT_VALIDATION_DEFECT / NO_TRANSPLANT`.
+
+Verified donor source-read coverage is now 41/62 files and 13,648/33,497 additions. No donor source copy or personal corpus was created or sent to GLM. Next manifest item requires metadata verification before review.
