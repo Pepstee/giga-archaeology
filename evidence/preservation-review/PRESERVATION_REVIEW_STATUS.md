@@ -936,3 +936,14 @@ Verified donor source-read coverage is now 58/62 files and 27,208/33,497 additio
 ## 2026-09-30 - cumulative source-review count correction
 
 The two preceding source-review entries used an incorrect baseline of 26,611 additions. The prior authenticated crosswalk records 55 reviewed paths / 26,661 additions. The newly reviewed paths add 21 + 314 + 262 = 597 additions. Correct cumulative coverage is therefore 58/62 paths and 27,258/33,497 additions; the four remaining paths contain 6,239 additions. This arithmetic correction supersedes the cumulative totals stated in the source-review 56-57 and source-review 58 paragraphs; their per-file review evidence and dispositions are unchanged.
+
+
+## 2026-09-30 - source review 59 of 62
+
+Reviewed all 524 additions in new donor file `twin_core/web_discovery.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27`. The base tree has no file at this path. Donor blob `4957e98af052347ad86bb02694c308abd061bd22`; SHA-256 `dc28172932994c06ff15781cf7f557e29a2b9ecbd517b566ea19fd95a82070f9`.
+
+The module exposes archived Wikipedia, OpenAlex, and DuckDuckGo discovery, parses bounded result fields, round-robins provider responses with domain caps, and records provider receipts. It labels results as untrusted external discovery and explicitly sets `claim_authority: false`. A hash-verified search of all 12 changed donor test files found no references to these providers or selection functions. No provider requests were made and tests were not run.
+
+This is scientific literature/public-web discovery, not repository-source archaeology, and its `twin_core/` path is excluded by the explicit Archaeology wheel source allowlist. Disposition: `REVIEWED_SOURCE_INCREMENT / RESEARCH_WEB_DISCOVERY_OUTSIDE_ARCHAEOLOGY_SCOPE / NO_TRANSPLANT`.
+
+Corrected cumulative source-read coverage is 59/62 paths and 27,782/33,497 additions. Three paths / 5,715 additions remain without explicit review paragraphs. No source was sent to GLM and no project copy was created.
