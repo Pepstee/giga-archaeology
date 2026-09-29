@@ -779,3 +779,14 @@ Reviewed the complete 509-line source file `twin_core/scientific_campaign.py` at
 The module is a scholarly-search campaign workflow, not a source-code archaeology capability. Bounded tracked-source searches found no campaign execution counterpart or callsite in the registered Archaeology canon. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SEARCH_CAMPAIGNS_OUTSIDE_ARCHAEOLOGY_SCOPE / MALFORMED_INPUT_ERROR_TYPE / NO_TRANSPLANT`.
 
 Verified source-read coverage is now 45/62 files and 18,229/33,497 additions, counting the prior verified ledger total plus this complete 509-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
+
+
+## 2026-09-30 — source review 46 of 62
+
+Reviewed the complete 1,471-line source file `twin_core/scientific_evidence.py` at commit `d29d209e9094302937c60d28aeab7a54f78ede27` against base `f4d8e694289d035991c6d3c0b33b35c15a05c53c`. Source blob `ac5eb0f759bc0111073a3f570184cca7dd2aa74e`; the exact path is absent from the base tree, so all 1,471 lines are additions. The file implements a general scientific acquisition client, source/appraisal records, append-only SQLite ledger, integrity audit, and evidence-readiness gates. The source was read directly from the existing read-only Git object archive; no checkout or copy was created. No tests, database, Elicit credentials, provider, or network search were used.
+
+[P3] `validate_appraisal()` advertises a `ScientificEvidenceError` for invalid appraisal shape, but `validate_appraisal(None)` reaches `set(appraisal)` while formatting the missing fields and raises `TypeError`. This is a static finding; it was not executed.
+
+The module is a general scientific-evidence workflow rather than code archaeology. Bounded tracked-source searches in the registered Archaeology canon found no matching store, acquisition, appraisal, or readiness entry point. No transplant is warranted. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_EVIDENCE_WORKFLOW_OUTSIDE_ARCHAEOLOGY_SCOPE / MALFORMED_INPUT_ERROR_TYPE / NO_TRANSPLANT`.
+
+Verified source-read coverage is now 46/62 files and 19,700/33,497 additions, counting the prior verified ledger total plus this complete 1,471-line new-file addition. No source code or personal corpus was sent to GLM, and no project copy was created.
