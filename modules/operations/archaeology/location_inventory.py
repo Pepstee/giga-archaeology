@@ -25,6 +25,7 @@ ROOTS_SCHEMA = "giga.archaeology.location-roots.v1"
 LOCATION_SCHEMA = "giga.archaeology.location-inventory.v1"
 QUERY_SCHEMA = "giga.archaeology.location-query.v1"
 MAX_INPUT_BYTES = 4 * 1024 * 1024
+MAX_AUTHORITY_SUMMARY_TEXT = 128
 CANON_LEVELS = frozenset({"canonical", "canonical_development_owner", "canonical_source", "canonical_runtime"})
 
 
@@ -92,10 +93,31 @@ def _read_json(path: Path) -> tuple[dict[str, Any], str]:
         raise LocationInventoryError(f"cannot read location evidence: {type(exc).__name__}") from exc
 
 
+def _bounded_authority_summary(value: Any, text_fields: Sequence[str],
+                               boolean_fields: Sequence[str] = ()) -> dict[str, Any]:
+    """Allowlist short context fields; never copy nested operational records.
+
+    Unsupported or oversized values are omitted, not truncated into a potentially
+    misleading authority claim. The input digest binds the full original record.
+    """
+    if not isinstance(value, dict):
+        return {}
+    result: dict[str, Any] = {}
+    for field in text_fields:
+        item = value.get(field)
+        if (isinstance(item, str) and 0 < len(item) <= MAX_AUTHORITY_SUMMARY_TEXT
+                and not any(ord(c) < 32 for c in item)):
+            result[field] = item
+    for field in boolean_fields:
+        if isinstance(value.get(field), bool):
+            result[field] = value[field]
+    return result
+
+
 def load_location_roots(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Read one explicit roots document or the registered machine-authority shape.
 
-    Host/global declarations are retained as context, never promoted into a
+    Bounded host/global declarations remain context, never promoted into a
     per-project canonical owner. Unsupported schemas fail before any root probe.
     """
     payload, digest = _read_json(path)
@@ -129,8 +151,11 @@ def load_location_roots(path: Path) -> tuple[list[dict[str, Any]], dict[str, Any
         raise LocationInventoryError("roots must contain between 1 and 1000 declarations")
     return roots, {"kind": "registered-input", "path": str(path.absolute()),
                    "sha256": digest, "schema": payload["schema"],
-                   "global_authority": payload.get("authority"),
-                   "handoff": payload.get("development_handoff")}
+                   "global_authority": _bounded_authority_summary(
+                       payload.get("authority"), ("canonical_host", "promotion_host"),
+                       ("automatic_remote_promotion",)),
+                   "handoff_summary": _bounded_authority_summary(
+                       payload.get("development_handoff"), ("status", "target_host"))}
 
 
 def _declaration(root: Mapping[str, Any]) -> dict[str, Any]:

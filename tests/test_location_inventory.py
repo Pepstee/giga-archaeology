@@ -200,6 +200,47 @@ def test_machine_register_keeps_global_host_and_project_authority_distinct(tmp_p
     assert not payload["conflicts"]
 
 
+def test_register_receipt_omits_unrelated_operational_context(tmp_path):
+    register = tmp_path / "register.json"
+    unrelated = "UNRELATED-OPERATIONAL-RECORD" * 10000
+    raw = canonical_bytes({
+        "schema": "giga.machine-authority.v1",
+        "authority": {"canonical_host": "old-host", "promotion_host": "build-host",
+                      "automatic_remote_promotion": False, "source": unrelated},
+        "development_handoff": {"status": "active", "target_host": "build-host",
+                                "rules": unrelated, "project_overrides": {"other": unrelated}},
+        "hosts": {"build-host": {"roots": [{"id": "example", "path": "/example/source"}]}},
+    })
+    register.write_bytes(raw)
+    roots, source = locations.load_location_roots(register)
+    payload = locations.inspect_locations(roots, local_host="fixture-other-host",
+                                          observed_at=NOW, evidence_source=source)
+    assert source["sha256"] == locations.sha256_bytes(raw)
+    assert source["schema"] == "giga.machine-authority.v1"
+    assert source["global_authority"] == {"canonical_host": "old-host",
+        "promotion_host": "build-host", "automatic_remote_promotion": False}
+    assert source["handoff_summary"] == {"status": "active", "target_host": "build-host"}
+    assert "handoff" not in source
+    assert b"UNRELATED-OPERATIONAL-RECORD" not in canonical_bytes(payload)
+    assert len(canonical_bytes(source)) < 1024
+
+
+@pytest.mark.parametrize("invalid", ["x" * 129, {"nested": "record"},
+                                     ["record"], True, "", "host\nrecord"])
+def test_authority_context_fields_are_bounded_without_truncation(tmp_path, invalid):
+    register = tmp_path / "register.json"
+    register.write_bytes(canonical_bytes({
+        "schema": locations.ROOTS_SCHEMA,
+        "roots": [declaration(Path("/example/source"))],
+        "authority": {"canonical_host": invalid, "promotion_host": "x" * 128,
+                      "automatic_remote_promotion": "false"},
+        "development_handoff": {"status": invalid, "target_host": invalid},
+    }))
+    _, source = locations.load_location_roots(register)
+    assert source["global_authority"] == {"promotion_host": "x" * 128}
+    assert source["handoff_summary"] == {}
+
+
 def test_refresh_query_fresh_stale_unknown_and_tampering(metadata_root, tmp_path, monkeypatch):
     root, _, _ = metadata_root
     receipt = tmp_path / "inventory.json"

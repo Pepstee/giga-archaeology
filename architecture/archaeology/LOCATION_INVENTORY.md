@@ -60,7 +60,14 @@ or runnable source copies.
 `giga.machine-authority.v1`, with `hosts.<host>.roots[]` entries. It retains root
 `id`, `path`, `owner`, `status`, `purpose`, `verified_head`, `verified_at`, and host
 `role`. Project status becomes the declared canon level, purpose the declared role;
-missing fields stay unknown. Global authority and handoff remain input context.
+missing fields stay unknown. Input context retains the file hash and schema plus
+only these allowlisted summary fields: global `canonical_host`, `promotion_host`,
+and boolean `automatic_remote_promotion`; handoff `status` and `target_host` under
+`handoff_summary`. Text values must be nonempty, control-free strings of at most
+128 characters. Unsupported or oversized values are omitted, never truncated;
+omission means unknown, not a policy decision. Nested records, prose, and all
+other handoff/authority fields are not embedded. The file hash binds the complete
+input without copying its unrelated operational history into location receipts.
 The adapter does not resolve policy precedence or derive an owner from a hostname.
 
 For a register containing several projects, use repeatable `--project-id` to select
@@ -153,3 +160,8 @@ workspace, observed the expected branch and base HEAD
 receipt without rescanning. The inactive historical location and unselected
 projects remained gaps. No worktree was created or traversed. The check does not
 establish global coverage, clean working-tree state, or Windows certification.
+
+The authority-summary follow-up passed the same suite with 51 tests. Regression
+coverage confirms unrelated handoff/authority records never enter receipt output,
+the complete input hash remains intact, and overlong or non-scalar summary values
+are omitted without truncation.
