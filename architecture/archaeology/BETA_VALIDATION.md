@@ -73,3 +73,13 @@ Graph SHA-256: 60026e2f5e31c579c369a6b22979171b400a5e0b90817b09d44af1c49e0d52ec.
 Manifest SHA-256: a0131c3c2abe40cd021e04b96a36b1b494d5965b4f7844820248444e9c0be9e2.
 
 A first graph merge was rejected because it would have removed 147 unrelated nodes and 754 edges. The corrected source-scoped update preserved every prior node and edge and added two call edges for the CLI integration. This graph evidence establishes structural linkage only; it does not establish product completeness or cross-platform readiness.
+
+## 2026-09-29 — cross-platform CI baseline and current run blocker
+
+A new GitHub Actions workflow was added at .github/workflows/ci.yml for the full pytest suite on Ubuntu, macOS and Windows with Python 3.11–3.14. It installs the Linux bubblewrap package, limits parallel jobs to three, cancels stale runs, and ignores evidence-only commits.
+
+Run 36557068700 on commit 781243c completed Linux and macOS across all four Python versions successfully. On hosted Linux, the two tests requiring network namespaces were skipped only when the runner returned an explicit permission-denied error; ArtVault Linux ran the affected retention/quarantine files with 89 passed and 1 skipped. The Windows jobs exposed a test portability issue: fcntl was imported unconditionally and multiple test helpers invoked /usr/bin/git. The fcntl lock test now uses Archaeology's cross-platform lock helper; quarantine probe tests are marked unsupported on Windows; test Git commands resolve through PATH. These changes are in commits 444eb2e and d9d9209.
+
+[provider-specific account diagnostic removed]
+
+The project is still not ready for publication: the latest source is not represented by the existing 0.1.3b3 distribution artifacts, and public visibility/release has not been requested.
