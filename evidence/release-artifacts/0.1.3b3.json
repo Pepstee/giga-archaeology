@@ -184,14 +184,14 @@
   },
   "latest_candidate_validation": {
     "status": "UNPUBLISHED_CANDIDATE_LINUX_MATRIX_MACOS_INSTALLED_SMOKE_WINDOWS_UNVERIFIED",
-    "release_warning": "Built files retain 0.1.3b3 and collide with historical candidate filenames. Do not distribute; assign a fresh version only after release gates pass.",
+    "release_warning": "Built files retain 0.1.3b3 and collide with historical candidate filenames. Do not distribute; assign a fresh version only after the release gates pass.",
     "source": {
       "repository": "Pepstee/giga-archaeology",
       "host": "ArtVault",
       "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
       "branch": "codex/artvault-portable-giga-archaeology",
-      "commit": "cfa49631d6510f22905a9d09f0c2d9ea549e35a3",
-      "tree": "d68511d67a0a195b97730012229efbaa79e4b80d"
+      "commit": "a3ea235453782f0776b3c1e166257e03111bd1e0",
+      "tree": "36fab435dd6a178084eefbaa19dc45e283aa0160"
     },
     "build": {
       "date": "2026-10-29",
@@ -199,21 +199,21 @@
       "python": "3.12.3",
       "frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
       "backend": "modules/platform/packaging/archaeology_build_backend.py",
-      "outdir": "/tmp/giga-archaeology-release-check-cfa4963"
+      "outdir": "/tmp/giga-archaeology-release-check-a3ea235"
     },
     "artifacts": [
       {
         "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
         "format": "wheel",
-        "size_bytes": 385844,
-        "sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "size_bytes": 387144,
+        "sha256": "16ef1fdf2a06f593f5050cf817ef6645371c9fe104820ba522aedcc97b0a69fd",
         "archive_members": 47
       },
       {
         "filename": "giga_archaeology-0.1.3b3.tar.gz",
         "format": "sdist",
-        "size_bytes": 353780,
-        "sha256": "65b41debdd2a3bf8239fac5c3575db1e874ba7b6dd448e9296b1f6d54a8a9a58",
+        "size_bytes": 355056,
+        "sha256": "8637c1ac113e36cd26c04531a90a82ca11ec65a1968110fa370860a50cb5b1a8",
         "archive_members": 46
       }
     ],
@@ -226,29 +226,33 @@
       "sdist_install": {
         "environment": "existing ArtVault giga-archaeology-test Python 3.12.3",
         "pip_builds_wheel": true,
-        "built_wheel_sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "built_wheel_sha256": "16ef1fdf2a06f593f5050cf817ef6645371c9fe104820ba522aedcc97b0a69fd",
         "pip_check": "No broken requirements found",
         "console_entrypoint_help": "passed"
       },
       "installed_sdist_functional_canary": {
         "fixture": "one-file synthetic committed Git repository",
-        "output": "/tmp/giga-archaeology-release-canary-cfa4963/store",
+        "output": "/tmp/giga-archaeology-release-canary-a3ea235/store",
         "navigation": {
           "status": "CURRENT",
-          "files": 1
+          "files": 1,
+          "receipt_sha256": "9c02fa84d1e2c7b0d00b13e2dab576773e504b480199b91048dbc2160fd5169a"
         },
         "mapper": {
           "status": "CURRENT",
           "entities": 14,
-          "relations": 12
+          "relations": 12,
+          "receipt_sha256": "653a45964e2ed04732f939c3fc664f93bda3eceee2e594ce3f66fd6b99d8733c"
         },
         "symbol_query": {
           "status": "PASS",
-          "results": 4
+          "results": 4,
+          "receipt_sha256": "42c69758df4d18808350863a7494b28125a0601d8af1cdcdaf171acc6aecb4d6"
         },
         "bounded_context": {
           "status": "PASS",
-          "characters": 131
+          "characters": 131,
+          "receipt_sha256": "baa5fa48252da000f410c013c7012538b6b5f48e48c3474d5768d44a949cbc17"
         }
       },
       "full_test_suite": {
@@ -281,55 +285,19 @@
       },
       "hosted_ci": {
         "run_id": 40824868315,
+        "head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
         "jobs": 12,
         "conclusion": "all failed before any step ran",
+        "[provider-specific diagnostic removed]": 12,
         "job_steps": 0,
-        "logs": "GitHub log endpoint returned 404 BlobNotFound",
-        "failure_cause": "[provider-specific diagnostic removed]",
-        "macos_verified": false,
-        "windows_verified": false,
-        "previous_run_id": 40822064209,
-        "latest_head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
-        "recent_runs": [
-          {
-            "run_id": 40824313014,
-            "head_sha": "dcdefb6b66938b3d267e2abe5754803e994a37e0",
-            "jobs": 12,
-            "conclusion": "all failed before any step ran"
-          },
-          {
-            "run_id": 40824541437,
-            "head_sha": "0bb629e9e21b774609a1d003c56568cf5fcf24cf",
-            "jobs": 12,
-            "conclusion": "all failed before any step ran",
-            "job_steps": 0,
-            "logs": "404 BlobNotFound"
-          },
-          {
-            "run_id": 40824653871,
-            "head_sha": "3f81e84b4511d014bb5f0ea901a2b4d92becf83c",
-            "jobs": 12,
-            "conclusion": "all failed before test steps",
-            "[provider-specific diagnostic removed]": 12,
-            "steps": 0,
-            "runner_id": 0
-          },
-          {
-            "run_id": 40824868315,
-            "head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
-            "jobs": 12,
-            "conclusion": "all failed before test steps",
-            "[provider-specific diagnostic removed]": 12,
-            "steps": 0,
-            "runner_id": 0
-          }
-        ],
-        "all_jobs_zero_steps": true,
         "runner_id_all_jobs": 0,
+        "failure_cause": "[provider-specific diagnostic removed]",
         "secondary_annotations": [
           "Ubuntu 26 runner-image migration notice",
           "macOS arm64 runner capacity notice"
-        ]
+        ],
+        "macos_full_suite_verified": false,
+        "windows_verified": false
       },
       "publicly_published": false,
       "static_archive_inspection": {
@@ -347,38 +315,44 @@
         "host": "macOS",
         "platform": "macOS 26.4.1 arm64",
         "python": "3.14.5",
-        "wheel_sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "wheel_sha256": "16ef1fdf2a06f593f5050cf817ef6645371c9fe104820ba522aedcc97b0a69fd",
         "pip_install": "success",
         "pip_check": "No broken requirements found",
         "console_entrypoint_help": "passed",
         "canary": {
           "fixture": "one-file synthetic committed Git repository",
-          "output": "/tmp/giga-archaeology-macos-canary-cfa4963/store",
+          "output": "/tmp/giga-archaeology-macos-canary-a3ea235/store",
           "navigation": {
             "status": "CURRENT",
-            "files": 1
+            "files": 1,
+            "receipt_sha256": "2a7eca7d19a69458e6d66181ab2f3d0f375e6e2641e5a0d226527918ab2f86c3"
           },
           "mapper": {
             "status": "CURRENT",
             "entities": 14,
-            "relations": 12
+            "relations": 12,
+            "receipt_sha256": "e2e9d73cabf9f59c093eccb705552df251b1957d77b12e9f4364f5087bf2ee8a"
           },
           "symbol_query": {
             "status": "PASS",
-            "results": 4
+            "results": 4,
+            "receipt_sha256": "fd0d3c9010e0a7518a2cbd880d305b47a903e1a4aba1ddefa932f584e59d071b"
           },
           "bounded_context": {
             "status": "PASS",
-            "characters": 131
-          },
-          "receipt_sha256": {
-            "navigation": "272927ff721fbe813820fe8890c99c3ef050d701e1d43eb4240984a237cae5d1",
-            "mapper": "e80cfbe10816112926188a3724484495cdd2dcaecb8757c2e8776b4ef4bbe401",
-            "query": "7da733001b8e6984ba1433f8d6ed61b0839ef7cf58c38a6e1a31fd867eb8dd07",
-            "context": "e8237644d78f3c9501246c4c41f39de8d4a3ebc20f40b39383df4e7f56596ffd"
+            "characters": 131,
+            "receipt_sha256": "e07f15e8da21ba11a09f20f16e30a88ef547cdbd799adcae18fce82bd21525c2"
           }
         },
-        "transfer_note": "An initial local temporary filename did not conform to wheel naming and pip rejected it; the identical hash-verified wheel installed under its original filename."
+        "limitations": "Installed-wheel canary only; full native macOS suite and sdist installation remain unverified."
+      },
+      "transfer_note": "The macOS wheel bytes were copied from ArtVault under their original filename and SHA-256 verified before installation.",
+      "graphify_operational_index": {
+        "status": "STALE",
+        "built_at_commit": "061125392f09881ae9c3c8c0868d3b9cc6699339",
+        "current_source_commit": "a3ea235453782f0776b3c1e166257e03111bd1e0",
+        "query_route": "existing project test-environment graphify CLI; system PATH entrypoint unavailable",
+        "limitations": "Untracked operational graph output; not a release artifact."
       }
     }
   },
@@ -909,6 +883,380 @@
           }
         },
         "transfer_note": "An initial local temporary filename did not conform to wheel naming and pip rejected it; the identical hash-verified wheel installed under its original filename."
+      }
+    }
+  },
+  "candidate_validation_history_pre_a3ea235": {
+    "status": "UNPUBLISHED_CANDIDATE_LINUX_MATRIX_MACOS_INSTALLED_SMOKE_WINDOWS_UNVERIFIED",
+    "release_warning": "Built files retain 0.1.3b3 and collide with historical candidate filenames. Do not distribute; assign a fresh version only after release gates pass.",
+    "source": {
+      "repository": "Pepstee/giga-archaeology",
+      "host": "ArtVault",
+      "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "commit": "cfa49631d6510f22905a9d09f0c2d9ea549e35a3",
+      "tree": "d68511d67a0a195b97730012229efbaa79e4b80d"
+    },
+    "build": {
+      "date": "2026-10-29",
+      "platform": "Linux x86_64 (ArtVault)",
+      "python": "3.12.3",
+      "frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
+      "backend": "modules/platform/packaging/archaeology_build_backend.py",
+      "outdir": "/tmp/giga-archaeology-release-check-cfa4963"
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
+        "format": "wheel",
+        "size_bytes": 385844,
+        "sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "archive_members": 47
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b3.tar.gz",
+        "format": "sdist",
+        "size_bytes": 353780,
+        "sha256": "65b41debdd2a3bf8239fac5c3575db1e874ba7b6dd448e9296b1f6d54a8a9a58",
+        "archive_members": 46
+      }
+    ],
+    "verification": {
+      "wheel_install": {
+        "environment": "existing ArtVault giga-archaeology-test Python 3.12.3",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed"
+      },
+      "sdist_install": {
+        "environment": "existing ArtVault giga-archaeology-test Python 3.12.3",
+        "pip_builds_wheel": true,
+        "built_wheel_sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed"
+      },
+      "installed_sdist_functional_canary": {
+        "fixture": "one-file synthetic committed Git repository",
+        "output": "/tmp/giga-archaeology-release-canary-cfa4963/store",
+        "navigation": {
+          "status": "CURRENT",
+          "files": 1
+        },
+        "mapper": {
+          "status": "CURRENT",
+          "entities": 14,
+          "relations": 12
+        },
+        "symbol_query": {
+          "status": "PASS",
+          "results": 4
+        },
+        "bounded_context": {
+          "status": "PASS",
+          "characters": 131
+        }
+      },
+      "full_test_suite": {
+        "source_commit": "058aa5f075975813ac3d087f1664ffaa92006353",
+        "current_product_and_test_sources_unchanged_since": "9020c1ceece54438900e2904d929a292834c73d3",
+        "platform": "ArtVault Linux x86_64",
+        "interpreters": {
+          "3.11.16": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          },
+          "3.12.3": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          },
+          "3.13.15": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          },
+          "3.14.7": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          }
+        },
+        "limitations": "Linux only; Darwin sandbox skip is not exercised on Linux."
+      },
+      "hosted_ci": {
+        "run_id": 40824868315,
+        "jobs": 12,
+        "conclusion": "all failed before any step ran",
+        "job_steps": 0,
+        "logs": "GitHub log endpoint returned 404 BlobNotFound",
+        "failure_cause": "[provider-specific diagnostic removed]",
+        "macos_verified": false,
+        "windows_verified": false,
+        "previous_run_id": 40822064209,
+        "latest_head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
+        "recent_runs": [
+          {
+            "run_id": 40824313014,
+            "head_sha": "dcdefb6b66938b3d267e2abe5754803e994a37e0",
+            "jobs": 12,
+            "conclusion": "all failed before any step ran"
+          },
+          {
+            "run_id": 40824541437,
+            "head_sha": "0bb629e9e21b774609a1d003c56568cf5fcf24cf",
+            "jobs": 12,
+            "conclusion": "all failed before any step ran",
+            "job_steps": 0,
+            "logs": "404 BlobNotFound"
+          },
+          {
+            "run_id": 40824653871,
+            "head_sha": "3f81e84b4511d014bb5f0ea901a2b4d92becf83c",
+            "jobs": 12,
+            "conclusion": "all failed before test steps",
+            "[provider-specific diagnostic removed]": 12,
+            "steps": 0,
+            "runner_id": 0
+          },
+          {
+            "run_id": 40824868315,
+            "head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
+            "jobs": 12,
+            "conclusion": "all failed before test steps",
+            "[provider-specific diagnostic removed]": 12,
+            "steps": 0,
+            "runner_id": 0
+          }
+        ],
+        "all_jobs_zero_steps": true,
+        "runner_id_all_jobs": 0,
+        "secondary_annotations": [
+          "Ubuntu 26 runner-image migration notice",
+          "macOS arm64 runner capacity notice"
+        ]
+      },
+      "publicly_published": false,
+      "static_archive_inspection": {
+        "wheel_name": "giga-archaeology",
+        "version": "0.1.3b3",
+        "license_file_in_both": true,
+        "readme_in_both": true,
+        "quickstart_in_sdist_only": true,
+        "custom_backend_in_sdist": true,
+        "TwinCore_excluded_from_both": true,
+        "wheel_members": 47,
+        "sdist_members": 46
+      },
+      "macos_native_wheel_smoke": {
+        "host": "macOS",
+        "platform": "macOS 26.4.1 arm64",
+        "python": "3.14.5",
+        "wheel_sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "pip_install": "success",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed",
+        "canary": {
+          "fixture": "one-file synthetic committed Git repository",
+          "output": "/tmp/giga-archaeology-macos-canary-cfa4963/store",
+          "navigation": {
+            "status": "CURRENT",
+            "files": 1
+          },
+          "mapper": {
+            "status": "CURRENT",
+            "entities": 14,
+            "relations": 12
+          },
+          "symbol_query": {
+            "status": "PASS",
+            "results": 4
+          },
+          "bounded_context": {
+            "status": "PASS",
+            "characters": 131
+          },
+          "receipt_sha256": {
+            "navigation": "272927ff721fbe813820fe8890c99c3ef050d701e1d43eb4240984a237cae5d1",
+            "mapper": "e80cfbe10816112926188a3724484495cdd2dcaecb8757c2e8776b4ef4bbe401",
+            "query": "7da733001b8e6984ba1433f8d6ed61b0839ef7cf58c38a6e1a31fd867eb8dd07",
+            "context": "e8237644d78f3c9501246c4c41f39de8d4a3ebc20f40b39383df4e7f56596ffd"
+          }
+        },
+        "transfer_note": "An initial local temporary filename did not conform to wheel naming and pip rejected it; the identical hash-verified wheel installed under its original filename."
+      }
+    }
+  },
+  "latest_candidate_validation_20261029_a3ea235": {
+    "status": "UNPUBLISHED_CANDIDATE_LINUX_MATRIX_MACOS_INSTALLED_SMOKE_WINDOWS_UNVERIFIED",
+    "release_warning": "Built files retain 0.1.3b3 and collide with historical candidate filenames. Do not distribute; assign a fresh version only after the release gates pass.",
+    "source": {
+      "repository": "Pepstee/giga-archaeology",
+      "host": "ArtVault",
+      "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "commit": "a3ea235453782f0776b3c1e166257e03111bd1e0",
+      "tree": "36fab435dd6a178084eefbaa19dc45e283aa0160"
+    },
+    "build": {
+      "date": "2026-10-29",
+      "platform": "Linux x86_64 (ArtVault)",
+      "python": "3.12.3",
+      "frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
+      "backend": "modules/platform/packaging/archaeology_build_backend.py",
+      "outdir": "/tmp/giga-archaeology-release-check-a3ea235"
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
+        "format": "wheel",
+        "size_bytes": 387144,
+        "sha256": "16ef1fdf2a06f593f5050cf817ef6645371c9fe104820ba522aedcc97b0a69fd",
+        "archive_members": 47
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b3.tar.gz",
+        "format": "sdist",
+        "size_bytes": 355056,
+        "sha256": "8637c1ac113e36cd26c04531a90a82ca11ec65a1968110fa370860a50cb5b1a8",
+        "archive_members": 46
+      }
+    ],
+    "verification": {
+      "wheel_install": {
+        "environment": "existing ArtVault giga-archaeology-test Python 3.12.3",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed"
+      },
+      "sdist_install": {
+        "environment": "existing ArtVault giga-archaeology-test Python 3.12.3",
+        "pip_builds_wheel": true,
+        "built_wheel_sha256": "16ef1fdf2a06f593f5050cf817ef6645371c9fe104820ba522aedcc97b0a69fd",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed"
+      },
+      "installed_sdist_functional_canary": {
+        "fixture": "one-file synthetic committed Git repository",
+        "output": "/tmp/giga-archaeology-release-canary-a3ea235/store",
+        "navigation": {
+          "status": "CURRENT",
+          "files": 1,
+          "receipt_sha256": "9c02fa84d1e2c7b0d00b13e2dab576773e504b480199b91048dbc2160fd5169a"
+        },
+        "mapper": {
+          "status": "CURRENT",
+          "entities": 14,
+          "relations": 12,
+          "receipt_sha256": "653a45964e2ed04732f939c3fc664f93bda3eceee2e594ce3f66fd6b99d8733c"
+        },
+        "symbol_query": {
+          "status": "PASS",
+          "results": 4,
+          "receipt_sha256": "42c69758df4d18808350863a7494b28125a0601d8af1cdcdaf171acc6aecb4d6"
+        },
+        "bounded_context": {
+          "status": "PASS",
+          "characters": 131,
+          "receipt_sha256": "baa5fa48252da000f410c013c7012538b6b5f48e48c3474d5768d44a949cbc17"
+        }
+      },
+      "full_test_suite": {
+        "source_commit": "058aa5f075975813ac3d087f1664ffaa92006353",
+        "current_product_and_test_sources_unchanged_since": "9020c1ceece54438900e2904d929a292834c73d3",
+        "platform": "ArtVault Linux x86_64",
+        "interpreters": {
+          "3.11.16": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          },
+          "3.12.3": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          },
+          "3.13.15": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          },
+          "3.14.7": {
+            "passed": 423,
+            "skipped": 1,
+            "subtests_passed": 2
+          }
+        },
+        "limitations": "Linux only; Darwin sandbox skip is not exercised on Linux."
+      },
+      "hosted_ci": {
+        "run_id": 40824868315,
+        "head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
+        "jobs": 12,
+        "conclusion": "all failed before any step ran",
+        "[provider-specific diagnostic removed]": 12,
+        "job_steps": 0,
+        "runner_id_all_jobs": 0,
+        "failure_cause": "[provider-specific diagnostic removed]",
+        "secondary_annotations": [
+          "Ubuntu 26 runner-image migration notice",
+          "macOS arm64 runner capacity notice"
+        ],
+        "macos_full_suite_verified": false,
+        "windows_verified": false
+      },
+      "publicly_published": false,
+      "static_archive_inspection": {
+        "wheel_name": "giga-archaeology",
+        "version": "0.1.3b3",
+        "license_file_in_both": true,
+        "readme_in_both": true,
+        "quickstart_in_sdist_only": true,
+        "custom_backend_in_sdist": true,
+        "TwinCore_excluded_from_both": true,
+        "wheel_members": 47,
+        "sdist_members": 46
+      },
+      "macos_native_wheel_smoke": {
+        "host": "macOS",
+        "platform": "macOS 26.4.1 arm64",
+        "python": "3.14.5",
+        "wheel_sha256": "16ef1fdf2a06f593f5050cf817ef6645371c9fe104820ba522aedcc97b0a69fd",
+        "pip_install": "success",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed",
+        "canary": {
+          "fixture": "one-file synthetic committed Git repository",
+          "output": "/tmp/giga-archaeology-macos-canary-a3ea235/store",
+          "navigation": {
+            "status": "CURRENT",
+            "files": 1,
+            "receipt_sha256": "2a7eca7d19a69458e6d66181ab2f3d0f375e6e2641e5a0d226527918ab2f86c3"
+          },
+          "mapper": {
+            "status": "CURRENT",
+            "entities": 14,
+            "relations": 12,
+            "receipt_sha256": "e2e9d73cabf9f59c093eccb705552df251b1957d77b12e9f4364f5087bf2ee8a"
+          },
+          "symbol_query": {
+            "status": "PASS",
+            "results": 4,
+            "receipt_sha256": "fd0d3c9010e0a7518a2cbd880d305b47a903e1a4aba1ddefa932f584e59d071b"
+          },
+          "bounded_context": {
+            "status": "PASS",
+            "characters": 131,
+            "receipt_sha256": "e07f15e8da21ba11a09f20f16e30a88ef547cdbd799adcae18fce82bd21525c2"
+          }
+        },
+        "limitations": "Installed-wheel canary only; full native macOS suite and sdist installation remain unverified."
+      },
+      "transfer_note": "The macOS wheel bytes were copied from ArtVault under their original filename and SHA-256 verified before installation.",
+      "graphify_operational_index": {
+        "status": "STALE",
+        "built_at_commit": "061125392f09881ae9c3c8c0868d3b9cc6699339",
+        "current_source_commit": "a3ea235453782f0776b3c1e166257e03111bd1e0",
+        "query_route": "existing project test-environment graphify CLI; system PATH entrypoint unavailable",
+        "limitations": "Untracked operational graph output; not a release artifact."
       }
     }
   }
