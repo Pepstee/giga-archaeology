@@ -80,7 +80,7 @@ A new GitHub Actions workflow was added at .github/workflows/ci.yml for the full
 
 Run 36557068700 on commit 781243c completed Linux and macOS across all four Python versions successfully. On hosted Linux, the two tests requiring network namespaces were skipped only when the runner returned an explicit permission-denied error; ArtVault Linux ran the affected retention/quarantine files with 89 passed and 1 skipped. The Windows jobs exposed a test portability issue: fcntl was imported unconditionally and multiple test helpers invoked /usr/bin/git. The fcntl lock test now uses Archaeology's cross-platform lock helper; quarantine probe tests are marked unsupported on Windows; test Git commands resolve through PATH. These changes are in commits 444eb2e and d9d9209.
 
-[provider-specific account diagnostic removed]
+The subsequent runs on d9d9209, f12be83 and 0647f6b failed before assigning a runner and produced no test logs. GitHub's check annotation for run 36558636501 says the job could not start because runner admission was blocked. Therefore the Windows portability changes have not yet been verified by CI; the earlier Windows failures cannot be presented as fixed. The README platform certification statement remains unchanged until a runner verifies the corrected matrix.
 
 The project is still not ready for publication: the latest source is not represented by the existing 0.1.3b3 distribution artifacts, and public visibility/release has not been requested.
 
@@ -106,7 +106,7 @@ Commits 31c51a0698e070c818a9b1792ea744dfec776712 and 3205bf295d37644ab44e72762d1
 
 On ArtVault Linux with Python 3.12.3, build 1.6.1 produced both artifacts from the candidate source. Each artifact installed into its own fresh virtual environment, pip check reported no broken requirements, and the CLI help command passed. The workflow YAML parsed successfully. This is Linux evidence only; the PowerShell recipe and macOS/Windows hosted artifact checks remain unverified.
 
-[provider-specific account diagnostic removed]
+The last recorded GitHub runner failure was before job assignment and reported that no runner was assigned. The repository's current hosted-run status could not be read from ArtVault during this increment, so no hosted pass is claimed.
 
 
 ## 2026-09-30 — current-source verification after location inventory
@@ -168,7 +168,7 @@ The product and test code under verification is commit `9020c1ceece54438900e2904
 
 The current source built a wheel and source archive with build 1.6.1 using the canonical custom backend. Each artifact installed into the existing ArtVault project test environment, `pip check` found no broken requirements, the CLI help command succeeded, and the supported-scan canary passed against the installed artifact (1 passed for each format). The wheel contains the MIT licence and excludes the source-only quickstart; the source archive contains the licence, quickstart and custom build backend. Artifact hashes and exact sizes are in `evidence/release-artifacts/0.1.3b3.json` under `latest_candidate_validation_20261029_9020c1c`.
 
-[provider-specific account diagnostic removed]
+GitHub Actions run 40819550308 on this commit ended with all 12 matrix jobs failing before any runner step started; no job logs were available. GitHub expanded the workflow matrix, but this run verifies no test results. macOS and Windows remain unverified, including the Windows inventory-fsync fix and the installed-artifact canary. The immediately preceding run showed the same zero-step failure pattern; an older run had a runner-admission annotation; this run's cause is unknown.
 
 The current operational Graphify index contains 2,554 nodes. Its manifest includes the changed workflow and test file, but it does not bind the index to a source commit. The index remains untracked operational output and is not treated as a release artifact. The package version is still 0.1.3b3; these builds are not for distribution. No public release has been made.
 
@@ -201,9 +201,9 @@ Separately, the exact wheel (SHA-256 `cad3b3d39f68a31c17f30ecde4c2de85843d18d181
 
 The two subsequent push runs, [40824313014](https://github.com/Pepstee/giga-archaeology/actions/runs/40824313014) on `dcdefb6b66938b3d267e2abe5754803e994a37e0` and [40824541437](https://github.com/Pepstee/giga-archaeology/actions/runs/40824541437) on `0bb629e9e21b774609a1d003c56568cf5fcf24cf`, also failed all 12 matrix jobs before runner steps. The latest job query returned zero steps; downloading its log returned 404 `BlobNotFound`. The failure cause is still unknown. These are hosted-service failures, not test results.
 
-[provider-specific account diagnostic removed]
+The next push run, [40824653871](https://github.com/Pepstee/giga-archaeology/actions/runs/40824653871) on `3f81e84b4511d014bb5f0ea901a2b4d92becf83c`, again failed before executing steps. Read-only inspection of all 12 job annotations found the same GitHub message: runner admission was blocked. Every job had zero steps and runner ID 0. Ubuntu 26 migration and macOS arm64 capacity warnings were also present, but no job reached a test. The hosted matrix therefore remains externally blocked, not failed by Archaeology test results.
 
-[provider-specific account diagnostic removed]
+The latest push run, [40824868315](https://github.com/Pepstee/giga-archaeology/actions/runs/40824868315) on `a742f8c986a46a74d34d7944c4fcdfb6e3d38af7`, repeated the same blocker. All 12 jobs failed before any runner step; no hosted tests ran. The other annotations were Ubuntu image migration and macOS arm64 capacity notices.
 
 ## 2026-10-29 — candidate artifact validation from a3ea235
 
@@ -222,7 +222,7 @@ exact source bytes. The focused packaging suite passed **5 tests**; the full Art
 
 GitHub Actions run [40825822360](https://github.com/Pepstee/giga-archaeology/actions/runs/40825822360)
 on the preceding source commit completed with all 12 jobs failed before steps ran. The annotations
-[provider-specific account diagnostic removed]
+reported that no runner steps started. This run provides no CI test result.
 macOS full-suite and Windows validation remain open. Distributable artifacts have not yet been
 rebuilt from this source change; the `0.1.3b3` version collision remains, and no public release was
 created.
@@ -242,8 +242,7 @@ created.
 
 GitHub Actions run [40826776978](https://github.com/Pepstee/giga-archaeology/actions/runs/40826776978)
 on this commit completed with all 12 matrix jobs failing before any step began. Every job had runner
-[provider-specific account diagnostic removed]
-limit. The hosted run supplies no test result. Linux/Python 3.12.3 local tests passed as recorded
+ID 0 and zero steps; all 12 annotations reported no runner steps; no hosted tests ran. The hosted run supplies no test result. Linux/Python 3.12.3 local tests passed as recorded
 above; macOS full-suite and Windows validation remain open.
 
 
@@ -265,7 +264,6 @@ not installed and have no install canary. Earlier Linux and macOS smoke evidence
 same-version candidate bytes and does not transfer to these files.
 
 The latest hosted Actions result remains [40826776978](https://github.com/Pepstee/giga-archaeology/actions/runs/40826776978)
-[provider-specific account diagnostic removed]
-annotations; no hosted tests ran. The later evidence-only commits did not trigger another matrix run.
+on c169318. All 12 jobs failed before any runner step with zero runner steps; no hosted tests ran. The later evidence-only commits did not trigger another matrix run.
 Windows and the full macOS suite remain unverified. Version `0.1.3b3` still collides with historical
 candidate filenames. No public release was created.

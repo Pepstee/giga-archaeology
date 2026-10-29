@@ -1,64 +1,38 @@
 # GIGA Archaeology
 
-Developer beta.
+GIGA Archaeology builds a local map of a Python Git repository and returns source-linked context for debugging, code review and work with coding agents.
 
-GIGA Archaeology maps a local Python Git repository into source-linked symbols and relationships, then builds bounded context for developers and coding agents.
+It indexes files, symbols, imports and static calls. The supported path is deterministic: it does not execute the repository or call a model API. Queries use structural and lexical matching, so results can be incomplete. They do not prove that code is safe to remove.
 
-The supported path makes no model/API calls and does not execute scanned code. Queries use structural and lexical matching. They do not certify feature completeness, capture every runtime call or show that code is safe to delete.
+## Release status
 
-## Install
+This is an unpublished pre-release. Do not distribute the existing `0.1.3b3` artifacts because that version collides with earlier candidate filenames. A fresh version and new artifacts are required after the release checks pass. The latest full Linux suite passed on an earlier source checkpoint. The exact current artifacts have not had an install canary; the macOS package smoke is from an earlier candidate, Windows remains unverified, and hosted CI has not run for the current candidate. See the [validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b3.json) for the evidence and limits.
 
-Python 3.11+ and Git are required. This is still an unreleased candidate. The source metadata and validation
-artifacts still use `0.1.3b3`, which collides with historical candidate filenames. Do not publish these
-validation files; select a fresh version after the release gates pass.
+## Install from a source checkout
 
-The product and test sources last changed at commit
-`c169318f7459d97699d2c6f44c825363d3b01bc3`; the following `c2ff01a` and `d49944e` commits
-changed release evidence only. On ArtVault Linux x86_64/Python 3.12.3, the full suite at c169318
-passed 424 tests, skipped one platform-specific test, and passed two subtests. The earlier Linux
-Python 3.11–3.14 matrix passed 423 tests per interpreter at `058aa5f075975813ac3d087f1664ffaa92006353`,
-before the later packaging-guide inclusion change.
-
-The current c2ff01a wheel and source archive were rebuilt and statically inspected, but have not been
-installed or run through a canary. A macOS 26.4.1 arm64/Python 3.14.5 package smoke passed for an
-earlier `0.1.3b3` candidate; it does not validate these exact archive bytes or the full macOS suite.
-Windows remains unverified. GitHub Actions run [40826776978](https://github.com/Pepstee/giga-archaeology/actions/runs/40826776978)
-[provider-specific account diagnostic removed]
-messages. No hosted tests ran. See the [validation record](architecture/archaeology/BETA_VALIDATION.md)
-and [release evidence ledger](evidence/release-artifacts/0.1.3b3.json) for exact scope and hashes.
-
-The source metadata and validation artifacts still use `0.1.3b3`, which collides with historical
-candidate filenames. Do not publish these validation files; choose a fresh version and rebuild from
-the final release commit after the gates pass.
-
-No public release is available. From a checkout of the candidate, create an environment and install
-from the source tree:
+Python 3.11+ and Git are required. No package has been published yet. From a GIGA Archaeology source checkout, create an environment and install the project:
 
 ```sh
-python3 -m venv "$HOME/.venvs/giga-archaeology"
-. "$HOME/.venvs/giga-archaeology/bin/activate"
+python3 -m venv .venv
+. .venv/bin/activate
 python -m pip install .
 python -m pip check
 giga-archaeology --help
 ```
 
-On Windows, use PowerShell from the source checkout:
+On Windows, use PowerShell:
 
 ```powershell
-py -3.12 -m venv "$env:USERPROFILE/.venvs/giga-archaeology"
-$python = "$env:USERPROFILE/.venvs/giga-archaeology/Scripts/python.exe"
+py -3.12 -m venv .venv
+$python = ".venv/Scripts/python.exe"
 & $python -m pip install .
 & $python -m pip check
-& "$env:USERPROFILE/.venvs/giga-archaeology/Scripts/giga-archaeology.exe" --help
+& ".venv/Scripts/giga-archaeology.exe" --help
 ```
 
-Pip installs the four pinned public Tree-sitter parser packages automatically. The core installation
-does not require the Giga control plane, a model subscription, an API key or your own project checkout.
-Parser packages are required by the current shared mapper even for Python-only repositories.
+Pip installs the four pinned Tree-sitter parser packages. The core does not require the Giga control plane, a model subscription, an API key or a checkout of your target repository. Parser packages are required by the shared mapper, including for Python-only repositories.
 
-For offline installation, download the wheel and all its dependencies on a connected machine with the
-same Python/platform, then install with `--no-index --find-links ./wheelhouse`. A wheelhouse is
-platform-specific. Do not assume one downloaded on macOS will install on Linux or Windows.
+For offline installation, download the wheel and its dependencies on a connected machine with the same Python version and platform, then install with `--no-index --find-links ./wheelhouse`. A wheelhouse is platform-specific.
 
 ## First scan and query
 

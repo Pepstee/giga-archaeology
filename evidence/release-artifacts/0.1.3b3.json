@@ -176,7 +176,7 @@
         "jobs": 12,
         "steps_started": 0,
         "result": "failed before runner start",
-        "annotation": "[provider-specific diagnostic removed]",
+        "annotation": "Hosted jobs failed before runner steps; no hosted tests ran.",
         "authentication": "GitHub auth succeeded with repo and workflow scopes"
       },
       "publicly_published": false
@@ -338,7 +338,7 @@
         "jobs": 12,
         "steps_started": 0,
         "result": "failed before runner start",
-        "annotation": "[provider-specific diagnostic removed]",
+        "annotation": "Hosted jobs failed before runner steps; no hosted tests ran.",
         "authentication": "GitHub auth succeeded with repo and workflow scopes"
       },
       "publicly_published": false
@@ -609,7 +609,7 @@
         "jobs": 12,
         "steps_started": 0,
         "result": "failed before runner start",
-        "annotation": "[provider-specific diagnostic removed]",
+        "annotation": "Hosted jobs failed before runner steps; no hosted tests ran.",
         "authentication": "GitHub auth succeeded with repo and workflow scopes"
       },
       "publicly_published": false
@@ -876,7 +876,7 @@
         "conclusion": "all failed before any step ran",
         "job_steps": 0,
         "logs": "GitHub log endpoint returned 404 BlobNotFound",
-        "failure_cause": "[provider-specific diagnostic removed]",
+        "failure_cause": "Hosted jobs failed before runner steps; no hosted tests ran.",
         "macos_verified": false,
         "windows_verified": false,
         "previous_run_id": 40822064209,
@@ -901,7 +901,7 @@
             "head_sha": "3f81e84b4511d014bb5f0ea901a2b4d92becf83c",
             "jobs": 12,
             "conclusion": "all failed before test steps",
-            "[provider-specific diagnostic removed]": 12,
+            "runner_admission_annotation_count": 12,
             "steps": 0,
             "runner_id": 0
           },
@@ -910,7 +910,7 @@
             "head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
             "jobs": 12,
             "conclusion": "all failed before test steps",
-            "[provider-specific diagnostic removed]": 12,
+            "runner_admission_annotation_count": 12,
             "steps": 0,
             "runner_id": 0
           }
@@ -1079,10 +1079,10 @@
         "head_sha": "a742f8c986a46a74d34d7944c4fcdfb6e3d38af7",
         "jobs": 12,
         "conclusion": "all failed before any step ran",
-        "[provider-specific diagnostic removed]": 12,
+        "runner_admission_annotation_count": 12,
         "job_steps": 0,
         "runner_id_all_jobs": 0,
-        "failure_cause": "[provider-specific diagnostic removed]",
+        "failure_cause": "Hosted jobs failed before runner steps; no hosted tests ran.",
         "secondary_annotations": [
           "Ubuntu 26 runner-image migration notice",
           "macOS arm64 runner capacity notice"
@@ -1206,7 +1206,7 @@
         "failed": 12,
         "runner_id_all_jobs": 0,
         "steps_all_jobs": 0,
-        "[provider-specific diagnostic removed]": 12,
+        "runner_admission_annotations": 12,
         "conclusion": "failed before any job step; no hosted tests ran"
       },
       "installed_artifact_canary": {

@@ -515,7 +515,7 @@ The current ArtVault Inference Fabric candidate at `/srv/artvault/projects/infer
 
 Control Tower's live recheck found both configured ArtVault SSH read routes working. The Archaeology `origin` route resolves the published `codex/artvault-portable-giga-archaeology` ref to `0acec0dc5886592175557f1bc9e0ac7e4329d42d`, matching the ArtVault canonical checkout. The donor `Pepstee/giga-user` route can read donor HEAD `f4d8e694289d035991c6d3c0b33b35c15a05c53c`; its dedicated key is read-only. No credentials were rotated, exposed or copied. No donor history was fetched and no ref was changed.
 
-[provider-specific account diagnostic removed]
+The requested preservation branch `codex/preserve-giga-modularisation-history-20260928` is absent on the donor remote. This is ref availability, not an authentication failure. The separate GitHub Actions runner blocker recorded above is an external runner-admission issue, not SSH authentication. The no-op push negotiation was verified by Control Tower; no changed-ref push was attempted as part of this check.
 
 Verified donor source-read coverage is now 21/62 files and 5,108/33,497 additions. No tests, verifiers or donor sources were executed or sent to GLM. The next stable manifest path is `research/free-inference-fabric/tests/test_store_and_catalogue.py` (+1,006 additions).
 
