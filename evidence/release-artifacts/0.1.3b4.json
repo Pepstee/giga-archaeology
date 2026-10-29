@@ -188,5 +188,28 @@
     "inspection": "Read directly from the retained historical Git object into memory; no extraction or execution. Runtime API and test inventories reviewed, with focused inspection of policy-root validation, authority admission, candidate attestation, bounded local checks and secret-path scanning.",
     "feature_classification": "The bundle implements GIGA Control machine-policy and development-authority gates, local sandboxed verification, candidate commit/evidence attestation, and fixed-pattern secret scanning. These belong to agent governance. Archaeology already has privacy-filtered inventory, source hashing, evidence seals, quarantine and release packaging. Importing a second authority/admission runtime would add a competing responsibility rather than an Archaeology feature.",
     "disposition": "No transplant. Preserve the historical donor object and its Git dependencies; no GitHub restoration or new copy was used."
+  },
+  "clean_dependency_install_canary": {
+    "recorded_at": "2026-10-29T07:37:27.459463Z",
+    "status": "PASS_LIMITED",
+    "scope": "Resolve and install the final wheel with its declared runtime dependencies in a fresh Python 3.12.3 virtual environment; no repository checkout, Git data, or private corpus was copied.",
+    "wheel_sha256": "e507818166d7c236375f983eb97eee11bbb3fefd9701f78ee1c7e2a3ca4fedb0",
+    "dependencies_resolved": [
+      "tree-sitter==0.26.0",
+      "tree-sitter-bash==0.25.1",
+      "tree-sitter-javascript==0.25.0",
+      "tree-sitter-typescript==0.23.2"
+    ],
+    "pip_check": "No broken requirements found.",
+    "installed_metadata_version": "0.1.3b4",
+    "import_origin_verified_under_environment": true,
+    "installed_console_entrypoint_help": "PASS from outside the source repository.",
+    "first_import_attempt": "REJECTED: launched from the canon working directory, so Python selected the source-tree module; rerun from /tmp imported from the installed environment and passed.",
+    "python": "3.12.3 (ArtVault Linux x86_64)",
+    "network": "Used the configured package index to resolve pinned runtime dependencies; no repository source, private corpus, or Git metadata was uploaded. Configured index authentication was not audited.",
+    "temporary_environment": "/tmp/giga-archaeology-clean-install-b4",
+    "retired": true,
+    "retirement_verification": "Only the exact task-created environment was removed; path confirmed absent.",
+    "exception_controls": "Recorded before install in the active task: exact wheel SHA only; exact target confirmed absent; --no-cache-dir; no repository checkout, Git data, private corpus, or alternate source; exact-target cleanup and absence verification."
   }
 }
