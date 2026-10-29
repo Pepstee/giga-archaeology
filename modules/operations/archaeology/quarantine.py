@@ -129,11 +129,12 @@ def _snapshot(root: Path) -> dict[str, Any]:
     }
 
 
-def _sandbox_profile(repository: Path, scratch: Path) -> str:
+def _sandbox_profile(repository: Path, scratch: Path, private_root: Path | None = None) -> str:
     def literal(path: Path) -> str:
         return str(path).replace("\\", "\\\\").replace('"', '\\"')
 
-    private_root = Path.home() / "Documents" / "giga-user"
+    if private_root is None:
+        private_root = Path.home() / "Documents" / "giga-user"
 
     return "\n".join(
         [
