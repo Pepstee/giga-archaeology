@@ -186,3 +186,13 @@ At canonical source commit `058aa5f075975813ac3d087f1664ffaa92006353` on branch 
 The product and test files are unchanged from commit `9020c1ceece54438900e2904d929a292834c73d3`; the intervening commits change documentation and release evidence only. A WSL relay error interrupted the first Python 3.13 launch before pytest started; the ArtVault route recovered and the run then passed as recorded above.
 
 GitHub Actions run [40819989797](https://github.com/Pepstee/giga-archaeology/actions/runs/40819989797), on documentation head `fbeb66487bacb7e0919f94a4222c3362018d425b`, expanded 12 jobs and failed all of them before any step began. It provides no test results. macOS and Windows remain unverified, including the installed-artifact checks. The no-runner failure remains an external hosted-CI blocker.
+
+## 2026-10-29 — current-source package install and functional canary
+
+At canonical commit `cfa49631d6510f22905a9d09f0c2d9ea549e35a3` (tree `d68511d67a0a195b97730012229efbaa79e4b80d`), build 1.6.1 produced the wheel and source archive on ArtVault Linux x86_64 with Python 3.12.3. Both formats installed in the existing Python 3.12 test environment; `pip check` and the `giga-archaeology --help` entrypoint passed for each. Installing the source archive built a wheel with the same SHA-256 as the directly built wheel.
+
+The installed distribution then completed the documented inventory, map, symbol-query and context path against a one-file synthetic Git repository: inventory `CURRENT` (1 file), mapper `CURRENT` (14 entities, 12 relations), query `PASS` (4 results), and context `PASS` (131 characters). Full receipts remain under `/tmp/giga-archaeology-release-canary-cfa4963/store`; this is local test evidence and is not included in the release package.
+
+The current product and test files are unchanged from the source tested in the Linux Python 3.11–3.14 matrix above. The latest hosted Actions run, [40822064209](https://github.com/Pepstee/giga-archaeology/actions/runs/40822064209), failed all 12 jobs before any step ran. GitHub exposed no job steps and the log endpoint returned 404 `BlobNotFound`, so the cause remains unknown. This is not a hosted pass; macOS and Windows remain unverified.
+
+The package metadata still says `0.1.3b3`, whose existing filenames are already represented by historical artifacts. These newly built files are validation evidence only, not distributable replacements. No public release was created.
