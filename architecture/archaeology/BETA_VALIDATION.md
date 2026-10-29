@@ -226,3 +226,22 @@ on the preceding source commit completed with all 12 jobs failed before steps ra
 macOS full-suite and Windows validation remain open. Distributable artifacts have not yet been
 rebuilt from this source change; the `0.1.3b3` version collision remains, and no public release was
 created.
+
+## 2026-10-29 — build and hosted workflow from c169318
+
+The preceding subsection was committed before its package rebuild; its pending-build statement
+records that point in time. After commit `c169318f7459d97699d2c6f44c825363d3b01bc3` (tree
+`984c9bed9fa1d164fd11ed082364e6bcb19cfd0a`), Python 3.12.3 on ArtVault Linux built the wheel and
+source archive with build 1.6.1 and the canonical PEP 517 backend. Static inspection found 48 wheel
+members and 47 source-archive members. Both contain the exact `CONTRIBUTING.md` source bytes, README
+and MIT licence; the wheel omits the source-only quickstart, while the source archive includes it
+and the build backend. Exact hashes and sizes are recorded in the release ledger. These artifacts
+were not installed in this increment, so this build does not establish an installed-artifact canary.
+They remain validation artifacts only: the version is still `0.1.3b3` and no public release was
+created.
+
+GitHub Actions run [40826776978](https://github.com/Pepstee/giga-archaeology/actions/runs/40826776978)
+on this commit completed with all 12 matrix jobs failing before any step began. Every job had runner
+[provider-specific account diagnostic removed]
+limit. The hosted run supplies no test result. Linux/Python 3.12.3 local tests passed as recorded
+above; macOS full-suite and Windows validation remain open.
