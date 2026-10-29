@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import json
+from types import SimpleNamespace
 import sqlite3
 import subprocess
 from pathlib import Path
 
 import pytest
 
+from modules.operations.archaeology.python_map import _source_snapshot_identity
 from modules.operations.archaeology.mapper import (
     current_mapper_run,
     query_mapper,
@@ -251,6 +253,30 @@ def test_m02_definitions_references_imports_types_and_entrypoints(
         "pkg.cli.Child",
     )
     assert repeated["entity_id"] == child["entity_id"]
+
+
+def test_source_snapshot_identity_uses_ctime_only_where_reliable() -> None:
+    snapshot = SimpleNamespace(
+        st_dev=1,
+        st_ino=2,
+        st_size=3,
+        st_mtime_ns=4,
+        st_ctime_ns=5,
+        st_mode=0o100644,
+        st_uid=6,
+        st_gid=7,
+        st_nlink=1,
+    )
+    changed_creation_time = SimpleNamespace(
+        **{**vars(snapshot), "st_ctime_ns": 99}
+    )
+
+    assert _source_snapshot_identity(snapshot, platform="nt") == (
+        _source_snapshot_identity(changed_creation_time, platform="nt")
+    )
+    assert _source_snapshot_identity(snapshot, platform="posix") != (
+        _source_snapshot_identity(changed_creation_time, platform="posix")
+    )
 
 
 def test_m02_parse_failure_and_sensitive_exclusion_are_honest(

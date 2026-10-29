@@ -93,6 +93,31 @@ def _expression_facts(node: ast.AST | None) -> dict[str, Any]:
     }
 
 
+def _source_snapshot_identity(
+    value: os.stat_result, *, platform: str | None = None
+) -> tuple[int, ...]:
+    """Return stable file identity fields for the current platform.
+
+    Windows st_ctime_ns represents creation time, so it is not a reliable
+    cross-stage metadata-change marker there. Content hashes and the remaining
+    identity fields still bind every source read.
+    """
+
+    platform = os.name if platform is None else platform
+    fields = [value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns]
+    if platform != "nt":
+        fields.append(value.st_ctime_ns)
+    fields.extend(
+        (
+            stat.S_IMODE(value.st_mode),
+            value.st_uid,
+            value.st_gid,
+            value.st_nlink,
+        )
+    )
+    return tuple(fields)
+
+
 def read_exact_artifact(root: Path, record: Mapping[str, Any]) -> bytes:
     """Read an inventory-bound regular artifact with stable identity checks."""
 
@@ -104,30 +129,19 @@ def read_exact_artifact(root: Path, record: Mapping[str, Any]) -> bytes:
         raise PythonMapError(f"Python source is unavailable: {relative}") from exc
     if path.is_symlink() or not stat.S_ISREG(before.st_mode):
         raise PythonMapError(f"Python source is not a real regular file: {relative}")
-    expected = (
+    expected_fields = [
         record["device"],
         record["inode"],
         record["size_bytes"],
         record["mtime_ns"],
-        record["ctime_ns"],
-        record["mode"],
-        record["uid"],
-        record["gid"],
-        record["nlink"],
+    ]
+    if os.name != "nt":
+        expected_fields.append(record["ctime_ns"])
+    expected_fields.extend(
+        (record["mode"], record["uid"], record["gid"], record["nlink"])
     )
-
-    def identity(value: os.stat_result) -> tuple[int, ...]:
-        return (
-            value.st_dev,
-            value.st_ino,
-            value.st_size,
-            value.st_mtime_ns,
-            value.st_ctime_ns,
-            stat.S_IMODE(value.st_mode),
-            value.st_uid,
-            value.st_gid,
-            value.st_nlink,
-        )
+    expected = tuple(expected_fields)
+    identity = _source_snapshot_identity
 
     from .navigation_inventory import open_scoped_regular
     descriptor = open_scoped_regular(root, relative)
