@@ -57,7 +57,7 @@ $rights = [System.Security.AccessControl.FileSystemRights]::FullControl
 $propagation = [System.Security.AccessControl.PropagationFlags]::None
 $allow = [System.Security.AccessControl.AccessControlType]::Allow
 foreach ($sid in @($user.Value, 'S-1-5-18', 'S-1-5-32-544')) {
-    $identity = New-Object System.Security.Principal.SecurityIdentifier($sid)
+    $identity = [System.Security.Principal.SecurityIdentifier]::new($sid)
     $rule = [System.Security.AccessControl.FileSystemAccessRule]::new($identity, $rights, $inherit, $propagation, $allow)
     [void]$acl.AddAccessRule($rule)
 }
