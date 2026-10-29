@@ -98,15 +98,16 @@
     "macos_full_suite_verified": false,
     "windows_verified": false,
     "windows_install_canary_passed": true,
-    "windows_full_suite_verified": false
+    "windows_full_suite_verified": false,
+    "sdist_install_canary_passed": true,
+    "linux_product_smoke_passed": true
   },
   "distribution": {
     "pypi_project_status": "404 at check time",
     "github_public_release_created": false
   },
   "limitations": [
-    "The source archive itself has not been installed from an sdist.",
-    "Full macOS and Windows test suites remain unverified; the Windows 3.12.16 AMD64 wheel install canary passed.",
+    "Full macOS and Windows test suites remain unverified; Windows wheel installation and Linux sdist installation canaries passed.",
     "[provider-specific diagnostic removed]",
     "Historical 0.1.3b3 artifacts remain validation-only because their filenames collide with older candidates."
   ],
@@ -183,6 +184,15 @@
       },
       "reason": "The failure came from PowerShell argument quoting, not package behavior. The corrected import probe, dependency check and installed console help all passed.",
       "authority": "Preserve the rejected invocation while reporting only the corrected, hash-verified wheel canary as installation evidence."
+    },
+    {
+      "recorded_at": "2026-10-29T07:54:33.277075+00:00",
+      "field": "sdist canary fixture validator",
+      "superseded_values": {
+        "symbol_assertion": "looked for symbols.name"
+      },
+      "reason": "The emitted schema uses symbols.qualified_name. The corrected assertion passed for hello; inventory generation and its read-only authority fields were verified.",
+      "authority": "Preserve the rejected assertion while retaining the independently verified successful CLI result."
     }
   ],
   "donor_review": {
@@ -304,6 +314,65 @@
       "user_or_machine_path_changed": false,
       "temporary_python_launcher_outside_scope": "uv created one user-local python3.12.exe shim; its task-window timestamp was verified and that exact file was removed before continuing",
       "cleanup": "All three exact temporary roots/artifact paths were removed and confirmed absent."
+    }
+  },
+  "sdist_install_canary": {
+    "status": "PASS_LIMITED",
+    "platform": {
+      "os": "Linux x86_64",
+      "python": "3.12.3",
+      "venv_seed_pip": "24.0"
+    },
+    "source": {
+      "commit": "f6bc3ea695fc566e2e315692aec2246f0a0f38c1",
+      "tree": "46733c6746366ae3c77172efa8ee3490938e42ea",
+      "package_inputs_match_prior_release_artifact": true
+    },
+    "artifact": {
+      "filename": "giga_archaeology-0.1.3b4.tar.gz",
+      "bytes": 358261,
+      "sha256": "6411cd389d5b9098eb540f65a8bdacb5fd1da6d1b63f414a948627e7d517cfe8"
+    },
+    "install": {
+      "method": "pip install from sdist in a fresh venv with dependency resolution",
+      "pip": "24.0",
+      "built_wheel_sha256": "e507818166d7c236375f983eb97eee11bbb3fefd9701f78ee1c7e2a3ca4fedb0",
+      "resolved_dependencies": [
+        "tree-sitter==0.26.0",
+        "tree-sitter-bash==0.25.1",
+        "tree-sitter-javascript==0.25.0",
+        "tree-sitter-typescript==0.23.2"
+      ],
+      "pip_check": "No broken requirements found",
+      "distribution": "giga-archaeology 0.1.3b4",
+      "module_origin": "inside temporary venv site-packages",
+      "console_entrypoint_help": "passed"
+    },
+    "product_smoke": {
+      "command": "giga-archaeology inventory against a synthetic one-file Git repository",
+      "fixture": {
+        "tracked_file": "src/example.py",
+        "symbol": "hello",
+        "git_head": "50fab03bd4284203df5f00eb094741b9ed5217b5"
+      },
+      "result": {
+        "inventory_files": 1,
+        "symbols": 1,
+        "read_only_authority": "read-only-observation",
+        "cleanup_permitted": false,
+        "report_written": true
+      }
+    },
+    "rejected_validator_attempt": {
+      "status": "REJECTED_VALIDATOR_FIELD_MISMATCH",
+      "detail": "First validator looked for a symbols.name field; the product emits symbols.qualified_name. After inspecting the actual output schema, the corrected read-only assertion passed. The inventory command itself exited successfully."
+    },
+    "temporary_scope": {
+      "root": "/tmp/giga-archaeology-sdist-canary-0.1.3b4",
+      "source_checkout_created": false,
+      "synthetic_fixture_only": true,
+      "pip_temp_and_cache_confined_to_root": true,
+      "cleanup": "Exact canary root and CLI help output removed and confirmed absent."
     }
   }
 }
