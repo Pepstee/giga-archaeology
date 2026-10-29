@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import errno
 import os
+import re
 import shutil
 import stat
 import subprocess
+import sys
 from pathlib import Path
 from typing import BinaryIO
 
@@ -20,24 +22,50 @@ def current_user_id() -> int:
     return int(Path.home().stat().st_uid)
 
 
+def _powershell_debug(message: str) -> None:
+    if os.environ.get("GIGA_ARCHAEOLOGY_DEBUG_POWERSHELL") != "1":
+        return
+    # PowerShell errors can echo the temporary user path. Remove drive paths
+    # before emitting the bounded diagnostic to CI logs.
+    safe_message = re.sub(r"(?i)\b[A-Z]:\\[^\r\n]*", "<windows-path>", message)
+    safe_message = re.sub(r"\bS-\d-\d+(?:-\d+)+\b", "<sid>", safe_message)
+    safe_message = re.sub(
+        r"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", "<email>", safe_message
+    )
+    safe_message = safe_message.replace("\r", " ").replace("\n", " ")[:600]
+    print(f"GIGA_ARCHAEOLOGY_POWERSHELL_DIAGNOSTIC: {safe_message}", file=sys.stderr)
+
+
 def _run_powershell(script: str, path: Path) -> bool:
     executable = shutil.which("powershell.exe") or shutil.which("pwsh.exe")
     if executable is None:
+        _powershell_debug("PowerShell executable unavailable")
         return False
     environment = os.environ.copy()
     environment["GIGA_ARCHAEOLOGY_PRIVATE_PATH"] = str(path)
+    capture_errors = os.environ.get("GIGA_ARCHAEOLOGY_DEBUG_POWERSHELL") == "1"
     try:
         result = subprocess.run(
             [executable, "-NoLogo", "-NoProfile", "-NonInteractive", "-Command", script],
             stdin=subprocess.DEVNULL,
             stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
+            stderr=subprocess.PIPE if capture_errors else subprocess.DEVNULL,
             env=environment,
             check=False,
             timeout=10,
+            text=capture_errors,
+            encoding="utf-8" if capture_errors else None,
+            errors="replace" if capture_errors else None,
         )
-    except (OSError, subprocess.SubprocessError):
+    except (OSError, subprocess.SubprocessError) as error:
+        _powershell_debug(f"PowerShell invocation failed ({type(error).__name__})")
         return False
+    if result.returncode != 0:
+        detail = " ".join((result.stderr or "").splitlines()[:2]) if capture_errors else ""
+        _powershell_debug(
+            f"PowerShell exited with status {result.returncode}; "
+            f"{detail or 'no error text'}"
+        )
     return result.returncode == 0
 
 
@@ -83,9 +111,6 @@ def private_directory_is_current_user(
     # directory and reject every allow ACE except current user, SYSTEM,
     # Administrators and Creator Owner. Missing PowerShell or ACL query errors
     # fail closed.
-    executable = shutil.which("powershell.exe") or shutil.which("pwsh.exe")
-    if executable is None:
-        return False
     script = r"""
 $ErrorActionPreference = 'Stop'
 $path = $env:GIGA_ARCHAEOLOGY_PRIVATE_PATH
@@ -102,21 +127,7 @@ foreach ($rule in $acl.Access) {
 }
 exit 0
 """
-    environment = os.environ.copy()
-    environment["GIGA_ARCHAEOLOGY_PRIVATE_PATH"] = str(path)
-    try:
-        result = subprocess.run(
-            [executable, "-NoLogo", "-NoProfile", "-NonInteractive", "-Command", script],
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            env=environment,
-            check=False,
-            timeout=10,
-        )
-    except (OSError, subprocess.SubprocessError):
-        return False
-    return result.returncode == 0
+    return _run_powershell(script, path)
 
 
 def set_private_file_mode(descriptor: int, mode: int) -> None:
