@@ -578,25 +578,16 @@
     }
   ],
   "line_count_method": "Per-file git diff --no-index --no-ext-diff --no-textconv --numstat over exact base/head blob bytes; only metadata was written to this manifest.",
-  "manifest_sha256": "a27e1bd71dd06a1cd2d24b7c2a176d65cf136d166a6a55e8a3ec592712a5d8d1",
+  "manifest_sha256": "1b1b41975300d1d52d0bae6a66a6668c4f6030576259b5f201312c2b9d9ac00e",
   "persisted_review_log_crosswalk": {
-    "explicit_review_paragraph_paths": 54,
-    "last_claimed_additions": 26611,
-    "last_claimed_files": 55,
-    "mapped_additions_for_explicit_paths": 26168,
-    "method": "Count distinct changed-scope Python paths named in lines beginning Reviewed in the existing Markdown review ledger, then sum this manifest additions value. This crosswalk measures persisted records, not independent proof that each historical review was complete.",
-    "not_explicitly_logged_additions": 7329,
-    "not_explicitly_logged_files": 8,
-    "not_explicitly_logged_paths": [
-      "modules/operations/scripts/archaeologist.py",
-      "twin_core/scientific_screening.py",
-      "twin_core/source_quality.py",
-      "twin_core/sovereignty.py",
-      "twin_core/store.py",
-      "twin_core/telegram_pipeline.py",
-      "twin_core/web_acquisition.py",
-      "twin_core/web_discovery.py"
-    ]
+    "explicit_review_paragraph_paths": 62,
+    "last_claimed_additions": 33497,
+    "last_claimed_files": 62,
+    "mapped_additions_for_explicit_paths": 33497,
+    "method": "Matched each exact changed Python path from the authenticated six-prefix donor scope manifest against the existing review-ledger sections headed as review or donor review; all 62 paths are present. Their manifest additions sum to 33,497. This is a persisted-record correspondence check, not independent proof that a historical source review was complete.",
+    "not_explicitly_logged_additions": 0,
+    "not_explicitly_logged_files": 0,
+    "not_explicitly_logged_paths": []
   },
   "repository": "Pepstee/giga-user",
   "schema_version": "1.0",
