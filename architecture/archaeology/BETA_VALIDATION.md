@@ -283,3 +283,26 @@ On canonical ArtVault Linux x86_64 with Python 3.12.3, the full suite passed: 42
 The `0.1.3b4` wheel passed a bounded install smoke into a temporary target with `--no-deps --no-index`: installed metadata was `0.1.3b4`, the imported module came from that target, `pip check` found no broken requirements, and the installed `giga-archaeology --help` entrypoint passed. Runtime dependencies came from the existing ArtVault Python 3.12.3 test environment; dependency resolution in a clean environment remains unverified. The exact temporary target was removed after the check.
 
 [provider-specific account diagnostic removed]
+
+## 2026-10-29 — clean dependency installs and platform canaries
+
+This addendum supersedes the earlier statement above that clean dependency resolution was
+unverified. The `0.1.3b4` wheel (SHA-256
+`e507818166d7c236375f983eb97eee11bbb3fefd9701f78ee1c7e2a3ca4fedb0`) installed in fresh
+virtual environments on Linux x86_64 / CPython 3.12.3, macOS arm64 / CPython 3.14.5, and
+Windows AMD64 / CPython 3.12.16. Each resolved the four pinned Tree-sitter dependencies;
+`pip check` or its uv equivalent and the installed `giga-archaeology --help` entrypoint passed.
+
+The source archive (SHA-256
+`6411cd389d5b9098eb540f65a8bdacb5fd1da6d1b63f414a948627e7d517cfe8`) installed in a fresh
+Linux / CPython 3.12.3 environment with pip 24.0, resolved the same dependencies, passed
+`pip check`, and built the same wheel digest. The installed command also completed an inventory
+smoke against a one-file synthetic Git repository, reporting one file and one symbol with
+read-only authority and cleanup disabled. Temporary environments and relay files were removed;
+no source checkout or private corpus was copied. Exact scopes and rejected probe corrections are
+in `evidence/release-artifacts/0.1.3b4.json`.
+
+These are bounded install canaries, not full platform test suites. Full macOS and Windows suites
+remain unverified. GitHub Actions run 40835341859 on older commit `e60544d` failed all 12 jobs
+[provider-specific account diagnostic removed]
+hosted tests ran, and this pre-release candidate remains unpublished.
