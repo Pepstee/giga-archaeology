@@ -202,3 +202,5 @@ Separately, the exact wheel (SHA-256 `cad3b3d39f68a31c17f30ecde4c2de85843d18d181
 The two subsequent push runs, [40824313014](https://github.com/Pepstee/giga-archaeology/actions/runs/40824313014) on `dcdefb6b66938b3d267e2abe5754803e994a37e0` and [40824541437](https://github.com/Pepstee/giga-archaeology/actions/runs/40824541437) on `0bb629e9e21b774609a1d003c56568cf5fcf24cf`, also failed all 12 matrix jobs before runner steps. The latest job query returned zero steps; downloading its log returned 404 `BlobNotFound`. The failure cause is still unknown. These are hosted-service failures, not test results.
 
 [provider-specific account diagnostic removed]
+
+[provider-specific account diagnostic removed]
