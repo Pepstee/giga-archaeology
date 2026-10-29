@@ -267,3 +267,9 @@ The latest hosted Actions result remains [40826776978](https://github.com/Pepste
 on c169318. All 12 jobs failed before any runner step with zero runner steps; no hosted tests ran. The later evidence-only commits did not trigger another matrix run.
 Windows and the full macOS suite remain unverified. Version `0.1.3b3` still collides with historical
 candidate filenames. No public release was created.
+
+## 2026-10-29 - canonical-source suite at 12358a8
+
+At canonical source commit `12358a8c1ae2a64871ccd9f644a01b6b71ee4092` (tree `40103a5eabcfed382406f778e5cba2337174dc7f`), the full pytest suite ran from the registered ArtVault workspace on Linux x86_64 with Python 3.12.3: **424 passed, 1 skipped, and 2 subtests passed** in 74.13 seconds. The single skip is the Darwin sandbox-profile test, which is not applicable on Linux.
+
+The run used `<USER_HOME>/.venvs/giga-archaeology-test/bin/python -m pytest -q -p no:cacheprovider` with `PYTHONPATH` set to the exact canonical workspace and `PYTHONDONTWRITEBYTECODE=1`. This validates the canonical source tree only. The environment still contains an older installed `0.1.3b3` package; this run did not build or install a distribution and is not installed-artifact evidence. No checkout or source copy was created. Existing untracked project, graph, instruction, and cache data was preserved.
