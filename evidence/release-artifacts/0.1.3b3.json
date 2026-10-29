@@ -406,5 +406,152 @@
       "evidence_store_outside_repository": true
     },
     "scope_note": "HEAD differs from the recorded cb54 candidate only in this release evidence file; product sources and tests are unchanged."
+  },
+  "latest_candidate_validation_20261029_9020c1c": {
+    "status": "UNPUBLISHED_CANDIDATE_NO_PUBLIC_RELEASE",
+    "release_warning": "Artifacts retain version 0.1.3b3 and must not be distributed as replacements for historical b3 files. Assign a new version only after cross-platform and remaining release gates pass.",
+    "source": {
+      "repository": "Pepstee/giga-archaeology",
+      "host": "ArtVault",
+      "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "commit": "9020c1ceece54438900e2904d929a292834c73d3",
+      "tree": "13cac253d1272beac0a094c2b033b176fda10781"
+    },
+    "build": {
+      "date": "2026-10-29",
+      "platform": "ArtVault Linux x86_64",
+      "python": "3.12.3",
+      "frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
+      "backend": "modules/platform/packaging/archaeology_build_backend.py",
+      "source_archive_extracted": false,
+      "environment": "Existing project test environment; artifacts built from canonical source",
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
+          "size_bytes": 384291,
+          "sha256": "20a4745b5664404b53fa90dde6c6cfb2f78a33bf415297f39f9b9bce1a3f8387"
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b3.tar.gz",
+          "size_bytes": 352663,
+          "sha256": "450acde9d0fa10be7f7cab45caa513ea0bbfedee86c2eb60d2169b0df4bbcf9b"
+        }
+      ]
+    },
+    "verification": {
+      "full_test_suite": {
+        "passed": 423,
+        "skipped": 1,
+        "subtests_passed": 2,
+        "duration_seconds": 74.95,
+        "python": "3.12.3",
+        "platform": "ArtVault Linux x86_64",
+        "skip": "Darwin sandbox profile is not applicable on Linux"
+      },
+      "installed_artifacts": {
+        "wheel": {
+          "pip_check": "No broken requirements found",
+          "console_entrypoint_help": "success",
+          "supported_scan_test": "1 passed"
+        },
+        "sdist": {
+          "pip_check": "No broken requirements found",
+          "console_entrypoint_help": "success",
+          "supported_scan_test": "1 passed"
+        },
+        "environment": "Existing ArtVault project test environment; wheel and source archive installed sequentially"
+      },
+      "artifact_contents": {
+        "wheel_license_present": true,
+        "wheel_quickstart_excluded": true,
+        "sdist_license_present": true,
+        "sdist_quickstart_present": true,
+        "sdist_custom_backend_present": true,
+        "metadata_version": "0.1.3b3",
+        "metadata_license": "MIT",
+        "python_floor": ">=3.11"
+      },
+      "hosted_ci": {
+        "run_id": 40819550308,
+        "head_sha": "9020c1ceece54438900e2904d929a292834c73d3",
+        "jobs": 12,
+        "steps_started": 0,
+        "result": "failed before runner start",
+        "logs_available": false,
+        "macos_verified": false,
+        "windows_verified": false,
+        "exact_failure_annotation": "not available from this run; the preceding run had the same pre-run failure pattern"
+      },
+      "graph": {
+        "path": "graphify-out/graph.json",
+        "nodes": 2554,
+        "sha256": "ef0f831e6454c9a3c1f7832b8945f67994d42d8c3514253834c2617c72cc144e",
+        "manifest_path": "graphify-out/manifest.json",
+        "manifest_sha256": "c145bdfd7c4c6ca19344bcbcc0239e8ac4ceb593ee98ea0635b8419d9a834c7f",
+        "changed_sources_in_manifest": [
+          ".github/workflows/ci.yml",
+          "tests/test_windows_supported_path.py"
+        ],
+        "source_commit_binding": false
+      },
+      "publicly_published": false
+    },
+    "documentation_head_rebuild": {
+      "source_commit": "fbeb66487bacb7e0919f94a4222c3362018d425b",
+      "source_tree": "7f24ff1fee9d3f082e3cb8f848c37da3d25136c1",
+      "changes_since_tested_product_code_commit": [
+        "README.md",
+        "architecture/archaeology/BETA_VALIDATION.md"
+      ],
+      "source_distribution_changes_included": [
+        "README.md"
+      ],
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b3-py3-none-any.whl",
+          "size_bytes": 385065,
+          "sha256": "cb8ade8128d607e2b22fcb3e94e96435d8d1f730ff6acec6dbe04442d058229b",
+          "members": 47,
+          "license_file_present": true,
+          "updated_readme_metadata_present": true,
+          "quickstart_included": false
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b3.tar.gz",
+          "size_bytes": 353255,
+          "sha256": "51996570039d19acfbbe039f134fa22ab8bd4752be8f8ae4cb23b68671bbb56a",
+          "members": 46,
+          "license_file_present": true,
+          "updated_readme_present": true,
+          "quickstart_included": true,
+          "custom_backend_included": true
+        }
+      ],
+      "install_acceptance": {
+        "environment": "Existing ArtVault project test environment",
+        "wheel": {
+          "pip_check": "No broken requirements found",
+          "console_entrypoint_help": "success",
+          "supported_scan_test": "1 passed"
+        },
+        "sdist": {
+          "pip_check": "No broken requirements found",
+          "console_entrypoint_help": "success",
+          "supported_scan_test": "1 passed"
+        }
+      },
+      "hosted_ci": {
+        "run_id": 40819989797,
+        "head_sha": "fbeb66487bacb7e0919f94a4222c3362018d425b",
+        "jobs": 12,
+        "steps_started": 0,
+        "result": "failed before runner start",
+        "logs_available": false,
+        "macos_verified": false,
+        "windows_verified": false
+      },
+      "distribution_warning": "The repository version is still 0.1.3b3. These artifacts were rebuilt to verify current packaging but are not for distribution as a replacement b3 release."
+    }
   }
 }
