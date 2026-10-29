@@ -204,3 +204,11 @@ The two subsequent push runs, [40824313014](https://github.com/Pepstee/giga-arch
 [provider-specific account diagnostic removed]
 
 [provider-specific account diagnostic removed]
+
+## 2026-10-29 — candidate artifact validation from a3ea235
+
+At canonical source commit `a3ea235453782f0776b3c1e166257e03111bd1e0` (tree `36fab435dd6a178084eefbaa19dc45e283aa0160`), the Linux wheel and source archive installed in the existing Python 3.12.3 environment. `pip check` and each installed command-line help entrypoint passed. The installed source archive completed the synthetic inventory, map, symbol-query and bounded-context canary: 1 file, 14 entities, 12 relations, 4 query results and 131 context characters.
+
+The same wheel bytes installed on native macOS 26.4.1 arm64 with Python 3.14.5. `pip check`, command-line help and the four-stage synthetic canary passed. This verifies a macOS wheel smoke path; it is not a full macOS test-suite result. Windows remains unverified. The full Linux Python 3.11–3.14 suite results above still apply because product and test files are unchanged from the tested source.
+
+The candidate metadata and filenames still use `0.1.3b3`, which collides with historical candidate files. These builds are validation artifacts only. No public release was created. See `evidence/release-artifacts/0.1.3b3.json` under `latest_candidate_validation_20261029_a3ea235` for exact artifact hashes, sizes, install checks, canary receipt hashes and platform limits. This dated subsection records the a3ea235 build; later candidate builds are recorded in the ledger, and distributable files must be rebuilt from the final release commit.

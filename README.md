@@ -8,13 +8,24 @@ The supported path makes no model/API calls and does not execute scanned code. Q
 
 ## Install
 
-Python 3.11+ and Git are required. This is still an unreleased candidate. The existing 0.1.3b3
-artifacts predate the current source and must not be redistributed as replacements. The current
-source remains labelled 0.1.3b3; a new version is required after the release gates pass.
+Python 3.11+ and Git are required. This is still an unreleased candidate. The source metadata and validation
+artifacts still use `0.1.3b3`, which collides with historical candidate filenames. Do not publish these
+validation files; select a fresh version after the release gates pass.
 
-The product and test code under verification is commit `9020c1ceece54438900e2904d929a292834c73d3`; current documentation/evidence head `058aa5f075975813ac3d087f1664ffaa92006353` changes no files under `modules/`, `tests/`, or `pyproject.toml`. On the registered ArtVault Linux x86_64 host, the full suite passed at that head on Python 3.11.16 (79.40s), 3.12.3 (74.05s), 3.13.15 (75.46s), and 3.14.7 (79.08s): 423 passed, 1 skipped, and 2 subtests passed on each. The skip is the Darwin sandbox-profile test, which does not apply on Linux.
+The product and test code under validation last changed at commit
+`9020c1ceece54438900e2904d929a292834c73d3`. The full suite passed on ArtVault Linux x86_64 at
+commit `058aa5f075975813ac3d087f1664ffaa92006353` while those files were unchanged. Each supported
+Python version passed 423 tests, skipped one Darwin-only test, and passed two subtests. The exact
+source, artifact hashes and platform-specific package checks are recorded in the [release evidence
+ledger](evidence/release-artifacts/0.1.3b3.json). Any distributable package must be rebuilt and
+verified from the final release commit after the documentation and release metadata are settled.
 
+GitHub Actions is blocked before runner steps: all 12 jobs in the latest run reported failed account
 [provider-specific account diagnostic removed]
+3.14.5 wheel install and synthetic canary passed, but the full macOS suite and Windows checks remain
+unverified. The current `0.1.3b3` files are validation artifacts only; choose a fresh version after
+the release gates pass. See the [validation record](architecture/archaeology/BETA_VALIDATION.md)
+for the exact scope and limitations.
 
 No public release is available. From a checkout of the candidate, create an environment and install
 from the source tree:
