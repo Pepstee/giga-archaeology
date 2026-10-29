@@ -78,6 +78,15 @@
       "steps_all_jobs": 0,
       "failure_cause": "[provider-specific diagnostic removed]",
       "latest_attempt": {
+        "run_id": 40835341859,
+        "head_sha": "e60544dcf97dfbefb89101cc0722a54e5881d29c",
+        "jobs": 12,
+        "runner_id_all_jobs": 0,
+        "steps_all_jobs": 0,
+        "failure_cause": "[provider-specific diagnostic removed]",
+        "observed_at": "2026-10-29T07:25:44Z"
+      },
+      "previous_latest_attempt": {
         "run_id": 40834917306,
         "head_sha": "ad921f0c42444fee8517bf338aac22bb449e361b",
         "jobs": 12,
@@ -94,7 +103,8 @@
     "github_public_release_created": false
   },
   "limitations": [
-    "The artifacts were built and statically inspected but not installed.",
+    "The final b4 wheel passed a bounded install smoke using dependencies from the existing ArtVault test environment; the sdist was not installed.",
+    "Clean dependency resolution in a fresh environment remains unverified.",
     "Full macOS suite and Windows validation remain unverified.",
     "[provider-specific diagnostic removed]",
     "Historical 0.1.3b3 artifacts remain validation-only because their filenames collide with older candidates."
@@ -141,14 +151,42 @@
     }
   },
   "previous_artifact_canary": {
-    "status": "PASS_LIMITED",
-    "scope": "No pip installation of these artifacts was performed.",
-    "method": "pip install --target --no-deps --no-index from the verified wheel; package metadata and imported module location verified; installed console entrypoint --help passed; pip check found no broken requirements.",
+    "status": "REJECTED_NOT_INSTALLATION_EVIDENCE",
+    "scope": "The prior zipimport attempt is not accepted as an installation canary.",
+    "method": "zipimport resolved an existing older 0.1.3b3 package rather than the b4 wheel; no pip installation result is claimed for this attempt.",
     "python": "3.12.3 (existing registered ArtVault test environment)",
     "wheel_sha256": "4eb868b2013769103b5b03354b0a31dc5101f23ef677d88a7114a431adc45593",
     "runtime_dependencies": "Supplied by the existing test environment; this was not a clean dependency-resolution install.",
     "temporary_target": "/tmp/giga-archaeology-canary-0.1.3b4",
     "retired": true,
     "retirement_verification": "Exact task-created target removed after the smoke; path confirmed absent."
+  },
+  "evidence_corrections": [
+    {
+      "recorded_at": "2026-10-29T07:34:13Z",
+      "field": "previous_artifact_canary and limitations",
+      "superseded_values": {
+        "previous_artifact_canary_status": "PASS_LIMITED",
+        "previous_artifact_canary_scope": "No pip installation of these artifacts was performed.",
+        "previous_artifact_canary_method": "pip install --target --no-deps --no-index from the verified wheel; package metadata and imported module location verified; installed console entrypoint --help passed; pip check found no broken requirements.",
+        "limitation": "The artifacts were built and statically inspected but not installed."
+      },
+      "reason": "Those statements conflict with each other and with the observed earlier zipimport attempt, which resolved an existing 0.1.3b3 installation and was not valid b4 installation evidence. The later, separately recorded final-wheel pip canary is valid limited evidence.",
+      "authority": "Correction preserves the rejection and distinguishes it from the successful final-wheel canary."
+    }
+  ],
+  "donor_review": {
+    "status": "REVIEWED_READ_ONLY_NO_TRANSPLANT",
+    "source_commit": "d29d209e9094302937c60d28aeab7a54f78ede27",
+    "source_path": "twin_core/_authority_vendor.zip",
+    "git_blob_sha": "47a2cdf98d93a07323787e9f1f37f23486495eda",
+    "archive_sha256": "f289905b0da3804a1ffe90cbf9660c48ed2dba4c71d32e40f74eb96d316a7db4",
+    "archive_members": 39,
+    "uncompressed_bytes": 439987,
+    "manifest_payload_files": 37,
+    "manifest_hashes_verified": 37,
+    "inspection": "Read directly from the retained historical Git object into memory; no extraction or execution. Runtime API and test inventories reviewed, with focused inspection of policy-root validation, authority admission, candidate attestation, bounded local checks and secret-path scanning.",
+    "feature_classification": "The bundle implements GIGA Control machine-policy and development-authority gates, local sandboxed verification, candidate commit/evidence attestation, and fixed-pattern secret scanning. These belong to agent governance. Archaeology already has privacy-filtered inventory, source hashing, evidence seals, quarantine and release packaging. Importing a second authority/admission runtime would add a competing responsibility rather than an Archaeology feature.",
+    "disposition": "No transplant. Preserve the historical donor object and its Git dependencies; no GitHub restoration or new copy was used."
   }
 }
