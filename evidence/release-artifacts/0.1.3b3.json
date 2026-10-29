@@ -183,7 +183,7 @@
     }
   },
   "latest_candidate_validation": {
-    "status": "UNPUBLISHED_CANDIDATE_LINUX_PACKAGE_BUILD_AND_CANARY_COMPLETE_CROSS_PLATFORM_BLOCKED",
+    "status": "UNPUBLISHED_CANDIDATE_LINUX_MATRIX_MACOS_INSTALLED_SMOKE_WINDOWS_UNVERIFIED",
     "release_warning": "Built files retain 0.1.3b3 and collide with historical candidate filenames. Do not distribute; assign a fresh version only after release gates pass.",
     "source": {
       "repository": "Pepstee/giga-archaeology",
@@ -300,6 +300,43 @@
         "TwinCore_excluded_from_both": true,
         "wheel_members": 47,
         "sdist_members": 46
+      },
+      "macos_native_wheel_smoke": {
+        "host": "macOS",
+        "platform": "macOS 26.4.1 arm64",
+        "python": "3.14.5",
+        "wheel_sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "pip_install": "success",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed",
+        "canary": {
+          "fixture": "one-file synthetic committed Git repository",
+          "output": "/tmp/giga-archaeology-macos-canary-cfa4963/store",
+          "navigation": {
+            "status": "CURRENT",
+            "files": 1
+          },
+          "mapper": {
+            "status": "CURRENT",
+            "entities": 14,
+            "relations": 12
+          },
+          "symbol_query": {
+            "status": "PASS",
+            "results": 4
+          },
+          "bounded_context": {
+            "status": "PASS",
+            "characters": 131
+          },
+          "receipt_sha256": {
+            "navigation": "272927ff721fbe813820fe8890c99c3ef050d701e1d43eb4240984a237cae5d1",
+            "mapper": "e80cfbe10816112926188a3724484495cdd2dcaecb8757c2e8776b4ef4bbe401",
+            "query": "7da733001b8e6984ba1433f8d6ed61b0839ef7cf58c38a6e1a31fd867eb8dd07",
+            "context": "e8237644d78f3c9501246c4c41f39de8d4a3ebc20f40b39383df4e7f56596ffd"
+          }
+        },
+        "transfer_note": "An initial local temporary filename did not conform to wheel naming and pip rejected it; the identical hash-verified wheel installed under its original filename."
       }
     }
   },
@@ -676,7 +713,7 @@
     }
   },
   "latest_candidate_validation_20261029_cfa4963": {
-    "status": "UNPUBLISHED_CANDIDATE_LINUX_PACKAGE_BUILD_AND_CANARY_COMPLETE_CROSS_PLATFORM_BLOCKED",
+    "status": "UNPUBLISHED_CANDIDATE_LINUX_MATRIX_MACOS_INSTALLED_SMOKE_WINDOWS_UNVERIFIED",
     "release_warning": "Built files retain 0.1.3b3 and collide with historical candidate filenames. Do not distribute; assign a fresh version only after release gates pass.",
     "source": {
       "repository": "Pepstee/giga-archaeology",
@@ -700,14 +737,14 @@
         "format": "wheel",
         "size_bytes": 385844,
         "sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
-        "archive_members": null
+        "archive_members": 47
       },
       {
         "filename": "giga_archaeology-0.1.3b3.tar.gz",
         "format": "sdist",
         "size_bytes": 353780,
         "sha256": "65b41debdd2a3bf8239fac5c3575db1e874ba7b6dd448e9296b1f6d54a8a9a58",
-        "archive_members": null
+        "archive_members": 46
       }
     ],
     "verification": {
@@ -782,7 +819,55 @@
         "macos_verified": false,
         "windows_verified": false
       },
-      "publicly_published": false
+      "publicly_published": false,
+      "static_archive_inspection": {
+        "wheel_name": "giga-archaeology",
+        "version": "0.1.3b3",
+        "license_file_in_both": true,
+        "readme_in_both": true,
+        "quickstart_in_sdist_only": true,
+        "custom_backend_in_sdist": true,
+        "TwinCore_excluded_from_both": true,
+        "wheel_members": 47,
+        "sdist_members": 46
+      },
+      "macos_native_wheel_smoke": {
+        "host": "macOS",
+        "platform": "macOS 26.4.1 arm64",
+        "python": "3.14.5",
+        "wheel_sha256": "cad3b3d39f68a31c17f30ecde4c2de85843d18d18142eb29c9d6f0ccfd2ca447",
+        "pip_install": "success",
+        "pip_check": "No broken requirements found",
+        "console_entrypoint_help": "passed",
+        "canary": {
+          "fixture": "one-file synthetic committed Git repository",
+          "output": "/tmp/giga-archaeology-macos-canary-cfa4963/store",
+          "navigation": {
+            "status": "CURRENT",
+            "files": 1
+          },
+          "mapper": {
+            "status": "CURRENT",
+            "entities": 14,
+            "relations": 12
+          },
+          "symbol_query": {
+            "status": "PASS",
+            "results": 4
+          },
+          "bounded_context": {
+            "status": "PASS",
+            "characters": 131
+          },
+          "receipt_sha256": {
+            "navigation": "272927ff721fbe813820fe8890c99c3ef050d701e1d43eb4240984a237cae5d1",
+            "mapper": "e80cfbe10816112926188a3724484495cdd2dcaecb8757c2e8776b4ef4bbe401",
+            "query": "7da733001b8e6984ba1433f8d6ed61b0839ef7cf58c38a6e1a31fd867eb8dd07",
+            "context": "e8237644d78f3c9501246c4c41f39de8d4a3ebc20f40b39383df4e7f56596ffd"
+          }
+        },
+        "transfer_note": "An initial local temporary filename did not conform to wheel naming and pip rejected it; the identical hash-verified wheel installed under its original filename."
+      }
     }
   }
 }
