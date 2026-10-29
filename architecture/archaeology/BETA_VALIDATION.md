@@ -171,3 +171,18 @@ The current source built a wheel and source archive with build 1.6.1 using the c
 [provider-specific account diagnostic removed]
 
 The current operational Graphify index contains 2,554 nodes. Its manifest includes the changed workflow and test file, but it does not bind the index to a source commit. The index remains untracked operational output and is not treated as a release artifact. The package version is still 0.1.3b3; these builds are not for distribution. No public release has been made.
+
+## 2026-10-29 - complete Linux Python matrix on the current documentation head
+
+At canonical source commit `058aa5f075975813ac3d087f1664ffaa92006353` on branch `codex/artvault-portable-giga-archaeology`, the full suite was run sequentially on ArtVault Linux x86_64 with the existing Python environments. Each run passed 423 tests, skipped one Darwin sandbox-profile test that does not apply on Linux, and passed 2 subtests:
+
+| Python | Result | Duration |
+| --- | --- | ---: |
+| 3.11.16 | 423 passed, 1 skipped, 2 subtests passed | 79.40s |
+| 3.12.3 | 423 passed, 1 skipped, 2 subtests passed | 74.05s |
+| 3.13.15 | 423 passed, 1 skipped, 2 subtests passed | 75.46s |
+| 3.14.7 | 423 passed, 1 skipped, 2 subtests passed | 79.08s |
+
+The product and test files are unchanged from commit `9020c1ceece54438900e2904d929a292834c73d3`; the intervening commits change documentation and release evidence only. A WSL relay error interrupted the first Python 3.13 launch before pytest started; the ArtVault route recovered and the run then passed as recorded above.
+
+GitHub Actions run [40819989797](https://github.com/Pepstee/giga-archaeology/actions/runs/40819989797), on documentation head `fbeb66487bacb7e0919f94a4222c3362018d425b`, expanded 12 jobs and failed all of them before any step began. It provides no test results. macOS and Windows remain unverified, including the installed-artifact checks. The no-runner failure remains an external hosted-CI blocker.

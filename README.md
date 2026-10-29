@@ -12,13 +12,9 @@ Python 3.11+ and Git are required. This is still an unreleased candidate. The ex
 artifacts predate the current source and must not be redistributed as replacements. The current
 source remains labelled 0.1.3b3; a new version is required after the release gates pass.
 
-The latest product-code revision under verification is commit `9020c1ceece54438900e2904d929a292834c73d3`; the later documentation commit changes no product code. Its full suite
-passed on ArtVault Linux with Python 3.12.3: 423 passed, 1 skipped, and 2 subtests passed. The wheel
-and source archive built from this revision install with no broken requirements; the CLI starts and
-the supported-scan test passes from both installed artifacts. GitHub Actions run 40819550308 failed
-before any runner step started. macOS and Windows are therefore unverified, and this candidate is
-not cross-platform certified. See the [validation record](architecture/archaeology/BETA_VALIDATION.md)
-for exact scope and history.
+The product and test code under verification is commit `9020c1ceece54438900e2904d929a292834c73d3`; current documentation/evidence head `058aa5f075975813ac3d087f1664ffaa92006353` changes no files under `modules/`, `tests/`, or `pyproject.toml`. On the registered ArtVault Linux x86_64 host, the full suite passed at that head on Python 3.11.16 (79.40s), 3.12.3 (74.05s), 3.13.15 (75.46s), and 3.14.7 (79.08s): 423 passed, 1 skipped, and 2 subtests passed on each. The skip is the Darwin sandbox-profile test, which does not apply on Linux.
+
+GitHub Actions run 40819989797 expanded all 12 matrix jobs but none reached a runner step. macOS and Windows therefore remain unverified; this candidate is not cross-platform certified. The existing `0.1.3b3` files are validation artifacts, not distributable replacements; assign a new version after the release gates pass. See the [validation record](architecture/archaeology/BETA_VALIDATION.md) for exact scope and history.
 
 No public release is available. From a checkout of the candidate, create an environment and install
 from the source tree:
