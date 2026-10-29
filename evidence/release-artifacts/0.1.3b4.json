@@ -96,15 +96,17 @@
       }
     },
     "macos_full_suite_verified": false,
-    "windows_verified": false
+    "windows_verified": false,
+    "windows_install_canary_passed": true,
+    "windows_full_suite_verified": false
   },
   "distribution": {
     "pypi_project_status": "404 at check time",
     "github_public_release_created": false
   },
   "limitations": [
-    "The wheel passed clean dependency-resolution canaries on ArtVault Linux/Python 3.12.3 and macOS arm64/Python 3.14.5; the sdist itself was not installed.",
-    "Full macOS and Windows test suites remain unverified.",
+    "The source archive itself has not been installed from an sdist.",
+    "Full macOS and Windows test suites remain unverified; the Windows 3.12.16 AMD64 wheel install canary passed.",
     "[provider-specific diagnostic removed]",
     "Historical 0.1.3b3 artifacts remain validation-only because their filenames collide with older candidates."
   ],
@@ -172,6 +174,15 @@
       },
       "reason": "Those statements conflict with each other and with the observed earlier zipimport attempt, which resolved an existing 0.1.3b3 installation and was not valid b4 installation evidence. The later, separately recorded final-wheel pip canary is valid limited evidence.",
       "authority": "Correction preserves the rejection and distinguishes it from the successful final-wheel canary."
+    },
+    {
+      "recorded_at": "2026-10-29T07:51:32.594925+00:00",
+      "field": "windows_install_canary initial inline import probe",
+      "superseded_values": {
+        "initial_probe": "failed with NameError"
+      },
+      "reason": "The failure came from PowerShell argument quoting, not package behavior. The corrected import probe, dependency check and installed console help all passed.",
+      "authority": "Preserve the rejected invocation while reporting only the corrected, hash-verified wheel canary as installation evidence."
     }
   ],
   "donor_review": {
@@ -238,5 +249,61 @@
     "source_checkout_created": false,
     "retired": true,
     "retirement_verification": "Both exact wheel paths and the exact temporary environment were confirmed absent after the canary."
+  },
+  "windows_install_canary": {
+    "status": "PASS_LIMITED",
+    "platform": {
+      "os": "Windows 10.0.26200.9711",
+      "architecture": "AMD64"
+    },
+    "source": {
+      "commit": "669ea87426487ffb3f52d810bb26e88f51889c95",
+      "tree": "e61f0691b1fb4c5b3a76827deb8d52054de3be85",
+      "package_inputs_unchanged_since_artifact_build_commit": "a3180b99d9789e94edb75d79e30e35b3befb6baf"
+    },
+    "python": {
+      "version": "3.12.16",
+      "implementation": "CPython",
+      "distribution": "Astral python-build-standalone, managed by uv 0.13.6"
+    },
+    "uv": {
+      "version": "0.13.6",
+      "official_asset": "uv-x86_64-pc-windows-msvc.zip",
+      "official_asset_sha256": "a2a8820d5eea32f08ef467ef3b7f66883a9b076d5737a2fc2fbb5f458d1bb50f",
+      "registry_registration": "disabled"
+    },
+    "artifact": {
+      "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+      "sha256": "e507818166d7c236375f983eb97eee11bbb3fefd9701f78ee1c7e2a3ca4fedb0",
+      "bytes": 390462
+    },
+    "install": {
+      "method": "uv pip install with dependency resolution from the configured package index",
+      "resolved_packages": [
+        "giga-archaeology==0.1.3b4",
+        "tree-sitter==0.26.0",
+        "tree-sitter-bash==0.25.1",
+        "tree-sitter-javascript==0.25.0",
+        "tree-sitter-typescript==0.23.2"
+      ],
+      "dependency_check": "uv pip check passed; all five packages compatible",
+      "metadata": "giga-archaeology 0.1.3b4",
+      "module_origin": "inside the temporary venv site-packages",
+      "console_entrypoint_help": "passed"
+    },
+    "rejected_probe": {
+      "status": "REJECTED_ARGUMENT_QUOTING_ERROR",
+      "detail": "Initial inline Python probe lost nested quotes through PowerShell native argument passing and raised NameError; corrected probe then passed against the installed wheel."
+    },
+    "temporary_scope": {
+      "windows_root": "%TEMP%/giga-archaeology-win-canary-0.1.3b4",
+      "mac_artifact_stage": "/tmp/giga-archaeology-win-canary-0.1.3b4.whl",
+      "artvault_artifact_dir": "/tmp/giga-archaeology-win-canary-0.1.3b4",
+      "source_checkout_created": false,
+      "machine_python_installed": false,
+      "user_or_machine_path_changed": false,
+      "temporary_python_launcher_outside_scope": "uv created one user-local python3.12.exe shim; its task-window timestamp was verified and that exact file was removed before continuing",
+      "cleanup": "All three exact temporary roots/artifact paths were removed and confirmed absent."
+    }
   }
 }
