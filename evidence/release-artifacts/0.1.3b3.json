@@ -280,14 +280,32 @@
         "limitations": "Linux only; Darwin sandbox skip is not exercised on Linux."
       },
       "hosted_ci": {
-        "run_id": 40822064209,
+        "run_id": 40824541437,
         "jobs": 12,
         "conclusion": "all failed before any step ran",
         "job_steps": 0,
         "logs": "GitHub log endpoint returned 404 BlobNotFound",
         "failure_cause": "unknown",
         "macos_verified": false,
-        "windows_verified": false
+        "windows_verified": false,
+        "previous_run_id": 40822064209,
+        "latest_head_sha": "0bb629e9e21b774609a1d003c56568cf5fcf24cf",
+        "recent_runs": [
+          {
+            "run_id": 40824313014,
+            "head_sha": "dcdefb6b66938b3d267e2abe5754803e994a37e0",
+            "jobs": 12,
+            "conclusion": "all failed before any step ran"
+          },
+          {
+            "run_id": 40824541437,
+            "head_sha": "0bb629e9e21b774609a1d003c56568cf5fcf24cf",
+            "jobs": 12,
+            "conclusion": "all failed before any step ran",
+            "job_steps": 0,
+            "logs": "404 BlobNotFound"
+          }
+        ]
       },
       "publicly_published": false,
       "static_archive_inspection": {
