@@ -12,7 +12,7 @@ Python 3.11+ and Git are required. This is still an unreleased candidate. The ex
 artifacts predate the current source and must not be redistributed as replacements. The current
 source remains labelled 0.1.3b3; a new version is required after the release gates pass.
 
-The current canonical source is commit `9020c1ceece54438900e2904d929a292834c73d3`. Its full suite
+The latest product-code revision under verification is commit `9020c1ceece54438900e2904d929a292834c73d3`; the later documentation commit changes no product code. Its full suite
 passed on ArtVault Linux with Python 3.12.3: 423 passed, 1 skipped, and 2 subtests passed. The wheel
 and source archive built from this revision install with no broken requirements; the CLI starts and
 the supported-scan test passes from both installed artifacts. GitHub Actions run 40819550308 failed

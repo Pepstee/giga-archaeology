@@ -164,7 +164,7 @@ The full current-source suite passed on ArtVault Linux/Python 3.12.3: **422 pass
 
 ## 2026-10-29 — current source and installed distribution verification
 
-The current canonical source is commit `9020c1ceece54438900e2904d929a292834c73d3` (tree `13cac253d1272beac0a094c2b033b176fda10781`). Its full test suite passed on ArtVault Linux x86_64 with Python 3.12.3: **423 passed, 1 skipped, and 2 subtests passed** in 74.95 seconds. The skip is the Darwin sandbox-profile test, which does not apply on Linux.
+The product and test code under verification is commit `9020c1ceece54438900e2904d929a292834c73d3` (tree `13cac253d1272beac0a094c2b033b176fda10781`). The later repository head contains documentation and validation updates only. Its full test suite passed on ArtVault Linux x86_64 with Python 3.12.3: **423 passed, 1 skipped, and 2 subtests passed** in 74.95 seconds. The skip is the Darwin sandbox-profile test, which does not apply on Linux.
 
 The current source built a wheel and source archive with build 1.6.1 using the canonical custom backend. Each artifact installed into the existing ArtVault project test environment, `pip check` found no broken requirements, the CLI help command succeeded, and the supported-scan canary passed against the installed artifact (1 passed for each format). The wheel contains the MIT licence and excludes the source-only quickstart; the source archive contains the licence, quickstart and custom build backend. Artifact hashes and exact sizes are in `evidence/release-artifacts/0.1.3b3.json` under `latest_candidate_validation_20261029_9020c1c`.
 
