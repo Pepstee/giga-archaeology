@@ -8,31 +8,35 @@ The supported path makes no model/API calls and does not execute scanned code. Q
 
 ## Install
 
-Python 3.11+ and Git are required. The latest full-suite run against the current canonical source
-passed on ArtVault Linux with Python 3.12.3: 422 passed, 1 skipped, and 2 subtests passed. Earlier
-Python 3.11–3.14 results cover a source revision before the location inventory was added. The earlier
-macOS arm64 Python 3.14 canary covers 0.1.3b1/b2, not this candidate. Windows has not been verified.
-Recent GitHub Actions jobs could not start; the last recorded GitHub annotation cited an account
-[provider-specific account diagnostic removed]
-[the validation record](architecture/archaeology/BETA_VALIDATION.md) for exact scope and history.
+Python 3.11+ and Git are required. This is still an unreleased candidate. The existing 0.1.3b3
+artifacts predate the current source and must not be redistributed as replacements. The current
+source remains labelled 0.1.3b3; a new version is required after the release gates pass.
 
-Obtain the wheel from the operator-provided beta bundle. This version is not claimed to be on PyPI.
-Create an environment outside the repository you intend to scan, then install the wheel:
+The current canonical source is commit `9020c1ceece54438900e2904d929a292834c73d3`. Its full suite
+passed on ArtVault Linux with Python 3.12.3: 423 passed, 1 skipped, and 2 subtests passed. The wheel
+and source archive built from this revision install with no broken requirements; the CLI starts and
+the supported-scan test passes from both installed artifacts. GitHub Actions run 40819550308 failed
+before any runner step started. macOS and Windows are therefore unverified, and this candidate is
+not cross-platform certified. See the [validation record](architecture/archaeology/BETA_VALIDATION.md)
+for exact scope and history.
+
+No public release is available. From a checkout of the candidate, create an environment and install
+from the source tree:
 
 ```sh
 python3 -m venv "$HOME/.venvs/giga-archaeology"
 . "$HOME/.venvs/giga-archaeology/bin/activate"
-python -m pip install ./giga_archaeology-0.1.3b3-py3-none-any.whl
+python -m pip install .
 python -m pip check
 giga-archaeology --help
 ```
 
-On Windows, use PowerShell and the venv's executable paths directly:
+On Windows, use PowerShell from the source checkout:
 
 ```powershell
 py -3.12 -m venv "$env:USERPROFILE/.venvs/giga-archaeology"
 $python = "$env:USERPROFILE/.venvs/giga-archaeology/Scripts/python.exe"
-& $python -m pip install "$PWD/giga_archaeology-0.1.3b3-py3-none-any.whl"
+& $python -m pip install .
 & $python -m pip check
 & "$env:USERPROFILE/.venvs/giga-archaeology/Scripts/giga-archaeology.exe" --help
 ```
