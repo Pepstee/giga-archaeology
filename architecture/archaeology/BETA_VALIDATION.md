@@ -280,4 +280,6 @@ The current candidate uses version `0.1.3b4` to avoid collisions with historical
 
 On canonical ArtVault Linux x86_64 with Python 3.12.3, the full suite passed: 424 passed, 1 skipped, and 2 subtests in 82.84 seconds. The focused packaging tests passed 5/5. These runs used the registered canonical source; no clone or worktree was created. A fresh wheel and source archive built successfully with build 1.6.1. The exact file digests and archive inspection are recorded in `evidence/release-artifacts/0.1.3b4.json`.
 
+The `0.1.3b4` wheel passed a bounded install smoke into a temporary target with `--no-deps --no-index`: installed metadata was `0.1.3b4`, the imported module came from that target, `pip check` found no broken requirements, and the installed `giga-archaeology --help` entrypoint passed. Runtime dependencies came from the existing ArtVault Python 3.12.3 test environment; dependency resolution in a clean environment remains unverified. The exact temporary target was removed after the check.
+
 [provider-specific account diagnostic removed]
