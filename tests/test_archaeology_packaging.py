@@ -31,6 +31,20 @@ def test_quickstart_is_in_source_archive_but_not_runtime_wheel(tmp_path: Path) -
         assert sdist.extractfile(expected) is not None
 
 
+def test_contributing_guide_is_in_both_distributions(tmp_path: Path) -> None:
+    wheel_name = BACKEND.build_wheel(str(tmp_path))
+    sdist_name = BACKEND.build_sdist(str(tmp_path))
+    expected_sdist = f"{BACKEND.NAME}-{BACKEND.VERSION}/CONTRIBUTING.md"
+    expected_content = (ROOT / "CONTRIBUTING.md").read_bytes()
+
+    with zipfile.ZipFile(tmp_path / wheel_name) as wheel:
+        assert wheel.read("CONTRIBUTING.md") == expected_content
+    with tarfile.open(tmp_path / sdist_name, "r:gz") as sdist:
+        assert expected_sdist in sdist.getnames()
+        member = sdist.extractfile(expected_sdist)
+        assert member is not None and member.read() == expected_content
+
+
 def test_release_metadata_includes_search_terms_and_project_links(tmp_path: Path) -> None:
     wheel_name = BACKEND.build_wheel(str(tmp_path))
     with zipfile.ZipFile(tmp_path / wheel_name) as wheel:

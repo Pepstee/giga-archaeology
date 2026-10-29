@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parents[3]
 SOURCE_FILES = (
     "LICENSE",
     "README.md",
+    "CONTRIBUTING.md",
     "CHANGELOG.md",
     "THIRD_PARTY_NOTICES.md",
     "architecture/archaeology/BETA_VALIDATION.md",

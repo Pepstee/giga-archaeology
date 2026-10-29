@@ -212,3 +212,17 @@ At canonical source commit `a3ea235453782f0776b3c1e166257e03111bd1e0` (tree `36f
 The same wheel bytes installed on native macOS 26.4.1 arm64 with Python 3.14.5. `pip check`, command-line help and the four-stage synthetic canary passed. This verifies a macOS wheel smoke path; it is not a full macOS test-suite result. Windows remains unverified. The full Linux Python 3.11–3.14 suite results above still apply because product and test files are unchanged from the tested source.
 
 The candidate metadata and filenames still use `0.1.3b3`, which collides with historical candidate files. These builds are validation artifacts only. No public release was created. See `evidence/release-artifacts/0.1.3b3.json` under `latest_candidate_validation_20261029_a3ea235` for exact artifact hashes, sizes, install checks, canary receipt hashes and platform limits. This dated subsection records the a3ea235 build; later candidate builds are recorded in the ledger, and distributable files must be rebuilt from the final release commit.
+
+## 2026-10-29 — README contribution guide included in distributions
+
+The README links to `CONTRIBUTING.md`, so the explicit distribution allowlist now includes that
+guide in both the wheel and source archive. A regression test checks that each archive contains the
+exact source bytes. The focused packaging suite passed **5 tests**; the full ArtVault Linux/Python
+3.12.3 suite passed **424 tests, 1 platform-specific skip, and 2 subtests** in 68.49 seconds.
+
+GitHub Actions run [40825822360](https://github.com/Pepstee/giga-archaeology/actions/runs/40825822360)
+on the preceding source commit completed with all 12 jobs failed before steps ran. The annotations
+[provider-specific account diagnostic removed]
+macOS full-suite and Windows validation remain open. Distributable artifacts have not yet been
+rebuilt from this source change; the `0.1.3b3` version collision remains, and no public release was
+created.
