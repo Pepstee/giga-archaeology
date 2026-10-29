@@ -40,6 +40,7 @@ from .os_support import (
     set_private_file_mode,
     set_private_path_mode,
     sync_directory,
+    sync_file,
 )
 
 
@@ -1337,11 +1338,7 @@ def refresh_navigation_inventory(
         (staging / "REPORT.md").write_text(_render_report(manifest), encoding="utf-8")
         set_private_path_mode(staging / "REPORT.md", 0o600)
         for path in (database_path, staging / "manifest.json", staging / "REPORT.md"):
-            descriptor = os.open(path, os.O_RDONLY)
-            try:
-                os.fsync(descriptor)
-            finally:
-                os.close(descriptor)
+            sync_file(path)
         sync_directory(staging)
         run_directory = runs / run_id
         os.rename(staging, run_directory)
@@ -1647,11 +1644,7 @@ def refresh_navigation_inventory_delta(
         report_path.write_text(_render_report(manifest), encoding="utf-8")
         set_private_path_mode(report_path, 0o600)
         for path in (database_path, manifest_path, report_path):
-            descriptor = os.open(path, os.O_RDONLY)
-            try:
-                os.fsync(descriptor)
-            finally:
-                os.close(descriptor)
+            sync_file(path)
         sync_directory(staging)
         run_directory = runs / run_id
         os.rename(staging, run_directory)

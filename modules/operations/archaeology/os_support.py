@@ -158,6 +158,15 @@ def sync_directory(path: Path) -> None:
         os.close(descriptor)
 
 
+def sync_file(path: Path) -> None:
+    """Persist a completed file using a writable descriptor on every host."""
+    descriptor = os.open(path, os.O_RDWR | getattr(os, "O_BINARY", 0))
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
 _WINDOWS_LOCK_CONTENTION_ERRNOS = frozenset(
     code
     for code in (
