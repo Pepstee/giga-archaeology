@@ -1,8 +1,15 @@
 # Archaeology preservation review status
 
-Date: 2026-09-28
-Status: `PARTIAL_BLOCKED`
-Goal: preserve and adjudicate the scoped donor modularisation history
+Current summary (2026-10-29): `REVIEW_COMPLETE_NO_TRANSPLANT_IDENTIFIED`
+
+- Authenticated donor comparison: `Pepstee/giga-user`, commit `d29d209e9094302937c60d28aeab7a54f78ede27`, tree `9a6d4c3c1f251fb4d0ecbb93a7a502e4d5df33d3`; comparison base `f4d8e694289d035991c6d3c0b33b35c15a05c53c` (tree `e80a60fea5bbbe2f0419c4e313d7e8b965dfc966`).
+- Six reviewed prefixes: `research/free-inference-fabric/src`, `research/free-inference-fabric/tests`, `twin_core`, `modules/operations/archaeology`, `modules/operations/scripts`, and `modules/research`.
+- Scope: 62 changed Python files, 33,497 additions, 255 deletions. Sorted file-manifest digest: `1b1b41975300d1d52d0bae6a66a6668c4f6030576259b5f201312c2b9d9ac00e`.
+- The persisted crosswalk maps 62/62 paths and all 33,497 additions to explicit review paragraphs. This reconciles the dated review ledger; it is not a fresh independent reread of every historical source file in this update.
+- Review disposition: no donor-only behavior was found that belongs in Archaeology's repository-mapping contract; no transplant is warranted. Research, personal-measurement, and TwinCore systems remain outside that contract.
+- No source was sent to GLM and no project copy was created. Authentication and exact-scope evidence is recorded in the dated entries below.
+
+The append-only entries below retain the review history. The initial `PARTIAL_BLOCKED`, `0/62`, `0/33,497` and donor-auth blocker statements describe the 2026-09-28 starting state; they are superseded by the completed authenticated-scope and 62/62 entries dated 2026-09-30.
 
 ## Canonical owner
 
