@@ -226,6 +226,18 @@
       "installed_artifact_canary": {
         "status": "NOT_RUN_FOR_THESE_ARTIFACTS",
         "reason": "No registered supervised release-test exception is present; no unregistered install target was created."
+      },
+      "graphify_operational_index": {
+        "built_at_commit": "9130cf3f118c3b97e2bda5e717e20846d4d3ffcd",
+        "source_tree": "56fb48ff077205094afe44c6a0671e02d9afa423",
+        "graph_sha256": "67c28aee58ec37ddf81ab978e00910855edd4a26c13f0394548de627c1aeca34",
+        "manifest_sha256": "07ee6a34841051f7d3c5abbdf48741596bf7e2f4e0ccd6a7176a930d4cbd1d1a",
+        "nodes": 3948,
+        "edges": 15508,
+        "communities": 146,
+        "updated_by": "graphify update on canonical ArtVault source; structural code extraction, no LLM",
+        "status": "CURRENT_CODE_INDEX_ONLY",
+        "limitations": "Operational untracked index, not a release artifact. Markdown docs were not re-extracted. The graphify query CLI returned unrelated stored-query nodes; a bounded direct graph traversal located the packaging backend, build_wheel/build_sdist and packaging-test nodes."
       }
     },
     "release_warning": "Validation only. Version 0.1.3b3 collides with historical candidate filenames; do not distribute.",
@@ -1249,6 +1261,18 @@
       "installed_artifact_canary": {
         "status": "NOT_RUN_FOR_THESE_ARTIFACTS",
         "reason": "No registered supervised release-test exception is present; no unregistered install target was created."
+      },
+      "graphify_operational_index": {
+        "built_at_commit": "9130cf3f118c3b97e2bda5e717e20846d4d3ffcd",
+        "source_tree": "56fb48ff077205094afe44c6a0671e02d9afa423",
+        "graph_sha256": "67c28aee58ec37ddf81ab978e00910855edd4a26c13f0394548de627c1aeca34",
+        "manifest_sha256": "07ee6a34841051f7d3c5abbdf48741596bf7e2f4e0ccd6a7176a930d4cbd1d1a",
+        "nodes": 3948,
+        "edges": 15508,
+        "communities": 146,
+        "updated_by": "graphify update on canonical ArtVault source; structural code extraction, no LLM",
+        "status": "CURRENT_CODE_INDEX_ONLY",
+        "limitations": "Operational untracked index, not a release artifact. Markdown docs were not re-extracted. The graphify query CLI returned unrelated stored-query nodes; a bounded direct graph traversal located the packaging backend, build_wheel/build_sdist and packaging-test nodes."
       }
     },
     "release_warning": "Validation only. Version 0.1.3b3 collides with historical candidate filenames; do not distribute.",
