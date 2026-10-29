@@ -245,3 +245,27 @@ on this commit completed with all 12 matrix jobs failing before any step began. 
 [provider-specific account diagnostic removed]
 limit. The hosted run supplies no test result. Linux/Python 3.12.3 local tests passed as recorded
 above; macOS full-suite and Windows validation remain open.
+
+
+## 2026-10-29 — current release evidence after c169318
+
+The product and test sources remain at `c169318f7459d97699d2c6f44c825363d3b01bc3`. The following
+`c2ff01a` and `d49944e` commits change release evidence only, so the 424-test Linux/Python 3.12.3
+result recorded above still covers the current product and test files. The earlier Python 3.11–3.14
+matrix predates the packaging-guide inclusion change and does not cover that final packaging
+change.
+
+At source commit `c2ff01a47030cc03a31f5df3761a334480415325`, ArtVault Linux/Python 3.12.3 rebuilt
+the wheel and source archive. Static inspection confirmed 48 wheel members and 47 source-archive
+members, with the exact contributor guide, README and MIT licence in both; the source archive also
+contains the quickstart and build backend. The wheel SHA-256 is
+`af5ec07295f30a2ab09303a6480fa5bf544c6bfe436ee68778728e5282815a28`; the source-archive SHA-256 is
+`c953a6b653214990c4f234ab00c446b8e7ee16ae1d65948db36aadc20dbfa822`. These exact artifacts were
+not installed and have no install canary. Earlier Linux and macOS smoke evidence belongs to other
+same-version candidate bytes and does not transfer to these files.
+
+The latest hosted Actions result remains [40826776978](https://github.com/Pepstee/giga-archaeology/actions/runs/40826776978)
+[provider-specific account diagnostic removed]
+annotations; no hosted tests ran. The later evidence-only commits did not trigger another matrix run.
+Windows and the full macOS suite remain unverified. Version `0.1.3b3` still collides with historical
+candidate filenames. No public release was created.

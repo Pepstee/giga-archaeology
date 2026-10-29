@@ -12,20 +12,24 @@ Python 3.11+ and Git are required. This is still an unreleased candidate. The so
 artifacts still use `0.1.3b3`, which collides with historical candidate filenames. Do not publish these
 validation files; select a fresh version after the release gates pass.
 
-The product and test code under validation last changed at commit
-`9020c1ceece54438900e2904d929a292834c73d3`. The full suite passed on ArtVault Linux x86_64 at
-commit `058aa5f075975813ac3d087f1664ffaa92006353` while those files were unchanged. Each supported
-Python version passed 423 tests, skipped one Darwin-only test, and passed two subtests. The exact
-source, artifact hashes and platform-specific package checks are recorded in the [release evidence
-ledger](evidence/release-artifacts/0.1.3b3.json). Any distributable package must be rebuilt and
-verified from the final release commit after the documentation and release metadata are settled.
+The product and test sources last changed at commit
+`c169318f7459d97699d2c6f44c825363d3b01bc3`; the following `c2ff01a` and `d49944e` commits
+changed release evidence only. On ArtVault Linux x86_64/Python 3.12.3, the full suite at c169318
+passed 424 tests, skipped one platform-specific test, and passed two subtests. The earlier Linux
+Python 3.11–3.14 matrix passed 423 tests per interpreter at `058aa5f075975813ac3d087f1664ffaa92006353`,
+before the later packaging-guide inclusion change.
 
-GitHub Actions is blocked before runner steps: all 12 jobs in the latest run reported failed account
+The current c2ff01a wheel and source archive were rebuilt and statically inspected, but have not been
+installed or run through a canary. A macOS 26.4.1 arm64/Python 3.14.5 package smoke passed for an
+earlier `0.1.3b3` candidate; it does not validate these exact archive bytes or the full macOS suite.
+Windows remains unverified. GitHub Actions run [40826776978](https://github.com/Pepstee/giga-archaeology/actions/runs/40826776978)
 [provider-specific account diagnostic removed]
-3.14.5 wheel install and synthetic canary passed, but the full macOS suite and Windows checks remain
-unverified. The current `0.1.3b3` files are validation artifacts only; choose a fresh version after
-the release gates pass. See the [validation record](architecture/archaeology/BETA_VALIDATION.md)
-for the exact scope and limitations.
+messages. No hosted tests ran. See the [validation record](architecture/archaeology/BETA_VALIDATION.md)
+and [release evidence ledger](evidence/release-artifacts/0.1.3b3.json) for exact scope and hashes.
+
+The source metadata and validation artifacts still use `0.1.3b3`, which collides with historical
+candidate filenames. Do not publish these validation files; choose a fresh version and rebuild from
+the final release commit after the gates pass.
 
 No public release is available. From a checkout of the candidate, create an environment and install
 from the source tree:
