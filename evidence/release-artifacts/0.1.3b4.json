@@ -103,9 +103,8 @@
     "github_public_release_created": false
   },
   "limitations": [
-    "The final b4 wheel passed a bounded install smoke using dependencies from the existing ArtVault test environment; the sdist was not installed.",
-    "Clean dependency resolution in a fresh environment remains unverified.",
-    "Full macOS suite and Windows validation remain unverified.",
+    "The wheel passed clean dependency-resolution canaries on ArtVault Linux/Python 3.12.3 and macOS arm64/Python 3.14.5; the sdist itself was not installed.",
+    "Full macOS and Windows test suites remain unverified.",
     "[provider-specific diagnostic removed]",
     "Historical 0.1.3b3 artifacts remain validation-only because their filenames collide with older candidates."
   ],
@@ -211,5 +210,33 @@
     "retired": true,
     "retirement_verification": "Only the exact task-created environment was removed; path confirmed absent.",
     "exception_controls": "Recorded before install in the active task: exact wheel SHA only; exact target confirmed absent; --no-cache-dir; no repository checkout, Git data, private corpus, or alternate source; exact-target cleanup and absence verification."
+  },
+  "macos_install_canary": {
+    "recorded_at": "2026-10-29T07:39:36.148612Z",
+    "status": "PASS_LIMITED",
+    "platform": "macOS 25.4.0 arm64",
+    "python": "3.14.5",
+    "artifact": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+    "wheel_sha256": "e507818166d7c236375f983eb97eee11bbb3fefd9701f78ee1c7e2a3ca4fedb0",
+    "dependencies_resolved": [
+      "tree-sitter==0.26.0",
+      "tree-sitter-bash==0.25.1",
+      "tree-sitter-javascript==0.25.0",
+      "tree-sitter-typescript==0.23.2"
+    ],
+    "pip_check": "No broken requirements found.",
+    "installed_metadata_version": "0.1.3b4",
+    "import_origin_verified_under_environment": true,
+    "installed_console_entrypoint_help": "PASS from outside the source repository.",
+    "failed_attempt_preserved": "pip initially rejected the transferred temporary filename as an invalid wheel filename before package installation. After renaming the same SHA-verified bytes to the canonical wheel filename, dependency resolution and installation passed.",
+    "network": "Configured package index supplied platform wheels for the pinned dependencies; no repository source, private corpus, or Git metadata was uploaded. Configured index authentication was not audited.",
+    "temporary_environment": "/tmp/giga-archaeology-macos-clean-install-b4",
+    "temporary_wheel_paths": [
+      "/tmp/giga-archaeology-macos-b4.whl",
+      "/tmp/giga_archaeology-0.1.3b4-py3-none-any.whl"
+    ],
+    "source_checkout_created": false,
+    "retired": true,
+    "retirement_verification": "Both exact wheel paths and the exact temporary environment were confirmed absent after the canary."
   }
 }
