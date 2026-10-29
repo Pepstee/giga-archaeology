@@ -997,3 +997,15 @@ The module canonicalizes provider records, deduplicates and groups studies, extr
 This scientific literature-screening system is outside Archaeology's repository-mapping product contract, and its `twin_core/` path is excluded from the explicit public wheel allowlist. Disposition: `REVIEWED_SOURCE_INCREMENT / SCIENTIFIC_SCREENING_OUTSIDE_ARCHAEOLOGY_SCOPE / EXACT_DEDUP_COLLISION_RISK / NONATOMIC_ARTIFACT_SET / NO_TRANSPLANT`.
 
 Verified donor source-read coverage is now 62/62 files and 33,497/33,497 additions. No scoped donor Python additions remain without an explicit review paragraph. No source was sent to GLM, no tests were run, and no project copy was created.
+
+## 2026-10-29 - preserved donor-object verification after repository deletion
+
+Control Tower verified that the original GitHub donor repository `Pepstee/giga-user` was deleted on 2026-10-28. It found the already-retained Mac historical Git object store. This remains historical evidence only, not a development canon; no repository restore, checkout, clone, fetch, or copy was made. The ArtVault canon does not contain the pinned donor commits or trees.
+
+The preserved store contains base commit `f4d8e694289d035991c6d3c0b33b35c15a05c53c` with tree `e80a60fea5bbbe2f0419c4e313d7e8b965dfc966` and donor head `d29d209e9094302937c60d28aeab7a54f78ede27` with tree `9a6d4c3c1f251fb4d0ecbb93a7a502e4d5df33d3`. Control Tower recomputed Git object hashes for 83 distinct blobs inside the six approved prefixes.
+
+An independent read-only check against the scope manifest verified both tree IDs, all 62 changed-file blob IDs and SHA-256 content hashes, and each file's `git diff --numstat`. The verified total is 33,497 additions and 255 deletions. All 62 changed paths map to a donor/source-review section in this ledger. This confirms source availability, exact scope, and review-record coverage; the ledger crosswalk is not a new semantic reread of all 33,497 lines in this update. The complete historical per-file reviews remain recorded above.
+
+A separate bounded read of all 493 added lines in `modules/operations/scripts/archaeologist.py` found the recorded CLI disposition is consistent with the current canon: the donor imports the noncanonical `modules.operations.archaeologist` package, while the current `giga-archaeology` command is implemented under `modules.operations.archaeology`. The historical review records the donor CLI as a subset of the canonical command surface; no new transplant was identified.
+
+No donor code was executed or sent to GLM, and no source or Git metadata was changed in the historical store.
