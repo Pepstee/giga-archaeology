@@ -306,3 +306,15 @@ These are bounded install canaries, not full platform test suites. Full macOS an
 remain unverified. GitHub Actions run 40835341859 on older commit `e60544d` failed all 12 jobs
 [provider-specific account diagnostic removed]
 hosted tests ran, and this pre-release candidate remains unpublished.
+
+## 2026-10-29 — current source regression run
+
+At canonical source commit `a260133cf9c1257d7aac855cab0e9db842f7cf48` (tree `d0792aeb3b294da2bae7e41b4b1c94427db3a3fa`), the full pytest suite ran in the registered ArtVault workspace on Linux x86_64 / CPython 3.12.3. `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q` completed with **425 passed, 1 skipped, and 2 subtests passed** in 82.78 seconds. The pre-existing untracked project data was preserved. This is source-tree test evidence; it does not certify a newly built wheel or sdist, macOS/Windows full-suite support, hosted CI, or publication readiness.
+
+## 2026-10-29 — current commit hosted CI result
+
+[provider-specific account diagnostic removed]
+
+## 2026-10-29 — current source artifact verification
+
+The release ledger records the exact current-source wheel and source-archive build, metadata and archive checks, and any hash-bound installation canary. Each result applies only to the artifact hash recorded there. The current sdist is archive-inspected; no sdist installation canary is claimed because pip installation would extract another project copy.
