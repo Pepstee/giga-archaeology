@@ -19,6 +19,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any, Iterable, Mapping, Sequence
 
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
+from .os_support import current_user_id, private_directory_is_current_user, secure_new_private_directory, set_private_file_mode, set_private_path_mode, sync_directory
 from .cleanup_map import (
     CLEANUP_POLICY_SHA256,
     CLEANUP_POLICY_VERSION,
@@ -323,7 +324,8 @@ def _json(value: Any) -> str:
 
 
 def _private_store(path: Path, scanned_root: Path) -> Path:
-    if path.exists() or path.is_symlink():
+    existed = path.exists() or path.is_symlink()
+    if existed:
         existing = path.lstat()
         if path.is_symlink() or not stat.S_ISDIR(existing.st_mode):
             raise MapperError("mapper store must be a real directory")
@@ -335,13 +337,13 @@ def _private_store(path: Path, scanned_root: Path) -> Path:
     else:
         raise MapperError("mapper store must be outside the scanned root")
     resolved.mkdir(parents=True, exist_ok=True, mode=0o700)
+    if not existed and not secure_new_private_directory(resolved):
+        raise MapperError("cannot secure mapper store permissions")
     metadata = resolved.lstat()
     if resolved.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
         raise MapperError("mapper store must be a real directory")
-    if metadata.st_uid != os.getuid():
-        raise MapperError("mapper store must belong to the current user")
-    if stat.S_IMODE(metadata.st_mode) != 0o700:
-        raise MapperError("mapper store must have mode 0700")
+    if not private_directory_is_current_user(resolved, metadata):
+        raise MapperError("mapper store must be private to the current user")
     return resolved
 
 
@@ -349,18 +351,14 @@ def _replace_atomic(path: Path, payload: bytes) -> None:
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     temporary_path = Path(temporary)
     try:
-        os.fchmod(descriptor, 0o600)
+        set_private_file_mode(descriptor, 0o600)
         with os.fdopen(descriptor, "wb", closefd=True) as handle:
             descriptor = -1
             handle.write(payload)
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temporary_path, path)
-        directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(directory)
-        finally:
-            os.close(directory)
+        sync_directory(path.parent)
     finally:
         if descriptor >= 0:
             os.close(descriptor)
@@ -10275,8 +10273,8 @@ def current_mapper_run(store: Path) -> MapperRun:
         raise MapperError("mapper store does not exist") from exc
     if original_store.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
         raise MapperError("mapper store must be a real directory")
-    if metadata.st_uid != os.getuid() or stat.S_IMODE(metadata.st_mode) != 0o700:
-        raise MapperError("mapper store identity or mode mismatch")
+    if not private_directory_is_current_user(original_store, metadata):
+        raise MapperError("mapper store identity or privacy mismatch")
     store = original_store.resolve(strict=True)
     pointer_path = store / "CURRENT.json"
     pointer = _read_json(pointer_path)
@@ -10362,8 +10360,7 @@ def _semantic_input_record(
         supplied != resolved
         or supplied.is_symlink()
         or not stat.S_ISDIR(metadata.st_mode)
-        or metadata.st_uid != os.getuid()
-        or stat.S_IMODE(metadata.st_mode) != 0o700
+        or not private_directory_is_current_user(supplied, metadata)
     ):
         raise MapperError("semantic store must be a canonical private directory")
     try:
@@ -10519,7 +10516,7 @@ def refresh_mapper(
             scip_inputs,
             previous,
         )
-        os.chmod(database_path, 0o600)
+        set_private_path_mode(database_path, 0o600)
         summary = _database_summary(database_path)
         database_hash, database_bytes = _file_sha256(database_path)
         finished_at = _utc_now()
@@ -10648,10 +10645,10 @@ def refresh_mapper(
         )
         manifest_path = staging / "manifest.json"
         manifest_path.write_bytes(canonical_bytes(manifest))
-        os.chmod(manifest_path, 0o600)
+        set_private_path_mode(manifest_path, 0o600)
         report_path = staging / "REPORT.md"
         report_path.write_text(_render_report(manifest), encoding="utf-8")
-        os.chmod(report_path, 0o600)
+        set_private_path_mode(report_path, 0o600)
 
         candidate = MapperRun(
             staging,
@@ -10666,11 +10663,7 @@ def refresh_mapper(
 
         final = runs / run_id
         os.rename(staging, final)
-        directory = os.open(runs, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(directory)
-        finally:
-            os.close(directory)
+        sync_directory(runs)
         pointer = seal_document(
             {
                 "schema": MAPPER_POINTER_SCHEMA,

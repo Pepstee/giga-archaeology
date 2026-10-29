@@ -62,19 +62,15 @@ def write_atomic(path: Path, payload: bytes, *, mode: int = 0o600) -> None:
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     temp_path = Path(temporary)
     try:
-        os.fchmod(descriptor, mode)
+        set_private_file_mode(descriptor, mode)
         with os.fdopen(descriptor, "wb", closefd=True) as handle:
             descriptor = -1
             handle.write(payload)
             handle.flush()
             os.fsync(handle.fileno())
         os.link(temp_path, path)
-        os.chmod(path, mode, follow_symlinks=False)
-        directory_fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(directory_fd)
-        finally:
-            os.close(directory_fd)
+        set_private_path_mode(path, mode)
+        sync_directory(path.parent)
     except FileExistsError as exc:
         raise EvidenceError(f"evidence already exists: {path}") from exc
     finally:

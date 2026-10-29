@@ -31,7 +31,16 @@ from types import SimpleNamespace
 from typing import Any, Iterable, Iterator, Mapping, Sequence
 
 from .evidence import canonical_bytes, seal_document, sha256_bytes, validate_self_hash
-from .os_support import git_environment, git_executable
+from .os_support import (
+    current_user_id,
+    git_environment,
+    git_executable,
+    private_directory_is_current_user,
+    secure_new_private_directory,
+    set_private_file_mode,
+    set_private_path_mode,
+    sync_directory,
+)
 
 
 NAVIGATION_SCHEMA = "giga.navigation.inventory-manifest.v2"
@@ -215,6 +224,7 @@ def _stable_root(path: Path) -> tuple[Path, os.stat_result]:
 
 
 def _private_store(path: Path, root: Path) -> Path:
+    existed = path.exists() or path.is_symlink()
     resolved = path.resolve(strict=False)
     try:
         resolved.relative_to(root)
@@ -225,15 +235,15 @@ def _private_store(path: Path, root: Path) -> Path:
             "inventory store must be outside the scanned root"
         )
     resolved.mkdir(parents=True, exist_ok=True, mode=0o700)
+    if not existed and not secure_new_private_directory(resolved):
+        raise NavigationInventoryError("cannot secure inventory store permissions")
     metadata = resolved.lstat()
     if resolved.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
         raise NavigationInventoryError("inventory store must be a real directory")
-    if metadata.st_uid != os.getuid():
+    if not private_directory_is_current_user(resolved, metadata):
         raise NavigationInventoryError(
-            "inventory store must belong to the current user"
+            "inventory store must be private to the current user"
         )
-    if stat.S_IMODE(metadata.st_mode) != 0o700:
-        raise NavigationInventoryError("inventory store must have mode 0700")
     return resolved
 
 
@@ -432,6 +442,36 @@ def open_scoped_regular(root: Path, relative: str) -> int:
         or ".git" in pure.parts
     ):
         raise NavigationInventoryError("unsafe scoped file path")
+    if os.name == "nt":
+        candidate = root
+        parents = [root]
+        for component in pure.parts:
+            candidate = candidate / component
+            parents.append(candidate)
+        for directory in parents[:-1]:
+            try:
+                metadata = directory.lstat()
+            except OSError as exc:
+                raise NavigationInventoryError("scoped path component is unavailable") from exc
+            if directory.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
+                raise NavigationInventoryError("scoped paths must not traverse links")
+        try:
+            before = candidate.lstat()
+            if candidate.is_symlink() or not stat.S_ISREG(before.st_mode):
+                raise NavigationInventoryError("scoped paths must be exact regular files")
+            descriptor = os.open(candidate, os.O_RDONLY | getattr(os, "O_BINARY", 0))
+            opened = os.fstat(descriptor)
+            after = candidate.lstat()
+            if (
+                not stat.S_ISREG(opened.st_mode)
+                or candidate.is_symlink()
+                or (opened.st_dev, opened.st_ino) != (after.st_dev, after.st_ino)
+            ):
+                os.close(descriptor)
+                raise NavigationInventoryError("scoped file changed during open")
+            return descriptor
+        except OSError as exc:
+            raise NavigationInventoryError("scoped file is unavailable") from exc
     parent = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
     try:
         for component in pure.parts[:-1]:
@@ -960,18 +1000,14 @@ def _replace_atomic(path: Path, payload: bytes) -> None:
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
     temp_path = Path(temporary)
     try:
-        os.fchmod(descriptor, 0o600)
+        set_private_file_mode(descriptor, 0o600)
         with os.fdopen(descriptor, "wb", closefd=True) as handle:
             descriptor = -1
             handle.write(payload)
             handle.flush()
             os.fsync(handle.fileno())
         os.replace(temp_path, path)
-        directory_fd = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(directory_fd)
-        finally:
-            os.close(directory_fd)
+        sync_directory(path.parent)
     finally:
         if descriptor >= 0:
             os.close(descriptor)
@@ -1223,7 +1259,7 @@ def refresh_navigation_inventory(
         connection.commit()
         connection.close()
         connection = None
-        os.chmod(database_path, 0o600)
+        set_private_path_mode(database_path, 0o600)
         database_sha, database_bytes = _file_sha256(database_path)
         finished_at = _utc_now()
         status = "CURRENT" if not selected and not failures and counters["errors"] == 0 else "PARTIAL"
@@ -1291,27 +1327,19 @@ def refresh_navigation_inventory(
         )
         manifest_raw = canonical_bytes(manifest)
         (staging / "manifest.json").write_bytes(manifest_raw)
-        os.chmod(staging / "manifest.json", 0o600)
+        set_private_path_mode(staging / "manifest.json", 0o600)
         (staging / "REPORT.md").write_text(_render_report(manifest), encoding="utf-8")
-        os.chmod(staging / "REPORT.md", 0o600)
+        set_private_path_mode(staging / "REPORT.md", 0o600)
         for path in (database_path, staging / "manifest.json", staging / "REPORT.md"):
             descriptor = os.open(path, os.O_RDONLY)
             try:
                 os.fsync(descriptor)
             finally:
                 os.close(descriptor)
-        staging_fd = os.open(staging, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(staging_fd)
-        finally:
-            os.close(staging_fd)
+        sync_directory(staging)
         run_directory = runs / run_id
         os.rename(staging, run_directory)
-        runs_fd = os.open(runs, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(runs_fd)
-        finally:
-            os.close(runs_fd)
+        sync_directory(runs)
         pointer = seal_document(
             {
                 "schema": POINTER_SCHEMA,
@@ -1524,7 +1552,7 @@ def refresh_navigation_inventory_delta(
         )
         connection.close()
         connection = None
-        os.chmod(database_path, 0o600)
+        set_private_path_mode(database_path, 0o600)
         database_sha, database_bytes = _file_sha256(database_path)
         finished_at = _utc_now()
         manifest = seal_document(
@@ -1608,28 +1636,20 @@ def refresh_navigation_inventory_delta(
         manifest_raw = canonical_bytes(manifest)
         manifest_path = staging / "manifest.json"
         manifest_path.write_bytes(manifest_raw)
-        os.chmod(manifest_path, 0o600)
+        set_private_path_mode(manifest_path, 0o600)
         report_path = staging / "REPORT.md"
         report_path.write_text(_render_report(manifest), encoding="utf-8")
-        os.chmod(report_path, 0o600)
+        set_private_path_mode(report_path, 0o600)
         for path in (database_path, manifest_path, report_path):
             descriptor = os.open(path, os.O_RDONLY)
             try:
                 os.fsync(descriptor)
             finally:
                 os.close(descriptor)
-        staging_descriptor = os.open(staging, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(staging_descriptor)
-        finally:
-            os.close(staging_descriptor)
+        sync_directory(staging)
         run_directory = runs / run_id
         os.rename(staging, run_directory)
-        runs_descriptor = os.open(runs, os.O_RDONLY | os.O_DIRECTORY)
-        try:
-            os.fsync(runs_descriptor)
-        finally:
-            os.close(runs_descriptor)
+        sync_directory(runs)
         pointer = seal_document(
             {
                 "schema": POINTER_SCHEMA,
