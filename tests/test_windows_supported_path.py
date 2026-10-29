@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -22,8 +23,14 @@ def _git(repository: Path, *arguments: str) -> None:
 
 
 def _cli(*arguments: str) -> str:
+    installed_cli = os.environ.get("GIGA_ARCHAEOLOGY_CLI")
+    command = (
+        [installed_cli, *arguments]
+        if installed_cli
+        else [sys.executable, "-m", "modules.operations.scripts.archaeology", *arguments]
+    )
     result = subprocess.run(
-        [sys.executable, "-m", "modules.operations.scripts.archaeology", *arguments],
+        command,
         cwd=SOURCE_ROOT,
         check=False,
         stdin=subprocess.DEVNULL,
@@ -44,7 +51,7 @@ def test_supported_scan_maps_and_queries_a_committed_python_repository(tmp_path:
     )
     _git(repository, "init", "--quiet")
     _git(repository, "config", "user.name", "Archaeology test")
-    _git(repository, "config", "user.email", "<redacted-email>")
+    _git(repository, "config", "user.email", "archaeology-test@example.invalid")
     _git(repository, "add", "sample.py")
     _git(repository, "commit", "--quiet", "-m", "fixture")
 

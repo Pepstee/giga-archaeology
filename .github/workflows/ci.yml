@@ -76,6 +76,11 @@ jobs:
           subprocess.run([str(py),"-m","pip","install",str(wheel)],check=True);
           subprocess.run([str(py),"-m","pip","check"],check=True);
           subprocess.run([str(cli),"--help"],check=True)'
+      - name: Run supported scan with installed wheel (Python 3.12)
+        if: matrix.python-version == '3.12'
+        env:
+          GIGA_ARCHAEOLOGY_CLI: ${{ runner.os == 'Windows' && '.wheel-smoke/Scripts/giga-archaeology.exe' || '.wheel-smoke/bin/giga-archaeology' }}
+        run: python -m pytest -q tests/test_windows_supported_path.py
       - name: Install and smoke-test built source archive (Python 3.12)
         if: matrix.python-version == '3.12'
         run: >-
@@ -87,3 +92,8 @@ jobs:
           subprocess.run([str(py),"-m","pip","install",str(archive)],check=True);
           subprocess.run([str(py),"-m","pip","check"],check=True);
           subprocess.run([str(cli),"--help"],check=True)'
+      - name: Run supported scan with installed source archive (Python 3.12)
+        if: matrix.python-version == '3.12'
+        env:
+          GIGA_ARCHAEOLOGY_CLI: ${{ runner.os == 'Windows' && '.sdist-smoke/Scripts/giga-archaeology.exe' || '.sdist-smoke/bin/giga-archaeology' }}
+        run: python -m pytest -q tests/test_windows_supported_path.py
