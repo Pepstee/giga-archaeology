@@ -1,4 +1,6 @@
-# Developer beta validation — 0.1.3b3
+# Developer beta validation history
+
+This cumulative record covers candidates `0.1.3b1` through `0.1.3b4`. The current candidate’s final evidence appears in the dated `0.1.3b4` sections near the end. Historical results apply only to the source commits and artifact hashes they name.
 
 The mapping canary and regression results below were established on 0.1.3b1. Version 0.1.3b2 added the operator-selected MIT licence and packaging metadata. Version 0.1.3b3 fixes a SQLite URI compatibility issue and makes the contributor test setup explicit.
 
