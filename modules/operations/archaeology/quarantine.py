@@ -133,13 +133,19 @@ def _sandbox_profile(repository: Path, scratch: Path) -> str:
     def literal(path: Path) -> str:
         return str(path).replace("\\", "\\\\").replace('"', '\\"')
 
+    private_root = Path.home() / "Documents" / "giga-user"
+
     return "\n".join(
         [
             "(version 1)",
             "(allow default)",
             "(deny network*)",
             "(deny file-write*)",
-            '(deny file-read* (subpath "${HOME}/dev/null"))',
+            f'(deny file-read* (subpath "{literal(private_root)}"))',
+            f'(allow file-read* (subpath "{literal(repository)}"))',
+            f'(allow file-read* (subpath "{literal(scratch)}"))',
+            f'(allow file-write* (subpath "{literal(scratch)}"))',
+            '(allow file-write-data (literal "/dev/null"))',
             f'(deny file-write* (subpath "{literal(repository)}"))',
         ]
     )

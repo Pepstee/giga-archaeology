@@ -36,9 +36,7 @@ class HypothesisError(ValueError):
     """Scanner evidence cannot be produced without weakening the boundary."""
 
 
-_LEGACY_TOOL_ROOT = Path(
-    "${HOME}/Documents/developer-tools/giga-archaeologist-tools"
-)
+_LEGACY_TOOL_ROOT = Path.home() / "Documents" / "giga-user"
 
 
 def _configured_executable(environment_key: str, command: str, legacy_path: Path) -> Path:

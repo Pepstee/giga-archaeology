@@ -187,7 +187,11 @@ def test_probe_sandbox_blocks_personal_reads_and_repository_writes(
     scratch = tmp_path / "scratch"
     repository.mkdir()
     scratch.mkdir()
-    profile = _sandbox_profile(repository.resolve(), scratch.resolve())
+    private_root = tmp_path / "private"
+    private_root.mkdir()
+    private_file = private_root / "credential.txt"
+    private_file.write_text("private", encoding="utf-8")
+    profile = _sandbox_profile(repository.resolve(), scratch.resolve(), private_root.resolve())
     personal = subprocess.run(
         [
             "/usr/bin/sandbox-exec",
@@ -195,7 +199,7 @@ def test_probe_sandbox_blocks_personal_reads_and_repository_writes(
             profile,
             "--",
             "/bin/cat",
-            "${HOME}/Documents/giga-user/00_MASTER.md",
+            str(private_file),
         ],
         capture_output=True,
         check=False,

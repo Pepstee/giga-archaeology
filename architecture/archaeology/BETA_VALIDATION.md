@@ -154,3 +154,9 @@ packaging regression checks the exact wheel metadata. No operating-system classi
 packaging tests passed (4 passed), and the full current-source suite passed on ArtVault
 Linux/Python 3.12.3: **422 passed, 1 skipped, and 2 subtests passed** in 74.96 seconds. The
 skip remains the Darwin sandbox-profile test.
+
+## 2026-10-29 — Privacy-safe paths and Python-version regression checks
+
+Account-specific absolute home paths were removed from the scanner fallback, sandbox profile and regression fixtures. The sandbox regression now creates a real temporary protected file, so its denial check cannot pass merely because a hard-coded path is absent. The MIT notice uses the repository pseudonym. The tracked working-tree scan found no account-specific home path or real-name marker; remaining test email values use the reserved `example.invalid` domain.
+
+The full current-source suite passed on ArtVault Linux/Python 3.12.3: **422 passed, 1 skipped, and 2 subtests passed**. The changed hypothesis, quarantine and packaging tests passed on Python 3.11, 3.12, 3.13 and 3.14 (24 passed and 1 Darwin-only skip on 3.11, 3.13 and 3.14; 24 passed and 1 skip on 3.12). Packaging metadata tests passed on Python 3.12 (4 passed). The Darwin sandbox execution remains unverified on this Linux host.

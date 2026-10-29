@@ -9,7 +9,7 @@ The supported path makes no model/API calls and does not execute scanned code. Q
 ## Install
 
 Python 3.11+ and Git are required. The latest full-suite run against the current canonical source
-passed on ArtVault Linux with Python 3.12.3: 418 passed, 1 skipped, and 2 subtests passed. Earlier
+passed on ArtVault Linux with Python 3.12.3: 422 passed, 1 skipped, and 2 subtests passed. Earlier
 Python 3.11–3.14 results cover a source revision before the location inventory was added. The earlier
 macOS arm64 Python 3.14 canary covers 0.1.3b1/b2, not this candidate. Windows has not been verified.
 Recent GitHub Actions jobs could not start; the last recorded GitHub annotation cited an account

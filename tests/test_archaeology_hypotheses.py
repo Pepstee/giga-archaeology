@@ -84,7 +84,7 @@ def test_scanner_configuration_discovers_path_and_current_python(
     assert paths.cgc_python == Path(sys.executable)
     monkeypatch.setenv("PATH", "")
     fallback = ScannerPaths()
-    legacy = Path("${HOME}/Documents/developer-tools/giga-archaeologist-tools")
+    legacy = Path.home() / "Documents" / "giga-user"
     assert fallback.vulture == legacy / ".venv/bin/vulture"
     assert fallback.jscpd == legacy / "node/node_modules/.bin/jscpd"
 
