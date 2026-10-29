@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 import json
+import os
+import sys
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -13,6 +16,20 @@ from modules.operations.scripts.archaeology import main
 NOW = "2026-09-29T09:00:00Z"
 HEAD = "a" * 40
 FIXTURE = Path(__file__).parent / "fixtures/location_inventory.json"
+
+
+@pytest.fixture
+def tmp_path(tmp_path_factory):
+    if sys.platform == "darwin":
+        base = Path(os.environ.get("RUNNER_TEMP") or "<USER_HOME>")
+        if not base.is_dir():
+            pytest.skip("no safe macOS test scratch directory is available")
+        with tempfile.TemporaryDirectory(
+            prefix="giga-archaeology-location-tests-", dir=base
+        ) as temporary:
+            yield Path(temporary)
+    else:
+        yield tmp_path_factory.mktemp("location-inventory")
 
 
 def declaration(path: Path, **values):
