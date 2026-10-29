@@ -1,0 +1,83 @@
+{
+  "schema": "giga.release-artifact-evidence.v1",
+  "candidate": "0.1.3b4",
+  "status": "UNPUBLISHED_VALIDATION_ONLY",
+  "source": {
+    "repository": "Pepstee/giga-archaeology",
+    "host": "ArtVault",
+    "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+    "branch": "codex/artvault-portable-giga-archaeology",
+    "commit": "6d2cd02b9fa83c6961f12bdd3b9eb97db47ba0c3",
+    "tree": "04289682549c9962fa50f9552ec010c54da91078"
+  },
+  "build": {
+    "date": "2026-10-29",
+    "platform": "Linux x86_64 (ArtVault)",
+    "python": "3.12.3",
+    "frontend": "build 1.6.1",
+    "backend": "modules/platform/packaging/archaeology_build_backend.py",
+    "reproducible_rebuild": "Two builds from the same committed source tree produced byte-identical wheel and source archive.",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "format": "wheel",
+        "size_bytes": 390113,
+        "sha256": "4eb868b2013769103b5b03354b0a31dc5101f23ef677d88a7114a431adc45593",
+        "members": 48
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "format": "sdist",
+        "size_bytes": 358059,
+        "sha256": "89892cf83c18cbfa3f2ae31caf6d6a3fab35bc6060040a756cf2a3c84b5d4d10",
+        "members": 47
+      }
+    ]
+  },
+  "verification": {
+    "packaging_tests": {
+      "passed": 5,
+      "platform": "ArtVault Linux / Python 3.12.3"
+    },
+    "full_test_suite": {
+      "passed": 424,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "duration_seconds": 82.84,
+      "platform": "ArtVault Linux x86_64 / Python 3.12.3",
+      "scope": "After backend and version metadata change; release documentation changes followed."
+    },
+    "archive_inspection": {
+      "wheel_metadata_version": "0.1.3b4",
+      "readme_contributing_license_exact_bytes_in_wheel": true,
+      "readme_contributing_license_changelog_beta_validation_exact_bytes_in_sdist": true,
+      "quickstart_in_sdist_only": true,
+      "build_backend_in_sdist": true,
+      "TwinCore_excluded_from_both": true
+    },
+    "installed_artifact_canary": {
+      "status": "NOT_RUN",
+      "scope": "No pip installation of these artifacts was performed."
+    },
+    "hosted_ci": {
+      "run_id": 40833555858,
+      "head_sha": "0bd852816a68e89ae50f374b6a8577f936be087b",
+      "jobs": 12,
+      "runner_id_all_jobs": 0,
+      "steps_all_jobs": 0,
+      "failure_cause": "[provider-specific diagnostic removed]"
+    },
+    "macos_full_suite_verified": false,
+    "windows_verified": false
+  },
+  "distribution": {
+    "pypi_project_status": "404 at check time",
+    "github_public_release_created": false
+  },
+  "limitations": [
+    "The artifacts were built and statically inspected but not installed.",
+    "Full macOS suite and Windows validation remain unverified.",
+    "[provider-specific diagnostic removed]",
+    "Historical 0.1.3b3 artifacts remain validation-only because their filenames collide with older candidates."
+  ]
+}
