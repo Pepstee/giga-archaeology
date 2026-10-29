@@ -205,11 +205,22 @@ def _remote_identity(value: str) -> str | None:
             if url.scheme not in {"https", "http", "ssh", "git"}:
                 return None
             host, path = url.hostname, url.path.lstrip("/")
+            # Scrubbed userinfo can leave a malformed authority where the username
+            # is mistaken for the host. Preserve only the repository path under an
+            # explicitly non-routable placeholder in that case.
+            if "@" not in url.netloc and (
+                url.username is not None
+                or url.password is not None
+                or ("<" in url.netloc and ">" in url.netloc)
+            ):
+                host = "example.invalid"
         else:
             match = re.fullmatch(r"(?:[^@/:\s]+@)?([^/:\s]+):([^?#\s]+)", value)
             if not match:
                 return None
             host, path = match.groups()
+            if host.startswith("<") and host.endswith(">"):
+                host = "example.invalid"
         if not host or not re.fullmatch(r"[A-Za-z0-9.-]+", host):
             return None
         if not path or not re.fullmatch(r"[A-Za-z0-9_./-]+", path) or ".." in path.split("/"):

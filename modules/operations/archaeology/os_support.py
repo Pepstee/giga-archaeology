@@ -89,7 +89,8 @@ foreach ($sid in @($user.Value, 'S-1-5-18', 'S-1-5-32-544')) {
     $rule = [System.Security.AccessControl.FileSystemAccessRule]::new($identity, $rights, $inherit, $propagation, $allow)
     [void]$acl.AddAccessRule($rule)
 }
-Set-Acl -LiteralPath $path -AclObject $acl
+# Use .NET directly so ACL handling does not depend on the optional Security cmdlets.
+[System.IO.DirectoryInfo]::new($path).SetAccessControl($acl)
 exit 0
 """
     return _run_powershell(script, path)
@@ -115,7 +116,7 @@ def private_directory_is_current_user(
 $ErrorActionPreference = 'Stop'
 $path = $env:GIGA_ARCHAEOLOGY_PRIVATE_PATH
 $current = [System.Security.Principal.WindowsIdentity]::GetCurrent().User
-$acl = Get-Acl -LiteralPath $path
+$acl = [System.IO.DirectoryInfo]::new($path).GetAccessControl()
 $owner = $acl.GetOwner([System.Security.Principal.SecurityIdentifier]).Value
 if ($owner -ne $current.Value) { exit 31 }
 $allowed = @($current.Value, 'S-1-5-18', 'S-1-5-32-544', 'S-1-3-0')
