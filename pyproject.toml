@@ -5,7 +5,7 @@ backend-path = ["modules/platform/packaging"]
 
 [project]
 name = "giga-archaeology"
-version = "0.1.3b3"
+version = "0.1.3b4"
 description = "Deterministic Python repository maps and source-linked context"
 readme = "README.md"
 license = "MIT"

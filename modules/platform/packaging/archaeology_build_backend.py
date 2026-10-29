@@ -17,7 +17,8 @@ from typing import Any
 
 NAME = "giga_archaeology"
 DISPLAY_NAME = "giga-archaeology"
-VERSION = "0.1.3b3"
+ROOT = Path(__file__).resolve().parents[3]
+VERSION = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
 DIST_INFO = f"{NAME}-{VERSION}.dist-info"
 # Required eagerly by mapper compiler identity, including Python-only scans.
 REQUIRED_DEPENDENCIES = [
@@ -26,7 +27,6 @@ REQUIRED_DEPENDENCIES = [
     "tree-sitter-javascript==0.25.0",
     "tree-sitter-typescript==0.23.2",
 ]
-ROOT = Path(__file__).resolve().parents[3]
 # Reused from the modularisation donor. Keep an explicit code-only allowlist:
 # discovering arbitrary files in this mixed private/source checkout is forbidden.
 SOURCE_FILES = (

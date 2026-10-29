@@ -273,3 +273,11 @@ candidate filenames. No public release was created.
 At canonical source commit `12358a8c1ae2a64871ccd9f644a01b6b71ee4092` (tree `40103a5eabcfed382406f778e5cba2337174dc7f`), the full pytest suite ran from the registered ArtVault workspace on Linux x86_64 with Python 3.12.3: **424 passed, 1 skipped, and 2 subtests passed** in 74.13 seconds. The single skip is the Darwin sandbox-profile test, which is not applicable on Linux.
 
 The run used `<USER_HOME>/.venvs/giga-archaeology-test/bin/python -m pytest -q -p no:cacheprovider` with `PYTHONPATH` set to the exact canonical workspace and `PYTHONDONTWRITEBYTECODE=1`. This validates the canonical source tree only. The environment still contains an older installed `0.1.3b3` package; this run did not build or install a distribution and is not installed-artifact evidence. No checkout or source copy was created. Existing untracked project, graph, instruction, and cache data was preserved.
+
+## 2026-10-29 — current 0.1.3b4 candidate
+
+The current candidate uses version `0.1.3b4` to avoid collisions with historical `0.1.3b3` artifact filenames. The PEP 517 backend now derives its version from `pyproject.toml`; the focused packaging tests assert that the metadata, backend and wheel filename agree.
+
+On canonical ArtVault Linux x86_64 with Python 3.12.3, the full suite passed: 424 passed, 1 skipped, and 2 subtests in 82.84 seconds. The focused packaging tests passed 5/5. These runs used the registered canonical source; no clone or worktree was created. A fresh wheel and source archive built successfully with build 1.6.1. The exact file digests and archive inspection are recorded in `evidence/release-artifacts/0.1.3b4.json`.
+
+[provider-specific account diagnostic removed]

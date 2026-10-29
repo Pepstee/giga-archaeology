@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import tarfile
+import tomllib
 import zipfile
 from pathlib import Path
 
@@ -53,6 +54,10 @@ def test_release_metadata_includes_search_terms_and_project_links(tmp_path: Path
     assert "Keywords: repository-analysis, source-mapping, static-analysis, coding-agents\n" in metadata
     assert "Project-URL: Repository, https://github.com/Pepstee/giga-archaeology\n" in metadata
     assert "Project-URL: Issues, https://github.com/Pepstee/giga-archaeology/issues\n" in metadata
+    project_version = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
+    assert BACKEND.VERSION == project_version
+    assert f"Version: {project_version}\n" in metadata
+    assert wheel_name == f"giga_archaeology-{project_version}-py3-none-any.whl"
 
 
 def test_quickstart_refuses_store_inside_repository() -> None:
