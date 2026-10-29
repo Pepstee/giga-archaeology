@@ -280,16 +280,16 @@
         "limitations": "Linux only; Darwin sandbox skip is not exercised on Linux."
       },
       "hosted_ci": {
-        "run_id": 40824541437,
+        "run_id": 40824653871,
         "jobs": 12,
         "conclusion": "all failed before any step ran",
         "job_steps": 0,
         "logs": "GitHub log endpoint returned 404 BlobNotFound",
-        "failure_cause": "unknown",
+        "failure_cause": "[provider-specific diagnostic removed]",
         "macos_verified": false,
         "windows_verified": false,
         "previous_run_id": 40822064209,
-        "latest_head_sha": "0bb629e9e21b774609a1d003c56568cf5fcf24cf",
+        "latest_head_sha": "3f81e84b4511d014bb5f0ea901a2b4d92becf83c",
         "recent_runs": [
           {
             "run_id": 40824313014,
@@ -304,7 +304,22 @@
             "conclusion": "all failed before any step ran",
             "job_steps": 0,
             "logs": "404 BlobNotFound"
+          },
+          {
+            "run_id": 40824653871,
+            "head_sha": "3f81e84b4511d014bb5f0ea901a2b4d92becf83c",
+            "jobs": 12,
+            "conclusion": "all failed before test steps",
+            "[provider-specific diagnostic removed]": 12,
+            "steps": 0,
+            "runner_id": 0
           }
+        ],
+        "all_jobs_zero_steps": true,
+        "runner_id_all_jobs": 0,
+        "secondary_annotations": [
+          "Ubuntu 26 runner-image migration notice",
+          "macOS arm64 runner capacity notice"
         ]
       },
       "publicly_published": false,
