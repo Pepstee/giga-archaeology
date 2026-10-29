@@ -241,6 +241,12 @@ def _private_store(path: Path, root: Path) -> Path:
     if resolved.is_symlink() or not stat.S_ISDIR(metadata.st_mode):
         raise NavigationInventoryError("inventory store must be a real directory")
     if not private_directory_is_current_user(resolved, metadata):
+        if os.name != "nt":
+            if metadata.st_uid != current_user_id():
+                raise NavigationInventoryError(
+                    "inventory store must belong to the current user"
+                )
+            raise NavigationInventoryError("inventory store must have mode 0700")
         raise NavigationInventoryError(
             "inventory store must be private to the current user"
         )

@@ -9,6 +9,8 @@ import tempfile
 from pathlib import Path
 from typing import Any, Mapping
 
+from .os_support import set_private_file_mode, set_private_path_mode, sync_directory
+
 
 class EvidenceError(ValueError):
     """Evidence is malformed, mutable, or cannot be published safely."""
