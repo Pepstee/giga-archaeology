@@ -431,3 +431,20 @@ The latest full Linux source-suite result remains the run at canonical ArtVault 
 GitHub Actions run [41116885839](https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839) targeted commit `8b2f901811edc75a72fcce01b3e432b47d280d23`. All 12 matrix jobs completed as failures before runner assignment; every job had runner ID 0 and zero started steps. No hosted tests ran, so this run establishes no test result for Linux, macOS, or Windows.
 
 The latest full Linux source-suite result remains the run at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. No public release has been made.
+
+
+## 2026-10-30 — full Linux suite and current-head CI recheck
+
+At canonical ArtVault commit `ba2d3d4fd5161f34d4295169de69090135f4921e` (tree `9d459027e78a18e36dc45c87a280f1483526e217`), the full source suite ran on ArtVault Linux x86_64 with CPython 3.12.3:
+
+```sh
+cd /srv/artvault/projects/giga-archaeologist/workspace
+export PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/srv/artvault/projects/giga-archaeologist/workspace
+.venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=/tmp/archaeology-privacy-fullsuite-20261030
+```
+
+Result: **430 passed, 1 skipped, and 2 subtests passed**; exit code 0; elapsed time 85.523 seconds. This is Linux source-suite evidence for that exact commit. Full macOS and Windows suites remain unverified. Transcript command execution ID: `exec-fe4a0b3a-47a4-41fe-b526-b7acc16c5e70`; result message ID: `msg_03ec749a35d42887016ae4f6eeef8c8191ba4a0700a7459177`.
+
+GitHub Actions run [41116885839](https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839) targeted superseded commit `8b2f901811edc75a72fcce01b3e432b47d280d23`. All 12 matrix jobs failed before runner assignment, with zero runners and zero steps; no hosted tests ran and the cause is unknown. A GitHub API query at 2026-10-30 20:50:59 UTC for current HEAD `ba2d3d4fd5161f34d4295169de69090135f4921e` returned zero workflow runs. Neither observation establishes hosted platform test results.
+
+No public release has been made. This documentation/evidence update does not rebuild or verify distribution artifacts; previously recorded wheel and sdist checks apply only to their exact recorded hashes and source bytes.

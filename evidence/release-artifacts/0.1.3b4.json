@@ -3377,5 +3377,45 @@
     "status": "INCOMPLETE_AT_LAST_OBSERVATION",
     "cause": "UNKNOWN",
     "evidence_record": "post_push_ci_review_41113562567_20261030"
+  },
+  "post_privacy_full_suite_and_current_head_ci_20261030": {
+    "checked_at_utc": "2026-10-30T20:50:59Z",
+    "source_commit": "ba2d3d4fd5161f34d4295169de69090135f4921e",
+    "source_tree": "9d459027e78a18e36dc45c87a280f1483526e217",
+    "linux_full_source_suite": {
+      "platform": "ArtVault Linux x86_64",
+      "python": "CPython 3.12.3",
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/srv/artvault/projects/giga-archaeologist/workspace .venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=/tmp/archaeology-privacy-fullsuite-20261030",
+      "exit_code": 0,
+      "passed": 430,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "duration_seconds": 85.523,
+      "transcript_command_execution_id": "exec-fe4a0b3a-47a4-41fe-b526-b7acc16c5e70",
+      "transcript_result_message_id": "msg_03ec749a35d42887016ae4f6eeef8c8191ba4a0700a7459177",
+      "scope_limit": "Linux source suite only; full macOS and Windows suites remain unverified."
+    },
+    "hosted_ci": {
+      "latest_known_run": {
+        "run_id": 41116885839,
+        "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839",
+        "head_commit": "8b2f901811edc75a72fcce01b3e432b47d280d23",
+        "jobs": 12,
+        "runner_assignments": 0,
+        "steps_started": 0,
+        "hosted_tests_ran": false,
+        "cause": "UNKNOWN"
+      },
+      "current_head_query": {
+        "head_commit": "ba2d3d4fd5161f34d4295169de69090135f4921e",
+        "workflow_run_count": 0,
+        "observed_at_utc": "2026-10-30T20:50:59Z"
+      },
+      "scope_limit": "No hosted test result is established."
+    },
+    "distribution": {
+      "public_release_made": false,
+      "new_artifact_build_or_canary": "Not performed by this documentation and evidence update."
+    }
   }
 }

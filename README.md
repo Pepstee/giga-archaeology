@@ -16,9 +16,9 @@ For a runnable end-to-end walkthrough, see [`examples/quickstart.py`](examples/q
 
 ## Release status
 
-`0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40` (tree `05c9f67b3c0825539b14eb9fc9268e5bef74d13d`): **429 passed, 1 skipped, and 2 subtests passed** in 79.11 seconds. It verifies Linux source tests only; full macOS and Windows suites remain unverified.
+`0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `ba2d3d4fd5161f34d4295169de69090135f4921e` (tree `9d459027e78a18e36dc45c87a280f1483526e217`): **430 passed, 1 skipped, and 2 subtests passed** in 85.523 seconds on CPython 3.12.3. It verifies Linux source tests only; full macOS and Windows suites remain unverified.
 
-GitHub Actions run [41113562567](https://github.com/Pepstee/giga-archaeology/actions/runs/41113562567) failed all 12 jobs before test steps began, so it produced no hosted test result. The current source-suite result remains local Linux evidence, not cross-platform certification. The [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) give the detailed scope and limitations.
+GitHub Actions run [41116885839](https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839) targeted superseded commit `8b2f901811edc75a72fcce01b3e432b47d280d23` and failed before runner assignment (12 jobs, 0 runners, 0 steps). An API query for current HEAD `ba2d3d4fd5161f34d4295169de69090135f4921e` at 2026-10-30 20:50:59 UTC found no workflow runs. No hosted tests ran for either observation. See the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) for scope and limitations.
 
 Artifact verification is hash-specific. Rebuilding the documentation changes the wheel and source archive, so each current artifact needs its own recorded verification. No public release has been made.
 
