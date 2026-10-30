@@ -4183,9 +4183,9 @@
     "scope_limit": "[provider-specific diagnostic removed]"
   },
   "previous_latest_hosted_ci_blocker_before_41141367602_20261030": {
-    "run_id": 41134521472,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41134521472",
-    "source_commit": "bc3d81aa1a56cf718e98a559b135c62a3787c974",
+    "run_id": 41139822037,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41139822037",
+    "source_commit": "cb5322d09b7a4f6991f91939de104e541fcea7e0",
     "event": "push",
     "matrix_jobs": 12,
     "jobs_failed": 12,
@@ -4193,9 +4193,9 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps.",
-    "evidence_record": "post_push_ci_review_41134521472_20261030",
-    "previous_cause_observation": "UNKNOWN; all returned job summaries show runner_id 0 and zero steps"
+[provider-specific account diagnostic removed]
+    "evidence_record": "post_push_ci_review_41139822037_20261030",
+    "previous_cause_observation": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps."
   },
   "post_push_ci_review_41141367602_20261030": {
     "checked_at_utc": "2026-10-30T22:56:45Z",
