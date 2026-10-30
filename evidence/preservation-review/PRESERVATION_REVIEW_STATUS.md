@@ -1009,3 +1009,17 @@ An independent read-only check against the scope manifest verified both tree IDs
 A separate bounded read of all 493 added lines in `modules/operations/scripts/archaeologist.py` found the recorded CLI disposition is consistent with the current canon: the donor imports the noncanonical `modules.operations.archaeologist` package, while the current `giga-archaeology` command is implemented under `modules.operations.archaeology`. The historical review records the donor CLI as a subset of the canonical command surface; no new transplant was identified.
 
 No donor code was executed or sent to GLM, and no source or Git metadata was changed in the historical store.
+
+
+## 2026-10-30 - independent complete line-by-line donor review
+
+The exact donor scope was independently reviewed line by line from the retained historical Git object store. No checkout, source copy, donor-code execution, or external source transmission was used.
+
+- Scope manifest: `evidence/preservation-review/donor-scope-d29d209e.json`, SHA-256 `36c92e7384b446cc1400d599de1209b57eab3eaf25ffb6795a3aa0f7d931e841`.
+- Comparison: base `f4d8e694289d035991c6d3c0b33b35c15a05c53c` (tree `e80a60fea5bbbe2f0419c4e313d7e8b965dfc966`) to donor `d29d209e9094302937c60d28aeab7a54f78ede27` (tree `9a6d4c3c1f251fb4d0ecbb93a7a502e4d5df33d3`).
+- Coverage: all 62 manifest files and all 33,497 additions were read in bounded, non-truncated batches. Every per-file base/head blob ID and content SHA-256, each per-file addition count, both tree IDs, and aggregate diff totals matched the manifest: 33,497 additions and 255 deletions.
+- Review lanes: Archaeology CLI 1 file / 493 additions; inference fabric source and tests 23 files / 5,807 additions; scientific twin-core modules 12 files / 11,709 additions; remaining twin-core modules 26 files / 15,488 additions. `modules/research/` has no files in this manifest.
+
+Disposition: no distinct Archaeology feature needs transplant. The donor Archaeologist CLI overlaps existing `modules/operations/archaeology` owners and is superseded by the canonical `modules/operations/scripts/archaeology.py` command surface. The relevant `capability_adoption` interface is already consumed by the canonical mapper through its optional GIGA integration; copying its implementation would duplicate that owner. The inference, scientific-review, research-acquisition, memory, and agent-governance systems belong to other product domains. Preserve their historical objects without importing them into Archaeology.
+
+Privacy and static-risk notes apply to donor code only: `twin_core/daily_checkpoint.py` contains a personal author identity in Git configuration and must not be transplanted or published; `constitutional_authority.py` imports POSIX `fcntl` unconditionally; `context_compiler.py` appears to require an argument omitted by its public wrapper; research deduplication can join conflicting studies transitively; and web acquisition does not visibly pin validated DNS addresses to the transport connection. These were source-review findings, not runtime-verified defects in Archaeology.
