@@ -419,3 +419,9 @@ At canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40` (tree `0
 GitHub Actions run [41105065947](https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947) targeted commit `63efae4f80107f041ef04e93675b47b0e4e306aa`. All 12 jobs failed before starting test steps; each reported runner ID 0 and zero steps. No hosted tests or platform results were produced. The evidence-only commit after that run was excluded by the workflow's path filters and created no new run.
 
 The current wheel and source archive must be rebuilt after this documentation update. Their hashes and any later exact-artifact checks belong in the release evidence ledger. No public release has been made.
+
+## 2026-10-30 — latest push-triggered CI result
+
+GitHub Actions run [41113562567](https://github.com/Pepstee/giga-archaeology/actions/runs/41113562567) targeted commit `9c097bc1ce05223eb1635466ac2749897c363229`. All 12 matrix jobs failed before runner assignment; each job had runner ID 0 and zero steps. No hosted tests ran, so the run establishes no test result for Linux, macOS, or Windows.
+
+The latest full Linux source-suite result remains the run at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. The subsequent evidence-only commit does not change this test scope. No public release has been made.

@@ -18,7 +18,7 @@ For a runnable end-to-end walkthrough, see [`examples/quickstart.py`](examples/q
 
 `0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40` (tree `05c9f67b3c0825539b14eb9fc9268e5bef74d13d`): **429 passed, 1 skipped, and 2 subtests passed** in 79.11 seconds. It verifies Linux source tests only; full macOS and Windows suites remain unverified.
 
-GitHub Actions run [41105065947](https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947) failed all 12 jobs before test steps began, so it produced no hosted test result. The current source-suite result remains local Linux evidence, not cross-platform certification. The [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) give the detailed scope and limitations.
+GitHub Actions run [41113562567](https://github.com/Pepstee/giga-archaeology/actions/runs/41113562567) failed all 12 jobs before test steps began, so it produced no hosted test result. The current source-suite result remains local Linux evidence, not cross-platform certification. The [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) give the detailed scope and limitations.
 
 Artifact verification is hash-specific. Rebuilding the documentation changes the wheel and source archive, so each current artifact needs its own recorded verification. No public release has been made.
 
