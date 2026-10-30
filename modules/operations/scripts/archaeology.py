@@ -149,8 +149,8 @@ def _parse_generated_at(value: str | None) -> datetime | None:
         raise RetentionError("invalid generated-at timestamp") from exc
 
 
-def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="giga-archaeology")
+def _parser(prog: str = "giga-archaeology") -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog=prog)
     subcommands = parser.add_subparsers(dest="command", required=True)
     for command in ("locations-inspect", "locations-refresh"):
         locations = subcommands.add_parser(command, help="observe explicit project roots and direct Git metadata")
@@ -702,8 +702,8 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
-    arguments = _parser().parse_args(argv)
+def main(argv: list[str] | None = None, *, prog: str = "giga-archaeology") -> int:
+    arguments = _parser(prog=prog).parse_args(argv)
     try:
         if arguments.command in {"locations-inspect", "locations-refresh"}:
             if arguments.roots_file:

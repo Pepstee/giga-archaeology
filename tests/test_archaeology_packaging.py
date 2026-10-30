@@ -9,6 +9,8 @@ import tomllib
 import zipfile
 from pathlib import Path
 
+import pytest
+
 
 ROOT = Path(__file__).resolve().parents[1]
 BACKEND_PATH = ROOT / "modules/platform/packaging/archaeology_build_backend.py"
@@ -146,3 +148,25 @@ def test_quickstart_runs_end_to_end_on_committed_repository(
     assert context["status"] == "PASS"
     assert "calculate_total" in context["context"]
     assert "Invoice" in context["context"]
+
+
+@pytest.mark.parametrize(
+    ("entrypoint", "program"),
+    (
+        ("archaeology", "giga-archaeology"),
+        ("archaeologist", "giga-archaeologist"),
+    ),
+)
+def test_console_entrypoint_help_uses_its_command_name(
+    entrypoint: str, program: str, capsys: pytest.CaptureFixture[str]
+) -> None:
+    if entrypoint == "archaeology":
+        from modules.operations.scripts.archaeology import main
+    else:
+        from modules.operations.scripts.archaeologist import main
+
+    with pytest.raises(SystemExit) as exc_info:
+        main(["--help"])
+
+    assert exc_info.value.code == 0
+    assert capsys.readouterr().out.startswith(f"usage: {program} ")

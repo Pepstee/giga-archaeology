@@ -8,9 +8,9 @@ It indexes files, symbols, imports and static calls. The supported path is deter
 
 This is an unpublished pre-release candidate, version 0.1.3b4. Do not distribute historical 0.1.3b3 artifacts because the filename collides with older candidates.
 
-On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the full source suite passed at commit `c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e`: **426 passed, 1 skipped, and 2 subtests passed** in 89.11 seconds (exit code 0). This verifies the Linux source suite only. Full macOS and Windows suites remain unverified.
+On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the full source suite passed at commit `2cc6f1a201d7a70514f733d92859f180922df451` (tree `8488aacf6fa443de9e9cb459c45d82f1ffbece73`): **427 passed, 1 skipped, and 2 subtests passed** in 85.26 seconds (exit code 0). This verifies the Linux source suite only. The full macOS suite and the configured Windows supported-scan and package-install checks have not run for this candidate.
 
-GitHub-hosted CI has not executed the matrix for this candidate: recent push runs were rejected before runner assignment, leaving all steps unstarted. See the [Actions runs](https://github.com/Pepstee/giga-archaeology/actions) for current status. No public release has been made. See the release evidence ledger at evidence/release-artifacts/0.1.3b4.json and validation record at architecture/archaeology/BETA_VALIDATION.md for artifact-specific evidence and limits.
+The latest GitHub-hosted matrix attempt stopped before runner assignment with no steps started, so no hosted tests ran. See the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) and [beta validation record](architecture/archaeology/BETA_VALIDATION.md) for artifact-specific results and limitations. No public release has been made.
 
 ## Install from a source checkout
 
