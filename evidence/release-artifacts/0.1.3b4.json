@@ -3417,5 +3417,30 @@
       "public_release_made": false,
       "new_artifact_build_or_canary": "Not performed by this documentation and evidence update."
     }
+  },
+  "post_push_ci_review_41127578444_20261030": {
+    "checked_at_utc": "2026-10-30T21:18:38Z",
+    "repository": "Pepstee/giga-archaeology",
+    "workflow_run": {
+      "run_id": 41127578444,
+      "attempt": 2,
+      "head_commit": "e31512e1aede3dd605ac8ffd6f78093eddfa4621",
+      "event": "push",
+      "conclusion": "failure_before_runner_assignment",
+      "job_count": 12,
+      "jobs_failed": 12,
+      "runner_assignments": 0,
+      "steps_started": 0,
+      "hosted_tests_ran": false,
+      "provider_cause": "RUNNER_ADMISSION_RESTRICTION_PRIVATE_DETAILS_OMITTED"
+    },
+    "diagnostic_limit": "The private provider annotation is omitted from repository evidence. No hosted tests or platform results were produced."
+  },
+  "post_evidence_commit_ci_query_ac15d4e_20261030": {
+    "checked_at_utc": "2026-10-30T21:18:38Z",
+    "head_commit": "ac15d4e706e372d19a45026f60421a6dc954819b",
+    "workflow_run_count": 0,
+    "check_run_count": 0,
+    "reason": "Evidence-only path change is outside the workflow push path filters; no run is expected."
   }
 }
