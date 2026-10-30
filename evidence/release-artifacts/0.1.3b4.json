@@ -4296,5 +4296,36 @@
       "Full macOS and Windows source suites remain unverified.",
       "No public package or GitHub release has been made."
     ]
+  },
+  "control_tower_donor_access_confirmation_20261030": {
+    "recorded_at_utc": "2026-10-30T23:10:16Z",
+    "confirmation": "Control Tower confirmed the existing read-only route through the retained Mac Git object store remains usable; no access change is required.",
+    "source_comparison": {
+      "base_commit": "f4d8e694289d035991c6d3c0b33b35c15a05c53c",
+      "donor_commit": "d29d209e9094302937c60d28aeab7a54f78ede27",
+      "changed_python_files": 62,
+      "authorized_path_scope": [
+        "research/free-inference-fabric/src",
+        "research/free-inference-fabric/tests",
+        "twin_core",
+        "modules/operations/archaeology",
+        "modules/operations/scripts",
+        "modules/research"
+      ]
+    },
+    "separate_archive_object": {
+      "path": "twin_core/_authority_vendor.zip",
+      "source_commit": "d29d209e9094302937c60d28aeab7a54f78ede27",
+      "blob_sha1": "47a2cdf98d93a07323787e9f1f37f23486495eda",
+      "archive_sha256": "f289905b0da3804a1ffe90cbf9660c48ed2dba4c71d32e40f74eb96d316a7db4",
+      "manifest_payload_files": 37,
+      "manifest_hashes_verified": 37,
+      "review_disposition": "REVIEWED_READ_ONLY_NO_TRANSPLANT",
+      "archive_contents_extracted_or_executed": false
+    },
+    "limits": [
+      "This confirms the preserved object route and scope; it does not grant broader history retrieval, extraction, execution, or transplantation authority.",
+      "Live access to the historical GitHub repository/ref remains unverified; the existing ledger records its deletion."
+    ]
   }
 }
