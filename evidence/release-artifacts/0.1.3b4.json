@@ -1205,8 +1205,9 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "UNKNOWN; all returned job summaries show runner_id 0 and zero steps",
-    "evidence_record": "post_push_ci_review_41134521472_20261030"
+    "cause": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps.",
+    "evidence_record": "post_push_ci_review_41134521472_20261030",
+    "previous_cause_observation": "UNKNOWN; all returned job summaries show runner_id 0 and zero steps"
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -3779,7 +3780,10 @@
       "check_run_count": 12,
       "hosted_tests_ran": false
     },
-    "diagnostic_limit": "Run and job APIs expose no runner assignment or steps; provider-specific cause not established."
+    "diagnostic_limit": "Job-log endpoint unavailable; check annotations establish the broad admission category but not account-specific financial details.",
+    "annotations_reviewed": 12,
+    "annotation_summary": "All 12 check-run annotations report an account-level runner-admission restriction; none reached runner assignment or test steps.",
+    "job_log_api": "NOT_FOUND"
   },
   "current_head_actions_query_bc3d81a_20261030": {
     "checked_at_utc": "2026-10-30T21:57:05Z",
@@ -4027,5 +4031,16 @@
       "Pattern-based scan; does not identify every possible personal-data form.",
       "Does not cover unreferenced server-side Git objects or external caches."
     ]
+  },
+  "post_push_ci_review_41134521472_20261030_followup": {
+    "checked_at_utc": "2026-10-30T22:33:30Z",
+    "run_id": 41134521472,
+    "check_run_annotations_reviewed": 12,
+    "annotation_category": "account-level runner-admission restriction",
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "tests_executed": 0,
+    "job_log_endpoint": "NOT_FOUND",
+    "scope_limit": "[provider-specific diagnostic removed]"
   }
 }
