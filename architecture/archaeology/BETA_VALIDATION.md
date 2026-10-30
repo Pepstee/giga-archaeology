@@ -425,3 +425,9 @@ The current wheel and source archive must be rebuilt after this documentation up
 GitHub Actions run [41113562567](https://github.com/Pepstee/giga-archaeology/actions/runs/41113562567) targeted commit `9c097bc1ce05223eb1635466ac2749897c363229`. All 12 matrix jobs failed before runner assignment; each job had runner ID 0 and zero steps. No hosted tests ran, so the run establishes no test result for Linux, macOS, or Windows.
 
 The latest full Linux source-suite result remains the run at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. The subsequent evidence-only commit does not change this test scope. No public release has been made.
+
+## 2026-10-30 — latest push-triggered CI result after release documentation update
+
+GitHub Actions run [41116885839](https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839) targeted commit `8b2f901811edc75a72fcce01b3e432b47d280d23`. All 12 matrix jobs completed as failures before runner assignment; every job had runner ID 0 and zero started steps. No hosted tests ran, so this run establishes no test result for Linux, macOS, or Windows.
+
+The latest full Linux source-suite result remains the run at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. No public release has been made.
