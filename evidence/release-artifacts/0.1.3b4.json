@@ -4327,5 +4327,22 @@
       "This confirms the preserved object route and scope; it does not grant broader history retrieval, extraction, execution, or transplantation authority.",
       "Live access to the historical GitHub repository/ref remains unverified; the existing ledger records its deletion."
     ]
+  },
+  "github_discoverability_metadata_20261030": {
+    "observed_at_utc": "2026-10-30T23:16:00Z",
+    "description": "Deterministic static maps of Python repositories with source-linked context for code review and AI coding agents.",
+    "topics": [
+      "ai-agents",
+      "code-navigation",
+      "code-review",
+      "developer-tools",
+      "python",
+      "repository-analysis",
+      "static-analysis"
+    ],
+    "repository_visibility": "private",
+    "default_branch": "codex/artvault-portable-giga-archaeology",
+    "verification": "GitHub repository API read-back confirmed exact description and topic list after update.",
+    "release_created": false
   }
 }
