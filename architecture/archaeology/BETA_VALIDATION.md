@@ -411,3 +411,9 @@ The full macOS and Windows suites and exact-hash installation of artifacts built
 Push-triggered GitHub Actions run [41088033787](https://github.com/Pepstee/giga-archaeology/actions/runs/41088033787) targeted commit `4bad866c9ac95bcf7af3affe41ccbe50eed1be87`. All 12 matrix jobs ended with failure. The available job summaries expose no steps or log URLs; a sampled job-log request returned HTTP 404 `BlobNotFound`. No hosted tests or results were produced, and the cause is unknown. This run establishes no test result for Linux, macOS, or Windows.
 
 The Linux source-suite result remains the earlier run at commit `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`: 429 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3. Full macOS and Windows suites remain unverified. No public release has been made.
+
+## 2026-10-30 — hosted CI result for commit 63efae4
+
+Push-triggered GitHub Actions run [41105065947](https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947) targeted commit `63efae4f80107f041ef04e93675b47b0e4e306aa`. All 12 matrix jobs failed; each job reported runner ID 0 and zero steps. No hosted tests or results were produced. The exact cause is not recorded in the public release evidence.
+
+The Linux source-suite result remains the earlier run at commit `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`: 429 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3. Full macOS and Windows suites remain unverified. No public release has been made.
