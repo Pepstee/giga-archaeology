@@ -1187,17 +1187,19 @@
     "source_changes_during_canary": false
   },
   "latest_hosted_ci_blocker": {
-    "run_id": 41105065947,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947",
-    "source_commit": "63efae4f80107f041ef04e93675b47b0e4e306aa",
+    "run_id": 41112866594,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41112866594",
+    "source_commit": "07a7b9da269eb7d2fa605c7e38c252f8690943a5",
     "event": "push",
     "matrix_jobs": 12,
-    "jobs_failed": 12,
+    "jobs_failed": 11,
+    "jobs_queued": 1,
     "runner_assignments": 0,
     "steps_started": 0,
     "hosted_tests_executed": false,
+    "status": "INCOMPLETE_AT_LAST_OBSERVATION",
     "cause": "UNKNOWN",
-    "evidence_record": "post_push_ci_review_41105065947_20261030"
+    "evidence_record": "post_push_ci_review_41112866594_20261030"
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -3153,5 +3155,38 @@
       "cause": "UNKNOWN"
     },
     "diagnostic_limit": "Public release evidence records the runner and step outcome only. The underlying check annotation is omitted; the exact cause is not recorded. No hosted test result is claimed."
+  },
+  "prior_latest_hosted_ci_blocker_before_41112866594": {
+    "run_id": 41105065947,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947",
+    "source_commit": "63efae4f80107f041ef04e93675b47b0e4e306aa",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "cause": "UNKNOWN",
+    "evidence_record": "post_push_ci_review_41105065947_20261030"
+  },
+  "post_push_ci_review_41112866594_20261030": {
+    "checked_at_utc": "2026-10-30T19:11:16Z",
+    "repository": "Pepstee/giga-archaeology",
+    "workflow_run": {
+      "run_id": 41112866594,
+      "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41112866594",
+      "event": "push",
+      "head_commit": "07a7b9da269eb7d2fa605c7e38c252f8690943a5",
+      "job_count": 12,
+      "jobs_completed": 11,
+      "jobs_failed": 11,
+      "jobs_queued": 1,
+      "runner_assignments_for_completed_jobs": 0,
+      "steps_started": 0,
+      "hosted_tests_ran": false,
+      "status_at_observation": "11 failed before runner assignment; 1 remained queued",
+      "cause": "UNKNOWN"
+    },
+    "diagnostic_limit": "No hosted test result is established. The remaining queued job may change the run status after this observation."
   }
 }
