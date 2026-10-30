@@ -463,3 +463,34 @@ The exact-hash Linux quickstart canary and artifact hashes are recorded in `evid
 The successful install and quickstart canary described in the preceding section applies only to the exact wheel and source archive recorded in `current_artifact_rebuild_bc3d81a_20261030`. Those artifacts were built before that section was added. Because this validation file is packaged in both formats, the later documentation change requires a fresh build; do not treat the earlier hashes as current distribution artifacts.
 
 The release ledger records the later rebuild from commit `740b910356f54894245d95e4aa9d9596ba7f2eda`: both formats built reproducibly, archive contents were inspected, and the full-archive privacy-marker scan found no local user paths or non-reserved email addresses. The exact wheel install canary for that later build was not run as of this checkpoint. No installed-artifact result is claimed for it. No public release has been made. Full macOS and Windows suites and hosted test results remain unverified.
+
+## 2026-10-30 — current release-readiness checkpoint
+
+The latest full Linux source-suite run was at canonical ArtVault commit
+`6148ea80a05805cdc41998fb0081ccfe7e79d4be` (tree
+`11f1256c0d4d6276b1f116d90e128158b374d8ae`): **430 passed, 1 skipped, and 2 subtests
+passed** in 74.94 seconds on CPython 3.12.3. Later changes through commit
+`84ed8a491c3a985f8f2a1ea8b596dd6d895a1434` were release-evidence-only before this documentation
+refresh; production and test sources were unchanged. This is Linux source-suite evidence only.
+Full macOS and Windows source suites remain unverified.
+
+The latest recorded GitHub Actions attempt was run [41134521472](https://github.com/Pepstee/giga-archaeology/actions/runs/41134521472),
+for commit `bc3d81aa1a56cf718e98a559b135c62a3787c974`. Twelve check annotations identify an
+account-level runner-admission restriction; all 12 jobs stopped before runner assignment, zero
+steps started, and no hosted tests ran. The GitHub status API returned no status records for current
+HEAD `84ed8a491c3a985f8f2a1ea8b596dd6d895a1434` when checked for this checkpoint. This is not a
+hosted test result.
+
+The active-branch privacy scan at commit `4f3652fe5992b232ce7afd753fffe64c72a9c8d6` inspected
+106 tracked blobs and 214 reachable commit records: zero non-reserved email hits, zero local
+profile-path hits across macOS, Linux, and Windows patterns, and zero reachable author or
+committer email hits. Two email-like fixture strings use the reserved `.test` domain. The scan is
+pattern-based and does not cover unreferenced server objects or external caches.
+
+The reproducible wheel and source archive built from source commit
+`397626c50cf6f068f135c8255841044af186d923` are no longer current because the release-status text
+in this file and the README has changed. Their hashes remain in the release ledger for history;
+they must not be distributed as the final documentation artifacts. Rebuild both formats from the
+committed documentation checkpoint. The exact-wheel install canary for the latest pre-correction
+wheel remains unrun pending exact-artifact approval; no canary is inferred for a rebuilt wheel.
+No public package or GitHub release has been made.

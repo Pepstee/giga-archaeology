@@ -14,11 +14,11 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 
 ## Release status
 
-`0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `ba2d3d4fd5161f34d4295169de69090135f4921e` (tree `9d459027e78a18e36dc45c87a280f1483526e217`): **430 passed, 1 skipped, and 2 subtests passed** in 85.523 seconds on CPython 3.12.3. It verifies Linux source tests only; full macOS and Windows suites remain unverified.
+`0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `6148ea80a05805cdc41998fb0081ccfe7e79d4be` (tree `11f1256c0d4d6276b1f116d90e128158b374d8ae`): **430 passed, 1 skipped, and 2 subtests passed** in 74.94 seconds on CPython 3.12.3. This verifies Linux source tests only; full macOS and Windows suites remain unverified.
 
-At the pre-update check on 2026-10-30 21:53 UTC, the latest observed GitHub Actions run was [41127578444](https://github.com/Pepstee/giga-archaeology/actions/runs/41127578444), targeted the superseded commit `e31512e1aede3dd605ac8ffd6f78093eddfa4621`. Its 12 jobs failed before runner assignment; no hosted tests ran. The same check found no workflow runs or check runs for then-current HEAD `b7bed05953b3a0500a816af9f60caa3a6929bbef`. No hosted tests ran; the recorded provider annotation identifies runner admission restriction as the reason these jobs did not start. See the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) for verification scope and limitations.
+The latest recorded GitHub Actions attempt was run `41134521472`. All 12 jobs stopped before runner assignment, so no hosted tests ran. Its check annotations identified an account-level runner-admission restriction. The current branch head has no status checks recorded. See the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) for exact revisions, verification scope and limitations.
 
-Artifact verification is hash-specific. Rebuilding the documentation changes the wheel and source archive, so each current artifact needs its own recorded verification. No public release has been made.
+Artifact verification is hash-specific. The README ships in both the wheel and source archive, so release artifacts must be rebuilt and verified against the final documentation. No public package or GitHub release has been made.
 
 ## Install from a source checkout
 
