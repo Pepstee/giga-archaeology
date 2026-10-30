@@ -32,7 +32,10 @@ ArtVault handoff names this workspace as the canonical development owner and exp
 supersedes the legacy Mac-wide canonical field for this destination. The authority file
 was read only and was not modified.
 
-## Donor coverage
+## Donor coverage — historical baseline (2026-09-28; superseded)
+
+This section records the initial unauthenticated baseline. It is superseded by the dated entries below, which verify the retained Git objects and complete a line-by-line review of all 62 files and 33,497 additions. The original GitHub donor repository was later reported deleted; the retained historical object store is read-only evidence, not an active source.
+
 
 - Expected donor ref: `codex/preserve-giga-modularisation-history-20260928`
 - Expected donor commit: `d29d209e9094302937c60d28aeab7a54f78ede27`
@@ -43,7 +46,10 @@ was read only and was not modified.
 - Comparison-only archive dispositions: `13` (not donor-verified)
 - Verified canonical integrations: `0`
 
-## Exact blocker
+## Exact blocker — historical (before retained-object recovery)
+
+The failure below records the initial GitHub access route, not the current review status. The 2026-10-29 entry documents recovery of the exact source objects from the retained historical store, and the 2026-10-30 entry documents the complete line-by-line review.
+
 
 The donor commit and ref are absent from the canonical repository's local objects and
 refs. A scoped query of the configured `giga-user-archive` remote for the exact branch
