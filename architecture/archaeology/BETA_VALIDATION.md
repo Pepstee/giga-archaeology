@@ -405,3 +405,9 @@ Wheel SHA-256 `77dc42f5b53576461a7398c748005f26ab86d61b16407fb419dbd3bd957247f0`
 GitHub Actions workflow-dispatch run [41081019299](https://github.com/Pepstee/giga-archaeology/actions/runs/41081019299) targeted the same source HEAD. All 12 matrix jobs failed before steps were exposed, so no hosted tests ran. A sampled job log was unavailable (`404 BlobNotFound`); the causes are not established from the available job summaries. This supersedes run `41058173443` as the current hosted-CI status while retaining its historical record above.
 
 The full macOS and Windows suites and exact-hash installation of artifacts built from the final documents remain unverified. No public release has been made.
+
+## 2026-10-30 — hosted CI result after release-evidence commit
+
+Push-triggered GitHub Actions run [41088033787](https://github.com/Pepstee/giga-archaeology/actions/runs/41088033787) targeted commit `4bad866c9ac95bcf7af3affe41ccbe50eed1be87`. All 12 matrix jobs ended with failure. The available job summaries expose no steps or log URLs; a sampled job-log request returned HTTP 404 `BlobNotFound`. No hosted tests or results were produced, and the cause is unknown. This run establishes no test result for Linux, macOS, or Windows.
+
+The Linux source-suite result remains the earlier run at commit `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`: 429 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3. Full macOS and Windows suites remain unverified. No public release has been made.

@@ -1187,38 +1187,16 @@
     "source_changes_during_canary": false
   },
   "latest_hosted_ci_blocker": {
-    "run_id": 40979140823,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/40979140823",
-    "source_commit": "785981fa83b44d7c6a22b9bedbe8ebe248bbc47b",
+    "run_id": 41088033787,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41088033787",
+    "source_commit": "4bad866c9ac95bcf7af3affe41ccbe50eed1be87",
+    "event": "push",
     "matrix_jobs": 12,
-    "runner_assignments": 0,
-    "steps_started": 0,
+    "jobs_failed": 12,
+    "job_step_summaries_exposed": 0,
     "hosted_tests_executed": false,
-    "observed_result": "All 12 matrix jobs failed before runner assignment with zero steps. No hosted tests ran.",
-    "cause": "UNKNOWN from the safe recorded evidence.",
-    "evidence_source": "Authenticated GitHub Actions run and job diagnostics; no runner or step evidence was available.",
-    "retry_attempts": [
-      {
-        "run_id": 40979140823,
-        "observed_at_utc_date": "2026-10-30",
-        "operation": "rerun_failed_workflow_run_jobs",
-        "matrix_jobs": 12,
-        "jobs_failed": 12,
-        "job_list_steps_and_logs": "UNAVAILABLE",
-        "sampled_job": {
-          "id": 123835348592,
-          "name": "windows-latest / Python 3.12",
-          "steps_endpoint": "EMPTY",
-          "logs_endpoint": {
-            "http_status": 404,
-            "error": "BlobNotFound"
-          }
-        },
-        "hosted_test_execution": "NOT_EVIDENCED",
-        "failure_cause": "UNKNOWN",
-        "note": "Same workflow run retry; initial observation preserved unchanged. No account-specific cause inferred."
-      }
-    ]
+    "cause": "UNKNOWN",
+    "evidence_record": "post_push_ci_review_41088033787_20261030"
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -2927,5 +2905,67 @@
       "reason_no_run_for_ledger_commit": "The evidence-only commit d9ac567507a7bb0e3f88e94cf319f36472c2e895 changed only evidence/release-artifacts/0.1.3b4.json, which is excluded by the workflow push path filter."
     },
     "diagnostic_limit": "The API exposed no runner, steps, or logs for the failed jobs; this record does not assert a cause."
+  },
+  "prior_latest_hosted_ci_blocker_before_41088033787": {
+    "run_id": 40979140823,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/40979140823",
+    "source_commit": "785981fa83b44d7c6a22b9bedbe8ebe248bbc47b",
+    "matrix_jobs": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "observed_result": "All 12 matrix jobs failed before runner assignment with zero steps. No hosted tests ran.",
+    "cause": "UNKNOWN from the safe recorded evidence.",
+    "evidence_source": "Authenticated GitHub Actions run and job diagnostics; no runner or step evidence was available.",
+    "retry_attempts": [
+      {
+        "run_id": 40979140823,
+        "observed_at_utc_date": "2026-10-30",
+        "operation": "rerun_failed_workflow_run_jobs",
+        "matrix_jobs": 12,
+        "jobs_failed": 12,
+        "job_list_steps_and_logs": "UNAVAILABLE",
+        "sampled_job": {
+          "id": 123835348592,
+          "name": "windows-latest / Python 3.12",
+          "steps_endpoint": "EMPTY",
+          "logs_endpoint": {
+            "http_status": 404,
+            "error": "BlobNotFound"
+          }
+        },
+        "hosted_test_execution": "NOT_EVIDENCED",
+        "failure_cause": "UNKNOWN",
+        "note": "Same workflow run retry; initial observation preserved unchanged. No account-specific cause inferred."
+      }
+    ]
+  },
+  "post_push_ci_review_41088033787_20261030": {
+    "checked_at_utc": "2026-10-30T18:11:12Z",
+    "repository": "Pepstee/giga-archaeology",
+    "workflow_run": {
+      "run_id": 41088033787,
+      "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41088033787",
+      "event": "push",
+      "head_commit": "4bad866c9ac95bcf7af3affe41ccbe50eed1be87",
+      "job_count": 12,
+      "jobs_completed": 12,
+      "jobs_failed": 12,
+      "jobs_by_platform": {
+        "macos": 4,
+        "windows": 4,
+        "ubuntu": 4
+      },
+      "step_summaries_exposed": 0,
+      "hosted_tests_ran": false,
+      "sampled_job_log": {
+        "job_id": 124174267466,
+        "job": "ubuntu-latest · Python 3.11",
+        "http_status": 404,
+        "error": "BlobNotFound"
+      },
+      "cause": "UNKNOWN"
+    },
+    "diagnostic_limit": "Job metadata exposes failures but no step summaries or log URLs. The sampled log response is BlobNotFound; the failure cause and runner assignment state are not established. No hosted test result is claimed."
   }
 }
