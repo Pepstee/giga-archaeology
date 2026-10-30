@@ -1401,5 +1401,43 @@
       "cached_diff_sha256": "f03172d28f1c4ffb58b0fdc2db4e23a5f42801e20a8acb68bcbfbe7add111d19"
     },
     "scope_note": "One full-suite invocation from the registered canon. Pytest printed a summary with no failed or errored tests. The wrapper did not preserve its numeric exit code; retain this limitation."
+  },
+  "post_checkpoint_full_suite_recheck": {
+    "status": "PASS",
+    "source_commit": "c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e",
+    "tracked_tree": "clean",
+    "tracked_working_tree_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q",
+    "platform": "Registered ArtVault Linux x86_64 workspace",
+    "python": "3.12.3",
+    "terminal_summary": "426 passed, 1 skipped, 2 subtests passed in 89.11s",
+    "numeric_process_exit_code": 0,
+    "measured_wall_seconds": 89.11,
+    "pre_run_status_porcelain_v1_sha256": "d5f233967323ddfef46ddd71085ba75b513834c9325012f69f433cdf35538e36",
+    "post_run_status_porcelain_v1_sha256": "d5f233967323ddfef46ddd71085ba75b513834c9325012f69f433cdf35538e36",
+    "scope_note": "Tracked source and test tree was clean before and after. Existing untracked project, graph and cache data remained unchanged. This Linux run does not certify full macOS or Windows suites."
+  },
+  "post_checkpoint_hosted_ci_runs": {
+    "status": "BLOCKED_BEFORE_RUNNER_ASSIGNMENT",
+    "hosted_tests_executed": false,
+    "runs": [
+      {
+        "run_id": 40986645717,
+        "source_commit": "55fca9ace4b07259ab55639dea9b0ba3a65dc51e",
+        "matrix_jobs": 12,
+        "runner_assignments": 0,
+        "steps_started": 0,
+        "result": "All jobs failed before runner assignment; no hosted tests ran."
+      },
+      {
+        "run_id": 40987220321,
+        "source_commit": "c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e",
+        "matrix_jobs": 12,
+        "runner_assignments": 0,
+        "steps_started": 0,
+        "result": "All jobs failed before runner assignment; no hosted tests ran."
+      }
+    ],
+    "evidence_source": "GitHub Actions jobs API and check-run annotations. Account-specific diagnostic text is not stored in this release ledger."
   }
 }

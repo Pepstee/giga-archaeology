@@ -357,3 +357,12 @@ At canonical ArtVault HEAD c9cc259e73c35f9c4fdbb167bcdcdd59862b73e9 plus tracked
 GitHub Actions run 40884610871 failed before runner assignment on both attempts. All 12 matrix jobs in each attempt had no runner and zero steps; no hosted tests ran and no job logs were available. Full macOS and Windows suites remain unverified.
 
 The wheel and source archive with SHA-256 c7cdecdad7f8c37339690b9ad072251d34d7f13bb95148334d227796f6a1c0ad and 882e14bf2f4b0f5b39f03858da6e1c0fe9da3c2f9ed44542163943c6852b7897 record the build state when this entry was first written, before the README and BETA status correction. Those exact artifacts were not installed or rebuilt and remain historical evidence only. Any later build is recorded separately in evidence/release-artifacts/0.1.3b4.json. No install-canary or reproducibility claim applies to that earlier pair.
+
+
+## 2026-10-30 — full suite recheck at published documentation checkpoint
+
+At canonical ArtVault HEAD `c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e`, the full suite ran on Linux x86_64 with CPython 3.12.3 using:
+
+`PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q`
+
+Result: **426 passed, 1 skipped, and 2 subtests passed** in 89.11 seconds; the process exit code was 0. The tracked tree was clean before and after the run. This verifies the Linux source suite at the recorded commit only; the full macOS and Windows suites remain unverified.

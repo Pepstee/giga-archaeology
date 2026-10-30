@@ -8,9 +8,9 @@ It indexes files, symbols, imports and static calls. The supported path is deter
 
 This is an unpublished pre-release candidate, version 0.1.3b4. Do not distribute historical 0.1.3b3 artifacts because the filename collides with older candidates.
 
-On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the full source suite reported **426 passed, 1 skipped, and 2 subtests passed** at source commit `785981fa83b44d7c6a22b9bedbe8ebe248bbc47b` plus tracked diff SHA-256 `9dba673d7b0f726e53cdf81d17e6fca3128eda78ad348759f18f0594c784d759`. Pytest printed no failed or errored tests, but the wrapper did not capture its numeric exit code. The result predates the latest documentation and evidence checkpoint. Full macOS and Windows suites remain unverified.
+On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the full source suite passed at commit `c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e`: **426 passed, 1 skipped, and 2 subtests passed** in 89.11 seconds (exit code 0). This verifies the Linux source suite only. Full macOS and Windows suites remain unverified.
 
-The latest GitHub Actions run, [40986645717](https://github.com/Pepstee/giga-archaeology/actions/runs/40986645717), targets commit `55fca9ace4b07259ab55639dea9b0ba3a65dc51e`. All 12 matrix jobs were rejected before runner assignment, so no hosted tests ran. This is a CI admission failure, not a source test result. No public release has been made. See the release evidence ledger at evidence/release-artifacts/0.1.3b4.json and validation record at architecture/archaeology/BETA_VALIDATION.md for artifact-specific evidence and limits.
+GitHub-hosted CI has not executed the matrix for this candidate: recent push runs were rejected before runner assignment, leaving all steps unstarted. See the [Actions runs](https://github.com/Pepstee/giga-archaeology/actions) for current status. No public release has been made. See the release evidence ledger at evidence/release-artifacts/0.1.3b4.json and validation record at architecture/archaeology/BETA_VALIDATION.md for artifact-specific evidence and limits.
 
 ## Install from a source checkout
 
