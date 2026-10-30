@@ -3632,5 +3632,44 @@
       }
     ],
     "scope_limit": "Linux x86_64 / CPython 3.12.3 only; this validates one sdist and exact runtime dependencies, not Mac/Windows or a clean online user environment."
+  },
+  "runtime_dependency_wheel_matrix_20261030": {
+    "observed_at_utc": "2026-10-30T21:40:04.723759+00:00",
+    "source_of_metadata": "Official PyPI JSON release metadata",
+    "metadata_endpoint_template": "https://pypi.org/pypi/{name}/{version}/json",
+    "dependencies": {
+      "tree-sitter": {
+        "version": "0.26.0",
+        "published_wheel_count": 40
+      },
+      "tree-sitter-bash": {
+        "version": "0.25.1",
+        "published_wheel_count": 8
+      },
+      "tree-sitter-javascript": {
+        "version": "0.25.0",
+        "published_wheel_count": 8
+      },
+      "tree-sitter-typescript": {
+        "version": "0.23.2",
+        "published_wheel_count": 7
+      }
+    },
+    "targets": {
+      "python": [
+        "CPython 3.11",
+        "CPython 3.12",
+        "CPython 3.13",
+        "CPython 3.14"
+      ],
+      "platforms": [
+        "Windows x86_64",
+        "macOS x86_64",
+        "macOS arm64"
+      ]
+    },
+    "result": "A compatible binary wheel filename exists for every pinned dependency on every listed target.",
+    "method": "Parsed official wheel filenames and checked CPython interpreter/ABI tags plus Windows/macOS architecture tags.",
+    "limitations": "Availability metadata only; this does not execute native installation or verify ABI loading on macOS or Windows."
   }
 }
