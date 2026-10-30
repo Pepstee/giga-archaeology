@@ -457,3 +457,11 @@ This checkpoint was captured with the registered branch at `b7bed05953b3a0500a81
 The latest observed Actions run is [41127578444](https://github.com/Pepstee/giga-archaeology/actions/runs/41127578444), for superseded commit `e31512e1aede3dd605ac8ffd6f78093eddfa4621`. All 12 matrix jobs ended before runner assignment, with zero runners and zero steps; no hosted tests ran. A GitHub API query at 2026-10-30 21:53 UTC returned zero workflow runs and zero check runs for then-current HEAD `b7bed05953b3a0500a816af9f60caa3a6929bbef`. The recorded provider annotation identifies runner admission restriction; no hosted test result was produced.
 
 The exact-hash Linux quickstart canary and artifact hashes are recorded in `evidence/release-artifacts/0.1.3b4.json`. Those artifacts predate this README/BETA update and are superseded for distribution; rebuild and reverify them from the committed documentation checkpoint. Full macOS/Windows suites, hosted matrix results, and a public release remain outstanding.
+
+## 2026-10-30 — current documentation artifact verification
+
+The `0.1.3b4` wheel and source archive were rebuilt reproducibly from the committed release-documentation checkpoint on ArtVault Linux x86_64 with CPython 3.12.3 and build 1.6.1. Exact hashes and artifact-member inspection are recorded in `evidence/release-artifacts/0.1.3b4.json`.
+
+The exact wheel passed an offline install canary into a temporary target. Installed metadata reported `0.1.3b4`, the imported CLI module matched the wheel member hash and resolved beneath the target, and both console entrypoints passed `--help`. The included quickstart passed against a one-file committed synthetic repository: inventory `CURRENT` (1 file), map `CURRENT` (14 entities and 12 relations), symbol query `PASS` (4 results), and bounded context `PASS`. The target, fixture and outputs were removed after verification.
+
+The source archive was inspected without extraction: it contains the current README, this validation record, MIT licence, third-party notices, quickstart and build backend, and excludes tests and Git metadata. It was not installed. This is a Linux/Python 3.12 package canary, not full macOS/Windows test-suite or hosted-CI evidence. No public release has been made.
