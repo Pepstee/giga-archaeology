@@ -366,3 +366,10 @@ At canonical ArtVault HEAD `c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e`, the full 
 `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q`
 
 Result: **426 passed, 1 skipped, and 2 subtests passed** in 89.11 seconds; the process exit code was 0. The tracked tree was clean before and after the run. This verifies the Linux source suite at the recorded commit only; the full macOS and Windows suites remain unverified.
+
+
+## 2026-10-30 — current branch release artifact rebuild
+
+At canonical ArtVault HEAD `b183e101b232502c51c8bf4f410567e98a73a47f`, build 1.6.1 produced the `0.1.3b4` wheel (SHA-256 `f4541f8e573ccbb397ccab6aeec8283ad086025f8c2f5baeb8e6f50449b2d48b`, 393,135 bytes) and source archive (SHA-256 `460b4e20fcc8adc93e8d465c52d58ce1f7d4c8e2fa7a07bd64c1dd16fdcc4b06`, 361,026 bytes) with isolation disabled and no index or dependency resolution.
+
+Static inspection passed: the wheel has 48 members and valid RECORD hashes, includes current README metadata, excludes TwinCore, and contains no home paths or email strings. The 47-member source archive matches the current README, contains the quickstart and custom build backend, excludes the release ledger, and has no home-path-bearing files. These checks do not establish installed-wheel behaviour. The exact wheel canary is pending; no install result is claimed.

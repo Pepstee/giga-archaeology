@@ -1347,18 +1347,18 @@
   "final_docs_build": {
     "status": "PASS_BUILD_AND_STATIC_ARCHIVE_INSPECTION",
     "built_at_date": "2026-10-30",
-    "source_head": "785981fa83b44d7c6a22b9bedbe8ebe248bbc47b",
-    "tracked_working_tree_diff_sha256": "44456d97919dc4d9caf5d9fc379f6c2f20da7f14c0237021b57a4266c98eaa1e",
+    "source_head": "b183e101b232502c51c8bf4f410567e98a73a47f",
+    "tracked_working_tree_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "build_tool": "build 1.6.1",
-    "command": "python -m build --no-isolation --wheel --sdist",
+    "command": "python -m build --no-isolation --wheel --sdist --outdir [private local temporary path]",
     "network_access": false,
     "dependency_resolution": false,
     "artifact_directory": "[private local temporary path]",
     "source_state_unchanged_during_build": true,
     "wheel": {
       "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
-      "size_bytes": 393332,
-      "sha256": "c2c3ec6a21a2db9ea012c2c98b4062eea7cb8908d93ca0ce5fbc9962ba75a0b6",
+      "size_bytes": 393135,
+      "sha256": "f4541f8e573ccbb397ccab6aeec8283ad086025f8c2f5baeb8e6f50449b2d48b",
       "version": "0.1.3b4",
       "requires_python": ">=3.11",
       "members": 48,
@@ -1368,19 +1368,23 @@
         "giga-archaeologist",
         "giga-archaeology"
       ],
-      "final_readme_in_metadata": true,
-      "home_path_matches": 0
+      "current_readme_in_metadata": true,
+      "twin_core_excluded": true,
+      "home_path_matches": 0,
+      "email_matches": 0
     },
     "sdist": {
       "filename": "giga_archaeology-0.1.3b4.tar.gz",
-      "size_bytes": 360926,
-      "sha256": "359eaa336059bc1abf3e9d217fb56df9da1ae51e0420b0fe600d4d3eaab54203",
+      "size_bytes": 361026,
+      "sha256": "460b4e20fcc8adc93e8d465c52d58ce1f7d4c8e2fa7a07bd64c1dd16fdcc4b06",
       "members": 47,
-      "final_readme_present": true,
+      "current_readme_present": true,
+      "quickstart_present": true,
+      "custom_build_backend_present": true,
       "release_ledger_included": false,
-      "home_path_matches": 0
+      "home_path_bearing_files": 0
     },
-    "install_validation": "NOT_RUN",
+    "install_validation": "PENDING_EXACT_HASH_OPERATOR_APPROVAL",
     "tests": "NOT_RUN_BY_THIS_BUILD_GATE"
   },
   "post_history_rewrite_full_suite": {
@@ -1436,8 +1440,55 @@
         "runner_assignments": 0,
         "steps_started": 0,
         "result": "All jobs failed before runner assignment; no hosted tests ran."
+      },
+      {
+        "run_id": 40987726256,
+        "source_commit": "b183e101b232502c51c8bf4f410567e98a73a47f",
+        "matrix_jobs": 12,
+        "runner_assignments": 0,
+        "steps_started": 0,
+        "result": "All jobs failed before runner assignment; no hosted tests ran."
       }
     ],
     "evidence_source": "GitHub Actions jobs API and check-run annotations. Account-specific diagnostic text is not stored in this release ledger."
+  },
+  "previous_final_docs_build": {
+    "status": "PASS_BUILD_AND_STATIC_ARCHIVE_INSPECTION",
+    "built_at_date": "2026-10-30",
+    "source_head": "785981fa83b44d7c6a22b9bedbe8ebe248bbc47b",
+    "tracked_working_tree_diff_sha256": "44456d97919dc4d9caf5d9fc379f6c2f20da7f14c0237021b57a4266c98eaa1e",
+    "build_tool": "build 1.6.1",
+    "command": "python -m build --no-isolation --wheel --sdist",
+    "network_access": false,
+    "dependency_resolution": false,
+    "artifact_directory": "[private local temporary path]",
+    "source_state_unchanged_during_build": true,
+    "wheel": {
+      "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+      "size_bytes": 393332,
+      "sha256": "c2c3ec6a21a2db9ea012c2c98b4062eea7cb8908d93ca0ce5fbc9962ba75a0b6",
+      "version": "0.1.3b4",
+      "requires_python": ">=3.11",
+      "members": 48,
+      "record_integrity": "PASS",
+      "license_files_present": true,
+      "entry_points": [
+        "giga-archaeologist",
+        "giga-archaeology"
+      ],
+      "final_readme_in_metadata": true,
+      "home_path_matches": 0
+    },
+    "sdist": {
+      "filename": "giga_archaeology-0.1.3b4.tar.gz",
+      "size_bytes": 360926,
+      "sha256": "359eaa336059bc1abf3e9d217fb56df9da1ae51e0420b0fe600d4d3eaab54203",
+      "members": 47,
+      "final_readme_present": true,
+      "release_ledger_included": false,
+      "home_path_matches": 0
+    },
+    "install_validation": "NOT_RUN",
+    "tests": "NOT_RUN_BY_THIS_BUILD_GATE"
   }
 }
