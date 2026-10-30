@@ -4347,7 +4347,7 @@
   },
   "artvault_canon_linux_suite_exception_20261030": {
     "recorded_at_utc": "2026-10-30T23:20:08Z",
-    "status": "AUTHORIZED_NARROW_CANON_EXECUTION_BEFORE_TEST",
+    "status": "PASS_FULL_LINUX_SOURCE_SUITE_CANON_ONLY",
     "rule_exception": {
       "exact_rule": "Existing test environments are usable only when named for their project, role and operations; canon preflight returns authority NOT_EVALUATED and requires supervisor confirmation.",
       "protected_property": "Prevent duplicate runnable source copies, hidden divergence and unowned test surfaces.",
@@ -4372,6 +4372,27 @@
       "This is Linux source-suite evidence only; it does not claim installed-artifact, macOS, Windows or hosted-CI verification."
     ],
     "pre_run_git_status_porcelain_v1_sha256": "4351831826adfafe17eaf8d6d067f5ab961d8b970600fc565cc4d0a2665f90c4",
-    "restore_or_retire": "No extra source environment is created. Retain the test log/temp output for diagnosis; do not remove existing untracked project files."
+    "restore_or_retire": "No extra source environment is created. Retain the test log/temp output for diagnosis; do not remove existing untracked project files.",
+    "result": {
+      "source_commit": "e96244181fc83fd3347f8f0572cc8ec0fd42f193",
+      "source_tree": "13a1023c116b1170d93850e09d33386f79dd8e1c",
+      "exit_code": 0,
+      "passed": 430,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "elapsed_seconds": 80.99,
+      "host": "ArtVault Linux x86_64",
+      "python": "CPython 3.12.3",
+      "pytest": "9.1.1",
+      "test_scope": "full Linux source suite; no installed-artifact or cross-platform claim"
+    },
+    "post_run_verification": {
+      "post_run_git_status_porcelain_v1_sha256": "4351831826adfafe17eaf8d6d067f5ab961d8b970600fc565cc4d0a2665f90c4",
+      "matches_pre_run_git_status": true,
+      "tracked_diff_clean": true,
+      "staged_diff_clean": true,
+      "preexisting_untracked_files_preserved": true
+    },
+    "result_recorded_at_utc": "2026-10-30T23:23:37Z"
   }
 }
