@@ -3989,7 +3989,13 @@
     "limitations": [
       "No hosted tests or full macOS/Windows suite evidence from this build.",
       "Unpublished developer beta."
-    ]
+    ],
+    "superseded_by_documentation_update": {
+      "recorded_at_utc": "2026-10-30T22:43:10Z",
+      "source_commit": "cb5322d09b7a4f6991f91939de104e541fcea7e0",
+      "replacement_record": "current_artifact_rebuild_cb5322d_20261030",
+      "reason": "README and BETA_VALIDATION.md release-status corrections changed packaged documentation; do not distribute prior hashes."
+    }
   },
   "full_linux_suite_after_beta_scope_correction_20261030": {
     "observed_at_utc": "2026-10-30T22:17:56Z",
@@ -4042,5 +4048,65 @@
     "tests_executed": 0,
     "job_log_endpoint": "NOT_FOUND",
     "scope_limit": "[provider-specific diagnostic removed]"
+  },
+  "current_artifact_rebuild_cb5322d_20261030": {
+    "observed_at_utc": "2026-10-30T22:43:10Z",
+    "source_commit": "cb5322d09b7a4f6991f91939de104e541fcea7e0",
+    "source_tree": "bc8f8371b815e25a31812684f509d5a5ed96c840",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "python -m build --no-isolation",
+    "artifact_directory": "/tmp/giga-archaeology-release-cb5322d-20261030T224234Z",
+    "reproducibility": {
+      "second_fresh_build_performed": true,
+      "wheel_byte_identical": true,
+      "sdist_byte_identical": true
+    },
+    "packaged_documentation_hashes": {
+      "README.md": "022d8115a462041828049986048475d0456431e7cf514dce35f96f8c12b5edcd",
+      "architecture/archaeology/BETA_VALIDATION.md": "eaf983667ca9eb1630290f62c47a15c570ef1c1b9bd28bfdc75e880bd5c0aab2"
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 398152,
+        "members": 48,
+        "sha256": "7170b99cf441e90608fd81e6fd3d9bd2da4af03fa35eeb01d5ee6f3f15ac4ffe",
+        "version": "0.1.3b4",
+        "entrypoints_verified": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ]
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 365761,
+        "members": 47,
+        "sha256": "35cdc97117404586c1bfeadf6864bffead1811850deb35a617c55c4ce50f345a",
+        "version": "0.1.3b4"
+      }
+    ],
+    "archive_inspection": {
+      "README_and_BETA_VALIDATION_present": true,
+      "git_metadata_excluded_from_sdist": true,
+      "release_ledger_excluded_from_wheel_and_sdist": true,
+      "profile_path_hits": 0,
+      "non_reserved_email_hits": 0,
+      "member_files_scanned": 95
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "7170b99cf441e90608fd81e6fd3d9bd2da4af03fa35eeb01d5ee6f3f15ac4ffe",
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "offline --no-deps --no-index install to a private temporary target; verify metadata, import origin, both CLI help commands and the synthetic quickstart; remove target and confirm absence"
+    },
+    "limitations": [
+      "No installation canary was run because approval was specific to an earlier wheel hash.",
+      "Full hosted Actions tests remain blocked before runner assignment.",
+      "Full native macOS and Windows source suites remain unverified.",
+      "No public package or GitHub release has been made."
+    ]
   }
 }
