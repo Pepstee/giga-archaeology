@@ -1400,7 +1400,28 @@
     "latest_check_at_utc": "2026-10-30T21:53:55Z",
     "observed": "Three IDs return HTTP 422 No commit found; one still returns commit metadata.",
     "follow_up": "Focused purge request sent to GitHub Support; awaiting response and independent verification.",
-    "publication_gate": "Repository remains private; do not claim purge complete or publish until the remaining object is no longer retrievable."
+    "publication_gate": "Repository remains private; do not claim purge complete or publish until the remaining object is no longer retrievable.",
+    "post_rewrite_observations": [
+      {
+        "observed_at_utc": "2026-10-30T23:54:08Z",
+        "branch_head_before_rewrite": "2418e36d6f03ce30ba3162f97ee8b146494105ac",
+        "sanitized_branch_head": "c18b22d194dc1abdf25a5411e1d59471e7dbaff5",
+        "tree_preserved": "bfba732b9cff92f5f8c986d40ee5ead83e4c4265",
+        "reachable_commit_count": 227,
+        "reachable_identity_pairs": 2,
+        "unexpected_reachable_identity_pairs": 0,
+        "old_commit_api_sample": {
+          "checked_count": 3,
+          "still_retrievable_count": 3,
+          "commit_ids": [
+            "2418e36d6f03ce30ba3162f97ee8b146494105ac",
+            "ba2d3d4fd5161f34d4295169de69090135f4921e",
+            "b55132bf6f8202c8b32c0cc13b4f1e8bc652010e"
+          ]
+        },
+        "support_request": "Existing focused purge request remains pending; publication gate remains closed."
+      }
+    ]
   },
   "final_docs_build": {
     "status": "SUPERSEDED_AFTER_LATEST_README_BETA_UPDATE",
@@ -4415,5 +4436,43 @@
       "branch_or_worktree_changed": false
     },
     "scope_note": "This records terminal environment discovery only. It does not certify Windows compatibility; native Windows validation remains open."
+  },
+  "current_head_full_linux_suite_20261030": {
+    "observed_at_utc": "2026-10-30T23:54:08Z",
+    "source_head": "c18b22d194dc1abdf25a5411e1d59471e7dbaff5",
+    "source_tree": "bfba732b9cff92f5f8c986d40ee5ead83e4c4265",
+    "platform": "Registered ArtVault Linux x86_64 workspace",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q --basetemp=<private temporary directory>",
+    "result": {
+      "passed": 430,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "exit_code": 0,
+      "duration_seconds": 75.74
+    },
+    "post_run_state_verification": {
+      "head_stable": true,
+      "full_git_status_stable": true,
+      "tracked_diff_stable": true,
+      "cached_diff_stable": true
+    },
+    "scope_note": "Full canonical source suite at the current rewritten head. No project copy or worktree was created; existing untracked data remained unchanged."
+  },
+  "latest_hosted_ci_observation_41146332388_20261030": {
+    "observed_at_utc": "2026-10-30T23:54:08Z",
+    "run_id": 41146332388,
+    "head_sha": "c18b22d194dc1abdf25a5411e1d59471e7dbaff5",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": {
+      "total": 12,
+      "failed_before_runner_assignment": 12,
+      "steps_started": 0,
+      "runner_assigned": 0
+    },
+    "actions_enabled": true,
+    "logs_available": false,
+    "cause": "No runner-side diagnostic was exposed by GitHub; current run cause remains unconfirmed."
   }
 }
