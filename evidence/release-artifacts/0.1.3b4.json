@@ -4108,5 +4108,42 @@
       "Full native macOS and Windows source suites remain unverified.",
       "No public package or GitHub release has been made."
     ]
+  },
+  "license_provenance_audit_20261030": {
+    "observed_at_utc": "2026-10-30T22:45:37Z",
+    "source_commit": "cb5322d09b7a4f6991f91939de104e541fcea7e0",
+    "scope": "Pinned standalone runtime dependencies, project license files, and exact rebuilt package archives.",
+    "project_license": {
+      "expression": "MIT",
+      "license_text_copies_in_wheel": 2,
+      "license_text_copies_in_sdist": 1,
+      "all_copies_byte_identical_to_source": true
+    },
+    "third_party_notice": {
+      "present_in_wheel": true,
+      "present_in_sdist": true,
+      "both_byte_identical_to_source": true,
+      "runtime_dependencies_listed": 4
+    },
+    "runtime_dependency_license_evidence": {
+      "pinned_distributions_checked": 4,
+      "exact_versions_match_pyproject": true,
+      "license_files_contain_mit_terms": true,
+      "license_classifier_absent_for_one_distribution_but_license_file_verified": true
+    },
+    "optional_dependencies": {
+      "pytest_and_graphify_test_extra_versions_match_pyproject": true,
+      "installed_metadata_reports_mit": true,
+      "not_vendored_in_wheel_or_sdist": true,
+      "optional_local_giga_integration_package_not_installed_for_this_audit": true
+    },
+    "validation_input_provenance": {
+      "itsdangerous_2_2_0_source_not_vendored": true,
+      "bsd_3_clause_attribution_retained_in_third_party_notice": true
+    },
+    "limitations": [
+      "This is package/source metadata verification, not legal advice or a license compatibility opinion.",
+      "The optional local Giga integration wheel was not available for inspection."
+    ]
   }
 }
