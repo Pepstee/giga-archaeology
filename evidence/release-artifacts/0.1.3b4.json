@@ -4007,5 +4007,25 @@
       "Full macOS and Windows suites remain unverified.",
       "Hosted GitHub Actions did not run for this evidence-only commit."
     ]
+  },
+  "active_branch_privacy_metadata_scan_20261030": {
+    "observed_at_utc": "2026-10-30T22:27:28Z",
+    "source_commit": "4f3652fe5992b232ce7afd753fffe64c72a9c8d6",
+    "scope": "Current reachable branch metadata and tracked blobs only; no remote ref or object changes.",
+    "tracked_blobs_scanned": 106,
+    "reachable_commit_records_scanned": 214,
+    "non_reserved_email_content_hits": 0,
+    "reserved_test_domain_fixture_email_hits": 2,
+    "local_profile_path_hits": {
+      "macos": 0,
+      "linux": 0,
+      "windows": 0
+    },
+    "reachable_commit_author_email_hits": 0,
+    "reachable_commit_committer_email_hits": 0,
+    "limitations": [
+      "Pattern-based scan; does not identify every possible personal-data form.",
+      "Does not cover unreferenced server-side Git objects or external caches."
+    ]
   }
 }
