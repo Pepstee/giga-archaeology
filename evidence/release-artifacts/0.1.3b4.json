@@ -2177,6 +2177,44 @@
         "No hosted CI tests ran; combined status endpoint returned no checks for current commit.",
         "Graphify remains stale and was not refreshed."
       ]
+    },
+    {
+      "source": {
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "commit": "9a1f8604ce99e7f65900f83d5f9a9d5f965cd079",
+        "host": "ArtVault",
+        "tree": "20560be59f32de05e5c800e43b9fb656777ab5d8"
+      },
+      "verification": {
+        "date": "2026-10-30",
+        "full_test_suite": {
+          "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider --basetemp /tmp/archaeology-pytest-9a1f860-20261030 -q",
+          "duration_seconds": 88.59,
+          "exit_code": 0,
+          "passed": 429,
+          "skipped": 1,
+          "status": "PASS",
+          "subtests_passed": 2
+        },
+        "hosted_ci": {
+          "hosted_tests_ran": false,
+          "jobs": 12,
+          "run_id": "41058173443",
+          "runners_assigned": 0,
+          "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+          "steps_started": 0
+        },
+        "platform": "Linux x86_64, registered ArtVault host",
+        "post_run_state": {
+          "tracked_tree_clean": true,
+          "untracked_path_count": 8317,
+          "untracked_paths_sha256": "30b7d74f9cc5eda6ed159897bf2bebbc24d7a8b71a01dea7cbde85e49327c083",
+          "task_basetemp_removed_and_absence_verified": true
+        },
+        "python": "CPython 3.12.3",
+        "pytest": "9.1.1"
+      }
     }
   ],
   "post_notice_rebuild_test_20261030": {
