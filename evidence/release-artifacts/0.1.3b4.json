@@ -3540,5 +3540,32 @@
         "giga-archaeology"
       ]
     }
+  },
+  "isolated_sdist_install_canary_20261030": {
+    "observed_at_utc": "2026-10-30T21:35:06.530558+00:00",
+    "source_commit": "ca831e3176beb971bee0d916f8cb63367a66f2e0",
+    "artifact": {
+      "kind": "sdist",
+      "filename": "giga_archaeology-0.1.3b4.tar.gz",
+      "sha256": "5659ee562d9712c3bf7b39644ceef04e23f09de18e1cb927594efd23c08566d2",
+      "bytes": 364456
+    },
+    "install": {
+      "status": "PASS_LIMITED",
+      "method": "pip install --target with PEP 517 build isolation enabled by default",
+      "network_and_index": "disabled with --no-index and PIP_NO_INDEX=1",
+      "dependency_resolution": "disabled with --no-deps",
+      "runtime_dependencies": "provided by the existing ArtVault Python 3.12.3 environment",
+      "built_wheel_sha256": "7b1dc4b16fc049f3cd4207abc74cc3d4ea43a0f2595ab2b4b70e5270e5766e40",
+      "built_wheel_matches_recorded_artifact": true
+    },
+    "verification": {
+      "metadata_version": "0.1.3b4",
+      "installed_module_origin_under_temporary_target": true,
+      "giga_archaeology_help": "PASS",
+      "giga_archaeologist_help": "PASS",
+      "temporary_target_removed_and_absence_verified": true
+    },
+    "attempt_scope_limit": "Isolated source archive build and entrypoint smoke check only; no clean-environment runtime dependency resolution or cross-platform canary."
   }
 }
