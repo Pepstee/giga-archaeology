@@ -3442,5 +3442,51 @@
     "workflow_run_count": 0,
     "check_run_count": 0,
     "reason": "Evidence-only path change is outside the workflow push path filters; no run is expected."
+  },
+  "current_artifact_rebuild_ca831e3_20261030": {
+    "built_at_utc": "2026-10-30T21:21:35Z",
+    "source_commit": "ca831e3176beb971bee0d916f8cb63367a66f2e0",
+    "source_tree": "a93d00dae824fd293316563e3db89f2a006ffc78",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1",
+    "command": "python -m build --no-isolation --wheel --sdist",
+    "artifacts": [
+      {
+        "kind": "wheel",
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "sha256": "7b1dc4b16fc049f3cd4207abc74cc3d4ea43a0f2595ab2b4b70e5270e5766e40",
+        "bytes": 396954,
+        "version": "0.1.3b4",
+        "requires_python": ">=3.11",
+        "installed_canary": "NOT_RUN_PENDING_EXACT_HASH_APPROVAL"
+      },
+      {
+        "kind": "sdist",
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "sha256": "5659ee562d9712c3bf7b39644ceef04e23f09de18e1cb927594efd23c08566d2",
+        "bytes": 364456,
+        "installed_canary": "NOT_RUN_PENDING_EXACT_HASH_APPROVAL"
+      }
+    ],
+    "reproducibility": {
+      "fresh_second_build_performed": true,
+      "wheel_byte_identical": true,
+      "sdist_byte_identical": true
+    },
+    "static_archive_inspection": {
+      "wheel_exact_committed_readme_license_notices": true,
+      "sdist_exact_committed_readme_license_notices_beta_validation_quickstart": true,
+      "tests_excluded_from_both": true,
+      "git_metadata_excluded_from_both": true,
+      "twin_core_excluded_from_both": true,
+      "private_pattern_hits": 0,
+      "wheel_file_count": 48,
+      "sdist_file_count": 47,
+      "console_entry_points": [
+        "giga-archaeologist",
+        "giga-archaeology"
+      ]
+    }
   }
 }
