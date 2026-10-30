@@ -1345,7 +1345,7 @@
     "scope": "GitHub-side purge status has not been confirmed."
   },
   "final_docs_build": {
-    "status": "PASS_BUILD_AND_STATIC_ARCHIVE_INSPECTION",
+    "status": "SUPERSEDED_AFTER_BETA_VALIDATION_UPDATE",
     "built_at_date": "2026-10-30",
     "source_head": "b183e101b232502c51c8bf4f410567e98a73a47f",
     "tracked_working_tree_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -1385,7 +1385,9 @@
       "home_path_bearing_files": 0
     },
     "install_validation": "PENDING_EXACT_HASH_OPERATOR_APPROVAL",
-    "tests": "NOT_RUN_BY_THIS_BUILD_GATE"
+    "tests": "NOT_RUN_BY_THIS_BUILD_GATE",
+    "superseded_reason": "Both wheel and source archive bundle BETA_VALIDATION.md. This build predates the dated validation entry now present in the source, so neither artifact is current for publication.",
+    "superseded_after_source_head": "4643e884696a56438fbc779310c71c571c75f57c"
   },
   "post_history_rewrite_full_suite": {
     "status": "PASS_SUMMARY_EXIT_CODE_UNCAPTURED",
