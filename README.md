@@ -16,7 +16,7 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 
 `0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `6148ea80a05805cdc41998fb0081ccfe7e79d4be` (tree `11f1256c0d4d6276b1f116d90e128158b374d8ae`): **430 passed, 1 skipped, and 2 subtests passed** in 74.94 seconds on CPython 3.12.3. This verifies Linux source tests only; full macOS and Windows suites remain unverified.
 
-The latest recorded GitHub Actions attempt was run `41134521472`. All 12 jobs stopped before runner assignment, so no hosted tests ran. Its check annotations identified an account-level runner-admission restriction. The current branch head has no status checks recorded. See the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) for exact revisions, verification scope and limitations.
+Hosted CI evidence is tracked by exact source revision in the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json). A job that stops before its test steps does not count as platform verification.
 
 Artifact verification is hash-specific. The README ships in both the wheel and source archive, so release artifacts must be rebuilt and verified against the final documentation. No public package or GitHub release has been made.
 
