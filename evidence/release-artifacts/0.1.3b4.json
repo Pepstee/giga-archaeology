@@ -3917,6 +3917,16 @@
     "limitations": [
       "Static archive checks only; exact installed-wheel canary is pending approval.",
       "No hosted test run, macOS or Windows full-suite evidence, or public release was produced by this build."
-    ]
+    ],
+    "superseded_by_documentation_correction": "post_beta_scope_correction_20261030"
+  },
+  "post_beta_scope_correction_20261030": {
+    "observed_at_utc": "2026-10-30T22:10:00Z",
+    "base_head": "14f85379efc132901f6d75008f28d6ca71b432c6",
+    "changed_package_input": "architecture/archaeology/BETA_VALIDATION.md",
+    "purpose": "Scope the preceding successful exact-wheel canary to its bc3d81a artifact hashes; explicitly state that later documentation artifacts require their own exact-hash canary.",
+    "artifact_status": "REBUILD_REQUIRED_AFTER_COMMIT",
+    "canary_status": "PENDING_EXACT_CURRENT_WHEEL_AND_OPERATOR_APPROVAL",
+    "release_status": "UNPUBLISHED_VALIDATION_ONLY"
   }
 }
