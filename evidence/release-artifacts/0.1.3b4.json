@@ -2068,8 +2068,117 @@
       "This record does not establish clean dependency resolution in an isolated environment.",
       "No hosted CI steps ran."
     ]
-  }
-],
+  },
+    {
+      "record_id": "current_artifacts_after_readme_correction_20261030",
+      "recorded_at_utc": "2026-10-30T12:58:02.196931+00:00",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "5b58e7fab099c17e4a6165faf0b67e65d44bd06b",
+        "tree": "4ce1cac8c161aa519d83733e667199899de30d33",
+        "machine_register_sha256": "f772783c87b0861e0fb536046485f910443e123151346f6d3c54f09062c9ac13"
+      },
+      "build": {
+        "status": "PASS",
+        "tool": "build",
+        "version": "1.6.1",
+        "python": "CPython 3.12.3",
+        "platform": "Linux x86_64",
+        "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m build --no-isolation --wheel --sdist --outdir /tmp/giga-archaeology-build-5b58e7f-20261030 .",
+        "artifact_directory": "/tmp/giga-archaeology-build-5b58e7f-20261030",
+        "network_access": false,
+        "dependency_resolution": false,
+        "source_changes": false
+      },
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "format": "wheel",
+          "sha256": "1bad68ec5148d98c154c00fd3d48c10dd09a98efaeef12417f697c745d09c2fa",
+          "size_bytes": 394090,
+          "members": 48
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "format": "sdist",
+          "sha256": "b6ce6f938517c73c6fc6d47cdeaeaccae4f0701b07a2132e795ed0a4b08ba78e",
+          "size_bytes": 361712,
+          "members": 47
+        }
+      ],
+      "verification": {
+        "archive_paths": "PASS: wheel and sdist member names contain no absolute or traversal paths",
+        "metadata": "PASS: giga-archaeology 0.1.3b4, MIT, Requires-Python >=3.11, both console scripts present",
+        "embedded_files": "PASS: README.md, LICENSE and THIRD_PARTY_NOTICES.md bytes exactly match canonical source in both artifacts",
+        "twin_core": "PASS: excluded from wheel and sdist",
+        "sdist_contents": "PASS: quickstart example and pyproject.toml/build backend present",
+        "installed_wheel_canary": {
+          "status": "PENDING_EXACT_HASH_OPERATOR_APPROVAL",
+          "wheel_sha256": "1bad68ec5148d98c154c00fd3d48c10dd09a98efaeef12417f697c745d09c2fa"
+        },
+        "current_full_test_suite": "NOT_RUN_ON_5b58e7f",
+        "previous_linux_full_suite": {
+          "status": "PASS",
+          "source_commit": "a5b5eca40a9eb5fa8a9aa5bfdbcfc81bc49c5b84",
+          "passed": 429,
+          "skipped": 1,
+          "subtests_passed": 2,
+          "not_a_current_head_test_receipt": true
+        },
+        "macos_full_suite": "NOT_RUN",
+        "windows_full_suite": "NOT_RUN",
+        "source_state_after_build": "PASS: HEAD, tracked files and index unchanged; all 8,317 untracked paths retained with expected inventory hash"
+      },
+      "superseded_intermediate_build": {
+        "source_commit": "d51f46595c5bea88bcd85aaac2896ef740cfe142",
+        "wheel_sha256": "baeca8c11490f9ececa3ca6d58f7bb1f716c37b83fc20de9a3b7b2274d431a78",
+        "sdist_sha256": "064b889f0aaa9039f7ec82402ca6d75466987bfbe88065fa97343265562798af",
+        "reason": "README changed again at 5b58e7f; this final artifact rebuild supersedes it"
+      },
+      "canary_reconciliation": {
+        "previous_wheel_sha256": "6f623aea2d8f5715bad5e740f555c7225b49e6a96679559ff7d17ee33198081a",
+        "previous_status": "PASS_LIMITED",
+        "previous_source_commit": "a1d4893d52475ef7f8947daff650dfa12bd9106b",
+        "previous_target": "removed and absence verified",
+        "current_disposition": "previous result retained as historical evidence and stale for current source; replaces the stale top-level pending marker for that old hash only. The current wheel remains pending exact-hash approval."
+      },
+      "hosted_ci": {
+        "run_id": 41058173443,
+        "source_commit": "5b58e7fab099c17e4a6165faf0b67e65d44bd06b",
+        "jobs": 12,
+        "conclusion": "all 12 failed before runner assignment",
+        "runners_assigned": 0,
+        "steps_started": 0,
+        "hosted_tests_ran": false,
+        "sampled_job_steps": [],
+        "logs": "unavailable",
+        "result": "BLOCKED_BEFORE_HOSTED_TEST_EXECUTION"
+      },
+      "purpose_preserving_register_observation": {
+        "rule": "Full canonical register observations are rechecked before project writes; observation-only register changes are not ownership changes, and stale concurrent register writes must be rejected.",
+        "protected_property": "No write at an ambiguous owner or concurrent writer; retain current ownership, provenance, and one-writer responsibility.",
+        "observed_issue": "The register's whole-file SHA changed between supervisor review and the write despite repeated confirmation that the exact project owner and writer fields were unchanged.",
+        "bounded_alternative": "Immediately reran canon_preflight inside this write operation and checked actual host, Git root/common dir, registered owner path/status, active writer session, branch, HEAD, tracked state, and worktree count; wrote no register fields.",
+        "current_register_sha256": "f772783c87b0861e0fb536046485f910443e123151346f6d3c54f09062c9ac13",
+        "scope": "This single append to the existing release ledger; commit and push remain separately gated.",
+        "safeguards": [
+          "abort if any owner, writer, path, branch, HEAD, tracked-state or inventory field differs",
+          "ledger preimage SHA pinned and checked",
+          "preserved all prior ledger bytes and entries",
+          "one accountable writer",
+          "no project copy or worktree created"
+        ]
+      },
+      "limitations": [
+        "Current wheel not installed because its exact hash has not yet been approved at record time.",
+        "macOS and Windows full suites not run.",
+        "No hosted CI tests ran; combined status endpoint returned no checks for current commit.",
+        "Graphify remains stale and was not refreshed."
+      ]
+    }
+  ],
   "post_notice_rebuild_test_20261030": {
     "source_commit": "a5b5eca40a9eb5fa8a9aa5bfdbcfc81bc49c5b84",
     "source_tree": "84626b48de25c1c7bb93b2b3e13075ce780efb53",
