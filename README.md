@@ -8,9 +8,13 @@ It indexes files, symbols, imports and static calls. The supported path is deter
 
 This is an unpublished pre-release candidate, version 0.1.3b4. Do not distribute historical 0.1.3b3 artifacts because the filename collides with older candidates.
 
-On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the full source suite passed on source commit `a5b5eca40a9eb5fa8a9aa5bfdbcfc81bc49c5b84` (tree `84626b48de25c1c7bb93b2b3e13075ce780efb53`): **429 passed, 1 skipped, and 2 subtests passed** in 86.88 seconds (exit code 0). This verifies the Linux source suite only. The full macOS suite and Windows supported-scan and current-artifact install checks have not been verified for this candidate. The earlier wheel identified in the evidence ledger predates this README revision and is superseded. Rebuild the wheel and source archive from the final README before distribution; see the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) for artifact hashes and canary status.
+An earlier Linux full-suite run at source commit `9a1f8604ce99e7f65900f83d5f9a9d5f965cd079` (tree `20560be59f32de05e5c800e43b9fb656777ab5d8`) passed 429 tests, with 1 skipped and 2 subtests, in 88.59 seconds.
 
-On 2026-10-30 at 12:43 UTC, GitHub Actions run [41057498186](https://github.com/Pepstee/giga-archaeology/actions/runs/41057498186) for documentation commit `d51f46595c5bea88bcd85aaac2896ef740cfe142` failed before runner assignment: 12 jobs, zero runners assigned, and zero steps started; logs were unavailable, so no hosted tests ran. See the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) and [beta validation record](architecture/archaeology/BETA_VALIDATION.md) for artifact-specific results and limitations. No public release has been made.
+The latest Linux full-suite run was recorded on 2026-10-30 at canonical ArtVault source HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies the Linux source suite only. At the time of that run, full macOS and Windows suites were unverified, and no hosted test result existed for this release candidate.
+
+Artifact installation checks are hash-specific. The wheel canary and its dependency limitations are recorded in the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json); a result for one wheel does not verify a later rebuild. Full macOS and Windows suites remain unverified. See the ledger for exact hashes and verification scope.
+
+GitHub Actions run [41081019299](https://github.com/Pepstee/giga-archaeology/actions/runs/41081019299) for current source commit `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77` failed before any job steps started: all 12 jobs failed, so no hosted tests ran or results were produced. Sampled job logs were unavailable, and the failure causes are not established. See the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) and [beta validation record](architecture/archaeology/BETA_VALIDATION.md) for current evidence and limitations. No public release has been made.
 
 ## Install from a source checkout
 

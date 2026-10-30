@@ -371,3 +371,37 @@ Result: **426 passed, 1 skipped, and 2 subtests passed** in 89.11 seconds; the p
 ## 2026-10-30 — superseded artifact build before validation-record update
 
 At canonical ArtVault HEAD `b183e101b232502c51c8bf4f410567e98a73a47f`, build 1.6.1 produced a wheel and source archive. Their hashes and static inspection results remain in the release ledger. Both formats bundle `architecture/archaeology/BETA_VALIDATION.md`; these artifacts were built before this validation entry was added, so they contain older validation bytes and are superseded. Do not distribute them. A replacement build will be recorded in the release ledger after it is built from the corrected committed source. The ledger itself is excluded from the source archive, so it can carry the archive hashes without changing the packaged files.
+
+
+## 2026-10-30 — latest Linux suite checkpoint
+
+The earlier Linux full-suite run at canonical ArtVault source commit `9a1f8604ce99e7f65900f83d5f9a9d5f965cd079` (tree `20560be59f32de05e5c800e43b9fb656777ab5d8`) passed **429 tests, 1 skipped, and 2 subtests** in 88.59 seconds. It is retained here as a historical checkpoint.
+
+The latest Linux full-suite run was recorded at canonical ArtVault HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77` with CPython 3.12.3: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies Linux source tests only. The run followed source changes; the subsequent edits in this file and the README are documentation-only.
+
+GitHub Actions run [41058173443](https://github.com/Pepstee/giga-archaeology/actions/runs/41058173443), for earlier commit `5b58e7fab099c17e4a6165faf0b67e65d44bd06b`, failed before runner assignment: all 12 jobs had zero runners and zero steps, so no hosted tests ran. That was the latest run checked for this checkpoint.
+
+Full macOS and Windows suites remain unverified. Artifact checks are hash-specific; see the release evidence ledger. No public release has been made.
+
+## 2026-10-30 — exact-hash Linux wheel canary before this documentation correction
+
+Wheel SHA-256 `53eb9fc60debcd61e62c2fb1287fb43d1578bfa0e5690ec389be6c2d5abde442` passed a limited offline installation canary on ArtVault Linux x86_64 with CPython 3.12.3. Metadata version `0.1.3b4`, import origin beneath the temporary target, and both `giga-archaeology --help` and `giga-archaeologist --help` passed; the exact target was removed. The install used `--no-deps --no-index`, with dependencies supplied by the existing ArtVault environment, so clean dependency resolution remains unverified.
+
+This wheel predates the documentation correction recorded here. Its canary does not verify a later wheel rebuild. Artifact hashes and subsequent verification are recorded in the release evidence ledger.
+
+## 2026-10-30 — limited installation canary for the superseded wheel
+
+The wheel with SHA-256 `14db98f5bd197243abaf694123afdec42b2276c213e14059fb048cbf5803c5e0` passed a limited offline install canary on ArtVault Linux with CPython 3.12.3. The installed distribution metadata reported version 0.1.3b4, the imported module resolved under the temporary install target, and both `giga-archaeology --help` and `giga-archaeologist --help` exited successfully. The exact target was removed and confirmed absent; the canon Git status was unchanged.
+
+The install used `--no-deps --no-index`; runtime dependencies were already supplied by the existing ArtVault environment, so this does not verify dependency resolution in a clean environment. This wheel is superseded because the release documentation has been corrected. The replacement wheel and source archive are rebuilt from the corrected documents; their hashes and exact verification status are recorded in the release evidence ledger. The earlier macOS and Windows install canaries used a different wheel hash and do not verify the replacement artifacts.
+
+GitHub Actions run [41058173443](https://github.com/Pepstee/giga-archaeology/actions/runs/41058173443) for commit `5b58e7fab099c17e4a6165faf0b67e65d44bd06b` failed before runner assignment: 12 jobs, zero runners, and zero steps started. No hosted tests ran. The full macOS and Windows suites remain unverified.
+## 2026-10-30 — current-head CI and distribution status
+
+At canonical ArtVault HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`, the full Linux source suite passed with CPython 3.12.3: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies the Linux source suite only.
+
+Wheel SHA-256 `77dc42f5b53576461a7398c748005f26ab86d61b16407fb419dbd3bd957247f0` passed a limited exact-hash install canary on ArtVault Linux x86_64 with CPython 3.12.3. The target was removed and both console entrypoints and imported module origins were verified beneath that target. The canary used `--no-deps --no-index`; dependencies came from the existing ArtVault environment, so clean dependency resolution remains unverified. The wheel embeds the earlier README bytes and is superseded for distribution. The sdist SHA-256 `8df64f74b6e48cdce6833a611c510c6077f7c8859a89f6fd8ecc04f62389c3c2` was statically inspected but not installed; it also predates the current README and this validation update. Rebuild both artifacts from final documentation and run a new exact-hash wheel canary before distribution.
+
+GitHub Actions workflow-dispatch run [41081019299](https://github.com/Pepstee/giga-archaeology/actions/runs/41081019299) targeted the same source HEAD. All 12 matrix jobs failed before steps were exposed, so no hosted tests ran. A sampled job log was unavailable (`404 BlobNotFound`); the causes are not established from the available job summaries. This supersedes run `41058173443` as the current hosted-CI status while retaining its historical record above.
+
+The full macOS and Windows suites and exact-hash installation of artifacts built from the final documents remain unverified. No public release has been made.

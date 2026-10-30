@@ -2215,6 +2215,611 @@
         "python": "CPython 3.12.3",
         "pytest": "9.1.1"
       }
+    },
+    {
+      "record_id": "post_final_docs_build_20261030",
+      "recorded_at_utc": "2026-10-30T13:40:04Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "tree": "32c4f3caccea6d17b5b02e7198e242af71301889",
+        "tracked_docs_diff_sha256": "402175a4fa711416229712afa4d5c72822dbd7cd16d8ea9a94386783d3be6577",
+        "tracked_docs_sha256": {
+          "README.md": "a446661d00956136ddd148d0250a8ac750fa9056a0cd554c670c0a0be00b3298",
+          "architecture/archaeology/BETA_VALIDATION.md": "ed48812b00ecd93f664114e32e77cff4267723eafac74ca236c397f8b692cfc3"
+        }
+      },
+      "build": {
+        "date": "2026-10-30",
+        "tool": "build 1.6.1",
+        "python": "CPython 3.12.3",
+        "backend": "modules/platform/packaging/archaeology_build_backend.py",
+        "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m build --no-isolation --wheel --sdist --outdir [private local temporary path] .",
+        "network": "not used"
+      },
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "format": "wheel",
+          "bytes": 394338,
+          "sha256": "14db98f5bd197243abaf694123afdec42b2276c213e14059fb048cbf5803c5e0"
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "format": "sdist",
+          "bytes": 361946,
+          "sha256": "25e45aafc810aa6b614fb926397ad33c78b71617c4eac27426d570338556f92f"
+        }
+      ],
+      "verification": {
+        "archive_paths": "PASS: no absolute or traversal paths; wheel ZIP integrity passed; sdist inspected without extraction",
+        "wheel_metadata": "PASS: version 0.1.3b4 and Requires-Python >=3.11",
+        "embedded_files": "PASS: exact current README.md, BETA_VALIDATION.md, LICENSE and THIRD_PARTY_NOTICES.md bytes match canon",
+        "sdist_contents": "PASS: examples/quickstart.py, pyproject.toml and build backend present",
+        "twin_core": "PASS: excluded from wheel and sdist",
+        "installed_wheel_canary": {
+          "status": "PENDING_OPERATOR_APPROVAL_FOR_EXACT_HASH",
+          "wheel_sha256": "14db98f5bd197243abaf694123afdec42b2276c213e14059fb048cbf5803c5e0"
+        },
+        "reproducible_rebuild": "NOT_RUN",
+        "hosted_ci": "No new run in this build; latest recorded run 41058173443 had zero runner assignments and zero steps."
+      },
+      "limitations": [
+        "This build did not run tests or install the artifacts.",
+        "Full macOS and Windows suites remain unverified.",
+        "No public release or PyPI publication has occurred."
+      ]
+    },
+    {
+      "record_id": "github_privacy_visibility_audit_20261030",
+      "recorded_at_utc": "2026-10-30T13:51:48Z",
+      "scope": {
+        "repository": "Pepstee/giga-archaeology",
+        "visibility": "private",
+        "default_branch": "codex/artvault-portable-giga-archaeology",
+        "accessible_branch_count": 1,
+        "remote_head": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77"
+      },
+      "current_branch_scan": {
+        "reachable_commits": 185,
+        "author_email_identities": "All 185 author identities use GitHub noreply addresses.",
+        "committer_email_identities": "All 185 committer identities use GitHub noreply addresses.",
+        "email_shaped_blob_matches": "Two matches; both use reserved .invalid addresses in test-only Git configuration fixtures.",
+        "tracked_home_path_patterns": 0
+      },
+      "historical_access_check": {
+        "repository_endpoint": "404 Not Found",
+        "sampled_historical_commit_in_canonical_repository": "422 No commit found; public commit URL 404",
+        "interpretation": "The sampled old repository/commit is not accessible through the checked GitHub endpoints. These responses do not prove deletion from server-side storage or purge of caches, pull-request refs, forks, or backups."
+      },
+      "github_server_side_history_purge": "UNCONFIRMED",
+      "personal_values_recorded": false,
+      "limitations": [
+        "This is a bounded audit of the canonical branch and checked GitHub endpoints, not proof of server-side garbage collection or absence of forks/backups."
+      ]
+    },
+    {
+      "record_id": "post_docs_correction_rebuild_20261030",
+      "recorded_at_utc": "2026-10-30T14:13:17Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "working_tree_docs_sha256": {
+          "README.md": "d567b225c2c9ca072bd944e8ea0c16c1f2707953990e3db696d41e9d782a2a8a",
+          "architecture/archaeology/BETA_VALIDATION.md": "148ba2304096934c8ad87bca9c3bcac28e0bf0de55aa2fc4692dd91bddd26c20"
+        },
+        "preflight_register_sha256": "bf4b15acf02c0b073a9898b04f7d26ff2f6aedc36ba052e5624846decd3d53db"
+      },
+      "build": {
+        "status": "PASS",
+        "tool": "build 1.6.1",
+        "python": "CPython 3.12.3",
+        "backend": "modules/platform/packaging/archaeology_build_backend.py",
+        "command": "PYTHONDONTWRITEBYTECODE=1 PIP_NO_INDEX=1 .venv/bin/python -m build --no-isolation --wheel --sdist --outdir [private local temporary path] .",
+        "network": "not used",
+        "output_directory_retained": "[private local temporary path]"
+      },
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "format": "wheel",
+          "bytes": 394850,
+          "sha256": "53eb9fc60debcd61e62c2fb1287fb43d1578bfa0e5690ec389be6c2d5abde442"
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "format": "sdist",
+          "bytes": 362317,
+          "sha256": "c3a2330a49e1f23fd09730f2dbf6331c02ea5658d752c3d744aa971b92826df1"
+        }
+      ],
+      "verification": {
+        "wheel_metadata": "PASS: version 0.1.3b4, Requires-Python >=3.11",
+        "archive_integrity": "PASS: wheel ZIP integrity; no absolute or traversal paths",
+        "embedded_files": "PASS: current README, LICENSE, THIRD_PARTY_NOTICES and CONTRIBUTING exact bytes verified in wheel; current README, BETA_VALIDATION, LICENSE, THIRD_PARTY_NOTICES, CONTRIBUTING and CHANGELOG exact bytes verified in sdist",
+        "sdist_contents": "PASS: examples/quickstart.py, pyproject.toml and build backend present",
+        "twin_core": "PASS: excluded from wheel and sdist",
+        "reproducible_rebuild": "NOT_RUN",
+        "replacement_wheel_install_canary": {
+          "status": "PENDING_EXACT_HASH_APPROVAL",
+          "wheel_sha256": "53eb9fc60debcd61e62c2fb1287fb43d1578bfa0e5690ec389be6c2d5abde442"
+        }
+      },
+      "superseded_wheel_canary": {
+        "status": "PASS_LIMITED_SUPERSEDED_BY_DOCUMENTATION_CORRECTION",
+        "wheel_sha256": "14db98f5bd197243abaf694123afdec42b2276c213e14059fb048cbf5803c5e0",
+        "bytes": 394338,
+        "platform": "ArtVault Linux x86_64",
+        "python": "CPython 3.12.3",
+        "install": "pip install --no-deps --no-index --target [private local temporary path]",
+        "network": "not used",
+        "dependencies": "Supplied by existing ArtVault environment; clean dependency resolution was not verified.",
+        "metadata_version": "0.1.3b4",
+        "import_origin": "modules/operations/scripts/archaeology.py resolved beneath the exact target",
+        "console_scripts": {
+          "giga-archaeology --help": "PASS, exit 0",
+          "giga-archaeologist --help": "PASS, exit 0"
+        },
+        "cleanup": "PASS: exact target absent after canary",
+        "canon_git_status": "unchanged"
+      },
+      "hosted_ci": {
+        "run_id": 41058173443,
+        "source_commit": "5b58e7fab099c17e4a6165faf0b67e65d44bd06b",
+        "matrix_jobs": 12,
+        "runner_assignments": 0,
+        "steps_started": 0,
+        "hosted_tests_ran": false,
+        "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+        "current_head_has_run": false
+      },
+      "limitations": [
+        "Full macOS and Windows test suites remain unverified.",
+        "The current replacement wheel exact-hash install canary is pending operator approval.",
+        "Hosted GitHub Actions did not run tests for the current candidate.",
+        "A second reproducible build was not performed.",
+        "This record and the documentation edits are still uncommitted."
+      ]
+    },
+    {
+      "record_id": "post_current_wheel_canary_and_full_suite_20261030",
+      "recorded_at_utc": "2026-10-30T14:26:16Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "preflight_register_sha256": "c92a4961f1fbccb34fda5316d138f4f5378d6a72404c0cfb8a94cc074e51b767",
+        "tracked_working_tree_diff_sha256_before_record": "dcd44c3b4d39ae0b89c35c2039da12cef31788451524fc903bc56983d8eaee11",
+        "staged_diff_sha256_before_record": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "replacement_wheel_canary": {
+        "status": "PASS_EXACT_HASH",
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "sha256": "53eb9fc60debcd61e62c2fb1287fb43d1578bfa0e5690ec389be6c2d5abde442",
+        "bytes": 394850,
+        "platform": "ArtVault Linux x86_64",
+        "python": "CPython 3.12.3",
+        "install": "pip install --no-deps --no-index --target [private temporary path] [exact wheel]",
+        "network": "not used",
+        "dependency_resolution": "disabled",
+        "dependencies": "Supplied by existing ArtVault environment; clean dependency resolution was not verified.",
+        "metadata_version": "0.1.3b4",
+        "metadata_and_import_origin": "PASS: package metadata and modules/operations/scripts/archaeology.py resolved beneath the exact target",
+        "console_scripts": {
+          "giga-archaeology --help": "PASS, exit 0",
+          "giga-archaeologist --help": "PASS, exit 0"
+        },
+        "cleanup": "PASS: exact target absent after canary",
+        "canon_state": "unchanged: tracked Git status hash 2b134014df3d6f9b16e670b5da30910d379a9e1c4ed3c10a410ec42e905912fc; untracked inventory 8,318 paths, SHA-256 30af12239a1358e943411ef30dda63a881112877cdad5b9eeba69677ee0e0e74"
+      },
+      "full_linux_suite": {
+        "status": "PASS",
+        "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider --basetemp [private temporary path] -q",
+        "python": "CPython 3.12.3",
+        "pytest": "9.1.1",
+        "passed": 429,
+        "skipped": 1,
+        "subtests_passed": 2,
+        "duration_seconds": 91.63,
+        "exit_code": 0,
+        "basetemp_cleanup": "PASS: exact temporary directory absent after run",
+        "repository_state": "unchanged: tracked diff and status hashes unchanged; untracked inventory 8,318 paths, SHA-256 30af12239a1358e943411ef30dda63a881112877cdad5b9eeba69677ee0e0e74"
+      },
+      "supersedes": {
+        "record_id": "post_docs_correction_rebuild_20261030",
+        "field": "verification.replacement_wheel_install_canary",
+        "prior_status": "PENDING_EXACT_HASH_APPROVAL",
+        "new_status": "PASS_EXACT_HASH"
+      },
+      "limitations": [
+        "Full macOS and Windows test suites remain unverified.",
+        "Hosted GitHub Actions did not run tests for the current candidate.",
+        "A second reproducible build was not performed.",
+        "Clean dependency resolution was not verified.",
+        "This record and the documentation edits are uncommitted."
+      ]
+    },
+    {
+      "record_id": "post_docs_correction_final_build_20261030",
+      "recorded_at_utc": "2026-10-30T14:45:23Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "preflight_register_sha256": "0eb8952f6cd869deadd512cb1fd66c7d0673bf9a305f5d9c5de6a023ef334bf3"
+      },
+      "full_linux_suite": {
+        "status": "PASS",
+        "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider --basetemp [private temporary path] -q",
+        "python": "CPython 3.12.3",
+        "pytest": "9.1.1",
+        "passed": 429,
+        "skipped": 1,
+        "subtests_passed": 2,
+        "duration_seconds": 91.73,
+        "exit_code": 0,
+        "basetemp_cleanup": "PASS: exact temporary directory absent after run",
+        "repository_state": "unchanged: tracked diff, index, and untracked inventory unchanged; 8,318 paths, SHA-256 30af12239a1358e943411ef30dda63a881112877cdad5b9eeba69677ee0e0e74"
+      },
+      "build": {
+        "status": "PASS",
+        "tool": "build 1.6.1",
+        "python": "CPython 3.12.3",
+        "backend": "modules/platform/packaging/archaeology_build_backend.py",
+        "command": "PYTHONDONTWRITEBYTECODE=1 PIP_NO_INDEX=1 .venv/bin/python -m build --no-isolation --wheel --sdist --outdir [private local temporary path] .",
+        "network": "not used",
+        "source_state": "unchanged during build"
+      },
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "format": "wheel",
+          "bytes": 395077,
+          "sha256": "b5ae1be2d9673b2c7ed35e21675fadf644c1219679e19a507f2359e38833e1cd"
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "format": "sdist",
+          "bytes": 362600,
+          "sha256": "40f7ef305b0fb047a09887bd4236c2d20c692ad63784740a540a37c878e92f68"
+        }
+      ],
+      "verification": {
+        "wheel_metadata": "PASS: version 0.1.3b4; Requires-Python >=3.11",
+        "archive_integrity": "PASS: wheel ZIP integrity; safe member paths in both archives",
+        "embedded_files": "PASS: corrected README, LICENSE, THIRD_PARTY_NOTICES and CONTRIBUTING exact in wheel; corrected README, BETA_VALIDATION, LICENSE, THIRD_PARTY_NOTICES, CONTRIBUTING and CHANGELOG exact in sdist",
+        "sdist_contents": "PASS: examples/quickstart.py, pyproject.toml, and build backend present",
+        "twin_core": "PASS: excluded from wheel and sdist",
+        "wheel_install_canary": {
+          "status": "PASS_EXACT_HASH",
+          "installed_metadata": "giga-archaeology 0.1.3b4",
+          "platform": "ArtVault Linux x86_64; CPython 3.12.3",
+          "install": "pip install --no-index --no-deps --target [private temporary path] [exact wheel]",
+          "network_access": false,
+          "dependency_resolution": "disabled",
+          "runtime_dependencies": "Supplied by the existing ArtVault environment; clean dependency resolution remains unverified.",
+          "import_origins": [
+            "modules.operations.archaeology: under the exact temporary target",
+            "modules.operations.scripts.archaeology: under the exact temporary target",
+            "modules.operations.scripts.archaeologist: under the exact temporary target"
+          ],
+          "console_entrypoint_help": {
+            "giga-archaeology": "PASS, exit 0; usage text present",
+            "giga-archaeologist": "PASS, exit 0; usage text present"
+          },
+          "target_removed_and_absence_verified": true,
+          "canon_state": "Unchanged: tracked status SHA-256 5572485db78d8e0dd964dcf58a9620746d98a10d84ca5154c1fbf1ecf2b50ee8; untracked inventory 8,318 paths, SHA-256 30af12239a1358e943411ef30dda63a881112877cdad5b9eeba69677ee0e0e74.",
+          "routing_receipt_id": "archaeology-offline-canaries-20261030",
+          "verified_at_utc": "2026-10-30T15:23:27Z",
+          "wheel_sha256": "b5ae1be2d9673b2c7ed35e21675fadf644c1219679e19a507f2359e38833e1cd",
+          "artifact_bytes": 395077,
+          "attempts": [
+            {
+              "attempt": 1,
+              "status": "FAIL_IMPORT_ORIGIN_ASSERTION",
+              "working_directory": "canonical source workspace",
+              "finding": "Python imported the canonical checkout module instead of the temporary target because the source workspace was the current directory.",
+              "cleanup": "PASS: exact temporary target removed by cleanup trap."
+            },
+            {
+              "attempt": 2,
+              "status": "PASS",
+              "working_directory": "outside source workspace (/tmp)",
+              "finding": "Metadata, all three import origins and both console entrypoint help commands verified under the exact target.",
+              "cleanup": "PASS: exact temporary target removed and absence verified."
+            }
+          ],
+          "superseded_by_wheel_sha256": "77dc42f5b53576461a7398c748005f26ab86d61b16407fb419dbd3bd957247f0"
+        },
+        "reproducible_rebuild": "NOT_RUN"
+      },
+      "limitations": [
+        "Full macOS and Windows test suites remain unverified.",
+        "Hosted GitHub Actions has not run tests for the current release candidate.",
+        "This exact-hash canary passed; the b5 wheel is superseded by the later docs-corrected 77dc42f5 wheel.",
+        "Clean dependency resolution was not verified.",
+        "This record and documentation changes are uncommitted."
+      ]
+    },
+    {
+      "record_id": "post_final_suite_timing_docs_build_20261030",
+      "recorded_at_utc": "2026-10-30T14:45:23Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "preflight_register_sha256": "d3a325eb533847032a8edda970d6cf985613ffe081a8602aca5997496a4a521a",
+        "README_sha256": "2440921ba414804625da4a475885fe97d9e91dd2fa6d5d5eecde359ade97a5d9",
+        "BETA_VALIDATION_sha256": "f64fe13f49b3f469aad73798bdcbce04a485a60ca812e09bbc0ea2a3788d838f",
+        "tracked_working_tree_diff_sha256_before_record": "c08bef950e1e89e966f04734c8c5253a78b4e13e389db35a9f95757d155248c5"
+      },
+      "full_linux_suite": {
+        "status": "PASS",
+        "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider --basetemp [private temporary path] -q",
+        "python": "CPython 3.12.3",
+        "pytest": "9.1.1",
+        "passed": 429,
+        "skipped": 1,
+        "subtests_passed": 2,
+        "duration_seconds": 91.73,
+        "exit_code": 0,
+        "basetemp_cleanup": "PASS: exact temporary directory absent after run",
+        "repository_state": "unchanged: tracked diff/index and untracked inventory unchanged; 8,318 paths, SHA-256 30af12239a1358e943411ef30dda63a881112877cdad5b9eeba69677ee0e0e74"
+      },
+      "build": {
+        "status": "PASS",
+        "tool": "build 1.6.1",
+        "python": "CPython 3.12.3",
+        "backend": "modules/platform/packaging/archaeology_build_backend.py",
+        "command": "PYTHONDONTWRITEBYTECODE=1 PIP_NO_INDEX=1 .venv/bin/python -m build --no-isolation --wheel --sdist --outdir [private local temporary path] .",
+        "network": "not used",
+        "source_state": "unchanged during build"
+      },
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "format": "wheel",
+          "bytes": 395078,
+          "sha256": "77dc42f5b53576461a7398c748005f26ab86d61b16407fb419dbd3bd957247f0"
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "format": "sdist",
+          "bytes": 362600,
+          "sha256": "8df64f74b6e48cdce6833a611c510c6077f7c8859a89f6fd8ecc04f62389c3c2"
+        }
+      ],
+      "verification": {
+        "wheel_metadata": "PASS: version 0.1.3b4; Requires-Python >=3.11",
+        "archive_integrity": "PASS: wheel ZIP integrity; safe member paths in both archives",
+        "embedded_files": "PASS: final README, LICENSE, THIRD_PARTY_NOTICES and CONTRIBUTING exact in wheel; final README, BETA_VALIDATION, LICENSE, THIRD_PARTY_NOTICES, CONTRIBUTING and CHANGELOG exact in sdist",
+        "sdist_contents": "PASS: examples/quickstart.py, pyproject.toml, and build backend present",
+        "twin_core": "PASS: excluded from wheel and sdist",
+        "wheel_install_canary": {
+          "status": "PASS_EXACT_HASH",
+          "installed_metadata": "giga-archaeology 0.1.3b4",
+          "platform": "ArtVault Linux x86_64; CPython 3.12.3",
+          "install": "pip install --no-index --no-deps --target [private temporary path] [exact wheel]",
+          "network_access": false,
+          "dependency_resolution": "disabled",
+          "runtime_dependencies": "Supplied by the existing ArtVault environment; clean dependency resolution remains unverified.",
+          "import_origins": [
+            "modules.operations.archaeology: under the exact temporary target",
+            "modules.operations.scripts.archaeology: under the exact temporary target",
+            "modules.operations.scripts.archaeologist: under the exact temporary target"
+          ],
+          "console_entrypoint_help": {
+            "giga-archaeology": "PASS, exit 0; usage text present",
+            "giga-archaeologist": "PASS, exit 0; usage text present"
+          },
+          "target_removed_and_absence_verified": true,
+          "canon_state": "Unchanged: tracked status SHA-256 5572485db78d8e0dd964dcf58a9620746d98a10d84ca5154c1fbf1ecf2b50ee8; untracked inventory 8,318 paths, SHA-256 30af12239a1358e943411ef30dda63a881112877cdad5b9eeba69677ee0e0e74.",
+          "routing_receipt_id": "archaeology-offline-canaries-20261030",
+          "verified_at_utc": "2026-10-30T15:23:27Z",
+          "wheel_sha256": "77dc42f5b53576461a7398c748005f26ab86d61b16407fb419dbd3bd957247f0",
+          "artifact_bytes": 395078,
+          "attempts": [
+            {
+              "attempt": 1,
+              "status": "PASS",
+              "working_directory": "outside source workspace (/tmp)",
+              "finding": "Metadata, all three import origins and both console entrypoint help commands verified under the exact target.",
+              "cleanup": "PASS: exact temporary target removed and absence verified."
+            }
+          ],
+          "current_candidate": true
+        },
+        "reproducible_rebuild": "NOT_RUN"
+      },
+      "limitations": [
+        "Full macOS and Windows test suites remain unverified.",
+        "Hosted GitHub Actions has not run tests for the current release candidate.",
+        "The exact-hash wheel canary passed using existing ArtVault dependencies; clean dependency resolution remains unverified.",
+        "Clean dependency resolution was not verified.",
+        "This record and documentation changes are uncommitted."
+      ]
+    },
+    {
+      "record_id": "current_head_workflow_dispatch_41081019299_20261030",
+      "recorded_at_utc": "2026-10-30T15:47:01Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "preflight_register_sha256": "d07b9835f2c382045d86e30a167d5a4aa334cc981988e27113fe3fd5a6e0136d"
+      },
+      "hosted_ci": {
+        "repository": "Pepstee/giga-archaeology",
+        "workflow_file": ".github/workflows/ci.yml",
+        "run_id": 41081019299,
+        "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41081019299",
+        "event": "workflow_dispatch",
+        "head_commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "status": "completed",
+        "conclusion": "failure",
+        "matrix_jobs": 12,
+        "failed_jobs": 12,
+        "job_step_summaries_exposed": 0,
+        "hosted_tests_ran": false,
+        "jobs": [
+          {
+            "id": 124149856887,
+            "name": "macos-latest · Python 3.12",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149856983,
+            "name": "windows-latest · Python 3.13",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857064,
+            "name": "ubuntu-latest · Python 3.11",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857122,
+            "name": "ubuntu-latest · Python 3.12",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857130,
+            "name": "windows-latest · Python 3.12",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857296,
+            "name": "ubuntu-latest · Python 3.13",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857399,
+            "name": "windows-latest · Python 3.14",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857424,
+            "name": "ubuntu-latest · Python 3.14",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857495,
+            "name": "macos-latest · Python 3.11",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857549,
+            "name": "macos-latest · Python 3.14",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857593,
+            "name": "windows-latest · Python 3.11",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          },
+          {
+            "id": 124149857655,
+            "name": "macos-latest · Python 3.13",
+            "conclusion": "failure",
+            "steps_exposed": 0
+          }
+        ],
+        "sampled_job_log": {
+          "job_id": 124149856983,
+          "http_status": 404,
+          "error": "BlobNotFound"
+        },
+        "cause": "Unknown from available job summaries and sampled log response; no cause inferred."
+      },
+      "limitations": [
+        "This run produced no hosted test results for any platform.",
+        "The sampled job log was unavailable; the failure cause is not established for the run as a whole."
+      ]
+    },
+    {
+      "record_id": "post_final_documentation_build_20261030",
+      "recorded_at_utc": "2026-10-30T15:56:58Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77",
+        "tree": "32c4f3caccea6d17b5b02e7198e242af71301889",
+        "README_sha256": "38cfe5849d149160088cd89e48a9e1fb5c87d9eeac7da31899655a3b948c3d0c",
+        "BETA_VALIDATION_sha256": "bd34892f93c6a7115d595895c070b0d3c6b8fcc09861874a24bf7b8b11243e3d",
+        "tracked_working_tree_diff_sha256": "9459dad520ebe9e89a936460d3855ba2999ccbc52a654c88272d5059afc5e50c",
+        "preflight_register_sha256": "b3ba38e186b4171d3eb1b90b30294cb308869c326421f6747e72cd27026a1546"
+      },
+      "build": {
+        "tool": "build 1.6.1",
+        "python": "CPython 3.12.3",
+        "platform": "ArtVault Linux x86_64",
+        "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m build --no-isolation --wheel --sdist --outdir <private temporary directory> .",
+        "network_access": false,
+        "dependency_resolution": false,
+        "source_state_unchanged": true
+      },
+      "current_candidate": true,
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "format": "wheel",
+          "bytes": 395439,
+          "members": 48,
+          "sha256": "5b48cb64995fbae68225944de719b55e9c3655bb7497765ccacd891c2e3ee95f"
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "format": "sdist",
+          "bytes": 362977,
+          "members": 47,
+          "sha256": "bd09a938d1aa7548ae98cca319ba58e53f23052699c99b8155b62104a448753d"
+        }
+      ],
+      "verification": {
+        "wheel_metadata": "PASS: name giga-archaeology; version 0.1.3b4; Requires-Python >=3.11",
+        "archive_integrity_and_paths": "PASS: wheel ZIP integrity; no absolute or traversal member paths",
+        "embedded_files": "PASS: exact current README, BETA_VALIDATION, LICENSE, THIRD_PARTY_NOTICES bytes in wheel and sdist",
+        "entry_points": "PASS: giga-archaeologist and giga-archaeology present",
+        "sdist_contents": "PASS: examples/quickstart.py, pyproject.toml, and build backend present",
+        "TwinCore_and_Git": "PASS: excluded from both artifacts",
+        "privacy_pattern_counts": {
+          "email": 0,
+          "home_path": 0,
+          "secret_like_assignment": 0
+        },
+        "wheel_install_canary": {
+          "status": "PENDING_EXACT_HASH_OPERATOR_APPROVAL",
+          "wheel_sha256": "5b48cb64995fbae68225944de719b55e9c3655bb7497765ccacd891c2e3ee95f"
+        },
+        "sdist_install_canary": "NOT_RUN",
+        "reproducible_rebuild": "NOT_RUN"
+      },
+      "limitations": [
+        "Wheel runtime/CLI canary for this exact hash is pending operator approval.",
+        "Clean dependency resolution is unverified; this build used the existing ArtVault environment without dependency installation.",
+        "Full macOS and Windows suites and exact-hash platform installs remain unverified.",
+        "No public release has been made."
+      ]
     }
   ],
   "post_notice_rebuild_test_20261030": {
