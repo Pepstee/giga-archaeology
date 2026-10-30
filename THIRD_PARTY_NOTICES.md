@@ -3,7 +3,7 @@
 The standalone beta installs these dependencies from the package index; their source is not vendored
 in this distribution. Their own licence terms continue to apply.
 
-The exact pinned distributions declare the MIT License and include their license text:
+The exact pinned distributions include license text identifying them as MIT licensed:
 
 - tree-sitter 0.26.0: [upstream license](https://github.com/tree-sitter/tree-sitter/blob/master/LICENSE).
 - tree-sitter-bash 0.25.1: [upstream license](https://github.com/tree-sitter/tree-sitter-bash/blob/master/LICENSE).
