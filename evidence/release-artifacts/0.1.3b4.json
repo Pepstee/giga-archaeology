@@ -1981,5 +1981,93 @@
     "source_state_after_build": "unchanged",
     "windows_supported_scan_and_package_install": "NOT_RUN"
   }
-}]
+},
+  {
+    "record_id": "exact_wheel_canaries_and_current_hosted_ci_20261030",
+    "recorded_at_utc": "2026-10-30T12:11:16.105213+00:00",
+    "source": {
+      "host": "ArtVault",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "head": "b725c2e632a35dd4225e32c71b5aa14c566e833e",
+      "tree": "edb5b25b02b2b4a00ac543b88dbede782297d3bb"
+    },
+    "artifact_canaries": [
+      {
+        "artifact_sha256": "cb1e1a6d6a0b976c644c0e9117ec3c47d0fffbc436dee6d1d9e2de1a408973cf",
+        "artifact_source_commit": "785981fa83b44d7c6a22b9bedbe8ebe248bbc47b",
+        "operator_approved_exact_hash": true,
+        "platform": "ArtVault Linux x86_64, CPython 3.12.3",
+        "network_access": false,
+        "dependency_resolution": false,
+        "install": "Passed using the registered canon virtual environment pip after the system interpreter had no pip.",
+        "metadata_and_import_origin": "PASS",
+        "console_help": [
+          {
+            "command": "giga-archaeologist",
+            "exit_code": 0,
+            "first_line": "usage: giga-archaeology [-h]",
+            "expected_first_line": "usage: giga-archaeologist [-h]",
+            "displayed_name_matches": false
+          }
+        ],
+        "result": "The compatibility command runs but advertises the canonical command name. Earlier PASS wording checked command exit/help execution, not the displayed alias name.",
+        "temporary_target_removed_and_absence_verified": true
+      },
+      {
+        "artifact_sha256": "6f623aea2d8f5715bad5e740f555c7225b49e6a96679559ff7d17ee33198081a",
+        "artifact_source_commit": "a1d4893d52475ef7f8947daff650dfa12bd9106b",
+        "operator_approved_exact_hash": true,
+        "platform": "ArtVault Linux x86_64, CPython 3.12.3",
+        "network_access": false,
+        "dependency_resolution": false,
+        "metadata": {
+          "name": "giga-archaeology",
+          "version": "0.1.3b4",
+          "license": "MIT",
+          "requires_python": ">=3.11",
+          "console_entry_points": [
+            "giga-archaeologist",
+            "giga-archaeology"
+          ]
+        },
+        "import_origins": {
+          "modules.operations.scripts.archaeology": "under the exact temporary target",
+          "modules.operations.scripts.archaeologist": "under the exact temporary target"
+        },
+        "console_help": [
+          {
+            "command": "giga-archaeologist",
+            "exit_code": 0,
+            "first_line": "usage: giga-archaeologist [-h]",
+            "displayed_name_matches": true
+          },
+          {
+            "command": "giga-archaeology",
+            "exit_code": 0,
+            "first_line": "usage: giga-archaeology [-h]",
+            "displayed_name_matches": true
+          }
+        ],
+        "result": "PASS_LIMITED; runtime dependencies were supplied by the existing test environment and pip check was not run.",
+        "temporary_target_removed_and_absence_verified": true
+      }
+    ],
+    "hosted_ci": {
+      "run_id": 41051220397,
+      "head": "b725c2e632a35dd4225e32c71b5aa14c566e833e",
+      "jobs": 12,
+      "failed_jobs": 12,
+      "runner_assignments": 0,
+      "steps_started": 0,
+      "hosted_tests_executed": false,
+      "job_logs": "Unavailable; API returned no job log blob.",
+      "result": "FAILED_BEFORE_RUNNER_ASSIGNMENT"
+    },
+    "limits": [
+      "This record does not establish macOS or Windows execution for the current artifact.",
+      "This record does not establish clean dependency resolution in an isolated environment.",
+      "No hosted CI steps ran."
+    ]
+  }
+]
 }
