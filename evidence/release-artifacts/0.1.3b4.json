@@ -602,12 +602,14 @@
   },
   "distribution": {
     "pypi_project_status": "404 at check time",
-    "github_public_release_created": false
+    "github_public_release_created": false,
+    "github_repository_visibility": "private (GitHub API observation, 2026-10-30)"
   },
   "limitations": [
     "Full macOS and Windows test suites remain unverified; Windows wheel installation and Linux sdist installation canaries passed.",
     "Hosted GitHub Actions could not run these jobs; no hosted tests ran.",
-    "Historical 0.1.3b3 artifacts remain validation-only because their filenames collide with older candidates."
+    "Historical 0.1.3b3 artifacts remain validation-only because their filenames collide with older candidates.",
+    "GitHub-side history purge remains unconfirmed; one previously identified unreachable commit is still retrievable through the authenticated API."
   ],
   "temporary_install_canary_exception": {
     "status": "VERIFIED_AND_RETIRED",
@@ -1187,9 +1189,9 @@
     "source_changes_during_canary": false
   },
   "latest_hosted_ci_blocker": {
-    "run_id": 41116885839,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839",
-    "source_commit": "8b2f901811edc75a72fcce01b3e432b47d280d23",
+    "run_id": 41127578444,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41127578444",
+    "source_commit": "e31512e1aede3dd605ac8ffd6f78093eddfa4621",
     "event": "push",
     "matrix_jobs": 12,
     "jobs_failed": 12,
@@ -1197,8 +1199,8 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "UNKNOWN",
-    "evidence_record": "post_push_ci_review_41116885839_20261030"
+    "cause": "RUNNER_ADMISSION_RESTRICTION; provider-specific details omitted",
+    "evidence_record": "post_push_ci_review_41127578444_20261030"
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -1386,11 +1388,15 @@
     }
   },
   "github_server_side_history_purge": {
-    "status": "UNCONFIRMED",
-    "scope": "GitHub-side purge status has not been confirmed."
+    "status": "PARTIAL_PURGE_UNCONFIRMED",
+    "scope": "Four previously identified unreachable commit objects checked through authenticated GitHub commit API.",
+    "latest_check_at_utc": "2026-10-30T21:53:55Z",
+    "observed": "Three IDs return HTTP 422 No commit found; one still returns commit metadata.",
+    "follow_up": "Focused purge request sent to GitHub Support; awaiting response and independent verification.",
+    "publication_gate": "Repository remains private; do not claim purge complete or publish until the remaining object is no longer retrievable."
   },
   "final_docs_build": {
-    "status": "PASS_BUILD_AND_STATIC_ARCHIVE_INSPECTION_INSTALL_CANARY_PENDING_EXACT_HASH_APPROVAL",
+    "status": "SUPERSEDED_AFTER_LATEST_README_BETA_UPDATE",
     "built_at_date": "2026-10-30",
     "source_head": "231e54bfffd2c0da6f073deaac19545d9ab33d2c",
     "source_head_tree": "bbf6a498b5d6a2021475b8dbf8a2bdd6bf8c59ee",
@@ -1439,7 +1445,8 @@
       "installation_canary": "NOT_RUN_NO_SOURCE_ARCHIVE_EXTRACTION"
     },
     "archive_static_inspection": "PASS: wheel metadata, console entry points, licence, RECORD hashes and sizes, README bytes, TwinCore exclusion, and privacy patterns checked; sdist README, BETA_VALIDATION, licence and quickstart exact bytes checked; no Git metadata or TwinCore included.",
-    "reproducible_rebuild": "NOT_RUN"
+    "reproducible_rebuild": "NOT_RUN",
+    "superseded_reason": "README and BETA_VALIDATION changed after this build; rebuild from the committed documentation checkpoint."
   },
   "post_history_rewrite_full_suite": {
     "status": "PASS_SUMMARY_EXIT_CODE_UNCAPTURED",
@@ -3539,7 +3546,8 @@
         "giga-archaeologist",
         "giga-archaeology"
       ]
-    }
+    },
+    "superseded_by_documentation_update": true
   },
   "isolated_sdist_install_canary_20261030": {
     "observed_at_utc": "2026-10-30T21:35:06.530558+00:00",
@@ -3718,5 +3726,23 @@
       }
     ],
     "scope_limit": "One synthetic repository on Linux only; this does not verify native Windows/macOS execution, large-repository performance, or broad mapping precision/recall."
+  },
+  "current_head_actions_query_20261030_2153": {
+    "checked_at_utc": "2026-10-30T21:53:48Z",
+    "head_commit": "b7bed05953b3a0500a816af9f60caa3a6929bbef",
+    "workflow_run_count": 0,
+    "check_run_count": 0,
+    "status": "NO_HOSTED_TEST_RESULT",
+    "scope_note": "GitHub API query for exact current HEAD; no cause inferred."
+  },
+  "post_latest_documentation_update": {
+    "observed_at_utc": "2026-10-30T21:53:55Z",
+    "base_head": "b7bed05953b3a0500a816af9f60caa3a6929bbef",
+    "changed_package_inputs": [
+      "README.md",
+      "architecture/archaeology/BETA_VALIDATION.md"
+    ],
+    "artifact_status": "REBUILD_REQUIRED_AFTER_COMMIT",
+    "release_status": "UNPUBLISHED_VALIDATION_ONLY"
   }
 }

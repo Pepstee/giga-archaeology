@@ -448,3 +448,12 @@ Result: **430 passed, 1 skipped, and 2 subtests passed**; exit code 0; elapsed t
 GitHub Actions run [41116885839](https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839) targeted superseded commit `8b2f901811edc75a72fcce01b3e432b47d280d23`. All 12 matrix jobs failed before runner assignment, with zero runners and zero steps; no hosted tests ran and the cause is unknown. A GitHub API query at 2026-10-30 20:50:59 UTC for current HEAD `ba2d3d4fd5161f34d4295169de69090135f4921e` returned zero workflow runs. Neither observation establishes hosted platform test results.
 
 No public release has been made. This documentation/evidence update does not rebuild or verify distribution artifacts; previously recorded wheel and sdist checks apply only to their exact recorded hashes and source bytes.
+
+
+## 2026-10-30 — pre-update repository and hosted-CI checkpoint
+
+This checkpoint was captured with the registered branch at `b7bed05953b3a0500a816af9f60caa3a6929bbef`. Its product and test files were unchanged from the full Linux source-suite run at `ba2d3d4fd5161f34d4295169de69090135f4921e`: 430 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3. This carries forward Linux source evidence only; the later changes are release documentation and evidence. Full macOS and Windows suites remain unverified.
+
+The latest observed Actions run is [41127578444](https://github.com/Pepstee/giga-archaeology/actions/runs/41127578444), for superseded commit `e31512e1aede3dd605ac8ffd6f78093eddfa4621`. All 12 matrix jobs ended before runner assignment, with zero runners and zero steps; no hosted tests ran. A GitHub API query at 2026-10-30 21:53 UTC returned zero workflow runs and zero check runs for then-current HEAD `b7bed05953b3a0500a816af9f60caa3a6929bbef`. The recorded provider annotation identifies runner admission restriction; no hosted test result was produced.
+
+The exact-hash Linux quickstart canary and artifact hashes are recorded in `evidence/release-artifacts/0.1.3b4.json`. Those artifacts predate this README/BETA update and are superseded for distribution; rebuild and reverify them from the committed documentation checkpoint. Full macOS/Windows suites, hosted matrix results, and a public release remain outstanding.
