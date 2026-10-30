@@ -179,6 +179,28 @@ def test_non_scratch_repository_refuses(tmp_path: Path) -> None:
         )
 
 
+def test_probe_sandbox_private_root_default_and_override(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    repository = tmp_path / "repository"
+    scratch = tmp_path / "scratch"
+    repository.mkdir()
+    scratch.mkdir()
+    home = tmp_path / "home"
+    home.mkdir()
+    monkeypatch.setenv("HOME", str(home))
+    monkeypatch.delenv("GIGA_ARCHAEOLOGIST_PRIVATE_ROOT", raising=False)
+
+    default_profile = _sandbox_profile(repository.resolve(), scratch.resolve())
+    default_path = home / "Private"
+    assert f'(deny file-read* (subpath "{default_path}"))' in default_profile
+
+    monkeypatch.setenv("GIGA_ARCHAEOLOGIST_PRIVATE_ROOT", "~/sensitive-data")
+    override_profile = _sandbox_profile(repository.resolve(), scratch.resolve())
+    override_path = home / "sensitive-data"
+    assert f'(deny file-read* (subpath "{override_path}"))' in override_profile
+
+
 @pytest.mark.skipif(sys.platform != "darwin", reason="Darwin sandbox profile")
 def test_probe_sandbox_blocks_personal_reads_and_repository_writes(
     tmp_path: Path,

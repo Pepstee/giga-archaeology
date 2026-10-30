@@ -73,7 +73,7 @@ def test_scanner_configuration_discovers_path_and_current_python(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     for key in ("GIGA_ARCHAEOLOGIST_VULTURE", "GIGA_ARCHAEOLOGIST_JSCPD",
-                "GIGA_ARCHAEOLOGIST_CGC_PYTHON"):
+                "GIGA_ARCHAEOLOGIST_CGC_PYTHON", "GIGA_ARCHAEOLOGIST_TOOLS_ROOT"):
         monkeypatch.delenv(key, raising=False)
     monkeypatch.setenv("PATH", str(tmp_path))
     vulture = _executable(tmp_path / "vulture", "#!/bin/sh\nexit 0\n")
@@ -83,22 +83,29 @@ def test_scanner_configuration_discovers_path_and_current_python(
     assert paths.jscpd == jscpd
     assert paths.cgc_python == Path(sys.executable)
     monkeypatch.setenv("PATH", "")
+    tools_root = tmp_path / "scanner-tools"
+    monkeypatch.setenv("GIGA_ARCHAEOLOGIST_TOOLS_ROOT", str(tools_root))
     fallback = ScannerPaths()
-    legacy = Path.home() / "Documents" / "giga-user"
-    assert fallback.vulture == legacy / ".venv/bin/vulture"
-    assert fallback.jscpd == legacy / "node/node_modules/.bin/jscpd"
+    scripts = "Scripts" if os.name == "nt" else "bin"
+    suffix = ".exe" if os.name == "nt" else ""
+    jscpd_shim = "jscpd.cmd" if os.name == "nt" else "jscpd"
+    assert fallback.vulture == tools_root / ".venv" / scripts / f"vulture{suffix}"
+    assert fallback.jscpd == tools_root / "node" / "node_modules" / ".bin" / jscpd_shim
 
 
 def test_explicit_tools_root_and_missing_root(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     for key in ("GIGA_ARCHAEOLOGIST_VULTURE", "GIGA_ARCHAEOLOGIST_JSCPD",
-                "GIGA_ARCHAEOLOGIST_CGC_PYTHON"):
+                "GIGA_ARCHAEOLOGIST_CGC_PYTHON", "GIGA_ARCHAEOLOGIST_TOOLS_ROOT"):
         monkeypatch.setenv(key, str(tmp_path / "ignored-environment"))
     paths = ScannerPaths.from_tools_root(tmp_path)
-    assert paths.vulture == tmp_path / ".venv/bin/vulture"
-    assert paths.jscpd == tmp_path / "node/node_modules/.bin/jscpd"
-    assert paths.cgc_python == tmp_path / ".venv/bin/python"
+    scripts = "Scripts" if os.name == "nt" else "bin"
+    suffix = ".exe" if os.name == "nt" else ""
+    jscpd_shim = "jscpd.cmd" if os.name == "nt" else "jscpd"
+    assert paths.vulture == tmp_path / ".venv" / scripts / f"vulture{suffix}"
+    assert paths.jscpd == tmp_path / "node" / "node_modules" / ".bin" / jscpd_shim
+    assert paths.cgc_python == tmp_path / ".venv" / scripts / f"python{suffix}"
     with pytest.raises(HypothesisError, match="tools root is unavailable"):
         ScannerPaths.from_tools_root(tmp_path / "missing")
 
@@ -112,7 +119,9 @@ def test_cli_uses_explicit_tools_root_before_inventory(tmp_path: Path) -> None:
         cwd=tmp_path, capture_output=True, text=True, timeout=15,
     )
     assert result.returncode != 0
-    assert str(tmp_path / ".venv/bin/vulture") in result.stdout + result.stderr
+    scripts = "Scripts" if os.name == "nt" else "bin"
+    suffix = ".exe" if os.name == "nt" else ""
+    assert str(tmp_path / ".venv" / scripts / f"vulture{suffix}") in result.stdout + result.stderr
     assert not (tmp_path / "output").exists()
 
 

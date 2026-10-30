@@ -36,7 +36,24 @@ class HypothesisError(ValueError):
     """Scanner evidence cannot be produced without weakening the boundary."""
 
 
-_LEGACY_TOOL_ROOT = Path.home() / "Documents" / "giga-user"
+def _configured_tools_root() -> Path:
+    configured = os.environ.get("GIGA_ARCHAEOLOGIST_TOOLS_ROOT")
+    return (
+        Path(configured).expanduser()
+        if configured
+        else Path.home() / ".giga-archaeologist-tools"
+    )
+
+
+def _venv_executable(root: Path, name: str) -> Path:
+    scripts = "Scripts" if os.name == "nt" else "bin"
+    suffix = ".exe" if os.name == "nt" else ""
+    return root / ".venv" / scripts / f"{name}{suffix}"
+
+
+def _jscpd_executable(root: Path) -> Path:
+    shim = "jscpd.cmd" if os.name == "nt" else "jscpd"
+    return root / "node" / "node_modules" / ".bin" / shim
 
 
 def _configured_executable(environment_key: str, command: str, legacy_path: Path) -> Path:
@@ -56,13 +73,14 @@ def _configured_python() -> Path:
 class ScannerPaths:
     vulture: Path = field(
         default_factory=lambda: _configured_executable(
-            "GIGA_ARCHAEOLOGIST_VULTURE", "vulture", _LEGACY_TOOL_ROOT / ".venv/bin/vulture"
+            "GIGA_ARCHAEOLOGIST_VULTURE", "vulture",
+            _venv_executable(_configured_tools_root(), "vulture"),
         )
     )
     jscpd: Path = field(
         default_factory=lambda: _configured_executable(
             "GIGA_ARCHAEOLOGIST_JSCPD", "jscpd",
-            _LEGACY_TOOL_ROOT / "node/node_modules/.bin/jscpd",
+            _jscpd_executable(_configured_tools_root()),
         )
     )
     cgc_python: Path = field(default_factory=_configured_python)
@@ -78,9 +96,9 @@ class ScannerPaths:
         except OSError as exc:
             raise HypothesisError("scanner tools root is unavailable") from exc
         return cls(
-            vulture=root / ".venv/bin/vulture",
-            jscpd=root / "node/node_modules/.bin/jscpd",
-            cgc_python=root / ".venv/bin/python",
+            vulture=_venv_executable(root, "vulture"),
+            jscpd=_jscpd_executable(root),
+            cgc_python=_venv_executable(root, "python"),
         )
 
 

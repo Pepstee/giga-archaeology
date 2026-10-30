@@ -129,12 +129,19 @@ def _snapshot(root: Path) -> dict[str, Any]:
     }
 
 
+def _configured_private_root() -> Path:
+    configured = os.environ.get("GIGA_ARCHAEOLOGIST_PRIVATE_ROOT")
+    if configured:
+        return Path(configured).expanduser().resolve()
+    return (Path.home() / "Private").resolve()
+
+
 def _sandbox_profile(repository: Path, scratch: Path, private_root: Path | None = None) -> str:
     def literal(path: Path) -> str:
         return str(path).replace("\\", "\\\\").replace('"', '\\"')
 
     if private_root is None:
-        private_root = Path.home() / "Documents" / "giga-user"
+        private_root = _configured_private_root()
 
     return "\n".join(
         [
