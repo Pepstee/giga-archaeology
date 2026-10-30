@@ -6,7 +6,11 @@ It indexes files, symbols, imports and static calls. The supported path is deter
 
 ## Release status
 
-[provider-specific account diagnostic removed]
+This is an unpublished pre-release candidate, version 0.1.3b4. Do not distribute historical 0.1.3b3 artifacts because the filename collides with older candidates.
+
+On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the pre-history-rewrite source-tree suite passed: **426 passed, 1 skipped, and 2 subtests passed** in 84.44 seconds. That result is bound to commit `c9cc259e73c35f9c4fdbb167bcdcdd59862b73e9` and tracked diff SHA-256 `9bccba549e1f299b175c7afe4dcb1dc163bbdd77da60bc631795687fd32941fd`; it was not rerun after the history rewrite. Full macOS and Windows suites remain unverified.
+
+The latest GitHub Actions run, [40979140823](https://github.com/Pepstee/giga-archaeology/actions/runs/40979140823), targets the rewritten source at `785981fa83b44d7c6a22b9bedbe8ebe248bbc47b`. All 12 matrix jobs failed before runner assignment with zero steps, so no hosted tests ran. The safe evidence recorded here does not establish the cause. No public release has been made. See the release evidence ledger at evidence/release-artifacts/0.1.3b4.json and validation record at architecture/archaeology/BETA_VALIDATION.md for artifact-specific evidence and limits.
 
 ## Install from a source checkout
 
@@ -30,7 +34,7 @@ $python = ".venv/Scripts/python.exe"
 & ".venv/Scripts/giga-archaeology.exe" --help
 ```
 
-Pip installs the four pinned Tree-sitter parser packages. The core does not require the Giga control plane, a model subscription, an API key or a checkout of your target repository. Parser packages are required by the shared mapper, including for Python-only repositories.
+Pip installs the four pinned Tree-sitter parser packages. The core does not clone the target repository or require remote credentials; provide a local Git checkout with at least one commit. Parser packages are required by the shared mapper, including for Python-only repositories.
 
 For offline installation, download the wheel and its dependencies on a connected machine with the same Python version and platform, then install with `--no-index --find-links ./wheelhouse`. A wheelhouse is platform-specific.
 

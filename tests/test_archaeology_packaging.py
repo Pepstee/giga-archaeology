@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import os
+import subprocess
 import tarfile
 import tomllib
 import zipfile
@@ -86,3 +89,60 @@ def test_quickstart_preserves_nonempty_external_store(tmp_path: Path) -> None:
     else:
         raise AssertionError("quickstart accepted a non-empty output store")
     assert sentinel.read_text(encoding="utf-8") == "operator data"
+
+
+def test_quickstart_runs_end_to_end_on_committed_repository(
+    tmp_path: Path, monkeypatch
+) -> None:
+    repository = tmp_path / "source"
+    repository.mkdir()
+    (repository / "totals.py").write_text(
+        "def calculate_total(values):\n"
+        "    return sum(values)\n\n"
+        "class Invoice:\n"
+        "    def __init__(self, values):\n"
+        "        self.values = values\n\n"
+        "    def total(self):\n"
+        "        return calculate_total(self.values)\n",
+        encoding="utf-8",
+    )
+
+    def git(*arguments: str) -> None:
+        subprocess.run(
+            ["git", "-C", str(repository), *arguments],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+
+    git("init", "-q")
+    git("config", "user.name", "Archaeology Synthetic Test")
+    git("config", "user.email", "archaeology-test@example.invalid")
+    git("add", "totals.py")
+    git("commit", "-q", "-m", "add synthetic invoice source")
+
+    inherited_pythonpath = os.environ.get("PYTHONPATH", "")
+    pythonpath = os.pathsep.join(
+        item for item in (str(ROOT), inherited_pythonpath) if item
+    )
+    monkeypatch.setenv("PYTHONPATH", pythonpath)
+    store = tmp_path / "output"
+
+    assert QUICKSTART.main(
+        [str(repository), str(store), "calculate_total", "Invoice"]
+    ) == 0
+
+    navigation = json.loads((store / "navigation.json").read_text(encoding="utf-8"))
+    mapper = json.loads((store / "mapper.json").read_text(encoding="utf-8"))
+    query = json.loads((store / "query.json").read_text(encoding="utf-8"))
+    context = json.loads((store / "context.json").read_text(encoding="utf-8"))
+    assert navigation["status"] == "CURRENT"
+    assert navigation["files"] == 1
+    assert mapper["status"] == "CURRENT"
+    assert mapper["entities"] > 0
+    assert mapper["relations"] > 0
+    assert query["status"] == "PASS"
+    assert any(row["name"] == "calculate_total" for row in query["results"])
+    assert context["status"] == "PASS"
+    assert "calculate_total" in context["context"]
+    assert "Invoice" in context["context"]

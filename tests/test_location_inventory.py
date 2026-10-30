@@ -21,7 +21,7 @@ FIXTURE = Path(__file__).parent / "fixtures/location_inventory.json"
 @pytest.fixture
 def tmp_path(tmp_path_factory):
     if sys.platform == "darwin":
-        base = Path(os.environ.get("RUNNER_TEMP") or "<USER_HOME>")
+        base = Path(os.environ.get("RUNNER_TEMP") or tempfile.gettempdir())
         if not base.is_dir():
             pytest.skip("no safe macOS test scratch directory is available")
         with tempfile.TemporaryDirectory(

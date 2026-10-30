@@ -18,7 +18,7 @@
     "backend": "modules/platform/packaging/archaeology_build_backend.py",
     "repeat_build_sha256_match": true,
     "source_archive_extracted": false,
-    "artifact_path": "/tmp/archaeology-release-final-20260930/first on ArtVault; not published"
+    "artifact_path": "[private local temporary path] on ArtVault; not published"
   },
   "artifacts": [
     {
@@ -195,7 +195,7 @@
       "date": "2026-10-29",
       "platform": "Linux x86_64 (ArtVault)",
       "python": "3.12.3",
-      "frontend": "python -m build 1.6.1 --outdir /tmp/giga-archaeology-release-check-c2ff01a --wheel --sdist --no-isolation",
+      "frontend": "python -m build 1.6.1 --outdir [private local temporary path] --wheel --sdist --no-isolation",
       "backend": "modules/platform/packaging/archaeology_build_backend.py",
       "artifacts": [
         {
@@ -632,7 +632,7 @@
       "python": "3.12.3",
       "frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
       "backend": "modules/platform/packaging/archaeology_build_backend.py",
-      "outdir": "/tmp/giga-archaeology-release-check-cfa4963"
+      "outdir": "[private local temporary path]"
     },
     "artifacts": [
       {
@@ -665,7 +665,7 @@
       },
       "installed_sdist_functional_canary": {
         "fixture": "one-file synthetic committed Git repository",
-        "output": "/tmp/giga-archaeology-release-canary-cfa4963/store",
+        "output": "[private local temporary path]",
         "navigation": {
           "status": "CURRENT",
           "files": 1
@@ -744,7 +744,7 @@
         "console_entrypoint_help": "passed",
         "canary": {
           "fixture": "one-file synthetic committed Git repository",
-          "output": "/tmp/giga-archaeology-macos-canary-cfa4963/store",
+          "output": "[private local temporary path]",
           "navigation": {
             "status": "CURRENT",
             "files": 1
@@ -790,7 +790,7 @@
       "python": "3.12.3",
       "frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
       "backend": "modules/platform/packaging/archaeology_build_backend.py",
-      "outdir": "/tmp/giga-archaeology-release-check-cfa4963"
+      "outdir": "[private local temporary path]"
     },
     "artifacts": [
       {
@@ -823,7 +823,7 @@
       },
       "installed_sdist_functional_canary": {
         "fixture": "one-file synthetic committed Git repository",
-        "output": "/tmp/giga-archaeology-release-canary-cfa4963/store",
+        "output": "[private local temporary path]",
         "navigation": {
           "status": "CURRENT",
           "files": 1
@@ -944,7 +944,7 @@
         "console_entrypoint_help": "passed",
         "canary": {
           "fixture": "one-file synthetic committed Git repository",
-          "output": "/tmp/giga-archaeology-macos-canary-cfa4963/store",
+          "output": "[private local temporary path]",
           "navigation": {
             "status": "CURRENT",
             "files": 1
@@ -990,7 +990,7 @@
       "python": "3.12.3",
       "frontend": "python -m build 1.6.1 --wheel --sdist --no-isolation",
       "backend": "modules/platform/packaging/archaeology_build_backend.py",
-      "outdir": "/tmp/giga-archaeology-release-check-a3ea235"
+      "outdir": "[private local temporary path]"
     },
     "artifacts": [
       {
@@ -1023,7 +1023,7 @@
       },
       "installed_sdist_functional_canary": {
         "fixture": "one-file synthetic committed Git repository",
-        "output": "/tmp/giga-archaeology-release-canary-a3ea235/store",
+        "output": "[private local temporary path]",
         "navigation": {
           "status": "CURRENT",
           "files": 1,
@@ -1112,7 +1112,7 @@
         "console_entrypoint_help": "passed",
         "canary": {
           "fixture": "one-file synthetic committed Git repository",
-          "output": "/tmp/giga-archaeology-macos-canary-a3ea235/store",
+          "output": "[private local temporary path]",
           "navigation": {
             "status": "CURRENT",
             "files": 1,
@@ -1160,7 +1160,7 @@
       "date": "2026-10-29",
       "platform": "Linux x86_64 (ArtVault)",
       "python": "3.12.3",
-      "frontend": "python -m build 1.6.1 --outdir /tmp/giga-archaeology-release-check-c169318 --wheel --sdist --no-isolation",
+      "frontend": "python -m build 1.6.1 --outdir [private local temporary path] --wheel --sdist --no-isolation",
       "backend": "modules/platform/packaging/archaeology_build_backend.py",
       "artifacts": [
         {
@@ -1230,7 +1230,7 @@
       "date": "2026-10-29",
       "platform": "Linux x86_64 (ArtVault)",
       "python": "3.12.3",
-      "frontend": "python -m build 1.6.1 --outdir /tmp/giga-archaeology-release-check-c2ff01a --wheel --sdist --no-isolation",
+      "frontend": "python -m build 1.6.1 --outdir [private local temporary path] --wheel --sdist --no-isolation",
       "backend": "modules/platform/packaging/archaeology_build_backend.py",
       "artifacts": [
         {
@@ -1277,5 +1277,10 @@
     },
     "release_warning": "Validation only. Version 0.1.3b3 collides with historical candidate filenames; do not distribute.",
     "status": "UNPUBLISHED_STATIC_ARCHIVE_VALIDATION_INSTALL_CANARY_PENDING"
+  },
+  "privacy_redaction": {
+    "status": "PATHS_REDACTED_FOR_PORTABILITY",
+    "scope": "Absolute local temporary output paths omitted; artifact hashes, source revisions and observed results preserved.",
+    "redacted_path_occurrences": 13
   }
 }
