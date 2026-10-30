@@ -2138,5 +2138,42 @@
       "status": "PENDING_EXACT_OPERATOR_APPROVAL",
       "wheel_sha256": "74c0e07ac28ef3195214492f1c72da77e9e02b1956444369a958ee0bc2cd0a02"
     }
+  },
+  "post_push_ci_review_20261030":   {
+    "checked_at_utc": "2026-10-30T12:35:19Z",
+    "repository": "Pepstee/giga-archaeology",
+    "workflow_run": {
+      "run_id": 41054103051,
+      "head_commit": "a5b5eca40a9eb5fa8a9aa5bfdbcfc81bc49c5b84",
+      "event": "push",
+      "created_at_utc": "2026-10-30T12:16:27Z",
+      "conclusion": "failure",
+      "job_count": 12,
+      "jobs_by_platform": {
+        "macos": 4,
+        "windows": 4,
+        "ubuntu": 4
+      },
+      "runner_assignments": 0,
+      "steps_started": 0,
+      "hosted_tests_ran": false,
+      "logs": "Unavailable; sampled job log endpoint returned 404 BlobNotFound."
+    },
+    "workflow_scope": {
+      "file": ".github/workflows/ci.yml",
+      "push_paths": [
+        ".github/workflows/**",
+        "modules/**",
+        "tests/**",
+        "pyproject.toml",
+        "README.md",
+        "LICENSE",
+        "CHANGELOG.md",
+        "THIRD_PARTY_NOTICES.md"
+      ],
+      "release_evidence_path_included": false,
+      "reason_no_run_for_ledger_commit": "The evidence-only commit d9ac567507a7bb0e3f88e94cf319f36472c2e895 changed only evidence/release-artifacts/0.1.3b4.json, which is excluded by the workflow push path filter."
+    },
+    "diagnostic_limit": "The API exposed no runner, steps, or logs for the failed jobs; this record does not assert a cause."
   }
 }
