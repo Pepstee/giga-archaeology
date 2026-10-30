@@ -4344,5 +4344,34 @@
     "default_branch": "codex/artvault-portable-giga-archaeology",
     "verification": "GitHub repository API read-back confirmed exact description and topic list after update.",
     "release_created": false
+  },
+  "artvault_canon_linux_suite_exception_20261030": {
+    "recorded_at_utc": "2026-10-30T23:20:08Z",
+    "status": "AUTHORIZED_NARROW_CANON_EXECUTION_BEFORE_TEST",
+    "rule_exception": {
+      "exact_rule": "Existing test environments are usable only when named for their project, role and operations; canon preflight returns authority NOT_EVALUATED and requires supervisor confirmation.",
+      "protected_property": "Prevent duplicate runnable source copies, hidden divergence and unowned test surfaces.",
+      "ordinary_route_result": "named-fixed-release-test and named-supervised-test preflights returned BLOCKED because giga-archaeology has no registered separate test surface.",
+      "alternative": "Use the already existing .venv interpreter inside the registered canonical source root, with PYTHONPATH pinned to that root; no source snapshot, clone, mirror, worktree or dependency installation.",
+      "necessity": "[provider-specific diagnostic removed]",
+      "supervisor_confirmation": "Current session is the sole registered writer. Canon preflight PASS at source commit f23767d3c18765450616dd3296dafb50046ca7c5; supervisor confirms one-time full Linux source-suite run on the canonical surface."
+    },
+    "scope": {
+      "host": "ArtVault Linux x86_64",
+      "source_commit": "f23767d3c18765450616dd3296dafb50046ca7c5",
+      "python": "CPython 3.12.3",
+      "pytest": "9.1.1",
+      "suite": "full source test suite",
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=[registered canonical root] .venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=/tmp/archaeology-suite-f23767d-20261030"
+    },
+    "safeguards": [
+      "No packages or test dependencies will be installed or updated.",
+      "Pytest temporary files are isolated under /tmp; repository caches are disabled and Python bytecode writes are disabled.",
+      "Pre-run Git status porcelain SHA-256 is recorded; the pre-existing untracked files remain untouched.",
+      "Compare post-run tracked diff and status against this baseline; preserve and report any unexpected output rather than cleaning or resetting it.",
+      "This is Linux source-suite evidence only; it does not claim installed-artifact, macOS, Windows or hosted-CI verification."
+    ],
+    "pre_run_git_status_porcelain_v1_sha256": "4351831826adfafe17eaf8d6d067f5ab961d8b970600fc565cc4d0a2665f90c4",
+    "restore_or_retire": "No extra source environment is created. Retain the test log/temp output for diagnosis; do not remove existing untracked project files."
   }
 }
