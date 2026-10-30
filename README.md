@@ -1,20 +1,26 @@
 # GIGA Archaeology
 
-GIGA Archaeology builds a local map of a Python Git repository and returns source-linked context for debugging, code review and work with coding agents.
+GIGA Archaeology gives you a local, revision-bound map of a Python Git repository and returns source-linked context for debugging, code review, and coding agents.
 
-It indexes files, symbols, imports and static calls. The supported path is deterministic: it does not execute the repository or call a model API. Queries use structural and lexical matching, so results can be incomplete. They do not prove that code is safe to remove.
+It inventories admitted files, Python symbols, imports, and statically visible calls. Use it to locate code, inspect structural relationships, and gather a bounded slice of relevant source. The core path is deterministic: it does not execute the scanned repository or call a model API.
+
+Queries combine structural and lexical matching. Coverage can be partial, dynamic behavior may be missed, and findings are never proof that code is safe to remove.
+
+## What you get
+
+- File inventory and source-linked symbol, import, and call maps.
+- Queries that return source locations and bounded context with explicit coverage and omissions.
+- Local evidence tied to the inspected repository revision; output stays local until you choose to share it.
+
+For a runnable end-to-end walkthrough, see [`examples/quickstart.py`](examples/quickstart.py).
 
 ## Release status
 
-This is an unpublished pre-release candidate, version 0.1.3b4. Do not distribute historical 0.1.3b3 artifacts because the filename collides with older candidates.
+`0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40` (tree `05c9f67b3c0825539b14eb9fc9268e5bef74d13d`): **429 passed, 1 skipped, and 2 subtests passed** in 79.11 seconds. It verifies Linux source tests only; full macOS and Windows suites remain unverified.
 
-An earlier Linux full-suite run at source commit `9a1f8604ce99e7f65900f83d5f9a9d5f965cd079` (tree `20560be59f32de05e5c800e43b9fb656777ab5d8`) passed 429 tests, with 1 skipped and 2 subtests, in 88.59 seconds.
+GitHub Actions run [41105065947](https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947) failed all 12 jobs before test steps began, so it produced no hosted test result. The current source-suite result remains local Linux evidence, not cross-platform certification. The [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) give the detailed scope and limitations.
 
-The latest Linux full-suite run was recorded on 2026-10-30 at canonical ArtVault source HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies the Linux source suite only. At the time of that run, full macOS and Windows suites were unverified, and no hosted test result existed for this release candidate.
-
-Artifact installation checks are hash-specific. The wheel canary and its dependency limitations are recorded in the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json); a result for one wheel does not verify a later rebuild. Full macOS and Windows suites remain unverified. See the ledger for exact hashes and verification scope.
-
-Push-triggered GitHub Actions run [41088033787](https://github.com/Pepstee/giga-archaeology/actions/runs/41088033787) for commit `4bad866c9ac95bcf7af3affe41ccbe50eed1be87` produced failures in all 12 matrix jobs. The available job summaries expose no steps or log URLs; a sampled job-log request returned `404 BlobNotFound`. No hosted tests or results were produced, and the cause is unknown. The Linux source-suite result above remains tied to the earlier source commit `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`; full macOS and Windows suites remain unverified. See the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) and [beta validation record](architecture/archaeology/BETA_VALIDATION.md) for current evidence and limitations. No public release has been made.
+Artifact verification is hash-specific. Rebuilding the documentation changes the wheel and source archive, so each current artifact needs its own recorded verification. No public release has been made.
 
 ## Install from a source checkout
 

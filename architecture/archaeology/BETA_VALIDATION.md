@@ -412,8 +412,10 @@ Push-triggered GitHub Actions run [41088033787](https://github.com/Pepstee/giga-
 
 The Linux source-suite result remains the earlier run at commit `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`: 429 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3. Full macOS and Windows suites remain unverified. No public release has been made.
 
-## 2026-10-30 — hosted CI result for commit 63efae4
+## 2026-10-30 — current Linux suite and hosted runner status
 
-Push-triggered GitHub Actions run [41105065947](https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947) targeted commit `63efae4f80107f041ef04e93675b47b0e4e306aa`. All 12 matrix jobs failed; each job reported runner ID 0 and zero steps. No hosted tests or results were produced. The exact cause is not recorded in the public release evidence.
+At canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40` (tree `05c9f67b3c0825539b14eb9fc9268e5bef74d13d`), the full Linux source suite passed with **429 passed, 1 skipped, and 2 subtests passed** in 79.11 seconds (exit code 0). The later commit `9a0729f319f8c371d66aa0a151a36393de094fb8` changed only the release evidence ledger; the product and test files remain at the tested source state. This does not verify documentation packaging after this update or the full macOS/Windows suites.
 
-The Linux source-suite result remains the earlier run at commit `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`: 429 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3. Full macOS and Windows suites remain unverified. No public release has been made.
+GitHub Actions run [41105065947](https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947) targeted commit `63efae4f80107f041ef04e93675b47b0e4e306aa`. All 12 jobs failed before starting test steps; each reported runner ID 0 and zero steps. No hosted tests or platform results were produced. The evidence-only commit after that run was excluded by the workflow's path filters and created no new run.
+
+The current wheel and source archive must be rebuilt after this documentation update. Their hashes and any later exact-artifact checks belong in the release evidence ledger. No public release has been made.
