@@ -3671,5 +3671,52 @@
     "result": "A compatible binary wheel filename exists for every pinned dependency on every listed target.",
     "method": "Parsed official wheel filenames and checked CPython interpreter/ABI tags plus Windows/macOS architecture tags.",
     "limitations": "Availability metadata only; this does not execute native installation or verify ABI loading on macOS or Windows."
+  },
+  "quickstart_exact_artifact_canary_20261030": {
+    "observed_at_utc": "2026-10-30T21:45:20.929120+00:00",
+    "source_commit": "5abdae63f072e55879767470dd4273c8353d6e69",
+    "artifacts": {
+      "wheel_sha256": "7b1dc4b16fc049f3cd4207abc74cc3d4ea43a0f2595ab2b4b70e5270e5766e40",
+      "sdist_sha256": "5659ee562d9712c3bf7b39644ceef04e23f09de18e1cb927594efd23c08566d2",
+      "source_example_matches_sdist_member_byte_for_byte": true,
+      "installed_module_matches_exact_wheel_member": true
+    },
+    "canary": {
+      "status": "PASS",
+      "platform": "ArtVault Linux x86_64 / CPython 3.12.3",
+      "runtime": "exact wheel installed to a private temporary target; its path was first in PYTHONPATH",
+      "fixture": "one-file synthetic committed Git repository",
+      "entrypoint": "examples/quickstart.py",
+      "steps": [
+        "inventory",
+        "structural map",
+        "symbol query",
+        "bounded context"
+      ],
+      "observed": {
+        "admitted_files": 1,
+        "entities": 19,
+        "relations": 22,
+        "symbol_results": 2,
+        "all_step_statuses_passed": true
+      },
+      "runtime_dependency_scope": "Existing ArtVault venv supplied the exact pinned parser dependencies, which were verified in the full dependency canary.",
+      "temporary_target_fixture_and_output": "removed; absence verified"
+    },
+    "attempt_history": [
+      {
+        "attempt": 1,
+        "result": "Example completed, but the verifier expected only four JSON files and omitted the two documented inventory/map directories; cleanup ran."
+      },
+      {
+        "attempt": 2,
+        "result": "Example completed under the existing venv, but the imported module hash differed from the exact release wheel; excluded from artifact-bound proof and the environment mismatch was recorded."
+      },
+      {
+        "attempt": 3,
+        "result": "PASS using the exact wheel in a temporary target; imported module hash matched the wheel and quickstart source matched the sdist."
+      }
+    ],
+    "scope_limit": "One synthetic repository on Linux only; this does not verify native Windows/macOS execution, large-repository performance, or broad mapping precision/recall."
   }
 }
