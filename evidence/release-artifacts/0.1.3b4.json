@@ -3986,5 +3986,26 @@
       "No hosted tests or full macOS/Windows suite evidence from this build.",
       "Unpublished developer beta."
     ]
+  },
+  "full_linux_suite_after_beta_scope_correction_20261030": {
+    "observed_at_utc": "2026-10-30T22:17:56Z",
+    "source_commit": "6148ea80a05805cdc41998fb0081ccfe7e79d4be",
+    "source_tree": "11f1256c0d4d6276b1f116d90e128158b374d8ae",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=[canonical root] .venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=[private temporary path]",
+    "result": {
+      "passed": 430,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "elapsed_seconds": 74.94,
+      "exit_code": 0
+    },
+    "test_target": "Registered canonical source checkout; no clone, worktree, or source snapshot.",
+    "limitations": [
+      "Linux source suite only.",
+      "Full macOS and Windows suites remain unverified.",
+      "Hosted GitHub Actions did not run for this evidence-only commit."
+    ]
   }
 }
