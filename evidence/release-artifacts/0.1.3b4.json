@@ -1877,5 +1877,109 @@
     "python": "CPython 3.12.3",
     "source_state_after_build": "unchanged"
   }
+},
+  {
+  "source": {
+    "branch": "codex/artvault-portable-giga-archaeology",
+    "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+    "commit": "a1d4893d52475ef7f8947daff650dfa12bd9106b",
+    "host": "ArtVault",
+    "tree": "daa4b9b34f80fcdf1aa31f4b65b24c03a42ff3dd"
+  },
+  "verification": {
+    "date": "2026-10-30",
+    "full_test_suite": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider --basetemp <task-specific /tmp path> -q",
+      "duration_seconds": 80.47,
+      "exit_code": 0,
+      "passed": 429,
+      "skipped": 1,
+      "status": "PASS",
+      "subtests_passed": 2
+    },
+    "hosted_ci": {
+      "hosted_tests_ran": false,
+      "jobs": 12,
+      "run_id": "41050366056",
+      "runners_assigned": 0,
+      "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+      "steps_started": 0
+    },
+    "macos_full_suite": "NOT_RUN",
+    "platform": "Linux x86_64, registered ArtVault host",
+    "previous_wheel_install_canary": {
+      "reason": "README release-status correction changes embedded distribution bytes; rebuild required before distribution or canary",
+      "status": "SUPERSEDED_BY_README_UPDATE",
+      "wheel_sha256": "dc4cf6fa3805f9c6f8b8325e4cb0659f04df773b2b7e30b83d188975e65cb316"
+    },
+    "python": "CPython 3.12.3",
+    "repository_state_after_test": "tracked files/index unchanged; all 8,317 untracked entries unchanged",
+    "windows_supported_scan_and_package_install": "NOT_RUN"
+  }
+},
+  {
+  "artifacts": [
+    {
+      "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+      "format": "wheel",
+      "members": 48,
+      "sha256": "6f623aea2d8f5715bad5e740f555c7225b49e6a96679559ff7d17ee33198081a",
+      "size_bytes": 393745,
+      "version": "0.1.3b4"
+    },
+    {
+      "filename": "giga_archaeology-0.1.3b4.tar.gz",
+      "format": "sdist",
+      "members": 47,
+      "sha256": "a52523f8c60673971b75d982530f4121def55bbb64038084413f1471aef40a8a",
+      "size_bytes": 361549,
+      "version": "0.1.3b4"
+    }
+  ],
+  "source": {
+    "branch": "codex/artvault-portable-giga-archaeology",
+    "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+    "commit": "a1d4893d52475ef7f8947daff650dfa12bd9106b",
+    "host": "ArtVault",
+    "readme_sha256": "76455c91db3e0f0ea5952141a77c78756d5376d19542c28835ce328f2fbf4d30",
+    "tree": "daa4b9b34f80fcdf1aa31f4b65b24c03a42ff3dd"
+  },
+  "verification": {
+    "archive_paths": "PASS: no absolute or traversal paths",
+    "build": "PASS: build 1.6.1, no isolation, wheel and sdist",
+    "date": "2026-10-30",
+    "embedded_files": "PASS: README and both CLI modules exactly match canonical source bytes in wheel and sdist",
+    "full_test_suite": {
+      "duration_seconds": 80.47,
+      "passed": 429,
+      "skipped": 1,
+      "source_commit": "a1d4893d52475ef7f8947daff650dfa12bd9106b",
+      "source_tree": "daa4b9b34f80fcdf1aa31f4b65b24c03a42ff3dd",
+      "status": "PASS",
+      "subtests_passed": 2
+    },
+    "graphify": {
+      "reason": "pre-#1504 node IDs and stale/noisy query; broad update rejected to avoid changing unrelated graph entries",
+      "status": "STALE_NOT_REFRESHED"
+    },
+    "installed_artifact_canary": {
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "wheel_sha256": "6f623aea2d8f5715bad5e740f555c7225b49e6a96679559ff7d17ee33198081a"
+    },
+    "latest_hosted_ci": {
+      "hosted_tests_ran": false,
+      "jobs": 12,
+      "run_id": "41050366056",
+      "runners_assigned": 0,
+      "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+      "steps_started": 0
+    },
+    "macos_full_suite": "NOT_RUN",
+    "metadata_entry_points": "PASS: name/version/Requires-Python and both console scripts",
+    "platform": "Linux x86_64, registered ArtVault host",
+    "python": "CPython 3.12.3",
+    "source_state_after_build": "unchanged",
+    "windows_supported_scan_and_package_install": "NOT_RUN"
+  }
 }]
 }

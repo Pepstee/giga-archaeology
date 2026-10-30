@@ -8,9 +8,9 @@ It indexes files, symbols, imports and static calls. The supported path is deter
 
 This is an unpublished pre-release candidate, version 0.1.3b4. Do not distribute historical 0.1.3b3 artifacts because the filename collides with older candidates.
 
-On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the full source suite passed at commit `2cc6f1a201d7a70514f733d92859f180922df451` (tree `8488aacf6fa443de9e9cb459c45d82f1ffbece73`): **427 passed, 1 skipped, and 2 subtests passed** in 85.26 seconds (exit code 0). This verifies the Linux source suite only. The full macOS suite and the configured Windows supported-scan and package-install checks have not run for this candidate.
+On the registered ArtVault Linux x86_64 workspace with CPython 3.12.3, the full source suite passed on commit `a1d4893d52475ef7f8947daff650dfa12bd9106b` (tree `daa4b9b34f80fcdf1aa31f4b65b24c03a42ff3dd`): **429 passed, 1 skipped, and 2 subtests passed** in 80.47 seconds (exit code 0). This verifies the Linux source suite only. The full macOS suite and the configured Windows supported-scan and package-install checks have not run for this candidate.
 
-The latest GitHub-hosted matrix attempt stopped before runner assignment with no steps started, so no hosted tests ran. See the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) and [beta validation record](architecture/archaeology/BETA_VALIDATION.md) for artifact-specific results and limitations. No public release has been made.
+GitHub Actions run `41050366056` failed before runner assignment: 12 jobs, zero runners assigned, and zero steps started, so no hosted tests ran. See the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) and [beta validation record](architecture/archaeology/BETA_VALIDATION.md) for artifact-specific results and limitations. No public release has been made.
 
 ## Install from a source checkout
 
