@@ -2864,6 +2864,40 @@
         "Hosted GitHub Actions did not execute tests for the candidate; latest recorded cause is unknown.",
         "No public release has been made."
       ]
+    },
+    {
+      "record_id": "current_head_full_linux_suite_6376461_20261030",
+      "recorded_at_utc": "2026-10-30T18:53:19Z",
+      "source": {
+        "host": "ArtVault",
+        "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "branch": "codex/artvault-portable-giga-archaeology",
+        "commit": "63764612f527bfdf9a059ae6fcb809692c600a40",
+        "tree": "05c9f67b3c0825539b14eb9fc9268e5bef74d13d",
+        "preflight_register_sha256": "d44821937639dab044c968e5fcf601704e8d449d7becd4e97d086dbb29ddd56c"
+      },
+      "full_linux_source_suite": {
+        "command": "PYTHONDONTWRITEBYTECODE=1 PIP_NO_INDEX=1 GIT_NO_LAZY_FETCH=1 .venv/bin/python -m pytest -p no:cacheprovider --basetemp [private temporary path] -q",
+        "platform": "Registered ArtVault Linux canon",
+        "duration_seconds": 79.11,
+        "numeric_process_exit_code": 0,
+        "passed": 429,
+        "skipped": 1,
+        "subtests_passed": 2,
+        "terminal_summary": "429 passed, 1 skipped, 2 subtests passed in 79.11s"
+      },
+      "preservation": {
+        "tracked_files_clean_after_run": true,
+        "untracked_file_count": 8318,
+        "untracked_status_entries": 13,
+        "untracked_path_inventory_unchanged": true,
+        "untracked_content_manifest_unchanged": true,
+        "temporary_test_basetemp_retained": true
+      },
+      "limitations": [
+        "This records the Linux source suite only; macOS and Windows suites remain unverified.",
+        "Hosted GitHub Actions still did not assign runners; no hosted test result is inferred."
+      ]
     }
   ],
   "post_notice_rebuild_test_20261030": {
