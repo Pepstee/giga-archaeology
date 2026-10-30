@@ -3567,5 +3567,70 @@
       "temporary_target_removed_and_absence_verified": true
     },
     "attempt_scope_limit": "Isolated source archive build and entrypoint smoke check only; no clean-environment runtime dependency resolution or cross-platform canary."
+  },
+  "full_dependency_sdist_install_canary_20261030": {
+    "observed_at_utc": "2026-10-30T21:38:55.066696+00:00",
+    "source_commit": "ca831e3176beb971bee0d916f8cb63367a66f2e0",
+    "source_artifact": {
+      "kind": "sdist",
+      "filename": "giga_archaeology-0.1.3b4.tar.gz",
+      "sha256": "5659ee562d9712c3bf7b39644ceef04e23f09de18e1cb927594efd23c08566d2"
+    },
+    "build_and_install": {
+      "status": "PASS_LIMITED",
+      "sdist_pep517_build_isolation": "enabled by default",
+      "dependency_wheels_downloaded": "exact pinned versions with --only-binary and no pip cache",
+      "install_resolution": "offline with --no-index --find-links temporary wheelhouse; dependency resolution enabled",
+      "pip_check": "PASS: no broken requirements",
+      "metadata_version": "0.1.3b4",
+      "installed_module_origin_under_temporary_target": true,
+      "generated_wheel_sha256": "7b1dc4b16fc049f3cd4207abc74cc3d4ea43a0f2595ab2b4b70e5270e5766e40",
+      "generated_wheel_matches_reproducible_build": true,
+      "runtime_dependencies_exact": {
+        "tree-sitter": "0.26.0",
+        "tree-sitter-bash": "0.25.1",
+        "tree-sitter-javascript": "0.25.0",
+        "tree-sitter-typescript": "0.23.2"
+      },
+      "dependency_wheels": [
+        {
+          "filename": "tree_sitter-0.26.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+          "bytes": 667487,
+          "sha256": "5a6b333b0282d8bb0af741f9b018bd2523d4eecb2686bf6717066a625fecfaa4"
+        },
+        {
+          "filename": "tree_sitter_bash-0.25.1-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl",
+          "bytes": 231981,
+          "sha256": "3f484c4bb8796cde7a87ca351e6116f09653edac0eb3c6d238566359dd28b117"
+        },
+        {
+          "filename": "tree_sitter_javascript-0.25.0-cp310-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl",
+          "bytes": 99728,
+          "sha256": "9dc04ba91fc8583344e57c1f1ed5b2c97ecaaf47480011b92fbeab8dda96db75"
+        },
+        {
+          "filename": "tree_sitter_typescript-0.23.2-cp39-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "bytes": 344960,
+          "sha256": "e96d36b85bcacdeb8ff5c2618d75593ef12ebaf1b4eace3477e2bdb2abb1752c"
+        }
+      ],
+      "dependency_hash_provenance": "All four exact wheel filenames and SHA-256 values matched https://pypi.org/pypi/{name}/{version}/json."
+    },
+    "entrypoints": {
+      "giga-archaeology": "PASS --help",
+      "giga-archaeologist": "PASS --help"
+    },
+    "temporary_wheelhouse_and_install_target": "removed; absence verified",
+    "attempt_history": [
+      {
+        "attempt": 1,
+        "result": "Install reached verifier; assertion used literal $site path and failed; temporary target was removed by cleanup trap and absence checked before retry."
+      },
+      {
+        "attempt": 2,
+        "result": "PASS; verifier received the exact target path as an argument."
+      }
+    ],
+    "scope_limit": "Linux x86_64 / CPython 3.12.3 only; this validates one sdist and exact runtime dependencies, not Mac/Windows or a clean online user environment."
   }
 }
