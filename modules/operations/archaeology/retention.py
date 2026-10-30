@@ -146,9 +146,9 @@ _M77_LIVENESS_ASSESSMENT_REFUSAL = (
 _M75_STALE_AFTER_SECONDS = 24 * 60 * 60
 _M75_GLOBAL_RECENT_WINDOW = 3
 _M77_OBSERVATION_FRESHNESS_SECONDS = 60 * 60
-_M77_LAUNCHD_LABELS = (
-    "com.giga.navigation-maintenance",
-    "com.giga.navigation-milestone",
+_M77_LAUNCHD_LABEL_SUFFIXES = (
+    ".giga-navigation-maintenance",
+    ".giga-navigation-milestone",
 )
 _M77_DEFAULT_COHORT_BYTES = {
     "generation-000156": ("mapper", 101625089),
@@ -5349,10 +5349,47 @@ def _m77_launchd_label_status(label: str) -> dict[str, Any]:
     return {"status": "LOADED_NOT_RUNNING"}
 
 
+def _m77_launchd_labels() -> tuple[str, ...] | None:
+    executable = shutil.which("launchctl")
+    if executable is None:
+        return None
+    try:
+        result = subprocess.run(
+            [executable, "list"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            timeout=5,
+            check=False,
+            text=True,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if result.returncode != 0:
+        return None
+
+    labels = set()
+    for line in result.stdout.splitlines():
+        columns = line.split()
+        if len(columns) < 3:
+            continue
+        label = columns[-1]
+        if label.startswith("com.") and label.endswith(_M77_LAUNCHD_LABEL_SUFFIXES):
+            labels.add(label)
+    return tuple(sorted(labels))
+
+
 def _m77_launchd_evidence() -> dict[str, Any]:
+    labels = _m77_launchd_labels()
+    if labels is None:
+        return {
+            "status": "UNKNOWN",
+            "reason": "LAUNCHD_DISCOVERY_FAILED",
+            "observed_label_count": 0,
+            "active_label_count": 0,
+        }
     statuses = {
         label: _m77_launchd_label_status(label)["status"]
-        for label in _M77_LAUNCHD_LABELS
+        for label in labels
     }
     if any(status == "UNKNOWN" for status in statuses.values()):
         status = "UNKNOWN"

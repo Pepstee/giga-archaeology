@@ -4150,6 +4150,38 @@ def test_m77_rejects_alias_substitution_and_duplicate_nested_json(
     assert not duplicate_output.exists()
 
 
+def test_m77_launchd_evidence_discovers_generic_labels_from_launchctl(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import modules.operations.archaeology.retention as retention
+
+    discovered = []
+    labels = (
+        "com.example.giga-navigation-maintenance",
+        "com.example.giga-navigation-milestone",
+    )
+    launchd_list = subprocess.CompletedProcess(
+        ["launchctl", "list"],
+        0,
+        stdout="PID Status Label\n" + "\n".join(f"- 0 {label}" for label in labels),
+    )
+    monkeypatch.setattr(retention.shutil, "which", lambda _: "/usr/bin/launchctl")
+    monkeypatch.setattr(retention.subprocess, "run", lambda *args, **kwargs: launchd_list)
+    monkeypatch.setattr(
+        retention,
+        "_m77_launchd_label_status",
+        lambda label: discovered.append(label)
+        or {"status": "ACTIVE" if label.endswith("milestone") else "NOT_LOADED"},
+    )
+
+    assert retention._m77_launchd_evidence() == {
+        "status": "ACTIVE",
+        "observed_label_count": 2,
+        "active_label_count": 1,
+    }
+    assert discovered == list(labels)
+
+
 def test_m77_missing_payload_proof_refuses_and_publishes_nothing(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
