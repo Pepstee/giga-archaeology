@@ -553,7 +553,52 @@
         "tracked_working_tree_clean_before_run": true,
         "scope": "Full pytest suite executed from the registered ArtVault canon; no checkout or source copy was created."
       }
-    ]
+    ],
+    "current_quickstart_smoke": {
+      "status": "PASS_SOURCE_CHECKOUT_EXAMPLE_SMOKE",
+      "source_commit": "601648dad49db8dc6de2587df302a26816fcc22f",
+      "source_tree": "3b4b25363d0b2c90e15d3e82d13ca957d18c23f9",
+      "example": "examples/quickstart.py",
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python examples/quickstart.py [synthetic committed Git repository] [new private output store] Serializer dumps",
+      "platform": "Registered ArtVault Linux x86_64 workspace / CPython 3.12.3",
+      "fixture": {
+        "type": "synthetic Git repository",
+        "files": 1,
+        "commit": "f14aedd9ba69d583c127805e1315b06c4fbf76f7"
+      },
+      "steps": {
+        "inventory": {
+          "status": "CURRENT",
+          "files": 1,
+          "sha256": "e94b8f3c007464bdab13c621b852b668c60667972e29bc7e52d697907104d38a"
+        },
+        "mapper": {
+          "status": "CURRENT",
+          "entities": 14,
+          "relations": 12,
+          "sha256": "8f2a45d78d9c296f65843ddd2930ab74e0b17cf1e2b845be0ee17e8a329abc03"
+        },
+        "query": {
+          "status": "PASS",
+          "results": 4,
+          "sha256": "5f10264da4fa8aeb8887890bc458a964c29f3afc03a263cc5fc7d86ea63c529e"
+        },
+        "context": {
+          "status": "PASS",
+          "sha256": "393b2902870a937aa89196ba50d4263792db5b75ef4a1f25e1c8a10bad88317f"
+        }
+      },
+      "terminal_exit_code": 0,
+      "canonical_status_before_after": {
+        "command": "git status --porcelain=v1 (text, newline-terminated)",
+        "sha256": "d5f233967323ddfef46ddd71085ba75b513834c9325012f69f433cdf35538e36",
+        "unchanged": true
+      },
+      "tracked_status_clean_before_after": true,
+      "source_changes": false,
+      "network_access": false,
+      "scope_note": "Exercises the documented source-checkout example on synthetic input. It is not an installed-wheel canary or native macOS/Windows validation. Temporary fixture and outputs remain outside the canonical checkout at a private path."
+    }
   },
   "distribution": {
     "pypi_project_status": "404 at check time",
