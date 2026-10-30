@@ -4394,5 +4394,26 @@
       "preexisting_untracked_files_preserved": true
     },
     "result_recorded_at_utc": "2026-10-30T23:23:37Z"
+  },
+  "windows_native_environment_route_probe_20261030": {
+    "observed_at_utc": "2026-10-30T23:37:04Z",
+    "terminal_route": "SSH to the Windows peer and Windows PowerShell; its WSL distribution named artvault reaches the registered Linux canon. The initial WSL startup delayed the first command; subsequent direct ArtVault SSH and canon preflight succeeded.",
+    "windows_native_environment": {
+      "powershell_version": "5.1.26100.9711",
+      "python_resolution": "Get-Command python,py returned only the WindowsApps python.exe app-execution alias; no py launcher or usable native interpreter was found on PATH.",
+      "smb_mappings_visible": 0
+    },
+    "native_windows_validation": {
+      "status": "NOT_RUN",
+      "reason": "The available WSL runtime is Linux, and no native Windows Python runtime or named supervised Archaeology test surface was available in this probe.",
+      "full_suite_verified": false
+    },
+    "side_effects": {
+      "source_checkout_or_copy_created": false,
+      "artifact_installed": false,
+      "tests_run": false,
+      "branch_or_worktree_changed": false
+    },
+    "scope_note": "This records terminal environment discovery only. It does not certify Windows compatibility; native Windows validation remains open."
   }
 }
