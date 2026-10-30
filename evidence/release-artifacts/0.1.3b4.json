@@ -1195,9 +1195,9 @@
     "source_changes_during_canary": false
   },
   "latest_hosted_ci_blocker": {
-    "run_id": 41134521472,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41134521472",
-    "source_commit": "bc3d81aa1a56cf718e98a559b135c62a3787c974",
+    "run_id": 41141367602,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41141367602",
+    "source_commit": "d2aaa607868676cbdc882350dda3d0a7e2d5ef98",
     "event": "push",
     "matrix_jobs": 12,
     "jobs_failed": 12,
@@ -1205,9 +1205,9 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps.",
-    "evidence_record": "post_push_ci_review_41134521472_20261030",
-    "previous_cause_observation": "UNKNOWN; all returned job summaries show runner_id 0 and zero steps"
+[provider-specific account diagnostic removed]
+    "evidence_record": "post_push_ci_review_41141367602_20261030",
+    "previous_cause_observation": "Earlier attempts had been recorded as generic account-level runner-admission restriction; current annotations exclude included-minutes wording."
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -4107,7 +4107,13 @@
       "Full hosted Actions tests remain blocked before runner assignment.",
       "Full native macOS and Windows source suites remain unverified.",
       "No public package or GitHub release has been made."
-    ]
+    ],
+    "superseded_by_documentation_update": {
+      "recorded_at_utc": "2026-10-30T22:58:33Z",
+      "source_commit": "d2aaa607868676cbdc882350dda3d0a7e2d5ef98",
+      "replacement_record": "current_artifact_rebuild_d2aaa60_20261030",
+      "reason": "README and BETA validation text changed after artifact build."
+    }
   },
   "license_provenance_audit_20261030": {
     "observed_at_utc": "2026-10-30T22:45:37Z",
@@ -4144,6 +4150,151 @@
     "limitations": [
       "This is package/source metadata verification, not legal advice or a license compatibility opinion.",
       "The optional local Giga integration wheel was not available for inspection."
+    ]
+  },
+  "previous_latest_hosted_ci_blocker_before_41139822037_20261030": {
+    "run_id": 41134521472,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41134521472",
+    "source_commit": "bc3d81aa1a56cf718e98a559b135c62a3787c974",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "cause": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps.",
+    "evidence_record": "post_push_ci_review_41134521472_20261030",
+    "previous_cause_observation": "UNKNOWN; all returned job summaries show runner_id 0 and zero steps"
+  },
+  "post_push_ci_review_41139822037_20261030": {
+    "checked_at_utc": "2026-10-30T22:49:35Z",
+    "run_id": 41139822037,
+    "source_commit": "cb5322d09b7a4f6991f91939de104e541fcea7e0",
+    "jobs": 12,
+    "annotation_jobs": 12,
+    "annotations_reviewed": 20,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "tests_executed": 0,
+[provider-specific account diagnostic removed]
+    "included_minutes_terms_in_annotations": false,
+    "payment_method_terms_in_annotations": false,
+    "scope_limit": "[provider-specific diagnostic removed]"
+  },
+  "previous_latest_hosted_ci_blocker_before_41141367602_20261030": {
+    "run_id": 41134521472,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41134521472",
+    "source_commit": "bc3d81aa1a56cf718e98a559b135c62a3787c974",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "cause": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps.",
+    "evidence_record": "post_push_ci_review_41134521472_20261030",
+    "previous_cause_observation": "UNKNOWN; all returned job summaries show runner_id 0 and zero steps"
+  },
+  "post_push_ci_review_41141367602_20261030": {
+    "checked_at_utc": "2026-10-30T22:56:45Z",
+    "run_id": 41141367602,
+    "source_commit": "d2aaa607868676cbdc882350dda3d0a7e2d5ef98",
+    "jobs": 12,
+    "annotation_jobs": 12,
+    "annotations_reviewed": 20,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "tests_executed": 0,
+[provider-specific account diagnostic removed]
+    "included_minutes_terms_in_annotations": false,
+    "payment_method_terms_in_annotations": false,
+    "scope_limit": "[provider-specific diagnostic removed]"
+  },
+  "current_head_actions_query_d2aaa60_20261030": {
+    "checked_at_utc": "2026-10-30T22:56:45Z",
+    "head_commit": "d2aaa607868676cbdc882350dda3d0a7e2d5ef98",
+    "workflow_run_count": 1,
+    "workflow_run_id": 41141367602,
+    "check_run_count": 12,
+    "status": "HOSTED_JOBS_DID_NOT_START",
+    "hosted_tests_executed": false
+  },
+  "ci_path_filter_gap_audit_20261030": {
+    "observed_at_utc": "2026-10-30T22:58:33Z",
+    "source_commit": "d2aaa607868676cbdc882350dda3d0a7e2d5ef98",
+    "omitted_packaged_paths_before_fix": [
+      "architecture/archaeology/**",
+      "examples/**"
+    ],
+    "verified_in_build_backend": [
+      "architecture/archaeology/BETA_VALIDATION.md",
+      "architecture/archaeology/LOCATION_INVENTORY.md",
+      "examples/quickstart.py"
+    ],
+    "fix_commit": "d2aaa607868676cbdc882350dda3d0a7e2d5ef98",
+    "push_and_pull_request_filters_include_paths": true,
+    "verified_by_following_push_run": 41141367602
+  },
+  "current_artifact_rebuild_d2aaa60_20261030": {
+    "observed_at_utc": "2026-10-30T22:58:33Z",
+    "source_commit": "d2aaa607868676cbdc882350dda3d0a7e2d5ef98",
+    "source_tree": "468d9029e99b6901a2577e155dc5e1df82da4845",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "python -m build --no-isolation",
+    "artifact_directory": "/tmp/giga-archaeology-release-d2aaa60-20261030T225653Z",
+    "status": "PASS_REPRODUCIBLE_BUILD_ARCHIVE_INSPECTION_STATIC_PRIVACY_SCAN; EXACT_WHEEL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "reproducibility": {
+      "fresh_second_build_performed": true,
+      "wheel_byte_identical": true,
+      "sdist_byte_identical": true
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 397914,
+        "members": 48,
+        "sha256": "9bae5754ffd32ad559987bfca318a94aa7b22e875f33dd8a5c3804529b85b15c",
+        "version": "0.1.3b4",
+        "runtime_entrypoints": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ],
+        "quickstart_included": false
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 365639,
+        "members": 47,
+        "sha256": "bb6c52e1ccbad1106dc5a6432f65ee99c0b397d4e6ce22834f521f4c50187690",
+        "version": "0.1.3b4",
+        "quickstart_included": true
+      }
+    ],
+    "archive_inspection": {
+      "README_BETA_location_inventory_present": true,
+      "license_and_third_party_notice_byte_exact": true,
+      "git_metadata_excluded_from_sdist": true,
+      "release_ledger_excluded_from_wheel_and_sdist": true,
+      "profile_path_hits": 0,
+      "non_reserved_email_hits": 0,
+      "member_files_scanned": 95
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "9bae5754ffd32ad559987bfca318a94aa7b22e875f33dd8a5c3804529b85b15c",
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "offline --no-deps --no-index install into private temporary target; verify metadata, import origin, both CLI help commands and synthetic quickstart; remove target and confirm absence"
+    },
+    "limitations": [
+      "Exact wheel install canary not run; approval was specific to an earlier wheel hash.",
+      "[provider-specific diagnostic removed]",
+      "Full macOS and Windows source suites remain unverified.",
+      "No public package or GitHub release has been made."
     ]
   }
 }
