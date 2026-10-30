@@ -3459,14 +3459,66 @@
         "bytes": 396954,
         "version": "0.1.3b4",
         "requires_python": ">=3.11",
-        "installed_canary": "NOT_RUN_PENDING_EXACT_HASH_APPROVAL"
+        "installed_canary": {
+          "status": "PASS_LIMITED",
+          "network": "disabled",
+          "dependency_resolution": "disabled",
+          "dependencies": "existing ArtVault environment",
+          "metadata_version": "0.1.3b4",
+          "import_origin_under_installed_target": true,
+          "cli_help_passed": [
+            "giga-archaeology",
+            "giga-archaeologist"
+          ],
+          "target_removed_and_absence_verified": true,
+          "attempt_history": [
+            {
+              "attempt": 1,
+              "result": "INSTALL_SUCCEEDED_VERIFICATION_HARNESS_SYNTAX_ERROR",
+              "cleanup": "target absence verified before retry"
+            },
+            {
+              "attempt": 2,
+              "result": "INSTALL_SUCCEEDED_IMPORT_ORIGIN_RESOLVED_SOURCE_CHECKOUT_BECAUSE_WORKDIR_WAS_CANON",
+              "cleanup": "target removed and absence verified"
+            },
+            {
+              "attempt": 3,
+              "result": "PASS_FROM_OUTSIDE_SOURCE_TREE"
+            }
+          ]
+        }
       },
       {
         "kind": "sdist",
         "filename": "giga_archaeology-0.1.3b4.tar.gz",
         "sha256": "5659ee562d9712c3bf7b39644ceef04e23f09de18e1cb927594efd23c08566d2",
         "bytes": 364456,
-        "installed_canary": "NOT_RUN_PENDING_EXACT_HASH_APPROVAL"
+        "installed_canary": {
+          "status": "PASS_LIMITED",
+          "network": "disabled",
+          "dependency_resolution": "disabled",
+          "build_isolation": "disabled; existing ArtVault build backend used",
+          "dependencies": "existing ArtVault environment",
+          "metadata_version": "0.1.3b4",
+          "import_origin_under_installed_target": true,
+          "cli_help_passed": [
+            "giga-archaeology",
+            "giga-archaeologist"
+          ],
+          "target_removed_and_absence_verified": true,
+          "attempt_history": [
+            {
+              "attempt": 1,
+              "result": "INSTALL_SUCCEEDED_IMPORT_ORIGIN_RESOLVED_SOURCE_CHECKOUT_BECAUSE_WORKDIR_WAS_CANON",
+              "cleanup": "target removed and absence verified"
+            },
+            {
+              "attempt": 2,
+              "result": "PASS_FROM_OUTSIDE_SOURCE_TREE"
+            }
+          ]
+        }
       }
     ],
     "reproducibility": {
