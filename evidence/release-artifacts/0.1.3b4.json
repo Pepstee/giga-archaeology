@@ -2069,5 +2069,74 @@
       "No hosted CI steps ran."
     ]
   }
-]
+],
+  "post_notice_rebuild_test_20261030": {
+    "source_commit": "a5b5eca40a9eb5fa8a9aa5bfdbcfc81bc49c5b84",
+    "source_tree": "84626b48de25c1c7bb93b2b3e13075ce780efb53",
+    "artifact_build": {
+      "date": "2026-10-30",
+      "tool": "build 1.6.1",
+      "python": "CPython 3.12.3",
+      "command": ".venv/bin/python -m build --no-isolation --wheel --sdist --outdir [private temporary path] .",
+      "artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "format": "wheel",
+          "size_bytes": 393746,
+          "sha256": "74c0e07ac28ef3195214492f1c72da77e9e02b1956444369a958ee0bc2cd0a02",
+          "members": 48
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "format": "sdist",
+          "size_bytes": 361550,
+          "sha256": "218ef14ef181063d83852cd2917f6f8ae5804f1086417afb537c1d709f6fe79c",
+          "members": 47
+        }
+      ],
+      "archive_checks": {
+        "wheel_readme_license_and_third_party_notice_exact_bytes_match_source": true,
+        "twin_core_excluded_from_wheel_and_sdist": true,
+        "sdist_contains_quickstart_example_and_build_backend": true,
+        "reproducible_second_build": "NOT_RUN"
+      }
+    },
+    "current_source_full_test_suite": {
+      "command": "wsl.exe -d artvault --cd /srv/artvault/projects/giga-archaeologist/workspace -- .venv/bin/python -m pytest -q",
+      "platform": "Registered ArtVault Linux x86_64 canon",
+      "python": "CPython 3.12.3",
+      "pytest": "9.1.1",
+      "source_commit": "a5b5eca40a9eb5fa8a9aa5bfdbcfc81bc49c5b84",
+      "source_tree": "84626b48de25c1c7bb93b2b3e13075ce780efb53",
+      "passed": 429,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "duration_seconds": 86.88,
+      "numeric_process_exit_code": 0,
+      "terminal_summary": "429 passed, 1 skipped, 2 subtests passed in 86.88s",
+      "tracked_working_tree_clean_after_run": true,
+      "invocation_corrections": [
+        {
+          "outcome": "initial command ran from WSL default directory and collected no tests (exit 5); corrected by setting the working directory to the registered canon"
+        },
+        {
+          "outcome": "absolute tests-directory invocation failed collection because the scripts package was not importable from that working directory (exit 2); corrected by running pytest with the canon as current directory"
+        }
+      ]
+    },
+    "hosted_ci_latest_observed": {
+      "run_id": 41051220397,
+      "jobs": 12,
+      "all_jobs_conclusion": "failure",
+      "runner_assigned": false,
+      "steps_started": false,
+      "hosted_tests_ran": false,
+      "logs_available": false,
+      "observation": "GitHub Actions failed before runner assignment; no hosted platform test evidence."
+    },
+    "rebuilt_wheel_install_canary": {
+      "status": "PENDING_EXACT_OPERATOR_APPROVAL",
+      "wheel_sha256": "74c0e07ac28ef3195214492f1c72da77e9e02b1956444369a958ee0bc2cd0a02"
+    }
+  }
 }
