@@ -5107,5 +5107,16 @@
       "install_attempted": false,
       "requested_scope": "Offline private temporary target; no dependencies or package index; verify metadata, import origin and both CLI help commands; remove target and confirm cleanup."
     }
+  },
+  "full_source_suite_verification_c41cc49_20261031": {
+    "checked_at_utc": "2026-10-31T10:40:20Z",
+    "source_commit": "c41cc497e52a5a6dbee0f902fc6773a51f4c472b",
+    "test_scope": "full Linux source test suite on canonical ArtVault workspace; CPython 3.12.3",
+    "result": "431 passed, 1 skipped, 2 subtests passed in 82.11 seconds; exit code 0",
+    "temporary_data": "/tmp/archaeology-full-suite-c41cc49; removed and confirmed absent",
+    "preexisting_untracked_files": 8238,
+    "pre_test_content_manifest_sha256": "bbbdabcfa059b398e811352866d06c22cb702ccf07395abb16b8ccad84202622",
+    "post_test_content_manifest_sha256": "bbbdabcfa059b398e811352866d06c22cb702ccf07395abb16b8ccad84202622",
+    "tracked_worktree_state": "clean before and after; HEAD unchanged; all pre-existing untracked files preserved"
   }
 }
