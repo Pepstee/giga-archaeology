@@ -614,11 +614,19 @@
     "latest_artifacts": [
       {
         "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
-        "sha256": "70a1ddffe41466b765da72766c6d47da863329fd6363c899149215d2498d628a"
+        "kind": "wheel",
+        "sha256": "77bccea071af28d52c684d58cf69ab3f812b61407d2ef5dce404a38c546e620c",
+        "bytes": 399820,
+        "members": 48,
+        "version": "0.1.3b4"
       },
       {
         "filename": "giga_archaeology-0.1.3b4.tar.gz",
-        "sha256": "bf40ab09f17e3c1ad3a262aac6211dd837df2105d4398f0cba1c49e47644573a"
+        "kind": "sdist",
+        "sha256": "3a2a143ecc5677e82e1a1b397892b94c742bb6250bd0877206ebe8b7da0ba5e2",
+        "bytes": 368113,
+        "members": 47,
+        "version": "0.1.3b4"
       }
     ],
     "superseded_distribution_observation_928a832": {
@@ -634,7 +642,7 @@
       ],
       "latest_source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3"
     },
-    "latest_artifact_state": "CANON_CANDIDATE; NOT_RELEASED",
+    "latest_artifact_state": "CANON_CANDIDATE; NOT_RELEASED; EXACT_SOURCE_SNAPSHOT_RECORDED",
     "latest_artifact_release_docs_sha256": "d7b1e103a4788118ff4ae6b36fdb27bc71069228176b88361fe4a5d1929b5220"
   },
   "limitations": [
@@ -5555,5 +5563,64 @@
     "cause": "UNCONFIRMED",
     "hosted_test_results": false,
     "observed_at_utc": "2026-10-31T13:10:00Z"
+  },
+  "readme_latest_ci_status_and_rebuild_20261031": {
+    "status": "PASS_REPRODUCIBLE_DOCS_REBUILD; EXACT_WHEEL_INSTALL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "checked_at_utc": "2026-10-31T14:06:18Z",
+    "source_base_commit": "dc4537fb9c48be1524e23e737f4c90396e461807",
+    "source_base_tree": "06120b71f3e29096b985fc7bce756e17dd497c55",
+    "source_snapshot_paths": [
+      "README.md"
+    ],
+    "tracked_working_tree_diff_sha256": "a531ae510e3c27f56f9da9e42a760a693a548d2f275cccd967a5924fe14dedbc",
+    "readme_sha256": "419d30f8f937355c010667d1f48380e7da178a30b148d4900f3e289911f33f12",
+    "ci_status_refresh": {
+      "run_id": 41204701010,
+      "all_12_jobs_rejected_before_runner_assignment": true,
+      "steps_run": 0,
+      "hosted_test_results": false,
+      "public_summary": "GitHub rejected the jobs before runner assignment; no steps ran."
+    },
+    "focused_packaging_test": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q tests/test_archaeology_packaging.py",
+      "result": "9 passed"
+    },
+    "build": {
+      "platform": "ArtVault Linux x86_64",
+      "python": "CPython 3.12.3",
+      "build_tool": "build 1.6.1",
+      "isolation": "disabled; existing ArtVault environment",
+      "two_independent_builds_byte_identical": true
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "77bccea071af28d52c684d58cf69ab3f812b61407d2ef5dce404a38c546e620c",
+        "bytes": 399820,
+        "members": 48,
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "3a2a143ecc5677e82e1a1b397892b94c742bb6250bd0877206ebe8b7da0ba5e2",
+        "bytes": 368113,
+        "members": 47,
+        "version": "0.1.3b4"
+      }
+    ],
+    "archive_inspection": {
+      "readme_exact_bytes_in_wheel_and_sdist": true,
+      "release_ledger_excluded_from_distributions": true
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "77bccea071af28d52c684d58cf69ab3f812b61407d2ef5dce404a38c546e620c",
+      "status": "PENDING_OPERATOR_APPROVAL"
+    },
+    "sdist_install_canary": {
+      "status": "NOT_RUN"
+    },
+    "public_release": false
   }
 }
