@@ -552,3 +552,11 @@ GitHub Actions run [41154185074](https://github.com/Pepstee/giga-archaeology/act
 Wheel SHA-256 `167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6` passed an exact-hash offline canary on ArtVault Linux with CPython 3.12.3. Distribution metadata reported `giga-archaeology` 0.1.3b4; both packaged CLI modules imported from the private target; `giga-archaeologist --help` and `giga-archaeology --help` passed; and the target was removed. The canary used `--no-deps --no-index`, so it relies on dependencies already present in the ArtVault environment and does not establish clean-environment dependency resolution.
 
 This update changes documentation included in the wheel and source archive. The recorded wheel canary remains valid for its exact hash, but rebuild both formats from this committed documentation before distribution and verify the resulting hashes. No public package or GitHub release has been made.
+
+## 2026-10-31 -- current hosted CI and package portability metadata
+
+GitHub Actions run [41193178195](https://github.com/Pepstee/giga-archaeology/actions/runs/41193178195) targeted commit `9aedda7123cfd14c484e0af5a4bdfce483da9dc7`. All 12 matrix jobs failed before runner assignment: runner ID was zero and no steps ran. Sampled check annotations confirm an account billing or spending-limit gate; this run produced no hosted test results. The account restriction prevents the new Windows lock-error-mapping test and supported-path matrix from starting. Full macOS and Windows suites remain unverified.
+
+The current Linux checkout passed the focused packaging and OS-support checks: **12 passed** (9 packaging tests and 3 OS-support tests). The package metadata now declares beta status, Linux/macOS/Windows, and Python 3.11 through 3.14. These metadata and CI improvements have not yet received hosted verification.
+
+This document is included in both distributions. Rebuild the wheel and source archive from the committed documentation, verify both hashes, and run a new exact-hash wheel canary before distribution. No public package or GitHub release has been made.
