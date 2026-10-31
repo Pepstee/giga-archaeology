@@ -5195,5 +5195,68 @@
     "pre_test_content_manifest_sha256": "bbbdabcfa059b398e811352866d06c22cb702ccf07395abb16b8ccad84202622",
     "post_test_content_manifest_sha256": "bbbdabcfa059b398e811352866d06c22cb702ccf07395abb16b8ccad84202622",
     "tracked_worktree_state": "clean before and after; HEAD unchanged; all pre-existing untracked files preserved"
+  },
+  "final_release_rebuild_7b9f186_20261031": {
+    "source_commit": "7b9f186b383eabbee80e0f5922e3eea9dc745e2f",
+    "checked_at_utc": "2026-10-31T11:13:27Z",
+    "platform": "Registered ArtVault Linux x86_64 workspace",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation",
+    "status": "PASS_REPRODUCIBLE; EXACT_WHEEL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "build_directories": [
+      "/tmp/giga-archaeology-release-docs-7b9f186-a",
+      "/tmp/giga-archaeology-release-docs-7b9f186-b"
+    ],
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 399552,
+        "members": 48,
+        "sha256": "8524ad6754a88c97dd051aae0a0da3aef5cf2eaeb600be205a854bee4c5e9d27",
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 367743,
+        "members": 47,
+        "sha256": "0de856a0d0439a375999f67361f872eb53b41d18ff0c60a7f301297e24eeb936",
+        "version": "0.1.3b4"
+      }
+    ],
+    "verification": {
+      "two_independent_builds_match": true,
+      "README_exact_in_wheel_and_sdist": true,
+      "BETA_VALIDATION_exact_in_sdist": true,
+      "platform_and_python_classifiers": 13,
+      "privacy_scan_email_hits": 0,
+      "privacy_scan_local_profile_path_hits": 0,
+      "focused_packaging_tests": "9 passed in 1.79 seconds",
+      "archive_member_counts_checked": true
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "8524ad6754a88c97dd051aae0a0da3aef5cf2eaeb600be205a854bee4c5e9d27",
+      "status": "PENDING_EXACT_HASH_APPROVAL",
+      "install_attempted": false,
+      "previous_approvals_for_other_hashes_do_not_cover_this_artifact": true,
+      "requested_scope": "Offline --no-deps --no-index install into a private temporary target; verify metadata, import origin, both CLI help commands and the synthetic quickstart; remove target and confirm cleanup."
+    }
+  },
+  "post_push_ci_review_41195858027_20261031": {
+    "checked_at_utc": "2026-10-31T11:12:14Z",
+    "run_id": 41195858027,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41195858027",
+    "source_commit": "7b9f186b383eabbee80e0f5922e3eea9dc745e2f",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "job_listing_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
+    "cause": "UNCONFIRMED_NO_RUNNER_SIDE_DIAGNOSTIC",
+    "method": "Authenticated GitHub API read of the exact run and all 12 jobs; no rerun or billing change."
   }
 }
