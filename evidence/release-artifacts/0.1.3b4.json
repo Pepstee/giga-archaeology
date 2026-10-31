@@ -4588,6 +4588,8 @@
     },
     "actions_enabled": true,
     "logs_available": false,
-    "cause": "GitHub exposed no runner-side diagnostic for this run; the specific cause remains unconfirmed."
+    "cause": "All 12 matrix jobs were rejected before runner assignment by an account-level GitHub Actions admission restriction; no workflow steps ran. Specific provider diagnostics are omitted from this repository record.",
+    "required_operator_action": "Review the account-level Actions runner-admission settings. No account settings were changed.",
+    "test_result": "No CI steps ran; this is runner admission, not a code/test failure."
   }
 }
