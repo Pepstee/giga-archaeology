@@ -4659,5 +4659,75 @@
       "No package or GitHub release has been published.",
       "These artifact hashes predate the following validation-record privacy update and are not current release artifacts."
     ]
+  },
+  "current_artifact_rebuild_b48de10_20261031": {
+    "built_at_date": "2026-10-31",
+    "source_commit": "b48de10228fb8bd1337a3388907d5c3107caecc1",
+    "source_tree": "4f7e11446aed919bcc00582e9dd8dec75d108188",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1",
+    "build_method": "Two independent --no-isolation PEP 517 builds from the registered canonical source.",
+    "status": "PASS_REPRODUCIBLE_BUILD_AND_STATIC_ARCHIVE_INSPECTION; EXACT_WHEEL_INSTALL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 398926,
+        "members": 48,
+        "sha256": "bbb177277b45705919c32822355dba55d523c3c26884c217c274140b89e64032",
+        "version": "0.1.3b4",
+        "entrypoints": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ]
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 366493,
+        "members": 47,
+        "sha256": "7cf88b5c6dc010f48d783ac5b5f7b68e964973c26511bbf7f7048bdfb94b3382",
+        "version": "0.1.3b4"
+      }
+    ],
+    "reproducibility": {
+      "second_independent_build_performed": true,
+      "wheel_byte_identical": true,
+      "sdist_byte_identical": true
+    },
+    "archive_inspection": {
+      "README_and_BETA_validation_exact_source_bytes": true,
+      "CONTRIBUTING_and_LICENSE_exact_source_bytes": true,
+      "wheel_RECORD_integrity": "PASS",
+      "metadata_and_entrypoints": "PASS",
+      "git_metadata_excluded": true,
+      "release_ledger_excluded": true,
+      "quickstart_in_wheel": false,
+      "quickstart_in_sdist": true
+    },
+    "static_privacy_scan": {
+      "profile_path_hits": 0,
+      "non_reserved_email_hits": 0,
+      "specific_account_diagnostic_hits": 0,
+      "private_diagnostic_terms": 0
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "bbb177277b45705919c32822355dba55d523c3c26884c217c274140b89e64032",
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "Offline private temporary target with dependency resolution and index disabled; verify metadata, import origin, both CLI help commands; remove target and confirm cleanup."
+    },
+    "sdist_install_canary": {
+      "artifact_sha256": "7cf88b5c6dc010f48d783ac5b5f7b68e964973c26511bbf7f7048bdfb94b3382",
+      "status": "NOT_RUN",
+      "reason": "The project policy prohibits extracting a second runnable project copy; static archive verification is complete."
+    },
+    "limitations": [
+      "ArtVault Linux build only.",
+      "Exact wheel installation is unverified pending approval.",
+      "Full macOS and Windows suites and hosted CI remain unverified.",
+      "No package or GitHub release has been published."
+    ]
   }
 }
