@@ -4853,7 +4853,38 @@
       "artifact_sha256": "66d318b0c86675806069eee9a428a0430d5e626bce08e8b7ad56d9c64db8cd99",
       "status": "SUPERSEDED_AFTER_DOCUMENTATION_EDIT; DO_NOT_INSTALL",
       "install_attempted": false,
-      "requested_scope": "Offline private temporary target, no dependencies or package index; verify metadata, import origin and both CLI help commands; remove target and confirm cleanup."
+      "requested_scope": "Offline private temporary target, no dependencies or package index; verify metadata, import origin and both CLI help commands; remove target and confirm cleanup.",
+      "operator_authorized_post_supersession_attempts": [
+        {
+          "attempt": "harness_probe_aborted",
+          "timestamp_utc": "2026-10-31T10:48Z",
+          "terminal_status": "HARNESS_ABORTED_AND_CLEANED",
+          "reason": "Origin probe used top-level namespace package modules.__file__, which is None; no product assertion was made.",
+          "target": "/tmp/giga-archaeology-canary-66d318b0c866",
+          "target_cleanup": "PASS; target absent"
+        },
+        {
+          "attempt": "exact_approved_offline_canary",
+          "timestamp_utc": "2026-10-31T10:48Z",
+          "artifact_sha256": "66d318b0c86675806069eee9a428a0430d5e626bce08e8b7ad56d9c64db8cd99",
+          "artifact_source_path": "/tmp/giga-archaeology-release-dc4819f-4gf9mh5y/build-1/giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "operator_approval": "Explicit user approval for this exact hash, received 2026-10-31",
+          "network_and_dependency_resolution": "disabled (--no-index --no-deps)",
+          "metadata": {
+            "name": "giga-archaeology",
+            "version": "0.1.3b4",
+            "classifier_count": 0
+          },
+          "import_origin": "PASS; both console script modules resolved from the private temporary target",
+          "cli_help": {
+            "giga-archaeology": "PASS",
+            "giga-archaeologist": "PASS"
+          },
+          "status": "PASS_INSTALL_IMPORT_AND_CLI; ARTIFACT REMAINS SUPERSEDED_NOT_FOR_DISTRIBUTION",
+          "temporary_target": "/tmp/giga-archaeology-canary-66d318b0c866",
+          "target_cleanup": "PASS; path absent"
+        }
+      ]
     },
     "limitations": [
       "Hosted CI could not start jobs.",
@@ -4971,10 +5002,32 @@
       "network_and_dependency_resolution": "disabled (--no-index --no-deps)",
       "metadata": "PASS; name giga-archaeology; version 0.1.3b4",
       "import_origin": "PASS; modules.operations.scripts.archaeologist and modules.operations.scripts.archaeology resolved from the private temporary target",
-      "cli_help": {"giga-archaeologist": "PASS", "giga-archaeology": "PASS"},
+      "cli_help": {
+        "giga-archaeologist": "PASS",
+        "giga-archaeology": "PASS"
+      },
       "temporary_target": "/tmp/giga-archaeology-canary-167ceaba",
       "target_cleanup": "PASS; path absent after verification",
-      "harness_note": "Two preliminary origin assertions were stopped and cleaned up: top-level modules is a namespace package, and running the first check from the repository directory exposed the checkout. Final check ran outside the checkout and verified both packaged CLI module origins."
+      "harness_note": "Two preliminary origin assertions were stopped and cleaned up: top-level modules is a namespace package, and running the first check from the repository directory exposed the checkout. Final check ran outside the checkout and verified both packaged CLI module origins.",
+      "operator_authorized_repeat_attempt": {
+        "timestamp_utc": "2026-10-31T10:48Z",
+        "artifact_sha256": "167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6",
+        "operator_approval": "Explicit user approval for this exact hash, received 2026-10-31",
+        "network_and_dependency_resolution": "disabled (--no-index --no-deps)",
+        "metadata": {
+          "name": "giga-archaeology",
+          "version": "0.1.3b4",
+          "classifier_count": 0
+        },
+        "import_origin": "PASS; both console script modules resolved from the private temporary target",
+        "cli_help": {
+          "giga-archaeology": "PASS",
+          "giga-archaeologist": "PASS"
+        },
+        "status": "PASS_INSTALL_IMPORT_AND_CLI; SOURCE REVISION 928A832 HAS NO CLASSIFIERS AND THIS ARTIFACT IS NOT THE CURRENT CLASSIFIER-COMPLETE RELEASE CANDIDATE",
+        "temporary_target": "/tmp/giga-archaeology-canary-167ceaba991d",
+        "target_cleanup": "PASS; path absent"
+      }
     }
   },
   "previous_latest_hosted_ci_blocker_before_41154185074_20261031": {
@@ -5026,12 +5079,36 @@
     "python": "CPython 3.12.3",
     "build_tool": "build 1.6.1; --no-isolation",
     "status": "PASS_REPRODUCIBLE; EXACT_WHEEL_CANARY_PENDING_APPROVAL",
-    "build_directories": ["/tmp/giga-archaeology-repro-a80e64a-build1", "/tmp/giga-archaeology-repro-a80e64a-build2"],
-    "artifacts": [
-      {"filename": "giga_archaeology-0.1.3b4-py3-none-any.whl", "kind": "wheel", "bytes": 399398, "members": 48, "sha256": "1c900bca41591e34d1ac2ac6293764a47587aa5a9f9a697f222ba71a2e9f4cb4", "version": "0.1.3b4"},
-      {"filename": "giga_archaeology-0.1.3b4.tar.gz", "kind": "sdist", "bytes": 366940, "members": 47, "sha256": "4d07e1a75878bb58be41f98d12d3793ab6e77c4a6369c4499a54dd54a746b03e", "version": "0.1.3b4"}
+    "build_directories": [
+      "/tmp/giga-archaeology-repro-a80e64a-build1",
+      "/tmp/giga-archaeology-repro-a80e64a-build2"
     ],
-    "verification": {"two_independent_builds_match": true, "README_exact_bytes_in_both": true, "BETA_VALIDATION_exact_bytes_in_both": true, "local_home_path_hits": 0, "non_reserved_email_hits": 0, "packaging_test": "9 passed in 1.82 seconds; exact documentation package checks"},
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 399398,
+        "members": 48,
+        "sha256": "1c900bca41591e34d1ac2ac6293764a47587aa5a9f9a697f222ba71a2e9f4cb4",
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 366940,
+        "members": 47,
+        "sha256": "4d07e1a75878bb58be41f98d12d3793ab6e77c4a6369c4499a54dd54a746b03e",
+        "version": "0.1.3b4"
+      }
+    ],
+    "verification": {
+      "two_independent_builds_match": true,
+      "README_exact_bytes_in_both": true,
+      "BETA_VALIDATION_exact_bytes_in_both": true,
+      "local_home_path_hits": 0,
+      "non_reserved_email_hits": 0,
+      "packaging_test": "9 passed in 1.82 seconds; exact documentation package checks"
+    },
     "exact_wheel_install_canary": {
       "artifact_sha256": "1c900bca41591e34d1ac2ac6293764a47587aa5a9f9a697f222ba71a2e9f4cb4",
       "status": "PENDING_OPERATOR_APPROVAL",
