@@ -5750,5 +5750,52 @@
     ],
     "decision": "No version bump justified by release freshness alone; CI matrix remains required to verify supported runtime combinations.",
     "scope": "PyPI release-version metadata; not a compatibility test."
+  },
+  "current_artifact_rebuild_current_head_2a38953_20261031": {
+    "source_commit": "2a389531aaa7757654ff519ec1cfa8db0b15a4c1",
+    "source_tree": "c12ca56aa44162e64b3d2974be58373121cf1bed",
+    "built_at_utc": "2026-10-31T14:34:57Z",
+    "platform": "Registered ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1",
+    "build_directories": [
+      "/tmp/giga-archaeology-release-735-rebuild-0wniwr6t/build-1",
+      "/tmp/giga-archaeology-release-735-rebuild-0wniwr6t/build-2"
+    ],
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "sha256": "7351655c2251e9643c9191620fd7c459be87b487a1ad73cd5d95cc26399b595b",
+        "size_bytes": 399817
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "sha256": "0316216fde3ca00546a74d7da818d5d91f31b77336ef56b99088ebddb3c6695f",
+        "size_bytes": 368106
+      }
+    ],
+    "reproducibility": {
+      "independent_builds": 2,
+      "wheel_hashes_match": true,
+      "sdist_hashes_match": true,
+      "matches_prior_recorded_hashes": true
+    },
+    "metadata_check": {
+      "requires_python": ">=3.11",
+      "os_classifiers": [
+        "Linux",
+        "macOS",
+        "Windows"
+      ]
+    },
+    "exact_wheel_install_canary": {
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "artifact_sha256": "7351655c2251e9643c9191620fd7c459be87b487a1ad73cd5d95cc26399b595b",
+      "approval_request_pending": true
+    },
+    "source_distribution_install_canary": {
+      "status": "NOT_RUN"
+    },
+    "public_release": false
   }
 }
