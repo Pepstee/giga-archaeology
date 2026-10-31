@@ -5002,5 +5002,25 @@
         "reason": "Initial annotation batch hit a GitHub API connection reset."
       }
     ]
+  },
+  "documentation_rebuild_a80e64a_20261031": {
+    "source_commit": "a80e64ad332ae347b79993d3e81fbe70f8361b1a",
+    "checked_at_utc": "2026-10-31T10:24:29Z",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation",
+    "status": "PASS_REPRODUCIBLE; EXACT_WHEEL_CANARY_PENDING_APPROVAL",
+    "build_directories": ["/tmp/giga-archaeology-repro-a80e64a-build1", "/tmp/giga-archaeology-repro-a80e64a-build2"],
+    "artifacts": [
+      {"filename": "giga_archaeology-0.1.3b4-py3-none-any.whl", "kind": "wheel", "bytes": 399398, "members": 48, "sha256": "1c900bca41591e34d1ac2ac6293764a47587aa5a9f9a697f222ba71a2e9f4cb4", "version": "0.1.3b4"},
+      {"filename": "giga_archaeology-0.1.3b4.tar.gz", "kind": "sdist", "bytes": 366940, "members": 47, "sha256": "4d07e1a75878bb58be41f98d12d3793ab6e77c4a6369c4499a54dd54a746b03e", "version": "0.1.3b4"}
+    ],
+    "verification": {"two_independent_builds_match": true, "README_exact_bytes_in_both": true, "BETA_VALIDATION_exact_bytes_in_both": true, "local_home_path_hits": 0, "non_reserved_email_hits": 0, "packaging_test": "9 passed in 1.82 seconds; exact documentation package checks"},
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "1c900bca41591e34d1ac2ac6293764a47587aa5a9f9a697f222ba71a2e9f4cb4",
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "Offline private temporary target, no dependencies or index; verify metadata, import origin and both CLI help commands, remove target and confirm cleanup."
+    }
   }
 }
