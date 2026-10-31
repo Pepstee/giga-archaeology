@@ -1216,9 +1216,10 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "UNKNOWN_PRE_RUNNER_FAILURE",
+    "cause": "RUNNER_ADMISSION_RESTRICTION_CONFIRMED_ON_ONE_CHECK",
     "evidence_record": "post_push_ci_review_41154185074_20261031",
-    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION"
+    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION",
+    "annotation_sample_count": 1
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -4979,9 +4980,20 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "UNKNOWN_PRE_RUNNER_FAILURE",
+    "cause": "RUNNER_ADMISSION_RESTRICTION_CONFIRMED_ON_ONE_CHECK",
     "job_step_summary": "All 12 jobs completed with empty step lists.",
-    "annotation_review": "NOT_COMPLETED; GitHub API connection reset during annotation retrieval.",
-    "scope_limit": "No hosted test result was produced; the diagnostic cause was not confirmed."
+    "annotation_review": {
+      "status": "PARTIAL",
+      "representative_check_run_id": 124397240064,
+      "annotations_in_sample": 2,
+      "remaining_annotations": "NOT_REVIEWED"
+    },
+    "scope_limit": "All 12 jobs had zero steps; one representative annotation confirms runner admission restriction. Remaining annotation causes were not independently reviewed.",
+    "diagnostic_history": [
+      {
+        "status": "NOT_COMPLETED",
+        "reason": "Initial annotation batch hit a GitHub API connection reset."
+      }
+    ]
   }
 }
