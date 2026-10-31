@@ -6160,7 +6160,14 @@
     "steps_run": 0,
     "hosted_tests_executed": false,
     "cause": "All jobs failed before runner assignment; no hosted test ran.",
-    "observed_at_utc": "2026-10-31T15:26:17Z"
+    "observed_at_utc": "2026-10-31T15:26:17Z",
+    "job_log_fetch": {
+      "job_id": 124577068801,
+      "result": "404_BLOB_NOT_FOUND",
+      "log_archive_available": false,
+      "diagnostic_detail": "GitHub returned no job log archive; the fetch supplied no runner failure detail.",
+      "observed_at_utc": "2026-10-31T15:43:58Z"
+    }
   },
   "latest_hosted_ci_blocker_before_41214826318": {
     "run_id": 41204701010,
