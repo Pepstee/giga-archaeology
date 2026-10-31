@@ -51,6 +51,27 @@ def test_contributing_guide_is_in_both_distributions(tmp_path: Path) -> None:
         assert member is not None and member.read() == expected_content
 
 
+def test_readme_and_validation_record_are_in_both_distributions(tmp_path: Path) -> None:
+    wheel_name = BACKEND.build_wheel(str(tmp_path))
+    sdist_name = BACKEND.build_sdist(str(tmp_path))
+    expected = {
+        "README.md": (ROOT / "README.md").read_bytes(),
+        "architecture/archaeology/BETA_VALIDATION.md": (
+            ROOT / "architecture/archaeology/BETA_VALIDATION.md"
+        ).read_bytes(),
+    }
+
+    with zipfile.ZipFile(tmp_path / wheel_name) as wheel:
+        for name, content in expected.items():
+            assert wheel.read(name) == content
+
+    prefix = f"{BACKEND.NAME}-{BACKEND.VERSION}/"
+    with tarfile.open(tmp_path / sdist_name, "r:gz") as sdist:
+        for name, content in expected.items():
+            member = sdist.extractfile(prefix + name)
+            assert member is not None and member.read() == content
+
+
 def test_release_metadata_includes_search_terms_and_project_links(tmp_path: Path) -> None:
     wheel_name = BACKEND.build_wheel(str(tmp_path))
     with zipfile.ZipFile(tmp_path / wheel_name) as wheel:

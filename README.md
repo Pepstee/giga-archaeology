@@ -14,9 +14,9 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 
 ## Release status
 
-`0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run was at canonical ArtVault commit `6148ea80a05805cdc41998fb0081ccfe7e79d4be` (tree `11f1256c0d4d6276b1f116d90e128158b374d8ae`): **430 passed, 1 skipped, and 2 subtests passed** in 74.94 seconds on CPython 3.12.3. This verifies Linux source tests only; full macOS and Windows suites remain unverified.
+`0.1.3b4` is an unpublished developer beta. The latest full Linux source-suite run used the registered ArtVault worktree based on commit 9e78460159316b38b37baa781d8d59a940ac75f1 with tracked-diff SHA-256 068f3fac89851e20701e69117bb60c63d0b809888fd78a0826bf8ac8db89f2fc: **431 passed, 1 skipped, and 2 subtests passed** in 77.21 seconds on CPython 3.12.3. Production implementation files were unchanged in this increment. Full macOS and Windows suites remain unverified.
 
-Hosted CI evidence is tracked by exact source revision in the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json). A job that stops before its test steps does not count as platform verification.
+GitHub Actions run [41146332388](https://github.com/Pepstee/giga-archaeology/actions/runs/41146332388) targeted the preceding source revision but failed before runner assignment; no hosted tests ran. Hosted CI evidence is tracked by exact source revision in the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json). A job that stops before its test steps does not count as platform verification.
 
 Artifact verification is hash-specific. The README ships in both the wheel and source archive, so release artifacts must be rebuilt and verified against the final documentation. No public package or GitHub release has been made.
 

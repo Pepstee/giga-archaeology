@@ -493,3 +493,38 @@ The reproducible wheel and source archive recorded for documentation commit `cb5
 superseded because this checkpoint changes packaged documentation. Rebuild both formats after
 commit. The exact-wheel installation canary still requires approval for its new hash. No public
 package or GitHub release has been made.
+
+
+## 2026-10-31 — latest Linux suite at sanitized history head
+
+At canonical ArtVault commit c18b22d194dc1abdf25a5411e1d59471e7dbaff5 (tree
+bfba732b9cff92f5f8c986d40ee5ead83e4c4265), the complete source suite passed on Linux x86_64
+with CPython 3.12.3: **430 passed, 1 skipped, and 2 subtests passed** in 75.74 seconds (exit code 0).
+The test ran from the registered canonical workspace; Git HEAD, tracked and staged diffs, and the
+pre-existing untracked state were unchanged. The later commit 9e78460159316b38b37baa781d8d59a940ac75f1
+changed only the release evidence ledger. This confirms Linux source tests only. Full macOS and Windows
+source suites remain unverified.
+
+GitHub Actions run [41146332388](https://github.com/Pepstee/giga-archaeology/actions/runs/41146332388)
+targeted the same source revision. All 12 matrix jobs failed before runner assignment, with zero steps
+started and no runner-side logs available. Actions is enabled. The current run's specific cause is
+unconfirmed, and it establishes no hosted test results.
+
+No public package or GitHub release has been made. The README and packaged validation document have
+now been updated after this suite; rebuild both distribution artifacts from the corrected documentation
+before any release.
+
+
+## 2026-10-31 — full suite for documentation packaging guard
+
+The full suite ran from the registered ArtVault Linux x86_64 workspace, based on HEAD
+9e78460159316b38b37baa781d8d59a940ac75f1 with tracked-diff SHA-256
+068f3fac89851e20701e69117bb60c63d0b809888fd78a0826bf8ac8db89f2fc. The tracked changes were
+README.md, this validation record, and tests/test_archaeology_packaging.py. Result: **431 passed,
+1 skipped, and 2 subtests passed** in 77.21 seconds with CPython 3.12.3 (exit code 0). The skip is
+the existing platform-specific sandbox case. Git HEAD and Git status remained unchanged during the
+run. Production implementation files were unchanged.
+
+The added packaging regression asserts that the exact README and BETA_VALIDATION bytes appear in
+both the wheel and source archive. The test is part of this full-suite result. Linux evidence only;
+full macOS and Windows source suites remain unverified.
