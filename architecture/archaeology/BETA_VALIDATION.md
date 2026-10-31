@@ -544,3 +544,11 @@ targeted canonical source commit `dc4819f159bbab6226b3ea2c157cea7c9c97d14b`. All
 were rejected before runner assignment and no steps ran. The provider annotation is not reproduced in
 this project record. No hosted test results were produced, so macOS and Windows verification remain
 open. No public package or GitHub release has been made.
+
+## 2026-10-31 -- latest hosted CI and exact wheel canary
+
+GitHub Actions run [41154185074](https://github.com/Pepstee/giga-archaeology/actions/runs/41154185074) targeted source commit `928a832f2ffe16d8b755d15c34b9a32c3de81dc3`. All 12 matrix jobs failed before runner assignment and no test steps ran. One check confirms a runner admission restriction; this run produced no hosted test results. The latest Linux source-suite result remains 431 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3, as recorded above. Full macOS and Windows suites remain unverified.
+
+Wheel SHA-256 `167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6` passed an exact-hash offline canary on ArtVault Linux with CPython 3.12.3. Distribution metadata reported `giga-archaeology` 0.1.3b4; both packaged CLI modules imported from the private target; `giga-archaeologist --help` and `giga-archaeology --help` passed; and the target was removed. The canary used `--no-deps --no-index`, so it relies on dependencies already present in the ArtVault environment and does not establish clean-environment dependency resolution.
+
+This update changes documentation included in the wheel and source archive. The recorded wheel canary remains valid for its exact hash, but rebuild both formats from this committed documentation before distribution and verify the resulting hashes. No public package or GitHub release has been made.
