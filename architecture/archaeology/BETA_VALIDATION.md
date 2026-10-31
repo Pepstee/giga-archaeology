@@ -528,9 +528,19 @@ The added packaging regression asserts that the exact README and BETA_VALIDATION
 both the wheel and source archive. The test is part of this full-suite result. Linux evidence only;
 full macOS and Windows source suites remain unverified.
 
-## 2026-10-31 -- latest hosted CI admission result
+## 2026-10-31 -- hosted CI observation for sanitized history checkpoint
 
 GitHub Actions run [41148503242](https://github.com/Pepstee/giga-archaeology/actions/runs/41148503242)
 targeted source commit 74f700c76b143c08b100007153474c5681a888d4. All 12 matrix jobs failed before
-runner assignment. No job steps ran and no hosted test results were produced. No provider-specific diagnostic is included in this public-facing record. This does not change the latest Linux source-suite result above: hosted macOS and
-Windows verification remain open. No public package or GitHub release has been made.
+runner assignment. No job steps ran and no hosted test results were produced. The release ledger keeps
+provider-specific diagnostics out of this project record. This does not change the latest Linux
+source-suite result above: hosted macOS and Windows verification remain open. No public package or
+GitHub release has been made.
+
+## 2026-10-31 -- hosted CI run at the sanitized-history checkpoint
+
+GitHub Actions run [41152193550](https://github.com/Pepstee/giga-archaeology/actions/runs/41152193550)
+targeted canonical source commit `dc4819f159bbab6226b3ea2c157cea7c9c97d14b`. All 12 matrix jobs
+were rejected before runner assignment and no steps ran. The provider annotation is not reproduced in
+this project record. No hosted test results were produced, so macOS and Windows verification remain
+open. No public package or GitHub release has been made.
