@@ -560,3 +560,11 @@ GitHub Actions run [41193319320](https://github.com/Pepstee/giga-archaeology/act
 The current Linux checkout passed the focused packaging and OS-support checks: **12 passed** (9 packaging tests and 3 OS-support tests). The package metadata now declares beta status, Linux/macOS/Windows, and Python 3.11 through 3.14. These metadata and CI improvements have not yet received hosted verification.
 
 This document is included in both distributions. Rebuild the wheel and source archive from the committed documentation, verify both hashes, and run a new exact-hash wheel canary before distribution. No public package or GitHub release has been made.
+
+## 2026-10-31 - full Linux suite on source commit c41cc49
+
+The complete source suite passed on the registered ArtVault Linux x86_64 workspace with CPython 3.12.3 at source commit c41cc497e52a5a6dbee0f902fc6773a51f4c472b: **431 passed, 1 skipped, and 2 subtests passed** in 82.11 seconds (exit code 0). The tracked tree was clean before and after; all pre-existing untracked files were preserved. This validates Linux source tests only. Full macOS and Windows source suites remain unverified.
+
+## 2026-10-31 - hosted CI for the quickstart documentation checkpoint
+
+GitHub Actions run [41195220665](https://github.com/Pepstee/giga-archaeology/actions/runs/41195220665) targeted documentation commit fb7650a7657397f08e6a335fb91b1b8bc6cd34d7. All 12 matrix jobs failed before runner assignment; the job records show no steps, so no hosted tests ran. Sampled annotations indicate an account billing or spending-limit gate. This is evidence about that revision only and does not establish the result for later commits. Linux source-suite evidence remains local to ArtVault; full macOS and Windows suites remain unverified.
