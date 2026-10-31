@@ -1206,9 +1206,9 @@
     "source_changes_during_canary": false
   },
   "latest_hosted_ci_blocker": {
-    "run_id": 41152193550,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41152193550",
-    "source_commit": "dc4819f159bbab6226b3ea2c157cea7c9c97d14b",
+    "run_id": 41154185074,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41154185074",
+    "source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3",
     "event": "push",
     "matrix_jobs": 12,
     "jobs_failed": 12,
@@ -1216,8 +1216,8 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "RUNNER_ADMISSION_RESTRICTION",
-    "evidence_record": "post_push_ci_review_41152193550_20261031",
+    "cause": "UNKNOWN_PRE_RUNNER_FAILURE",
+    "evidence_record": "post_push_ci_review_41154185074_20261031",
     "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION"
   },
   "previous_latest_hosted_ci_blocker": {
@@ -4952,5 +4952,36 @@
       "install_attempted": false,
       "requested_scope": "Offline private temporary target; no dependencies or package index; verify metadata, import origin and both CLI help commands; remove target and confirm cleanup."
     }
+  },
+  "previous_latest_hosted_ci_blocker_before_41154185074_20261031": {
+    "run_id": 41152193550,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41152193550",
+    "source_commit": "dc4819f159bbab6226b3ea2c157cea7c9c97d14b",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "cause": "RUNNER_ADMISSION_RESTRICTION",
+    "evidence_record": "post_push_ci_review_41152193550_20261031",
+    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION"
+  },
+  "post_push_ci_review_41154185074_20261031": {
+    "checked_at_utc": "2026-10-31T01:12:35Z",
+    "run_id": 41154185074,
+    "source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "cause": "UNKNOWN_PRE_RUNNER_FAILURE",
+    "job_step_summary": "All 12 jobs completed with empty step lists.",
+    "annotation_review": "NOT_COMPLETED; GitHub API connection reset during annotation retrieval.",
+    "scope_limit": "No hosted test result was produced; the diagnostic cause was not confirmed."
   }
 }
