@@ -581,3 +581,7 @@ The current 0.1.3b4 candidate has reproducible wheel and source archive builds, 
 ## 2026-10-31 — latest hosted CI observation
 
 GitHub Actions run [41200562209](https://github.com/Pepstee/giga-archaeology/actions/runs/41200562209) targeted commit `e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e`. All 12 matrix jobs completed as failures, and the job-step records contain zero steps. The cause is unconfirmed for this run, so no hosted tests ran and no platform result can be claimed. The complete Linux source suite remains local evidence for CPython 3.12.3; full macOS and Windows suites remain unverified.
+
+## 2026-10-31 — hosted CI observation reviewed for release record
+
+GitHub Actions run [41202881050](https://github.com/Pepstee/giga-archaeology/actions/runs/41202881050) targeted earlier documentation checkpoint `14b40e3f2f93bf35dc620b4d85bb6c60798ed8ef`. The 12 matrix jobs failed before any steps ran; each job record had an empty runner name and zero steps. The available job records do not establish the cause, and this run produced no hosted test results. At inspection time, registered branch head `cdcdf530d9dbcfc934bd96dcc17f5e45e6b942c2` had zero check runs. This is a record of the inspected run, not a claim of hosted validation for a later commit. Hosted macOS and Windows validation remain unverified.
