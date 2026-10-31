@@ -5,6 +5,7 @@
 - Uses a new candidate version so fresh artifacts cannot collide with historical `0.1.3b3` filenames.
 - Refreshes release documentation and evidence for the current canonical source.
 - Fixed build metadata version drift by deriving the artifact version from `pyproject.toml` and added regression coverage; scan behavior is unchanged.
+- Redacts UNC and extended-length Windows paths from optional PowerShell diagnostics.
 - Publication remains pending cross-platform and installed-artifact verification.
 
 ## 0.1.3b3 — portability and clean test setup

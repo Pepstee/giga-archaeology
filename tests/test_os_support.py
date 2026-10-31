@@ -57,3 +57,24 @@ def test_windows_sharing_violation_winerror_counts_as_contention(
     error = OSError("sharing violation")
     error.winerror = 32
     assert os_support._is_windows_lock_contention(error)
+
+
+@pytest.mark.parametrize(
+    "private_path",
+    [
+        r"C:\Users\private-user\AppData\Local\Temp\store",
+        r"\\private-server\users\private-user\AppData\Local\Temp\store",
+        r"\\?\UNC\private-server\users\private-user\AppData\Local\Temp\store",
+    ],
+)
+def test_powershell_debug_redacts_private_windows_paths(
+    private_path: str, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setenv("GIGA_ARCHAEOLOGY_DEBUG_POWERSHELL", "1")
+
+    os_support._powershell_debug(f"PowerShell failed for {private_path}")
+
+    diagnostic = capsys.readouterr().err
+    assert "<windows-path>" in diagnostic
+    assert "private-user" not in diagnostic
+    assert "private-server" not in diagnostic

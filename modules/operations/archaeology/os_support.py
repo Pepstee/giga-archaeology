@@ -28,6 +28,8 @@ def _powershell_debug(message: str) -> None:
     # PowerShell errors can echo the temporary user path. Remove drive paths
     # before emitting the bounded diagnostic to CI logs.
     safe_message = re.sub(r"(?i)\b[A-Z]:\\[^\r\n]*", "<windows-path>", message)
+    # UNC and extended-length paths can contain the same private user/share names.
+    safe_message = re.sub(r"\\\\[^\r\n]*", "<windows-path>", safe_message)
     safe_message = re.sub(r"\bS-\d-\d+(?:-\d+)+\b", "<sid>", safe_message)
     safe_message = re.sub(
         r"(?i)\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", "<email>", safe_message
