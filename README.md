@@ -22,9 +22,12 @@ Artifact verification is hash-specific. The README ships in both the wheel and s
 
 ## Install from a source checkout
 
-Python 3.11+ and Git are required. No package has been published yet. From a GIGA Archaeology source checkout, create an environment and install the project:
+Python 3.11+ and Git are required. No package has been published to PyPI. Once the GitHub
+repository is public, clone the source and create an environment:
 
 ```sh
+git clone https://github.com/Pepstee/giga-archaeology.git
+cd giga-archaeology
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install .
@@ -35,62 +38,51 @@ giga-archaeology --help
 On Windows, use PowerShell:
 
 ```powershell
+git clone https://github.com/Pepstee/giga-archaeology.git
+Set-Location .\giga-archaeology
 py -3.12 -m venv .venv
-$python = ".venv/Scripts/python.exe"
-& $python -m pip install .
-& $python -m pip check
-& ".venv/Scripts/giga-archaeology.exe" --help
+& .\.venv\Scripts\python.exe -m pip install .
+& .\.venv\Scripts\python.exe -m pip check
+& .\.venv\Scripts\giga-archaeology.exe --help
 ```
 
-Pip installs the four pinned Tree-sitter parser packages. The core does not clone the target repository or require remote credentials; provide a local Git checkout with at least one commit. Parser packages are required by the shared mapper, including for Python-only repositories.
+Pip installs the four pinned Tree-sitter parser packages. The core does not clone the target
+repository or require remote credentials; provide a local Git checkout with at least one commit.
+Parser packages are required by the shared mapper, including for Python-only repositories.
 
-For offline installation, download the wheel and its dependencies on a connected machine with the same Python version and platform, then install with `--no-index --find-links ./wheelhouse`. A wheelhouse is platform-specific.
+For offline installation, download the wheel and its dependencies on a connected machine with the
+same Python version and platform, then install with `--no-index --find-links ./wheelhouse`. A
+wheelhouse is platform-specific.
 
 ## First scan and query
 
-For a runnable Python walkthrough, see [`examples/quickstart.py`](examples/quickstart.py).
-After installing Archaeology, run the script from a GIGA Archaeology source checkout or source
-archive and pass a separate committed Git repository to scan:
+The quickstart script is included in the source archive, not the runtime wheel. After installing
+Archaeology, clone the tested ItsDangerous 2.2.0 tag and pass that committed Git repository to the
+script. Keep the output store outside both checkouts.
+
+macOS and Linux:
 
 ```sh
-python examples/quickstart.py /absolute/path/to/repository /absolute/path/to/new-output Serializer dumps
+git clone --depth 1 --branch 2.2.0 https://github.com/pallets/itsdangerous.git ../itsdangerous-2.2.0
+store_root="$(mktemp -d ../archaeology-output.XXXXXX)"
+python examples/quickstart.py "$(cd ../itsdangerous-2.2.0 && pwd)" "$store_root" Serializer dumps
 ```
 
-The first term drives the symbol query; every term is used for bounded context. The script refuses
-output directories inside the repository or non-empty stores, then runs the inventory,
-map, symbol-query, and bounded-context steps below. The resulting maps and context may contain source
-code and absolute paths. Keep the output private. The script is included in the source archive, not
-the runtime wheel.
+Windows PowerShell:
 
-Use a local Git repository with a commit. An extracted source archive alone is not a Git repository.
-Keep all output stores outside the repository. Use an absolute path for both variables:
-
-```sh
-repo_path="/absolute/path/to/repository"
-store_root="/absolute/path/to/archaeology-output"
-
-giga-archaeology navigation-refresh --root "$repo_path" --store "$store_root/inventory"
-giga-archaeology mapper-refresh --inventory-store "$store_root/inventory" --mapper-store "$store_root/maps"
-giga-archaeology mapper-query --mapper-store "$store_root/maps" --view symbols --limit 10 --without-facts Serializer
-
-giga-archaeology mapper-context --mapper-store "$store_root/maps" --token-budget 1200 --without-semantic implementation Serializer dumps loads > context.json
-python -c 'import json; print(json.load(open("context.json"))["context"])'
+```powershell
+git clone --depth 1 --branch 2.2.0 https://github.com/pallets/itsdangerous.git ..\itsdangerous-2.2.0
+$targetRepo = (Resolve-Path ..\itsdangerous-2.2.0).Path
+$storeRoot = Join-Path $env:TEMP ("giga-archaeology-" + [guid]::NewGuid().ToString("N"))
+New-Item -ItemType Directory -Path $storeRoot | Out-Null
+& .\.venv\Scripts\python.exe .\examples\quickstart.py $targetRepo $storeRoot Serializer dumps
 ```
 
-Replace the query terms with actual class/function names from your repository. Queries use structural
-and lexical matching; they are not a natural-language semantic search service. `navigation-refresh`
-returns the admitted file count; `mapper-refresh` returns entity/relation counts and a receipt identity.
-Inspect coverage and failure fields before treating output as complete. Refresh inventory and maps
-after source changes; previously generated maps are tied to an exact source snapshot.
-
-Example compact context from the ItsDangerous 2.2.0 canary:
-
-```text
-src/itsdangerous/serializer.py:L311-L322 | PYTHON_SYMBOL | itsdangerous.serializer.Serializer.dumps(...)
-src/itsdangerous/serializer.py:L330-L345 | PYTHON_SYMBOL | itsdangerous.serializer.Serializer.loads(...)
-```
-
-The abbreviated signatures above are illustrative; actual output includes full signatures.
+The run writes `navigation.json`, `mapper.json`, `query.json`, and `context.json` to the output
+store. Expect `CURRENT` inventory and map statuses and a `PASS` symbol query. The script prints a
+bounded source-linked context; its evidence can include source code and absolute paths, so keep the
+store private. Replace `Serializer` and `dumps` with names from your repository when scanning your
+own code.
 
 ## The context budget is not the JSON response size
 
