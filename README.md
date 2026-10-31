@@ -16,7 +16,7 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 
 `0.1.3b4` remains an unpublished developer beta. The complete source suite passed on the registered ArtVault Linux x86_64 host with CPython 3.12.3: **434 passed, 1 skipped, and 2 subtests passed** in 76.45 seconds. The tested source tree is identical to current commit `10eba5e3a081b26b9a7c308641061c60e558a248`; the commit identity was corrected after that run without changing its tree.
 
-GitHub Actions run [41204701010](https://github.com/Pepstee/giga-archaeology/actions/runs/41204701010) is the latest reviewed run. All 12 matrix jobs were rejected before runner assignment: no runner was assigned and no steps ran. The run produced no hosted test results. Hosted macOS and Windows validation remain unverified; the local Linux result covers CPython 3.12.3 only.
+GitHub Actions run [41208689284](https://github.com/Pepstee/giga-archaeology/actions/runs/41208689284) was reviewed on the current commit. All 12 matrix jobs were rejected before runner assignment: no runner was assigned and no steps ran. The run produced no hosted test results. Hosted macOS and Windows validation remain unverified; the local Linux result covers CPython 3.12.3 only.
 
 Artifact verification is hash-specific. The sanitized documentation candidate has reproducible wheel and source archive builds; its exact hashes and source snapshot are recorded in the release evidence ledger. The exact current wheel still needs an offline install canary. Earlier wheel canaries passed, but those builds are superseded. No public package or GitHub release has been made, and the repository is currently private.
 

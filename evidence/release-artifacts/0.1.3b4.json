@@ -615,16 +615,16 @@
       {
         "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
         "kind": "wheel",
-        "sha256": "77bccea071af28d52c684d58cf69ab3f812b61407d2ef5dce404a38c546e620c",
-        "bytes": 399820,
+        "sha256": "7351655c2251e9643c9191620fd7c459be87b487a1ad73cd5d95cc26399b595b",
+        "bytes": 399817,
         "members": 48,
         "version": "0.1.3b4"
       },
       {
         "filename": "giga_archaeology-0.1.3b4.tar.gz",
         "kind": "sdist",
-        "sha256": "3a2a143ecc5677e82e1a1b397892b94c742bb6250bd0877206ebe8b7da0ba5e2",
-        "bytes": 368113,
+        "sha256": "0316216fde3ca00546a74d7da818d5d91f31b77336ef56b99088ebddb3c6695f",
+        "bytes": 368106,
         "members": 47,
         "version": "0.1.3b4"
       }
@@ -643,7 +643,14 @@
       "latest_source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3"
     },
     "latest_artifact_state": "CANON_CANDIDATE; NOT_RELEASED; EXACT_SOURCE_SNAPSHOT_RECORDED",
-    "latest_artifact_release_docs_sha256": "d7b1e103a4788118ff4ae6b36fdb27bc71069228176b88361fe4a5d1929b5220"
+    "latest_artifact_release_docs_sha256": "d7b1e103a4788118ff4ae6b36fdb27bc71069228176b88361fe4a5d1929b5220",
+    "latest_source_snapshot": {
+      "base_commit": "71f9df9297fc0fb06d5096bcfefc4d8abaa92b69",
+      "paths": [
+        "README.md"
+      ],
+      "tracked_diff_sha256": "bf0313f2977151a1880b398e9672fd84a7b72897917a94fb3c0b7002690436a1"
+    }
   },
   "limitations": [
     "Full macOS and Windows test suites remain unverified; Windows wheel installation and Linux sdist installation canaries passed.",
@@ -5616,6 +5623,73 @@
     },
     "exact_wheel_install_canary": {
       "artifact_sha256": "77bccea071af28d52c684d58cf69ab3f812b61407d2ef5dce404a38c546e620c",
+      "status": "PENDING_OPERATOR_APPROVAL"
+    },
+    "sdist_install_canary": {
+      "status": "NOT_RUN"
+    },
+    "public_release": false
+  },
+  "post_push_ci_review_41208689284_20261031": {
+    "run_id": 41208689284,
+    "run_url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41208689284",
+    "target_commit": "71f9df9297fc0fb06d5096bcfefc4d8abaa92b69",
+    "run_status": "completed_failure",
+    "job_count": 12,
+    "failed_jobs": 12,
+    "runner_assignments": 0,
+    "steps_run": 0,
+    "hosted_test_results": false,
+    "cause": "GitHub account-side Actions availability gate; no code executed",
+    "method": "Terminal API review of all job records and check annotations",
+    "observed_at_utc": "2026-10-31T14:06:18Z"
+  },
+  "current_artifact_rebuild_after_ci_review_412086_20261031": {
+    "status": "PASS_REPRODUCIBLE_DOCS_REBUILD; EXACT_WHEEL_INSTALL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "checked_at_utc": "2026-10-31T14:06:18Z",
+    "source_base_commit": "71f9df9297fc0fb06d5096bcfefc4d8abaa92b69",
+    "source_base_tree": "2f41164fcf07c1926c9f1f91e054b33d90a1ed8b",
+    "source_snapshot_paths": [
+      "README.md"
+    ],
+    "tracked_working_tree_diff_sha256": "bf0313f2977151a1880b398e9672fd84a7b72897917a94fb3c0b7002690436a1",
+    "readme_sha256": "239d468ff9f815ea294ead3e17ff6dec3a7da21e2c423288733a59f2a2c8ef43",
+    "ci_run_id": 41208689284,
+    "focused_packaging_test": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q tests/test_archaeology_packaging.py",
+      "result": "9 passed"
+    },
+    "build": {
+      "platform": "ArtVault Linux x86_64",
+      "python": "CPython 3.12.3",
+      "build_tool": "build 1.6.1",
+      "isolation": "disabled; existing ArtVault environment",
+      "two_independent_builds_byte_identical": true
+    },
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "7351655c2251e9643c9191620fd7c459be87b487a1ad73cd5d95cc26399b595b",
+        "bytes": 399817,
+        "members": 48,
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "0316216fde3ca00546a74d7da818d5d91f31b77336ef56b99088ebddb3c6695f",
+        "bytes": 368106,
+        "members": 47,
+        "version": "0.1.3b4"
+      }
+    ],
+    "archive_inspection": {
+      "readme_exact_bytes_in_wheel_and_sdist": true,
+      "release_ledger_excluded_from_distributions": true
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "7351655c2251e9643c9191620fd7c459be87b487a1ad73cd5d95cc26399b595b",
       "status": "PENDING_OPERATOR_APPROVAL"
     },
     "sdist_install_canary": {
