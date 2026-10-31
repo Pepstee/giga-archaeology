@@ -609,7 +609,18 @@
       "wheel_sha256": "ae7d9468ec5a99d5f1d0090d0857795516c98b4e0e3b48004c177dede6b35b82",
       "sdist_sha256": "da4cb8a359663dc4933d199b5bf9fe4b0fbf0a594af89cc0fc5a09f0dbb218d0",
       "publicly_released": false
-    }
+    },
+    "latest_source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3",
+    "latest_artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "sha256": "167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "sha256": "8f71e097583495dde3bc137a512551e8e490f59d788c376fe98f62dab1130169"
+      }
+    ]
   },
   "limitations": [
     "Full macOS and Windows test suites remain unverified; Windows wheel installation and Linux sdist installation canaries passed.",
@@ -4904,5 +4915,42 @@
       "Full macOS and Windows source suites remain unverified.",
       "No public package or GitHub release has been made."
     ]
+  },
+  "committed_artifact_rebuild_928a832_20261031": {
+    "source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -B -m build --no-isolation --outdir <private temporary artifact directory> .",
+    "status": "PASS_COMMITTED_SOURCE_HASHES_MATCH_REPRODUCIBLE_FINAL_DOCUMENTATION_BUILD; EXACT_WHEEL_INSTALL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 399038,
+        "members": 48,
+        "sha256": "167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6",
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 366612,
+        "members": 47,
+        "sha256": "8f71e097583495dde3bc137a512551e8e490f59d788c376fe98f62dab1130169",
+        "version": "0.1.3b4"
+      }
+    ],
+    "verification": {
+      "wheel_sha256_matches_two_independent_builds": true,
+      "sdist_sha256_matches_two_independent_builds": true,
+      "source_state_unchanged": true
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6",
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "Offline private temporary target; no dependencies or package index; verify metadata, import origin and both CLI help commands; remove target and confirm cleanup."
+    }
   }
 }
