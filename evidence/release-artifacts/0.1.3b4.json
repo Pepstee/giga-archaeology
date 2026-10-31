@@ -5827,5 +5827,28 @@
     "checkout_cache_writes": "disabled",
     "release_artifact_inputs_unchanged_since_source_commit_2a389531aaa7757654ff519ec1cfa8db0b15a4c1": true,
     "limitations": "Linux and CPython 3.12 only; does not substitute for hosted macOS or Windows runs."
+  },
+  "current_artifact_static_privacy_screen_20261031": {
+    "status": "PASS_WITHIN_PATTERN_SCOPE",
+    "archives": [
+      {
+        "format": "wheel",
+        "sha256": "7351655c2251e9643c9191620fd7c459be87b487a1ad73cd5d95cc26399b595b",
+        "members_scanned": 48
+      },
+      {
+        "format": "sdist",
+        "sha256": "0316216fde3ca00546a74d7da818d5d91f31b77336ef56b99088ebddb3c6695f",
+        "members_scanned": 47
+      }
+    ],
+    "method": "Read archive members in memory; no extraction and no source execution.",
+    "patterns_checked": [
+      "non-placeholder email addresses",
+      "home-directory paths",
+      "common GitHub and AWS credential token formats"
+    ],
+    "matches": 0,
+    "limitations": "A bounded pattern screen only; it is not a general personal-data or secret-detection guarantee."
   }
 }
