@@ -610,7 +610,7 @@
       "sdist_sha256": "da4cb8a359663dc4933d199b5bf9fe4b0fbf0a594af89cc0fc5a09f0dbb218d0",
       "publicly_released": false
     },
-    "latest_source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
+    "latest_source_commit": "14b40e3f2f93bf35dc620b4d85bb6c60798ed8ef",
     "latest_artifacts": [
       {
         "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
@@ -5379,8 +5379,8 @@
     "method": "Authenticated GitHub Actions API read of the exact run, all 12 jobs and job-step records; read-only, no rerun or configuration change.",
     "checked_at_utc": "2026-10-31T12:45:30Z"
   },
-  "current_artifact_rebuild_sanitized_docs_e3e2a1d_20261031": {
-    "source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
+  "current_artifact_rebuild_sanitized_docs_14b40e3_20261031": {
+    "source_commit": "14b40e3f2f93bf35dc620b4d85bb6c60798ed8ef",
     "built_at_utc": "2026-10-31T12:48:39Z",
     "platform": "Registered ArtVault Linux x86_64",
     "python": "CPython 3.12.3",
@@ -5435,6 +5435,8 @@
     },
     "status": "PASS_REPRODUCIBLE; EXACT_WHEEL_INSTALL_PENDING_OPERATOR_APPROVAL; NOT_RELEASED",
     "release_docs_content_sha256": "d7b1e103a4788118ff4ae6b36fdb27bc71069228176b88361fe4a5d1929b5220",
-    "release_docs_content_sha256_method": "SHA-256 over README.md then architecture/archaeology/BETA_VALIDATION.md, each encoded as path, NUL, byte length, and raw bytes."
+    "release_docs_content_sha256_method": "SHA-256 over README.md then architecture/archaeology/BETA_VALIDATION.md, each encoded as path, NUL, byte length, and raw bytes.",
+    "source_base_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
+    "source_snapshot": "Committed canonical tree; exact release-doc bytes bound by release_docs_content_sha256"
   }
 }
