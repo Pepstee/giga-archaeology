@@ -4474,5 +4474,120 @@
     "actions_enabled": true,
     "logs_available": false,
     "cause": "No runner-side diagnostic was exposed by GitHub; current run cause remains unconfirmed."
+  },
+  "current_head_full_linux_suite_20261031": {
+    "recorded_at_utc": "2026-10-31T00:09:40Z",
+    "base_head": "9e78460159316b38b37baa781d8d59a940ac75f1",
+    "tracked_working_tree_diff_sha256": "068f3fac89851e20701e69117bb60c63d0b809888fd78a0826bf8ac8db89f2fc",
+    "tracked_files": [
+      "README.md",
+      "architecture/archaeology/BETA_VALIDATION.md",
+      "tests/test_archaeology_packaging.py"
+    ],
+    "platform": "Registered ArtVault Linux x86_64 workspace",
+    "python": "CPython 3.12.3",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q --basetemp=<private temporary directory>",
+    "result": {
+      "passed": 431,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "exit_code": 0,
+      "duration_seconds": 77.21
+    },
+    "post_run_state_verification": {
+      "head_stable": true,
+      "full_git_status_stable": true,
+      "tracked_diff_stable": true,
+      "cached_diff_stable": true
+    },
+    "scope_note": "Production implementation files were unchanged. The complete test suite includes the documentation-packaging regression. The later documentation text refresh was committed as 74f700c and checked by the focused packaging test recorded below."
+  },
+  "post_doc_refresh_packaging_test_20261031": {
+    "source_commit": "74f700c76b143c08b100007153474c5681a888d4",
+    "test": "tests/test_archaeology_packaging.py::test_readme_and_validation_record_are_in_both_distributions",
+    "result": {
+      "passed": 1,
+      "failed": 0,
+      "exit_code": 0,
+      "duration_seconds": 0.29
+    },
+    "scope_note": "Verified exact README and BETA_VALIDATION bytes in both distribution formats after the final documentation refresh."
+  },
+  "current_artifact_rebuild_74f700c_20261031": {
+    "built_at_date": "2026-10-31",
+    "source_commit": "74f700c76b143c08b100007153474c5681a888d4",
+    "source_tree": "d8a735b4234196bf7528187df5f1acdf5dfe3ee8",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m build --no-isolation --outdir <private temporary artifact directory> .",
+    "status": "PASS_REPRODUCIBLE_BUILD_AND_STATIC_ARCHIVE_INSPECTION; EXACT_WHEEL_INSTALL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 398739,
+        "members": 48,
+        "sha256": "5bbcf4b6a60e8af5964e7fac33562f2a1869f4c7262305b8d7f7b114c1694c5e",
+        "version": "0.1.3b4",
+        "entrypoints": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ]
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 366359,
+        "members": 47,
+        "sha256": "480212b92f19fadbdb7811d857295c6a68ce0965a9fe36a123f99966e2e61c15",
+        "version": "0.1.3b4"
+      }
+    ],
+    "reproducibility": {
+      "second_independent_build_performed": true,
+      "wheel_byte_identical": true,
+      "sdist_byte_identical": true
+    },
+    "archive_inspection": {
+      "README_and_BETA_validation_exact_source_bytes": true,
+      "CONTRIBUTING_and_LICENSE_exact_source_bytes": true,
+      "wheel_RECORD_integrity": "PASS",
+      "git_metadata_excluded": true,
+      "release_ledger_excluded": true,
+      "profile_path_hits": 0,
+      "non_reserved_email_hits": 0,
+      "quickstart_in_wheel": false,
+      "quickstart_in_sdist": true
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "5bbcf4b6a60e8af5964e7fac33562f2a1869f4c7262305b8d7f7b114c1694c5e",
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "Offline private temporary target, no dependencies or index; verify metadata, import origin, both CLI help commands, then remove the target and confirm cleanup."
+    },
+    "limitations": [
+      "No exact-hash install canary has run for this wheel.",
+      "The existing sdist has static inspection and reproducible build evidence; no current exact-sdist install canary has run.",
+      "Full macOS and Windows source suites remain unverified.",
+      "No public distribution has been made."
+    ]
+  },
+  "latest_hosted_ci_observation_41148503242_20261031": {
+    "observed_at_utc": "2026-10-31T00:08:32Z",
+    "run_id": 41148503242,
+    "head_sha": "74f700c76b143c08b100007153474c5681a888d4",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": {
+      "total": 12,
+      "failed_before_runner_assignment": 12,
+      "steps_started": 0,
+      "runner_assigned": 0
+    },
+    "actions_enabled": true,
+    "logs_available": false,
+    "cause": "GitHub exposed no runner-side diagnostic for this run; the specific cause remains unconfirmed."
   }
 }
