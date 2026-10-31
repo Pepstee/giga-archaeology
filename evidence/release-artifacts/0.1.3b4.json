@@ -3954,7 +3954,7 @@
       "tests_excluded_from_both": true,
       "git_metadata_excluded_from_both": true,
       "twin_core_excluded_from_both": true,
-      "privacy_scan_scope": "all archive member names and bytes for /Users/<user>, /home/<user>, Windows C:\\Users\\<user>, and non-reserved email patterns",
+      "privacy_scan_scope": "All archive member names and bytes for macOS, Linux, and Windows user-profile path patterns and non-reserved email patterns.",
       "private_path_or_non_reserved_email_hits": 0,
       "console_entry_points": [
         "giga-archaeologist",
@@ -5258,5 +5258,84 @@
     "job_listing_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
     "cause": "UNCONFIRMED_NO_RUNNER_SIDE_DIAGNOSTIC",
     "method": "Authenticated GitHub API read of the exact run and all 12 jobs; no rerun or billing change."
+  },
+  "current_full_linux_suite_10eba5e_20261031": {
+    "source_commit": "10eba5e3a081b26b9a7c308641061c60e558a248",
+    "source_tree": "261a60cef8c0fc01c74c43e15c458d29d783673b",
+    "platform": "Registered ArtVault Linux x86_64 workspace",
+    "python": "CPython 3.12.3",
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q -p no:cacheprovider",
+    "result": "434 passed, 1 skipped, 2 subtests passed in 76.45 seconds; exit code 0",
+    "source_identity_note": "The test ran on the exact tree now identified by source_commit; a subsequent commit-metadata-only correction changed the commit hash but not this tree.",
+    "scope_note": "Linux source suite only; hosted macOS and Windows remain unverified."
+  },
+  "post_push_ci_review_41199872816_20261031": {
+    "checked_at_utc": "2026-10-31T12:13:49Z",
+    "run_id": 41199872816,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41199872816",
+    "source_commit": "10eba5e3a081b26b9a7c308641061c60e558a248",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "cause": "ACCOUNT_PAYMENT_OR_SPENDING_LIMIT_GATE",
+    "evidence_scope": "All 12 visible job annotations state that jobs were not started because recent account payments failed or the spending limit needs to increase.",
+    "method": "Authenticated GitHub Actions run page inspection; no rerun or billing change."
+  },
+  "current_artifact_rebuild_10eba5e_finaldocs_20261031": {
+    "source_commit": "10eba5e3a081b26b9a7c308641061c60e558a248",
+    "source_tree": "261a60cef8c0fc01c74c43e15c458d29d783673b",
+    "platform": "Registered ArtVault Linux x86_64 workspace",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation",
+    "build_directories": [
+      "/tmp/giga-archaeology-release-10eba5e-final-a",
+      "/tmp/giga-archaeology-release-10eba5e-final-b"
+    ],
+    "status": "PASS_REPRODUCIBLE; EXACT_WHEEL_INSTALL_PENDING_OPERATOR_APPROVAL",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 399463,
+        "sha256": "9bb8eec02b086ae171e90d2f89b9c498fac92334316da2390cf8faf824f1b47a",
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 367816,
+        "sha256": "e3c21189b346c4c3e8d97bc51073832cff51bde16354a86c80ee123d68da5566",
+        "version": "0.1.3b4"
+      }
+    ],
+    "reproducibility": {
+      "two_independent_builds_match": true,
+      "wheel_hashes_match": true,
+      "sdist_hashes_match": true
+    },
+    "archive_inspection": {
+      "README_exact_bytes_in_wheel_and_sdist": true,
+      "BETA_VALIDATION_exact_bytes_in_wheel_and_sdist": true,
+      "wheel_metadata_name_version": "giga-archaeology 0.1.3b4",
+      "both_console_entrypoints_present": true,
+      "evidence_ledger_excluded_from_sdist": true
+    },
+    "static_privacy_scan": {
+      "personal_email_pattern_hits": 0,
+      "macOS_home_path_hits": 0,
+      "Windows_profile_path_hits": 0
+    },
+    "focused_packaging_test": "9 passed in 1.80 seconds",
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "9bb8eec02b086ae171e90d2f89b9c498fac92334316da2390cf8faf824f1b47a",
+      "status": "PENDING_EXACT_HASH_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "Offline install into a private temporary target with --no-deps --no-index; verify metadata, import origin, both CLI help commands and synthetic quickstart; remove the target and confirm cleanup."
+    },
+    "sdist_install_canary": {
+      "status": "NOT_RUN"
+    }
   }
 }

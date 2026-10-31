@@ -14,11 +14,11 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 
 ## Release status
 
-`0.1.3b4` is an unpublished developer beta. The most recent full Linux source-suite result recorded here is commit c41cc497e52a5a6dbee0f902fc6773a51f4c472b: **431 passed, 1 skipped, and 2 subtests passed** in 82.11 seconds on CPython 3.12.3. The suite ran on the canonical ArtVault workspace with the tracked tree clean before and after. Subsequent increments are documentation and release evidence; this result does not verify macOS or Windows. Full macOS and Windows suites remain unverified.
+`0.1.3b4` remains an unpublished developer beta. The complete source suite passed on the registered ArtVault Linux x86_64 host with CPython 3.12.3: **434 passed, 1 skipped, and 2 subtests passed** in 76.45 seconds. The tested source tree is identical to current commit `10eba5e3a081b26b9a7c308641061c60e558a248`; the commit identity was corrected after that run without changing its tree.
 
-GitHub Actions run [41195220665](https://github.com/Pepstee/giga-archaeology/actions/runs/41195220665) for documentation commit fb7650a7657397f08e6a335fb91b1b8bc6cd34d7 failed before runner assignment: all 12 matrix jobs had zero runner assignments and no steps, so no hosted tests ran. Sampled annotations indicate an account billing or spending-limit gate. This observation is limited to that source revision; check the run for any later commit before relying on hosted CI. Full macOS and Windows suites remain unverified. Revision-specific hosted CI details are recorded in the [beta validation record](architecture/archaeology/BETA_VALIDATION.md) and [release evidence ledger](evidence/release-artifacts/0.1.3b4.json). A job that stops before its test steps does not count as platform verification.
+GitHub Actions run [41199872816](https://github.com/Pepstee/giga-archaeology/actions/runs/41199872816) targeted that commit. All 12 matrix jobs were rejected before starting because GitHub reported recent account payments had failed or the spending limit needed to increase. No hosted tests ran. This leaves hosted macOS and Windows validation unverified; the local Linux result covers CPython 3.12.3 only.
 
-Artifact verification is hash-specific. The README ships in both the wheel and source archive, so release artifacts must be rebuilt and verified against the final documentation. No public package or GitHub release has been made.
+Artifact verification is hash-specific. The current candidate has reproducible wheel and source archive builds, but the exact artifacts have not yet passed an install canary. No public package or GitHub release has been made, and the repository is currently private.
 
 ## Install from a source checkout
 

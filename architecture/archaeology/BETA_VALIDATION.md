@@ -568,3 +568,12 @@ The complete source suite passed on the registered ArtVault Linux x86_64 workspa
 ## 2026-10-31 - hosted CI for the quickstart documentation checkpoint
 
 GitHub Actions run [41195220665](https://github.com/Pepstee/giga-archaeology/actions/runs/41195220665) targeted documentation commit fb7650a7657397f08e6a335fb91b1b8bc6cd34d7. All 12 matrix jobs failed before runner assignment; the job records show no steps, so no hosted tests ran. Sampled annotations indicate an account billing or spending-limit gate. This is evidence about that revision only and does not establish the result for later commits. Linux source-suite evidence remains local to ArtVault; full macOS and Windows suites remain unverified.
+
+
+## 2026-10-31 — current Linux suite and hosted CI run
+
+The complete source suite passed on the registered ArtVault Linux x86_64 host with CPython 3.12.3: **434 passed, 1 skipped, and 2 subtests passed** in 76.45 seconds (exit code 0). The tested source tree matches commit `10eba5e3a081b26b9a7c308641061c60e558a248`; the commit identity was corrected after the test without changing the tree. This is Linux evidence for Python 3.12.3 only.
+
+GitHub Actions run [41199872816](https://github.com/Pepstee/giga-archaeology/actions/runs/41199872816) targeted the same tree. All 12 matrix job annotations say the jobs were not started because recent account payments failed or the spending limit needs to increase. No hosted tests ran. Resolve the account restriction before treating the macOS, Windows, or hosted Linux matrix as verified.
+
+The current 0.1.3b4 candidate has reproducible wheel and source archive builds, but the exact artifacts have not yet passed an install canary. The repository remains private, with no public package or GitHub release.
