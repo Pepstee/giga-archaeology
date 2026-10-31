@@ -1205,7 +1205,7 @@
     ],
     "source_changes_during_canary": false
   },
-  "latest_hosted_ci_blocker": {
+  "previous_latest_hosted_ci_blocker_before_41193319320_20261031": {
     "run_id": 41154185074,
     "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41154185074",
     "source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3",
@@ -1220,6 +1220,22 @@
     "evidence_record": "post_push_ci_review_41154185074_20261031",
     "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION",
     "annotation_sample_count": 1
+  },
+  "latest_hosted_ci_blocker": {
+    "run_id": 41193319320,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41193319320",
+    "source_commit": "ecb61d999625775b2d6875990c2e2aabd2f1f775",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "cause": "ACCOUNT_BILLING_OR_SPENDING_LIMIT_GATE_SEEN_IN_SAMPLED_ANNOTATIONS",
+    "evidence_record": "post_push_ci_review_41193319320_20261031",
+    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION_CONFIRMED_ON_ONE_CHECK",
+    "annotation_sample_count": 3
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -5021,6 +5037,75 @@
       "status": "PENDING_OPERATOR_APPROVAL",
       "install_attempted": false,
       "requested_scope": "Offline private temporary target, no dependencies or index; verify metadata, import origin and both CLI help commands, remove target and confirm cleanup."
+    }
+  },
+  "post_push_ci_review_41193319320_20261031": {
+    "checked_at_utc": "2026-10-31T10:37:26Z",
+    "run_id": 41193319320,
+    "source_commit": "ecb61d999625775b2d6875990c2e2aabd2f1f775",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "job_listing_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
+    "sampled_check_run_ids": [
+      124514359397,
+      124514359554,
+      124514359637
+    ],
+    "sampled_annotation_categories": [
+      "ACCOUNT_BILLING_OR_SPENDING_LIMIT_GATE",
+      "OTHER_RUNNER_ADMISSION_MESSAGE"
+    ],
+    "annotation_scope": "Three checks sampled; all 12 annotations were not reviewed.",
+    "method": "Authenticated GitHub terminal API reads of workflow jobs and check-run annotations; no rerun or billing change."
+  },
+  "final_release_rebuild_3d08080_20261031": {
+    "source_commit": "3d08080e4afeafd04677ee72464fb30898212ce0",
+    "checked_at_utc": "2026-10-31T10:37:26Z",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation",
+    "status": "PASS_REPRODUCIBLE; EXACT_WHEEL_CANARY_PENDING_OPERATOR_APPROVAL",
+    "build_directories": [
+      "/tmp/giga-archaeology-final-3d08080-build1",
+      "/tmp/giga-archaeology-final-3d08080-build2"
+    ],
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 399992,
+        "members": 48,
+        "sha256": "48d5649f07d68ee564a485e71f91851608785e636a59eb391d0607a39f3f6123",
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 367795,
+        "members": 47,
+        "sha256": "4b83dac7f19a7b05253ee0fbf106b52f16b53e625e7095386e847213821594f2",
+        "version": "0.1.3b4"
+      }
+    ],
+    "verification": {
+      "two_independent_builds_match": true,
+      "README_exact_bytes_in_both": true,
+      "BETA_VALIDATION_exact_bytes_in_both": true,
+      "platform_and_python_classifiers": 13,
+      "local_home_path_hits": 0,
+      "non_reserved_email_hits": 0,
+      "focused_packaging_and_os_tests": "12 passed in 1.82 seconds"
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "48d5649f07d68ee564a485e71f91851608785e636a59eb391d0607a39f3f6123",
+      "status": "PENDING_OPERATOR_APPROVAL",
+      "install_attempted": false,
+      "requested_scope": "Offline private temporary target; no dependencies or package index; verify metadata, import origin and both CLI help commands; remove target and confirm cleanup."
     }
   }
 }
