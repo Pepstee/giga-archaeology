@@ -7,8 +7,8 @@
     "host": "ArtVault",
     "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
     "branch": "codex/artvault-portable-giga-archaeology",
-    "commit": "86097c0be80e09af35c942348eec37b16f012fc5",
-    "tree": "74c706afb649a1c24b3e569eca438c5c1d24c149",
+    "commit": "72a1870d0b2d0d1e877af9c63fd6cb0dce0a890f",
+    "tree": "a5001866f52bc086f028da3c0f7ef0cb00c2f3f5",
     "artifact_scope_note": "The wheel and sdist use the committed package inputs. The version-specific release ledger is outside the backend SOURCE_FILES and SDIST_FILES allowlists and is not embedded in either artifact."
   },
   "build": {
@@ -1237,17 +1237,19 @@
     "annotation_sample_count": 1
   },
   "latest_hosted_ci_blocker": {
-    "run_id": 41200562209,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41200562209",
-    "event": "push",
-    "source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
-    "matrix_jobs": 12,
-    "jobs_failed": 12,
-    "steps_started": 0,
-    "hosted_tests_executed": false,
-    "cause": "UNCONFIRMED_FOR_THIS_RUN",
-    "status": "FAILED_BEFORE_TEST_STEPS",
-    "evidence_record": "post_push_ci_review_41200562209_20261031"
+    "run_id": 41204701010,
+    "run_url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41204701010",
+    "target_commit": "72a1870d0b2d0d1e877af9c63fd6cb0dce0a890f",
+    "run_status": "completed_failure",
+    "job_count": 12,
+    "failed_jobs": 12,
+    "runner_assignments": 0,
+    "steps_run": 0,
+    "job_listing_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
+    "job_logs_download": "404_BLOB_NOT_FOUND",
+    "cause": "UNCONFIRMED",
+    "hosted_test_results": false,
+    "observed_at_utc": "2026-10-31T13:16:39Z"
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -5448,11 +5450,110 @@
     "method": "Read-only GitHub Actions API query filtered to the exact head commit; no rerun or configuration change."
   },
   "latest_head_actions_query": {
+    "status": "ONE_FAILED_RUN_RETURNED",
+    "workflow_run_count": 1,
+    "run_id": 41204701010,
+    "head_sha": "72a1870d0b2d0d1e877af9c63fd6cb0dce0a890f",
+    "hosted_test_results": false,
+    "observed_at_utc": "2026-10-31T13:16:39Z"
+  },
+  "previous_latest_hosted_ci_blocker_before_41204701010_20261031": {
+    "run_id": 41200562209,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41200562209",
+    "event": "push",
+    "source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "cause": "UNCONFIRMED_FOR_THIS_RUN",
+    "status": "FAILED_BEFORE_TEST_STEPS",
+    "evidence_record": "post_push_ci_review_41200562209_20261031"
+  },
+  "previous_latest_head_actions_query_before_72a1870_20261031": {
     "source_commit": "10b76d8b0fc700a153290be76c82e3cdcb9fd470",
     "query_url": "https://api.github.com/repos/Pepstee/giga-archaeology/actions/runs?head_sha=10b76d8b0fc700a153290be76c82e3cdcb9fd470&per_page=20",
     "workflow_run_count": 0,
     "status": "NO_WORKFLOW_RUN_RETURNED",
     "checked_at_utc": "2026-10-31T12:52:19Z",
     "method": "Read-only GitHub Actions API query filtered to the exact head commit; no rerun or configuration change."
+  },
+  "post_push_ci_review_41204701010_20261031": {
+    "run_id": 41204701010,
+    "run_url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41204701010",
+    "target_commit": "72a1870d0b2d0d1e877af9c63fd6cb0dce0a890f",
+    "run_status": "completed_failure",
+    "job_count": 12,
+    "failed_jobs": 12,
+    "runner_assignments": 0,
+    "steps_run": 0,
+    "job_listing_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
+    "job_logs_download": "404_BLOB_NOT_FOUND",
+    "cause": "UNCONFIRMED",
+    "hosted_test_results": false,
+    "observed_at_utc": "2026-10-31T13:16:39Z"
+  },
+  "current_artifact_rebuild_after_ci_evidence_refresh_72a1870_20261031": {
+    "source_commit": "72a1870d0b2d0d1e877af9c63fd6cb0dce0a890f",
+    "source_tree": "a5001866f52bc086f028da3c0f7ef0cb00c2f3f5",
+    "built_at_utc": "2026-10-31T13:13:26Z",
+    "platform": "Registered ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation",
+    "build_directories": [
+      "/tmp/giga-archaeology-pubprep-turn2-a-a_hmff8f",
+      "/tmp/giga-archaeology-pubprep-turn2-b-tuiuenm4"
+    ],
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "sha256": "ff6f7d62141c706e70b56a3decd610e821149035d76fc8243c99c8a381b2c0a3",
+        "size_bytes": 400002
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "sha256": "0c60ac678f8f617c270515b3f504163b7ead1013ccd9b758b498f2d9ddaf0e75",
+        "size_bytes": 368217
+      }
+    ],
+    "reproducibility": {
+      "independent_builds": 2,
+      "wheel_hashes_match": true,
+      "sdist_hashes_match": true
+    },
+    "archive_inspection": {
+      "wheel_metadata": "giga-archaeology 0.1.3b4",
+      "README_exact_bytes_in_wheel_and_sdist": true,
+      "BETA_VALIDATION_exact_bytes_in_wheel_and_sdist": true,
+      "release_ledger_excluded_from_distributions": true
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "ff6f7d62141c706e70b56a3decd610e821149035d76fc8243c99c8a381b2c0a3",
+      "install_attempted": false,
+      "status": "PENDING_EXACT_ARTIFACT_APPROVAL"
+    },
+    "sdist_install_canary": {
+      "status": "NOT_RUN"
+    },
+    "focused_packaging_test": {
+      "status": "NOT_RUN_FOR_DOCUMENTATION_ONLY_CHANGE",
+      "prior_checkpoint_result": "9_passed_before_this_documentation_refresh"
+    },
+    "public_release": false,
+    "build_isolation": "--no-isolation; existing environment used; no dependency installation requested"
+  },
+  "post_push_ci_review_41202881050_20261031": {
+    "run_id": 41202881050,
+    "run_url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41202881050",
+    "target_commit": "14b40e3f2f93bf35dc620b4d85bb6c60798ed8ef",
+    "run_status": "completed_failure",
+    "job_count": 12,
+    "failed_jobs": 12,
+    "runner_assignments": 0,
+    "steps_run": 0,
+    "job_listing_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
+    "cause": "UNCONFIRMED",
+    "hosted_test_results": false,
+    "observed_at_utc": "2026-10-31T13:10:00Z"
   }
 }
