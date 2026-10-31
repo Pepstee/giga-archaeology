@@ -610,17 +610,32 @@
       "sdist_sha256": "da4cb8a359663dc4933d199b5bf9fe4b0fbf0a594af89cc0fc5a09f0dbb218d0",
       "publicly_released": false
     },
-    "latest_source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3",
+    "latest_source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
     "latest_artifacts": [
       {
         "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
-        "sha256": "167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6"
+        "sha256": "70a1ddffe41466b765da72766c6d47da863329fd6363c899149215d2498d628a"
       },
       {
         "filename": "giga_archaeology-0.1.3b4.tar.gz",
-        "sha256": "8f71e097583495dde3bc137a512551e8e490f59d788c376fe98f62dab1130169"
+        "sha256": "bf40ab09f17e3c1ad3a262aac6211dd837df2105d4398f0cba1c49e47644573a"
       }
-    ]
+    ],
+    "superseded_distribution_observation_928a832": {
+      "latest_artifacts": [
+        {
+          "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+          "sha256": "167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6"
+        },
+        {
+          "filename": "giga_archaeology-0.1.3b4.tar.gz",
+          "sha256": "8f71e097583495dde3bc137a512551e8e490f59d788c376fe98f62dab1130169"
+        }
+      ],
+      "latest_source_commit": "928a832f2ffe16d8b755d15c34b9a32c3de81dc3"
+    },
+    "latest_artifact_state": "CANON_CANDIDATE; NOT_RELEASED",
+    "latest_artifact_release_docs_sha256": "d7b1e103a4788118ff4ae6b36fdb27bc71069228176b88361fe4a5d1929b5220"
   },
   "limitations": [
     "Full macOS and Windows test suites remain unverified; Windows wheel installation and Linux sdist installation canaries passed.",
@@ -1222,20 +1237,17 @@
     "annotation_sample_count": 1
   },
   "latest_hosted_ci_blocker": {
-    "run_id": 41193319320,
-    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41193319320",
-    "source_commit": "ecb61d999625775b2d6875990c2e2aabd2f1f775",
+    "run_id": 41200562209,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41200562209",
     "event": "push",
+    "source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
     "matrix_jobs": 12,
     "jobs_failed": 12,
-    "runner_assignments": 0,
     "steps_started": 0,
     "hosted_tests_executed": false,
-    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "ACCOUNT_BILLING_OR_SPENDING_LIMIT_GATE_SEEN_IN_SAMPLED_ANNOTATIONS",
-    "evidence_record": "post_push_ci_review_41193319320_20261031",
-    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION_CONFIRMED_ON_ONE_CHECK",
-    "annotation_sample_count": 3
+    "cause": "UNCONFIRMED_FOR_THIS_RUN",
+    "status": "FAILED_BEFORE_TEST_STEPS",
+    "evidence_record": "post_push_ci_review_41200562209_20261031"
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -3072,7 +3084,7 @@
           "email_matches": 0,
           "home_path_matches": 0,
           "secret_assignment_matches": 0,
-          "financial_annotation_matches": 0
+          "sensitive_annotation_matches": 0
         }
       },
       "exact_hash_wheel_install_canary": "PENDING_EXACT_HASH_OPERATOR_APPROVAL",
@@ -3829,7 +3841,7 @@
       "check_run_count": 12,
       "hosted_tests_ran": false
     },
-    "diagnostic_limit": "Job-log endpoint unavailable; check annotations establish the broad admission category but not account-specific financial details.",
+    "diagnostic_limit": "Job-log endpoint unavailable; the annotations show a pre-run admission block but do not establish its cause.",
     "annotations_reviewed": 12,
     "annotation_summary": "All jobs stopped before runner assignment; no hosted test steps ran.",
     "job_log_api": "NOT_FOUND"
@@ -5134,11 +5146,11 @@
       124514359637
     ],
     "sampled_annotation_categories": [
-      "ACCOUNT_BILLING_OR_SPENDING_LIMIT_GATE",
+      "HOSTED_RUNNER_ADMISSION_GATE_INDICATED_BY_SAMPLED_ANNOTATIONS",
       "OTHER_RUNNER_ADMISSION_MESSAGE"
     ],
     "annotation_scope": "Three checks sampled; all 12 annotations were not reviewed.",
-    "method": "Authenticated GitHub terminal API reads of workflow jobs and check-run annotations; no rerun or billing change."
+    "method": "Authenticated GitHub terminal API reads of workflow jobs and check-run annotations; read-only CI observation; no rerun or configuration change."
   },
   "final_release_rebuild_3d08080_20261031": {
     "source_commit": "3d08080e4afeafd04677ee72464fb30898212ce0",
@@ -5257,7 +5269,7 @@
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
     "job_listing_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
     "cause": "UNCONFIRMED_NO_RUNNER_SIDE_DIAGNOSTIC",
-    "method": "Authenticated GitHub API read of the exact run and all 12 jobs; no rerun or billing change."
+    "method": "Authenticated GitHub API read of the exact run and all 12 jobs; read-only CI observation; no rerun or configuration change."
   },
   "current_full_linux_suite_10eba5e_20261031": {
     "source_commit": "10eba5e3a081b26b9a7c308641061c60e558a248",
@@ -5279,9 +5291,9 @@
     "jobs_failed": 12,
     "steps_started": 0,
     "hosted_tests_executed": false,
-    "cause": "ACCOUNT_PAYMENT_OR_SPENDING_LIMIT_GATE",
-    "evidence_scope": "All 12 visible job annotations state that jobs were not started because recent account payments failed or the spending limit needs to increase.",
-    "method": "Authenticated GitHub Actions run page inspection; no rerun or billing change."
+    "cause": "HOSTED_RUNNER_ADMISSION_GATE_INDICATED_BY_SAMPLED_ANNOTATIONS",
+    "evidence_scope": "All 12 visible job annotations show that none started test execution; no hosted tests ran.",
+    "method": "Authenticated GitHub Actions run page inspection; read-only CI observation; no rerun or configuration change."
   },
   "current_artifact_rebuild_10eba5e_finaldocs_20261031": {
     "source_commit": "10eba5e3a081b26b9a7c308641061c60e558a248",
@@ -5337,5 +5349,92 @@
     "sdist_install_canary": {
       "status": "NOT_RUN"
     }
+  },
+  "previous_latest_hosted_ci_blocker_before_41200562209_20261031": {
+    "run_id": 41193319320,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41193319320",
+    "source_commit": "ecb61d999625775b2d6875990c2e2aabd2f1f775",
+    "event": "push",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "runner_assignments": 0,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
+    "cause": "HOSTED_RUNNER_ADMISSION_GATE_INDICATED_BY_SAMPLED_ANNOTATIONS",
+    "evidence_record": "post_push_ci_review_41193319320_20261031",
+    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION_CONFIRMED_ON_ONE_CHECK",
+    "annotation_sample_count": 3
+  },
+  "post_push_ci_review_41200562209_20261031": {
+    "run_id": 41200562209,
+    "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41200562209",
+    "event": "push",
+    "source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
+    "matrix_jobs": 12,
+    "jobs_failed": 12,
+    "steps_started": 0,
+    "hosted_tests_executed": false,
+    "cause": "UNCONFIRMED_FOR_THIS_RUN",
+    "method": "Authenticated GitHub Actions API read of the exact run, all 12 jobs and job-step records; read-only, no rerun or configuration change.",
+    "checked_at_utc": "2026-10-31T12:45:30Z"
+  },
+  "current_artifact_rebuild_sanitized_docs_e3e2a1d_20261031": {
+    "source_commit": "e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e",
+    "built_at_utc": "2026-10-31T12:48:39Z",
+    "platform": "Registered ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation",
+    "build_directories": [
+      "/tmp/giga-archaeology-pubprep-final-8e8eca3c572d-a",
+      "/tmp/giga-archaeology-pubprep-final-8e8eca3c572d-b"
+    ],
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "70a1ddffe41466b765da72766c6d47da863329fd6363c899149215d2498d628a",
+        "bytes": 399723,
+        "members": 48,
+        "version": "0.1.3b4"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "bf40ab09f17e3c1ad3a262aac6211dd837df2105d4398f0cba1c49e47644573a",
+        "bytes": 367985,
+        "members": 47,
+        "version": "0.1.3b4"
+      }
+    ],
+    "reproducibility": {
+      "two_independent_builds_match": true,
+      "wheel_hashes_match": true,
+      "sdist_hashes_match": true
+    },
+    "archive_inspection": {
+      "wheel_metadata_name_version": "giga-archaeology 0.1.3b4",
+      "both_console_entrypoints_present": true,
+      "README_exact_bytes_in_wheel_and_sdist": true,
+      "BETA_validation_exact_bytes_in_wheel_and_sdist": true,
+      "billing_or_payment_wording_in_release_docs": false
+    },
+    "focused_packaging_test": {
+      "status": "PASS",
+      "passed": 9,
+      "duration_seconds": 1.8,
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider tests/test_archaeology_packaging.py -q --basetemp <private /tmp directory>"
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "70a1ddffe41466b765da72766c6d47da863329fd6363c899149215d2498d628a",
+      "install_attempted": false,
+      "status": "PENDING_EXACT_HASH_OPERATOR_APPROVAL"
+    },
+    "sdist_install_canary": {
+      "status": "NOT_RUN"
+    },
+    "status": "PASS_REPRODUCIBLE; EXACT_WHEEL_INSTALL_PENDING_OPERATOR_APPROVAL; NOT_RELEASED",
+    "release_docs_content_sha256": "d7b1e103a4788118ff4ae6b36fdb27bc71069228176b88361fe4a5d1929b5220",
+    "release_docs_content_sha256_method": "SHA-256 over README.md then architecture/archaeology/BETA_VALIDATION.md, each encoded as path, NUL, byte length, and raw bytes."
   }
 }

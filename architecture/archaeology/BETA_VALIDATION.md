@@ -555,7 +555,7 @@ This update changes documentation included in the wheel and source archive. The 
 
 ## 2026-10-31 -- current hosted CI and package portability metadata
 
-GitHub Actions run [41193319320](https://github.com/Pepstee/giga-archaeology/actions/runs/41193319320) targeted documentation checkpoint `ecb61d999625775b2d6875990c2e2aabd2f1f775`. All 12 matrix jobs failed before runner assignment: runner ID was zero and no steps ran. Sampled check annotations confirm an account billing or spending-limit gate; this run produced no hosted test results. The prior run [41193178195](https://github.com/Pepstee/giga-archaeology/actions/runs/41193178195) on the package metadata and Windows CI changes had the same result. The account restriction prevents the new Windows lock-error-mapping test and supported-path matrix from starting. Full macOS and Windows suites remain unverified.
+GitHub Actions run [41193319320](https://github.com/Pepstee/giga-archaeology/actions/runs/41193319320) targeted documentation checkpoint `ecb61d999625775b2d6875990c2e2aabd2f1f775`. All 12 matrix jobs stopped before runner assignment; runner ID was zero and no steps ran. The sampled check annotations indicate a runner-admission restriction, so this run produced no hosted test results. The prior run [41193178195](https://github.com/Pepstee/giga-archaeology/actions/runs/41193178195) on the package metadata and Windows CI changes had the same pre-run outcome. The new Windows lock-error-mapping test and supported-path matrix therefore remain unverified. Full macOS and Windows suites remain unverified.
 
 The current Linux checkout passed the focused packaging and OS-support checks: **12 passed** (9 packaging tests and 3 OS-support tests). The package metadata now declares beta status, Linux/macOS/Windows, and Python 3.11 through 3.14. These metadata and CI improvements have not yet received hosted verification.
 
@@ -567,13 +567,17 @@ The complete source suite passed on the registered ArtVault Linux x86_64 workspa
 
 ## 2026-10-31 - hosted CI for the quickstart documentation checkpoint
 
-GitHub Actions run [41195220665](https://github.com/Pepstee/giga-archaeology/actions/runs/41195220665) targeted documentation commit fb7650a7657397f08e6a335fb91b1b8bc6cd34d7. All 12 matrix jobs failed before runner assignment; the job records show no steps, so no hosted tests ran. Sampled annotations indicate an account billing or spending-limit gate. This is evidence about that revision only and does not establish the result for later commits. Linux source-suite evidence remains local to ArtVault; full macOS and Windows suites remain unverified.
+GitHub Actions run [41195220665](https://github.com/Pepstee/giga-archaeology/actions/runs/41195220665) targeted documentation commit fb7650a7657397f08e6a335fb91b1b8bc6cd34d7. All 12 matrix jobs stopped before runner assignment; the job records show no steps, so no hosted tests ran. Sampled annotations indicate a runner-admission restriction. This evidence applies to that revision only and does not establish the result for later commits. Linux source-suite evidence remains local to ArtVault; full macOS and Windows suites remain unverified.
 
 
 ## 2026-10-31 — current Linux suite and hosted CI run
 
 The complete source suite passed on the registered ArtVault Linux x86_64 host with CPython 3.12.3: **434 passed, 1 skipped, and 2 subtests passed** in 76.45 seconds (exit code 0). The tested source tree matches commit `10eba5e3a081b26b9a7c308641061c60e558a248`; the commit identity was corrected after the test without changing the tree. This is Linux evidence for Python 3.12.3 only.
 
-GitHub Actions run [41199872816](https://github.com/Pepstee/giga-archaeology/actions/runs/41199872816) targeted the same tree. All 12 matrix job annotations say the jobs were not started because recent account payments failed or the spending limit needs to increase. No hosted tests ran. Resolve the account restriction before treating the macOS, Windows, or hosted Linux matrix as verified.
+GitHub Actions run [41199872816](https://github.com/Pepstee/giga-archaeology/actions/runs/41199872816) targeted the same tree. All 12 visible job annotations show the jobs were not started before tests; no hosted tests ran. The run did not verify the macOS, Windows, or hosted Linux matrix. The cause recorded in those annotations has been omitted from this public-facing evidence.
 
 The current 0.1.3b4 candidate has reproducible wheel and source archive builds, but the exact artifacts have not yet passed an install canary. The repository remains private, with no public package or GitHub release.
+
+## 2026-10-31 — latest hosted CI observation
+
+GitHub Actions run [41200562209](https://github.com/Pepstee/giga-archaeology/actions/runs/41200562209) targeted commit `e3e2a1d5b18c7e20f31e83e867a18ab6704b9d4e`. All 12 matrix jobs completed as failures, and the job-step records contain zero steps. The cause is unconfirmed for this run, so no hosted tests ran and no platform result can be claimed. The complete Linux source suite remains local evidence for CPython 3.12.3; full macOS and Windows suites remain unverified.
