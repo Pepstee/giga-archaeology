@@ -5796,6 +5796,17 @@
     "source_distribution_install_canary": {
       "status": "NOT_RUN"
     },
-    "public_release": false
+    "public_release": false,
+    "archive_inspection": {
+      "verified_at_utc": "2026-10-31T14:36:56Z",
+      "wheel_record_entries_verified": 47,
+      "wheel_record_hashes_and_sizes": "PASS",
+      "wheel_metadata": "PASS; MIT license expression, Python >=3.11, four exact parser pins, and Linux/macOS/Windows classifiers",
+      "wheel_entry_points": "PASS; giga-archaeology and giga-archaeologist",
+      "wheel_license_files": "PASS; LICENSE and THIRD_PARTY_NOTICES.md at archive root; LICENSE also in dist-info/licenses",
+      "sdist_contents": "PASS; README, BETA_VALIDATION, CONTRIBUTING, LICENSE, THIRD_PARTY_NOTICES, pyproject, and quickstart present; release ledger excluded",
+      "initial_probe": "Harness assertion expected THIRD_PARTY_NOTICES.md under dist-info/licenses; assertion failed because actual wheel correctly stores it at archive root.",
+      "corrected_probe": "PASS after inspecting actual archive paths; no product assertion failed."
+    }
   }
 }
