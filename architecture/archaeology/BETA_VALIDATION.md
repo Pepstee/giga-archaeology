@@ -555,7 +555,7 @@ This update changes documentation included in the wheel and source archive. The 
 
 ## 2026-10-31 -- current hosted CI and package portability metadata
 
-GitHub Actions run [41193178195](https://github.com/Pepstee/giga-archaeology/actions/runs/41193178195) targeted commit `9aedda7123cfd14c484e0af5a4bdfce483da9dc7`. All 12 matrix jobs failed before runner assignment: runner ID was zero and no steps ran. Sampled check annotations confirm an account billing or spending-limit gate; this run produced no hosted test results. The account restriction prevents the new Windows lock-error-mapping test and supported-path matrix from starting. Full macOS and Windows suites remain unverified.
+GitHub Actions run [41193319320](https://github.com/Pepstee/giga-archaeology/actions/runs/41193319320) targeted documentation checkpoint `ecb61d999625775b2d6875990c2e2aabd2f1f775`. All 12 matrix jobs failed before runner assignment: runner ID was zero and no steps ran. Sampled check annotations confirm an account billing or spending-limit gate; this run produced no hosted test results. The prior run [41193178195](https://github.com/Pepstee/giga-archaeology/actions/runs/41193178195) on the package metadata and Windows CI changes had the same result. The account restriction prevents the new Windows lock-error-mapping test and supported-path matrix from starting. Full macOS and Windows suites remain unverified.
 
 The current Linux checkout passed the focused packaging and OS-support checks: **12 passed** (9 packaging tests and 3 OS-support tests). The package metadata now declares beta status, Linux/macOS/Windows, and Python 3.11 through 3.14. These metadata and CI improvements have not yet received hosted verification.
 
