@@ -528,3 +528,10 @@ run. Production implementation files were unchanged.
 The added packaging regression asserts that the exact README and BETA_VALIDATION bytes appear in
 both the wheel and source archive. The test is part of this full-suite result. Linux evidence only;
 full macOS and Windows source suites remain unverified.
+
+## 2026-10-31 -- latest hosted CI admission result
+
+GitHub Actions run [41148503242](https://github.com/Pepstee/giga-archaeology/actions/runs/41148503242)
+targeted source commit 74f700c76b143c08b100007153474c5681a888d4. All 12 matrix jobs failed before
+runner assignment. No job steps ran and no hosted test results were produced. No provider-specific diagnostic is included in this public-facing record. This does not change the latest Linux source-suite result above: hosted macOS and
+Windows verification remain open. No public package or GitHub release has been made.
