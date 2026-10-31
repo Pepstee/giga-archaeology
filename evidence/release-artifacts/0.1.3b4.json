@@ -5417,7 +5417,7 @@
       "both_console_entrypoints_present": true,
       "README_exact_bytes_in_wheel_and_sdist": true,
       "BETA_validation_exact_bytes_in_wheel_and_sdist": true,
-      "billing_or_payment_wording_in_release_docs": false
+      "sensitive_ci_wording_in_release_docs": false
     },
     "focused_packaging_test": {
       "status": "PASS",
