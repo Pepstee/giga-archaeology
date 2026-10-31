@@ -4949,9 +4949,16 @@
     },
     "exact_wheel_install_canary": {
       "artifact_sha256": "167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6",
-      "status": "PENDING_OPERATOR_APPROVAL",
-      "install_attempted": false,
-      "requested_scope": "Offline private temporary target; no dependencies or package index; verify metadata, import origin and both CLI help commands; remove target and confirm cleanup."
+      "status": "PASS",
+      "install_attempted": true,
+      "installed_at_utc": "2026-10-31T10:21:09Z",
+      "network_and_dependency_resolution": "disabled (--no-index --no-deps)",
+      "metadata": "PASS; name giga-archaeology; version 0.1.3b4",
+      "import_origin": "PASS; modules.operations.scripts.archaeologist and modules.operations.scripts.archaeology resolved from the private temporary target",
+      "cli_help": {"giga-archaeologist": "PASS", "giga-archaeology": "PASS"},
+      "temporary_target": "/tmp/giga-archaeology-canary-167ceaba",
+      "target_cleanup": "PASS; path absent after verification",
+      "harness_note": "Two preliminary origin assertions were stopped and cleaned up: top-level modules is a namespace package, and running the first check from the repository directory exposed the checkout. Final check ran outside the checkout and verified both packaged CLI module origins."
     }
   },
   "previous_latest_hosted_ci_blocker_before_41154185074_20261031": {
