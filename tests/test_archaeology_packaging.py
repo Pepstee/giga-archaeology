@@ -80,6 +80,10 @@ def test_release_metadata_includes_search_terms_and_project_links(tmp_path: Path
     assert "Keywords: repository-analysis, source-mapping, static-analysis, coding-agents\n" in metadata
     assert "Project-URL: Repository, https://github.com/Pepstee/giga-archaeology\n" in metadata
     assert "Project-URL: Issues, https://github.com/Pepstee/giga-archaeology/issues\n" in metadata
+    expected_classifiers = tomllib.loads(
+        (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    )["project"]["classifiers"]
+    assert all(f"Classifier: {classifier}\n" in metadata for classifier in expected_classifiers)
     project_version = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
     assert BACKEND.VERSION == project_version
     assert f"Version: {project_version}\n" in metadata

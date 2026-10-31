@@ -105,6 +105,19 @@ def _project() -> dict[str, Any]:
         for item in keywords
     ):
         raise ValueError("project keywords must be normalised single-line terms")
+    classifiers = project.get("classifiers", [])
+    if (
+        not isinstance(classifiers, list)
+        or any(
+            not isinstance(item, str)
+            or not item
+            or item != item.strip()
+            or any(char in item for char in "\r\n")
+            for item in classifiers
+        )
+        or len(classifiers) != len(set(classifiers))
+    ):
+        raise ValueError("project classifiers must be unique non-empty single-line terms")
     urls = project.get("urls", {})
     if not isinstance(urls, dict) or any(
         not isinstance(label, str) or not label or "," in label or any(c in label for c in "\r\n")
@@ -143,6 +156,9 @@ def _metadata() -> bytes:
     project_urls = "".join(
         f"Project-URL: {label}, {url}\n" for label, url in sorted(project.get("urls", {}).items())
     )
+    classifier_headers = "".join(
+        f"Classifier: {classifier}\n" for classifier in project.get("classifiers", [])
+    )
     return (
         "Metadata-Version: 2.4\n"
         "License-Expression: MIT\n"
@@ -153,6 +169,7 @@ def _metadata() -> bytes:
         f"Requires-Python: {project['requires-python']}\n"
         f"{keyword_header}"
         f"{project_urls}"
+        f"{classifier_headers}"
         f"{dependencies}"
         f"{extras}"
         "Description-Content-Type: text/markdown\n\n"
