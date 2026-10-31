@@ -1491,12 +1491,12 @@
     }
   },
   "github_server_side_history_purge": {
-    "status": "PARTIAL_PURGE_UNCONFIRMED",
-    "scope": "Four previously identified unreachable commit objects checked through authenticated GitHub commit API.",
-    "latest_check_at_utc": "2026-10-30T21:53:55Z",
-    "observed": "Three IDs return HTTP 422 No commit found; one still returns commit metadata.",
-    "follow_up": "Focused purge request sent to GitHub Support; awaiting response and independent verification.",
-    "publication_gate": "Repository remains private; do not claim purge complete or publish until the remaining object is no longer retrievable.",
+    "status": "PURGE_REQUESTED_UNCONFIRMED; NINE_OF_NINE_STILL_RETRIEVABLE",
+    "scope": "Previously identified unreachable commit objects plus eight additional superseded objects included in the existing Support request.",
+    "latest_check_at_utc": "2026-10-31T15:16:26Z",
+    "observed": "All nine commit objects named in the existing cleanup request still resolve to commit metadata.",
+    "follow_up": "Existing privacy purge request remains open; no substantive removal confirmation received after the latest operator update. Do not send duplicate outreach while monitoring this ticket.",
+    "publication_gate": "CLOSED; keep repository private and do not claim cleanup complete until affected objects stop resolving.",
     "post_rewrite_observations": [
       {
         "observed_at_utc": "2026-10-30T23:54:08Z",
@@ -1517,7 +1517,17 @@
         },
         "support_request": "Existing focused purge request remains pending; publication gate remains closed."
       }
-    ]
+    ],
+    "latest_authenticated_api_observation": {
+      "observed_at_utc": "2026-10-31T15:16:26Z",
+      "authenticated_commit_api_checks": 9,
+      "still_retrievable_count": 9,
+      "result": "All nine commit objects named in the existing cleanup request still resolve to commit metadata.",
+      "support_ticket": "4923917",
+      "latest_ticket_update_at_utc": "2026-10-31T11:01:12Z",
+      "latest_ticket_update": "Operator added the eight newly identified objects to the existing request; the email is a ticket-update notification, not a removal confirmation.",
+      "publication_gate": "CLOSED; keep repository private and do not claim cleanup complete until affected objects stop resolving."
+    }
   },
   "final_docs_build": {
     "status": "SUPERSEDED_AFTER_LATEST_README_BETA_UPDATE",
