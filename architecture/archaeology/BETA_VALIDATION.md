@@ -475,9 +475,8 @@ Windows source suites remain unverified.
 
 Push-triggered GitHub Actions run [41139822037](https://github.com/Pepstee/giga-archaeology/actions/runs/41139822037)
 on documentation checkpoint `cb5322d09b7a4f6991f91939de104e541fcea7e0` ended before runner
-assignment: all 12 jobs had zero steps and no hosted tests ran. Its annotations confirm an
-[provider-specific account diagnostic removed]
-this project record. The release ledger carries the sanitized diagnostics.
+assignment: all 12 jobs had zero steps and no hosted tests ran. The release ledger carries a
+sanitized runner-admission summary.
 
 The CI workflow path filters now include `architecture/archaeology/**` and `examples/**`, which
 contain packaged validation documents and the quickstart. Changes to those user-facing files now

@@ -1205,9 +1205,9 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-[provider-specific account diagnostic removed]
+    "cause": "RUNNER_ADMISSION_RESTRICTION",
     "evidence_record": "post_push_ci_review_41141367602_20261030",
-    "previous_cause_observation": "Earlier attempts had been recorded as generic account-level runner-admission restriction; current annotations exclude included-minutes wording."
+    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION"
   },
   "previous_latest_hosted_ci_blocker": {
     "run_id": 40884610871,
@@ -3803,7 +3803,7 @@
     },
     "diagnostic_limit": "Job-log endpoint unavailable; check annotations establish the broad admission category but not account-specific financial details.",
     "annotations_reviewed": 12,
-    "annotation_summary": "All 12 check-run annotations report an account-level runner-admission restriction; none reached runner assignment or test steps.",
+    "annotation_summary": "All jobs stopped before runner assignment; no hosted test steps ran.",
     "job_log_api": "NOT_FOUND"
   },
   "current_head_actions_query_bc3d81a_20261030": {
@@ -4063,12 +4063,12 @@
     "checked_at_utc": "2026-10-30T22:33:30Z",
     "run_id": 41134521472,
     "check_run_annotations_reviewed": 12,
-    "annotation_category": "account-level runner-admission restriction",
+    "annotation_category": "RUNNER_ADMISSION_RESTRICTION",
     "runner_assignments": 0,
     "steps_started": 0,
     "tests_executed": 0,
     "job_log_endpoint": "NOT_FOUND",
-    "scope_limit": "[provider-specific diagnostic removed]"
+    "scope_limit": "Specific provider diagnostics are omitted from this repository record."
   },
   "current_artifact_rebuild_cb5322d_20261030": {
     "observed_at_utc": "2026-10-30T22:43:10Z",
@@ -4184,7 +4184,7 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-    "cause": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps.",
+    "cause": "RUNNER_ADMISSION_RESTRICTION",
     "evidence_record": "post_push_ci_review_41134521472_20261030",
     "previous_cause_observation": "UNKNOWN; all returned job summaries show runner_id 0 and zero steps"
   },
@@ -4198,10 +4198,9 @@
     "runner_assignments": 0,
     "steps_started": 0,
     "tests_executed": 0,
-[provider-specific account diagnostic removed]
+    "sanitized_cause": "RUNNER_ADMISSION_RESTRICTION",
     "included_minutes_terms_in_annotations": false,
-    "payment_method_terms_in_annotations": false,
-    "scope_limit": "[provider-specific diagnostic removed]"
+    "scope_limit": "Specific provider diagnostics are omitted from this repository record."
   },
   "previous_latest_hosted_ci_blocker_before_41141367602_20261030": {
     "run_id": 41139822037,
@@ -4214,9 +4213,9 @@
     "steps_started": 0,
     "hosted_tests_executed": false,
     "status": "FAILED_BEFORE_RUNNER_ASSIGNMENT",
-[provider-specific account diagnostic removed]
+    "cause": "RUNNER_ADMISSION_RESTRICTION",
     "evidence_record": "post_push_ci_review_41139822037_20261030",
-    "previous_cause_observation": "ACCOUNT_LEVEL_RUNNER_ADMISSION_RESTRICTION_CONFIRMED_BY_12_CHECK_ANNOTATIONS; zero runners and zero steps."
+    "previous_cause_observation": "RUNNER_ADMISSION_RESTRICTION"
   },
   "post_push_ci_review_41141367602_20261030": {
     "checked_at_utc": "2026-10-30T22:56:45Z",
@@ -4228,10 +4227,9 @@
     "runner_assignments": 0,
     "steps_started": 0,
     "tests_executed": 0,
-[provider-specific account diagnostic removed]
+    "sanitized_cause": "RUNNER_ADMISSION_RESTRICTION",
     "included_minutes_terms_in_annotations": false,
-    "payment_method_terms_in_annotations": false,
-    "scope_limit": "[provider-specific diagnostic removed]"
+    "scope_limit": "Specific provider diagnostics are omitted from this repository record."
   },
   "current_head_actions_query_d2aaa60_20261030": {
     "checked_at_utc": "2026-10-30T22:56:45Z",
@@ -4313,7 +4311,7 @@
     },
     "limitations": [
       "Exact wheel install canary not run; approval was specific to an earlier wheel hash.",
-      "[provider-specific diagnostic removed]",
+      "Hosted runner assignment failed before any job steps ran.",
       "Full macOS and Windows source suites remain unverified.",
       "No public package or GitHub release has been made."
     ]
@@ -4374,7 +4372,7 @@
       "protected_property": "Prevent duplicate runnable source copies, hidden divergence and unowned test surfaces.",
       "ordinary_route_result": "named-fixed-release-test and named-supervised-test preflights returned BLOCKED because giga-archaeology has no registered separate test surface.",
       "alternative": "Use the already existing .venv interpreter inside the registered canonical source root, with PYTHONPATH pinned to that root; no source snapshot, clone, mirror, worktree or dependency installation.",
-      "necessity": "[provider-specific diagnostic removed]",
+      "necessity": "The hosted matrix did not produce a result; local Linux suite evidence remains available.",
       "supervisor_confirmation": "Current session is the sole registered writer. Canon preflight PASS at source commit f23767d3c18765450616dd3296dafb50046ca7c5; supervisor confirms one-time full Linux source-suite run on the canonical surface."
     },
     "scope": {
@@ -4588,8 +4586,78 @@
     },
     "actions_enabled": true,
     "logs_available": false,
-    "cause": "All 12 matrix jobs were rejected before runner assignment by an account-level GitHub Actions admission restriction; no workflow steps ran. Specific provider diagnostics are omitted from this repository record.",
-    "required_operator_action": "Review the account-level Actions runner-admission settings. No account settings were changed.",
+    "cause": "RUNNER_ADMISSION_RESTRICTION",
+    "required_operator_action": "Review GitHub Actions runner-admission settings. No settings were changed.",
     "test_result": "No CI steps ran; this is runner admission, not a code/test failure."
+  },
+  "current_artifact_rebuild_63eaf61_20261031": {
+    "built_at_date": "2026-10-31",
+    "source_commit": "63eaf619ae7d9d6bcbe0dc0f47e512da05bc45ea",
+    "source_tree": "a17917e6f700a4724f13e2023b221028b700cb5c",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1",
+    "build_method": "Two independent --no-isolation PEP 517 builds from the registered canonical source.",
+    "status": "SUPERSEDED_AFTER_PACKAGED_DOCUMENTATION_PRIVACY_UPDATE",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "bytes": 398985,
+        "members": 48,
+        "sha256": "63304df79e03691c9560f97e55f87b1a9b1d1a04b12968320f03b8ae13df06b1",
+        "version": "0.1.3b4",
+        "entrypoints": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ]
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "bytes": 366549,
+        "members": 47,
+        "sha256": "acb29d2e6fe38b2f016742e76301c43b6cda56a6b93311c6084a91ad2c8dbf0d",
+        "version": "0.1.3b4"
+      }
+    ],
+    "reproducibility": {
+      "second_independent_build_performed": true,
+      "wheel_byte_identical": true,
+      "sdist_byte_identical": true
+    },
+    "archive_inspection": {
+      "README_and_BETA_validation_exact_source_bytes": true,
+      "CONTRIBUTING_and_LICENSE_exact_source_bytes": true,
+      "wheel_RECORD_integrity": "PASS",
+      "metadata_and_entrypoints": "PASS",
+      "git_metadata_excluded": true,
+      "release_ledger_excluded": true,
+      "quickstart_in_wheel": false,
+      "quickstart_in_sdist": true
+    },
+    "static_privacy_scan": {
+      "profile_path_hits": 0,
+      "non_reserved_email_hits": 0,
+      "specific_account_diagnostic_hits": 0
+    },
+    "exact_wheel_install_canary": {
+      "artifact_sha256": "63304df79e03691c9560f97e55f87b1a9b1d1a04b12968320f03b8ae13df06b1",
+      "status": "SUPERSEDED; APPROVAL DOES NOT APPLY TO A FUTURE REBUILD",
+      "install_attempted": false,
+      "requested_scope": "Offline private temporary target with dependency resolution and index disabled; verify metadata, import origin, both CLI help commands; remove target and confirm cleanup."
+    },
+    "sdist_install_canary": {
+      "artifact_sha256": "acb29d2e6fe38b2f016742e76301c43b6cda56a6b93311c6084a91ad2c8dbf0d",
+      "status": "NOT_RUN",
+      "reason": "The project policy prohibits extracting a second runnable project copy; static archive verification is complete."
+    },
+    "limitations": [
+      "ArtVault Linux build only.",
+      "Exact wheel installation is unverified pending approval.",
+      "Full macOS and Windows suites and hosted CI remain unverified.",
+      "No package or GitHub release has been published.",
+      "These artifact hashes predate the following validation-record privacy update and are not current release artifacts."
+    ]
   }
 }
