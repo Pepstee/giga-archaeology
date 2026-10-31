@@ -22,6 +22,11 @@ from modules.operations.archaeology.mapper import refresh_mapper
 from modules.operations.archaeology.navigation_inventory import (
     refresh_navigation_inventory,
 )
+from twin_core.capability_adoption import (
+    CapabilityAdoptionError,
+    compile_adoption_registry,
+    observe_liveness,
+)
 
 
 def _git(root: Path, *arguments: str) -> None:
@@ -397,3 +402,149 @@ def test_cli_v2_missing_repository_root_failure_is_generic(tmp_path: Path) -> No
         assert str(missing) not in process.stderr.decode("utf-8")
         assert missing.name not in process.stderr.decode("utf-8")
     assert failures[0] == failures[1]
+
+
+def _prepare_adoption_consumer_fixture(root: Path) -> None:
+    (root / "src").mkdir(exist_ok=True)
+    (root / "src/owner.py").write_text("def owned():\n    return True\n", encoding="utf-8")
+    (root / "proofs").mkdir(exist_ok=True)
+    (root / "proofs/owner.json").write_text('{"status":"accepted"}\n', encoding="utf-8")
+    manifest = {
+        "schema": "giga.capability-adoption-manifest.v1",
+        "id": "fixture-capability",
+        "owner": "fixture/team",
+        "responsibility": "Exercise the adoption consumer contract.",
+        "claim": "ADOPTED",
+        "implementation_paths": ["src/owner.py"],
+        "configuration_paths": [],
+        "proof_paths": ["proofs/owner.json"],
+        "entrypoint": {"argv": ["python3", "src/owner.py"], "working_directory": "."},
+        "trigger": {"kind": "manual", "identity": "fixture"},
+        "authority": {
+            "capabilities": ["fixture.read"],
+            "privacy": "synthetic fixture only",
+            "external_effects": False,
+            "vault_required": False,
+        },
+        "recovery": {
+            "status_argv": ["python3", "src/owner.py"],
+            "reconcile_argv": [],
+            "disable_argv": [],
+        },
+        "liveness_receipt": "capabilities/receipts/fixture-capability.json",
+    }
+    manifest_path = root / "capabilities/manifests/archaeologist-mapper.json"
+    manifest_path.write_text(
+        json.dumps(manifest, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    _git(root, "add", ".")
+    _git(root, "commit", "-qm", "prepare synthetic adoption consumer fixture")
+
+
+def _write_v2_candidate_feed(root: Path, *, generated_at: str = "2026-09-02T00:00:00Z") -> str:
+    feed = build_reviewed_archaeologist_v2_capability_feed(
+        root, generated_at=generated_at
+    )
+    relative = "architecture/archaeologist/feeds/candidates-v2.json"
+    path = root / relative
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(feed, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _git(root, "add", relative)
+    _git(root, "commit", "-qm", "write synthetic v2 candidate feed")
+    return relative
+
+
+def test_v2_candidate_feed_is_consumed_as_status_only_and_reported_pathlessly(
+    reviewed_evidence_repository: Path,
+) -> None:
+    root = reviewed_evidence_repository
+    _prepare_adoption_consumer_fixture(root)
+    v2_path = _write_v2_candidate_feed(root)
+    legacy_path = next(
+        path.relative_to(root).as_posix()
+        for path in (root / "architecture/archaeologist/feeds").glob("*.json")
+        if json.loads(path.read_text(encoding="utf-8"))["schema"] == CANDIDATE_FEED_SCHEMA
+    )
+
+    registry = compile_adoption_registry(
+        root,
+        "2026-09-03T00:00:00Z",
+        candidate_feeds=(legacy_path, v2_path),
+        require_git_head=True,
+    )
+    socket = registry["retrospective_socket"]
+    candidate = socket["candidates"][0]
+    assert socket["schema"] == "giga.retrospective-capability-socket.v2"
+    assert socket["accepted_feed_schemas"] == [
+        CANDIDATE_FEED_SCHEMA,
+        "giga.retrospective-capability-candidates.v2",
+    ]
+    assert [feed["schema"] for feed in socket["feeds"]] == [
+        CANDIDATE_FEED_SCHEMA,
+        "giga.retrospective-capability-candidates.v2",
+    ]
+    assert candidate["capability_id"] == "archaeologist-mapper"
+    assert {source["kind"] for source in candidate["source_refs"]} == {
+        "git-object-file"
+    }
+    assert {source["repo_alias"] for source in candidate["source_refs"]} == {"giga-user"}
+    assert candidate["execution_authority_granted"] is False
+    assert socket["promotion_authority"] is False
+
+    report = observe_liveness(root, registry)
+    disconnected = report["implemented_but_disconnected"]
+    assert disconnected == [
+        {
+            "candidate_id": "archaeologist-mapper-disconnected",
+            "capability_id": "archaeologist-mapper",
+            "state": "DISCONNECTED",
+            "has_entrypoint_hint": True,
+            "evidence_source_count": 4,
+            "evidence_source_kinds": ["git-object-file"],
+        }
+    ]
+    serialized = json.dumps(disconnected, sort_keys=True)
+    assert "giga-user/operations/archaeology" not in serialized
+    assert "architecture/archaeology/receipts" not in serialized
+    assert "owner.py" not in serialized
+
+
+def test_v2_candidate_feed_rejects_mismatched_git_tree(
+    reviewed_evidence_repository: Path,
+) -> None:
+    root = reviewed_evidence_repository
+    _prepare_adoption_consumer_fixture(root)
+    feed = build_reviewed_archaeologist_v2_capability_feed(
+        root, generated_at="2026-09-02T00:00:00Z"
+    )
+    feed["candidates"][0]["source_refs"][0]["tree"] = "0" * 40
+    feed["self_sha256"] = _self_hash(feed)
+    path = "architecture/archaeologist/feeds/candidates-v2.json"
+    target = root / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(feed, sort_keys=True) + "\n", encoding="utf-8")
+
+    with pytest.raises(CapabilityAdoptionError, match="tree differs"):
+        compile_adoption_registry(
+            root,
+            "2026-09-03T00:00:00Z",
+            candidate_feeds=(path,),
+            require_git_head=False,
+        )
+
+
+def test_v2_reviewed_history_requires_a_retaining_remote_ref(
+    reviewed_evidence_repository: Path,
+) -> None:
+    root = reviewed_evidence_repository
+    _prepare_adoption_consumer_fixture(root)
+    path = _write_v2_candidate_feed(root)
+    _git(root, "update-ref", "-d", "refs/remotes/origin/reviewed-archaeology")
+
+    with pytest.raises(CapabilityAdoptionError, match="not retained by a remote reference"):
+        compile_adoption_registry(
+            root,
+            "2026-09-03T00:00:00Z",
+            candidate_feeds=(path,),
+            require_git_head=False,
+        )

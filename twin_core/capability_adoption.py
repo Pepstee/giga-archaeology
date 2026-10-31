@@ -30,7 +30,9 @@ MANIFEST_SCHEMA = "giga.capability-adoption-manifest.v1"
 RECEIPT_SCHEMA = "giga.capability-liveness-receipt.v1"
 REGISTRY_SCHEMA = "giga.capability-adoption-registry.v1"
 LIVENESS_REPORT_SCHEMA = "giga.capability-liveness-report.v1"
-CANDIDATE_FEED_SCHEMA = "giga.retrospective-capability-candidates.v1"
+LEGACY_CANDIDATE_FEED_SCHEMA = "giga.retrospective-capability-candidates.v1"
+CANDIDATE_FEED_SCHEMA = "giga.retrospective-capability-candidates.v2"
+RETROSPECTIVE_SOCKET_SCHEMA = "giga.retrospective-capability-socket.v2"
 CAPABILITY_STATES = (
     "ACTIVE",
     "ADOPTED_UNPROVEN",
@@ -51,6 +53,8 @@ MAX_STATUS_OUTPUT_BYTES = 5 * 1024 * 1024
 STATUS_TIMEOUT_SECONDS = 300
 _ID = re.compile(r"[a-z0-9]+(?:[.-][a-z0-9]+)*")
 _SHA256 = re.compile(r"[0-9a-f]{64}")
+_GIT_OID = re.compile(r"(?:[0-9a-f]{40}|[0-9a-f]{64})")
+GIT_SOURCE_STATUSES = ("TRACKED_CLEAN_HEAD", "TRACKED_REVIEWED_HISTORY")
 
 MANIFEST_FIELDS = {
     "schema",
@@ -611,9 +615,213 @@ def _git_head_verifier(root: Path, paths: Sequence[str]) -> None:
             raise CapabilityAdoptionError(f"working tree differs from HEAD: {path}")
 
 
+def _git_read(root: Path, *arguments: str, label: str) -> bytes:
+    environment = {
+        **os.environ,
+        "GIT_CONFIG_GLOBAL": "/dev/null",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "GIT_OPTIONAL_LOCKS": "0",
+        "GIT_NO_LAZY_FETCH": "1",
+        "GIT_TERMINAL_PROMPT": "0",
+        "LC_ALL": "C",
+        "TZ": "UTC",
+    }
+    process = subprocess.run(
+        [
+            "git",
+            "-c",
+            "core.hooksPath=/dev/null",
+            "-c",
+            "core.fsmonitor=false",
+            "-C",
+            str(root),
+            *arguments,
+        ],
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+        env=environment,
+    )
+    if process.returncode != 0:
+        raise CapabilityAdoptionError(
+            f"{label} is unavailable from the trusted Git store"
+        )
+    return process.stdout
+
+
+def _git_object_source(root: Path, value: object) -> dict[str, Any]:
+    record = _closed(
+        value,
+        {
+            "kind",
+            "repo_alias",
+            "commit",
+            "tree",
+            "path",
+            "git_blob_oid",
+            "sha256",
+            "bytes",
+            "source_status",
+        },
+        "retrospective Git-object source",
+    )
+    if record["kind"] != "git-object-file":
+        raise CapabilityAdoptionError("retrospective Git-object source kind is invalid")
+    if record["repo_alias"] != "giga-user":
+        raise CapabilityAdoptionError(
+            "retrospective Git-object source repository is not trusted"
+        )
+    for field in ("commit", "tree", "git_blob_oid"):
+        if not isinstance(record[field], str) or _GIT_OID.fullmatch(record[field]) is None:
+            raise CapabilityAdoptionError(
+                f"retrospective Git-object source {field} is invalid"
+            )
+    path = _relative(record["path"], "retrospective Git-object source path")
+    if (
+        not isinstance(record["sha256"], str)
+        or _SHA256.fullmatch(record["sha256"]) is None
+        or not isinstance(record["bytes"], int)
+        or isinstance(record["bytes"], bool)
+        or record["bytes"] < 0
+    ):
+        raise CapabilityAdoptionError(
+            "retrospective Git-object source digest is invalid"
+        )
+    if record["source_status"] not in GIT_SOURCE_STATUSES:
+        raise CapabilityAdoptionError(
+            "retrospective Git-object source status is invalid"
+        )
+
+    commit = record["commit"]
+    resolved_commit = _git_read(
+        root,
+        "rev-parse",
+        "--verify",
+        f"{commit}^{{commit}}",
+        label="retrospective commit",
+    ).decode("ascii", "strict").strip()
+    if resolved_commit != commit:
+        raise CapabilityAdoptionError("retrospective Git-object commit differs")
+    resolved_tree = _git_read(
+        root,
+        "rev-parse",
+        "--verify",
+        f"{commit}^{{tree}}",
+        label="retrospective tree",
+    ).decode("ascii", "strict").strip()
+    if resolved_tree != record["tree"]:
+        raise CapabilityAdoptionError("retrospective Git-object tree differs")
+
+    ref_argument = (
+        f"--points-at={commit}"
+        if record["source_status"] == "TRACKED_CLEAN_HEAD"
+        else f"--contains={commit}"
+    )
+    refs = _git_read(
+        root,
+        "for-each-ref",
+        "--format=%(refname)",
+        ref_argument,
+        "refs/remotes/",
+        label="retrospective remote reference",
+    )
+    if not refs.strip():
+        raise CapabilityAdoptionError(
+            "retrospective Git-object source is not retained by a remote reference"
+        )
+
+    listing = _git_read(
+        root,
+        "ls-tree",
+        "-z",
+        commit,
+        "--",
+        path,
+        label="retrospective Git tree entry",
+    )
+    entries = [entry for entry in listing.split(b"\0") if entry]
+    if len(entries) != 1 or b"\t" not in entries[0]:
+        raise CapabilityAdoptionError(
+            "retrospective Git-object source path is not unique"
+        )
+    metadata, listed_path = entries[0].split(b"\t", 1)
+    parts = metadata.split()
+    if (
+        len(parts) != 3
+        or parts[1] != b"blob"
+        or listed_path.decode("utf-8", "strict") != path
+    ):
+        raise CapabilityAdoptionError("retrospective Git-object source is not a blob")
+    listed_oid = parts[2].decode("ascii", "strict")
+    if listed_oid != record["git_blob_oid"]:
+        raise CapabilityAdoptionError("retrospective Git-object blob identity differs")
+    raw = _git_read(
+        root, "cat-file", "blob", listed_oid, label="retrospective Git blob"
+    )
+    if len(raw) != record["bytes"] or _sha256(raw) != record["sha256"]:
+        raise CapabilityAdoptionError("retrospective Git-object source bytes differ")
+    return dict(record)
+
+
+def _candidate_sources(
+    root: Path, schema: str, value: object
+) -> tuple[list[dict[str, Any]], list[str]]:
+    if not isinstance(value, list) or not value:
+        raise CapabilityAdoptionError(
+            "retrospective candidate must bind at least one source"
+        )
+    sources: list[dict[str, Any]] = []
+    tracked_paths: list[str] = []
+    if schema == LEGACY_CANDIDATE_FEED_SCHEMA:
+        records = _record_list(value, "retrospective source refs")
+        for record in records:
+            current = _file_record(root, record["path"], "retrospective source")
+            if current != record:
+                raise CapabilityAdoptionError(
+                    "retrospective candidate source differs from inventory"
+                )
+            sources.append({"kind": "consumer-head-file", **record})
+            tracked_paths.append(record["path"])
+        return sources, tracked_paths
+
+    for item in value:
+        if not isinstance(item, dict):
+            raise CapabilityAdoptionError("retrospective source ref must be an object")
+        kind = item.get("kind")
+        if kind == "consumer-head-file":
+            record = _closed(
+                item,
+                {"kind", "path", "sha256", "bytes"},
+                "retrospective consumer source",
+            )
+            current = _file_record(root, record["path"], "retrospective source")
+            if current != {
+                key: record[key] for key in ("path", "sha256", "bytes")
+            }:
+                raise CapabilityAdoptionError(
+                    "retrospective candidate source differs from inventory"
+                )
+            sources.append(dict(record))
+            tracked_paths.append(record["path"])
+        elif kind == "git-object-file":
+            sources.append(_git_object_source(root, item))
+        else:
+            raise CapabilityAdoptionError("retrospective source ref kind is invalid")
+    identities = [
+        (source["kind"], source.get("repo_alias"), source.get("commit"), source["path"])
+        for source in sources
+    ]
+    if len(set(identities)) != len(identities):
+        raise CapabilityAdoptionError(
+            "retrospective source refs contain duplicate identities"
+        )
+    return sources, tracked_paths
+
+
 def _candidate_feed(
     root: Path, path: str
-) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+) -> tuple[dict[str, Any], list[dict[str, Any]], list[str]]:
     raw = _read_file(root, path, f"retrospective feed {path}")
     value = _strict_json(raw, f"retrospective feed {path}")
     fields = {
@@ -624,7 +832,11 @@ def _candidate_feed(
         "candidates",
         "self_sha256",
     }
-    if set(value) != fields or value.get("schema") != CANDIDATE_FEED_SCHEMA:
+    schema = value.get("schema")
+    if set(value) != fields or schema not in {
+        LEGACY_CANDIDATE_FEED_SCHEMA,
+        CANDIDATE_FEED_SCHEMA,
+    }:
         raise CapabilityAdoptionError(f"retrospective feed {path} has the wrong schema")
     _validate_self_hash(value, f"retrospective feed {path}")
     if not isinstance(value["producer"], str) or not value["producer"]:
@@ -640,6 +852,7 @@ def _candidate_feed(
     if not isinstance(value["candidates"], list):
         raise CapabilityAdoptionError("retrospective feed candidates must be an array")
     candidates: list[dict[str, Any]] = []
+    tracked_source_paths: list[str] = []
     for item in value["candidates"]:
         record = _closed(
             item,
@@ -669,22 +882,9 @@ def _candidate_feed(
                 "retrospective candidate disposition is invalid"
             )
         if not isinstance(record["owner_hint"], str) or not record["owner_hint"]:
-            raise CapabilityAdoptionError(
-                "retrospective candidate owner hint is invalid"
-            )
-        source_refs = _record_list(record["source_refs"], "retrospective source refs")
-        if not source_refs:
-            raise CapabilityAdoptionError(
-                "retrospective candidate must bind at least one source"
-            )
-        current = [
-            _file_record(root, source["path"], "retrospective source")
-            for source in source_refs
-        ]
-        if current != source_refs:
-            raise CapabilityAdoptionError(
-                "retrospective candidate source differs from inventory"
-            )
+            raise CapabilityAdoptionError("retrospective candidate owner hint is invalid")
+        source_refs, source_paths = _candidate_sources(root, schema, record["source_refs"])
+        tracked_source_paths.extend(source_paths)
         entrypoints = _strings(
             record["entrypoint_hints"],
             "retrospective entrypoint hints",
@@ -706,8 +906,7 @@ def _candidate_feed(
         raise CapabilityAdoptionError(
             "retrospective feed contains duplicate candidate ids"
         )
-    return value, candidates
-
+    return value, candidates, tracked_source_paths
 
 def compile_adoption_registry(
     root: Path,
@@ -767,7 +966,7 @@ def compile_adoption_registry(
     feed_self_hashes: set[str] = set()
     for path in candidate_feeds:
         path = _relative(path, "candidate feed")
-        feed, records = _candidate_feed(root, path)
+        feed, records, source_paths = _candidate_feed(root, path)
         if feed["self_sha256"] in feed_self_hashes:
             raise CapabilityAdoptionError(
                 "retrospective feeds must have unique content identities"
@@ -783,20 +982,27 @@ def compile_adoption_registry(
         feed_records.append(
             {
                 "path": path,
+                "schema": feed["schema"],
                 "sha256": _sha256(_read_file(root, path, "candidate feed")),
+                "self_sha256": feed["self_sha256"],
                 "producer": feed["producer"],
                 "inventory_manifest_sha256": feed["inventory_manifest_sha256"],
+                "generated_at": feed["generated_at"],
+                "candidate_count": len(records),
             }
         )
         tracked_paths.append(path)
-        tracked_paths.extend(
-            source["path"]
-            for candidate in records
-            for source in candidate["source_refs"]
-        )
+        tracked_paths.extend(source_paths)
     if len({item["candidate_id"] for item in candidates}) != len(candidates):
         raise CapabilityAdoptionError(
             "candidate ids collide across retrospective feeds"
+        )
+    candidate_capability_ids = {item["capability_id"] for item in candidates}
+    collisions = sorted(ids & candidate_capability_ids)
+    if collisions:
+        raise CapabilityAdoptionError(
+            "adopted capabilities cannot remain retrospective candidates: "
+            + ", ".join(collisions)
         )
     if require_git_head:
         _git_head_verifier(root, sorted(set(tracked_paths)))
@@ -814,7 +1020,11 @@ def compile_adoption_registry(
         "execution_authority_granted": False,
         "capabilities": capabilities,
         "retrospective_socket": {
-            "schema": CANDIDATE_FEED_SCHEMA,
+            "schema": RETROSPECTIVE_SOCKET_SCHEMA,
+            "accepted_feed_schemas": [
+                LEGACY_CANDIDATE_FEED_SCHEMA,
+                CANDIDATE_FEED_SCHEMA,
+            ],
             "feeds": feed_records,
             "candidates": candidates,
             "promotion_authority": False,
@@ -932,6 +1142,27 @@ def observe_liveness(root: Path, payload: Mapping[str, Any]) -> dict[str, Any]:
             }
         )
     counts = Counter(item["state"] for item in observations)
+    socket = payload.get("retrospective_socket")
+    socket_candidates = socket.get("candidates", []) if isinstance(socket, Mapping) else []
+    disconnected = [
+        {
+            "candidate_id": candidate["candidate_id"],
+            "capability_id": candidate["capability_id"],
+            "state": "DISCONNECTED",
+            "has_entrypoint_hint": bool(candidate.get("entrypoint_hints")),
+            "evidence_source_count": len(candidate.get("source_refs", [])),
+            "evidence_source_kinds": sorted(
+                {
+                    source.get("kind", "consumer-head-file")
+                    for source in candidate.get("source_refs", [])
+                    if isinstance(source, Mapping)
+                }
+            ),
+        }
+        for candidate in socket_candidates
+        if isinstance(candidate, Mapping)
+        and candidate.get("disposition") == "DISCONNECTED"
+    ]
     report = {
         "schema": LIVENESS_REPORT_SCHEMA,
         "observed_at": payload["observed_at"],
@@ -939,9 +1170,11 @@ def observe_liveness(root: Path, payload: Mapping[str, Any]) -> dict[str, Any]:
         "registry_sha256": payload["registry_sha256"],
         "execution_authority_granted": False,
         "capabilities": observations,
+        "implemented_but_disconnected": disconnected,
         "summary": {
             "capabilities_total": len(observations),
             "states": {state: counts.get(state, 0) for state in CAPABILITY_STATES},
+            "implemented_but_disconnected": len(disconnected),
         },
     }
     report["report_sha256"] = _sha256(
