@@ -740,6 +740,13 @@
       },
       "reason": "The emitted schema uses symbols.qualified_name. The corrected assertion passed for hello; inventory generation and its read-only authority fields were verified.",
       "authority": "Preserve the rejected assertion while retaining the independently verified successful CLI result."
+    },
+    {
+      "recorded_at": "2026-10-31T14:32:11Z",
+      "field": "exact wheel availability and canary status for hashes 66d318b0 and 167ceaba",
+      "superseded_value": "The prior turn reported both exact wheels unavailable and treated the canaries as unperformed.",
+      "correction": "The wheel files are no longer retained, but the existing release ledger records completed exact-hash offline canaries for both. Hash 66d318b0 passed install, both module origins, and both CLI help commands, then was marked superseded. Hash 167ceaba also passed and was later superseded. Neither validates the current 7351655c wheel, whose canary remains pending operator approval.",
+      "evidence": "current_artifact_rebuild_dc4819f_20261031; committed_artifact_rebuild_928a832_20261031; current_artifact_rebuild_after_ci_review_412086_20261031"
     }
   ],
   "donor_review": {
@@ -5696,5 +5703,52 @@
       "status": "NOT_RUN"
     },
     "public_release": false
+  },
+  "post_push_ci_review_41208860465_20261031": {
+    "run_id": 41208860465,
+    "run_url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41208860465",
+    "target_commit": "7ad25d176ebda6d7215e656e2638b0651d3ba7d6",
+    "run_status": "completed_failure",
+    "job_count": 12,
+    "failed_jobs": 12,
+    "runner_assignments": 0,
+    "steps_run": 0,
+    "job_records_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
+    "sampled_annotation": "The Windows Python 3.14 check says the job was not started because recent account payments failed or the spending limit needs to be increased.",
+    "hosted_test_results": false,
+    "observed_at_utc": "2026-10-31T14:32:11Z"
+  },
+  "runtime_dependency_pin_review_20261031": {
+    "observed_at_utc": "2026-10-31T14:32:11Z",
+    "source_commit": "7ad25d176ebda6d7215e656e2638b0651d3ba7d6",
+    "current_pyproject_pins_match_latest_pypi_releases": true,
+    "packages": [
+      {
+        "name": "tree-sitter",
+        "pinned": "0.26.0",
+        "latest": "0.26.0",
+        "source": "https://pypi.org/project/tree-sitter/"
+      },
+      {
+        "name": "tree-sitter-bash",
+        "pinned": "0.25.1",
+        "latest": "0.25.1",
+        "source": "https://pypi.org/project/tree-sitter-bash/"
+      },
+      {
+        "name": "tree-sitter-javascript",
+        "pinned": "0.25.0",
+        "latest": "0.25.0",
+        "source": "https://pypi.org/project/tree-sitter-javascript/"
+      },
+      {
+        "name": "tree-sitter-typescript",
+        "pinned": "0.23.2",
+        "latest": "0.23.2",
+        "source": "https://pypi.org/project/tree-sitter-typescript/"
+      }
+    ],
+    "decision": "No version bump justified by release freshness alone; CI matrix remains required to verify supported runtime combinations.",
+    "scope": "PyPI release-version metadata; not a compatibility test."
   }
 }
