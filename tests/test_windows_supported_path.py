@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 import os
 import subprocess
 import sys
@@ -42,6 +43,52 @@ def _cli(*arguments: str) -> str:
     return result.stdout
 
 
+def _navigation_diagnostic(store: Path) -> dict[str, object]:
+    """Return pathless scan diagnostics suitable for hosted CI logs."""
+    try:
+        pointer = json.loads((store / "CURRENT.json").read_text(encoding="utf-8"))
+        run_id = pointer.get("run_id")
+        if not isinstance(run_id, str) or not run_id or "/" in run_id or "\\" in run_id:
+            return {"available": False}
+        manifest = json.loads(
+            (store / "runs" / run_id / "manifest.json").read_text(encoding="utf-8")
+        )
+    except (OSError, TypeError, ValueError):
+        return {"available": False}
+
+    failure_counts: Counter[str] = Counter()
+    failures = manifest.get("failures", [])
+    if isinstance(failures, list):
+        for failure in failures:
+            if failure == "root-identity-changed-during-scan":
+                failure_counts["root-identity-change"] += 1
+            elif failure == "git-status-changed-during-scan":
+                failure_counts["git-status-change"] += 1
+            elif isinstance(failure, str) and ":stat:" in failure:
+                failure_counts["file-stat-error"] += 1
+            else:
+                failure_counts["other-failure"] += 1
+
+    scan = manifest.get("scan", {})
+    scope = scan.get("scope") if isinstance(scan, dict) else None
+    if scope not in {"all-working-tree-files", "explicit-file-allowlist"}:
+        scope = "unknown"
+    counts = manifest.get("counts", {})
+    errors = counts.get("errors") if isinstance(counts, dict) else None
+    git = manifest.get("git", {})
+    stable = git.get("stable_during_scan") if isinstance(git, dict) else None
+    if stable not in (True, False, None):
+        stable = "unknown"
+    return {
+        "available": True,
+        "status": manifest.get("status", "unknown"),
+        "scope": scope,
+        "errors": errors if isinstance(errors, int) else "unknown",
+        "failure_reasons": dict(sorted(failure_counts.items())),
+        "git_stable_during_scan": stable,
+    }
+
+
 def test_supported_scan_maps_and_queries_a_committed_python_repository(tmp_path: Path) -> None:
     repository = tmp_path / "source repository"
     repository.mkdir()
@@ -57,13 +104,17 @@ def test_supported_scan_maps_and_queries_a_committed_python_repository(tmp_path:
 
     inventory_store = tmp_path / "private inventory"
     mapper_store = tmp_path / "private maps"
-    inventory = _cli(
-        "navigation-refresh",
-        "--root",
-        str(repository),
-        "--store",
-        str(inventory_store),
-    )
+    try:
+        inventory = _cli(
+            "navigation-refresh",
+            "--root",
+            str(repository),
+            "--store",
+            str(inventory_store),
+        )
+    except AssertionError as exc:
+        diagnostic = json.dumps(_navigation_diagnostic(inventory_store), sort_keys=True)
+        raise AssertionError(f"{exc}\nNavigation scan diagnostic: {diagnostic}") from None
     assert json.loads(inventory)["status"] == "CURRENT"
 
     mapped = _cli(
