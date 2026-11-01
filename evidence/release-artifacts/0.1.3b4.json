@@ -6191,5 +6191,52 @@
     "head_sha": "72a1870d0b2d0d1e877af9c63fd6cb0dce0a890f",
     "hosted_test_results": false,
     "observed_at_utc": "2026-10-31T13:16:39Z"
+  },
+  "current_artifact_install_canaries_bafb71f_20261101": {
+    "recorded_at_utc": "2026-11-01T22:53:26Z",
+    "source": {
+      "host": "ArtVault",
+      "canonical_path": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "artifact_source_commit": "bafb71f6a2ca06d631de36c3bc161c67741362e6",
+      "current_evidence_commit": "04193020d86d04df966eba197f3ea434af672a27",
+      "package_inputs_unchanged_since_artifact_build": true
+    },
+    "platform": {
+      "os": "Linux x86_64",
+      "python": "CPython 3.12.3",
+      "runtime_dependencies": "provided by the existing ArtVault environment"
+    },
+    "wheel": {
+      "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+      "sha256": "08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe",
+      "install": "pip install --no-deps --no-index --target",
+      "metadata": "giga-archaeology 0.1.3b4",
+      "import_origin": "verified beneath the temporary install target",
+      "entrypoints": {
+        "giga-archaeologist --help": "PASS",
+        "giga-archaeology --help": "PASS"
+      },
+      "temporary_target_removed_and_absence_verified": true
+    },
+    "sdist": {
+      "filename": "giga_archaeology-0.1.3b4.tar.gz",
+      "sha256": "f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd",
+      "install": "pip install --no-deps --no-build-isolation --no-index --target",
+      "build_backend_network": "isolated with bubblewrap --unshare-net",
+      "metadata": "giga-archaeology 0.1.3b4",
+      "import_origin": "modules.operations.archaeology verified beneath the temporary install target from outside the source checkout",
+      "entrypoints": {
+        "giga-archaeologist --help": "PASS",
+        "giga-archaeology --help": "PASS"
+      },
+      "temporary_target_and_build_area_removed_and_absence_verified": true,
+      "attempt_history": [
+        "Network-isolated installation succeeded; first verifier used the wrong import name and cleanup ran.",
+        "Second verifier used the correct module but ran inside the source checkout, so it resolved the checkout; cleanup ran.",
+        "Final attempt ran outside the checkout, verified installed metadata, module origin and both entrypoints; all passed and cleanup was verified."
+      ]
+    },
+    "scope_limit": "Exact artifact install and CLI smoke checks on ArtVault Linux only. Dependency resolution in a clean environment and native macOS/Windows execution were not covered."
   }
 }
