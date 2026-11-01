@@ -1,9 +1,11 @@
 """End-to-end portability coverage for the supported local mapping path."""
 from __future__ import annotations
 
-import json
 from collections import Counter
+import json
 import os
+import re
+import sqlite3
 import subprocess
 import sys
 from pathlib import Path
@@ -56,22 +58,58 @@ def _navigation_diagnostic(store: Path) -> dict[str, object]:
     except (OSError, TypeError, ValueError):
         return {"available": False}
 
-    failure_counts: Counter[str] = Counter()
+    reason_counts: Counter[tuple[str, int | None]] = Counter()
+    fallback_reason_counts: Counter[tuple[str, int | None]] = Counter()
+
+    def record_error(
+        target: Counter[tuple[str, int | None]], value: object
+    ) -> None:
+        if value == "identity-changed-before-read":
+            target[("identity-changed-before-read", None)] += 1
+        elif value == "changed-during-read":
+            target[("changed-during-read", None)] += 1
+        elif isinstance(value, str):
+            match = re.fullmatch(r"(read|readlink|stat):([0-9]+)", value)
+            if match:
+                target[(match.group(1), int(match.group(2)))] += 1
+            else:
+                stat_match = re.search(r":stat:([0-9]+)$", value)
+                if stat_match:
+                    target[("stat", int(stat_match.group(1)))] += 1
+                else:
+                    target[("other", None)] += 1
+        else:
+            target[("other", None)] += 1
+
     failures = manifest.get("failures", [])
     if isinstance(failures, list):
         for failure in failures:
-            if failure == "root-identity-changed-during-scan":
-                failure_counts["root-identity-change"] += 1
-            elif failure == "git-status-changed-during-scan":
-                failure_counts["git-status-change"] += 1
-            elif isinstance(failure, str) and ":stat:" in failure:
-                failure_counts["file-stat-error"] += 1
-            else:
-                failure_counts["other-failure"] += 1
+            record_error(fallback_reason_counts, failure)
+
+    scan_errors_available = False
+    database = store / "runs" / run_id / "inventory.sqlite3"
+    try:
+        connection = sqlite3.connect(database.as_uri() + "?mode=ro", uri=True)
+        try:
+            rows = connection.execute(
+                "SELECT scan_error FROM files WHERE scan_error IS NOT NULL"
+            ).fetchall()
+        finally:
+            connection.close()
+        for (scan_error,) in rows:
+            record_error(reason_counts, scan_error)
+        scan_errors_available = True
+    except (OSError, sqlite3.Error, TypeError, ValueError):
+        pass
+    if not scan_errors_available:
+        reason_counts = fallback_reason_counts
 
     scan = manifest.get("scan", {})
     scope = scan.get("scope") if isinstance(scan, dict) else None
-    if scope not in {"all-working-tree-files", "explicit-file-allowlist"}:
+    if not isinstance(scope, str) or scope not in {
+        "all-working-tree-files",
+        "explicit-file-allowlist",
+    }:
         scope = "unknown"
     counts = manifest.get("counts", {})
     errors = counts.get("errors") if isinstance(counts, dict) else None
@@ -79,12 +117,21 @@ def _navigation_diagnostic(store: Path) -> dict[str, object]:
     stable = git.get("stable_during_scan") if isinstance(git, dict) else None
     if stable not in (True, False, None):
         stable = "unknown"
+    status = manifest.get("status")
+    if status not in {"CURRENT", "PARTIAL"}:
+        status = "unknown"
     return {
         "available": True,
-        "status": manifest.get("status", "unknown"),
+        "status": status,
         "scope": scope,
-        "errors": errors if isinstance(errors, int) else "unknown",
-        "failure_reasons": dict(sorted(failure_counts.items())),
+        "errors": errors if isinstance(errors, int) and not isinstance(errors, bool) else "unknown",
+        "failure_reasons": [
+            {"category": category, "errno": errno, "count": count}
+            for (category, errno), count in sorted(
+                reason_counts.items(), key=lambda item: (item[0][0], item[0][1] or -1)
+            )
+        ],
+        "scan_errors_available": scan_errors_available,
         "git_stable_during_scan": stable,
     }
 
