@@ -6558,4 +6558,42 @@
     },
     "canary_scope_note": "No install canary was run. Each artifact requires approval tied to its exact hash."
   }
+,
+  "hosted_ci_run_41380822543": {
+    "recorded_at_utc": "2026-11-02T03:12:27Z",
+    "run_id": 41380822543,
+    "run_url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41380822543",
+    "tested_commit": "9df2def1924acfdb0ba5bb26031f171ee57ebbf2",
+    "terminal_status": "COMPLETED_SUCCESS",
+    "jobs": {
+      "total": 12,
+      "success": 12,
+      "failure": 0
+    },
+    "matrix": "Ubuntu and macOS Python 3.11–3.14 full suites; Windows Python 3.11–3.14 lock-error and supported-scan checks.",
+    "windows_python_3_12_packaging_steps": {
+      "build_wheel_and_sdist": "PASS",
+      "wheel_install_smoke_pip_check_cli_help": "PASS",
+      "wheel_supported_scan": "PASS",
+      "sdist_install_smoke_pip_check_cli_help": "PASS",
+      "sdist_supported_scan": "PASS"
+    },
+    "privacy_log_scan": {
+      "source": "Decoded text for every GitHub Actions workflow job log.",
+      "jobs_scanned": 12,
+      "characters_scanned": 542065,
+      "matches": {
+        "email": 0,
+        "account_identity": 0,
+        "nonstandard_home_path_component": 0,
+        "standard_runner_home_path": 263,
+        "unix_runner_home_path": 259,
+        "windows_runner_home_path": 4,
+        "token": 0,
+        "private_key_marker": 0
+      },
+      "limitation": "Bounded pattern screen only; it does not establish absence of every personal-data type or undiscovered secret."
+    },
+    "correction": "An earlier in-progress privacy observation in current_artifact_build_20261102_final6 scanned only the log-tool response wrapper, not decoded log text. Its zero counts are invalid and must not be treated as evidence. This complete decoded 12-job scan supersedes that observation for run 41380822543. The earlier entry remains unchanged."
+  }
 }
