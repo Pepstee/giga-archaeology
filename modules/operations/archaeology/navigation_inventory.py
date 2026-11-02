@@ -1123,7 +1123,11 @@ def refresh_navigation_inventory(
         for relative, entry in entries:
             counters["files"] += 1
             try:
-                metadata = entry.stat(follow_symlinks=False)
+                metadata = (
+                    os.stat(entry.path, follow_symlinks=False)
+                    if os.name == "nt"
+                    else entry.stat(follow_symlinks=False)
+                )
                 kind = _kind(metadata.st_mode)
                 eligible, reason = _semantic_disposition(
                     relative, kind, metadata.st_size, policy
