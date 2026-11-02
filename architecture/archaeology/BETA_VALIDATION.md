@@ -651,3 +651,23 @@ These package checks apply to the artifacts built in that GitHub workflow. They 
 separately built ArtVault release artifacts. Exact artifact hashes and ArtVault canary status are
 maintained in the existing release evidence ledger; canaries apply only to the exact bytes tested.
 No public package or GitHub release has been made.
+
+## 2026-11-02 — current Windows fix and runner admission
+
+Commit `7c359b8dff3f721d3ba43b06b42129a3f8fc3fc6` contains the Windows filesystem-identity
+SQLite fix. The focused ArtVault suite for `test_windows_supported_path.py`,
+`test_navigation_inventory.py`, and `test_archaeology_mapper.py` passed **59 tests**. This is
+targeted local evidence, not a full-suite result.
+
+GitHub Actions run [41385898165](https://github.com/Pepstee/giga-archaeology/actions/runs/41385898165)
+tested this commit. Both attempts ended with all 12 matrix jobs failing. On attempt 2, the job
+records had empty runner names and no steps; each job completed within seconds. The log endpoint
+returned `404 BlobNotFound`, and the run had no uploaded artifacts. GitHub blocked runner startup before any test step; no code-level result is available.
+
+The previously canaried source archive SHA-256
+`f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd` is historical and is not
+available in the current ArtVault artifact locations. The current ArtVault sdist SHA-256 is
+`4b68815dbe5372a13f0079fa6793625b8640e89b84480bb533014e7bd808417d`; it has not received an
+authorized exact-hash install canary and is not cleared for release. Earlier canary evidence
+remains scoped to its recorded bytes. No build, full-suite run, macOS/Windows artifact install,
+public package, or GitHub release is verified by this entry.

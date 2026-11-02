@@ -18,6 +18,8 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 
 An earlier Windows run, [41369814990](https://github.com/Pepstee/giga-archaeology/actions/runs/41369814990), failed on Python 3.12 and 3.13 with SQLite integer overflow during metadata insertion. It did not reproduce in run [41371777892](https://github.com/Pepstee/giga-archaeology/actions/runs/41371777892); the cause remains unconfirmed. Separately, wheel SHA-256 08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe and source archive SHA-256 f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd from the October 31 documentation snapshot passed limited ArtVault Linux CPython 3.12.3 install canaries. The sdist backend ran without network access; dependencies came from the existing ArtVault environment. These exact artifacts predate this documentation update and do not verify clean-environment dependency resolution. Older build and canary records are preserved in BETA_VALIDATION.md and the release evidence ledger.
 
+The latest Actions run [41385898165](https://github.com/Pepstee/giga-archaeology/actions/runs/41385898165) tested the current Windows metadata fix, commit `7c359b8dff3f721d3ba43b06b42129a3f8fc3fc6`. All 12 jobs failed before hosted test steps ran. The retry reported no runner names or steps, and its logs and artifacts were unavailable. A focused local suite passed 59 tests; that is not a full-suite result. The current ArtVault source archive still needs an exact-hash install canary; the October 31 canary record applies only to its historical artifact.
+
 ## Install from a source checkout
 
 Python 3.11+ and Git are required. No package has been published to PyPI. Once the GitHub
