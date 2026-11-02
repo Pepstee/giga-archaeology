@@ -15,8 +15,66 @@ from .cleanup_map import extract_python_structural_fingerprints
 from .evidence import canonical_bytes, sha256_bytes
 
 
+_SOURCE_SNAPSHOT_STAGES = frozenset(
+    {
+        "inventory-vs-lstat",
+        "inventory-vs-fstat-before",
+        "fstat-before-vs-after",
+    }
+)
+_SOURCE_SNAPSHOT_FIELDS = frozenset(
+    {
+        "st_dev",
+        "st_ino",
+        "st_size",
+        "st_mtime_ns",
+        "st_ctime_ns",
+        "st_mode",
+        "st_uid",
+        "st_gid",
+        "st_nlink",
+    }
+)
+
+
 class PythonMapError(ValueError):
     """Python facts cannot be extracted without drifting from inventory evidence."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        diagnostic_stage: str | None = None,
+        diagnostic_fields: Iterable[str] = (),
+    ) -> None:
+        super().__init__(message)
+        self.diagnostic_stage = (
+            diagnostic_stage if diagnostic_stage in _SOURCE_SNAPSHOT_STAGES else None
+        )
+        self.diagnostic_fields = tuple(
+            field
+            for field in (
+                "st_dev",
+                "st_ino",
+                "st_size",
+                "st_mtime_ns",
+                "st_ctime_ns",
+                "st_mode",
+                "st_uid",
+                "st_gid",
+                "st_nlink",
+            )
+            if field in _SOURCE_SNAPSHOT_FIELDS and field in set(diagnostic_fields)
+        )
+
+    def safe_diagnostic(self) -> dict[str, Any]:
+        """Expose only allowlisted stage and field names, never exception text."""
+        if self.diagnostic_stage is None or not self.diagnostic_fields:
+            return {}
+        return {
+            "snapshot_mismatch_stage": self.diagnostic_stage,
+            "snapshot_mismatch_fields": list(self.diagnostic_fields),
+        }
 
 
 @dataclass(frozen=True)
@@ -118,6 +176,31 @@ def _source_snapshot_identity(
     return tuple(fields)
 
 
+def _source_snapshot_field_names(*, platform: str | None = None) -> tuple[str, ...]:
+    platform = os.name if platform is None else platform
+    fields = ["st_dev", "st_ino", "st_size", "st_mtime_ns"]
+    if platform != "nt":
+        fields.append("st_ctime_ns")
+    fields.extend(("st_mode", "st_uid", "st_gid", "st_nlink"))
+    return tuple(fields)
+
+
+def _source_snapshot_mismatch_fields(
+    actual: tuple[int, ...],
+    expected: tuple[int, ...],
+    *,
+    platform: str | None = None,
+) -> tuple[str, ...]:
+    names = _source_snapshot_field_names(platform=platform)
+    return tuple(
+        name
+        for name, actual_value, expected_value in zip(
+            names, actual, expected, strict=True
+        )
+        if actual_value != expected_value
+    )
+
+
 def read_exact_artifact(root: Path, record: Mapping[str, Any]) -> bytes:
     """Read an inventory-bound regular artifact with stable identity checks."""
 
@@ -147,8 +230,24 @@ def read_exact_artifact(root: Path, record: Mapping[str, Any]) -> bytes:
     descriptor = open_scoped_regular(root, relative)
     try:
         opened = os.fstat(descriptor)
-        if identity(before) != expected or identity(opened) != expected:
-            raise PythonMapError(f"Python source drifted before read: {relative}")
+        before_identity = identity(before)
+        opened_identity = identity(opened)
+        if before_identity != expected:
+            raise PythonMapError(
+                f"Python source drifted before read: {relative}",
+                diagnostic_stage="inventory-vs-lstat",
+                diagnostic_fields=_source_snapshot_mismatch_fields(
+                    before_identity, expected
+                ),
+            )
+        if opened_identity != expected:
+            raise PythonMapError(
+                f"Python source drifted before read: {relative}",
+                diagnostic_stage="inventory-vs-fstat-before",
+                diagnostic_fields=_source_snapshot_mismatch_fields(
+                    opened_identity, expected
+                ),
+            )
         digest = hashlib.sha256()
         chunks: list[bytes] = []
         while chunk := os.read(descriptor, 1024 * 1024):
@@ -157,8 +256,15 @@ def read_exact_artifact(root: Path, record: Mapping[str, Any]) -> bytes:
         after = os.fstat(descriptor)
     finally:
         os.close(descriptor)
-    if identity(after) != expected:
-        raise PythonMapError(f"Python source changed during read: {relative}")
+    after_identity = identity(after)
+    if after_identity != expected:
+        raise PythonMapError(
+            f"Python source changed during read: {relative}",
+            diagnostic_stage="fstat-before-vs-after",
+            diagnostic_fields=_source_snapshot_mismatch_fields(
+                opened_identity, after_identity
+            ),
+        )
     content = b"".join(chunks)
     if digest.hexdigest() != record.get("content_sha256"):
         raise PythonMapError(f"Python source hash drifted from inventory: {relative}")

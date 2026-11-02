@@ -1167,13 +1167,15 @@ def _extract_python_fragments_incremental(
     def source_failure(
         path: str, exc: PythonMapError, maps: Sequence[str]
     ) -> dict[str, Any]:
-        return {
+        failure = {
             "path": path,
             "status": "FAILED_SOURCE_SNAPSHOT",
             "error_class": type(exc).__name__,
             "error_sha256": sha256_bytes(str(exc).encode("utf-8", "replace")),
             "maps": list(maps),
         }
+        failure.update(exc.safe_diagnostic())
+        return failure
 
     for record in inputs.python_records:
         path = record["path"]

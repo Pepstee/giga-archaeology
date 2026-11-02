@@ -10,6 +10,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from modules.operations.archaeology.python_map import PythonMapError
+
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 
@@ -87,6 +89,96 @@ def _summarize_scan_errors(values: list[object]) -> list[dict[str, object]]:
             ),
         )
     ]
+
+
+def _mapper_source_diagnostic(store: Path) -> dict[str, object]:
+    """Return only pathless mismatch stages and allowlisted field names."""
+    try:
+        pointer = json.loads((store / "CURRENT.json").read_text(encoding="utf-8"))
+        run_id = pointer.get("run_id")
+        if not isinstance(run_id, str) or not run_id or "/" in run_id or "\\" in run_id:
+            return {"available": False}
+        run_directory = store / "runs" / run_id
+        manifest = json.loads(
+            (run_directory / "manifest.json").read_text(encoding="utf-8")
+        )
+        database_name = manifest.get("database", {}).get("path")
+        if database_name != "facts.sqlite3":
+            return {"available": False}
+        connection = sqlite3.connect(
+            (run_directory / database_name).as_uri() + "?mode=ro", uri=True
+        )
+        try:
+            rows = connection.execute(
+                "SELECT payload_json FROM python_fragments"
+            ).fetchall()
+        finally:
+            connection.close()
+    except (OSError, sqlite3.Error, TypeError, ValueError):
+        return {"available": False}
+
+    allowed_stages = {
+        "inventory-vs-lstat",
+        "inventory-vs-fstat-before",
+        "fstat-before-vs-after",
+    }
+    allowed_fields = {
+        "st_dev",
+        "st_ino",
+        "st_size",
+        "st_mtime_ns",
+        "st_ctime_ns",
+        "st_mode",
+        "st_uid",
+        "st_gid",
+        "st_nlink",
+    }
+    counts: Counter[tuple[str, str]] = Counter()
+    failures = 0
+    for (payload_json,) in rows:
+        try:
+            payload = json.loads(payload_json)
+        except (TypeError, ValueError):
+            continue
+        failure = payload.get("failure") if isinstance(payload, dict) else None
+        if (
+            not isinstance(failure, dict)
+            or failure.get("status") != "FAILED_SOURCE_SNAPSHOT"
+        ):
+            continue
+        failures += 1
+        stage = failure.get("snapshot_mismatch_stage")
+        fields = failure.get("snapshot_mismatch_fields")
+        if stage not in allowed_stages or not isinstance(fields, list):
+            continue
+        for field in set(fields):
+            if field in allowed_fields:
+                counts[(stage, field)] += 1
+    return {
+        "available": True,
+        "source_snapshot_failures": failures,
+        "mismatches": [
+            {"stage": stage, "field": field, "count": count}
+            for (stage, field), count in sorted(counts.items())
+        ],
+    }
+
+
+def test_python_snapshot_diagnostic_is_pathless_and_allowlisted() -> None:
+    error = PythonMapError(
+        "C:\\Users\\private\\sample.py secret=value",
+        diagnostic_stage="inventory-vs-lstat",
+        diagnostic_fields=("st_dev", "st_ino", "C:\\private", "st_size:42"),
+    )
+    diagnostic = error.safe_diagnostic()
+    assert diagnostic == {
+        "snapshot_mismatch_stage": "inventory-vs-lstat",
+        "snapshot_mismatch_fields": ["st_dev", "st_ino"],
+    }
+    serialized = json.dumps(diagnostic)
+    assert "C:\\Users" not in serialized
+    assert "secret=value" not in serialized
+    assert "42" not in serialized
 
 
 def _navigation_diagnostic(store: Path) -> dict[str, object]:
@@ -210,14 +302,22 @@ def test_supported_scan_maps_and_queries_a_committed_python_repository(tmp_path:
         raise AssertionError(f"{exc}\nNavigation scan diagnostic: {diagnostic}") from None
     assert json.loads(inventory)["status"] == "CURRENT"
 
-    mapped = _cli(
-        "mapper-refresh",
-        "--inventory-store",
-        str(inventory_store),
-        "--mapper-store",
-        str(mapper_store),
-    )
-    assert json.loads(mapped)["status"] == "CURRENT"
+    try:
+        mapped = _cli(
+            "mapper-refresh",
+            "--inventory-store",
+            str(inventory_store),
+            "--mapper-store",
+            str(mapper_store),
+        )
+        assert json.loads(mapped)["status"] == "CURRENT"
+    except (AssertionError, TypeError, ValueError):
+        diagnostic = json.dumps(
+            _mapper_source_diagnostic(mapper_store), sort_keys=True
+        )
+        raise AssertionError(
+            f"mapper refresh was not CURRENT; pathless diagnostic: {diagnostic}"
+        ) from None
 
     query = _cli(
         "mapper-query",
