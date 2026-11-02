@@ -6498,4 +6498,64 @@
     "standard_runner_home_path_matches": 264,
     "limitation": "Pattern screen only; does not cover older workflow logs, artifact contents, account/profile data, discussions, or every type of personal data."
   }
+,
+  "current_artifact_build_20261102_final6": {
+    "status": "STATIC_INSPECTION_PASS_CANARIES_PENDING_EXACT_HASH_APPROVAL",
+    "built_at_utc": "2026-11-02T03:09:02Z",
+    "source_commit": "9df2def1924acfdb0ba5bb26031f171ee57ebbf2",
+    "source_tree": "909c6e6c09ec1763062992662cfd0d646bfbbfae",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1; bubblewrap network namespace disabled",
+    "output_directory": "/var/tmp/giga-archaeology-release-build-20261102-final6",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "39bb20b73b993164ea570a4a52029e76fb7594e9c49e52acd668623caf3f2009",
+        "bytes": 403205,
+        "members": 48,
+        "canary": "PENDING_EXACT_HASH_USER_APPROVAL"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "956a632e1afe5158802ed34a4976cc1f98c8e7f85c5cf20b03cc4138bd3bbe79",
+        "bytes": 371326,
+        "members": 47,
+        "canary": "PENDING_EXACT_HASH_USER_APPROVAL"
+      }
+    ],
+    "archive_inspection": {
+      "wheel_crc": "PASS",
+      "sdist_member_paths": "PASS_NO_ABSOLUTE_OR_PARENT_TRAVERSAL",
+      "metadata": "PASS_NAME_VERSION_REQUIRES_PYTHON_AND_ENTRY_POINTS",
+      "embedded_readme_beta": "PASS_BYTE_MATCH_CURRENT_SOURCE",
+      "license_and_third_party_notices": "PRESENT_IN_BOTH_ARCHIVES",
+      "quickstart": "PRESENT_IN_SDIST_NOT_WHEEL_AS_DOCUMENTED",
+      "twin_core": "EXCLUDED_FROM_BOTH",
+      "archives_extracted": false,
+      "archive_code_executed": false
+    },
+    "static_privacy_screen": {
+      "email_shaped_matches": 0,
+      "home_path_matches": 0,
+      "token_matches": 0,
+      "private_key_markers": 0,
+      "limitation": "Bounded pattern screen only; not a general personal-data or secret-detection guarantee."
+    },
+    "ci_observation_at_record_time": {
+      "run_id": 41380822543,
+      "head": "9df2def1924acfdb0ba5bb26031f171ee57ebbf2",
+      "status": "IN_PROGRESS",
+      "successful_jobs": 9,
+      "running_jobs": 2,
+      "queued_jobs": 1,
+      "failed_jobs": 0,
+      "bounded_log_scan_completed_jobs": 9,
+      "email_home_identity_token_private_key_matches": 0,
+      "limitation": "Point-in-time observation; remaining three job logs were not yet available."
+    },
+    "canary_scope_note": "No install canary was run. Each artifact requires approval tied to its exact hash."
+  }
 }
