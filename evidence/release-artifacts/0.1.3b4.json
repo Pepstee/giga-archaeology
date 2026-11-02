@@ -6596,4 +6596,54 @@
     },
     "correction": "An earlier in-progress privacy observation in current_artifact_build_20261102_final6 scanned only the log-tool response wrapper, not decoded log text. Its zero counts are invalid and must not be treated as evidence. This complete decoded 12-job scan supersedes that observation for run 41380822543. The earlier entry remains unchanged."
   }
+,
+  "current_artifact_build_20261102_final7": {
+    "status": "STATIC_INSPECTION_PASS_CANARIES_PENDING_EXACT_HASH_APPROVAL",
+    "built_at_utc": "2026-11-02T03:20:02Z",
+    "source_commit": "3d55310d8366723925386ce4c5610f271f22308b",
+    "source_tree": "98f1812bfcdb5bf5a62bd45c58b24b60f80c3fd3",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1; bubblewrap --unshare-net",
+    "output_directory": "/var/tmp/giga-archaeology-release-build-20261102-final7",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "2b910bd43110f74d72c2fca0b0e8ecf09a9e124675a449fbae0bf3b68a6521a3",
+        "bytes": 402998,
+        "members": 48,
+        "canary": "PENDING_EXACT_HASH_USER_APPROVAL"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "c47b85ecb90afa86f9626a4ee7707ca631cbbaaae3978ba153a5d1e0104c6e4d",
+        "bytes": 371072,
+        "members": 47,
+        "canary": "PENDING_EXACT_HASH_USER_APPROVAL"
+      }
+    ],
+    "archive_inspection": {
+      "wheel_crc": "PASS",
+      "safe_archive_paths": "PASS",
+      "metadata": "PASS_NAME_VERSION_REQUIRES_PYTHON_AND_ENTRY_POINTS",
+      "embedded_documentation": "README_CHANGELOG_BETA_BYTE_MATCH_CURRENT_SOURCE",
+      "license_and_third_party_notices": "PRESENT_IN_BOTH_ARCHIVES",
+      "quickstart": "PRESENT_IN_SDIST_NOT_WHEEL_AS_DOCUMENTED",
+      "twin_core": "EXCLUDED_FROM_BOTH",
+      "archives_extracted": false,
+      "artifacts_installed_or_executed": false
+    },
+    "static_privacy_screen": {
+      "email_shaped_matches": 0,
+      "unix_home_path_matches": 0,
+      "windows_home_path_matches": 0,
+      "account_identity_matches": 0,
+      "token_matches": 0,
+      "private_key_markers": 0,
+      "limitation": "Bounded pattern screen only; not a general personal-data or secret-detection guarantee."
+    },
+    "canary_scope_note": "No install canary was run. Each artifact requires approval tied to its exact hash."
+  }
 }
