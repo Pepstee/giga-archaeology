@@ -7,19 +7,67 @@ import json
 import os
 import re
 import sqlite3
+import stat
 import subprocess
 import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+from modules.operations.archaeology.mapper import _inventory_record
 from modules.operations.archaeology.navigation_inventory import (
+    _configure_database,
+    _execute_metadata_insert,
     _metadata_overflow_columns,
+    _previous_hash,
+    _selected_paths_match_inventory,
+    _sqlite_identity_text,
     _stable_hash,
 )
 from modules.operations.archaeology.python_map import PythonMapError
 
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
+
+
+def _insert_inventory_file(
+    connection: sqlite3.Connection,
+    relative: str,
+    metadata: os.stat_result | SimpleNamespace,
+    content_sha256: str,
+) -> None:
+    device, inode = _sqlite_identity_text(metadata)
+    _execute_metadata_insert(
+        connection,
+        """INSERT INTO files (
+            path,kind,size_bytes,mtime_ns,ctime_ns,mode,uid,gid,device,inode,nlink,
+            content_sha256,hash_status,git_status,git_tracked,git_blob_oid,suffix,
+            media_type,semantic_eligible,semantic_reason,scan_error
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+        (
+            relative,
+            "regular",
+            metadata.st_size,
+            metadata.st_mtime_ns,
+            metadata.st_ctime_ns,
+            stat.S_IMODE(metadata.st_mode),
+            metadata.st_uid,
+            metadata.st_gid,
+            device,
+            inode,
+            metadata.st_nlink,
+            content_sha256,
+            "hashed",
+            "  ",
+            1,
+            "fixture-blob",
+            ".py",
+            "text/x-python",
+            1,
+            "eligible-local-only",
+            None,
+        ),
+        metadata,
+    )
 
 
 def _git(repository: Path, *arguments: str) -> None:
@@ -227,18 +275,85 @@ def test_navigation_hash_preserves_crlf_bytes(tmp_path: Path) -> None:
     assert digest == hashlib.sha256(content).hexdigest()
 
 
-def test_sqlite_metadata_overflow_diagnostic_is_pathless_and_allowlisted() -> None:
+def test_filesystem_identity_round_trips_through_sqlite_as_decimal_text() -> None:
     metadata = SimpleNamespace(
         st_size=1, st_mtime_ns=2, st_ctime_ns=3, st_mode=0o100644,
-        st_uid=4, st_gid=5, st_dev=6, st_ino=1 << 63, st_nlink=1,
+        st_uid=4, st_gid=5, st_dev=1 << 80, st_ino=1 << 96, st_nlink=1,
     )
-    assert _metadata_overflow_columns(metadata) == ["inode"]
+    connection = sqlite3.connect(":memory:")
+    try:
+        _configure_database(connection)
+        _insert_inventory_file(connection, "sample.py", metadata, "a" * 64)
+        stored = connection.execute(
+            "SELECT typeof(device),device,typeof(inode),inode FROM files"
+        ).fetchone()
+        assert stored == (
+            "text", str(metadata.st_dev), "text", str(metadata.st_ino)
+        )
+        normalized = _inventory_record({"device": stored[1], "inode": stored[3]})
+        assert normalized == {"device": metadata.st_dev, "inode": metadata.st_ino}
+        assert type(normalized["device"]) is int
+        assert type(normalized["inode"]) is int
+    finally:
+        connection.close()
+
+
+def test_previous_inventory_hash_reuse_accepts_text_and_legacy_identity() -> None:
+    metadata = SimpleNamespace(
+        st_dev=1 << 80, st_ino=1 << 96, st_size=7, st_mtime_ns=8,
+        st_ctime_ns=9, st_mode=0o100644,
+    )
+    prefix = ("d" * 64, "hashed")
+    suffix = (7, 8, 9, 0o644, "regular", "  ")
+    identities = (
+        (str(metadata.st_dev), str(metadata.st_ino)),
+        (metadata.st_dev, metadata.st_ino),
+    )
+    for identity in identities:
+        records = {"sample.py": (*prefix, *identity, *suffix)}
+        assert _previous_hash(
+            records, "sample.py", metadata, "regular"
+        ) == ("d" * 64, "  ")
+
+
+def test_consultation_reader_normalizes_text_identity_and_fails_closed(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "sample.py"
+    source.write_bytes(b"def sample(): pass\n")
+    metadata = source.lstat()
+    digest, error = _stable_hash(source, metadata)
+    assert error is None
+    assert digest is not None
+    connection = sqlite3.connect(":memory:")
+    try:
+        _configure_database(connection)
+        _insert_inventory_file(connection, source.name, metadata, digest)
+        assert _selected_paths_match_inventory(
+            connection, source.parent, (source.name,)
+        )
+        connection.execute(
+            "UPDATE files SET device=? WHERE path=?", ("invalid", source.name)
+        )
+        assert not _selected_paths_match_inventory(
+            connection, source.parent, (source.name,)
+        )
+    finally:
+        connection.close()
+
+
+def test_sqlite_metadata_overflow_diagnostic_is_pathless_and_allowlisted() -> None:
+    metadata = SimpleNamespace(
+        st_size=1 << 63, st_mtime_ns=2, st_ctime_ns=3, st_mode=0o100644,
+        st_uid=4, st_gid=5, st_dev=1 << 70, st_ino=1 << 80, st_nlink=1,
+    )
+    assert _metadata_overflow_columns(metadata) == ["size_bytes"]
     stderr = (
         "Traceback: C:\\Users\\private\\secret.txt value=9223372036854775808\n"
-        "OverflowError: ARCHAEOLOGY_SQLITE_INTEGER_OVERFLOW:columns=inode"
+        "OverflowError: ARCHAEOLOGY_SQLITE_INTEGER_OVERFLOW:columns=size_bytes"
     )
     columns = _pathless_metadata_overflow_columns(stderr)
-    assert columns == ["inode"]
+    assert columns == ["size_bytes"]
     assert "C:\\Users" not in json.dumps(columns)
     assert "9223372036854775808" not in json.dumps(columns)
 

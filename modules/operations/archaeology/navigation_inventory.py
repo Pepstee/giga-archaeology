@@ -47,7 +47,7 @@ from .os_support import (
 NAVIGATION_SCHEMA = "giga.navigation.inventory-manifest.v2"
 POINTER_SCHEMA = "giga.navigation.current-pointer.v1"
 LOCATE_SCHEMA = "giga.navigation.locate-result.v1"
-DATABASE_SCHEMA = 2
+DATABASE_SCHEMA = 3
 CONTROL_EXCLUSIONS = (".git",)
 
 SEMANTIC_SUFFIXES = frozenset(
@@ -230,9 +230,16 @@ _SQLITE_METADATA_FIELDS = (
 )
 
 
+def _sqlite_identity_text(metadata: os.stat_result) -> tuple[str, str]:
+    """Return device and inode as exact decimal text for SQLite."""
+    return str(metadata.st_dev), str(metadata.st_ino)
+
+
 def _metadata_overflow_columns(metadata: os.stat_result) -> list[str]:
     columns = []
     for column, attribute in _SQLITE_METADATA_FIELDS:
+        if column in {"device", "inode"}:
+            continue
         value = (
             stat.S_IMODE(metadata.st_mode)
             if column == "mode"
@@ -677,8 +684,8 @@ def _configure_database(connection: sqlite3.Connection) -> None:
             mode INTEGER NOT NULL,
             uid INTEGER NOT NULL,
             gid INTEGER NOT NULL,
-            device INTEGER NOT NULL,
-            inode INTEGER NOT NULL,
+            device TEXT NOT NULL,
+            inode TEXT NOT NULL,
             nlink INTEGER NOT NULL,
             content_sha256 TEXT,
             hash_status TEXT NOT NULL,
@@ -810,7 +817,11 @@ def _previous_hash(
         stat.S_IMODE(metadata.st_mode),
         kind,
     )
-    if tuple(row[2:9]) != expected:
+    try:
+        stored_identity = (int(row[2]), int(row[3]), *row[4:9])
+    except (TypeError, ValueError):
+        return None, None
+    if stored_identity != expected:
         return None, None
     return row[0], row[9]
 
@@ -956,7 +967,11 @@ def _selected_paths_match_inventory(
             metadata.st_ino,
             metadata.st_nlink,
         )
-        if observed != tuple(row[:10]):
+        try:
+            stored = (*row[:7], int(row[7]), int(row[8]), row[9])
+        except (TypeError, ValueError):
+            return False
+        if observed != stored:
             return False
         content_sha256, error = _stable_hash(live, metadata)
         if error is not None:
@@ -1023,8 +1038,7 @@ def _insert_live_path(
             stat.S_IMODE(metadata.st_mode),
             metadata.st_uid,
             metadata.st_gid,
-            metadata.st_dev,
-            metadata.st_ino,
+            *_sqlite_identity_text(metadata),
             metadata.st_nlink,
             content_sha,
             hash_status,
@@ -1235,8 +1249,7 @@ def refresh_navigation_inventory(
                         stat.S_IMODE(metadata.st_mode),
                         metadata.st_uid,
                         metadata.st_gid,
-                        metadata.st_dev,
-                        metadata.st_ino,
+                        *_sqlite_identity_text(metadata),
                         metadata.st_nlink,
                         content_sha,
                         hash_status,

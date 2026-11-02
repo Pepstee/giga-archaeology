@@ -119,7 +119,7 @@ MAPPER_SCHEMA = "giga.archaeologist.mapper-manifest.v2"
 MAPPER_POINTER_SCHEMA = "giga.archaeologist.mapper-current-pointer.v1"
 MAPPER_QUERY_SCHEMA = "giga.archaeologist.mapper-query-result.v1"
 MAPPER_AUDIT_SCHEMA = "giga.archaeologist.mapper-audit.v1"
-DATABASE_SCHEMA = 7
+DATABASE_SCHEMA = 8
 SUPPORTED_MAPS = (
     "inventory",
     "structure",
@@ -469,8 +469,8 @@ def _configure_database(connection: sqlite3.Connection) -> None:
             mode INTEGER NOT NULL,
             uid INTEGER NOT NULL,
             gid INTEGER NOT NULL,
-            device INTEGER NOT NULL,
-            inode INTEGER NOT NULL,
+            device TEXT NOT NULL,
+            inode TEXT NOT NULL,
             nlink INTEGER NOT NULL,
             hash_status TEXT NOT NULL,
             git_status TEXT NOT NULL,
@@ -693,6 +693,19 @@ def _compiler_identity() -> dict[str, Any]:
     }
 
 
+def _inventory_record(row: Mapping[str, Any]) -> dict[str, Any]:
+    """Normalize SQLite text identities to exact Python integers."""
+    record = dict(row)
+    for field in ("device", "inode"):
+        if field not in record:
+            continue
+        try:
+            record[field] = int(record[field])
+        except (TypeError, ValueError):
+            raise MapperError("inventory file identity metadata is invalid") from None
+    return record
+
+
 def _source_identity(record: Mapping[str, Any]) -> str:
     stable = dict(record)
     if stable.get("hash_status") in {"hashed", "reused"}:
@@ -910,7 +923,7 @@ def _python_input_set(inventory: NavigationRun, root_key: str) -> PythonInputSet
     inventory_connection = _inventory_connection(inventory)
     try:
         python_records = tuple(
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND semantic_eligible=1
@@ -919,7 +932,7 @@ def _python_input_set(inventory: NavigationRun, root_key: str) -> PythonInputSet
             )
         )
         project_records = tuple(
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND semantic_eligible=1
@@ -928,7 +941,7 @@ def _python_input_set(inventory: NavigationRun, root_key: str) -> PythonInputSet
             )
         )
         safe_records = tuple(
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND semantic_eligible=1
@@ -3465,7 +3478,7 @@ def _build_shell_maps(
     inventory_connection = _inventory_connection(inventory)
     try:
         records = [
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND semantic_eligible=1 AND suffix='.sh'
@@ -4081,7 +4094,7 @@ def _build_javascript_maps(
     try:
         placeholders = ",".join("?" for _ in JAVASCRIPT_SUFFIXES)
         records = [
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 f"""SELECT * FROM files
                     WHERE kind='regular' AND semantic_eligible=1
@@ -5086,7 +5099,7 @@ def _build_cleanup_maps(
     inventory_connection = _inventory_connection(inventory)
     try:
         duplicate_records = [
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND content_sha256 IN (
@@ -5668,7 +5681,7 @@ def _build_lineage_ownership_maps(
     inventory_connection = _inventory_connection(inventory)
     try:
         available_records = [
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND semantic_reason!='sensitive-path'
@@ -6670,7 +6683,7 @@ def _build_governance_maps(
     inventory_connection = _inventory_connection(inventory)
     try:
         records = [
-            dict(row)
+            _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND semantic_eligible=1
@@ -6690,7 +6703,7 @@ def _build_governance_maps(
             )
         }
         reference_target_by_path = {
-            row["path"]: dict(row)
+            row["path"]: _inventory_record(row)
             for row in inventory_connection.execute(
                 """SELECT * FROM files
                    WHERE kind='regular' AND semantic_reason!='sensitive-path'
@@ -11288,7 +11301,7 @@ def query_mapper(
                 ).fetchone()
                 if marker is None:
                     raise MapperError("logical container marker is missing")
-                marker_record = dict(marker)
+                marker_record = _inventory_record(marker)
                 marker_record.pop("id", None)
                 source_identity = _source_identity(marker_record)
             item = {
@@ -11366,7 +11379,7 @@ def query_mapper(
             "SELECT value FROM meta WHERE key='root_key'"
         ).fetchone()[0]
         for row in artifact_rows:
-            record = dict(row)
+            record = _inventory_record(row)
             record.pop("id", None)
             path = record.pop("path")
             source_identity = _source_identity({"path": path, **record})
