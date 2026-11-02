@@ -10,8 +10,12 @@ import sqlite3
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
-from modules.operations.archaeology.navigation_inventory import _stable_hash
+from modules.operations.archaeology.navigation_inventory import (
+    _metadata_overflow_columns,
+    _stable_hash,
+)
 from modules.operations.archaeology.python_map import PythonMapError
 
 
@@ -45,8 +49,43 @@ def _cli(*arguments: str) -> str:
         stderr=subprocess.PIPE,
         text=True,
     )
-    assert result.returncode == 0, result.stderr
+    if result.returncode != 0:
+        columns = _pathless_metadata_overflow_columns(result.stderr)
+        detail = (
+            f"; SQLite integer overflow in metadata columns: {','.join(columns)}"
+            if columns
+            else ""
+        )
+        raise AssertionError(f"CLI failed (exit={result.returncode}){detail}")
     return result.stdout
+
+
+_SQLITE_METADATA_COLUMN_ALLOWLIST = {
+    "size_bytes",
+    "mtime_ns",
+    "ctime_ns",
+    "mode",
+    "uid",
+    "gid",
+    "device",
+    "inode",
+    "nlink",
+}
+
+
+def _pathless_metadata_overflow_columns(stderr: str) -> list[str]:
+    marker = "ARCHAEOLOGY_SQLITE_INTEGER_OVERFLOW:columns="
+    for line in stderr.splitlines():
+        if marker not in line:
+            continue
+        value = line.partition(marker)[2].strip()
+        if not re.fullmatch(r"[a-z_,]*", value):
+            return []
+        columns = value.split(",") if value else []
+        if all(column in _SQLITE_METADATA_COLUMN_ALLOWLIST for column in columns):
+            return sorted(set(columns))
+        return []
+    return []
 
 
 def _summarize_scan_errors(values: list[object]) -> list[dict[str, object]]:
@@ -186,6 +225,22 @@ def test_navigation_hash_preserves_crlf_bytes(tmp_path: Path) -> None:
 
     assert error is None
     assert digest == hashlib.sha256(content).hexdigest()
+
+
+def test_sqlite_metadata_overflow_diagnostic_is_pathless_and_allowlisted() -> None:
+    metadata = SimpleNamespace(
+        st_size=1, st_mtime_ns=2, st_ctime_ns=3, st_mode=0o100644,
+        st_uid=4, st_gid=5, st_dev=6, st_ino=1 << 63, st_nlink=1,
+    )
+    assert _metadata_overflow_columns(metadata) == ["inode"]
+    stderr = (
+        "Traceback: C:\\Users\\private\\secret.txt value=9223372036854775808\n"
+        "OverflowError: ARCHAEOLOGY_SQLITE_INTEGER_OVERFLOW:columns=inode"
+    )
+    columns = _pathless_metadata_overflow_columns(stderr)
+    assert columns == ["inode"]
+    assert "C:\\Users" not in json.dumps(columns)
+    assert "9223372036854775808" not in json.dumps(columns)
 
 
 def test_python_snapshot_diagnostic_is_pathless_and_allowlisted() -> None:

@@ -215,6 +215,53 @@ def _file_sha256(path: Path) -> tuple[str, int]:
             size += len(chunk)
     return digest.hexdigest(), size
 
+_SQLITE_INTEGER_MIN = -(1 << 63)
+_SQLITE_INTEGER_MAX = (1 << 63) - 1
+_SQLITE_METADATA_FIELDS = (
+    ("size_bytes", "st_size"),
+    ("mtime_ns", "st_mtime_ns"),
+    ("ctime_ns", "st_ctime_ns"),
+    ("mode", "st_mode"),
+    ("uid", "st_uid"),
+    ("gid", "st_gid"),
+    ("device", "st_dev"),
+    ("inode", "st_ino"),
+    ("nlink", "st_nlink"),
+)
+
+
+def _metadata_overflow_columns(metadata: os.stat_result) -> list[str]:
+    columns = []
+    for column, attribute in _SQLITE_METADATA_FIELDS:
+        value = (
+            stat.S_IMODE(metadata.st_mode)
+            if column == "mode"
+            else getattr(metadata, attribute, None)
+        )
+        if (
+            isinstance(value, int)
+            and not isinstance(value, bool)
+            and not _SQLITE_INTEGER_MIN <= value <= _SQLITE_INTEGER_MAX
+        ):
+            columns.append(column)
+    return columns
+
+
+def _execute_metadata_insert(
+    executor: Any,
+    statement: str,
+    values: Sequence[Any],
+    metadata: os.stat_result,
+) -> None:
+    try:
+        executor.execute(statement, values)
+    except OverflowError:
+        columns = _metadata_overflow_columns(metadata)
+        diagnostic = (
+            "ARCHAEOLOGY_SQLITE_INTEGER_OVERFLOW:columns=" + ",".join(columns)
+        )
+        raise OverflowError(diagnostic) from None
+
 
 def _stable_root(path: Path) -> tuple[Path, os.stat_result]:
     resolved = path.resolve(strict=True)
@@ -960,7 +1007,8 @@ def _insert_live_path(
             git_status = "  "
         else:
             git_status = "!!" if relative in ignored else "??"
-    connection.execute(
+    _execute_metadata_insert(
+        connection,
         """INSERT INTO files (
             path,kind,size_bytes,mtime_ns,ctime_ns,mode,uid,gid,device,inode,nlink,
             content_sha256,hash_status,git_status,git_tracked,git_blob_oid,suffix,
@@ -989,6 +1037,7 @@ def _insert_live_path(
             reason,
             error,
         ),
+        metadata,
     )
     return hash_status, content_sha
 
@@ -1170,7 +1219,8 @@ def refresh_navigation_inventory(
                     pending_git.append(relative)
                 suffix = PurePosixPath(relative).suffix.casefold()
                 media_type = mimetypes.guess_type(relative, strict=False)[0]
-                insert.execute(
+                _execute_metadata_insert(
+                    insert,
                     """INSERT INTO files (
                         path,kind,size_bytes,mtime_ns,ctime_ns,mode,uid,gid,device,inode,nlink,
                         content_sha256,hash_status,git_status,git_tracked,git_blob_oid,suffix,
@@ -1199,6 +1249,7 @@ def refresh_navigation_inventory(
                         reason,
                         error,
                     ),
+                    metadata,
                 )
             except OSError as exc:
                 counters["errors"] += 1
