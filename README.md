@@ -12,15 +12,17 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 - Queries that return source locations and bounded context with explicit coverage and omissions.
 - Local evidence tied to the inspected repository revision; output stays local until you choose to share it.
 
-## Release status
+## Beta status
 
-0.1.3b4 remains an unpublished developer beta. Hosted GitHub Actions run [41378964879](https://github.com/Pepstee/giga-archaeology/actions/runs/41378964879) passed all 12 jobs on source commit 6f34c97fb6eb98faa548a4600b11faf00be72c7d. The later documentation snapshot, commit 9df2def1924acfdb0ba5bb26031f171ee57ebbf2, also passed all 12 jobs in [run 41380822543](https://github.com/Pepstee/giga-archaeology/actions/runs/41380822543). Ubuntu and macOS full suites passed on Python 3.11 through 3.14; Windows lock-error and supported-scan checks passed on Python 3.11 through 3.14. In both runs, the Windows Python 3.12 job built and installed a wheel and source archive and passed their installed supported-scan checks. These CI package checks apply to artifacts built in those workflows, not separately built ArtVault artifacts. Exact-hash canaries are required for the artifacts selected for distribution. No public package or GitHub release has been made.
+Version 0.1.3b4 is an unpublished developer beta. The latest full source suite passed on Linux
+x86_64 with CPython 3.12.3: 444 passed, 1 skipped, and 2 subtests passed. That run covers Linux
+only. Full macOS and Windows source suites for this release remain unverified.
 
-An earlier Windows run, [41369814990](https://github.com/Pepstee/giga-archaeology/actions/runs/41369814990), failed on Python 3.12 and 3.13 with SQLite integer overflow during metadata insertion. It did not reproduce in run [41371777892](https://github.com/Pepstee/giga-archaeology/actions/runs/41371777892); the cause remains unconfirmed. Separately, wheel SHA-256 08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe and source archive SHA-256 f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd from the October 31 documentation snapshot passed limited ArtVault Linux CPython 3.12.3 install canaries. The sdist backend ran without network access; dependencies came from the existing ArtVault environment. These exact artifacts predate this documentation update and do not verify clean-environment dependency resolution. Older build and canary records are preserved in BETA_VALIDATION.md and the release evidence ledger.
-
-Actions run [41385898165](https://github.com/Pepstee/giga-archaeology/actions/runs/41385898165) tested the current Windows metadata fix, commit `7c359b8dff3f721d3ba43b06b42129a3f8fc3fc6`. All 12 jobs failed before hosted test steps ran. The retry reported no runner names or steps, and its logs and artifacts were unavailable. A focused local suite passed 59 tests; that is not a full-suite result. Each release artifact must pass an install canary against its exact hash; a result for one build does not carry over to a later build. The October 31 canary record applies only to its historical bytes.
-
-On source commit 734a16957fb1b77b829dce031e614bb9bf84c59d, the full local suite passed **444 tests, 1 skipped, and 2 subtests** in 91.21 seconds on ArtVault Linux x86_64 with CPython 3.12.3. This is Linux source-tree evidence; the full macOS and Windows suites remain unverified. GitHub Actions run [41387954350](https://github.com/Pepstee/giga-archaeology/actions/runs/41387954350) targeted the same commit, but all 12 jobs failed before any steps ran. No hosted tests ran, so the run adds no test result.
+The latest GitHub Actions run stopped before any job step, so it produced no hosted test result.
+The current wheel and source archive passed static inspection. Their exact-hash install checks are
+still pending. See [beta validation](architecture/archaeology/BETA_VALIDATION.md) for scope and
+limits, and the [release evidence ledger](evidence/release-artifacts/0.1.3b4.json) for build
+records.
 
 ## Install from a source checkout
 

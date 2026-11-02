@@ -1036,3 +1036,14 @@ Privacy and static-risk notes apply to donor code only: `twin_core/daily_checkpo
 - Read-only Git object checks against the inactive historical Mac object store matched the manifest donor commit and base tree IDs, all 62/62 blob object IDs and content SHA-256 values, and the exact per-path addition/deletion counts for the 62 scoped Python paths: 33,497 additions and 255 deletions.
 - The historical store HEAD remained 2f9f5a3b576b7558274d9a22cae43410d160ef6e; its pre-existing untracked __pycache__ directory was preserved. No donor source was copied into the ArtVault canon or executed. The GitHub donor ref remains unavailable; this confirms integrity of the retained objects only.
 - This check independently validates source identity and scope/count reconciliation. It does not replace the dated semantic feature review recorded above.
+## 2026-11-02 — independent donor feature-to-canon comparison
+
+A read-only comparison of the reviewed donor lane B/C feature summaries against current HEAD `ea59103f0d9a861aa82c96d5cd9fe42ea0eac262` confirms these overlaps:
+
+- Capability-manifest inspection and liveness evidence are already in the canon. `twin_core/capability_adoption.py` exposes declaration-only inspection and validates the bound liveness receipt without granting execution authority.
+- Hash-linked evidence and retained-source provenance are already in the canon. `modules/operations/archaeology/evidence.py` seals canonical evidence and writes without replacing an existing receipt. `modules/operations/archaeology/capability_feed.py` binds reviewed Git sources to commit, tree, blob, byte count and SHA-256, and requires a retained remote reference.
+- Repository-context ranking already includes direct matches, graph and entity rank, provenance and kind weights. `modules/operations/archaeology/dossier.py` limits selected entries per source and records diversity-based omissions. This is bounded codebase context selection, not a general scientific-source ranking system.
+
+The donors scientific screening and public-web/PDF/OCR acquisition workflows do not fit Archaeologys repository-mapping contract. No donor code was transplanted. Disposition remains `REVIEW_COMPLETE_NO_TRANSPLANT_IDENTIFIED`; the donor-only features and personal identity values remain excluded.
+
+Evidence locations: `twin_core/capability_adoption.py:357–373, 419–555`; `modules/operations/archaeology/evidence.py:34–81`; `modules/operations/archaeology/capability_feed.py:207–267, 354–424`; `modules/operations/archaeology/dossier.py:819–958, 984–1058`.

@@ -1,15 +1,14 @@
 # Developer beta validation history
 
-This cumulative record covers candidates `0.1.3b1` through `0.1.3b4`. The current candidate’s final evidence appears in the dated `0.1.3b4` sections near the end. Historical results apply only to the source commits and artifact hashes they name. Exact host-local output paths are omitted.
+This cumulative record covers candidates `0.1.3b1` through `0.1.3b4`. The current candidate’s final evidence appears in the dated `0.1.3b4` sections near the end. Historical results apply only to the source commits and artifact hashes they name. Recorded commands use `$PROJECT_ROOT` for the local checkout path.
 
 The mapping canary and regression results below were established on 0.1.3b1. Version 0.1.3b2 added the operator-selected MIT licence and packaging metadata. Version 0.1.3b3 fixes a SQLite URI compatibility issue and makes the contributor test setup explicit.
 
-This is the release-specific evidence summary. Installation and supported scope are in README.md;
-historical ownership/identity evidence remains in IDENTITY_MIGRATION.md.
+This file summarizes release checks. Installation and supported scope are in README.md. Shell examples use $PROJECT_ROOT for the local checkout path.
 
 ## Additional verification for 0.1.3b3
 
-- On the registered ArtVault Linux host, the full suite passed on Python 3.11, 3.12, 3.13 and 3.14: 375 passed, 1 skipped, 2 subtests passed on each interpreter.
+- On the registered Linux host, the full suite passed on Python 3.11, 3.12, 3.13 and 3.14: 375 passed, 1 skipped, 2 subtests passed on each interpreter.
 - The Python 3.11 run covers the SQLite URI compatibility fix.
 - The 0.1.3b3 wheel built with pip and the source archive built with the PEP 517 frontend from the registered canonical source. The wheel installed, `pip check` was clean, and `giga-archaeology --help` succeeded. Final artifact digests are recorded outside the package in `evidence/release-artifacts/0.1.3b3.json`; embedding a wheel's own digest in a document included in that wheel would make the digest self-referential. The source archive was not extracted into another project tree.
 - macOS and Windows were not run for this candidate. The earlier macOS arm64 evidence below applies to the 0.1.3b1/b2 code state and does not certify the 0.1.3b3 changes.
@@ -58,8 +57,7 @@ equivalence proof. Markdown prose, runtime behaviour and semantic extraction rem
 outside this code graph. No model calls were used for graph generation.
 ## Release boundary
 
-The narrow Python mapping beta is technically verified within the scope above. The operator selected MIT, supplied in LICENSE; public distribution has not been performed. Runtime installation on
-ArtVault is a separate action; source synchronisation does not imply services were upgraded.
+The narrow Python mapping beta is technically verified within the scope above. The operator selected MIT, supplied in LICENSE; public distribution has not been performed. Runtime deployment is a separate operator action; a source update does not update an installed runtime.
 
 ## MIT packaging verification
 
@@ -67,7 +65,7 @@ Version 0.1.3b2 includes identical MIT text in the source archive, wheel and pre
 
 ## 2026-09-29 — retention CLI and source graph refresh
 
-The navigation-retention CLI integration was committed and pushed in aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7 (Restore navigation retention CLI command). The retention regression file passed all 83 tests on ArtVault Linux, and direct CLI help confirmed the command and options. The existing 0.1.3b3 wheel and source archive predate this revision and do not contain it; they are not release artifacts for this source state.
+The navigation-retention CLI integration was committed and pushed in aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7 (Restore navigation retention CLI command). The retention regression file passed all 83 tests on Linux, and direct CLI help confirmed the command and options. The existing 0.1.3b3 wheel and source archive predate this revision and do not contain it; they are not release artifacts for this source state.
 
 The structural source graph now reflects commit aafe486bcdf34a1ebd680f6a1bac379eb8ceefb7. Graphify 0.7.10 processed 42 Python inputs with zero source-hash mismatches. It contains 1,222 nodes, 3,826 edges and 36 communities. The graph query confirms the path from archaeology.py through main() to run_navigation_retention().
 
@@ -80,7 +78,7 @@ A first graph merge was rejected because it would have removed 147 unrelated nod
 
 A new GitHub Actions workflow was added at .github/workflows/ci.yml for the full pytest suite on Ubuntu, macOS and Windows with Python 3.11–3.14. It installs the Linux bubblewrap package, limits parallel jobs to three, cancels stale runs, and ignores evidence-only commits.
 
-Run 36557068700 on commit 781243c completed Linux and macOS across all four Python versions successfully. On hosted Linux, the two tests requiring network namespaces were skipped only when the runner returned an explicit permission-denied error; ArtVault Linux ran the affected retention/quarantine files with 89 passed and 1 skipped. The Windows jobs exposed a test portability issue: fcntl was imported unconditionally and multiple test helpers invoked /usr/bin/git. The fcntl lock test now uses Archaeology's cross-platform lock helper; quarantine probe tests are marked unsupported on Windows; test Git commands resolve through PATH. These changes are in commits 444eb2e and d9d9209.
+Run 36557068700 on commit 781243c completed Linux and macOS across all four Python versions successfully. On hosted Linux, the two tests requiring network namespaces were skipped only when the runner returned an explicit permission-denied error; Linux ran the affected retention/quarantine files with 89 passed and 1 skipped. The Windows jobs exposed a test portability issue: fcntl was imported unconditionally and multiple test helpers invoked /usr/bin/git. The fcntl lock test now uses Archaeology's cross-platform lock helper; quarantine probe tests are marked unsupported on Windows; test Git commands resolve through PATH. These changes are in commits 444eb2e and d9d9209.
 
 The subsequent runs on d9d9209, f12be83 and 0647f6b failed before assigning a runner and produced no test logs. GitHub's check annotation for run 36558636501 says the job could not start because runner admission was blocked. Therefore the Windows portability changes have not yet been verified by CI; the earlier Windows failures cannot be presented as fixed. The README platform certification statement remains unchanged until a runner verifies the corrected matrix.
 
@@ -88,17 +86,17 @@ The project is still not ready for publication: the latest source is not represe
 
 ## 2026-09-29 — current-source clean-environment validation
 
-The current canonical source was installed into a new isolated ArtVault virtual environment from the registered workspace with the declared `.[test]` extra. On Python 3.12.3, installation completed, `pip check` reported no broken requirements, and `giga-archaeology --help` succeeded. The full suite then passed: 376 passed, 1 skipped, and 2 subtests passed in 74.60 seconds. The skip is `tests/test_archaeology_quarantine.py:182`, which exercises a Darwin sandbox profile and does not apply on Linux.
+The current canonical source was installed into a new isolated Linux virtual environment from the registered workspace with the declared `.[test]` extra. On Python 3.12.3, installation completed, `pip check` reported no broken requirements, and `giga-archaeology --help` succeeded. The full suite then passed: 376 passed, 1 skipped, and 2 subtests passed in 74.60 seconds. The skip is `tests/test_archaeology_quarantine.py:182`, which exercises a Darwin sandbox profile and does not apply on Linux.
 
 The tested source was commit `a0d53cc87a1d013e1d32286d073b762185e455b3`; the following `a0d53cc`-range ledger updates contain preservation notes only, not product-code changes. This validates a clean Linux install and test run on Python 3.12, not the full OS/interpreter matrix. It does not certify macOS or Windows. The built metadata still identifies itself as `0.1.3b3`; these install-time checks do not make the older retained 0.1.3b3 release artifacts current or suitable for publication. No package was published.
 
-A separate pre-existing shared ArtVault venv produced a `pip check` conflict because its installed `codegraphcontext 0.6.8` requires Tree-sitter below 0.26 while Archaeology pins 0.26.0. The isolated environment had no such conflict; the shared-environment warning is not evidence of a clean co-install with `codegraphcontext`.
+A separate pre-existing shared Linux venv produced a `pip check` conflict because its installed `codegraphcontext 0.6.8` requires Tree-sitter below 0.26 while Archaeology pins 0.26.0. The isolated environment had no such conflict; the shared-environment warning is not evidence of a clean co-install with `codegraphcontext`.
 
 ## 2026-09-29 — supported CLI self-scan smoke
 
 At source commit `b01521f6f6e9336a0e481b45c37ed7c0a470b9f9`, the clean installed Linux CLI ran the README's supported inventory-to-context path against the canonical Archaeology Git repository itself. Navigation inventory admitted 179 files and returned `CURRENT`; mapper refresh returned 38,439 entities and 86,002 relations with `CURRENT`; a symbol query for `run_navigation_retention` returned `PASS` with 10 results; implementation context returned `PASS` with 11 entries from 52 candidates (21 projectable), 582 `giga.lexical-token.v1` units used of 1,200, and 10 explicit omissions. The context field was 2,546 characters, reinforcing that the declared lexical-token budget is not a byte or JSON-envelope limit.
 
-The inventory/map/query/context outputs were written under `/tmp`, outside the repository. The scan read source without executing it. This is a useful end-to-end smoke of the supported CLI workflow, not an independent accuracy benchmark; it does not establish completeness, precision/recall or portability beyond the tested ArtVault Linux/Python 3.12 environment.
+The inventory/map/query/context outputs were written under `/tmp`, outside the repository. The scan read source without executing it. This is a useful end-to-end smoke of the supported CLI workflow, not an independent accuracy benchmark; it does not establish completeness, precision/recall or portability beyond the tested Linux/Python 3.12 environment.
 
 ## 2026-09-30 — release artifact install path and CI
 
@@ -106,15 +104,15 @@ The README now includes a PowerShell install path and distinguishes current Linu
 
 Commits 31c51a0698e070c818a9b1792ea744dfec776712 and 3205bf295d37644ab44e72762d187a2bea85419a extend the existing GitHub Actions matrix. On Python 3.12, each Ubuntu, macOS and Windows lane now builds the wheel and source archive, installs each artifact in a separate clean virtual environment, runs pip check, and invokes giga-archaeology --help. The matrix remains capped at three concurrent jobs. These hosted steps have not yet produced an accessible result for this increment.
 
-On ArtVault Linux with Python 3.12.3, build 1.6.1 produced both artifacts from the candidate source. Each artifact installed into its own fresh virtual environment, pip check reported no broken requirements, and the CLI help command passed. The workflow YAML parsed successfully. This is Linux evidence only; the PowerShell recipe and macOS/Windows hosted artifact checks remain unverified.
+On Linux with Python 3.12.3, build 1.6.1 produced both artifacts from the candidate source. Each artifact installed into its own fresh virtual environment, pip check reported no broken requirements, and the CLI help command passed. The workflow YAML parsed successfully. This is Linux evidence only; the PowerShell recipe and macOS/Windows hosted artifact checks remain unverified.
 
-The last recorded GitHub runner failure was before job assignment and reported that no runner was assigned. The repository's current hosted-run status could not be read from ArtVault during this increment, so no hosted pass is claimed.
+The last recorded GitHub runner failure was before job assignment and reported that no runner was assigned. The repository's current hosted-run status could not be read from Linux during this increment, so no hosted pass is claimed.
 
 
 ## 2026-09-30 — current-source verification after location inventory
 
 The canonical source now includes the location inventory implementation and its regression tests;
-this code was added after the earlier 376-test run recorded above. On ArtVault Linux x86_64 with
+this code was added after the earlier 376-test run recorded above. On Linux x86_64 with
 Python 3.12.3, the full suite ran from the registered canonical workspace using the exact pinned
 test dependencies in a disposable dependency-only environment: **418 passed, 1 skipped, and 2
 subtests passed** in 75.33 seconds. The skip is specific to a platform-inapplicable sandbox case.
@@ -136,14 +134,14 @@ non-empty external store. Full JSON receipts are saved locally; the terminal sho
 summaries and bounded context. The custom PEP 517 backend includes the script in the source archive
 and omits it from the runtime wheel; a regression test builds both formats and checks that boundary.
 
-The walkthrough completed on ArtVault Linux/Python 3.12.3 against a temporary one-file synthetic
+The walkthrough completed on Linux/Python 3.12.3 against a temporary one-file synthetic
 Git repository: inventory `CURRENT` (1 file), map `CURRENT` (21 entities and 21 relations), symbol
 query `PASS` (8 results), and source-linked context for `Serializer.dumps` and related symbols. The
 synthetic input and output stores were removed after the run. This exercised the canonical source
 through a dependency-only environment with the source root on `PYTHONPATH`; it is not a clean
 installed-wheel demo and does not certify macOS or Windows.
 
-The full current-source suite passed on ArtVault Linux/Python 3.12.3: **421 passed, 1 skipped, and 2
+The full current-source suite passed on Linux/Python 3.12.3: **421 passed, 1 skipped, and 2
 subtests passed** in 75.44 seconds. The skip is the Darwin sandbox-profile test, which is not
 applicable on Linux. Other interpreters and operating systems remain unverified for this source.
 
@@ -153,22 +151,22 @@ applicable on Linux. Other interpreters and operating systems remain unverified 
 The PEP 621 project metadata now declares focused repository-analysis keywords and canonical
 Repository/Issues URLs. The custom backend validates and emits them as Core Metadata fields. A
 packaging regression checks the exact wheel metadata. No operating-system classifier is emitted while macOS and Windows remain unverified. The focused
-packaging tests passed (4 passed), and the full current-source suite passed on ArtVault
+packaging tests passed (4 passed), and the full current-source suite passed on Linux
 Linux/Python 3.12.3: **422 passed, 1 skipped, and 2 subtests passed** in 74.96 seconds. The
 skip remains the Darwin sandbox-profile test.
 
 ## 2026-10-29 — Privacy-safe paths and Python-version regression checks
 
-Account-specific absolute home paths were removed from the scanner fallback, sandbox profile and regression fixtures. The sandbox regression now creates a real temporary protected file, so its denial check cannot pass merely because a hard-coded path is absent. The MIT notice uses the repository pseudonym. The tracked working-tree scan found no account-specific home path or real-name marker; remaining test email values use the reserved `example.invalid` domain.
+Hard-coded absolute path assumptions were removed from the scanner fallback, sandbox profile and regression fixtures. The sandbox regression now creates a real temporary protected file, so its denial check cannot pass merely because a hard-coded path is absent. The MIT notice uses the repository pseudonym. The tracked working-tree scan found no account-specific home path or real-name marker; remaining test email values use the reserved `example.invalid` domain.
 
-The full current-source suite passed on ArtVault Linux/Python 3.12.3: **422 passed, 1 skipped, and 2 subtests passed**. The changed hypothesis, quarantine and packaging tests passed on Python 3.11, 3.12, 3.13 and 3.14 (24 passed and 1 Darwin-only skip on 3.11, 3.13 and 3.14; 24 passed and 1 skip on 3.12). Packaging metadata tests passed on Python 3.12 (4 passed). The Darwin sandbox execution remains unverified on this Linux host.
+The full current-source suite passed on Linux/Python 3.12.3: **422 passed, 1 skipped, and 2 subtests passed**. The changed hypothesis, quarantine and packaging tests passed on Python 3.11, 3.12, 3.13 and 3.14 (24 passed and 1 Darwin-only skip on 3.11, 3.13 and 3.14; 24 passed and 1 skip on 3.12). Packaging metadata tests passed on Python 3.12 (4 passed). The Darwin sandbox execution remains unverified on this Linux host.
 
 
 ## 2026-10-29 — current source and installed distribution verification
 
-The product and test code under verification is commit `9020c1ceece54438900e2904d929a292834c73d3` (tree `13cac253d1272beac0a094c2b033b176fda10781`). The later repository head contains documentation and validation updates only. Its full test suite passed on ArtVault Linux x86_64 with Python 3.12.3: **423 passed, 1 skipped, and 2 subtests passed** in 74.95 seconds. The skip is the Darwin sandbox-profile test, which does not apply on Linux.
+The product and test code under verification is commit `9020c1ceece54438900e2904d929a292834c73d3` (tree `13cac253d1272beac0a094c2b033b176fda10781`). The later repository head contains documentation and validation updates only. Its full test suite passed on Linux x86_64 with Python 3.12.3: **423 passed, 1 skipped, and 2 subtests passed** in 74.95 seconds. The skip is the Darwin sandbox-profile test, which does not apply on Linux.
 
-The current source built a wheel and source archive with build 1.6.1 using the canonical custom backend. Each artifact installed into the existing ArtVault project test environment, `pip check` found no broken requirements, the CLI help command succeeded, and the supported-scan canary passed against the installed artifact (1 passed for each format). The wheel contains the MIT licence and excludes the source-only quickstart; the source archive contains the licence, quickstart and custom build backend. Artifact hashes and exact sizes are in `evidence/release-artifacts/0.1.3b3.json` under `latest_candidate_validation_20261029_9020c1c`.
+The current source built a wheel and source archive with build 1.6.1 using the canonical custom backend. Each artifact installed into the existing Linux project test environment, `pip check` found no broken requirements, the CLI help command succeeded, and the supported-scan canary passed against the installed artifact (1 passed for each format). The wheel contains the MIT licence and excludes the source-only quickstart; the source archive contains the licence, quickstart and custom build backend. Artifact hashes and exact sizes are in `evidence/release-artifacts/0.1.3b3.json` under `latest_candidate_validation_20261029_9020c1c`.
 
 GitHub Actions run 40819550308 on this commit ended with all 12 matrix jobs failing before any runner step started; no job logs were available. GitHub expanded the workflow matrix, but this run verifies no test results. macOS and Windows remain unverified, including the Windows inventory-fsync fix and the installed-artifact canary. The immediately preceding run showed the same zero-step failure pattern; an older run had a runner-admission annotation; this run's cause is unknown.
 
@@ -176,7 +174,7 @@ The current operational Graphify index contains 2,554 nodes. Its manifest includ
 
 ## 2026-10-29 - complete Linux Python matrix on the current documentation head
 
-At canonical source commit `058aa5f075975813ac3d087f1664ffaa92006353` on branch `codex/artvault-portable-giga-archaeology`, the full suite was run sequentially on ArtVault Linux x86_64 with the existing Python environments. Each run passed 423 tests, skipped one Darwin sandbox-profile test that does not apply on Linux, and passed 2 subtests:
+At canonical source commit `058aa5f075975813ac3d087f1664ffaa92006353` on branch `codex/Linux-portable-giga-archaeology`, the full suite was run sequentially on Linux x86_64 with the existing Python environments. Each run passed 423 tests, skipped one Darwin sandbox-profile test that does not apply on Linux, and passed 2 subtests:
 
 | Python | Result | Duration |
 | --- | --- | ---: |
@@ -185,13 +183,13 @@ At canonical source commit `058aa5f075975813ac3d087f1664ffaa92006353` on branch 
 | 3.13.15 | 423 passed, 1 skipped, 2 subtests passed | 75.46s |
 | 3.14.7 | 423 passed, 1 skipped, 2 subtests passed | 79.08s |
 
-The product and test files are unchanged from commit `9020c1ceece54438900e2904d929a292834c73d3`; the intervening commits change documentation and release evidence only. A WSL relay error interrupted the first Python 3.13 launch before pytest started; the ArtVault route recovered and the run then passed as recorded above.
+The product and test files are unchanged from commit `9020c1ceece54438900e2904d929a292834c73d3`; the intervening commits change documentation and release evidence only. A WSL relay error interrupted the first Python 3.13 launch before pytest started; the Linux route recovered and the run then passed as recorded above.
 
 GitHub Actions run [40819989797](https://github.com/Pepstee/giga-archaeology/actions/runs/40819989797), on documentation head `fbeb66487bacb7e0919f94a4222c3362018d425b`, expanded 12 jobs and failed all of them before any step began. It provides no test results. macOS and Windows remain unverified, including the installed-artifact checks. The no-runner failure remains an external hosted-CI blocker.
 
 ## 2026-10-29 — current-source package install and functional canary
 
-At canonical commit `cfa49631d6510f22905a9d09f0c2d9ea549e35a3` (tree `d68511d67a0a195b97730012229efbaa79e4b80d`), build 1.6.1 produced the wheel and source archive on ArtVault Linux x86_64 with Python 3.12.3. Both formats installed in the existing Python 3.12 test environment; `pip check` and the `giga-archaeology --help` entrypoint passed for each. Installing the source archive built a wheel with the same SHA-256 as the directly built wheel.
+At canonical commit `cfa49631d6510f22905a9d09f0c2d9ea549e35a3` (tree `d68511d67a0a195b97730012229efbaa79e4b80d`), build 1.6.1 produced the wheel and source archive on Linux x86_64 with Python 3.12.3. Both formats installed in the existing Python 3.12 test environment; `pip check` and the `giga-archaeology --help` entrypoint passed for each. Installing the source archive built a wheel with the same SHA-256 as the directly built wheel.
 
 The installed distribution then completed the documented inventory, map, symbol-query and context path against a one-file synthetic Git repository: inventory `CURRENT` (1 file), mapper `CURRENT` (14 entities, 12 relations), query `PASS` (4 results), and context `PASS` (131 characters). Full receipts remain under `[private local temporary path]`; this is local test evidence and is not included in the release package.
 
@@ -219,7 +217,7 @@ The candidate metadata and filenames still use `0.1.3b3`, which collides with hi
 
 The README links to `CONTRIBUTING.md`, so the explicit distribution allowlist now includes that
 guide in both the wheel and source archive. A regression test checks that each archive contains the
-exact source bytes. The focused packaging suite passed **5 tests**; the full ArtVault Linux/Python
+exact source bytes. The focused packaging suite passed **5 tests**; the full Linux/Python
 3.12.3 suite passed **424 tests, 1 platform-specific skip, and 2 subtests** in 68.49 seconds.
 
 GitHub Actions run [40825822360](https://github.com/Pepstee/giga-archaeology/actions/runs/40825822360)
@@ -233,7 +231,7 @@ created.
 
 The preceding subsection was committed before its package rebuild; its pending-build statement
 records that point in time. After commit `c169318f7459d97699d2c6f44c825363d3b01bc3` (tree
-`984c9bed9fa1d164fd11ed082364e6bcb19cfd0a`), Python 3.12.3 on ArtVault Linux built the wheel and
+`984c9bed9fa1d164fd11ed082364e6bcb19cfd0a`), Python 3.12.3 on Linux built the wheel and
 source archive with build 1.6.1 and the canonical PEP 517 backend. Static inspection found 48 wheel
 members and 47 source-archive members. Both contain the exact `CONTRIBUTING.md` source bytes, README
 and MIT licence; the wheel omits the source-only quickstart, while the source archive includes it
@@ -256,7 +254,7 @@ result recorded above still covers the current product and test files. The earli
 matrix predates the packaging-guide inclusion change and does not cover that final packaging
 change.
 
-At source commit `c2ff01a47030cc03a31f5df3761a334480415325`, ArtVault Linux/Python 3.12.3 rebuilt
+At source commit `c2ff01a47030cc03a31f5df3761a334480415325`, Linux/Python 3.12.3 rebuilt
 the wheel and source archive. Static inspection confirmed 48 wheel members and 47 source-archive
 members, with the exact contributor guide, README and MIT licence in both; the source archive also
 contains the quickstart and build backend. The wheel SHA-256 is
@@ -272,7 +270,7 @@ candidate filenames. No public release was created.
 
 ## 2026-10-29 - canonical-source suite at 12358a8
 
-At canonical source commit `12358a8c1ae2a64871ccd9f644a01b6b71ee4092` (tree `40103a5eabcfed382406f778e5cba2337174dc7f`), the full pytest suite ran from the registered ArtVault workspace on Linux x86_64 with Python 3.12.3: **424 passed, 1 skipped, and 2 subtests passed** in 74.13 seconds. The single skip is the Darwin sandbox-profile test, which is not applicable on Linux.
+At canonical source commit `12358a8c1ae2a64871ccd9f644a01b6b71ee4092` (tree `40103a5eabcfed382406f778e5cba2337174dc7f`), the full pytest suite ran from the registered Linux workspace on Linux x86_64 with Python 3.12.3: **424 passed, 1 skipped, and 2 subtests passed** in 74.13 seconds. The single skip is the Darwin sandbox-profile test, which is not applicable on Linux.
 
 The run used `python -m pytest -q -p no:cacheprovider` with `PYTHONPATH` set to the exact canonical workspace and `PYTHONDONTWRITEBYTECODE=1`. This validates the canonical source tree only. The environment still contains an older installed `0.1.3b3` package; this run did not build or install a distribution and is not installed-artifact evidence. No checkout or source copy was created. Existing untracked project, graph, instruction, and cache data was preserved.
 
@@ -280,9 +278,9 @@ The run used `python -m pytest -q -p no:cacheprovider` with `PYTHONPATH` set to 
 
 The current candidate uses version `0.1.3b4` to avoid collisions with historical `0.1.3b3` artifact filenames. The PEP 517 backend now derives its version from `pyproject.toml`; the focused packaging tests assert that the metadata, backend and wheel filename agree.
 
-On canonical ArtVault Linux x86_64 with Python 3.12.3, the full suite passed: 424 passed, 1 skipped, and 2 subtests in 82.84 seconds. The focused packaging tests passed 5/5. These runs used the registered canonical source; no clone or worktree was created. A fresh wheel and source archive built successfully with build 1.6.1. The exact file digests and archive inspection are recorded in `evidence/release-artifacts/0.1.3b4.json`.
+On canonical Linux x86_64 with Python 3.12.3, the full suite passed: 424 passed, 1 skipped, and 2 subtests in 82.84 seconds. The focused packaging tests passed 5/5. These runs used the registered canonical source; no clone or worktree was created. A fresh wheel and source archive built successfully with build 1.6.1. The exact file digests and archive inspection are recorded in `evidence/release-artifacts/0.1.3b4.json`.
 
-The `0.1.3b4` wheel passed a bounded install smoke into a temporary target with `--no-deps --no-index`: installed metadata was `0.1.3b4`, the imported module came from that target, `pip check` found no broken requirements, and the installed `giga-archaeology --help` entrypoint passed. Runtime dependencies came from the existing ArtVault Python 3.12.3 test environment; dependency resolution in a clean environment remains unverified. The exact temporary target was removed after the check.
+The `0.1.3b4` wheel passed a bounded install smoke into a temporary target with `--no-deps --no-index`: installed metadata was `0.1.3b4`, the imported module came from that target, `pip check` found no broken requirements, and the installed `giga-archaeology --help` entrypoint passed. Runtime dependencies came from the existing Linux Python 3.12.3 test environment; dependency resolution in a clean environment remains unverified. The exact temporary target was removed after the check.
 
 The push-triggered GitHub Actions matrix failed before runner steps. All 12 jobs were rejected before runner assignment; no hosted tests ran. Full macOS-suite and Windows validation remain unverified. This candidate is unpublished.
 
@@ -309,7 +307,7 @@ remain unverified. GitHub Actions run 40835341859 on older commit `e60544d`: all
 
 ## 2026-10-29 — current source regression run
 
-At canonical source commit `a260133cf9c1257d7aac855cab0e9db842f7cf48` (tree `d0792aeb3b294da2bae7e41b4b1c94427db3a3fa`), the full pytest suite ran in the registered ArtVault workspace on Linux x86_64 / CPython 3.12.3. `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q` completed with **425 passed, 1 skipped, and 2 subtests passed** in 82.78 seconds. The pre-existing untracked project data was preserved. This is source-tree test evidence; it does not certify a newly built wheel or sdist, macOS/Windows full-suite support, hosted CI, or publication readiness.
+At canonical source commit `a260133cf9c1257d7aac855cab0e9db842f7cf48` (tree `d0792aeb3b294da2bae7e41b4b1c94427db3a3fa`), the full pytest suite ran in the registered Linux workspace on Linux x86_64 / CPython 3.12.3. `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q` completed with **425 passed, 1 skipped, and 2 subtests passed** in 82.78 seconds. The pre-existing untracked project data was preserved. This is source-tree test evidence; it does not certify a newly built wheel or sdist, macOS/Windows full-suite support, hosted CI, or publication readiness.
 
 ## 2026-10-29 — pre-rewrite hosted CI result
 
@@ -321,7 +319,7 @@ The release ledger records the exact current-source wheel and source-archive bui
 
 ## 2026-10-29 — full suite after portable temporary-path fixture update
 
-At ArtVault HEAD `ace6f73459c703008d1460720c78c0b1191684e4` plus tracked working-tree diff SHA-256
+At Linux HEAD `ace6f73459c703008d1460720c78c0b1191684e4` plus tracked working-tree diff SHA-256
 `3fbe38052d1856e57526de522f7d02098ed86c58936839af94a5dd6fee7bc01b`, the full suite ran on Linux
 x86_64 with CPython 3.12.3: **425 passed, 1 skipped, and 2 subtests passed** in 79.70 seconds.
 The tested diff contained four tracked files: privacy-path redactions in this record and the two
@@ -332,19 +330,19 @@ suites. The diff hash binds the tested tree before this subsequent release-docum
 
 ## 2026-10-29 — quickstart end-to-end evidence
 
-The standalone quickstart was run from the canonical ArtVault source at ace6f73459c703008d1460720c78c0b1191684e4 against a one-file, committed synthetic Git repository. Inventory admitted one file; the mapper returned CURRENT with 25 entities and 30 relations; the calculate_total query returned two symbols; and bounded context included calculate_total and Invoice. The command exited 0, and the recorded module origin was the canonical modules/operations/scripts/archaeology.py. The private canary manifest SHA-256 is c3e1522b158ab5428c6f733dd40e5986c63c96c9d4ec2ce22a28ee4f74d49a29; all 44 preserved-file hashes verified. The synthetic fixture contained no private source.
+The standalone quickstart was run from the canonical Linux source at ace6f73459c703008d1460720c78c0b1191684e4 against a one-file, committed synthetic Git repository. Inventory admitted one file; the mapper returned CURRENT with 25 entities and 30 relations; the calculate_total query returned two symbols; and bounded context included calculate_total and Invoice. The command exited 0, and the recorded module origin was the canonical modules/operations/scripts/archaeology.py. The private canary manifest SHA-256 is c3e1522b158ab5428c6f733dd40e5986c63c96c9d4ec2ce22a28ee4f74d49a29; all 44 preserved-file hashes verified. The synthetic fixture contained no private source.
 
 The focused regression tests/test_archaeology_packaging.py::test_quickstart_runs_end_to_end_on_committed_repository passed: 1 passed in 0.85 seconds. It invokes QUICKSTART.main from the canonical source against a separate synthetic committed fixture and asserts inventory, mapping, symbol-query, and context results. Its private run-log SHA-256 is ec3c61992e3bb1a5aac88c5f3c5619a6eccaa445b8e776896e3c8c676f9f6278. This is focused source-tree evidence; it does not establish installed-distribution behaviour, the full suite, or full macOS/Windows test coverage.
 
 ## 2026-10-29 — wheel and source archive canaries
 
-The 0.1.3b4 wheel was installed with pip using no dependency resolution and no index access into a bounded target outside the source workspace. Installed metadata reported version 0.1.3b4, the imported CLI module resolved beneath the exact target, and the installed giga-archaeology console command completed --help from outside the workspace. The target was removed after the results were captured. This used dependencies already present in the ArtVault test environment; it does not prove clean-environment dependency resolution. The hash-bound artifact and command evidence are in the release ledger.
+The 0.1.3b4 wheel was installed with pip using no dependency resolution and no index access into a bounded target outside the source workspace. Installed metadata reported version 0.1.3b4, the imported CLI module resolved beneath the exact target, and the installed giga-archaeology console command completed --help from outside the workspace. The target was removed after the results were captured. This used dependencies already present in the Linux test environment; it does not prove clean-environment dependency resolution. The hash-bound artifact and command evidence are in the release ledger.
 
 The paired source archive was inspected without extraction. It contains the README, licence, and quickstart example, and excludes Git metadata. No source-archive installation canary is claimed because pip installation would extract another copy of the project. The exact archive hash and membership checks are recorded in the release ledger.
 
 ## 2026-10-29 - full Linux source suite after quickstart regression
 
-At canonical ArtVault HEAD c9cc259e73c35f9c4fdbb167bcdcdd59862b73e9 (tree 9103fe51de8fb048332befd479437ac47ed79608) plus tracked working-tree diff SHA-256 8316510557181fc5a956056300657321647933ed16efc9cc4bb8063ca079be6d, the full pytest suite ran on Linux x86_64 with CPython 3.12.3:
+At canonical Linux HEAD c9cc259e73c35f9c4fdbb167bcdcdd59862b73e9 (tree 9103fe51de8fb048332befd479437ac47ed79608) plus tracked working-tree diff SHA-256 8316510557181fc5a956056300657321647933ed16efc9cc4bb8063ca079be6d, the full pytest suite ran on Linux x86_64 with CPython 3.12.3:
 
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q
 
@@ -352,7 +350,7 @@ Result: **426 passed, 1 skipped, and 2 subtests passed** in 78.65 seconds. The t
 
 ## 2026-10-29 — latest Linux source-tree verification
 
-At canonical ArtVault HEAD c9cc259e73c35f9c4fdbb167bcdcdd59862b73e9 plus tracked diff SHA-256 9bccba549e1f299b175c7afe4dcb1dc163bbdd77da60bc631795687fd32941fd, the full pytest suite passed on Linux x86_64 with CPython 3.12.3: **426 passed, 1 skipped, and 2 subtests passed** in 84.44 seconds. This is source-tree evidence only. The run preceded the later evidence-ledger and documentation-only edits; production and test sources were not changed by those edits.
+At canonical Linux HEAD c9cc259e73c35f9c4fdbb167bcdcdd59862b73e9 plus tracked diff SHA-256 9bccba549e1f299b175c7afe4dcb1dc163bbdd77da60bc631795687fd32941fd, the full pytest suite passed on Linux x86_64 with CPython 3.12.3: **426 passed, 1 skipped, and 2 subtests passed** in 84.44 seconds. This is source-tree evidence only. The run preceded the later evidence-ledger and documentation-only edits; production and test sources were not changed by those edits.
 
 GitHub Actions run 40884610871 failed before runner assignment on both attempts. All 12 matrix jobs in each attempt had no runner and zero steps; no hosted tests ran and no job logs were available. Full macOS and Windows suites remain unverified.
 
@@ -361,7 +359,7 @@ The wheel and source archive with SHA-256 c7cdecdad7f8c37339690b9ad072251d34d7f1
 
 ## 2026-10-30 — full suite recheck at published documentation checkpoint
 
-At canonical ArtVault HEAD `c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e`, the full suite ran on Linux x86_64 with CPython 3.12.3 using:
+At canonical Linux HEAD `c5f4f6685f98ef7ac22c87f6208e536bb4a2b27e`, the full suite ran on Linux x86_64 with CPython 3.12.3 using:
 
 `PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -p no:cacheprovider -q`
 
@@ -370,14 +368,14 @@ Result: **426 passed, 1 skipped, and 2 subtests passed** in 89.11 seconds; the p
 
 ## 2026-10-30 — superseded artifact build before validation-record update
 
-At canonical ArtVault HEAD `b183e101b232502c51c8bf4f410567e98a73a47f`, build 1.6.1 produced a wheel and source archive. Their hashes and static inspection results remain in the release ledger. Both formats bundle `architecture/archaeology/BETA_VALIDATION.md`; these artifacts were built before this validation entry was added, so they contain older validation bytes and are superseded. Do not distribute them. A replacement build will be recorded in the release ledger after it is built from the corrected committed source. The ledger itself is excluded from the source archive, so it can carry the archive hashes without changing the packaged files.
+At canonical Linux HEAD `b183e101b232502c51c8bf4f410567e98a73a47f`, build 1.6.1 produced a wheel and source archive. Their hashes and static inspection results remain in the release ledger. Both formats bundle `architecture/archaeology/BETA_VALIDATION.md`; these artifacts were built before this validation entry was added, so they contain older validation bytes and are superseded. Do not distribute them. A replacement build will be recorded in the release ledger after it is built from the corrected committed source. The ledger itself is excluded from the source archive, so it can carry the archive hashes without changing the packaged files.
 
 
 ## 2026-10-30 — latest Linux suite checkpoint
 
-The earlier Linux full-suite run at canonical ArtVault source commit `9a1f8604ce99e7f65900f83d5f9a9d5f965cd079` (tree `20560be59f32de05e5c800e43b9fb656777ab5d8`) passed **429 tests, 1 skipped, and 2 subtests** in 88.59 seconds. It is retained here as a historical checkpoint.
+The earlier Linux full-suite run at canonical Linux source commit `9a1f8604ce99e7f65900f83d5f9a9d5f965cd079` (tree `20560be59f32de05e5c800e43b9fb656777ab5d8`) passed **429 tests, 1 skipped, and 2 subtests** in 88.59 seconds. It is retained here as a historical checkpoint.
 
-The latest Linux full-suite run was recorded at canonical ArtVault HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77` with CPython 3.12.3: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies Linux source tests only. The run followed source changes; the subsequent edits in this file and the README are documentation-only.
+The latest Linux full-suite run was recorded at canonical Linux HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77` with CPython 3.12.3: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies Linux source tests only. The run followed source changes; the subsequent edits in this file and the README are documentation-only.
 
 GitHub Actions run [41058173443](https://github.com/Pepstee/giga-archaeology/actions/runs/41058173443), for earlier commit `5b58e7fab099c17e4a6165faf0b67e65d44bd06b`, failed before runner assignment: all 12 jobs had zero runners and zero steps, so no hosted tests ran. That was the latest run checked for this checkpoint.
 
@@ -385,22 +383,22 @@ Full macOS and Windows suites remain unverified. Artifact checks are hash-specif
 
 ## 2026-10-30 — exact-hash Linux wheel canary before this documentation correction
 
-Wheel SHA-256 `53eb9fc60debcd61e62c2fb1287fb43d1578bfa0e5690ec389be6c2d5abde442` passed a limited offline installation canary on ArtVault Linux x86_64 with CPython 3.12.3. Metadata version `0.1.3b4`, import origin beneath the temporary target, and both `giga-archaeology --help` and `giga-archaeologist --help` passed; the exact target was removed. The install used `--no-deps --no-index`, with dependencies supplied by the existing ArtVault environment, so clean dependency resolution remains unverified.
+Wheel SHA-256 `53eb9fc60debcd61e62c2fb1287fb43d1578bfa0e5690ec389be6c2d5abde442` passed a limited offline installation canary on Linux x86_64 with CPython 3.12.3. Metadata version `0.1.3b4`, import origin beneath the temporary target, and both `giga-archaeology --help` and `giga-archaeologist --help` passed; the exact target was removed. The install used `--no-deps --no-index`, with dependencies supplied by the existing Linux environment, so clean dependency resolution remains unverified.
 
 This wheel predates the documentation correction recorded here. Its canary does not verify a later wheel rebuild. Artifact hashes and subsequent verification are recorded in the release evidence ledger.
 
 ## 2026-10-30 — limited installation canary for the superseded wheel
 
-The wheel with SHA-256 `14db98f5bd197243abaf694123afdec42b2276c213e14059fb048cbf5803c5e0` passed a limited offline install canary on ArtVault Linux with CPython 3.12.3. The installed distribution metadata reported version 0.1.3b4, the imported module resolved under the temporary install target, and both `giga-archaeology --help` and `giga-archaeologist --help` exited successfully. The exact target was removed and confirmed absent; the canon Git status was unchanged.
+The wheel with SHA-256 `14db98f5bd197243abaf694123afdec42b2276c213e14059fb048cbf5803c5e0` passed a limited offline install canary on Linux with CPython 3.12.3. The installed distribution metadata reported version 0.1.3b4, the imported module resolved under the temporary install target, and both `giga-archaeology --help` and `giga-archaeologist --help` exited successfully. The exact target was removed and confirmed absent; the canon Git status was unchanged.
 
-The install used `--no-deps --no-index`; runtime dependencies were already supplied by the existing ArtVault environment, so this does not verify dependency resolution in a clean environment. This wheel is superseded because the release documentation has been corrected. The replacement wheel and source archive are rebuilt from the corrected documents; their hashes and exact verification status are recorded in the release evidence ledger. The earlier macOS and Windows install canaries used a different wheel hash and do not verify the replacement artifacts.
+The install used `--no-deps --no-index`; runtime dependencies were already supplied by the existing Linux environment, so this does not verify dependency resolution in a clean environment. This wheel is superseded because the release documentation has been corrected. The replacement wheel and source archive are rebuilt from the corrected documents; their hashes and exact verification status are recorded in the release evidence ledger. The earlier macOS and Windows install canaries used a different wheel hash and do not verify the replacement artifacts.
 
 GitHub Actions run [41058173443](https://github.com/Pepstee/giga-archaeology/actions/runs/41058173443) for commit `5b58e7fab099c17e4a6165faf0b67e65d44bd06b` failed before runner assignment: 12 jobs, zero runners, and zero steps started. No hosted tests ran. The full macOS and Windows suites remain unverified.
 ## 2026-10-30 — current-head CI and distribution status
 
-At canonical ArtVault HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`, the full Linux source suite passed with CPython 3.12.3: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies the Linux source suite only.
+At canonical Linux HEAD `fe58a483af94d8a0cc3f8b7c72e2e69093dcfb77`, the full Linux source suite passed with CPython 3.12.3: **429 passed, 1 skipped, and 2 subtests passed** in 91.73 seconds (exit code 0). This verifies the Linux source suite only.
 
-Wheel SHA-256 `77dc42f5b53576461a7398c748005f26ab86d61b16407fb419dbd3bd957247f0` passed a limited exact-hash install canary on ArtVault Linux x86_64 with CPython 3.12.3. The target was removed and both console entrypoints and imported module origins were verified beneath that target. The canary used `--no-deps --no-index`; dependencies came from the existing ArtVault environment, so clean dependency resolution remains unverified. The wheel embeds the earlier README bytes and is superseded for distribution. The sdist SHA-256 `8df64f74b6e48cdce6833a611c510c6077f7c8859a89f6fd8ecc04f62389c3c2` was statically inspected but not installed; it also predates the current README and this validation update. Rebuild both artifacts from final documentation and run a new exact-hash wheel canary before distribution.
+Wheel SHA-256 `77dc42f5b53576461a7398c748005f26ab86d61b16407fb419dbd3bd957247f0` passed a limited exact-hash install canary on Linux x86_64 with CPython 3.12.3. The target was removed and both console entrypoints and imported module origins were verified beneath that target. The canary used `--no-deps --no-index`; dependencies came from the existing Linux environment, so clean dependency resolution remains unverified. The wheel embeds the earlier README bytes and is superseded for distribution. The sdist SHA-256 `8df64f74b6e48cdce6833a611c510c6077f7c8859a89f6fd8ecc04f62389c3c2` was statically inspected but not installed; it also predates the current README and this validation update. Rebuild both artifacts from final documentation and run a new exact-hash wheel canary before distribution.
 
 GitHub Actions workflow-dispatch run [41081019299](https://github.com/Pepstee/giga-archaeology/actions/runs/41081019299) targeted the same source HEAD. All 12 matrix jobs failed before steps were exposed, so no hosted tests ran. A sampled job log was unavailable (`404 BlobNotFound`); the causes are not established from the available job summaries. This supersedes run `41058173443` as the current hosted-CI status while retaining its historical record above.
 
@@ -414,7 +412,7 @@ The Linux source-suite result remains the earlier run at commit `fe58a483af94d8a
 
 ## 2026-10-30 — current Linux suite and hosted runner status
 
-At canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40` (tree `05c9f67b3c0825539b14eb9fc9268e5bef74d13d`), the full Linux source suite passed with **429 passed, 1 skipped, and 2 subtests passed** in 79.11 seconds (exit code 0). The later commit `9a0729f319f8c371d66aa0a151a36393de094fb8` changed only the release evidence ledger; the product and test files remain at the tested source state. This does not verify documentation packaging after this update or the full macOS/Windows suites.
+At canonical Linux commit `63764612f527bfdf9a059ae6fcb809692c600a40` (tree `05c9f67b3c0825539b14eb9fc9268e5bef74d13d`), the full Linux source suite passed with **429 passed, 1 skipped, and 2 subtests passed** in 79.11 seconds (exit code 0). The later commit `9a0729f319f8c371d66aa0a151a36393de094fb8` changed only the release evidence ledger; the product and test files remain at the tested source state. This does not verify documentation packaging after this update or the full macOS/Windows suites.
 
 GitHub Actions run [41105065947](https://github.com/Pepstee/giga-archaeology/actions/runs/41105065947) targeted commit `63efae4f80107f041ef04e93675b47b0e4e306aa`. All 12 jobs failed before starting test steps; each reported runner ID 0 and zero steps. No hosted tests or platform results were produced. The evidence-only commit after that run was excluded by the workflow's path filters and created no new run.
 
@@ -424,22 +422,22 @@ The current wheel and source archive must be rebuilt after this documentation up
 
 GitHub Actions run [41113562567](https://github.com/Pepstee/giga-archaeology/actions/runs/41113562567) targeted commit `9c097bc1ce05223eb1635466ac2749897c363229`. All 12 matrix jobs failed before runner assignment; each job had runner ID 0 and zero steps. No hosted tests ran, so the run establishes no test result for Linux, macOS, or Windows.
 
-The latest full Linux source-suite result remains the run at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. The subsequent evidence-only commit does not change this test scope. No public release has been made.
+The latest full Linux source-suite result remains the run at canonical Linux commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. The subsequent evidence-only commit does not change this test scope. No public release has been made.
 
 ## 2026-10-30 — latest push-triggered CI result after release documentation update
 
 GitHub Actions run [41116885839](https://github.com/Pepstee/giga-archaeology/actions/runs/41116885839) targeted commit `8b2f901811edc75a72fcce01b3e432b47d280d23`. All 12 matrix jobs completed as failures before runner assignment; every job had runner ID 0 and zero started steps. No hosted tests ran, so this run establishes no test result for Linux, macOS, or Windows.
 
-The latest full Linux source-suite result remains the run at canonical ArtVault commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. No public release has been made.
+The latest full Linux source-suite result remains the run at canonical Linux commit `63764612f527bfdf9a059ae6fcb809692c600a40`: 429 passed, 1 skipped, and 2 subtests passed. Full macOS and Windows results remain unverified. No public release has been made.
 
 
 ## 2026-10-30 — full Linux suite and current-head CI recheck
 
-At canonical ArtVault commit `ba2d3d4fd5161f34d4295169de69090135f4921e` (tree `9d459027e78a18e36dc45c87a280f1483526e217`), the full source suite ran on ArtVault Linux x86_64 with CPython 3.12.3:
+At canonical Linux commit `ba2d3d4fd5161f34d4295169de69090135f4921e` (tree `9d459027e78a18e36dc45c87a280f1483526e217`), the full source suite ran on Linux x86_64 with CPython 3.12.3:
 
 ```sh
-cd /srv/artvault/projects/giga-archaeologist/workspace
-export PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/srv/artvault/projects/giga-archaeologist/workspace
+cd $PROJECT_ROOT
+export PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=$PROJECT_ROOT
 .venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=/tmp/archaeology-privacy-fullsuite-20261030
 ```
 
@@ -466,7 +464,7 @@ The release ledger records the later rebuild from commit `740b910356f54894245d95
 
 ## 2026-10-30 — current release-readiness checkpoint
 
-The latest full Linux source-suite run was at canonical ArtVault commit
+The latest full Linux source-suite run was at canonical Linux commit
 `6148ea80a05805cdc41998fb0081ccfe7e79d4be` (tree
 `11f1256c0d4d6276b1f116d90e128158b374d8ae`): **430 passed, 1 skipped, and 2 subtests
 passed** in 74.94 seconds on CPython 3.12.3. Production and test sources remained unchanged
@@ -496,7 +494,7 @@ package or GitHub release has been made.
 
 ## 2026-10-31 — latest Linux suite at sanitized history head
 
-At canonical ArtVault commit c18b22d194dc1abdf25a5411e1d59471e7dbaff5 (tree
+At canonical Linux commit c18b22d194dc1abdf25a5411e1d59471e7dbaff5 (tree
 bfba732b9cff92f5f8c986d40ee5ead83e4c4265), the complete source suite passed on Linux x86_64
 with CPython 3.12.3: **430 passed, 1 skipped, and 2 subtests passed** in 75.74 seconds (exit code 0).
 The test ran from the registered canonical workspace; Git HEAD, tracked and staged diffs, and the
@@ -516,7 +514,7 @@ before any release.
 
 ## 2026-10-31 — full suite for documentation packaging guard
 
-The full suite ran from the registered ArtVault Linux x86_64 workspace, based on HEAD
+The full suite ran from the registered Linux x86_64 workspace, based on HEAD
 9e78460159316b38b37baa781d8d59a940ac75f1 with tracked-diff SHA-256
 068f3fac89851e20701e69117bb60c63d0b809888fd78a0826bf8ac8db89f2fc. The tracked changes were
 README.md, this validation record, and tests/test_archaeology_packaging.py. Result: **431 passed,
@@ -549,7 +547,7 @@ open. No public package or GitHub release has been made.
 
 GitHub Actions run [41154185074](https://github.com/Pepstee/giga-archaeology/actions/runs/41154185074) targeted source commit `928a832f2ffe16d8b755d15c34b9a32c3de81dc3`. All 12 matrix jobs failed before runner assignment and no test steps ran. One check confirms a runner admission restriction; this run produced no hosted test results. The latest Linux source-suite result remains 431 passed, 1 skipped, and 2 subtests passed on CPython 3.12.3, as recorded above. Full macOS and Windows suites remain unverified.
 
-Wheel SHA-256 `167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6` passed an exact-hash offline canary on ArtVault Linux with CPython 3.12.3. Distribution metadata reported `giga-archaeology` 0.1.3b4; both packaged CLI modules imported from the private target; `giga-archaeologist --help` and `giga-archaeology --help` passed; and the target was removed. The canary used `--no-deps --no-index`, so it relies on dependencies already present in the ArtVault environment and does not establish clean-environment dependency resolution.
+Wheel SHA-256 `167ceaba991db4d6dd9a83442d485e1d764d6463aa5cfb46329d87e2b49151e6` passed an exact-hash offline canary on Linux with CPython 3.12.3. Distribution metadata reported `giga-archaeology` 0.1.3b4; both packaged CLI modules imported from the private target; `giga-archaeologist --help` and `giga-archaeology --help` passed; and the target was removed. The canary used `--no-deps --no-index`, so it relies on dependencies already present in the Linux environment and does not establish clean-environment dependency resolution.
 
 This update changes documentation included in the wheel and source archive. The recorded wheel canary remains valid for its exact hash, but rebuild both formats from this committed documentation before distribution and verify the resulting hashes. No public package or GitHub release has been made.
 
@@ -563,16 +561,16 @@ This document is included in both distributions. Rebuild the wheel and source ar
 
 ## 2026-10-31 - full Linux suite on source commit c41cc49
 
-The complete source suite passed on the registered ArtVault Linux x86_64 workspace with CPython 3.12.3 at source commit c41cc497e52a5a6dbee0f902fc6773a51f4c472b: **431 passed, 1 skipped, and 2 subtests passed** in 82.11 seconds (exit code 0). The tracked tree was clean before and after; all pre-existing untracked files were preserved. This validates Linux source tests only. Full macOS and Windows source suites remain unverified.
+The complete source suite passed on the registered Linux x86_64 workspace with CPython 3.12.3 at source commit c41cc497e52a5a6dbee0f902fc6773a51f4c472b: **431 passed, 1 skipped, and 2 subtests passed** in 82.11 seconds (exit code 0). The tracked tree was clean before and after; all pre-existing untracked files were preserved. This validates Linux source tests only. Full macOS and Windows source suites remain unverified.
 
 ## 2026-10-31 - hosted CI for the quickstart documentation checkpoint
 
-GitHub Actions run [41195220665](https://github.com/Pepstee/giga-archaeology/actions/runs/41195220665) targeted documentation commit fb7650a7657397f08e6a335fb91b1b8bc6cd34d7. All 12 matrix jobs stopped before runner assignment; the job records show no steps, so no hosted tests ran. Sampled annotations indicate a runner-admission restriction. This evidence applies to that revision only and does not establish the result for later commits. Linux source-suite evidence remains local to ArtVault; full macOS and Windows suites remain unverified.
+GitHub Actions run [41195220665](https://github.com/Pepstee/giga-archaeology/actions/runs/41195220665) targeted documentation commit fb7650a7657397f08e6a335fb91b1b8bc6cd34d7. All 12 matrix jobs stopped before runner assignment; the job records show no steps, so no hosted tests ran. Sampled annotations indicate a runner-admission restriction. This evidence applies to that revision only and does not establish the result for later commits. Linux source-suite evidence remains local to Linux; full macOS and Windows suites remain unverified.
 
 
 ## 2026-10-31 — current Linux suite and hosted CI run
 
-The complete source suite passed on the registered ArtVault Linux x86_64 host with CPython 3.12.3: **434 passed, 1 skipped, and 2 subtests passed** in 76.45 seconds (exit code 0). The tested source tree matches commit `10eba5e3a081b26b9a7c308641061c60e558a248`; the commit identity was corrected after the test without changing the tree. This is Linux evidence for Python 3.12.3 only.
+The complete source suite passed on the registered Linux x86_64 host with CPython 3.12.3: **434 passed, 1 skipped, and 2 subtests passed** in 76.45 seconds (exit code 0). The tested source tree matches commit `10eba5e3a081b26b9a7c308641061c60e558a248`; the commit identity was corrected after the test without changing the tree. This is Linux evidence for Python 3.12.3 only.
 
 GitHub Actions run [41199872816](https://github.com/Pepstee/giga-archaeology/actions/runs/41199872816) targeted the same tree. All 12 visible job annotations show the jobs were not started before tests; no hosted tests ran. The run did not verify the macOS, Windows, or hosted Linux matrix. The cause recorded in those annotations has been omitted from this public-facing evidence.
 
@@ -592,13 +590,13 @@ The reproducible wheel and source archive were built from package inputs at comm
 `bafb71f6a2ca06d631de36c3bc161c67741362e6`. Wheel SHA-256
 `08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe` and source archive
 SHA-256 `f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd` each passed a
-limited install canary on ArtVault Linux x86_64 with CPython 3.12.3. Distribution metadata and
+limited install canary on Linux x86_64 with CPython 3.12.3. Distribution metadata and
 installed module origin were verified; `giga-archaeologist --help` and
 `giga-archaeology --help` both passed, and temporary install targets were removed.
 
 During the sdist install canary, pip ran without build isolation or dependency resolution, and
 the source archive build backend ran in a network-isolated environment. Runtime dependencies came
-from the existing ArtVault environment. These checks do not verify a clean-environment dependency install, native macOS or
+from the existing Linux environment. These checks do not verify a clean-environment dependency install, native macOS or
 Windows execution, or hosted CI. Full macOS and Windows suites and hosted test results remain
 unverified. No public package or GitHub release has been made, and the repository remains private.
 
@@ -623,10 +621,10 @@ allowlisted SQLite metadata column names if the overflow recurs; no offending co
 the cause remains unconfirmed, and no metadata conversion fix is claimed.
 
 The Windows Python 3.12 package steps are CI evidence for builds from this commit; they are distinct
-from the exact ArtVault canaries. Wheel SHA-256
+from the exact Linux canaries. Wheel SHA-256
 08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe and source archive SHA-256
 f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd, built from the October 31
-documentation snapshot, passed limited ArtVault Linux x86_64 CPython 3.12.3 install canaries.
+documentation snapshot, passed limited Linux x86_64 CPython 3.12.3 install canaries.
 Distribution metadata, installed module origin, and both CLI help commands passed; the sdist
 backend ran without network access, with runtime dependencies from the existing environment. These
 artifacts predate this documentation update and do not establish clean-environment dependency
@@ -636,7 +634,7 @@ repository remains private; no public package or GitHub release has been made.
 ## 2026-11-02 - current targeted checks and release state
 
 The 36 repository test modules were run individually or in small groups from the registered
-ArtVault canon after earlier whole-suite invocations were interrupted by WSL service failures.
+Linux canon after earlier whole-suite invocations were interrupted by WSL service failures.
 They reported **441 passed, 1 skipped, and 2 subtests passed** in aggregate. This is targeted
 module-level evidence, not a single successful full-suite run.
 
@@ -648,14 +646,14 @@ Windows Python 3.12 job built and installed a wheel and source archive, passed p
 checks and CLI help, and passed supported scans using both installed formats.
 
 These package checks apply to the artifacts built in that GitHub workflow. They do not verify the
-separately built ArtVault release artifacts. Exact artifact hashes and ArtVault canary status are
+separately built Linux release artifacts. Exact artifact hashes and Linux canary status are
 maintained in the existing release evidence ledger; canaries apply only to the exact bytes tested.
 No public package or GitHub release has been made.
 
 ## 2026-11-02 — current Windows fix and runner admission
 
 Commit `7c359b8dff3f721d3ba43b06b42129a3f8fc3fc6` contains the Windows filesystem-identity
-SQLite fix. The focused ArtVault suite for `test_windows_supported_path.py`,
+SQLite fix. The focused Linux suite for `test_windows_supported_path.py`,
 `test_navigation_inventory.py`, and `test_archaeology_mapper.py` passed **59 tests**. This is
 targeted local evidence, not a full-suite result.
 
@@ -666,7 +664,7 @@ returned `404 BlobNotFound`, and the run had no uploaded artifacts. GitHub block
 
 The previously canaried source archive SHA-256
 `f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd` is historical and is not
-available in the current ArtVault artifact locations. The current ArtVault sdist SHA-256 is
+available in the current Linux artifact locations. The current Linux sdist SHA-256 is
 `4b68815dbe5372a13f0079fa6793625b8640e89b84480bb533014e7bd808417d`; it has not received an
 authorized exact-hash install canary and is not cleared for release. Earlier canary evidence
 remains scoped to its recorded bytes. No build, full-suite run, macOS/Windows artifact install,
@@ -676,7 +674,7 @@ public package, or GitHub release is verified by this entry.
 ## 2026-11-02 - Full local Linux suite and current hosted-run confirmation
 
 The full source-tree suite passed **444 tests, 1 skipped, and 2 subtests** in 91.21 seconds on
-ArtVault Linux x86_64 with CPython 3.12.3, at source commit
+Linux x86_64 with CPython 3.12.3, at source commit
 734a16957fb1b77b829dce031e614bb9bf84c59d. This run used PYTHONDONTWRITEBYTECODE=1 and
 pytest's cache provider was disabled. It is Linux-only evidence; the full macOS and Windows suites
 remain unverified.
@@ -687,6 +685,16 @@ ran; the job API exposed no steps and a sampled job had an empty step list. No h
 claimed. The run is consistent with the runner-admission restriction recorded for the prior hosted
 attempts. It does not establish a code-level test failure.
 
-No current ArtVault wheel or source archive install canary is claimed by this entry. The October 31
+No current Linux wheel or source archive install canary is claimed by this entry. The October 31
 canary remains scoped to its exact historical bytes. No public package or GitHub release has been
 made.
+
+## 2026-11-02 — current release gate after privacy repair
+
+The full source-tree suite passed **444 tests, 1 skipped, and 2 subtests** in 89.24 seconds on Linux x86_64 with CPython 3.12.3. This is Linux-only evidence. The full macOS and Windows suites remain unverified for the current source tree.
+
+A GitHub Actions workflow run for the current tree failed before any runner started. No test step ran, so the run provides no product-code test result; neither a test failure nor a hosted pass is claimed. GitHub's push path filter excludes evidence-only changes; documentation changes will trigger the configured push workflow.
+
+The current wheel and source archive passed static checks for metadata, both console entrypoints, packaged documentation, safe source-archive paths, TwinCore exclusion, and the release privacy scan. Exact-hash install canaries for these bytes are pending; earlier canary results apply only to their recorded artifacts.
+
+No public package or GitHub release has been made.

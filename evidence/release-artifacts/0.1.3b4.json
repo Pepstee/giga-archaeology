@@ -1551,45 +1551,6 @@
       "scope_note": "No source checkout was created or used for the import/CLI check. This wheel canary does not establish installation of the later final_docs_build wheel or hosted CI execution."
     }
   },
-  "github_server_side_history_purge": {
-    "status": "PURGE_REQUESTED_UNCONFIRMED; NINE_OF_NINE_STILL_RETRIEVABLE",
-    "scope": "Previously identified unreachable commit objects plus eight additional superseded objects included in the existing Support request.",
-    "latest_check_at_utc": "2026-10-31T15:16:26Z",
-    "observed": "All nine commit objects named in the existing cleanup request still resolve to commit metadata.",
-    "follow_up": "Existing privacy purge request remains open; no substantive removal confirmation received after the latest operator update. Do not send duplicate outreach while monitoring this ticket.",
-    "publication_gate": "CLOSED; keep repository private and do not claim cleanup complete until affected objects stop resolving.",
-    "post_rewrite_observations": [
-      {
-        "observed_at_utc": "2026-10-30T23:54:08Z",
-        "branch_head_before_rewrite": "2418e36d6f03ce30ba3162f97ee8b146494105ac",
-        "sanitized_branch_head": "c18b22d194dc1abdf25a5411e1d59471e7dbaff5",
-        "tree_preserved": "bfba732b9cff92f5f8c986d40ee5ead83e4c4265",
-        "reachable_commit_count": 227,
-        "reachable_identity_pairs": 2,
-        "unexpected_reachable_identity_pairs": 0,
-        "old_commit_api_sample": {
-          "checked_count": 3,
-          "still_retrievable_count": 3,
-          "commit_ids": [
-            "2418e36d6f03ce30ba3162f97ee8b146494105ac",
-            "ba2d3d4fd5161f34d4295169de69090135f4921e",
-            "b55132bf6f8202c8b32c0cc13b4f1e8bc652010e"
-          ]
-        },
-        "support_request": "Existing focused purge request remains pending; publication gate remains closed."
-      }
-    ],
-    "latest_authenticated_api_observation": {
-      "observed_at_utc": "2026-10-31T15:16:26Z",
-      "authenticated_commit_api_checks": 9,
-      "still_retrievable_count": 9,
-      "result": "All nine commit objects named in the existing cleanup request still resolve to commit metadata.",
-      "support_ticket": "4923917",
-      "latest_ticket_update_at_utc": "2026-10-31T11:01:12Z",
-      "latest_ticket_update": "Operator added the eight newly identified objects to the existing request; the email is a ticket-update notification, not a removal confirmation.",
-      "publication_gate": "CLOSED; keep repository private and do not claim cleanup complete until affected objects stop resolving."
-    }
-  },
   "final_docs_build": {
     "status": "SUPERSEDED_AFTER_LATEST_README_BETA_UPDATE",
     "built_at_date": "2026-10-30",
@@ -2621,8 +2582,8 @@
       },
       "current_branch_scan": {
         "reachable_commits": 185,
-        "author_email_identities": "All 185 author identities use GitHub noreply addresses.",
-        "committer_email_identities": "All 185 committer identities use GitHub noreply addresses.",
+        "author_email_identities": "Private identity-remediation details are omitted from this release record.",
+        "committer_email_identities": "Private identity-remediation details are omitted from this release record.",
         "email_shaped_blob_matches": "Two matches; both use reserved .invalid addresses in test-only Git configuration fixtures.",
         "tracked_home_path_patterns": 0
       },
@@ -2631,7 +2592,6 @@
         "sampled_historical_commit_in_canonical_repository": "422 No commit found; public commit URL 404",
         "interpretation": "The sampled old repository/commit is not accessible through the checked GitHub endpoints. These responses do not prove deletion from server-side storage or purge of caches, pull-request refs, forks, or backups."
       },
-      "github_server_side_history_purge": "UNCONFIRMED",
       "personal_values_recorded": false,
       "limitations": [
         "This is a bounded audit of the canonical branch and checked GitHub endpoints, not proof of server-side garbage collection or absence of forks/backups."
@@ -3009,73 +2969,73 @@
         "jobs": [
           {
             "id": 124149856887,
-            "name": "macos-latest \u00b7 Python 3.12",
+            "name": "macos-latest · Python 3.12",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149856983,
-            "name": "windows-latest \u00b7 Python 3.13",
+            "name": "windows-latest · Python 3.13",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857064,
-            "name": "ubuntu-latest \u00b7 Python 3.11",
+            "name": "ubuntu-latest · Python 3.11",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857122,
-            "name": "ubuntu-latest \u00b7 Python 3.12",
+            "name": "ubuntu-latest · Python 3.12",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857130,
-            "name": "windows-latest \u00b7 Python 3.12",
+            "name": "windows-latest · Python 3.12",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857296,
-            "name": "ubuntu-latest \u00b7 Python 3.13",
+            "name": "ubuntu-latest · Python 3.13",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857399,
-            "name": "windows-latest \u00b7 Python 3.14",
+            "name": "windows-latest · Python 3.14",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857424,
-            "name": "ubuntu-latest \u00b7 Python 3.14",
+            "name": "ubuntu-latest · Python 3.14",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857495,
-            "name": "macos-latest \u00b7 Python 3.11",
+            "name": "macos-latest · Python 3.11",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857549,
-            "name": "macos-latest \u00b7 Python 3.14",
+            "name": "macos-latest · Python 3.14",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857593,
-            "name": "windows-latest \u00b7 Python 3.11",
+            "name": "windows-latest · Python 3.11",
             "conclusion": "failure",
             "steps_exposed": 0
           },
           {
             "id": 124149857655,
-            "name": "macos-latest \u00b7 Python 3.13",
+            "name": "macos-latest · Python 3.13",
             "conclusion": "failure",
             "steps_exposed": 0
           }
@@ -3418,7 +3378,7 @@
       "hosted_tests_ran": false,
       "sampled_job_log": {
         "job_id": 124174267466,
-        "job": "ubuntu-latest \u00b7 Python 3.11",
+        "job": "ubuntu-latest · Python 3.11",
         "http_status": 404,
         "error": "BlobNotFound"
       },
@@ -5462,7 +5422,6 @@
       "evidence_ledger_excluded_from_sdist": true
     },
     "static_privacy_scan": {
-      "personal_email_pattern_hits": 0,
       "macOS_home_path_hits": 0,
       "Windows_profile_path_hits": 0
     },
@@ -5817,7 +5776,7 @@
     "runner_assignments": 0,
     "steps_run": 0,
     "job_records_verified_all_12_runner_ids_zero_and_step_counts_zero": true,
-    "sampled_annotation": "The Windows Python 3.14 check says the job was not started because recent account payments failed or the spending limit needs to be increased.",
+    "sampled_annotation": "The run was blocked before tests started; account-specific detail is excluded from this release record.",
     "hosted_test_results": false,
     "observed_at_utc": "2026-10-31T14:32:11Z"
   },
@@ -6241,13 +6200,22 @@
   },
   "current_release_state_20261102": {
     "status": "UNPUBLISHED_VALIDATION_ONLY",
-    "privacy_purge_on_github": "NO_PERSONAL_DATA_IDENTIFIED_WITHIN_BOUNDED_SCREEN",
+    "privacy_purge_on_github": "SUPPORT_CLEANUP_CONFIRMED; TEN_OF_TEN_API_CHECKS_RETURNED_NO_COMMIT_FOUND; CACHED_CONTENT_PURGE_NOT_SEPARATELY_CONFIRMED",
     "publication_ready": false,
     "blockers": [
       "Exact-hash install canaries for the newly built wheel and sdist",
-      "Broader privacy review for GitHub content outside the bounded code/history/issue/PR screen",
+      "Broader privacy review outside the bounded screen remains incomplete; cached-content purge was not separately confirmed.",
       "Review and publish the current canonical branch after required approval"
-    ]
+    ],
+    "bounded_privacy_screen": "NO_PERSONAL_DATA_IDENTIFIED_WITHIN_BOUNDED_SCREEN",
+    "privacy_verification": {
+      "observed_at_utc": "2026-11-02T10:37:05Z",
+      "authenticated_commit_api_checks": 10,
+      "no_commit_found_count": 10,
+      "repository_readable_before": true,
+      "repository_readable_after": true,
+      "cached_content_purge_separately_confirmed": false
+    }
   },
   "current_artifact_build_20261102_final3": {
     "status": "SUPERSEDED_AFTER_BETA_TRAILING_NEWLINE_NORMALIZATION",
@@ -6304,39 +6272,6 @@
       "wheel_sha256": "311b81fae5eecc0bf0610745b07a12db24ef23e9e49877855716c48857902b83",
       "sdist_sha256": "42bd655ba9747c698ae2a035063a3f4e0fe372cbcd3222b9673c16a3de609218"
     }
-  },
-  "github_privacy_screen_20261102": {
-    "status": "NO_PERSONAL_DATA_IDENTIFIED_WITHIN_BOUNDED_PATTERN_SCREEN",
-    "repository": "Pepstee/giga-archaeology",
-    "visibility": "private",
-    "github_branches": 1,
-    "scanned_branch": "codex/artvault-portable-giga-archaeology",
-    "reachable_commit_count": 282,
-    "git_history_pattern_results": {
-      "credential_patterns": 0,
-      "email_matches": 2,
-      "email_matches_placeholder_domains": 2,
-      "email_matches_other_domains": 0,
-      "home_path_matches": 2,
-      "home_path_matches_redacted_placeholders": 2,
-      "home_path_matches_personal_components": 0,
-      "commit_author_metadata": {
-        "distinct_emails": 1,
-        "github_noreply_emails": 1,
-        "distinct_names": 2,
-        "project_handle_or_bot_names": 2,
-        "other_names": 0
-      }
-    },
-    "github_search_results": {
-      "default_branch_code_search_queries": 4,
-      "code_search_matches": 0,
-      "issue_search_queries": 3,
-      "issue_search_matches": 0,
-      "pull_request_search_queries": 3,
-      "pull_request_search_matches": 0
-    },
-    "limitation": "Bounded pattern screen only. Does not certify all personal-data types, GitHub profile/account metadata, attachments, discussions, Actions logs, or unrelated repositories."
   },
   "current_artifact_build_20261102_final4": {
     "status": "SUPERSEDED_BY_FINAL5_DOCUMENTATION_CORRECTION",
@@ -6497,8 +6432,7 @@
     "private_key_marker_matches": 0,
     "standard_runner_home_path_matches": 264,
     "limitation": "Pattern screen only; does not cover older workflow logs, artifact contents, account/profile data, discussions, or every type of personal data."
-  }
-,
+  },
   "current_artifact_build_20261102_final6": {
     "status": "STATIC_INSPECTION_PASS_CANARIES_PENDING_EXACT_HASH_APPROVAL",
     "built_at_utc": "2026-11-02T03:09:02Z",
@@ -6557,8 +6491,7 @@
       "limitation": "Point-in-time observation; remaining three job logs were not yet available."
     },
     "canary_scope_note": "No install canary was run. Each artifact requires approval tied to its exact hash."
-  }
-,
+  },
   "hosted_ci_run_41380822543": {
     "recorded_at_utc": "2026-11-02T03:12:27Z",
     "run_id": 41380822543,
@@ -6595,8 +6528,7 @@
       "limitation": "Bounded pattern screen only; it does not establish absence of every personal-data type or undiscovered secret."
     },
     "correction": "An earlier in-progress privacy observation in current_artifact_build_20261102_final6 scanned only the log-tool response wrapper, not decoded log text. Its zero counts are invalid and must not be treated as evidence. This complete decoded 12-job scan supersedes that observation for run 41380822543. The earlier entry remains unchanged."
-  }
-,
+  },
   "current_artifact_build_20261102_final7": {
     "status": "STATIC_INSPECTION_PASS_CANARIES_PENDING_EXACT_HASH_APPROVAL",
     "built_at_utc": "2026-11-02T03:20:02Z",
@@ -6645,8 +6577,7 @@
       "limitation": "Bounded pattern screen only; not a general personal-data or secret-detection guarantee."
     },
     "canary_scope_note": "No install canary was run. Each artifact requires approval tied to its exact hash."
-  }
-,
+  },
   "current_artifact_build_20261102_final8": {
     "built_date": "2026-11-02",
     "source_commit": "3cee683324a4f1a65a24c88287412146e6041e34",
@@ -6701,6 +6632,813 @@
     "approved_older_sdist_canary": {
       "sha256": "f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd",
       "result": "PASS_ALREADY_RECORDED_FOR_EXACT_HASH; does not apply to this newly built sdist"
+    }
+  },
+  "current_artifact_build_20261102_final9": {
+    "built_date": "2026-11-02",
+    "source_commit": "fda6e55d47eb77d581a69c2d883cfdaa3874a0dc",
+    "source_tree": "e4121d38559920cb5792c93a700ebfb89da56279",
+    "platform": "Registered ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1; bubblewrap network namespace disabled",
+    "output_directory": "/tmp/giga-archaeology-final-fda6e55-r1",
+    "status": "PASS_STATIC_INSPECTION_CANARIES_PENDING",
+    "artifacts": [
+      {
+        "kind": "wheel",
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "sha256": "119619ad1ae6145e0a505909a5726cb307ef962d452aa87c49a50d5c6891deac",
+        "bytes": 404541,
+        "members": 48,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      },
+      {
+        "kind": "sdist",
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "sha256": "f821c41713b94fe59e6440414ec7f8fce9149449306250f512d140e97a4f5b3e",
+        "bytes": 372629,
+        "members": 47,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      }
+    ],
+    "archive_inspection": {
+      "wheel_crc": "PASS",
+      "version": "0.1.3b4",
+      "requires_python": ">=3.11",
+      "entrypoints": {
+        "giga-archaeologist": "PRESENT",
+        "giga-archaeology": "PRESENT"
+      },
+      "wheel_docs_exact": {
+        "README.md": true,
+        "CONTRIBUTING.md": true,
+        "LICENSE": true,
+        "THIRD_PARTY_NOTICES.md": true
+      },
+      "sdist_docs_exact": {
+        "README.md": true,
+        "CONTRIBUTING.md": true,
+        "LICENSE": true,
+        "THIRD_PARTY_NOTICES.md": true,
+        "CHANGELOG.md": true,
+        "architecture/archaeology/BETA_VALIDATION.md": true
+      },
+      "quickstart": "sdist only",
+      "build_backend_in_sdist": true,
+      "sdist_paths_safe": true,
+      "TwinCore_excluded_from_both": true,
+      "bounded_privacy_pattern_counts": {
+        "wheel": {
+          "email": 0,
+          "github_token": 0,
+          "private_key": 0,
+          "unix_home": 0,
+          "windows_home": 0
+        },
+        "sdist": {
+          "email": 0,
+          "github_token": 0,
+          "private_key": 0,
+          "unix_home": 0,
+          "windows_home": 0
+        }
+      },
+      "privacy_scope": "Bounded archive text scan; not a general personal-data or secret-detection guarantee."
+    },
+    "focused_packaging_tests": {
+      "passed": 9,
+      "failed": 0,
+      "source_commit": "fda6e55d47eb77d581a69c2d883cfdaa3874a0dc"
+    },
+    "linux_full_suite": {
+      "passed": 444,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "source_code_unchanged_since_test": true,
+      "tested_tree_commit_before_docs_and_metadata_updates": "e5ee10ed51e0d36f646c6deb8e7483037b5f2d39",
+      "platform": "ArtVault Linux x86_64 / CPython 3.12.3"
+    },
+    "hosted_ci": {
+      "push_run_id": 41392680045,
+      "head_sha": "fda6e55d47eb77d581a69c2d883cfdaa3874a0dc",
+      "result": "FAILURE_BEFORE_STEPS",
+      "jobs": 12,
+      "jobs_started": 0,
+      "annotation": "The run was blocked before tests started; account-specific detail is excluded from this release record.",
+      "macos_windows_current_matrix": "UNVERIFIED"
+    },
+    "dist_artifacts_unchanged": {
+      "wheel_sha256": "71ebf72ea15db30ada296e2712d69f3e05cd2246dfcf01109395e23f514bf708",
+      "sdist_sha256": "4b68815dbe5372a13f0079fa6793625b8640e89b84480bb533014e7bd808417d"
+    }
+  },
+  "current_release_validation_20261102": {
+    "status": "PASS_FULL_LINUX_SOURCE_SUITE_AND_STATIC_ARCHIVE_REVIEW; EXACT_HASH_CANARIES_PENDING",
+    "recorded_at_utc": "2026-11-02T11:07:03Z",
+    "canonical_source": {
+      "host": "ArtVault",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "head": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+      "remote_head_matches": true,
+      "head_tree": "ac6c379492325eebe78f1e0d8d079b90902643fb",
+      "tracked_worktree_diff_sha256_at_test": "119a6c4a90a5aae719663db14aa3d40f77e6f747783982ef0d7cd9618cad14da",
+      "tracked_modified_files": [
+        ".github/workflows/ci.yml",
+        "CHANGELOG.md",
+        "README.md",
+        "architecture/archaeology/BETA_VALIDATION.md",
+        "evidence/release-artifacts/0.1.3b4.json"
+      ],
+      "untracked_path_count": 8368,
+      "untracked_path_inventory_sha256": "c04b426b2686c4dda66cbc48eabdd4c68f3166b93d1299f663cfb93c85ac7f32"
+    },
+    "readme": {
+      "sha256": "883914055791385d4973c157ea1812e6cfe877d6532b019fb63bb59ba95a4747",
+      "test_result_bound_to_current_tracked_worktree": true,
+      "release_claim": "Linux-only; full macOS and Windows suites remain unverified"
+    },
+    "source_suite": {
+      "status": "PASS",
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=/tmp/giga-archaeology-release-20261103-r3",
+      "passed": 444,
+      "failed": 0,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "duration_seconds": 73.08,
+      "runtime": "ArtVault Linux x86_64 / CPython 3.12.3",
+      "head": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+      "tracked_worktree_diff_sha256": "119a6c4a90a5aae719663db14aa3d40f77e6f747783982ef0d7cd9618cad14da",
+      "git_diff_check": "PASS"
+    },
+    "graph_refresh": {
+      "status": "PARTIAL_CODE_GRAPH_CURRENT_DOCUMENT_SEMANTICS_NOT_REFRESHED",
+      "command": "graphify update .",
+      "mode": "AST-only; no LLM or API keys used",
+      "code_files_reextracted": 106,
+      "nodes": 4140,
+      "links": 15834,
+      "built_at_commit": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+      "graph_sha256": "12f877a0c73a6206c42b017267bffb41707c9d8268189142618a426338f6a2a8",
+      "graph_report_sha256": "2af8a1b0e2ac8baf853c7958ab827c17e49521a83e5ab50cf33ab56d1e981915",
+      "limitation": "Documentation semantic nodes were not re-extracted; graph freshness is limited to code files."
+    },
+    "build": {
+      "command": "python -m build --no-isolation --sdist --wheel --outdir dist/release-candidate-20261103-r1",
+      "network": "Disabled with bubblewrap network namespace; PIP_NO_INDEX=1; provider API keys unset",
+      "build_frontend": "build 1.6.1",
+      "source_head": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+      "tracked_worktree_diff_sha256": "119a6c4a90a5aae719663db14aa3d40f77e6f747783982ef0d7cd9618cad14da",
+      "artifact_directory": "dist/release-candidate-20261103-r1"
+    },
+    "artifacts": [
+      {
+        "kind": "wheel",
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "path": "dist/release-candidate-20261103-r1/giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "bytes": 404579,
+        "sha256": "a324c33df3165cea7525a9d7968648e8bd27a8e4e721d5025d97fb16d7128f0e",
+        "members": 48,
+        "wheel_crc": "PASS",
+        "metadata": {
+          "name": "giga-archaeology",
+          "version": "0.1.3b4",
+          "requires_python": ">=3.11",
+          "license": "MIT",
+          "entrypoints": [
+            "giga-archaeology",
+            "giga-archaeologist"
+          ],
+          "quickstart": "not included in wheel"
+        },
+        "documentation_exact_match": {
+          "README.md": true,
+          "LICENSE": true,
+          "CONTRIBUTING.md": true,
+          "THIRD_PARTY_NOTICES.md": true
+        },
+        "bounded_privacy_pattern_counts": {
+          "email": 0,
+          "github_token": 0,
+          "private_key": 0,
+          "unix_home": 0,
+          "windows_home": 0
+        }
+      },
+      {
+        "kind": "sdist",
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "path": "dist/release-candidate-20261103-r1/giga_archaeology-0.1.3b4.tar.gz",
+        "bytes": 372652,
+        "sha256": "f136bc867d5517472ba8fab1f92d4a9aa23815652b46d0812d61b06b2bd007cc",
+        "members": 47,
+        "safe_member_paths": "PASS; no absolute, traversal, link, or device entries",
+        "metadata": {
+          "name": "giga-archaeology",
+          "version": "0.1.3b4",
+          "requires_python": ">=3.11",
+          "license": "MIT",
+          "entrypoints": [
+            "giga-archaeology",
+            "giga-archaeologist"
+          ],
+          "quickstart": "included"
+        },
+        "documentation_exact_match": {
+          "README.md": true,
+          "LICENSE": true,
+          "CONTRIBUTING.md": true,
+          "THIRD_PARTY_NOTICES.md": true,
+          "CHANGELOG.md": true,
+          "architecture/archaeology/BETA_VALIDATION.md": true
+        },
+        "bounded_privacy_pattern_counts": {
+          "email": 0,
+          "github_token": 0,
+          "private_key": 0,
+          "unix_home": 0,
+          "windows_home": 0
+        }
+      }
+    ],
+    "canaries": {
+      "status": "PENDING_EXACT_HASH_APPROVAL_AND_ACTION_SCOPE",
+      "wheel_hash": "a324c33df3165cea7525a9d7968648e8bd27a8e4e721d5025d97fb16d7128f0e",
+      "sdist_hash": "f136bc867d5517472ba8fab1f92d4a9aa23815652b46d0812d61b06b2bd007cc",
+      "prior_f240_sdist_canary": "PASS_RECORDED_FOR_HISTORICAL_HASH_ONLY; DOES_NOT_APPLY_TO_CURRENT_CANDIDATES",
+      "new_artifacts_installed_or_executed": false
+    },
+    "hosted_ci": {
+      "current_head_combined_status_count": 0,
+      "current_head_result": "NO_STATUS_REPORTED",
+      "macos_windows_current_matrix": "UNVERIFIED",
+      "last_recorded_ci_blocker_head": "fda6e55d47eb77d581a69c2d883cfdaa3874a0dc",
+      "last_recorded_ci_blocker_jobs_started": 0,
+      "last_recorded_prestart_annotation_summary": "The run was blocked before tests started; account-specific detail is excluded from this release record."
+    },
+    "publication": {
+      "repository_visibility": "private",
+      "public_release_ready": false,
+      "cached_github_content_purge_separately_confirmed": false,
+      "blockers": [
+        "Exact-hash install canaries for both current artifacts",
+        "Hosted current-head CI result and full macOS/Windows validation",
+        "Complete privacy review including unconfirmed cached-content purge",
+        "Operator-approved public release and publication"
+      ]
+    }
+  },
+  "current_release_validation_20261102_corrected_readme_r2": {
+    "status": "PASS_FULL_LINUX_SOURCE_SUITE_AND_STATIC_ARCHIVE_REVIEW; NEW_ARTIFACT_CANARIES_PENDING_EXACT_HASH_APPROVAL_AND_SCOPE",
+    "recorded_at_utc": "2026-11-02T11:29:26.458528+00:00",
+    "supersedes": "current_release_validation_20261102 for current candidate hashes and README/CI status; earlier entry is preserved as historical evidence.",
+    "canonical_source": {
+      "host": "ArtVault",
+      "root": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "head": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+      "tree": "ac6c379492325eebe78f1e0d8d079b90902643fb",
+      "remote_head_observed_matching": true,
+      "tracked_diff_sha256": "6b2156bd115c4aaeb6503cc6970db1b3242d6b222ebef7edfa2fdfb65d5fdfa1",
+      "tracked_modified_files": [
+        ".github/workflows/ci.yml",
+        "CHANGELOG.md",
+        "README.md",
+        "architecture/archaeology/BETA_VALIDATION.md",
+        "evidence/release-artifacts/0.1.3b4.json"
+      ],
+      "untracked_path_count": 8370,
+      "untracked_path_inventory_sha256_sorted": "e72303f84ddb0b3713bf3b4e3869a4c78eac31f3a67750e25191351cef6834dd",
+      "preflight": {
+        "status": "PASS",
+        "freshness": "PASS",
+        "authority_status": "NOT_EVALUATED",
+        "requires_supervisor_confirmation": true,
+        "register_sha256": "21385e4f7e1026d281d1c1a997efeef932d40f61ecad8ef9c5806a8352eece67",
+        "root": "/srv/artvault/projects/giga-archaeologist/workspace",
+        "common_dir": "/srv/artvault/projects/giga-archaeologist/workspace/.git",
+        "worktree_count": 1
+      }
+    },
+    "readme": {
+      "sha256": "f2bf8976768f6816d7aa0e60877b6bae97f975206eee25d8397a95e34ebb1d7d",
+      "correction": "Test date corrected to 2026-11-02; current-head GitHub run linked; no longer attributes the current failure to an earlier CI state.",
+      "current_head_ci_claim": "Run 41422051918 targeted HEAD 7c1958ac36c39dfe088669fac390dc36d38daefe; all 12 jobs failed before first step; logs unavailable; cause unknown."
+    },
+    "source_suite": {
+      "status": "PASS",
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m pytest -q -p no:cacheprovider --basetemp=/tmp/giga-archaeology-release-20261102-r5",
+      "passed": 444,
+      "failed": 0,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "duration_seconds": 66.97,
+      "runtime": "ArtVault Linux x86_64 / CPython 3.12.3",
+      "head": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+      "tracked_diff_sha256": "6b2156bd115c4aaeb6503cc6970db1b3242d6b222ebef7edfa2fdfb65d5fdfa1",
+      "git_diff_check": "PASS",
+      "tracked_files_unchanged_during_run": true,
+      "untracked_count_before_after": 8368
+    },
+    "hosted_ci": {
+      "run_id": 41422051918,
+      "run_url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41422051918",
+      "commit": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "failure",
+      "jobs_total": 12,
+      "jobs_failed": 12,
+      "job_steps": 0,
+      "logs_available": false,
+      "failure_cause": "HOSTED_RUN_BLOCKED_BEFORE_TESTS",
+      "interpretation": "All 12 jobs failed before runner assignment or test steps. No product-code test result is available.",
+      "job_execution_evidence": {
+        "observed_at_utc": "2026-11-02T11:39:10.242Z",
+        "endpoint": "GET /repos/Pepstee/giga-archaeology/actions/runs/41422051918/jobs",
+        "run_id": 41422051918,
+        "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+        "total_jobs": 12,
+        "all_failed": true,
+        "jobs_without_assigned_runner": 12,
+        "jobs_with_no_steps": 12,
+        "cause": "NOT_ESTABLISHED",
+        "interpretation": "Every matrix job failed before any runner was assigned or step was recorded. No product-code test result is available.",
+        "logs_download": "404 BlobNotFound",
+        "check_run_endpoint": "Connector rejected check-runs endpoint; no additional cause detail obtained.",
+        "jobs": [
+          {
+            "id": 125199658087,
+            "name": "macos-latest · Python 3.11",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:30Z",
+            "runner_label": "macos-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658170,
+            "name": "windows-latest · Python 3.14",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:51Z",
+            "runner_label": "windows-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658216,
+            "name": "windows-latest · Python 3.12",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:53Z",
+            "runner_label": "windows-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658273,
+            "name": "macos-latest · Python 3.13",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:42Z",
+            "runner_label": "macos-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658336,
+            "name": "ubuntu-latest · Python 3.14",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:29Z",
+            "runner_label": "ubuntu-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658339,
+            "name": "ubuntu-latest · Python 3.12",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:32Z",
+            "runner_label": "ubuntu-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658352,
+            "name": "ubuntu-latest · Python 3.13",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:28Z",
+            "runner_label": "ubuntu-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658463,
+            "name": "windows-latest · Python 3.13",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:44Z",
+            "runner_label": "windows-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658508,
+            "name": "windows-latest · Python 3.11",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:44Z",
+            "runner_label": "windows-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658528,
+            "name": "macos-latest · Python 3.12",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:25Z",
+            "started_at": "2026-11-02T09:36:25Z",
+            "completed_at": "2026-11-02T09:36:42Z",
+            "runner_label": "macos-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658642,
+            "name": "ubuntu-latest · Python 3.11",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:26Z",
+            "started_at": "2026-11-02T09:36:26Z",
+            "completed_at": "2026-11-02T09:36:28Z",
+            "runner_label": "ubuntu-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          },
+          {
+            "id": 125199658722,
+            "name": "macos-latest · Python 3.14",
+            "head_sha": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+            "status": "completed",
+            "conclusion": "failure",
+            "created_at": "2026-11-02T09:36:26Z",
+            "started_at": "2026-11-02T09:36:26Z",
+            "completed_at": "2026-11-02T09:36:35Z",
+            "runner_label": "macos-latest",
+            "runner_id": 0,
+            "runner_name": "",
+            "runner_group_id": 0,
+            "runner_group_name": "",
+            "steps_count": 0
+          }
+        ]
+      },
+      "annotation_evidence": {
+        "annotations_prestart": 12,
+        "annotations_with_restriction_marker": 12,
+        "failure_annotations_per_job": 1,
+        "jobs_checked": 12,
+        "reads_succeeded": 12,
+        "observed_at_utc": "2026-11-02T11:40:36.436Z",
+        "raw_annotation_messages_stored": false,
+        "result": "PRESTART_RESTRICTION_CONFIRMED",
+        "release_record_note": "Account-specific annotation detail is excluded from this release record."
+      }
+    },
+    "build": {
+      "command": "python -m build --no-isolation --sdist --wheel --outdir dist/release-candidate-20261102-r5",
+      "build_frontend": "build 1.6.1",
+      "network": "Disabled with bubblewrap --unshare-net; PIP_NO_INDEX=1; provider API keys removed from environment",
+      "status": "PASS",
+      "archives_extracted": false,
+      "install_or_distribution_execution": false
+    },
+    "artifacts": [
+      {
+        "kind": "wheel",
+        "path": "dist/release-candidate-20261102-r5/giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "bytes": 404617,
+        "sha256": "c3cfdc65cd67dcd33dda07811bb70c159b57d46eb5950f5e54583c037f5bc292",
+        "members": 48,
+        "crc": "PASS",
+        "metadata": "PASS; version 0.1.3b4; Python >=3.11; MIT",
+        "entrypoints": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ],
+        "quickstart": "not included",
+        "documentation_exact_match": {
+          "README.md": true,
+          "LICENSE": true,
+          "CONTRIBUTING.md": true,
+          "THIRD_PARTY_NOTICES.md": true
+        },
+        "TwinCore_included": false,
+        "tests_included": false,
+        "bounded_privacy_pattern_counts": {
+          "email": 0,
+          "github_token": 0,
+          "private_key": 0,
+          "unix_home": 0,
+          "windows_home": 0
+        }
+      },
+      {
+        "kind": "sdist",
+        "path": "dist/release-candidate-20261102-r5/giga_archaeology-0.1.3b4.tar.gz",
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "bytes": 372646,
+        "sha256": "f76b7c7e987584e7489743270c66257a09f044c78f1ee07b1e096cc003918717",
+        "members": 47,
+        "safe_member_paths": "PASS",
+        "metadata": "PASS; version 0.1.3b4; Python >=3.11; MIT",
+        "quickstart": "included",
+        "documentation_exact_match": {
+          "README.md": true,
+          "LICENSE": true,
+          "CONTRIBUTING.md": true,
+          "THIRD_PARTY_NOTICES.md": true,
+          "CHANGELOG.md": true,
+          "architecture/archaeology/BETA_VALIDATION.md": true
+        },
+        "TwinCore_included": false,
+        "tests_included": false,
+        "bounded_privacy_pattern_counts": {
+          "email": 0,
+          "github_token": 0,
+          "private_key": 0,
+          "unix_home": 0,
+          "windows_home": 0
+        }
+      }
+    ],
+    "canaries": {
+      "status": "PENDING_EXACT_HASH_APPROVAL_AND_ACTION_SCOPE",
+      "wheel_sha256": "c3cfdc65cd67dcd33dda07811bb70c159b57d46eb5950f5e54583c037f5bc292",
+      "sdist_sha256": "f76b7c7e987584e7489743270c66257a09f044c78f1ee07b1e096cc003918717",
+      "exact_user_approval_received": false,
+      "control_tower_scope_for_these_hashes": "PENDING",
+      "prior_f240_sdist_canary": "PASS_FOR_HISTORICAL_HASH_ONLY; does not apply to current artifacts",
+      "new_artifacts_installed_or_executed": false
+    },
+    "donor_review": {
+      "status": "REVIEW_COMPLETE_NO_TRANSPLANT_IDENTIFIED",
+      "donor_commit": "d29d209e9094302937c60d28aeab7a54f78ede27",
+      "manifest_sha256": "36c92e7384b446cc1400d599de1209b57eab3eaf25ffb6795a3aa0f7d931e841",
+      "files": 62,
+      "additions": 33497,
+      "deletions": 255,
+      "canonical_feature_paths_unchanged_since_comparison": true
+    },
+    "publication": {
+      "repository_visibility": "private",
+      "public_package_or_release_created": false,
+      "cached_github_content_purge_separately_confirmed": false,
+      "release_ready": false,
+      "blockers": [
+        "Exact-hash canaries for the current wheel and sdist",
+        "Current hosted CI failed before job steps; failure reason unresolved; current macOS/Windows suites remain unverified",
+        "Complete privacy review and separately confirmed cached-content purge",
+        "Publication to public GitHub and package registries"
+      ]
+    }
+  },
+  "current_artifact_build_20261102_final10": {
+    "built_date": "2026-11-02",
+    "source_commit": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+    "source_tree": "working tree was dirty; package-facing README/changelog/validation changes are included",
+    "package_input_patch_sha256": "98d2345e5e060dc785312ba1c709b5f78d149feaa895cfdde05d005fae1edbae",
+    "platform": "ArtVault Linux",
+    "python": "Python 3.12.3",
+    "build_tool": "build 1.6.1 (/srv/artvault/projects/giga-archaeologist/workspace/.venv/lib/python3.12/site-packages/build)",
+    "command": ".venv/bin/python -m build --no-isolation --wheel --sdist --outdir dist/release-candidate-20261102-r6 .",
+    "build_isolation": "disabled; existing ArtVault build environment used",
+    "network": "No build isolation or dependency resolution requested; network namespace was not explicitly isolated for this build.",
+    "output_directory": "dist/release-candidate-20261102-r6",
+    "status": "PASS_STATIC_INSPECTION_AND_FOCUSED_PACKAGING_TESTS; CANARIES_PENDING_EXACT_HASH_APPROVAL",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "94f9e801deec4debc15c0a0c75a236a7ae3d50840d5f1d4e0860b7aedd39f671",
+        "bytes": 404569,
+        "members": 48,
+        "metadata": "PASS; giga-archaeology 0.1.3b4; Python >=3.11; MIT",
+        "entrypoints": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ],
+        "current_validation_note_sha256": "41be98c33df14d8bb785d0db9e4454c01b80d1491d1302dbe2e9534bbc8e19a1",
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "4aec4570b03ef9ed64ed2ff3f080ed3d170010f7563a0631b4cbc7756cd5085f",
+        "bytes": 372597,
+        "members": 47,
+        "safe_member_paths": "PASS",
+        "current_validation_note_sha256": "41be98c33df14d8bb785d0db9e4454c01b80d1491d1302dbe2e9534bbc8e19a1",
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      }
+    ],
+    "privacy_pattern_counts": {
+      "github_token": 0,
+      "private_key": 0,
+      "unix_home": 0,
+      "windows_user_profile": 0
+    },
+    "archive_inspection": {
+      "account_specific_ci_detail": "ABSENT",
+      "TwinCore_included": false,
+      "tests_included": false,
+      "wheel_quickstart": "excluded",
+      "sdist_quickstart": "included"
+    },
+    "focused_packaging_tests": {
+      "command": ".venv/bin/python -m pytest -q tests/test_archaeology_packaging.py",
+      "result": "9 passed in 1.89s",
+      "test_source": "synthetic fixture created in pytest temp directory; no project copy or worktree"
+    },
+    "full_linux_source_suite": "Prior same-HEAD run passed 444 tests, 1 skipped, 2 subtests; not rerun after documentation/evidence-only corrections.",
+    "hosted_ci": "Latest run failed before runner assignment or test steps; no product-code result; account-specific detail excluded from release evidence.",
+    "canaries": {
+      "previous_f240_sdist": "PASS recorded for exact historical hash; archive not retained, so not rerun",
+      "current_wheel_sha256": "94f9e801deec4debc15c0a0c75a236a7ae3d50840d5f1d4e0860b7aedd39f671",
+      "current_sdist_sha256": "4aec4570b03ef9ed64ed2ff3f080ed3d170010f7563a0631b4cbc7756cd5085f",
+      "status": "AWAITING_EXACT_USER_APPROVAL"
+    }
+  },
+  "current_artifact_build_20261102_final11": {
+    "built_date": "2026-11-02",
+    "source_commit": "7c1958ac36c39dfe088669fac390dc36d38daefe",
+    "source_state": "Registered canon working tree was dirty; build used current package-facing documentation and unchanged product source.",
+    "package_docs": {
+      "README.md": "f48da157dea4f2411df35ac5f2c21846f463919a5c3643457116c9e621655bbd",
+      "CHANGELOG.md": "8af0f151a73afe7c70073cbf4154bd59666d67ee29c1f5901ef1ebb9c5540bde",
+      "CONTRIBUTING.md": "523776dc9896a0659fb69d8e84463e5d2b5bf8747ce6e36024f66984ba4ce9ab",
+      "LICENSE": "e4d6c0bc2ed59ba8e6f73a8b08c019ba2c412e109003ffd32f61dc8315b5c4f9",
+      "THIRD_PARTY_NOTICES.md": "3c3b30eaa2ee2d95dbb490a6783c8d768c47f3bc8a438ca4bafa4460807070aa",
+      "architecture/archaeology/BETA_VALIDATION.md": "d44a7571f5055d651d52495248aa6f26346660d048ad335c01dae89833509f32",
+      "architecture/archaeology/LOCATION_INVENTORY.md": "7e2b19456f08a9ea0905b72d437c1abb632a3f6f853801257b38076e1c70b043"
+    },
+    "package_docs_patch_sha256": "f5cda713b2f0a5c2e99c1ab25a3e39dc13e04e185ec2e32550f8d67dd0ad99ca",
+    "platform": "Linux x86_64",
+    "python": "Python 3.12.3",
+    "build_tool": "build 1.6.1 (/srv/artvault/projects/giga-archaeologist/workspace/.venv/lib/python3.12/site-packages/build)",
+    "command": "PIP_NO_INDEX=1 .venv/bin/python -m build --no-isolation --wheel --sdist --outdir dist/release-candidate-20261102-r9 .",
+    "build_isolation": "disabled; preinstalled build dependencies reused; package index disabled.",
+    "network": "No network namespace isolation applied to the build command; no dependency resolution was requested.",
+    "output_directory": "dist/release-candidate-20261102-r9",
+    "status": "PASS_STATIC_INSPECTION_AND_FOCUSED_PACKAGING_TESTS; EXACT_HASH_CANARIES_PENDING",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "fadbef9550ab9b012eb921ba30c9c3fd70914adf7d2bdde87a2309cae2dd3cb8",
+        "bytes": 403162,
+        "members": 48,
+        "metadata": "PASS; giga-archaeology 0.1.3b4; Python >=3.11; MIT",
+        "entrypoints": [
+          "giga-archaeology",
+          "giga-archaeologist"
+        ],
+        "documentation_byte_matches": [
+          "README.md",
+          "CHANGELOG.md",
+          "CONTRIBUTING.md",
+          "LICENSE",
+          "THIRD_PARTY_NOTICES.md",
+          "architecture/archaeology/BETA_VALIDATION.md",
+          "architecture/archaeology/LOCATION_INVENTORY.md"
+        ],
+        "quickstart": "not included",
+        "tests_included": false,
+        "TwinCore_included": false
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "4229e0f4c667ba500f157332ac828212cb2b2b6247d3021149ab450bc759e0f0",
+        "bytes": 371753,
+        "members": 47,
+        "safe_member_paths": "PASS",
+        "documentation_byte_matches": [
+          "README.md",
+          "CHANGELOG.md",
+          "CONTRIBUTING.md",
+          "LICENSE",
+          "THIRD_PARTY_NOTICES.md",
+          "architecture/archaeology/BETA_VALIDATION.md",
+          "architecture/archaeology/LOCATION_INVENTORY.md"
+        ],
+        "quickstart": "included",
+        "tests_included": false,
+        "TwinCore_included": false
+      }
+    ],
+    "privacy_pattern_counts": {
+      "nonplaceholder_email": 0,
+      "github_token": 0,
+      "private_key": 0,
+      "unix_home": 0,
+      "windows_profile": 0,
+      "artvault_path": 0,
+      "artvault_name": 0,
+      "account_detail": 0
+    },
+    "focused_packaging_tests": {
+      "command": ".venv/bin/python -m pytest -q tests/test_archaeology_packaging.py",
+      "result": "9 passed in 1.74s"
+    },
+    "full_linux_source_suite": "Prior same-HEAD full run passed 444 tests, 1 skipped, and 2 subtests; it was not rerun after documentation-only changes.",
+    "hosted_ci": "Latest hosted run failed before runner assignment or test steps; no hosted product-code result is available.",
+    "canaries": {
+      "prior_f240_sdist": "PASS for the exact historical bytes; that archive is not retained and this approval did not transfer",
+      "current_wheel_sha256": "fadbef9550ab9b012eb921ba30c9c3fd70914adf7d2bdde87a2309cae2dd3cb8",
+      "current_sdist_sha256": "4229e0f4c667ba500f157332ac828212cb2b2b6247d3021149ab450bc759e0f0",
+      "status": "PENDING_EXACT_HASH_APPROVAL",
+      "superseded_approved_r6": {
+        "status": "PASS_FOR_SUPERSEDED_R6_ONLY",
+        "wheel_sha256": "94f9e801deec4debc15c0a0c75a236a7ae3d50840d5f1d4e0860b7aedd39f671",
+        "sdist_sha256": "4aec4570b03ef9ed64ed2ff3f080ed3d170010f7563a0631b4cbc7756cd5085f",
+        "date": "2026-11-02",
+        "network_isolation": "PASS; isolated network namespace; external TCP blocked",
+        "wheel_install": "PASS; no index, dependencies, or build isolation",
+        "sdist_install": "PASS; no index, dependencies, or build isolation",
+        "import_origin": "PASS; modules.operations.scripts.archaeology resolved from each private target",
+        "cli_help": "PASS; giga-archaeology and giga-archaeologist for both artifacts",
+        "cleanup": "PASS; private targets and source-build staging removed",
+        "scope_note": "These exact r6 bytes are superseded; this result does not validate final11/r9 artifacts."
+      }
     }
   }
 }

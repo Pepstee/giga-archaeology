@@ -152,7 +152,7 @@ the previously published beta's source-mapping validation.
 ## Increment verification (2026-09-29)
 
 The focused location, public identity, map-catalog and portable OS-support suite
-passed 44 tests on ArtVault:
+passed 44 tests on Linux:
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider \
@@ -161,7 +161,7 @@ PYTHONDONTWRITEBYTECODE=1 python -m pytest -q -p no:cacheprovider \
 ```
 
 A live CLI refresh/query smoke check used the exact machine-authority register
-with only `giga-archaeology` selected. It inspected only the registered ArtVault
+with only `giga-archaeology` selected. It inspected only the registered Linux
 workspace, observed the expected branch and base HEAD
 `93371f9158d5c339cf050355a8203065e68f0b62`, and successfully queried the sealed
 receipt without rescanning. The inactive historical location and unselected
@@ -180,7 +180,7 @@ matched, current inventory source/documentation and the CLI entry point were
 present, and every wheel RECORD hash and size validated. No package was extracted
 or installed into a second execution surface.
 
-The live ArtVault inspect/refresh/query smoke was repeated at
+The live Linux inspect/refresh/query smoke was repeated at
 `fba2069af2514c183d52a8bf4aba986be9c21f67`. Only the canonical workspace was
 inspected; fixed-time inspect and refresh results matched, query verified the
 receipt without rescanning, and source context contained only the five allowlisted
@@ -194,6 +194,6 @@ register filename and absolute path are absent from all inspect/refresh/query
 API results, CLI results and saved receipts. Existing immutable receipts are not
 rewritten by this source correction.
 The public API evidence-source boundary follow-up passed the focused suite on
-Python 3.11, 3.13 and 3.14 (55 tests per interpreter) on ArtVault. Regression
+Python 3.11, 3.13 and 3.14 (55 tests per interpreter) on Linux. Regression
 coverage rejects unsupported kinds/fields before any root observation. Hosted
 macOS and Windows CI results remain unverified.

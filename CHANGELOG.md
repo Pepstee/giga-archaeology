@@ -6,7 +6,7 @@
 - Refreshes release documentation and evidence for the current canonical source.
 - Fixed build metadata version drift by deriving the artifact version from `pyproject.toml` and added regression coverage; scan behavior is unchanged.
 - Redacts UNC and extended-length Windows paths from optional PowerShell diagnostics.
-- Verified the hosted Ubuntu/macOS Python 3.11–3.14 suites and Windows Python 3.11–3.14 lock-error and supported-scan checks; Windows Python 3.12 also built and installed both package formats and passed their supported scans.
+- Earlier hosted checks passed for the source snapshots tested at the time; current hosted validation stopped before job steps. See README and the release evidence ledger for current results and limits.
 
 ## 0.1.3b3 — portability and clean test setup
 
@@ -14,7 +14,7 @@
 - Added a Python quickstart walkthrough to the source archive with safeguards for output paths and existing data.
 - Fixed SQLite URI attachment for Python 3.11 and added a dedicated test extra for repeatable contributor setup.
 - Corrected the pinned Tree-sitter version assertion and documented the Linux sandbox prerequisite.
-- Verified the full suite on ArtVault Linux with Python 3.11, 3.12, 3.13 and 3.14; macOS and Windows remain unverified for this candidate.
+- Verified the full suite on Linux with Python 3.11, 3.12, 3.13 and 3.14; macOS and Windows remain unverified for this candidate.
 - Public publication remains separate from preparation.
 
 ## 0.1.3b2 — MIT-licensed developer beta
