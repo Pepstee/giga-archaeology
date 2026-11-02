@@ -640,23 +640,14 @@ ArtVault canon after earlier whole-suite invocations were interrupted by WSL ser
 They reported **441 passed, 1 skipped, and 2 subtests passed** in aggregate. This is targeted
 module-level evidence, not a single successful full-suite run.
 
-GitHub Actions run [41378964879](https://github.com/Pepstee/giga-archaeology/actions/runs/41378964879)
-tested commit `6f34c97fb6eb98faa548a4600b11faf00be72c7d` and completed all 12 matrix jobs
-successfully. Ubuntu and macOS full suites passed on Python 3.11 through 3.14. Windows lock-error
-mapping and supported-scan checks passed on Python 3.11 through 3.14. The Windows Python 3.12
-job built and installed both archive formats and passed their installed supported-scan checks.
-The earlier successful run 41371777892 on commit 5edd6e8 remains a prior checkpoint; the
-41378964879 result is the latest successful hosted matrix verified for this record.
+GitHub Actions run [41380822543](https://github.com/Pepstee/giga-archaeology/actions/runs/41380822543)
+tested documentation snapshot commit `9df2def1924acfdb0ba5bb26031f171ee57ebbf2` and completed
+all 12 matrix jobs successfully. Ubuntu and macOS full suites passed on Python 3.11 through 3.14.
+Windows lock-error mapping and supported-scan checks passed on Python 3.11 through 3.14. The
+Windows Python 3.12 job built and installed a wheel and source archive, passed pip requirement
+checks and CLI help, and passed supported scans using both installed formats.
 
-The registered branch is now at evidence-only commit `7044b9a0cfc9d34a64a539b5be79005e5bbfa7dd`.
-No workflow run is associated with that later commit, so the 41378964879 matrix evidence applies
-to 6f34c97, not to HEAD. The evidence-only commit did not change package inputs.
-
-The October 31 ArtVault wheel and source archive canaries passed only for their recorded hashes.
-The statically inspected final5 artifacts, built before this documentation update, were wheel SHA-256
-`b8d5952c2de6a78bb040b52d99628892ed6ebec4333e4fa37c1e7f54633c0317` and sdist SHA-256
-`0245f4d0cd06034db569dc8440ae5f83100beadb70e5b0bb6fb57aef3ef975c5`. Their exact-hash install
-canaries remain pending. The previously approved October 31 sdist hash is not the current sdist;
-its old approval does not apply to these artifacts. Rebuild after final documentation changes and
-canary only the exact hashes approved for distribution. No public package or GitHub release has
-been made.
+These package checks apply to the artifacts built in that GitHub workflow. They do not verify the
+separately built ArtVault release artifacts. Exact artifact hashes and ArtVault canary status are
+maintained in the existing release evidence ledger; canaries apply only to the exact bytes tested.
+No public package or GitHub release has been made.

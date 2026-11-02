@@ -6,7 +6,7 @@
 - Refreshes release documentation and evidence for the current canonical source.
 - Fixed build metadata version drift by deriving the artifact version from `pyproject.toml` and added regression coverage; scan behavior is unchanged.
 - Redacts UNC and extended-length Windows paths from optional PowerShell diagnostics.
-- Publication remains pending cross-platform and installed-artifact verification.
+- Verified the hosted Ubuntu/macOS Python 3.11–3.14 suites and Windows Python 3.11–3.14 lock-error and supported-scan checks; Windows Python 3.12 also built and installed both package formats and passed their supported scans.
 
 ## 0.1.3b3 — portability and clean test setup
 
