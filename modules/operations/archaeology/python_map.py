@@ -20,6 +20,9 @@ _SOURCE_SNAPSHOT_STAGES = frozenset(
         "inventory-vs-lstat",
         "inventory-vs-fstat-before",
         "fstat-before-vs-after",
+        "source-unavailable",
+        "source-not-regular",
+        "inventory-vs-content-hash",
     }
 )
 _SOURCE_SNAPSHOT_FIELDS = frozenset(
@@ -69,12 +72,14 @@ class PythonMapError(ValueError):
 
     def safe_diagnostic(self) -> dict[str, Any]:
         """Expose only allowlisted stage and field names, never exception text."""
-        if self.diagnostic_stage is None or not self.diagnostic_fields:
+        if self.diagnostic_stage is None:
             return {}
-        return {
-            "snapshot_mismatch_stage": self.diagnostic_stage,
-            "snapshot_mismatch_fields": list(self.diagnostic_fields),
+        diagnostic: dict[str, Any] = {
+            "snapshot_mismatch_stage": self.diagnostic_stage
         }
+        if self.diagnostic_fields:
+            diagnostic["snapshot_mismatch_fields"] = list(self.diagnostic_fields)
+        return diagnostic
 
 
 @dataclass(frozen=True)
@@ -209,9 +214,15 @@ def read_exact_artifact(root: Path, record: Mapping[str, Any]) -> bytes:
     try:
         before = path.lstat()
     except OSError as exc:
-        raise PythonMapError(f"Python source is unavailable: {relative}") from exc
+        raise PythonMapError(
+            f"Python source is unavailable: {relative}",
+            diagnostic_stage="source-unavailable",
+        ) from exc
     if path.is_symlink() or not stat.S_ISREG(before.st_mode):
-        raise PythonMapError(f"Python source is not a real regular file: {relative}")
+        raise PythonMapError(
+            f"Python source is not a real regular file: {relative}",
+            diagnostic_stage="source-not-regular",
+        )
     expected_fields = [
         record["device"],
         record["inode"],
@@ -267,7 +278,10 @@ def read_exact_artifact(root: Path, record: Mapping[str, Any]) -> bytes:
         )
     content = b"".join(chunks)
     if digest.hexdigest() != record.get("content_sha256"):
-        raise PythonMapError(f"Python source hash drifted from inventory: {relative}")
+        raise PythonMapError(
+            f"Python source hash drifted from inventory: {relative}",
+            diagnostic_stage="inventory-vs-content-hash",
+        )
     return content
 
 

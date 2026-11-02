@@ -121,6 +121,9 @@ def _mapper_source_diagnostic(store: Path) -> dict[str, object]:
         "inventory-vs-lstat",
         "inventory-vs-fstat-before",
         "fstat-before-vs-after",
+        "source-unavailable",
+        "source-not-regular",
+        "inventory-vs-content-hash",
     }
     allowed_fields = {
         "st_dev",
@@ -134,6 +137,7 @@ def _mapper_source_diagnostic(store: Path) -> dict[str, object]:
         "st_nlink",
     }
     counts: Counter[tuple[str, str]] = Counter()
+    stage_counts: Counter[str] = Counter()
     failures = 0
     for (payload_json,) in rows:
         try:
@@ -149,14 +153,21 @@ def _mapper_source_diagnostic(store: Path) -> dict[str, object]:
         failures += 1
         stage = failure.get("snapshot_mismatch_stage")
         fields = failure.get("snapshot_mismatch_fields")
-        if stage not in allowed_stages or not isinstance(fields, list):
+        if not isinstance(stage, str) or stage not in allowed_stages:
             continue
-        for field in set(fields):
+        stage_counts[stage] += 1
+        if not isinstance(fields, list):
+            continue
+        for field in set(item for item in fields if isinstance(item, str)):
             if field in allowed_fields:
                 counts[(stage, field)] += 1
     return {
         "available": True,
         "source_snapshot_failures": failures,
+        "stages": [
+            {"stage": stage, "count": count}
+            for stage, count in sorted(stage_counts.items())
+        ],
         "mismatches": [
             {"stage": stage, "field": field, "count": count}
             for (stage, field), count in sorted(counts.items())
@@ -165,19 +176,44 @@ def _mapper_source_diagnostic(store: Path) -> dict[str, object]:
 
 
 def test_python_snapshot_diagnostic_is_pathless_and_allowlisted() -> None:
-    error = PythonMapError(
-        "C:\\Users\\private\\sample.py secret=value",
-        diagnostic_stage="inventory-vs-lstat",
-        diagnostic_fields=("st_dev", "st_ino", "C:\\private", "st_size:42"),
-    )
-    diagnostic = error.safe_diagnostic()
-    assert diagnostic == {
-        "snapshot_mismatch_stage": "inventory-vs-lstat",
-        "snapshot_mismatch_fields": ["st_dev", "st_ino"],
-    }
-    serialized = json.dumps(diagnostic)
+    errors = [
+        PythonMapError(
+            "C:\\Users\\private\\sample.py secret=source",
+            diagnostic_stage="source-unavailable",
+        ),
+        PythonMapError(
+            "C:\\Users\\private\\sample.py secret=kind",
+            diagnostic_stage="source-not-regular",
+        ),
+        PythonMapError(
+            "C:\\Users\\private\\sample.py secret=hash",
+            diagnostic_stage="inventory-vs-content-hash",
+        ),
+        PythonMapError(
+            "C:\\Users\\private\\sample.py secret=stat",
+            diagnostic_stage="inventory-vs-lstat",
+            diagnostic_fields=("st_dev", "st_ino", "C:\\private", "st_size:42"),
+        ),
+        PythonMapError(
+            "C:\\Users\\private\\sample.py",
+            diagnostic_stage="C:\\private",
+            diagnostic_fields=("st_dev",),
+        ),
+    ]
+    diagnostics = [error.safe_diagnostic() for error in errors]
+    assert diagnostics == [
+        {"snapshot_mismatch_stage": "source-unavailable"},
+        {"snapshot_mismatch_stage": "source-not-regular"},
+        {"snapshot_mismatch_stage": "inventory-vs-content-hash"},
+        {
+            "snapshot_mismatch_stage": "inventory-vs-lstat",
+            "snapshot_mismatch_fields": ["st_dev", "st_ino"],
+        },
+        {},
+    ]
+    serialized = json.dumps(diagnostics)
     assert "C:\\Users" not in serialized
-    assert "secret=value" not in serialized
+    assert "secret=" not in serialized
     assert "42" not in serialized
 
 
