@@ -6646,4 +6646,61 @@
     },
     "canary_scope_note": "No install canary was run. Each artifact requires approval tied to its exact hash."
   }
+,
+  "current_artifact_build_20261102_final8": {
+    "built_date": "2026-11-02",
+    "source_commit": "3cee683324a4f1a65a24c88287412146e6041e34",
+    "branch": "codex/artvault-portable-giga-archaeology",
+    "platform": "Registered ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1; bubblewrap network namespace disabled",
+    "output_directory": "/tmp/giga-archaeology-build-3cee683-r3 (not present on follow-up inspection)",
+    "status": "PASS_SINGLE_BUILD_STATIC_INSPECTION_CANARIES_PENDING",
+    "artifacts": [
+      {
+        "kind": "wheel",
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "sha256": "3b3beee18f445cdacc2f6d19076874fba3107cada56a85ba9ede443748e74ffa",
+        "bytes": 404859,
+        "members": 48,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      },
+      {
+        "kind": "sdist",
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "sha256": "b319742bd805b983204351e6257d9bcc1b32e8d010ac13b6d68a86c4403e87a9",
+        "bytes": 372469,
+        "members": 47,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      }
+    ],
+    "archive_inspection": {
+      "wheel_crc": "PASS",
+      "version": "0.1.3b4",
+      "entrypoints": {
+        "giga-archaeologist": "PRESENT",
+        "giga-archaeology": "PRESENT"
+      },
+      "wheel_quickstart_excluded": true,
+      "sdist_quickstart_present": true,
+      "sdist_build_backend_present": true,
+      "sdist_paths_safe": true,
+      "TwinCore_excluded_from_both": true,
+      "bounded_privacy_screen": "NOT_RUN_FOR_THIS_BUILD"
+    },
+    "focused_packaging_tests": {
+      "command": "python -m pytest tests/test_archaeology_packaging.py -p no:cacheprovider --basetemp=/tmp/giga-archaeology-build-3cee683-r3/pytest-tmp",
+      "passed": 9,
+      "failed": 0,
+      "platform": "Registered ArtVault Linux x86_64 / CPython 3.12.3"
+    },
+    "dist_artifacts_unchanged": {
+      "wheel_sha256": "71ebf72ea15db30ada296e2712d69f3e05cd2246dfcf01109395e23f514bf708",
+      "sdist_sha256": "4b68815dbe5372a13f0079fa6793625b8640e89b84480bb533014e7bd808417d"
+    },
+    "approved_older_sdist_canary": {
+      "sha256": "f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd",
+      "result": "PASS_ALREADY_RECORDED_FOR_EXACT_HASH; does not apply to this newly built sdist"
+    }
+  }
 }
