@@ -671,3 +671,22 @@ available in the current ArtVault artifact locations. The current ArtVault sdist
 authorized exact-hash install canary and is not cleared for release. Earlier canary evidence
 remains scoped to its recorded bytes. No build, full-suite run, macOS/Windows artifact install,
 public package, or GitHub release is verified by this entry.
+
+
+## 2026-11-02 - Full local Linux suite and current hosted-run confirmation
+
+The full source-tree suite passed **444 tests, 1 skipped, and 2 subtests** in 91.21 seconds on
+ArtVault Linux x86_64 with CPython 3.12.3, at source commit
+734a16957fb1b77b829dce031e614bb9bf84c59d. This run used PYTHONDONTWRITEBYTECODE=1 and
+pytest's cache provider was disabled. It is Linux-only evidence; the full macOS and Windows suites
+remain unverified.
+
+GitHub Actions run [41387954350](https://github.com/Pepstee/giga-archaeology/actions/runs/41387954350)
+was a push run for the same source commit. All 12 jobs completed as failures before any job steps
+ran; the job API exposed no steps and a sampled job had an empty step list. No hosted test result is
+claimed. The run is consistent with the runner-admission restriction recorded for the prior hosted
+attempts. It does not establish a code-level test failure.
+
+No current ArtVault wheel or source archive install canary is claimed by this entry. The October 31
+canary remains scoped to its exact historical bytes. No public package or GitHub release has been
+made.

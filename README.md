@@ -20,6 +20,8 @@ An earlier Windows run, [41369814990](https://github.com/Pepstee/giga-archaeolog
 
 Actions run [41385898165](https://github.com/Pepstee/giga-archaeology/actions/runs/41385898165) tested the current Windows metadata fix, commit `7c359b8dff3f721d3ba43b06b42129a3f8fc3fc6`. All 12 jobs failed before hosted test steps ran. The retry reported no runner names or steps, and its logs and artifacts were unavailable. A focused local suite passed 59 tests; that is not a full-suite result. The current ArtVault source archive still needs an exact-hash install canary; the October 31 canary record applies only to its historical artifact.
 
+On source commit 734a16957fb1b77b829dce031e614bb9bf84c59d, the full local suite passed **444 tests, 1 skipped, and 2 subtests** in 91.21 seconds on ArtVault Linux x86_64 with CPython 3.12.3. This is Linux source-tree evidence; the full macOS and Windows suites remain unverified. GitHub Actions run [41387954350](https://github.com/Pepstee/giga-archaeology/actions/runs/41387954350) targeted the same commit, but all 12 jobs failed before any steps ran. No hosted tests ran, so the run adds no test result.
+
 ## Install from a source checkout
 
 Python 3.11+ and Git are required. No package has been published to PyPI. Once the GitHub
