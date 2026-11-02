@@ -45,6 +45,50 @@ def _cli(*arguments: str) -> str:
     return result.stdout
 
 
+def _summarize_scan_errors(values: list[object]) -> list[dict[str, object]]:
+    counts: Counter[tuple[str, int | None, str | None]] = Counter()
+    allowed_identity_fields = {"st_dev", "st_ino"}
+
+    for value in values:
+        if value == "identity-changed-before-read":
+            counts[("identity-changed-before-read", None, None)] += 1
+        elif isinstance(value, str) and value.startswith("identity-changed-before-read:"):
+            fields = value.partition(":")[2].split(",")
+            if fields and all(field in allowed_identity_fields for field in fields):
+                for field in set(fields):
+                    counts[("identity-changed-before-read", None, field)] += 1
+            else:
+                counts[("other", None, None)] += 1
+        elif value == "root-identity-changed-during-scan":
+            counts[("root-identity-change", None, None)] += 1
+        elif value == "git-status-changed-during-scan":
+            counts[("git-status-change", None, None)] += 1
+        elif isinstance(value, str):
+            match = re.fullmatch(r"(read|readlink|stat):([0-9]+)", value)
+            if match:
+                counts[(match.group(1), int(match.group(2)), None)] += 1
+            else:
+                stat_match = re.search(r":stat:([0-9]+)$", value)
+                if stat_match:
+                    counts[("stat", int(stat_match.group(1)), None)] += 1
+                else:
+                    counts[("other", None, None)] += 1
+        else:
+            counts[("other", None, None)] += 1
+
+    return [
+        {"category": category, "errno": errno, "field": field, "count": count}
+        for (category, errno, field), count in sorted(
+            counts.items(),
+            key=lambda item: (
+                item[0][0],
+                item[0][1] if item[0][1] is not None else -1,
+                item[0][2] or "",
+            ),
+        )
+    ]
+
+
 def _navigation_diagnostic(store: Path) -> dict[str, object]:
     """Return pathless scan diagnostics suitable for hosted CI logs."""
     try:
@@ -58,34 +102,10 @@ def _navigation_diagnostic(store: Path) -> dict[str, object]:
     except (OSError, TypeError, ValueError):
         return {"available": False}
 
-    reason_counts: Counter[tuple[str, int | None]] = Counter()
-    fallback_reason_counts: Counter[tuple[str, int | None]] = Counter()
-
-    def record_error(
-        target: Counter[tuple[str, int | None]], value: object
-    ) -> None:
-        if value == "identity-changed-before-read":
-            target[("identity-changed-before-read", None)] += 1
-        elif value == "changed-during-read":
-            target[("changed-during-read", None)] += 1
-        elif isinstance(value, str):
-            match = re.fullmatch(r"(read|readlink|stat):([0-9]+)", value)
-            if match:
-                target[(match.group(1), int(match.group(2)))] += 1
-            else:
-                stat_match = re.search(r":stat:([0-9]+)$", value)
-                if stat_match:
-                    target[("stat", int(stat_match.group(1)))] += 1
-                else:
-                    target[("other", None)] += 1
-        else:
-            target[("other", None)] += 1
-
     failures = manifest.get("failures", [])
-    if isinstance(failures, list):
-        for failure in failures:
-            record_error(fallback_reason_counts, failure)
-
+    if not isinstance(failures, list):
+        failures = []
+    diagnostic_errors = list(failures)
     scan_errors_available = False
     database = store / "runs" / run_id / "inventory.sqlite3"
     try:
@@ -96,13 +116,18 @@ def _navigation_diagnostic(store: Path) -> dict[str, object]:
             ).fetchall()
         finally:
             connection.close()
-        for (scan_error,) in rows:
-            record_error(reason_counts, scan_error)
+        diagnostic_errors = [scan_error for (scan_error,) in rows]
+        diagnostic_errors.extend(
+            failure
+            for failure in failures
+            if failure in {
+                "root-identity-changed-during-scan",
+                "git-status-changed-during-scan",
+            }
+        )
         scan_errors_available = True
     except (OSError, sqlite3.Error, TypeError, ValueError):
         pass
-    if not scan_errors_available:
-        reason_counts = fallback_reason_counts
 
     scan = manifest.get("scan", {})
     scope = scan.get("scope") if isinstance(scan, dict) else None
@@ -125,15 +150,36 @@ def _navigation_diagnostic(store: Path) -> dict[str, object]:
         "status": status,
         "scope": scope,
         "errors": errors if isinstance(errors, int) and not isinstance(errors, bool) else "unknown",
-        "failure_reasons": [
-            {"category": category, "errno": errno, "count": count}
-            for (category, errno), count in sorted(
-                reason_counts.items(), key=lambda item: (item[0][0], item[0][1] or -1)
-            )
-        ],
+        "failure_reasons": _summarize_scan_errors(diagnostic_errors),
         "scan_errors_available": scan_errors_available,
         "git_stable_during_scan": stable,
     }
+
+
+def test_scan_error_summary_exposes_only_identity_field_names() -> None:
+    summary = _summarize_scan_errors(
+        [
+            "identity-changed-before-read:st_dev,st_ino",
+            "C:\\Users\\private\\sample.py:read:13",
+        ]
+    )
+    assert summary == [
+        {
+            "category": "identity-changed-before-read",
+            "errno": None,
+            "field": "st_dev",
+            "count": 1,
+        },
+        {
+            "category": "identity-changed-before-read",
+            "errno": None,
+            "field": "st_ino",
+            "count": 1,
+        },
+        {"category": "other", "errno": None, "field": None, "count": 1},
+    ]
+    assert "C:\\Users\\private" not in json.dumps(summary)
+    assert "13" not in json.dumps(summary)
 
 
 def test_supported_scan_maps_and_queries_a_committed_python_repository(tmp_path: Path) -> None:

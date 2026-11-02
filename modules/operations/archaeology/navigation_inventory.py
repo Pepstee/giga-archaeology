@@ -583,8 +583,13 @@ def _stable_hash(
             else os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
         )
         opened = os.fstat(descriptor)
-        if (opened.st_dev, opened.st_ino) != (before.st_dev, before.st_ino):
-            return "error", "identity-changed-before-read"
+        identity_mismatches = [
+            name
+            for name in ("st_dev", "st_ino")
+            if getattr(opened, name) != getattr(before, name)
+        ]
+        if identity_mismatches:
+            return "error", "identity-changed-before-read:" + ",".join(identity_mismatches)
         digest = hashlib.sha256()
         while chunk := os.read(descriptor, 1024 * 1024):
             digest.update(chunk)
