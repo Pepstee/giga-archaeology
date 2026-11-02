@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import Counter
+import hashlib
 import json
 import os
 import re
@@ -10,6 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from modules.operations.archaeology.navigation_inventory import _stable_hash
 from modules.operations.archaeology.python_map import PythonMapError
 
 
@@ -173,6 +175,17 @@ def _mapper_source_diagnostic(store: Path) -> dict[str, object]:
             for (stage, field), count in sorted(counts.items())
         ],
     }
+
+
+def test_navigation_hash_preserves_crlf_bytes(tmp_path: Path) -> None:
+    source = tmp_path / "sample.py"
+    content = b"first line\r\nsecond line\r\n"
+    source.write_bytes(content)
+
+    digest, error = _stable_hash(source, source.stat())
+
+    assert error is None
+    assert digest == hashlib.sha256(content).hexdigest()
 
 
 def test_python_snapshot_diagnostic_is_pathless_and_allowlisted() -> None:

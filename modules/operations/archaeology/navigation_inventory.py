@@ -580,7 +580,12 @@ def _stable_hash(
         descriptor = (
             open_scoped_regular(scoped_root, path.relative_to(scoped_root).as_posix())
             if scoped_root is not None
-            else os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+            else os.open(
+                path,
+                os.O_RDONLY
+                | getattr(os, "O_NOFOLLOW", 0)
+                | getattr(os, "O_BINARY", 0),
+            )
         )
         opened = os.fstat(descriptor)
         identity_mismatches = [
