@@ -585,3 +585,71 @@ GitHub Actions run [41200562209](https://github.com/Pepstee/giga-archaeology/act
 ## 2026-10-31 — hosted CI observation reviewed for release record
 
 GitHub Actions run [41202881050](https://github.com/Pepstee/giga-archaeology/actions/runs/41202881050) targeted earlier documentation checkpoint `14b40e3f2f93bf35dc620b4d85bb6c60798ed8ef`. The 12 matrix jobs failed before any steps ran; each job record had an empty runner name and zero steps. The available job records do not establish the cause, and this run produced no hosted test results. At inspection time, registered branch head `cdcdf530d9dbcfc934bd96dcc17f5e45e6b942c2` had zero check runs. This is a record of the inspected run, not a claim of hosted validation for a later commit. Hosted macOS and Windows validation remain unverified.
+
+## 2026-11-01 — limited canaries for the prior documentation artifacts
+
+The reproducible wheel and source archive were built from package inputs at commit
+`bafb71f6a2ca06d631de36c3bc161c67741362e6`. Wheel SHA-256
+`08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe` and source archive
+SHA-256 `f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd` each passed a
+limited install canary on ArtVault Linux x86_64 with CPython 3.12.3. Distribution metadata and
+installed module origin were verified; `giga-archaeologist --help` and
+`giga-archaeology --help` both passed, and temporary install targets were removed.
+
+During the sdist install canary, pip ran without build isolation or dependency resolution, and
+the source archive build backend ran in a network-isolated environment. Runtime dependencies came
+from the existing ArtVault environment. These checks do not verify a clean-environment dependency install, native macOS or
+Windows execution, or hosted CI. Full macOS and Windows suites and hosted test results remain
+unverified. No public package or GitHub release has been made, and the repository remains private.
+
+These results apply only to the exact hashes above and the documentation snapshot used for that
+build. Rebuild and verify both distribution formats after documentation changes; canary the exact
+hashes intended for distribution.
+
+## 2026-11-02 — hosted portability matrix
+
+GitHub Actions run [41371777892](https://github.com/Pepstee/giga-archaeology/actions/runs/41371777892) tested commit
+5edd6e8676c2610c9faa976ef0555c679f3bd77d and completed all 12 matrix jobs successfully.
+Ubuntu and macOS full source suites passed on Python 3.11 through 3.14. Windows lock-error
+mapping and supported-scan checks passed on Python 3.11 through 3.14. The Windows Python 3.12
+job also built and installed a wheel and source archive from this commit and passed the installed
+supported-scan checks for both formats.
+
+This is the first successful hosted matrix recorded for the current branch. The earlier run
+[41369814990](https://github.com/Pepstee/giga-archaeology/actions/runs/41369814990) failed on
+Windows Python 3.12 and 3.13 with SQLite integer overflow during metadata insertion. That failure
+did not recur in run 41371777892. Commit 5edd6e8 adds a pathless diagnostic that can report only
+allowlisted SQLite metadata column names if the overflow recurs; no offending column was captured,
+the cause remains unconfirmed, and no metadata conversion fix is claimed.
+
+The Windows Python 3.12 package steps are CI evidence for builds from this commit; they are distinct
+from the exact ArtVault canaries. Wheel SHA-256
+08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe and source archive SHA-256
+f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd, built from the October 31
+documentation snapshot, passed limited ArtVault Linux x86_64 CPython 3.12.3 install canaries.
+Distribution metadata, installed module origin, and both CLI help commands passed; the sdist
+backend ran without network access, with runtime dependencies from the existing environment. These
+artifacts predate this documentation update and do not establish clean-environment dependency
+resolution. Rebuild and verify both formats from the final documentation before distribution. The
+repository remains private; no public package or GitHub release has been made.
+
+## 2026-11-02 - current targeted checks and release state
+
+The 36 repository test modules were run individually or in small groups from the registered
+ArtVault canon after earlier whole-suite invocations were interrupted by WSL service failures.
+They reported **441 passed, 1 skipped, and 2 subtests passed** in aggregate. This is targeted
+module-level evidence, not a single successful full-suite run.
+
+GitHub Actions run [41371777892](https://github.com/Pepstee/giga-archaeology/actions/runs/41371777892)
+tested commit `5edd6e8676c2610c9faa976ef0555c679f3bd77d` and passed all 12 matrix jobs. Ubuntu and macOS full suites passed
+on Python 3.11 through 3.14; Windows lock-error and supported-scan checks passed on Python 3.11
+through 3.14, and the Windows Python 3.12 job built and installed both archive formats and passed
+installed supported-scan checks. The preceding Windows SQLite overflow failure was not reproduced;
+its cause remains unconfirmed.
+
+The October 31 wheel and source archive canaries remain evidence for those exact, older hashes only.
+A requested repeat sdist canary for SHA-256
+`f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd` was not run because the
+archive currently present in `dist/` has a different hash. New artifacts must be rebuilt from this
+documentation state and approved by exact hash before install canaries. No public package or GitHub
+release has been made.

@@ -6238,5 +6238,204 @@
       ]
     },
     "scope_limit": "Exact artifact install and CLI smoke checks on ArtVault Linux only. Dependency resolution in a clean environment and native macOS/Windows execution were not covered."
+  },
+  "current_release_state_20261102": {
+    "status": "UNPUBLISHED_VALIDATION_ONLY",
+    "privacy_purge_on_github": "NO_PERSONAL_DATA_IDENTIFIED_WITHIN_BOUNDED_SCREEN",
+    "publication_ready": false,
+    "blockers": [
+      "Exact-hash install canaries for the newly built wheel and sdist",
+      "Broader privacy review for GitHub content outside the bounded code/history/issue/PR screen",
+      "Review and publish the current canonical branch after required approval"
+    ]
+  },
+  "current_artifact_build_20261102_final3": {
+    "status": "SUPERSEDED_AFTER_BETA_TRAILING_NEWLINE_NORMALIZATION",
+    "built_at_utc": "2026-11-02T02:23:00Z",
+    "source_commit": "5edd6e8676c2610c9faa976ef0555c679f3bd77d",
+    "source_tree": "f9c62582e7a6213819b5336fd55351d8ddb6a166",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1",
+    "output_directory": "/var/tmp/giga-archaeology-release-build-20261102-final3",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "446588447158a192601106aed2b22dda159ba5a10a39b98bbd596feb7f9ed136",
+        "bytes": 402665,
+        "members": 48,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "9a1ef8b9cf9460235e550067d848e6347d8065cecc1d5f298debadfc31423f17",
+        "bytes": 370800,
+        "members": 47,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      }
+    ],
+    "archive_inspection": {
+      "wheel": "CRC passed; metadata, both entry points, and TwinCore exclusion inspected",
+      "sdist": "README and BETA_VALIDATION byte-match current source; quickstart and backend present; TwinCore excluded",
+      "archives_extracted": false,
+      "source_executed": false
+    },
+    "preservation_check": {
+      "git_index_sha256": "42602be5a525a45ab1b66b9294cc8a0e1fa1231dc2fd29cf7bacf0e9dd481716",
+      "dist_sdist_sha256_unchanged": "4b68815dbe5372a13f0079fa6793625b8640e89b84480bb533014e7bd808417d",
+      "dist_wheel_sha256_unchanged": "71ebf72ea15db30ada296e2712d69f3e05cd2246dfcf01109395e23f514bf708"
+    },
+    "static_privacy_screen": {
+      "status": "PASS_WITHIN_PATTERN_SCOPE",
+      "wheel_members_scanned": 48,
+      "sdist_members_scanned": 47,
+      "matches": {
+        "email": 0,
+        "home_path": 0,
+        "github_or_aws_token": 0,
+        "private_key": 0
+      },
+      "method": "Read archive members in memory; no extraction or source execution.",
+      "limitation": "Bounded pattern screen only; not a general personal-data or secret-detection guarantee."
+    },
+    "superseded_by": {
+      "wheel_sha256": "311b81fae5eecc0bf0610745b07a12db24ef23e9e49877855716c48857902b83",
+      "sdist_sha256": "42bd655ba9747c698ae2a035063a3f4e0fe372cbcd3222b9673c16a3de609218"
+    }
+  },
+  "github_privacy_screen_20261102": {
+    "status": "NO_PERSONAL_DATA_IDENTIFIED_WITHIN_BOUNDED_PATTERN_SCREEN",
+    "repository": "Pepstee/giga-archaeology",
+    "visibility": "private",
+    "github_branches": 1,
+    "scanned_branch": "codex/artvault-portable-giga-archaeology",
+    "reachable_commit_count": 282,
+    "git_history_pattern_results": {
+      "credential_patterns": 0,
+      "email_matches": 2,
+      "email_matches_placeholder_domains": 2,
+      "email_matches_other_domains": 0,
+      "home_path_matches": 2,
+      "home_path_matches_redacted_placeholders": 2,
+      "home_path_matches_personal_components": 0,
+      "commit_author_metadata": {
+        "distinct_emails": 1,
+        "github_noreply_emails": 1,
+        "distinct_names": 2,
+        "project_handle_or_bot_names": 2,
+        "other_names": 0
+      }
+    },
+    "github_search_results": {
+      "default_branch_code_search_queries": 4,
+      "code_search_matches": 0,
+      "issue_search_queries": 3,
+      "issue_search_matches": 0,
+      "pull_request_search_queries": 3,
+      "pull_request_search_matches": 0
+    },
+    "limitation": "Bounded pattern screen only. Does not certify all personal-data types, GitHub profile/account metadata, attachments, discussions, Actions logs, or unrelated repositories."
+  },
+  "current_artifact_build_20261102_final4": {
+    "status": "SUPERSEDED_BY_FINAL5_DOCUMENTATION_CORRECTION",
+    "built_date": "2026-11-02",
+    "source_commit": "5edd6e8676c2610c9faa976ef0555c679f3bd77d",
+    "source_tree": "f9c62582e7a6213819b5336fd55351d8ddb6a166",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1",
+    "output_directory": "/var/tmp/giga-archaeology-release-build-20261102-final4",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "311b81fae5eecc0bf0610745b07a12db24ef23e9e49877855716c48857902b83",
+        "bytes": 402666,
+        "members": 48,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "42bd655ba9747c698ae2a035063a3f4e0fe372cbcd3222b9673c16a3de609218",
+        "bytes": 370800,
+        "members": 47,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      }
+    ],
+    "archive_inspection": {
+      "wheel": "CRC passed; metadata and both console entry points inspected; TwinCore excluded.",
+      "sdist": "README and BETA_VALIDATION byte-match current source; tar listing inspected; TwinCore excluded.",
+      "archives_extracted": false,
+      "source_executed": false
+    },
+    "static_privacy_screen": {
+      "status": "PASS_WITHIN_PATTERN_SCOPE",
+      "wheel_members_scanned": 48,
+      "sdist_members_scanned": 47,
+      "matches": {
+        "email": 0,
+        "home_path": 0,
+        "github_or_aws_token": 0,
+        "private_key": 0
+      },
+      "method": "Read archive members in memory; no extraction or source execution.",
+      "limitation": "Bounded pattern screen only; not a general personal-data or secret-detection guarantee."
+    },
+    "preservation_check": {
+      "staged_paths": "README.md, architecture/archaeology/BETA_VALIDATION.md, evidence/release-artifacts/0.1.3b4.json",
+      "dist_sdist_sha256_unchanged": "4b68815dbe5372a13f0079fa6793625b8640e89b84480bb533014e7bd808417d",
+      "dist_wheel_sha256_unchanged": "71ebf72ea15db30ada296e2712d69f3e05cd2246dfcf01109395e23f514bf708"
+    },
+    "superseded_by": {
+      "wheel_sha256": "b8d5952c2de6a78bb040b52d99628892ed6ebec4333e4fa37c1e7f54633c0317",
+      "sdist_sha256": "0245f4d0cd06034db569dc8440ae5f83100beadb70e5b0bb6fb57aef3ef975c5"
+    }
+  },
+  "current_artifact_build_20261102_final5": {
+    "status": "PASS_SINGLE_BUILD_STATIC_INSPECTION_CANARIES_PENDING",
+    "built_date": "2026-11-02",
+    "source_commit": "5edd6e8676c2610c9faa976ef0555c679f3bd77d",
+    "documentation_snapshot": "Corrected README release-status cross-reference; BETA_VALIDATION and package inputs unchanged from final4.",
+    "platform": "ArtVault Linux x86_64",
+    "python": "CPython 3.12.3",
+    "build_tool": "build 1.6.1; --no-isolation; PIP_NO_INDEX=1",
+    "output_directory": "/var/tmp/giga-archaeology-release-build-20261102-final5",
+    "artifacts": [
+      {
+        "filename": "giga_archaeology-0.1.3b4-py3-none-any.whl",
+        "kind": "wheel",
+        "sha256": "b8d5952c2de6a78bb040b52d99628892ed6ebec4333e4fa37c1e7f54633c0317",
+        "bytes": 402658,
+        "members": 48,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      },
+      {
+        "filename": "giga_archaeology-0.1.3b4.tar.gz",
+        "kind": "sdist",
+        "sha256": "0245f4d0cd06034db569dc8440ae5f83100beadb70e5b0bb6fb57aef3ef975c5",
+        "bytes": 370790,
+        "members": 47,
+        "canary": "PENDING_EXACT_HASH_APPROVAL"
+      }
+    ],
+    "archive_inspection": {
+      "wheel_crc": "PASS",
+      "metadata_and_entry_points": "PASS",
+      "sdist_readme_and_beta_match_source": "PASS",
+      "twin_core_excluded": true,
+      "archives_extracted": false,
+      "source_executed": false
+    },
+    "static_privacy_screen": {
+      "email_shaped_matches": 0,
+      "home_path_matches": 0,
+      "github_token_matches": 0,
+      "private_key_matches": 0,
+      "limitation": "Bounded pattern screen only; not a general privacy guarantee."
+    },
+    "canary_scope_note": "The user-approved October 31 sdist hash f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd is not present in current dist or retained build output. Its earlier successful canary remains recorded; this approval was not applied to different artifact hashes."
   }
 }

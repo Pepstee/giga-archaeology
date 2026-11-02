@@ -14,11 +14,9 @@ Queries combine structural and lexical matching. Coverage may be partial, and dy
 
 ## Release status
 
-`0.1.3b4` remains an unpublished developer beta. The most recent complete source suite passed on the registered ArtVault Linux x86_64 host with CPython 3.12.3: **437 passed, 1 skipped, and 2 subtests passed**. This is Linux-only evidence; hosted macOS and Windows validation remain unverified.
+0.1.3b4 remains an unpublished developer beta. GitHub Actions run [41371777892](https://github.com/Pepstee/giga-archaeology/actions/runs/41371777892) on commit 5edd6e8676c2610c9faa976ef0555c679f3bd77d completed all 12 matrix jobs successfully. Ubuntu and macOS full source suites passed on Python 3.11 through 3.14; Windows lock-error and supported-scan checks passed on Python 3.11 through 3.14. The Windows Python 3.12 job also built and installed a wheel and source archive and passed both installed supported-scan checks. No public package or GitHub release has been made.
 
-At the latest recorded GitHub Actions check, all 12 matrix jobs failed before runner assignment; no steps ran and no hosted test results were produced. See the [Actions run history](https://github.com/Pepstee/giga-archaeology/actions) for the current status. Hosted validation remains outstanding.
-
-Artifact verification is hash-specific. The sanitized documentation candidate has reproducible wheel and source archive builds; its exact hashes and source snapshot are recorded in the release evidence ledger. The exact current wheel still needs an offline install canary. Earlier wheel canaries passed, but those builds are superseded. No public package or GitHub release has been made, and the repository is currently private.
+An earlier Windows run, [41369814990](https://github.com/Pepstee/giga-archaeology/actions/runs/41369814990), failed on Python 3.12 and 3.13 with SQLite integer overflow during metadata insertion. It did not reproduce in run [41371777892](https://github.com/Pepstee/giga-archaeology/actions/runs/41371777892); the cause remains unconfirmed. Separately, wheel SHA-256 08ac3b56ab7ffcb7d0550ea5f53bbe2cd3ae50b317272b902549d9120b265bbe and source archive SHA-256 f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd from the October 31 documentation snapshot passed limited ArtVault Linux CPython 3.12.3 install canaries. The sdist backend ran without network access; dependencies came from the existing ArtVault environment. These exact artifacts predate this documentation update and do not verify clean-environment dependency resolution. Older build and canary records are preserved in BETA_VALIDATION.md and the release evidence ledger.
 
 ## Install from a source checkout
 
