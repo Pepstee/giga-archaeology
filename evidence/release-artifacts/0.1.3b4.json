@@ -6437,5 +6437,65 @@
       "limitation": "Bounded pattern screen only; not a general privacy guarantee."
     },
     "canary_scope_note": "The user-approved October 31 sdist hash f2409348cba4156135de0136ecf3974a1e383ac666e826b7e41ab3ecf0976ccd is not present in current dist or retained build output. Its earlier successful canary remains recorded; this approval was not applied to different artifact hashes."
+  },
+  "post_push_ci_41378964879_20261102": {
+    "status": "PASS_12_OF_12",
+    "commit": "6f34c97fb6eb98faa548a4600b11faf00be72c7d",
+    "tree": "0464707df9bd98e19db1f4091ee75e8a542cb14d",
+    "event": "push",
+    "completed_at_utc": "2026-11-02T02:48:23Z",
+    "platform_matrix": {
+      "ubuntu": "Full suite passed on Python 3.11, 3.12, 3.13, 3.14",
+      "macos": "Full suite passed on Python 3.11, 3.12, 3.13, 3.14",
+      "windows": "Lock-error mapping and supported-scan checks passed on Python 3.11, 3.12, 3.13, 3.14; Python 3.12 built/installed wheel and sdist and passed installed supported-scan checks"
+    },
+    "rerun": false
+  },
+  "quickstart_self_scan_20261102": {
+    "status": "PASS",
+    "source_commit": "6f34c97fb6eb98faa548a4600b11faf00be72c7d",
+    "entrypoint": "examples/quickstart.py",
+    "target": "Registered ArtVault canonical workspace itself",
+    "terms": [
+      "mapper",
+      "query"
+    ],
+    "output": "Private task output under /var/tmp/giga-archaeology-demo-20261102; outside repository",
+    "inventory": {
+      "status": "CURRENT",
+      "files": 8366,
+      "venv_paths": 7653,
+      "venv_semantic_disposition": "dependency-or-build-tree; semantic_eligible=false"
+    },
+    "map": {
+      "status": "CURRENT",
+      "entities": 50426,
+      "relations": 92972,
+      "facts_database_bytes": 654880768
+    },
+    "query": {
+      "status": "PASS",
+      "results_returned": 10,
+      "limited": true
+    },
+    "context": {
+      "status": "PASS",
+      "context_characters": 7509
+    },
+    "scope_note": "This is a real self-scan of the dirty canonical working tree, not the clean external-repository canary or installed-artifact canary. Output may contain source code and absolute paths and remains private."
+  },
+  "github_actions_log_privacy_screen_41378964879": {
+    "status": "NO_MATCHES_WITHIN_BOUNDED_PATTERNS",
+    "run_id": 41378964879,
+    "commit": "6f34c97fb6eb98faa548a4600b11faf00be72c7d",
+    "successful_job_logs_scanned": 12,
+    "log_fetch_errors": 0,
+    "email_address_matches": 0,
+    "nonstandard_home_path_matches": 0,
+    "credential_pattern_matches": 0,
+    "aws_key_matches": 0,
+    "private_key_marker_matches": 0,
+    "standard_runner_home_path_matches": 264,
+    "limitation": "Pattern screen only; does not cover older workflow logs, artifact contents, account/profile data, discussions, or every type of personal data."
   }
 }
