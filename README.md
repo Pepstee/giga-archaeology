@@ -26,8 +26,8 @@ records.
 
 ## Install from a source checkout
 
-Python 3.11+ and Git are required. No package has been published to PyPI. Once the GitHub
-repository is public, clone the source and create an environment:
+Python 3.11+ and Git are required. Archaeology is not yet published to PyPI. Install the
+source from the public GitHub repository and create an environment:
 
 ```sh
 git clone https://github.com/Pepstee/giga-archaeology.git

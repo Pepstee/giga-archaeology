@@ -7440,5 +7440,73 @@
         "scope_note": "These exact r6 bytes are superseded; this result does not validate final11/r9 artifacts."
       }
     }
+  },
+  "current_release_validation_20261104": {
+    "status": "NOT_RELEASE_READY",
+    "recorded_at_utc": "2026-11-04",
+    "canonical_source": {
+      "host": "ArtVault",
+      "root": "/srv/artvault/projects/giga-archaeologist/workspace",
+      "branch": "codex/artvault-portable-giga-archaeology",
+      "head": "c0f31f39de43c94efb1f5b9d3eca54b921d9bae1",
+      "tree": "614126291a91d6ae5637c3c4f5724ea966339c2d",
+      "tracked_changes": "none observed",
+      "untracked_work": "preserved"
+    },
+    "readme": {
+      "github_repository_visibility": "public, verified through GitHub API on 2026-11-04",
+      "pypi_project_status": "not published",
+      "install_guidance": "source checkout from public GitHub repository",
+      "correction": "Removed the stale condition that the GitHub repository would become public in the future."
+    },
+    "source_suite": {
+      "status": "PASS",
+      "source_commit": "c0f31f39de43c94efb1f5b9d3eca54b921d9bae1",
+      "platform": "ArtVault Linux x86_64",
+      "python": "CPython 3.12.3",
+      "command": ".venv/bin/python -m pytest -q",
+      "passed": 444,
+      "skipped": 1,
+      "subtests_passed": 2,
+      "duration_seconds": 116.78,
+      "scope": "canonical source suite; does not verify hosted CI or native macOS/Windows suites"
+    },
+    "hosted_ci": {
+      "run_id": 41493801421,
+      "url": "https://github.com/Pepstee/giga-archaeology/actions/runs/41493801421",
+      "commit": "c0f31f39de43c94efb1f5b9d3eca54b921d9bae1",
+      "conclusion": "failure",
+      "jobs": 12,
+      "runner_assigned_jobs": 0,
+      "jobs_with_steps": 0,
+      "interpretation": "All 12 matrix jobs failed before runner assignment; hosted tests did not run."
+    },
+    "publication": {
+      "github_repository_public": true,
+      "github_release_created": false,
+      "pypi_release_published": false,
+      "status": "closed pending hosted CI, platform verification, current artifact canaries, and privacy purge confirmation"
+    },
+    "donor_review": {
+      "status": "REVIEW_COMPLETE_NO_TRANSPLANT_IDENTIFIED",
+      "additions_reviewed": 33497,
+      "donor_commit": "d29d209e9094302937c60d28aeab7a54f78ede27",
+      "manifest_payload_files": 37,
+      "manifest_hashes_verified": 37,
+      "feature_review": "No unique Archaeology feature was identified for transplant."
+    },
+    "external_auth_and_privacy": {
+      "identified_retrievable_commit_objects": 9,
+      "support_purge_request": "unconfirmed",
+      "control_tower_handoff": "not sent; Codex chat connector returned approval-required while the active managed policy is never",
+      "scope_note": "No donor restoration, deletion, full-history fetch, or publication was attempted."
+    },
+    "remaining_gaps": [
+      "Hosted CI did not reach any runner or test step.",
+      "Full macOS and Windows suites are not verified.",
+      "Current artifact install canaries are pending for the exact release hashes.",
+      "The GitHub Support purge request for nine identified commit objects remains unconfirmed.",
+      "No GitHub release or PyPI release exists."
+    ]
   }
 }
